@@ -1,0 +1,195 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\XCC Audio Player.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Audio Player.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_XCCAUDIOPLAYER_DIALOG DIALOGEX 0, 0, 517, 316
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_APPWINDOW
+CAPTION "XCC AV Player"
+FONT 8, "MS Sans Serif"
+BEGIN
+    PUSHBUTTON      "Exit",IDOK,439,7,66,14
+    LTEXT           "Ready",IDC_STATUSBAR,6,298,505,11,SS_NOPREFIX | 
+                    SS_SUNKEN
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,6,7,426,287
+    PUSHBUTTON      "Extract...",IDEXTRACT,439,23,66,14
+    PUSHBUTTON      "Open MIX...",IDOPENMIX,439,55,66,14
+    PUSHBUTTON      "Set directories...",IDSETDIRECTORIES,439,71,66,14
+    PUSHBUTTON      "Stop",IDSTOP,439,119,66,14
+    PUSHBUTTON      "Info...",IDINFO,439,135,66,14
+    DEFPUSHBUTTON   "Play",IDPLAY,439,87,66,14
+    PUSHBUTTON      "Open movies.mix",IDC_OpenMovies,439,151,66,14
+    PUSHBUTTON      "Open scores.mix",IDC_OpenScores,439,167,66,14
+    PUSHBUTTON      "Open sounds.mix",IDC_OpenSounds,439,183,66,14
+    PUSHBUTTON      "Shuffle",IDSHUFFLE,439,103,66,14
+    PUSHBUTTON      "Extract raw...",IDEXTRACT_RAW,439,39,66,14
+    PUSHBUTTON      "Play AUD...",IDOPENAUD,439,199,66,14
+    PUSHBUTTON      "Play VQA...",IDOPENVQA,439,215,66,14
+END
+
+IDD_XCCDIRECTORIES DIALOG DISCARDABLE  0, 0, 362, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Set directories"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,244,97,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,305,97,50,14
+    LTEXT           "Primary directory:",IDC_STATIC,7,7,54,8
+    LTEXT           "Secondary directory:",IDC_STATIC,7,30,66,8
+    EDITTEXT        IDC_EDIT_PRIMARY,81,7,274,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SECONDARY,81,30,274,15,ES_AUTOHSCROLL
+    LTEXT           "CD directory:",IDC_STATIC,7,53,42,8
+    EDITTEXT        IDC_EDIT_CD,81,53,274,15,ES_AUTOHSCROLL
+    LTEXT           "Data directory:",IDC_STATIC,7,76,47,8
+    EDITTEXT        IDC_EDIT_DATA,81,76,274,15,ES_AUTOHSCROLL
+END
+
+IDD_INFO DIALOG DISCARDABLE  0, 0, 266, 98
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Info"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,209,78,50,14
+    LTEXT           "This is XCC AV Player.",IDC_STATIC,7,7,72,8
+    LTEXT           "I'll appreciate any comments you have about it.",
+                    IDC_STATIC,7,29,148,8
+    LTEXT           "This app uses DirectX 3. You'll need to install it if you don't have it.",
+                    IDC_STATIC,7,51,209,8
+    LTEXT           "Author: Olaf van der Spek (XCC@XCC.TMFWeb.NL)",
+                    IDC_STATIC,7,73,168,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_XCCAUDIOPLAYER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 6
+        RIGHTMARGIN, 511
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 309
+    END
+
+    IDD_XCCDIRECTORIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 355
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 111
+    END
+
+    IDD_INFO, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 259
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 92
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Dutch (Netherlands) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\XCC Audio Player.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
