@@ -57,6 +57,11 @@ public:
 		return true;
 	}
 
+	int cb_pixel() const
+	{
+		return 1;
+	}
+
 	int cf() const
 	{
 		return get_header()->c_images;
