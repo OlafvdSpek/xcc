@@ -208,6 +208,9 @@ string xcc_dirs::find_file(Cfname s)
 	s.set_path(ts_dir);
 	if (s.exists())
 		return s;
+	s.set_path(ra2_dir);
+	if (s.exists())
+		return s;
 	s.set_path(cd_dir);
 	return s;
 }
