@@ -155,6 +155,11 @@ int create_directory(string dir)
 	return !CreateDirectory(dir.c_str(), NULL);
 }
 
+int copy_file(string s, string d)
+{
+	return !CopyFile(s.c_str(), d.c_str(), false);
+}
+
 int delete_file(string fname)
 {
 	return !DeleteFile(fname.c_str());
