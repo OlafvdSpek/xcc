@@ -21,6 +21,7 @@ public:
     int open(const string& name, dword access);
     int open(const string& name, dword access, dword creation, dword share);
 	int open_read(const string& name);
+	int open_edit(const string& name);
 	int open_write(const string& name);
     int get_size() const;
     int read(void* data, int size);
