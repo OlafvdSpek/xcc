@@ -354,12 +354,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				f.load(m_data);
 				draw_info("Palet:", f.palet() ? "yes" : "no");
 				m_y += m_y_inc;
-				byte* image = new byte[320 * 200];
-				decode80(f.get_image(), image);
 				load_color_table(f.palet(), true);
-				draw_image8(image, 320, 200, pDC, 0, m_y);
+				Cvirtual_image image = f.vimage();
+				draw_image8(image.image(), image.cx(), image.cy(), pDC, 0, m_y);
 				m_y += 200 + m_y_inc;
-				delete[] image;
 				break;
 			}
 		case ft_dds:
