@@ -17,6 +17,8 @@ class CXCCModLauncherDlg : public CDialog
 {
 // Construction
 public:
+	static HBITMAP create_bitmap(Cvirtual_image& image);
+	void load_button_image(string fname, CButton& button);
 	int download_update(string link, string fname);
 	void set_mod_fname(string mod_fname);
 	CXCCModLauncherDlg(CWnd* pParent = NULL);	// standard constructor

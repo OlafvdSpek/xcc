@@ -77,6 +77,34 @@ static int load_banner(Cvirtual_image& image)
 	return error;
 }
 
+HBITMAP CXCCModLauncherDlg::create_bitmap(Cvirtual_image& image)
+{
+	image.swap_rb();
+	BITMAPINFOHEADER header;
+	ZeroMemory(&header, sizeof(BITMAPINFOHEADER));
+	header.biSize = sizeof(BITMAPINFOHEADER);
+	header.biWidth = image.cx();
+	header.biHeight = -image.cy();
+	header.biPlanes = 1;
+	header.biBitCount = image.cb_pixel() << 3;
+	header.biCompression = BI_RGB;
+	return CreateDIBitmap(CClientDC(NULL), &header, CBM_INIT, image.image(), reinterpret_cast<BITMAPINFO*>(&header), DIB_RGB_COLORS);
+}
+
+void CXCCModLauncherDlg::load_button_image(string fname, CButton& button)
+{
+	Cvirtual_image image;
+	if (!Cxcc_mod::load_launcher_image(m_key, fname, image))
+	{
+		HBITMAP bitmap = create_bitmap(image);
+		if (bitmap)
+		{
+			button.ModifyStyle(0, BS_BITMAP, 0);
+			button.SetBitmap(bitmap);
+		}
+	}
+}
+
 BOOL CXCCModLauncherDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -95,17 +123,18 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 	{
 		if (m_key.load_key(f.get_data(), f.get_size()))
 		{
-			f.close();
 			MessageBox("Error reading mod.", NULL, MB_ICONERROR);
 			EndDialog(IDCANCEL);
-			return true;
+		}
+		else if (m_mod.load(m_key), m_mod.future_version())
+		{
+			MessageBox("An update of XCC Mod Launcher is needed to open this mod.", NULL, MB_ICONERROR);
+			EndDialog(IDCANCEL);
 		}
 		else
 		{
-			m_mod.load(m_key);
-
 			Cvirtual_image banner;
-			if (!Cxcc_mod::load_banner(m_key, banner) || !load_banner(banner))
+			if (!Cxcc_mod::load_launcher_image(m_key, "banner.jpeg", banner) || !load_banner(banner))
 			{
 				banner.swap_rb();
 				BITMAPINFOHEADER header;
@@ -120,28 +149,26 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 				if (bitmap)
 					m_banner.SetBitmap(bitmap);
 			}
+			load_button_image("xhp_button.jpeg", m_xhp);
+			load_button_image("exit_button.jpeg", m_cancel);
+			load_button_image("update_button.jpeg", m_update);
+			load_button_image("site_button.jpeg", m_site);
+			load_button_image("mod_button.jpeg", m_ok);
+			load_button_image("manual_button.jpeg", m_manual);
 
 			Cxcc_mod::t_options options = m_mod.options();
 			CString name = options.mod_name.c_str();
 			CString caption;
 			GetWindowText(caption);
 			SetWindowText(caption + " - " + name + " - " + options.mod_version.c_str());
-
 			if (0)
 			{
 				Cfname uninstall_exe = Cfname(m_mod_fname).get_path() + "uninstal.exe";
 				if (uninstall_exe.exists())
 					m_uninstall_exe = uninstall_exe;
 			}
-
 			if (!options.xhp_button)
-			{
 				m_xhp.ModifyStyle(WS_VISIBLE, 0, 0);
-				/*
-				if (MessageBox("Would you like to visit the XCC Home Page?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
-					OnButtonXHP();
-				*/
-			}			
 			if (!options.exit_button)
 				m_cancel.ModifyStyle(WS_VISIBLE, 0, 0);
 			if (!options.update_button)
