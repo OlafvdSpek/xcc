@@ -13,22 +13,45 @@ static char THIS_FILE[]=__FILE__;
 
 int Ctga_file::decode(Cvirtual_image& d) const
 {
-	if (cb_pixel() == 1)
+	switch (cb_pixel())
 	{
-		t_palet palet;
-		for (int i = 0; i < 0x100; i++)
-			palet[i].r = palet[i].g = palet[i].b = i;
-		d.load(image(), cx(), cy(), cb_pixel(), palet);
-	}
-	else
+	case 1:
+		{
+			t_palet palet;
+			for (int i = 0; i < 0x100; i++)
+				palet[i].r = palet[i].g = palet[i].b = i;
+			d.load(image(), cx(), cy(), cb_pixel(), palet);
+		}
+		break;
+	case 2:
+		{
+			d.load(NULL, cx(), cy(), 3, NULL);
+			const __int16* r = reinterpret_cast<const __int16*>(image());
+			t_palet_entry* w = reinterpret_cast<t_palet_entry*>(d.image_edit());
+			for (int i = 0; i < cx() * cy(); i++)
+			{
+				int v = *r++;
+				w->r = (v >> 10 & 0x1f) * 255 / 31;
+				w->g = (v >> 5 & 0x1f) * 255 / 31;
+				w->b = (v & 0x1f) * 255 / 31;
+				w++;
+			}
+		}
+		break;
+	default:
 		d.load(image(), cx(), cy(), cb_pixel(), NULL);
-	if (d.cb_pixel() == 4)
-		d.remove_alpha();
-	if (d.cb_pixel() == 3)
-		d.swap_rb();
+		switch (d.cb_pixel())
+		{
+		case 4:
+			d.remove_alpha();
+		case 3:
+			d.swap_rb();
+			break;			
+		}		
+
+	}
 	if (!get_header()->vertical)
-		d.flip();
-	
+		d.flip();	
 	return 0;
 }
 
