@@ -108,6 +108,10 @@ SOURCE="..\XCC Game Spy\game_state.cpp"
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\ListCtrlEx.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File

@@ -56,9 +56,6 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Cdlg_open message handlers
 
-static int c_players_columns = 2;
-static int c_replays_columns = 4;
-
 BOOL Cdlg_open::OnInitDialog() 
 {
 	ETSLayoutDialog::OnInitDialog();
@@ -75,9 +72,6 @@ BOOL Cdlg_open::OnInitDialog()
 			);
 	UpdateLayout();
 	
-	m_players.SetExtendedStyle(m_players.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	m_replays.SetExtendedStyle(m_replays.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-
 	insert_players_columns();
 	insert_replays_columns();
 	string dir = xcc_dirs::get_dir(game_ra2) + "replays/";
@@ -138,14 +132,8 @@ BOOL Cdlg_open::OnInitDialog()
 		for (t_reverse_player_map::const_iterator i = m_reverse_player_map.begin(); i != m_reverse_player_map.end(); i++)
 			m_players.SetItemData(m_players.InsertItem(m_players.GetItemCount(), LPSTR_TEXTCALLBACK), i->second);
 	}
-	{
-		for (int i = 0; i < c_players_columns; i++)
-			m_players.SetColumnWidth(i, LVSCW_AUTOSIZE);
-	}
-	{
-		for (int i = 0; i < c_replays_columns; i++)
-			m_replays.SetColumnWidth(i, LVSCW_AUTOSIZE);
-	}
+	m_players.auto_size();
+	m_replays.auto_size();
 	sort_replays(0, true);
 	if (m_replays.GetItemCount())
 		m_replays.SetItemState(0, LVNI_FOCUSED | LVNI_SELECTED, LVNI_FOCUSED | LVNI_SELECTED);
@@ -155,6 +143,7 @@ BOOL Cdlg_open::OnInitDialog()
 void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	m_buffer[++m_buffer_w &= 3].erase();
 	int id = pDispInfo->item.lParam;
 	const t_map_entry& e = m_map.find(id)->second;
 	switch (pDispInfo->item.iSubItem)
@@ -181,14 +170,13 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 	}
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	if (--m_buffer_w < 0)
-		m_buffer_w += 4;
 	*pResult = 0;
 }
 
 void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	m_buffer[++m_buffer_w &= 3].erase();
 	const t_player_map_entry& e = m_player_map.find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
@@ -200,8 +188,6 @@ void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 	}
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	if (--m_buffer_w < 0)
-		m_buffer_w += 4;
 	*pResult = 0;
 }
 
@@ -386,15 +372,15 @@ void Cdlg_open::insert_player(const string& player, int replay)
 
 void Cdlg_open::insert_players_columns()
 {
-	const char* column_label[] = {"Player", "Replays"};
-	for (int i = 0; i < c_players_columns; i++)
+	const char* column_label[] = {"Player", "Replays", "", NULL};
+	for (int i = 0; column_label[i]; i++)
 		m_players.InsertColumn(i, column_label[i], LVCFMT_RIGHT, -1, i);
 }
 
 void Cdlg_open::insert_replays_columns()
 {
-	const char* column_label[] = {"GID", "Size", "Players", "Scenario"};
+	const char* column_label[] = {"GID", "Size", "Players", "Scenario", NULL};
 	const int column_alignment[] = {LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT};
-	for (int i = 0; i < c_replays_columns; i++)
+	for (int i = 0; column_label[i]; i++)
 		m_replays.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
 }

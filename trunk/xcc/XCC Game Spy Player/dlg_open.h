@@ -9,6 +9,7 @@
 // dlg_open.h : header file
 //
 
+#include "ListCtrlEx.h"
 #include "resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -32,9 +33,9 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Cdlg_open)
 	enum { IDD = IDD_OPEN };
-	CListCtrl	m_players;
+	CListCtrlEx	m_players;
 	CButton	m_ok;
-	CListCtrl	m_replays;
+	CListCtrlEx	m_replays;
 	//}}AFX_DATA
 
 
