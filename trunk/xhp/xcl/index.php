@@ -183,6 +183,55 @@
 		echo("</table>");
 	}
 
+	function echo_games($results, $pid, $cid, $unfair_games)
+	{
+		echo("<table><tr><th>GID<th colspan=4>Player A<th colspan=4>Player B<th>Duration<th>Scenario<th>WS GID<th>Date");
+		if ($result = mysql_fetch_array($results))
+		{
+			do
+			{
+				printf("<tr><td align=right><a href=\"?gid=%d\">%d</a>", $result[gid], $result[gid]);
+				if ($result[a_pid] == $pid || $result[a_cid] == $cid)
+				{
+					printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
+					if ($result[a_cid])
+						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
+					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
+					printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
+					if ($result[b_cid])
+						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
+					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
+				}
+				else
+				{
+					printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
+					if ($result[b_cid])
+						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
+					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
+					printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
+					if ($result[a_cid])
+						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
+					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
+				}
+				printf("<td align=right>%s<td>%s<td align=right>%s<td>%s<td>%d<td>%s<td>%d<td>%d",
+					dura2a($result[dura]), $result[scen], $result[gsku] == 0x2100 ? sprintf("<a href=\"http://games2.westwood.com/ra2gamelogs/%d.html\">%d</a>", $result[ws_gid], $result[ws_gid]) : sprintf("%d", $result[ws_gid]), date("H:i d-m-Y", $result[mtime]),
+					$result[afps], gsku2a($result[gsku]), $result[oosy], $result[trny]);
+				/*
+				if ($result[a_pid] == $pid || $result[a_cid] == $cid)
+					printf("<td>%s<td>%s", long2ip($result[a_ipa]), long2ip($result[b_ipa]));
+				else
+					printf("<td>%s<td>%s", long2ip($result[b_ipa]), long2ip($result[a_ipa]));
+				*/
+				if ($unfair_games)
+					printf("<td><a href=\"/xla/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
+			}
+			while ($result = mysql_fetch_array($results));
+		}
+		else
+			echo("<tr><th colspan=13>-");
+		echo("</table>");
+	}
+
 	if (isset($_GET[update_ranks]))
 	{
 		for ($i = 1; $i < 5; $i++)
@@ -297,12 +346,24 @@
 					limit 25
 					"));
 			else if ($unfair_games)
+			{
+				$results = db_query(sprintf("
+					select t1.*, t2.name as a_name, t3.name as b_name, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime
+					from xcl_games as t1, xcl_players as t2, xcl_players as t3 left join xcl_maps as t4 on t1.scen = t4.fname, bl
+					where trny = 1 && (bl.name = t2.name && b_pc < 0 || bl.name = t3.name && a_pc < 0) and t2.pid = a_pid and t3.pid = b_pid
+					order by gid desc
+					limit 25
+					"));
+				echo_games($results, 0, 0, true);
+				echo("<hr>");
 				$results = db_query(sprintf("
 					select t1.*, t2.name as a_name, t3.name as b_name, t5.name as a_cname, t6.name as b_cname, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime
 					from xcl_games as t1, xcl_players as t2, xcl_players as t3 left join xcl_maps as t4 on t1.scen = t4.fname left join xcl_players as t5 on (t5.pid = a_cid) left join xcl_players as t6 on (t6.pid = b_cid), bl
-					where (bl.name = t2.name && b_pc < 0 || bl.name = t3.name && a_pc < 0) and t2.pid = a_pid and t3.pid = b_pid
+					where trny = 2 && (bl.name = t2.name && b_pc < 0 || bl.name = t3.name && a_pc < 0) and t2.pid = a_pid and t3.pid = b_pid
 					order by gid desc
+					limit 25
 					"));
+			}
 			else if ($wash_games)
 				$results = db_query(sprintf("
 					select t1.*, t2.name as a_name, t3.name as b_name, t5.name as a_cname, t6.name as b_cname, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime
@@ -354,51 +415,7 @@
 					? sprintf("select t1.*, t2.name as a_name, t3.name as b_name, t5.name as a_cname, t6.name as b_cname, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime from xcl_games as t1, xcl_players as t2, xcl_players as t3 left join xcl_maps as t4 on t1.scen = t4.fname, xcl_players as t5, xcl_players as t6 where t2.pid = a_pid and t3.pid = b_pid and t5.pid = a_cid and t6.pid = b_cid and (a_cid = %d or b_cid = %d) order by gid desc", $cid, $cid)
 					: sprintf("select t1.*, t2.name as a_name, t3.name as b_name, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime from xcl_games as t1, xcl_players as t2, xcl_players as t3 left join xcl_maps as t4 on t1.scen = t4.fname where t1.trny = 1 and t2.pid = a_pid and t3.pid = b_pid and (a_pid = %d or b_pid = %d) order by gid desc", $pid, $pid));
 			}
-			echo("<table><tr><th>GID<th colspan=4>Player A<th colspan=4>Player B<th>Duration<th>Scenario<th>WS GID<th>Date");
-			if ($result = mysql_fetch_array($results))
-			{
-				do
-				{
-					printf("<tr><td align=right><a href=\"?gid=%d\">%d</a>", $result[gid], $result[gid]);
-					if ($result[a_pid] == $pid || $result[a_cid] == $cid)
-					{
-						printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
-						if ($result[a_cid])
-							printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
-						printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
-						printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
-						if ($result[b_cid])
-							printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
-						printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
-					}
-					else
-					{
-						printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
-						if ($result[b_cid])
-							printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
-						printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
-						printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
-						if ($result[a_cid])
-							printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
-						printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
-					}
-					printf("<td align=right>%s<td>%s<td align=right>%s<td>%s<td>%d<td>%s<td>%d<td>%d",
-						dura2a($result[dura]), $result[scen], $result[gsku] == 0x2100 ? sprintf("<a href=\"http://games2.westwood.com/ra2gamelogs/%d.html\">%d</a>", $result[ws_gid], $result[ws_gid]) : sprintf("%d", $result[ws_gid]), date("H:i d-m-Y", $result[mtime]),
-						$result[afps], gsku2a($result[gsku]), $result[oosy], $result[trny]);
-					/*
-					if ($result[a_pid] == $pid || $result[a_cid] == $cid)
-						printf("<td>%s<td>%s", long2ip($result[a_ipa]), long2ip($result[b_ipa]));
-					else
-						printf("<td>%s<td>%s", long2ip($result[b_ipa]), long2ip($result[a_ipa]));
-					*/
-					if ($unfair_games)
-						printf("<td><a href=\"/xla/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
-				}
-				while ($result = mysql_fetch_array($results));
-			}
-			else
-				echo("<tr><th colspan=13>-");
-			echo("</table>");
+			echo_games($results, $pid, $cid, $unfair_games);
 			if ($gid)
 			{
 				$results = db_query(sprintf("select t1.*, t2.name as a_name, t3.name as b_name, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime from xcl_games as t1, xcl_players as t2, xcl_players as t3 left join xcl_maps as t4 on t1.scen = t4.fname where t2.pid = a_pid and t3.pid = b_pid and gid = %d order by gid desc", $gid));
