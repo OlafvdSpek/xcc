@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ddpf_conversion.h"
 
-int get_shift(unsigned int v)
+static int get_shift(unsigned int v)
 {
 	if (!v)
 		return 0;
@@ -14,7 +14,7 @@ int get_shift(unsigned int v)
 	return r;
 }
 
-int get_size(unsigned int v)
+static int get_size(unsigned int v)
 {
 	int r = 0;
 	while (v)

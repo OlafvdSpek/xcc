@@ -22,9 +22,11 @@ using namespace std;
 class Cfile32  
 {
 public:
-	HANDLE handle();
+	/*
 	void attach(HANDLE handle);
 	void detach();
+	*/
+	int open(HANDLE handle);
     int open(const string& name, dword access);
     int open(const string& name, dword access, dword creation, dword share);
 	int open_read(const string& name);
@@ -41,17 +43,24 @@ public:
 	int write(const string& s);
 	int set_eof();
     void close();
+	const Cfile32& operator=(const Cfile32& v);
 	Cfile32();
-	virtual ~Cfile32();
+	Cfile32(const Cfile32& v);
+	~Cfile32();
 
     bool eof() const
 	{
 		return m_p >= get_size();
 	}
 	
+	HANDLE handle() const
+	{
+		return m_handle;
+	}
+
 	bool is_open() const
     {
-        return m_is_open;
+        return handle() != INVALID_HANDLE_VALUE;
     }
 
     int get_p() const
@@ -74,7 +83,7 @@ private:
 #else
 	fstream m_f;
 #endif
-    bool m_is_open;
+    // bool m_is_open;
     int m_p;
 };
 

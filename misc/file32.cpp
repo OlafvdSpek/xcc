@@ -12,52 +12,52 @@
 
 Cfile32::Cfile32()
 {
-    m_is_open = false;
+	m_handle = INVALID_HANDLE_VALUE;
+}
+
+Cfile32::Cfile32(const Cfile32& v)
+{
+	if (!DuplicateHandle(GetCurrentProcess(), v.handle(), GetCurrentProcess(), &m_handle, 0, false, DUPLICATE_SAME_ACCESS))
+		m_handle = INVALID_HANDLE_VALUE;
+	m_p = v.get_p();
 }
 
 Cfile32::~Cfile32()
 {
-    assert(!is_open());
+	close();
+}
+
+const Cfile32& Cfile32::operator=(const Cfile32& v)
+{
+	if (this != &v)
+	{
+		close();
+		DuplicateHandle(GetCurrentProcess(), v.handle(), GetCurrentProcess(), &m_handle, 0, false, DUPLICATE_SAME_ACCESS);
+		m_p = v.get_p();
+	}
+	return *this;
 }
 
 #ifdef _MSC_VER
-HANDLE Cfile32::handle()
+int Cfile32::open(HANDLE handle)
 {
-	// assert(is_open());
-	return is_open() ? m_handle : INVALID_HANDLE_VALUE;
-}
-
-void Cfile32::attach(HANDLE handle)
-{
-    assert(!is_open());
-	m_handle = handle;
-	m_is_open = true;
+	close();
+	DuplicateHandle(GetCurrentProcess(), handle, GetCurrentProcess(), &m_handle, 0, false, DUPLICATE_SAME_ACCESS);
 	m_p = 0;
-}
-
-void Cfile32::detach()
-{
-    assert(is_open());
-	m_is_open = false;
+	return !is_open();
 }
 
 int Cfile32::open(const string& name, dword access)
 {
-    if (access & GENERIC_WRITE)
-        return open(name, access, CREATE_ALWAYS, 0);
-    else
-        return open(name, access, OPEN_EXISTING, FILE_SHARE_READ);
+	return access & GENERIC_WRITE ? open(name, access, CREATE_ALWAYS, 0) : open(name, access, OPEN_EXISTING, FILE_SHARE_READ);
 }
 
 int Cfile32::open(const string& name, dword access, dword creation, dword share)
 {
-    assert(!is_open());
+    close();
 	m_handle = CreateFile(name.c_str(), access, share, NULL, creation, FILE_ATTRIBUTE_NORMAL, NULL);
-	if (m_handle == INVALID_HANDLE_VALUE)
-		return 1;
 	m_p = 0;
-    m_is_open = true;
-    return 0;
+    return !is_open();
 }
 FILETIME Cfile32::get_creation_time() const
 {
@@ -152,6 +152,7 @@ int Cfile32::read(void* data, int size)
 #endif
 }
 
+/*
 int Cfile32::read_line(string& s)
 {
 	int error;
@@ -167,7 +168,7 @@ int Cfile32::read_line(string& s)
 	{
 		for (int i = 0; i < cb_b; i++)
 		{
-			if (b[i] == 0x0d)
+			if (b[i] == '\r')
 				break;
 		}
 		b[i] = 0;
@@ -177,6 +178,7 @@ int Cfile32::read_line(string& s)
 	delete[] b;
 	return error;
 }
+*/
 
 int Cfile32::write(const void* data, int size)
 {
@@ -205,10 +207,6 @@ int Cfile32::write(const string& s)
 	return write(s.c_str(), s.length() + 1);
 };
 
-#ifdef _MSC_VER
-#else
-#endif
-
 int Cfile32::set_eof()
 {
     assert(is_open());
@@ -223,13 +221,14 @@ int Cfile32::set_eof()
 
 void Cfile32::close()
 {
-    assert(is_open());
+    if (!is_open())
+		return;
 #ifdef _MSC_VER
 	CloseHandle(m_handle);
+	m_handle = INVALID_HANDLE_VALUE;
 #else
 	m_f.close();
 #endif
-    m_is_open = false;
 }
 
 int file32_write(const string& name, const void* s, int cb_s)
