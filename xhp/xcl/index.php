@@ -196,22 +196,22 @@
 					printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
 					if ($result[a_cid])
 						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
-					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
+					printf("<td><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), get_country_name($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
 					printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
 					if ($result[b_cid])
 						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
-					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
+					printf("<td><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), get_country_name($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
 				}
 				else
 				{
 					printf("<td><a href=\"?pid=%d\">%s</a>", $result[b_pid], $result[b_name]);
 					if ($result[b_cid])
 						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[b_cid], $result[b_cname]);
-					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
+					printf("<td><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[b_cty]), get_country_name($result[b_cty]), cmp2a($result[b_cmp]), pc2a($result[b_pc]));
 					printf("<td><a href=\"?pid=%d\">%s</a>", $result[a_pid], $result[a_name]);
 					if ($result[a_cid])
 						printf(" (<a href=\"?cid=%d\">%s</a>)", $result[a_cid], $result[a_cname]);
-					printf("<td><img src=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
+					printf("<td><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($result[a_cty]), get_country_name($result[a_cty]), cmp2a($result[a_cmp]), pc2a($result[a_pc]));
 				}
 				printf("<td align=right>%s<td>%s<td align=right>%s<td>%s<td>%d<td>%s<td>%d<td>%d",
 					dura2a($result[dura]), $result[scen], $result[gsku] == 0x2100 ? sprintf("<a href=\"http://games2.westwood.com/ra2gamelogs/%d.html\">%d</a>", $result[ws_gid], $result[ws_gid]) : sprintf("%d", $result[ws_gid]), date("H:i d-m-Y", $result[mtime]),
@@ -381,7 +381,7 @@
 					echo("<table><tr><th>Count<th>Country");
 					do
 					{
-						printf("<tr><td align=right>%d<td>%s<td><img src=\"%s\">", $result[count], get_country_name($result[country]), get_country_flag_url($result[country]));
+						printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[country]), get_country_name($result[country]));
 					}
 					while ($result = mysql_fetch_array($results));
 					echo("</table><hr>");
@@ -488,7 +488,7 @@
 						for ($i = 0; $i < 10; $i++)
 						{
 							if ($result[countries] & 1 << $i)
-								printf("<td><img src=\"%s\"> ", get_country_flag_url($i));
+								printf("<td><img src=\"%s\" alt=\"%s\"> ", get_country_flag_url($i), get_country_name($i));
 							else
 								echo("<td>");
 						}
