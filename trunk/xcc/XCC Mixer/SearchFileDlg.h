@@ -69,8 +69,6 @@ private:
 
 	typedef map<int, t_map_entry> t_map;
 
-	string m_buffer[4];
-	int m_buffer_w;
 	CMainFrame* m_main_frame;
 	t_map m_map;
 	CString m_reg_key;

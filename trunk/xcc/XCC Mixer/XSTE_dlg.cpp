@@ -26,7 +26,6 @@ CXSTE_dlg::CXSTE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CXSTE_dlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_buffer_w = 0;
 	m_game = game;
 }
 
@@ -292,22 +291,20 @@ void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = m_list.GetItemData(pDispInfo->item.iItem);
 	const t_map_entry& e = m_map.find(id)->second;
+	string& buffer = m_list.get_buffer();
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
-		m_buffer[m_buffer_w] = e.i->first;
+		buffer = e.i->first;
 		break;
 	case 1:
-		m_buffer[m_buffer_w] = m_f.get_converted_value(e.i->first);
+		buffer = m_f.get_converted_value(e.i->first);
 		break;
 	case 2:
-		m_buffer[m_buffer_w] = m_f.get_extra_value(e.i->first);
+		buffer = m_f.get_extra_value(e.i->first);
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
 

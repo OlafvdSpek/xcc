@@ -81,8 +81,6 @@ private:
 
 	t_game m_game;
 	string m_fname;
-	string m_buffer[4];
-	int m_buffer_w;
 	t_cat_map m_cat_map;
 	Ccsf_file m_f;
 	t_map m_map;

@@ -94,8 +94,6 @@ private:
 
 	bool m_expansion;
 	t_game m_game;
-	string m_buffer[4];
-	int m_buffer_w;
 	Cfile32 m_bag_f;
 	Ccsf_file m_csf_f;
 	Cfile32 m_idx_f;

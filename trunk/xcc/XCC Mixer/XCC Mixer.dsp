@@ -126,6 +126,10 @@ SOURCE=..\misc\itc_ini_reader.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\ListCtrlEx.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\log_window.cpp
 # End Source File
 # Begin Source File
@@ -208,10 +212,6 @@ SOURCE=.\XCCObjectExtractorDlg.cpp
 # Begin Source File
 
 SOURCE=.\XSE_dlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\XSE_list.cpp
 # End Source File
 # Begin Source File
 
@@ -396,10 +396,6 @@ SOURCE=.\xm_types.h
 # Begin Source File
 
 SOURCE=.\XSE_dlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\XSE_list.h
 # End Source File
 # Begin Source File
 
