@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Creator.h"
 
 #include "MainFrm.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
