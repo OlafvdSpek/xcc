@@ -3,13 +3,14 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "cc_file.h"
+
 #include "art_ts_ini_reader.h"
 #include "aud_file.h"
 #include "avi_file.h"
 #include "big_file.h"
 #include "bin_file.h"
 #include "bink_file.h"
-#include "cc_file.h"
 #include "csf_file.h"
 #include "cps_file.h"
 #include "dds_file.h"
@@ -165,10 +166,6 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 	m_p = 0;
     m_is_open = true;
 	m_data = mix_f.get_vdata(id);
-    if (m_read_on_open)
-	{
-        // test_fail(read(m_data.write_start(m_size), m_size));
-	}
     test_fail(post_open())
     return 0;
 }
@@ -193,10 +190,7 @@ int Ccc_file::open(const string& name)
     m_is_open = true;
 	m_data = m_f.get_mm();
     if (m_read_on_open)
-    { 
-        // test_fail(read(m_data.write_start(m_size), m_size));
         m_f.close();
-    }
 #ifndef NO_FT_SUPPORT
 	Cfname fname = to_lower(name);
 	if (fname.get_fext() == ".mmx")
@@ -226,8 +220,9 @@ int Ccc_file::attach(const Cwin_handle& h)
 	m_size = m_f.get_size();
 	m_p = 0;
     m_is_open = true;
+	m_data = m_f.get_mm();
     if (m_read_on_open)
-		test_fail(read(m_data.write_start(m_size), m_size));
+        m_f.close();
     test_fail(post_open())
 	return 0;
 }
