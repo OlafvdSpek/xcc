@@ -1,1 +1,1 @@
-#include <assert.h>
+#include <cassert>

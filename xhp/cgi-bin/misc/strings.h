@@ -23,9 +23,14 @@ public:
 	Cstrings();
 	~Cstrings();
 
-	const char* get_string(int offset)
+	const char* get_string(int offset) const
 	{
 		return m_data + offset;
+	}
+
+	int size() const
+	{
+		return m_size;
 	}
 private:
 	char* m_data;
