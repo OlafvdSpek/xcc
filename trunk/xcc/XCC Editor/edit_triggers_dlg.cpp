@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 Cedit_triggers_dlg::Cedit_triggers_dlg(Cxcc_level& level, bool selection_wanted):
-	ETSLayoutDialog(Cedit_triggers_dlg::IDD, 0),
+	ETSLayoutDialog(Cedit_triggers_dlg::IDD, 0, "edit_triggers_dlg"),
 	m_level(level),
 	m_trigger_data(level.trigger_data),
 	m_selection_wanted(selection_wanted)
