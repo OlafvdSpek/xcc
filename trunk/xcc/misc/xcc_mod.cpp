@@ -419,12 +419,17 @@ Cxif_key Cxcc_mod::save(bool export, int module) const
 							g.load(f);
 							Cvirtual_binary d;
 							d.size(shp_encode4(g, d.write_start(f.get_size() << 1)));
-							// xcc_log::write_line(Cfname(*i).get_fname() + ": " + n(d.size()) + '/' + n(f.get_size()));
-							l.set_value_binary(vi_fdata, d);
-							l.set_value_int(vi_encoding, enc_shp);
-							l.set_value_int(vi_cb_d, shp_decode4_size(d.data()));
-							// assert(l.get_value_int(vi_cb_d) == shp_decode4(d.data(), 0).size());
-							// shp_decode4(d.data(), 0).export("c:/temp/shp_decode4.shp");
+							if (d.size())
+							{
+								// xcc_log::write_line(Cfname(*i).get_fname() + ": " + n(d.size()) + '/' + n(f.get_size()));
+								l.set_value_binary(vi_fdata, d);
+								l.set_value_int(vi_encoding, enc_shp);
+								l.set_value_int(vi_cb_d, shp_decode4_size(d.data()));
+								// assert(l.get_value_int(vi_cb_d) == shp_decode4(d.data(), 0).size());
+								// shp_decode4(d.data(), 0).export("c:/temp/shp_decode4.shp");
+							}
+							else
+								l.set_value_binary(vi_fdata, f.get_vdata());
 						}
 						else if (ft == ft_vxl && m_options.vxl_compression)
 						{
