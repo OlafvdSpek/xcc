@@ -14,6 +14,10 @@
 #include <unistd.h>
 #endif
 
+#ifndef INADDR_NONE
+const int INADDR_NONE = -1;
+#endif
+
 #ifndef MSG_NOSIGNAL
 const int MSG_NOSIGNAL = 0;
 #endif
@@ -128,6 +132,11 @@ int Csocket::send(const void* s, int cb_s)
 int Csocket::sendto(const void* s, int cb_s, const sockaddr* a, socklen_t cb_a)
 {
 	return ::sendto(*this, reinterpret_cast<const char*>(s), cb_s, MSG_NOSIGNAL, a, cb_a);
+}
+
+int Csocket::setsockopt(int level, int name, const void* v, int cb_v)
+{
+	return ::setsockopt(*this, level, name, reinterpret_cast<const char*>(v), cb_v);
 }
 
 int Csocket::get_host(const string& name)
