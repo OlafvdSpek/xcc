@@ -36,6 +36,8 @@ public:
 	static string get_ra2_dir();
 	static string get_dir(t_game game);
 	static string get_exe(t_game game);
+	static string get_ecache_mix(t_game game, bool dir, int i);
+	static string get_expand_mix(t_game game, int i);
 	static string get_language_mix(t_game game);
 	static string get_local_mix(t_game game);
 	static string get_main_mix(t_game game);

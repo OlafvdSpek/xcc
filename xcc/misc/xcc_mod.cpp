@@ -757,11 +757,11 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 	if (!error)
 	{
 		if (game == game_ts)
-			expand_mix.add_file("ecache98.mix", ecache_mix.write());
+			expand_mix.add_file(xcc_dirs::get_ecache_mix(game, false, 98), ecache_mix.write());
 		else
-			error = ecache_mix.write().export(dir + (game == game_ra2_yr ? "ecachemd" : "ecache") + "98.mix");
+			error = ecache_mix.write().export(xcc_dirs::get_ecache_mix(game, true, 98));
 		if (!error)
-			error = expand_mix.write().export(dir + (game == game_ra2_yr ? "expandmd" : "expand") + "98.mix");
+			error = expand_mix.write().export(xcc_dirs::get_expand_mix(game, 98));
 	}
 	return error;
 }
@@ -798,10 +798,8 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 	}
 	// delete_file(dir + "audio.bag");
 	// delete_file(dir + "audio.idx");
-	delete_file(dir + "ecache98.mix");
-	delete_file(dir + "ecache98md.mix");
-	delete_file(dir + "expand98.mix");
-	delete_file(dir + "expand98md.mix");
+	delete_file(xcc_dirs::get_ecache_mix(game, true, 98));
+	delete_file(xcc_dirs::get_expand_mix(game, 98));
 	return 0;
 }
 
