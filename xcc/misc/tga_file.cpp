@@ -84,7 +84,10 @@ Cvirtual_file tga_file_write(const byte* image, int cx, int cy, int cb_pixel)
 	return d;
 }
 
-int tga_file_write(const string& name, const byte* image, int cx, int cy, int cb_pixel)
+Cvirtual_file tga_file_write(const byte* image, int cx, int cy, const t_palet_entry* palet)
 {
-	return tga_file_write( image, cx, cy, cb_pixel).export(name);
+	Cvirtual_image vi;
+	vi.load(image, cx, cy, 1, palet);
+	vi.increase_color_depth(3);
+	return vi.save(ft_tga);
 }

@@ -24,7 +24,9 @@ int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const 
 		pcx_file_write(f, image, palet, cx, cy);
 		return 0;
 	case ft_tga:
-		f = tga_file_write(image, cx, cy, palet ? 1 : 3);
+		f = palet
+			? tga_file_write(image, cx, cy, palet)
+			: tga_file_write(image, cx, cy, 3);
 		return 0;
 	default:
 #ifdef PNG_SUPPORT
@@ -33,6 +35,14 @@ int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const 
 		return 1;
 #endif
 	}
+}
+
+Cvirtual_file image_file_write(t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy)
+{
+	Cvirtual_file f;
+	if (image_file_write(f, ft, image, palet, cx, cy))
+		f.clear();
+	return f;
 }
 
 int image_file_write(const string& name, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy)
@@ -48,7 +58,9 @@ int image_file_write(const string& name, t_file_type ft, const byte* image, cons
 	case ft_pcx:
 		return pcx_file_write(name, image, palet, cx, cy);
 	case ft_tga:
-		return tga_file_write(name, image, cx, cy, palet ? 1 : 3);
+		return palet
+			? tga_file_write(image, cx, cy, palet).export(name)
+			: tga_file_write(image, cx, cy, 3).export(name);
 	default:
 #ifdef PNG_SUPPORT
 		return png_file_write(name, image, palet, cx, cy);

@@ -33,6 +33,7 @@ public:
 	int load_as_jpeg(const string& fname);
 	int load_as_pcx(const string& fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
+	Cvirtual_file save(t_file_type ft) const;
 	int save(const string& fname, t_file_type ft) const;
 	int save_as_jpeg(Cvirtual_file& f, int q = -1) const;
 	int save_as_jpeg(const string& fname, int q = -1) const;
