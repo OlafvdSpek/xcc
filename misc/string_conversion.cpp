@@ -248,3 +248,20 @@ string time2a(time_t v)
 		*b = 0;
 	return b;
 }
+
+string js_encode(const string& v)
+{
+	string r;
+	for (int i = 0; i < v.length(); i++)
+	{
+		switch (v[i])
+		{
+		case '\'':
+		case '\\':
+			r += '\\';
+		default:
+			r += v[i];
+		}
+	}
+	return r;
+}
