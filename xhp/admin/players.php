@@ -2,9 +2,10 @@
 	ob_start('ob_gzhandler');
 ?>
 <link rel=stylesheet href="/xcc.css">
-<a href="?">Home</a> | <a href="logins.php">Logins</a> | <a href="?a=bad_passes">Bad passes</a> | <a href="?a=invalid_serials">Invalid serials</a> | <a href="?a=update_bl">Update BL</a> | <a href="?a=xbl">Show BL</a> | <a href="?a=motds">Show MOTDs</a> | <a href="?a=xwsvs">XWSVS</a>
+<a href="?">Home</a> | <a href="logins.php">Logins</a> | <a href="?a=bad_passes">Bad passes</a> | <a href="?a=invalid_serials">Invalid serials</a> | <a href="?a=xbl">Show BL</a> | <a href="?a=motds">Show MOTDs</a> | <a href="?a=xwsvs">XWSVS</a>
 <hr>
 <table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
+<hr>
 <?php
 	require("../xcc_common.php");
 
@@ -41,15 +42,6 @@
 			echo_warning($result);
 	}
 
-	function update_bl()
-	{
-		db_query("delete from bl");
-		db_query("insert into bl select distinct p.name from xwi_players p inner join xwi_serials using (sid) where wtime > now()");
-		// db_query("insert ignore into bl select distinct p.name from xbl inner join xwi_logins l using (sid) inner join xwi_players p using (pid)");
-		// select distinct p1.name from xbl inner join xwi_players p0 using (name) inner join xwi_logins using (pid) inner join xwi_players p1 using (sid);
-	}
-
-	echo("<hr>");
 	if ($_GET[a] == "motd" || $_GET[a] == "motd_submit")
 	{
 		$pid = $_GET[pid];
