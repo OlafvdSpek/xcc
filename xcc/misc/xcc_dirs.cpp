@@ -26,6 +26,7 @@ static string ra2_dir;
 static string rg_dir;
 static string gr_dir;
 static string gr_zh_dir;
+static string ebfd_dir;
 
 bool xcc_dirs::enable_log()
 {
@@ -67,7 +68,10 @@ string xcc_dirs::get_dir(t_game game)
 	case game_rg:
 		return rg_dir;
 	case game_gr:
+	case game_gr_zh:
 		return gr_dir;
+	case game_ebfd:
+		return ebfd_dir;
 	}
 	assert(false);
 	return "";
@@ -239,6 +243,9 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	case game_gr:
 		set_path(s, gr_dir);
 		break;
+	case game_ebfd:
+		set_path(s, ebfd_dir);
+		break;
 	}
 }
 
@@ -377,6 +384,13 @@ void xcc_dirs::load_from_registry()
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
 				set_dir(game_rg, static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
+		}
+		if (ebfd_dir.empty() &&		
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Emperor", 0, KEY_QUERY_VALUE, &kh_base))
+		{
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_dir(game_ebfd, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		RegCloseKey(kh_westwood);

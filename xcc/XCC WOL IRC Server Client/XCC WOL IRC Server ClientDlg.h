@@ -46,6 +46,7 @@ protected:
 	afx_msg void OnReset();
 	afx_msg void OnOpen();
 	afx_msg void OnTest();
+	afx_msg void OnLadder();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

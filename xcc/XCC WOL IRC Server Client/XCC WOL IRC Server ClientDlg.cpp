@@ -45,6 +45,7 @@ BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_RESET, OnReset)
 	ON_BN_CLICKED(IDC_OPEN, OnOpen)
 	ON_BN_CLICKED(IDC_TEST, OnTest)
+	ON_BN_CLICKED(IDC_LADDER, OnLadder)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -178,4 +179,9 @@ void CXCCWOLIRCServerClientDlg::OnTest()
 	m_ipa.GetAddress(a);
 	dlg.ipa(a);
 	dlg.DoModal();
+}
+
+void CXCCWOLIRCServerClientDlg::OnLadder() 
+{
+	ShellExecute(NULL, NULL, "http://xwis.net/xcl/", NULL, NULL, SW_SHOW);		
 }
