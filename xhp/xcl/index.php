@@ -351,9 +351,9 @@
 			{
 				$results = db_query($pname
 					? $lid
-					? sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc limit 250", $lid, AddSlashes($pname))
-					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.name like \"%s\" order by points desc limit 250", AddSlashes($pname))
-					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points order by points desc limit 250", $lid));
+					? sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and xcl_players.name like '%s' order by points desc, rank limit 250", $lid, AddSlashes($pname))
+					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.name like '%s' order by points desc, rank limit 250", AddSlashes($pname))
+					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points order by points desc, rank limit 250", $lid));
 				echo('t0(new Array(');
 				while ($result = mysql_fetch_assoc($results))
 					printf("%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,", $result['rank'], $result['lid'], $result['pid'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], $result['points_max'], $result['mtime'], $result['countries']);
