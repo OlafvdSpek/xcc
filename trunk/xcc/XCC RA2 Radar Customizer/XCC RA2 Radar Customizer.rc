@@ -26,34 +26,42 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_XCCRA2RADARCUSTOMIZER_DIALOG DIALOGEX 0, 0, 320, 58
+IDD_XCCRA2RADARCUSTOMIZER_DIALOG DIALOGEX 0, 0, 348, 143
 STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
-CAPTION "XCC Radar Customizer 1.01 by Olaf van der Spek"
+CAPTION "XCC Radar Customizer 1.02 by Olaf van der Spek"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,260,7,50,14
-    EDITTEXT        IDC_RED,31,7,52,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_GREEN,31,23,52,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_BLUE,31,39,52,12,ES_AUTOHSCROLL
     LTEXT           "Red:",IDC_STATIC,7,7,16,8
     LTEXT           "Green:",IDC_STATIC,7,23,22,8
     LTEXT           "Blue:",IDC_STATIC,7,39,17,8
+    EDITTEXT        IDC_RED,31,7,52,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_GREEN,31,23,52,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_BLUE,31,39,52,12,ES_AUTOHSCROLL
+    CONTROL         "Lock",IDC_LOCK,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,91,
+                    41,32,10
     CONTROL         "Snow",IDC_SNOW,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,91,
                     7,34,10
     CONTROL         "Temperate",IDC_TEMPERATE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,91,18,50,10
-    CONTROL         "Reset",IDC_RESET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
-                    149,18,35,10
     CONTROL         "Urban",IDC_URBAN,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
                     91,29,35,10
     CONTROL         "Relative",IDC_RELATIVE,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,149,7,42,10
+    CONTROL         "Reset",IDC_RESET,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    149,18,35,10
     CONTROL         "Tiberian Sun",IDC_TS,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,149,29,56,10
     CONTROL         "Red Alert 2",IDC_RA2,"Button",BS_AUTOCHECKBOX | 
                     WS_TABSTOP,149,41,51,10
+    CONTROL         "",IDC_SNOW_PREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,
+                    7,56,108,80
+    CONTROL         "",IDC_TEMPERATE_PREVIEW,"Static",SS_BITMAP | 
+                    SS_CENTERIMAGE,120,56,108,80
+    DEFPUSHBUTTON   "OK",IDOK,291,7,50,14
+    CONTROL         "",IDC_URBAN_PREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,
+                    233,56,108,80
 END
 
 
@@ -68,9 +76,9 @@ BEGIN
     IDD_XCCRA2RADARCUSTOMIZER_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 313
+        RIGHTMARGIN, 341
         TOPMARGIN, 7
-        BOTTOMMARGIN, 51
+        BOTTOMMARGIN, 136
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -134,6 +142,18 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC RA2 Radar Customizer.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// PNG
+//
+
+IDR_URBAN_PREVIEW_MASK  PNG     DISCARDABLE     "res\\urban_preview_mask.png"
+IDR_SNOW_PREVIEW_MASK   PNG     DISCARDABLE     "res\\snow_preview_mask.png"
+IDR_TEMPERATE_PREVIEW   PNG     DISCARDABLE     "res\\temperate_preview.png"
+IDR_TEMPERATE_PREVIEW_MASK PNG     DISCARDABLE     "res\\temperate_preview_mask.png"
+IDR_URBAN_PREVIEW       PNG     DISCARDABLE     "res\\urban_preview.png"
+IDR_SNOW_PREVIEW        PNG     DISCARDABLE     "res\\snow_preview.png"
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 

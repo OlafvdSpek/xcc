@@ -109,6 +109,9 @@ BEGIN
     POPUP "&Palet"
     BEGIN
         MENUITEM "&Load...",                    ID_PALET_LOAD
+        MENUITEM "&Desert",                     ID_PALET_DESERT
+        MENUITEM "&Lunar",                      ID_PALET_LUNAR
+        MENUITEM "&New Urban",                  ID_PALET_URBAN2
         MENUITEM "&Snow",                       ID_PALET_SNOW
         MENUITEM "&Temperate",                  ID_PALET_TEMPERATE
         MENUITEM "&Urban",                      ID_PALET_URBAN
@@ -255,8 +258,8 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC TMP Editor 1.01"
-    IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.sno;*.tem;*.urb)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
+    IDR_MAINFRAME           "XCC TMP Editor 1.02"
+    IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.des;*.lun;*.sno;*.tem;*.ubn;*.urb)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 

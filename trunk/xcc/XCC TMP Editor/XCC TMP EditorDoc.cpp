@@ -47,7 +47,7 @@ BOOL CXCCTMPEditorDoc::OnNewDocument()
 	m_header.cx = 60;
 	m_header.cy = 30;
 	m_map.clear();
-	load_temperate_palet();
+	load_temperate_palet(false);
 
 	return TRUE;
 }
@@ -159,17 +159,23 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 				m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1] = e;
 			}
 			string ext = to_lower(Cfname(static_cast<string>(ar.m_strFileName)).get_fext());
-			if (ext == ".sno")
-				load_snow_palet();
+			if (ext == ".des")
+				load_desert_palet(false);
+			else if (ext == ".lun")
+				load_lunar_palet(false);
+			else if (ext == ".sno")
+				load_snow_palet(false);
+			else if (ext == ".ubn")
+				load_urban2_palet(false);
 			else if (ext == ".urb")
-				load_urban_palet();
+				load_urban_palet(false);
 			else
-				load_temperate_palet();
+				load_temperate_palet(false);
 		}
 	}
 }
 
-int CXCCTMPEditorDoc::load_palet(string fname)
+int CXCCTMPEditorDoc::load_palet(string fname, bool probe)
 {
 	if (Cfname(fname).get_path().size())
 	{
@@ -186,43 +192,81 @@ int CXCCTMPEditorDoc::load_palet(string fname)
 		return error;
 	}
 	Cmix_file main_mix;
-	int error = main_mix.open(xcc_dirs::get_main_mix(m_header.cx == 48 ? game_ts : game_ra2));
-	if (!error)
+	int error = 0;
+	for (int i = 0; i < 2; i++)
 	{
-		Cmix_file cache_mix;
-		error = cache_mix.open("cache.mix", main_mix);
+		t_game game = m_header.cx == 48 ? game_ts : game_ra2;
+		switch (i)
+		{
+		case 0:
+			error = main_mix.open(xcc_dirs::get_main_mix(game));
+			break;
+		case 1:
+			error = game == game_ra2 ? main_mix.open(xcc_dirs::get_dir(game) + "ra2md.mix") : 1;
+			break;
+		}
 		if (!error)
 		{
-			Cpal_file f;
-			error = f.open(fname, cache_mix);
-			if (!error && !f.is_valid())
-				error = 0x100;
-			else
+			Cmix_file cache_mix;
+			error = cache_mix.open("cache.mix", main_mix);
+			if (error)
+				error = cache_mix.open("cachemd.mix", main_mix);
+			if (!error)
 			{
-				f.decode(m_palet);
-				f.close();
-				UpdateAllViews(NULL);
+				Cpal_file f;
+				error = f.open(fname, cache_mix);
+				if (!error)
+				{
+					if (!f.is_valid())
+						error = 0x100;
+					else
+					{
+						if (!probe)
+						{
+							f.decode(m_palet);
+							UpdateAllViews(NULL);
+						}
+					}
+					f.close();
+				}
+				cache_mix.close();
 			}
-			cache_mix.close();
+			main_mix.close();
 		}
-		main_mix.close();
+		if (!error)
+			break;
 	}
 	return error;
 }
 
-int CXCCTMPEditorDoc::load_snow_palet()
+int CXCCTMPEditorDoc::load_desert_palet(bool probe)
 {
-	return load_palet("isosno.pal");
+	return load_palet("isodes.pal", probe);
 }
 
-int CXCCTMPEditorDoc::load_temperate_palet()
+int CXCCTMPEditorDoc::load_lunar_palet(bool probe)
 {
-	return load_palet("isotem.pal");
+	return load_palet("isolun.pal", probe);
 }
 
-int CXCCTMPEditorDoc::load_urban_palet()
+int CXCCTMPEditorDoc::load_snow_palet(bool probe)
 {
-	return load_palet("isourb.pal");
+	return load_palet("isosno.pal", probe);
+}
+
+int CXCCTMPEditorDoc::load_temperate_palet(bool probe)
+{
+	return load_palet("isotem.pal", probe);
+}
+
+int CXCCTMPEditorDoc::load_urban_palet(bool probe)
+{
+	return load_palet("isourb.pal", probe);
+}
+
+int CXCCTMPEditorDoc::load_urban2_palet(bool probe)
+{
+	return load_palet("isoubn.pal", probe);
 }
 
 /////////////////////////////////////////////////////////////////////////////

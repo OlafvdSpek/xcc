@@ -55,6 +55,15 @@ protected:
 	afx_msg void OnPaletLoad();
 	afx_msg void OnViewTrueHeight();
 	afx_msg void OnUpdateViewTrueHeight(CCmdUI* pCmdUI);
+	afx_msg void OnPaletDesert();
+	afx_msg void OnPaletLunar();
+	afx_msg void OnPaletUrban2();
+	afx_msg void OnUpdatePaletDesert(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePaletLunar(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePaletSnow(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePaletTemperate(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePaletUrban(CCmdUI* pCmdUI);
+	afx_msg void OnUpdatePaletUrban2(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
