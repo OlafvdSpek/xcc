@@ -171,7 +171,7 @@ void Cdlg_login::OnOK()
 			const int cb_d = 4 << 10;
 			char d[cb_d];				
 			int e;
-			while ((e = recv(s, d, cb_d, 0)) && e != SOCKET_ERROR)
+			while ((e = s.recv(d, cb_d)) && e != SOCKET_ERROR)
 				m_edit += CString(d, e);
 			if (e == SOCKET_ERROR)
 				m_edit += "unable to receive: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
