@@ -181,9 +181,7 @@ void CXSTE_dlg::create_cat_map()
 
 int CXSTE_dlg::insert(int id)
 {
-	int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
-	m_list.SetItemData(index, id);
-	return index;
+	return m_list.InsertItemData(id);
 }
 
 int CXSTE_dlg::get_current_index()

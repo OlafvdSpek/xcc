@@ -229,9 +229,7 @@ int CXSE_dlg::insert(int id)
 		e.name = i->second->first;
 		e.value = m_csf_f.get_converted_value(i->second->first);
 	}
-	int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
-	m_list.SetItemData(index, id);
-	return index;
+	return m_list.InsertItemData(id);
 }
 
 int CXSE_dlg::get_current_index()

@@ -475,10 +475,7 @@ void CXCCMixerView::update_list()
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
-	{
-		int index = lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK);
-		lc.SetItemData(index, i->first);
-	}
+		lc.SetItemData(lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
 	sort_list(0, false);
 	sort_list(1, false);
 	SetRedraw(true);

@@ -129,7 +129,7 @@ void CSearchFileDlg::OnFind()
 		{
 			m_list.SetItemCount(m_map.size());
 			for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
-				m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
+				m_list.InsertItemData(i->first);
 		}
 	}
 }
