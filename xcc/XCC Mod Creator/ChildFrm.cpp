@@ -8,6 +8,8 @@
 #include "LeftView.h"
 #include "XCC Mod CreatorView.h"
 
+#include "fname.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -25,11 +27,12 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
 	ON_COMMAND(ID_EDIT_INVERT_SELECTION, OnEditInvertSelection)
 	ON_COMMAND(ID_VIEW_REFRESH, OnViewRefresh)
-	ON_COMMAND(ID_VIEW_OPTIONS, OnViewOptions)
 	ON_COMMAND(ID_VIEW_LAUNCH, OnViewLaunch)
 	ON_COMMAND(ID_MOD_CLEAR_GAME_DIRECTORY, OnModClearGameDirectory)
 	ON_COMMAND(ID_MOD_ACTIVATE, OnModActivate)
 	ON_COMMAND(ID_MOD_DEACTIVATE, OnModDeactivate)
+	ON_COMMAND(ID_MOD_OPTIONS, OnModOptions)
+	ON_COMMAND(ID_MOD_REPORT, OnModReport)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -118,11 +121,6 @@ void CChildFrame::OnViewRefresh()
 	GetRightPane()->sync();
 }
 
-void CChildFrame::OnViewOptions() 
-{
-	GetRightPane()->options();
-}
-
 void CChildFrame::OnModActivate() 
 {
 	CWaitCursor wait;
@@ -143,5 +141,17 @@ void CChildFrame::OnModDeactivate()
 void CChildFrame::OnModClearGameDirectory() 
 {
 	GetRightPane()->clear_game_dir();
+}
+
+void CChildFrame::OnModOptions() 
+{
+	GetRightPane()->options();
+}
+
+void CChildFrame::OnModReport() 
+{
+	string fname = get_temp_path() + GetRightPane()->GetDocument()->options().mod_name + " Report.html";
+	GetRightPane()->GetDocument()->report(fname);
+	ShellExecute(m_hWnd, "open", fname.c_str(), NULL, NULL, SW_SHOW);
 }
 

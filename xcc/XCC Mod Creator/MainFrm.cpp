@@ -18,6 +18,8 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
+	ON_COMMAND_RANGE(ID_LAUNCH_XAP, ID_LAUNCH_RAGE, OnLaunchApp)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XAP, ID_LAUNCH_RAGE, OnUpdateLaunchApp)
 	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	//}}AFX_MSG_MAP
@@ -36,6 +38,7 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
+	m_apps.init();
 }
 
 CMainFrame::~CMainFrame()
@@ -107,3 +110,16 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
+
+void CMainFrame::OnLaunchApp(DWORD ID) 
+{
+	t_app app = static_cast<t_app>(ID - ID_LAUNCH_XAP);
+	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
+}
+
+void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI) 
+{
+	t_app app = static_cast<t_app>(pCmdUI->m_nID - ID_LAUNCH_XAP);
+	pCmdUI->Enable(m_apps.is_available(app));
+}
+

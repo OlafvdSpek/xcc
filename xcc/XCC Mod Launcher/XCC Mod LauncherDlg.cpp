@@ -5,8 +5,12 @@
 #include "XCC Mod Launcher.h"
 #include "XCC Mod LauncherDlg.h"
 
+#include <afxinet.h>
 #include "cc_file.h"
+#include "download_dlg.h"
 #include "jpeg_file.h"
+#include "multi_line.h"
+#include "virtual_tfile.h"
 #include "web_tools.h"
 #include "xcc_dirs.h"
 
@@ -23,7 +27,6 @@ CXCCModLauncherDlg::CXCCModLauncherDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCModLauncherDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CXCCModLauncherDlg)
-		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -32,6 +35,9 @@ void CXCCModLauncherDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCModLauncherDlg)
+	DDX_Control(pDX, IDC_BUTTON_UPDATE, m_update);
+	DDX_Control(pDX, IDC_BUTTON_XHP, m_xhp);
+	DDX_Control(pDX, IDCANCEL, m_cancel);
 	DDX_Control(pDX, IDC_BANNER, m_banner);
 	DDX_Control(pDX, IDOK, m_ok);
 	DDX_Control(pDX, IDC_BUTTON_SITE, m_site);
@@ -46,6 +52,10 @@ BEGIN_MESSAGE_MAP(CXCCModLauncherDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_XHP, OnButtonXHP)
 	ON_BN_CLICKED(IDC_BUTTON_SITE, OnButtonSite)
 	ON_BN_CLICKED(IDC_BUTTON_MANUAL, OnButtonManual)
+	ON_BN_CLICKED(IDC_BUTTON_UPDATE, OnButtonUpdate)
+	ON_BN_CLICKED(ID_MAIL_AUTHOR, OnMailAuthor)
+	ON_BN_CLICKED(ID_UNINSTALL, OnUninstall)
+	ON_WM_SYSCOMMAND()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -111,24 +121,98 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 					m_banner.SetBitmap(bitmap);
 			}
 
-			CString name = m_mod.options().mod_name.c_str();
+			Cxcc_mod::t_options options = m_mod.options();
+			CString name = options.mod_name.c_str();
 			CString caption;
 			GetWindowText(caption);
-			SetWindowText(caption + " - " + name);
+			SetWindowText(caption + " - " + name + " - " + options.mod_version.c_str());
 
+			if (0)
+			{
+				Cfname uninstall_exe = Cfname(m_mod_fname).get_path() + "uninstal.exe";
+				if (uninstall_exe.exists())
+					m_uninstall_exe = uninstall_exe;
+			}
+
+			if (!options.xhp_button)
+			{
+				m_xhp.ModifyStyle(WS_VISIBLE, 0, 0);
+				/*
+				if (MessageBox("Would you like to visit the XCC Home Page?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+					OnButtonXHP();
+				*/
+			}			
+			if (!options.exit_button)
+				m_cancel.ModifyStyle(WS_VISIBLE, 0, 0);
+			if (!options.update_button)
+				m_update.ModifyStyle(WS_VISIBLE, 0, 0);
+			if (!options.manual_button)
+				m_manual.ModifyStyle(WS_VISIBLE, 0, 0);
+			if (!options.site_button)
+				m_site.ModifyStyle(WS_VISIBLE, 0, 0);
+			if (web_is_link(options.mod_ucf))
+				m_update.EnableWindow(true);
+			else if (m_uninstall_exe.size())
+			{
+				m_update.EnableWindow(true);
+				m_update.SetWindowText("Uninstall");
+			}
+			else
+				m_update.EnableWindow(false);
 			m_manual.EnableWindow(m_mod.contains(Cxcc_mod::ct_manual));
 			m_ok.EnableWindow(true);
-			m_site.EnableWindow(web_is_link(m_mod.options().link));
+			m_site.EnableWindow(web_is_link(options.link));
 
-			/*
-			m_manual.SetWindowText(name + " &Manual");
-			m_ok.SetWindowText(name + " Mod");
-			m_site.SetWindowText(name + " &Site");
-			*/
+			if (options.custom_button_text)
+			{
+				m_manual.SetWindowText(name + " &Manual");
+				m_ok.SetWindowText(name + " Mod");
+				m_site.SetWindowText(name + " &Site");
+			}
+
+			CMenu* pSysMenu = GetSystemMenu(FALSE);
+			if (pSysMenu != NULL)
+			{
+				pSysMenu->AppendMenu(MF_SEPARATOR);
+				pSysMenu->AppendMenu((web_is_link(options.mod_ucf) ? MF_ENABLED : MF_GRAYED) | MF_STRING, IDC_BUTTON_UPDATE, "Check for &update");
+				pSysMenu->AppendMenu((web_is_mail(options.mail) ? MF_ENABLED : MF_GRAYED) | MF_STRING, ID_MAIL_AUTHOR, ("Send &mail to " + options.name).c_str());
+				pSysMenu->AppendMenu((m_mod.contains(Cxcc_mod::ct_manual) ? MF_ENABLED : MF_GRAYED) | MF_STRING, IDC_BUTTON_MANUAL, "View " + name + " &Manual");
+				pSysMenu->AppendMenu((web_is_link(options.link) ? MF_ENABLED : MF_GRAYED) | MF_STRING, IDC_BUTTON_SITE, "Visit " + (options.link_title.empty() ? name  + " &Site" : options.link_title.c_str()));
+				pSysMenu->AppendMenu(MF_STRING, IDC_BUTTON_XHP, "Visit &XCC Home Page");
+				// pSysMenu->AppendMenu((m_uninstall_exe.size() ? MF_ENABLED : MF_GRAYED) | MF_STRING, ID_UNINSTALL, "Uninstall");
+			}
+
 		}
 		f.close();
 	}
 	return true;
+}
+
+void CXCCModLauncherDlg::OnSysCommand(UINT nID, LPARAM lParam) 
+{
+	switch (nID & 0xfff0)
+	{
+	case IDC_BUTTON_UPDATE:
+		OnButtonUpdate();
+		break;
+	case ID_MAIL_AUTHOR:
+		OnMailAuthor();
+		break;
+	case IDC_BUTTON_MANUAL:
+		OnButtonManual();
+		break;
+	case IDC_BUTTON_SITE:
+		OnButtonSite();
+		break;
+	case IDC_BUTTON_XHP:
+		OnButtonXHP();
+		break;
+	case ID_UNINSTALL:
+		OnUninstall();
+		break;
+	default:
+		CDialog::OnSysCommand(nID, lParam);
+	}
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -175,6 +259,11 @@ void CXCCModLauncherDlg::OnButtonSite()
 	ShellExecute(m_hWnd, "open", m_mod.options().link.c_str(), NULL, NULL, SW_SHOW);
 }
 
+void CXCCModLauncherDlg::OnMailAuthor() 
+{
+	ShellExecute(m_hWnd, "open", ("mailto:" + m_mod.options().mail).c_str(), NULL, NULL, SW_SHOW);
+}
+
 void CXCCModLauncherDlg::OnOK() 
 {
 	CWaitCursor wait;
@@ -186,7 +275,7 @@ void CXCCModLauncherDlg::OnOK()
 	{
 		MessageBox("Error launching game.", NULL, MB_ICONERROR);				
 	}	
-	if (MessageBox("Would you like to deactivate the mod?", NULL, MB_YESNO) == IDYES && m_mod.deactivate(false))
+	if ((!m_mod.options().confirm_deactivate || MessageBox("Would you like to deactivate the mod?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES) && m_mod.deactivate(false))
 	{
 		MessageBox("Error deactivating mod.", NULL, MB_ICONERROR);				
 	}
@@ -211,4 +300,140 @@ void CXCCModLauncherDlg::OnButtonManual()
 void CXCCModLauncherDlg::set_mod_fname(string mod_fname)
 {
 	m_mod_fname = mod_fname;
+}
+
+int CXCCModLauncherDlg::download_update(string link, string fname)
+{
+	int error = 0;
+	CInternetSession is;
+	CHttpFile* f = reinterpret_cast<CHttpFile*>(is.OpenURL(link.c_str(), INTERNET_FLAG_TRANSFER_BINARY));
+	if (!f)
+		error = 1;
+	else 
+	{
+		Cfile32 g;
+		DWORD status;
+		if (!f->QueryInfoStatusCode(status))
+			error = 2;
+		else if (status != 200)
+			error = 3;
+		else if (g.open_write(fname))
+			error = 4;
+		else
+		{
+			int total_size = f->Seek(0, CFile::end);
+			f->Seek(0, CFile::begin);
+			Cdownload_dlg dlg;
+			dlg.set(link, fname, total_size);
+			dlg.Create(Cdownload_dlg::IDD, NULL);
+			dlg.EnableWindow(false);
+			int size = 0;
+			while (!error)
+			{
+				int cb_p = min(f->GetLength(), 64 << 10);
+				if (!cb_p)
+					break;
+				char* p = new char[cb_p];
+				f->Read(p, cb_p);
+				error = g.write(p, cb_p);
+				delete[] p;
+				size += cb_p;
+				dlg.set_size(size);
+				MSG msg;		
+				while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
+					AfxGetApp()->PumpMessage();
+				
+				long count = 0;
+				while (AfxGetApp()->OnIdle(count++));
+				Sleep(1000);
+			}
+			g.close();
+			dlg.DestroyWindow();
+		}
+		f->Close();
+	}
+	return error;
+}
+
+void CXCCModLauncherDlg::OnButtonUpdate() 
+{
+	if (!web_is_link(m_mod.options().mod_ucf))
+	{
+		OnUninstall();
+		return;
+	}
+	int error = 0;
+	CWaitCursor wait;
+	CInternetSession is;
+	CHttpFile* f = reinterpret_cast<CHttpFile*>(is.OpenURL(m_mod.options().mod_ucf.c_str()));
+	if (!f)
+		error = 1;
+	else
+	{
+		string s;
+		while (1)
+		{
+			int cb_p = f->GetLength();
+			if (!cb_p)
+				break;
+			char* p = new char[cb_p + 1];
+			f->Read(p, cb_p);
+			p[cb_p] = 0;
+			s += p;
+			delete[] p;
+		}
+		f->Close();
+		Cvirtual_tfile f;
+		f.load_data(s.c_str(), s.length());
+		error = 2;
+		while (!f.eof())
+		{
+			Cmulti_line l = f.read_line();
+			if (l.get_next_line('=') == m_mod.options().mod_name)
+			{
+				error = 0;
+				string version = l.get_next_line(',');
+				string link = l.get_next_line(',');
+				if (m_mod.options().mod_version < version)
+				{
+					if (MessageBox(("Version " + version + " is available. Would you like to download the update?").c_str(), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+					{
+						Cfname bak_fname = m_mod_fname;
+						bak_fname.set_ext(".bak");
+						if (move_file(m_mod_fname, static_cast<string>(bak_fname)))
+							MessageBox("Error replacing Mod.", NULL, MB_ICONERROR);
+						else
+						{
+							EnableWindow(false);
+							error = download_update(link, m_mod_fname);
+							EnableWindow(true);
+							if (error)
+							{
+								MessageBox("Error retrieving update.", NULL, MB_ICONERROR);
+								error = 0;
+							}
+							else
+							{
+								delete_file(bak_fname);
+								EndDialog(IDCANCEL);
+								ShellExecute(m_hWnd, "open", static_cast<string>(GetModuleFileName()).c_str(), m_mod_fname.c_str(), NULL, SW_SHOW);
+							}
+						}
+					}
+				}
+				else
+					MessageBox("No update is available.", NULL, MB_ICONINFORMATION);
+				break;
+			}
+		}
+	}
+	if (error)
+		MessageBox("Error querying for update.", NULL, MB_ICONERROR);
+}
+
+
+void CXCCModLauncherDlg::OnUninstall() 
+{
+	EndDialog(IDCANCEL);
+	ShellExecute(m_hWnd, "open", m_uninstall_exe.c_str(), NULL, NULL, SW_SHOW);
 }

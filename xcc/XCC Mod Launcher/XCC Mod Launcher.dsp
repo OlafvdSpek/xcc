@@ -96,6 +96,10 @@ SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
 # End Source File
 # Begin Source File
 
+SOURCE=.\download_dlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
 # End Source File
 # Begin Source File
@@ -127,6 +131,10 @@ SOURCE=..\misc\xcc_mod.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\download_dlg.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\misc\mix_file_write.h
@@ -165,7 +173,15 @@ SOURCE=.\res\banner.jpeg
 # End Source File
 # Begin Source File
 
+SOURCE=.\res\binary1.bin
+# End Source File
+# Begin Source File
+
 SOURCE=".\res\olaf-ss-2.bmp"
+# End Source File
+# Begin Source File
+
+SOURCE=".\res\olaf-ss-3.jpg"
 # End Source File
 # Begin Source File
 

@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CXCCModCreatorView
+LastClass=Coptions_dlg
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "XCC Mod Creator.h"
 LastPage=0
 
-ClassCount=8
+ClassCount=9
 Class1=CXCCModCreatorApp
 Class2=CXCCModCreatorDoc
 Class3=CXCCModCreatorView
@@ -20,12 +20,13 @@ Resource1=IDD_ABOUTBOX
 Resource2=IDR_MAINFRAME
 Resource3=IDR_XCCMODTYPE
 Resource4=IDD_ABOUTBOX (English (U.S.))
-Resource5=CG_IDR_POPUP
+Resource5=IDR_MAINFRAME (English (U.S.))
 Class5=CChildFrame
 Class6=CLeftView
 Resource6=IDR_XCCMODTYPE (English (U.S.))
-Resource7=IDR_MAINFRAME (English (U.S.))
+Resource7=CG_IDR_POPUP
 Class8=Coptions_dlg
+Class9=Cexport_options_dlg
 Resource8=IDD_OPTIONS
 
 [CLS:CXCCModCreatorApp]
@@ -47,7 +48,7 @@ ImplementationFile=XCC Mod CreatorView.cpp
 Filter=W
 BaseClass=CListView
 VirtualFilter=VWC
-LastObject=ID_POPUP_EXPLORE
+LastObject=CXCCModCreatorView
 
 
 [CLS:CMainFrame]
@@ -57,7 +58,7 @@ ImplementationFile=MainFrm.cpp
 Filter=T
 BaseClass=CMDIFrameWnd
 VirtualFilter=fWC
-LastObject=ID_VIEW_REFRESH
+LastObject=CMainFrame
 
 
 [CLS:CChildFrame]
@@ -67,7 +68,7 @@ ImplementationFile=ChildFrm.cpp
 Filter=M
 BaseClass=CMDIChildWnd
 VirtualFilter=mfWC
-LastObject=ID_MOD_DEACTIVATE
+LastObject=ID_FILE_IMPORT
 
 [CLS:CLeftView]
 Type=0
@@ -185,8 +186,7 @@ Command3=ID_FILE_MRU_FILE1
 Command4=ID_APP_EXIT
 Command5=ID_VIEW_TOOLBAR
 Command6=ID_VIEW_STATUS_BAR
-Command7=ID_APP_ABOUT
-CommandCount=7
+CommandCount=6
 
 [MNU:IDR_XCCMODTYPE (English (U.S.))]
 Type=1
@@ -214,13 +214,24 @@ Command20=ID_MOD_ACTIVATE
 Command21=ID_VIEW_LAUNCH
 Command22=ID_MOD_DEACTIVATE
 Command23=ID_MOD_CLEAR_GAME_DIRECTORY
-Command24=ID_VIEW_OPTIONS
-Command25=ID_WINDOW_NEW
-Command26=ID_WINDOW_CASCADE
-Command27=ID_WINDOW_TILE_HORZ
-Command28=ID_WINDOW_ARRANGE
-Command29=ID_APP_ABOUT
-CommandCount=29
+Command24=ID_MOD_OPTIONS
+Command25=ID_MOD_REPORT
+Command26=ID_WINDOW_NEW
+Command27=ID_WINDOW_CASCADE
+Command28=ID_WINDOW_TILE_HORZ
+Command29=ID_WINDOW_ARRANGE
+Command30=ID_LAUNCH_XAP
+Command31=ID_LAUNCH_XED
+Command32=ID_LAUNCH_XMR
+Command33=ID_LAUNCH_XME
+Command34=ID_LAUNCH_XMC
+Command35=ID_LAUNCH_XML
+Command36=ID_LAUNCH_FS
+Command37=ID_LAUNCH_FA
+Command38=ID_LAUNCH_SE
+Command39=ID_LAUNCH_SEMM
+Command40=ID_LAUNCH_RAGE
+CommandCount=40
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -238,7 +249,7 @@ Command10=ID_VIEW_REFRESH
 Command11=ID_NEXT_PANE
 Command12=ID_PREV_PANE
 Command13=ID_VIEW_LAUNCH
-Command14=ID_VIEW_OPTIONS
+Command14=ID_MOD_OPTIONS
 Command15=ID_EDIT_INSERT
 Command16=ID_EDIT_COPY
 Command17=ID_EDIT_PASTE
@@ -274,25 +285,6 @@ Command6=ID_EDIT_INSERT
 Command7=ID_EDIT_DELETE
 CommandCount=7
 
-[DLG:IDD_OPTIONS]
-Type=1
-Class=Coptions_dlg
-ControlCount=14
-Control1=IDOK,button,1342242817
-Control2=IDCANCEL,button,1342242816
-Control3=IDC_STATIC,static,1342308352
-Control4=IDC_STATIC,static,1342308352
-Control5=IDC_STATIC,static,1342308352
-Control6=IDC_STATIC,static,1342308352
-Control7=IDC_NAME,edit,1350631552
-Control8=IDC_MAIL,edit,1350631552
-Control9=IDC_LINK_TITLE,edit,1350631552
-Control10=IDC_LINK,edit,1350631552
-Control11=IDC_GAME,combobox,1344339971
-Control12=IDC_STATIC,static,1342308352
-Control13=IDC_STATIC,static,1342308352
-Control14=IDC_MOD_NAME,edit,1350631552
-
 [CLS:Coptions_dlg]
 Type=0
 HeaderFile=options_dlg.h
@@ -301,4 +293,45 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=Coptions_dlg
+
+[CLS:Cexport_options_dlg]
+Type=0
+HeaderFile=export_options_dlg.h
+ImplementationFile=export_options_dlg.cpp
+BaseClass=CDialog
+Filter=D
+LastObject=Cexport_options_dlg
+VirtualFilter=dWC
+
+[DLG:IDD_OPTIONS]
+Type=1
+Class=Coptions_dlg
+ControlCount=27
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308352
+Control4=IDC_STATIC,static,1342308352
+Control5=IDC_STATIC,static,1342308352
+Control6=IDC_STATIC,static,1342308352
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_STATIC,static,1342308352
+Control9=IDC_STATIC,static,1342308352
+Control10=IDC_STATIC,static,1342308352
+Control11=IDC_NAME,edit,1350631552
+Control12=IDC_MAIL,edit,1350631552
+Control13=IDC_LINK_TITLE,edit,1350631552
+Control14=IDC_LINK,edit,1350631552
+Control15=IDC_MOD_NAME,edit,1350631552
+Control16=IDC_GAME,combobox,1344339971
+Control17=IDC_MOD_VERSION,edit,1350631552
+Control18=IDC_MOD_UCF,edit,1350631552
+Control19=IDC_CSF_DIFF_COMPRESSION,button,1342242819
+Control20=IDC_INI_DIFF_COMPRESSION,button,1342242819
+Control21=IDC_CUSTOM_BUTTON_TEXT,button,1342242819
+Control22=IDC_XHP_BUTTON,button,1342242819
+Control23=IDC_EXIT_BUTTON,button,1342242819
+Control24=IDC_UPDATE_BUTTON,button,1342242819
+Control25=IDC_MANUAL_BUTTON,button,1342242819
+Control26=IDC_SITE_BUTTON,button,1342242819
+Control27=IDC_CONFIRM_DEACTIVATE,button,1342242819
 

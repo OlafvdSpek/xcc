@@ -35,7 +35,7 @@ public:
 public:
 	void deactivate();
 	void activate();
-	void clear_game_dir();
+	void clear_game_dir() const;
 	void launch();
 	bool contains(Cxcc_mod::t_category_type category, string fname);
 	int export(string fname);
@@ -43,7 +43,9 @@ public:
 	Cxcc_mod::t_options options() const;
 	void options(Cxcc_mod::t_options options);
 	void remove(Cxcc_mod::t_category_type category, string fname);
+	void report(string fname) const;
 	Cxcc_mod::t_category_file_list category_file_list(Cxcc_mod::t_category_type category);
+	void SetModifiedFlag(BOOL bModified = true);
 	virtual ~CXCCModCreatorDoc();
 #ifdef _DEBUG
 	virtual void AssertValid() const;

@@ -4,9 +4,12 @@
 #include "stdafx.h"
 #include "XCC Mod Creator.h"
 
+#include "mainfrm.h"
 #include "XCC Mod CreatorDoc.h"
 
 #include "file32.h"
+#include "fname.h"
+#include "string_conversion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -45,8 +48,6 @@ BOOL CXCCModCreatorDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-
 /////////////////////////////////////////////////////////////////////////////
 // CXCCModCreatorDoc serialization
 
@@ -65,11 +66,22 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 	}
 	else
 	{
+		Cfname fname = static_cast<string>(ar.m_strFileName);
+		bool import = to_lower(fname.get_fext()) == ".xmlf";
+		if (import)
+		{
+			fname.set_ext(".xmcf");
+			SetModifiedFlag();
+			SetPathName(static_cast<string>(fname).c_str(), false);
+		}
+		fname.set_ext("");
+		fname.make_path();
 		Cxif_key k;
 		int cb_s = ar.GetFile()->GetLength();
 		byte* s = new byte[cb_s];
-		if (ar.Read(s, cb_s) != cb_s ||
-			k.load_key(s, cb_s) || m_mod.load(k))
+		if (ar.Read(s, cb_s) != cb_s 
+			|| k.load_key(s, cb_s) 
+			|| m_mod.load(k, fname))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 		delete[] s;
 	}
@@ -104,6 +116,25 @@ void CXCCModCreatorDoc::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCModCreatorDoc commands
+
+void CXCCModCreatorDoc::SetModifiedFlag(BOOL bModified)
+{
+	if (IsModified() == bModified)
+		return;
+	CDocument::SetModifiedFlag(bModified);
+	CString title = GetTitle();
+	if (bModified)
+	{
+		if (title.Find('*') < 0)
+			title += '*';
+	}
+	else
+	{
+		if (title.Find('*') >= 0)
+			title.Delete(title.GetLength() - 1);
+	}
+	SetTitle(title);
+}
 
 bool CXCCModCreatorDoc::contains(Cxcc_mod::t_category_type category, string fname)
 {
@@ -154,7 +185,12 @@ void CXCCModCreatorDoc::deactivate()
 	m_mod.deactivate(false);
 }
 
-void CXCCModCreatorDoc::clear_game_dir()
+void CXCCModCreatorDoc::clear_game_dir() const
 {
 	m_mod.clear_game_dir();
+}
+
+void CXCCModCreatorDoc::report(string fname) const
+{
+	m_mod.report(fname);
 }

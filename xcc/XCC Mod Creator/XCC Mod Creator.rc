@@ -85,10 +85,6 @@ BEGIN
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About XCC Mod Creator...",   ID_APP_ABOUT
-    END
 END
 
 IDR_XCCMODTYPE MENU PRELOAD DISCARDABLE 
@@ -100,7 +96,7 @@ BEGIN
         MENUITEM "&Close",                      ID_FILE_CLOSE
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &As...",                 ID_FILE_SAVE_AS
-        MENUITEM "Export...",                   ID_FILE_EXPORT
+        MENUITEM "&Export...",                  ID_FILE_EXPORT
         MENUITEM SEPARATOR
         MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR
@@ -133,7 +129,8 @@ BEGIN
         MENUITEM "Deactivate",                  ID_MOD_DEACTIVATE
         MENUITEM SEPARATOR
         MENUITEM "Clear game directory",        ID_MOD_CLEAR_GAME_DIRECTORY
-        MENUITEM "&Options\tAlt+F7",            ID_VIEW_OPTIONS
+        MENUITEM "&Options...\tAlt+F7",         ID_MOD_OPTIONS
+        MENUITEM "&Report",                     ID_MOD_REPORT
     END
     POPUP "&Window"
     BEGIN
@@ -142,9 +139,20 @@ BEGIN
         MENUITEM "&Tile",                       ID_WINDOW_TILE_HORZ
         MENUITEM "&Arrange Icons",              ID_WINDOW_ARRANGE
     END
-    POPUP "&Help"
+    POPUP "&Launch"
     BEGIN
-        MENUITEM "&About XCC Mod Creator...",   ID_APP_ABOUT
+        MENUITEM "XCC &AV Player",              ID_LAUNCH_XAP
+        MENUITEM "XCC &Editor",                 ID_LAUNCH_XED
+        MENUITEM "XCC &Mixer",                  ID_LAUNCH_XMR
+        MENUITEM "XCC &MIX Editor",             ID_LAUNCH_XME
+        MENUITEM "XCC Mod Creator",             ID_LAUNCH_XMC
+        MENUITEM "XCC Mod Launcher",            ID_LAUNCH_XML
+        MENUITEM SEPARATOR
+        MENUITEM "&FinalSun",                   ID_LAUNCH_FS
+        MENUITEM "&FinalAlert",                 ID_LAUNCH_FA
+        MENUITEM "&SunEdit 2K",                 ID_LAUNCH_SE
+        MENUITEM "&SunEdit 2K Mod Manager",     ID_LAUNCH_SEMM
+        MENUITEM "&RAGE",                       ID_LAUNCH_RAGE
     END
 END
 
@@ -169,7 +177,7 @@ BEGIN
     VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
     VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
     VK_F7,          ID_VIEW_LAUNCH,         VIRTKEY, NOINVERT
-    VK_F7,          ID_VIEW_OPTIONS,        VIRTKEY, ALT, NOINVERT
+    VK_F7,          ID_MOD_OPTIONS,         VIRTKEY, ALT, NOINVERT
     VK_INSERT,      ID_EDIT_INSERT,         VIRTKEY, NOINVERT
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
@@ -230,7 +238,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.02"
+    IDR_MAINFRAME           "XCC Mod Creator 1.05"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
@@ -364,6 +372,96 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 #pragma code_page(1252)
 #endif //_WIN32
 
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+CG_IDR_POPUP MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Cu&t",                        ID_EDIT_CUT
+        MENUITEM "&Copy",                       ID_EDIT_COPY
+        MENUITEM "&Paste",                      ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "&Open\tEnter",                ID_POPUP_OPEN
+        MENUITEM "&Explore",                    ID_POPUP_EXPLORE
+        MENUITEM "&Insert\tIns",                ID_EDIT_INSERT
+        MENUITEM "&Delete\tDel",                ID_EDIT_DELETE
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 348, 295
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Options"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,234,274,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,291,274,50,14
+    LTEXT           "Name:",IDC_STATIC,7,7,22,12
+    LTEXT           "Mail:",IDC_STATIC,7,28,16,12
+    LTEXT           "Link title:",IDC_STATIC,7,49,29,12
+    LTEXT           "Link:",IDC_STATIC,7,70,16,12
+    LTEXT           "Mod name:",IDC_STATIC,7,91,38,8
+    LTEXT           "Game:",IDC_STATIC,7,112,22,8
+    LTEXT           "Mod version:",IDC_STATIC,7,133,42,8
+    LTEXT           "Mod update control file:",IDC_STATIC,7,154,75,8
+    EDITTEXT        IDC_NAME,87,7,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MAIL,87,28,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LINK_TITLE,87,49,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LINK,87,70,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOD_NAME,87,91,254,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_GAME,87,112,254,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    EDITTEXT        IDC_MOD_VERSION,87,133,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOD_UCF,87,154,254,12,ES_AUTOHSCROLL
+    CONTROL         "CSF diff compression",IDC_CSF_DIFF_COMPRESSION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,173,82,10
+    CONTROL         "INI diff compression",IDC_INI_DIFF_COMPRESSION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,186,78,10
+    CONTROL         "Custom button text",IDC_CUSTOM_BUTTON_TEXT,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,199,75,10
+    CONTROL         "XCC Home Page button",IDC_XHP_BUTTON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,212,91,10
+    CONTROL         "Exit button",IDC_EXIT_BUTTON,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,225,49,10
+    CONTROL         "Update button",IDC_UPDATE_BUTTON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,238,61,10
+    CONTROL         "Manual button",IDC_MANUAL_BUTTON,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,251,61,10
+    CONTROL         "Site button",IDC_SITE_BUTTON,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,264,50,10
+    CONTROL         "Confirm deactivate",IDC_CONFIRM_DEACTIVATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,278,75,10
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_OPTIONS, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 341
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 288
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -398,74 +496,6 @@ BEGIN
     "\0"
 END
 
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-CG_IDR_POPUP MENU DISCARDABLE 
-BEGIN
-    POPUP "_POPUP_"
-    BEGIN
-        MENUITEM "Cu&t",                        ID_EDIT_CUT
-        MENUITEM "&Copy",                       ID_EDIT_COPY
-        MENUITEM "&Paste",                      ID_EDIT_PASTE
-        MENUITEM SEPARATOR
-        MENUITEM "&Open\tEnter",                ID_POPUP_OPEN
-        MENUITEM "&Explore",                    ID_POPUP_EXPLORE
-        MENUITEM "&Insert\tIns",                ID_EDIT_INSERT
-        MENUITEM "&Delete\tDel",                ID_EDIT_DELETE
-    END
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 348, 214
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Options"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,234,193,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,291,193,50,14
-    LTEXT           "Name:",IDC_STATIC,7,7,22,12
-    LTEXT           "Mail:",IDC_STATIC,7,26,16,12
-    LTEXT           "Link:",IDC_STATIC,7,64,16,12
-    LTEXT           "Link title:",IDC_STATIC,7,45,29,12
-    EDITTEXT        IDC_NAME,47,7,294,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_MAIL,47,26,294,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LINK_TITLE,47,45,294,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LINK,47,64,294,12,ES_AUTOHSCROLL
-    COMBOBOX        IDC_GAME,47,130,294,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "Game:",IDC_STATIC,7,130,22,8
-    LTEXT           "Mod name:",IDC_STATIC,7,102,38,8
-    EDITTEXT        IDC_MOD_NAME,47,102,294,12,ES_AUTOHSCROLL
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_OPTIONS, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 341
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 207
-    END
-END
 #endif    // APSTUDIO_INVOKED
 
 

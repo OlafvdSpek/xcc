@@ -92,7 +92,15 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
+# End Source File
+# Begin Source File
+
 SOURCE=.\ChildFrm.cpp
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
 # End Source File
 # Begin Source File
 
@@ -114,6 +122,10 @@ SOURCE=.\StdAfx.cpp
 # Begin Source File
 
 SOURCE=..\misc\virtual_binary.cpp
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\xhp\cgi-bin\misc\web_tools.cpp"
 # End Source File
 # Begin Source File
 
@@ -178,6 +190,10 @@ SOURCE=..\misc\virtual_file.h
 # Begin Source File
 
 SOURCE=..\misc\virtual_image.h
+# End Source File
+# Begin Source File
+
+SOURCE="..\..\xhp\cgi-bin\misc\web_tools.h"
 # End Source File
 # Begin Source File
 
