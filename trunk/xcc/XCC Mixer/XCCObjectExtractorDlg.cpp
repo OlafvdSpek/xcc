@@ -61,7 +61,6 @@ BOOL CXCCObjectExtractorDlg::OnInitDialog()
 	m_link_title = AfxGetApp()->GetProfileString(m_reg_key, "credits_link_title", "http://");
 	m_link = AfxGetApp()->GetProfileString(m_reg_key, "credits_link");
 	set_extract_to_dir(static_cast<string>(AfxGetApp()->GetProfileString(m_reg_key, "extract_to_dir", xcc_dirs::get_dir(m_game).c_str())));
-	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< item(IDC_LIST, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
@@ -88,7 +87,7 @@ BOOL CXCCObjectExtractorDlg::OnInitDialog()
 				<< item(IDOK, NORESIZE)
 				)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
 	CWaitCursor wait;
 	m_extract_object.open_default(m_game);
 	m_extract_object.load();

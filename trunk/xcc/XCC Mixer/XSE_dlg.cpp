@@ -81,7 +81,6 @@ static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_R
 
 BOOL CXSE_dlg::OnInitDialog()
 {
-	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< item(IDC_LIST, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
@@ -98,9 +97,9 @@ BOOL CXSE_dlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
 	SetRedraw(false);
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	LV_COLUMN lvc;
 	lvc.mask = LVCF_FMT | LVCF_TEXT | LVCF_SUBITEM;
 	for (int i = 0; i < c_colums; i++)

@@ -69,7 +69,6 @@ static HBITMAP create_bitmap(Cvirtual_image image)
 
 BOOL Cdlg_shp_viewer::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< item(IDC_IMAGE, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
@@ -77,7 +76,7 @@ BOOL Cdlg_shp_viewer::OnInitDialog()
 			<< item(IDC_SLIDER, GREEDY)
 			<< item(IDOK, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
 	m_slider.SetRange(0, c_frames() - 1);
 	m_frame = 0;
 	show_frame();
