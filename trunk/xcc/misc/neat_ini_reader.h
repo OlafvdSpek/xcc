@@ -26,6 +26,8 @@ public:
 	int process_section_start(const string& line);
 	bool process_section() const;
 	int process_key(const string& name, const string& value);
+	void sub_section(string name, const Cneat_key_list& v);
+	int write(ostream& os) const;
 	int write(const string& name) const;
 
 	Cneat_key_list& current_section()
@@ -48,5 +50,7 @@ private:
 
 	Cneat_key_list* m_current_section;
 };
+
+Cneat_key_list sub_section(const Cneat_key_list& a, const Cneat_key_list& b);
 
 #endif // !defined(AFX_NEAT_INI_READER_H__E2E4BEC1_9322_11D4_B606_0000B4936994__INCLUDED_)

@@ -30,22 +30,17 @@ typedef map<string, string/*, SortDummy*/>::iterator SI;
 
 CIniFile::CIniFile()
 {
-	Clear();
 }
 
 CIniFile::~CIniFile()
 {
-	Clear();
 }
 
-WORD CIniFile::LoadFile(const char* filename)
+int CIniFile::LoadFile(const char* filename)
 {
 	Clear();
 
-	if(filename==NULL) return 1;
-	if(strlen(filename)==NULL) return 1;
-
-	strcpy(m_filename, filename);
+	// strcpy(m_filename, filename);
 
 	return(InsertFile(filename, NULL));
 	
@@ -66,7 +61,7 @@ CIniFileSection::~CIniFileSection(){
 	values.clear();
 };
 
-WORD CIniFile::InsertFile(const char *filename, const char *Section)
+int CIniFile::InsertFile(const char *filename, const char *Section)
 {
 	if(filename==NULL) return 1;
 	if(strlen(filename)==NULL) return 1;
@@ -128,98 +123,4 @@ WORD CIniFile::InsertFile(const char *filename, const char *Section)
 	file.close();
 
 	return 0;
-}
-
-CIniFileSection* CIniFile::GetSection(unsigned int index)
-{
-	if (index>sections.size()-1) return NULL;
-
-	CIniI i=sections.begin();
-	for (int e=0;e<index;e++)
-		i++;
-	
-	return &i->second;
-}
-
-string* CIniFileSection::GetValue(unsigned int index)
-{
-	if (index>values.size()-1) return NULL;
-
-	SI i=values.begin();
-	for (int e=0;e<index;e++)
-		i++;
-	
-	return &i->second;
-}
-
-const string* CIniFile::GetSectionName(unsigned int index)
-{
-	if (index>sections.size()-1) return NULL;
-
-	CIniI i=sections.begin();
-	for (int e=0;e<index;e++)
-		i++;
-	
-	return &(i->first);
-}
-
-const string* CIniFileSection::GetValueName(unsigned int index)
-{
-	if (index>values.size()-1) return NULL;
-
-	SI i=values.begin();
-	for (int e=0;e<index;e++)
-		i++;
-
-	
-	
-	return &(i->first);
-}
-
-BOOL CIniFile::SaveFile(const char *Filename)
-{
-	fstream file;
-
-	file.open(Filename, ios::out | ios::trunc);
-	
-	int i;
-	for(i=0;i<sections.size();i++)
-	{
-		file << "[" << GetSectionName(i)->data() << "]" << endl;
-		int e;
-		for(e=0;e<GetSection(i)->values.size();e++)
-		{
-			file << GetSection(i)->GetValueName(e)->data() << "=" << GetSection(i)->GetValue(e)->data() << endl;
-		}
-		file << endl;
-	}
-
-	return TRUE;
-}
-
-
-int CIniFileSection::FindValue(string sval)
-{
-	int i;
-	for(i=0;i<values.size();i++)
-	{
-		
-		if(sval==GetValue(i)->data())
-			return i;
-		//MessageBox(0,sval.data(),GetValue(i)->data(),0);
-	}
-	return -1;
-}
-
-int CIniFileSection::FindName(string sval)
-{
-	int i;
-	for(i=0;i<values.size();i++)
-	{
-		
-		if(sval==GetValueName(i)->data())
-			return i;
-		//MessageBox(0,sval.data(),GetValue(i)->data(),0);
-	}
-	return -1;
 }

@@ -55,7 +55,46 @@ string xcc_dirs::get_dir(t_game game)
 	case game_ra2:
 		return ra2_dir;
 	default:
-		return td_primary_dir;
+		assert(false);
+		return "";
+	}
+}
+
+string xcc_dirs::get_exe(t_game game)
+{
+	switch (game)
+	{
+	case game_td:
+		return td_primary_dir + "c&c95.exe";
+	case game_ra:
+		return ra_dir + "ra95.exe";
+	case game_ts:
+		return ts_dir + "sun.exe";
+	case game_dune2:
+		return dune2_dir + "dune2.exe";
+	case game_dune2000:
+		return dune2000_dir + "dune2000.exe";
+	case game_ra2:
+		return ra2_dir + "ra2.exe";
+	default:
+		assert(false);
+		return "";
+	}
+}
+
+string xcc_dirs::get_main_mix(t_game game)
+{
+	switch (game)
+	{
+	case game_ra:
+		return ra_dir + "redalert.mix";
+	case game_ts:
+		return ts_dir + "tibsun.mix";
+	case game_ra2:
+		return ra2_dir + "ra2.mix";
+	default:
+		assert(false);
+		return "";
 	}
 }
 

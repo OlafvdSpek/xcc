@@ -19,8 +19,9 @@ using namespace std;
 class Cmix_file_write  
 {
 public:
-	void add_file(int id, const byte* d, int cb_d)	;
-	void add_file(string name, const byte* d, int cb_d);
+	void add_file(int id, const void* d, int cb_d)	;
+	void add_file(string name, const void* d, int cb_d);
+	void add_file(string name, Cmix_file_write& s);
 	int write_start();
 	int write(byte* d) const;
 	int write(string fname);

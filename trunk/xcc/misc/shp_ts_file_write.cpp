@@ -110,3 +110,13 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 	delete[] t;
 	return w1 - d;
 }
+
+void shp_ts_file_write(const Cvirtual_image& image, Cvirtual_file& f, int c_images, bool enable_compression)
+{
+	int cx = image.cx();
+	int cy = image.cy() / c_images;
+	byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images];
+	const int cb_d = shp_ts_file_write(image.image(), d, cx, cy, c_images, enable_compression);
+	f.write(d, cb_d);
+	delete[] d;
+}

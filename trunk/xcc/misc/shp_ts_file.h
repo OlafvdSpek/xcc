@@ -18,6 +18,7 @@
 class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
 {
 public:
+	int extract_as_pcx(Cvirtual_image& d, const t_palet _palet, bool combine_shadows) const;
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
 	int extract_as_pcx_single(Cvirtual_image& d, const t_palet _palet, bool combine_shadows = false) const;
 	int extract_as_pcx_single(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
@@ -114,5 +115,10 @@ public:
 		return get_data() + get_offset(i);
 	}
 };
+
+void shp_split_frames(Cvirtual_image& image, int cblocks_x, int cblocks_y);
+void shp_split_shadows(Cvirtual_image& image);
+void shp_xor_decode_frames(Cvirtual_image& image, int c_frames);
+void shp_xor_encode_frames(Cvirtual_image& image, int c_frames);
 
 #endif // !defined(AFX_SHP_TS_FILE_H__26D17BE0_F135_11D3_B605_0000B4936994__INCLUDED_)

@@ -14,10 +14,12 @@
 #include <cc_structures.h>
 #include <palet.h>
 #include "pcx_decode.h"
+#include "virtual_image.h"
 
 class Cpcx_file: public Ccc_file_sh<t_pcx_header>  
 {
 public:
+	void decode(Cvirtual_image& image) const;
 	int extract_as_png(const string& name) const;
 
 	bool is_valid() const

@@ -15,6 +15,7 @@
 #include "cc_structures.h"
 #include "mix_file.h"
 #include "pal_file.h"
+#include "xcc_apps.h"
 #include "XCCFileView.h"
 #include "XCC MixerView.h"
 
@@ -223,10 +224,14 @@ protected:
 	afx_msg void OnUpdateConversionCombineShadows(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
+	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchApp(dword ID);
+	afx_msg void OnUpdateLaunchApp(CCmdUI* pCmdUI);
 	afx_msg void OnConversionRemapTeamColors();
 	afx_msg void OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI);
-	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
+private:
+	Cxcc_apps m_apps;
 };
 
 /////////////////////////////////////////////////////////////////////////////

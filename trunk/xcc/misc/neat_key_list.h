@@ -23,7 +23,10 @@ public:
 	typedef list<t_key_map::iterator> t_key_list;
 
 	Cneat_key_list();
+	Cneat_key_list(const Cneat_key_list& v);
+	const Cneat_key_list& operator=(const Cneat_key_list& v);
 	void add_key(const string& name, const string& value);
+	void erase();
 	int write(ostream& os) const;
 
 	const t_key_list& get_key_list() const

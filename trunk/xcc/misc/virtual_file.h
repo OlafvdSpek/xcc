@@ -9,27 +9,29 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "vartypes.h"
+#include <list>
+#include "virtual_binary.h"
+
+using namespace std;
 
 class Cvirtual_file  
 {
 public:
-	void write(const byte* d, int cb_d);
+	int export(string fname) const;
+	int import(string fname);
+	void clear();
+	void compact();
+	const byte* data() const;
+	int size() const;
+	Cvirtual_binary read() const;
+	int read(void* d) const;
+	void write(const Cvirtual_binary& d);
+	void write(const void* d, int cb_d);
 	Cvirtual_file();
 	~Cvirtual_file();
-
-	const byte* data()
-	{
-		return m_data;
-	}
-
-	int size() const
-	{
-		return m_size;
-	}
 private:
-	byte* m_data;
-	int m_size;
+	typedef list<Cvirtual_binary> t_data;
+	t_data m_data;
 };
 
 #endif // !defined(AFX_VIRTUAL_FILE_H__96134460_CF52_11D4_A95D_0050042229FC__INCLUDED_)

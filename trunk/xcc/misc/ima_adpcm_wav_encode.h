@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "vartypes.h"
+
 class Cima_adpcm_wav_encode  
 {
 public:

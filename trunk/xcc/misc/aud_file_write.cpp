@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "aud_file_write.h"
 
+#include "aud_decode.h"
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -58,4 +60,40 @@ void audio_combine_channels(__int16* data, int c_samples)
 		int v = *r++ + *r++;
 		*w++ = v / 2;
 	}
+}
+
+void aud_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+{
+	assert(c_channels == 1);
+	t_aud_header header;
+	header.samplerate = samplerate;
+	header.size_in = (c_samples + 0x3ff) / 0x400 * sizeof(t_aud_chunk_header) + (c_samples + 1 >> 1);
+	header.size_out = c_samples << 1;
+	header.flags = 0x02;
+	header.compression = 0x63;
+	f.write(&header, sizeof(t_aud_header));
+	aud_decode aud_d;
+	aud_d.init();
+	const short* r = reinterpret_cast<const short*>(s);
+	t_aud_chunk_header chunk_header;
+	chunk_header.id = aud_chunk_id;
+	byte chunk[512];
+	while (c_samples)
+	{
+		int cs_chunk = min(c_samples, 1024);
+		aud_d.encode_chunk(r, chunk, cs_chunk);
+		r += cs_chunk;
+		chunk_header.size_in = cs_chunk + 1 >> 1;
+		chunk_header.size_out = cs_chunk << 1;
+		f.write(&chunk_header, sizeof(t_aud_chunk_header));
+		f.write(chunk, chunk_header.size_in);
+		c_samples -= cs_chunk;
+	}
+}
+
+int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+{
+	Cvirtual_file f;
+	aud_file_write(f, s, cb_s, c_samples, samplerate, c_channels);
+	return f.export(fname);
 }

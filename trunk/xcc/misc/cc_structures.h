@@ -99,6 +99,14 @@ struct t_hva_header
 
 typedef float t_hva_transform_matrix[3][4];
 
+struct t_jpeg_header
+{
+	__int8 unknown[6];
+	__int8 id[4];
+};
+
+const char jpeg_id[] = "JFIF";
+
 union t_mix_header
 {
 	struct 
@@ -133,6 +141,13 @@ struct t_iso_map_pack_entry
 	unsigned __int8 height;
 	unsigned __int8 unknown4;
 };
+
+struct t_ogg_header
+{
+	__int8 id[4];
+};
+
+const char ogg_id[] = "OggS";
 
 struct t_pack_section_header
 {

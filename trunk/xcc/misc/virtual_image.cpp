@@ -3,15 +3,11 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "image_file.h"
+#include "jpeg_file.h"
 #include "pcx_file_write.h"
 #include "png_file.h"
 #include "virtual_image.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -47,15 +43,49 @@ void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const
 		m_palet = NULL;
 }
 
+int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
+{
+	return image_file_write(f, ft, m_image, m_palet, m_cx, m_cy);
+}
+
+int Cvirtual_image::save(string fname, t_file_type ft) const
+{
+	return image_file_write(fname, ft, m_image, m_palet, m_cx, m_cy);
+}
+
+#ifdef JPEG_SUPPORT
+int Cvirtual_image::save_as_jpeg(Cvirtual_file& f) const
+{
+	return 1; // jpeg_file_write(f, m_image, m_palet, m_cx, m_cy);
+}
+
+int Cvirtual_image::save_as_jpeg(string fname) const
+{
+	return jpeg_file_write(fname, m_image, m_palet, m_cx, m_cy);
+}
+#endif
+
+void Cvirtual_image::save_as_pcx(Cvirtual_file& f) const
+{
+	pcx_file_write(f, m_image, m_palet, m_cx, m_cy);
+}
+
 int Cvirtual_image::save_as_pcx(string fname) const
 {
 	return pcx_file_write(fname, m_image, m_palet, m_cx, m_cy);
+}
+
+#ifdef PNG_SUPPORT
+int Cvirtual_image::save_as_png(Cvirtual_file& f) const
+{
+	return 1; // png_file_write(f, m_image, m_palet, m_cx, m_cy);
 }
 
 int Cvirtual_image::save_as_png(string fname) const
 {
 	return png_file_write(fname, m_image, m_palet, m_cx, m_cy);
 }
+#endif
 
 void Cvirtual_image::swap_rb()
 {
