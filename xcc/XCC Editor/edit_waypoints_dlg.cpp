@@ -14,8 +14,8 @@ static char THIS_FILE[] = __FILE__;
 // Cedit_waypoints_dlg dialog
 
 
-Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wanted)
-	: CDialog(Cedit_waypoints_dlg::IDD, 0),
+Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wanted):
+	ETSLayoutDialog(Cedit_waypoints_dlg::IDD, 0),
 	m_waypoint_data(level.waypoint_data),	
 	m_selection_wanted(selection_wanted)
 {
@@ -27,7 +27,7 @@ Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wante
 
 void Cedit_waypoints_dlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Cedit_waypoints_dlg)
 	DDX_Control(pDX, IDC_DELETE, m_delete_button);
 	DDX_Control(pDX, IDOK, m_ok_button);
@@ -36,7 +36,7 @@ void Cedit_waypoints_dlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Cedit_waypoints_dlg, CDialog)
+BEGIN_MESSAGE_MAP(Cedit_waypoints_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cedit_waypoints_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList1)
 	ON_BN_CLICKED(IDC_DELETE, OnDelete)
@@ -49,11 +49,18 @@ END_MESSAGE_MAP()
 
 BOOL Cedit_waypoints_dlg::OnInitDialog() 
 {
-	CDialog::OnInitDialog();
+	CreateRoot(HORIZONTAL)
+		<< item(IDC_LIST1, GREEDY)
+		<< (pane(VERTICAL, ABSOLUTE_HORZ)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			<< item(IDC_DELETE, NORESIZE)
+			);
+	ETSLayoutDialog::OnInitDialog();
 
 	m_list.set_full_row_selection();
 
-	m_list.add_column("Index", 0);
+	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 	m_list.add_column("Cell", 1);	
 
 	for (long i = 0; i < 100; i++)
