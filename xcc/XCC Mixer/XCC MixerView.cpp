@@ -806,9 +806,11 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_voc:
 		return d == ft_wav_pcm;
 	case ft_cps:
-	case ft_shp_dune2:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
+		if (d == ft_clipboard)
+			return true;
+	case ft_shp_dune2:
 	case ft_wsa_dune2:
 	case ft_wsa:
 		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
@@ -2789,38 +2791,21 @@ void CXCCMixerView::OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI)
 
 void CXCCMixerView::OnPopupClipboardCopy() 
 {
-	int error = 0;
 	int i = get_current_index();
 	int id = get_current_id();
 	switch (m_index.find(id)->second.ft)
 	{
-	case ft_dds:
-		{
-			Cvirtual_image image = get_vimage(i);
-			image.remove_alpha();
-			image.set_clipboard();
-		}
-		break;
-	case ft_jpeg:
-	case ft_pcx:
-	case ft_png:
-	case ft_tga:
-		get_vimage(i).set_clipboard();
-		break;
 	case ft_shp_ts:
 		{
 			Cshp_ts_file f;
-			error = open_f_id(f, id);
-			if (!error)
-			{
-				Cvirtual_image image;
-				error = f.extract_as_pcx_single(image, get_default_palet(), GetMainFrame()->combine_shadows());
-				if (!error)
-					error = image.set_clipboard();
-				f.close();
-			}
+			f.load(get_vdata(i));
+			Cvirtual_image image;
+			if (!f.extract_as_pcx_single(image, get_default_palet(), GetMainFrame()->combine_shadows()))
+				image.set_clipboard();
 			break;
 		}
+	default:
+		get_vimage(i).set_clipboard();
 	}
 }
 
