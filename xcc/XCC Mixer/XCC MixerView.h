@@ -101,10 +101,6 @@ public:
 	BOOL OnIdle(LONG lCount);
 	t_game get_game();
 	virtual ~CXCCMixerView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 

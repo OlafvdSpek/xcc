@@ -27,16 +27,11 @@ public:
 	//{{AFX_VIRTUAL(CXCCMixerDoc)
 	public:
 	virtual BOOL OnNewDocument();
-	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
 	virtual ~CXCCMixerDoc();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
