@@ -9,9 +9,8 @@ bool Cbmp_file::is_valid() const
 {
 	const byte* s = get_data();
 	int size = get_size();
-	return !(size < 4 
+	return !(size < 2 
 		|| s[0] != 'B'
-		|| s[1] != 'M'
-		|| s[2] != '6' && s[2] != '8');
+		|| s[1] != 'M');
 }
 
