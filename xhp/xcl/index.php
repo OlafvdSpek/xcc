@@ -33,9 +33,12 @@
 	$lid = a2lid($_GET[lid]);
 	if (isset($_GET[js]))
 	{
-		$results = db_query(sprintf("select * from xcl_players where name = \"%s\"", AddSlashes($_GET[pname])));
+		$pnames = explode(",", $_GET[pname]);
+		foreach ($pnames as $key => $pname)
+			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
+		$results = db_query(sprintf("select * from xcl_players where name in (%s)", implode(",", $pnames)));
 		while ($result = mysql_fetch_array($results))
-			printf("document.write(\"<a href=\\\"http://xccu.sourceforge.net/xcl/\\\">XCL</a>: <a href=\\\"http://xccu.sourceforge.net/xcl/?pid=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
+			printf("document.write(\"<a href=\\\"http://xccu.sourceforge.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
 		return;
 	}
 	else if (isset($_GET[pure]))
