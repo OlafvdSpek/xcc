@@ -13,12 +13,12 @@ int Cfile32::open(const Cwin_handle& h)
 	return !is_open();
 }
 
-int Cfile32::open(const string& name, dword access)
+int Cfile32::open(const string& name, int access)
 {
 	return access & GENERIC_WRITE ? open(name, access, CREATE_ALWAYS, 0) : open(name, access, OPEN_EXISTING, FILE_SHARE_READ);
 }
 
-int Cfile32::open(const string& name, dword access, dword creation, dword share)
+int Cfile32::open(const string& name, int access, int creation, int share)
 {
     close();
 	m_h = CreateFile(name.c_str(), access, share, NULL, creation, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -108,7 +108,7 @@ int Cfile32::read(void* data, int size)
 #ifdef _MSC_VER
     if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
         return 1;
-    dword cb_read;
+    DWORD cb_read;
 	if (!ReadFile(h(), data, size, &cb_read, 0) || cb_read != size)
 		return 1;
     m_p += size;
@@ -125,7 +125,7 @@ int Cfile32::write(const void* data, int size)
 #ifdef _MSC_VER
     if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
         return 1;
-    dword cb_write;
+    DWORD cb_write;
 	if (!WriteFile(h(), data, size, &cb_write, 0) || cb_write != size)
 		return 1;
     m_p += size;
@@ -181,7 +181,6 @@ Cvirtual_binary Cfile32::get_mm()
 	Cmemory_map mm(*this);
 	return Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm));
 }
-
 
 Cvirtual_binary file32_read(const string& name)
 {

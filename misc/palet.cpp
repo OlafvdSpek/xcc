@@ -80,7 +80,7 @@ void downsample_image(const t_palet32entry* s, byte* d, int cx, int cy, const t_
 		if (e.a < 0x80)
 			*w++ = 0;
 		else
-			*w++ = find_color(e.r, e.g, e.b, palet);;
+			*w++ = find_color(e.r, e.g, e.b, palet);
 	}
 }
 
@@ -183,7 +183,7 @@ void create_rp(const t_palet s1, const t_palet s2, byte* d)
 {
 	d[0] = 0;
 	for (int i = 1; i < 256; i++)
-		d[i] = find_color(s1[i].r, s1[i].g, s1[i].b, s2);;
+		d[i] = find_color(s1[i].r, s1[i].g, s1[i].b, s2);
 }
 
 void apply_rp(byte* d, int cb_d, const byte* rp)
