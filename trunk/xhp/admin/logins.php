@@ -27,10 +27,10 @@
 		$where = sprintf(" where l.sid = %d", $sid);
 	else
 		$where = "";
-	$results = db_query(sprintf("select name, l.ipa, valid, result, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials using (sid)%s order by time desc%s", $where, $where ? "" : " limit 250"));
+	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials using (sid)%s order by time desc%s", $where, $where ? "" : " limit 250"));
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
-		printf("<tr><td><a href=\"?pname=%s\">%s<td><a href=\"?ipa=%d\">%s</a><td>%d<td>%d<td align=right>%x<td align=right><a href=\"?sid=%d\">%d</a><td>%s", $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[result], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
+		printf("<tr><td><a href=\"?pname=%s\">%s<td><a href=\"?ipa=%d\">%s</a><td>%d<td align=right>%x<td align=right><a href=\"?sid=%d\">%d</a><td>%s", $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
 	echo("</table>");
 	if ($where)
 	{
