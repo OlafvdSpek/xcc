@@ -298,17 +298,18 @@ void aud_encode_ima_chunk(const short* audio_in, byte* audio_out, int& index, in
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-void aud_decode::init()
+void aud_decode::init(int index, int sample)
 {
-	index = sample = 0;
+	m_index = index;
+	m_sample = sample;
 }
 
 void aud_decode::decode_chunk(const byte* audio_in, short* audio_out, int cs_chunk)
 {
-	aud_decode_ima_chunk(audio_in, audio_out, index, sample, cs_chunk);
+	aud_decode_ima_chunk(audio_in, audio_out, m_index, m_sample, cs_chunk);
 }
 
 void aud_decode::encode_chunk(const short* audio_in, byte* audio_out, int cs_chunk)
 {
-	aud_encode_ima_chunk(audio_in, audio_out, index, sample, cs_chunk);
+	aud_encode_ima_chunk(audio_in, audio_out, m_index, m_sample, cs_chunk);
 }
