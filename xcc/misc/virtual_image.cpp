@@ -425,7 +425,7 @@ int Cvirtual_image::set_clipboard() const
 {
 	int error = 0;
 	int cb_line = cx() * cb_pixel();
-	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * cy());
+	void* h_mem = GlobalAlloc(GMEM_MOVEABLE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * cy());
 	if (!h_mem)
 		error = 0x100;
 	else
