@@ -11,6 +11,7 @@
 
 #include "cc_file_sh.h"
 #include "palet.h"
+#include "video_decoder.h"
 
 template <class T>
 class Cvideo_file: public Ccc_file_sh<T>
@@ -29,6 +30,11 @@ public:
 	int cb_video() const
 	{
 		return cf() * cb_image();
+	}
+
+	virtual Cvideo_decoder* decoder()
+	{
+		return NULL;
 	}
 
 	virtual const t_palet_entry* palet() const

@@ -10,7 +10,7 @@
 //
 
 #include "resource.h"
-#include "shp_ts_file.h"
+#include "video_decoder.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cdlg_shp_viewer dialog
@@ -19,11 +19,9 @@ class Cdlg_shp_viewer : public ETSLayoutDialog
 {
 // Construction
 public:
-	int c_frames() const;
-	bool combine_shadows() const;
 	void show_frame();
 	Cvirtual_image decode_image(int i) const;
-	void write(Cvirtual_binary v, const t_palet palet);
+	void write(Cvideo_decoder* decoder, const t_palet palet);
 	Cdlg_shp_viewer(CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
@@ -52,8 +50,7 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	bool m_combine_shadows;
-	Cshp_ts_file m_f;
+	Cvideo_decoder* m_decoder;
 	int m_frame;
 	int m_last_access;
 	t_palet m_palet;
