@@ -11,6 +11,8 @@ static int gsku2lid(int gsku)
 {
 	switch (gsku & ~0xff)
 	{
+	case 0x1200:
+		return 7;
 	case 0x1f00:
 		return 5;
 	case 0x2100:
