@@ -95,6 +95,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	int trny = gr.get_int("trny");
 	if (gr.get_int("dura") < 90
 		|| !lid
+		|| gr.get_int("plrs") != 2
 		|| trny < 1 || trny > 2)
 		return;
 	if (trny == 2)
@@ -194,6 +195,7 @@ void Cxcl_database::create_tables()
 
 void Cxcl_database::drop_tables()
 {
+	query("drop table if exists xcl_clans");
 	query("drop table if exists xcl_games");
 	query("drop table if exists xcl_input");
 	query("drop table if exists xcl_maps");
