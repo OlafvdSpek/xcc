@@ -92,18 +92,6 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\..\misc\blowfish.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\crc.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\edit_basic_dlg.cpp
 # End Source File
 # Begin Source File
@@ -168,18 +156,6 @@ SOURCE=.\energy_status_dlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\file32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\fname.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\id_log.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\list_ctrl_extension.cpp
 # End Source File
 # Begin Source File
@@ -192,47 +168,11 @@ SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\mix_cache.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\object_selection.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\open_from_mix_dlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\palet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_file.cpp
 # End Source File
 # Begin Source File
 
@@ -245,27 +185,11 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\string_conversion.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\timer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\virtual_binary.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\virtual_tfile.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\virtual_tfile_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_file.cpp
 # End Source File
 # Begin Source File
 
@@ -286,14 +210,6 @@ SOURCE=".\XCC EditorView.cpp"
 # Begin Source File
 
 SOURCE=..\misc\xcc_cell_manager.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_draw.cpp
 # End Source File
 # Begin Source File
 
@@ -330,14 +246,6 @@ SOURCE=..\misc\xcc_templates.cpp
 # Begin Source File
 
 SOURCE=..\misc\xcc_units.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xfile32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -386,6 +294,10 @@ SOURCE=.\infantry_properties_dlg.h
 # Begin Source File
 
 SOURCE=.\list_ctrl_extension.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\log_window.h
 # End Source File
 # Begin Source File
 

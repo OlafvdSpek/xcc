@@ -100,8 +100,6 @@ BEGIN_MESSAGE_MAP(CXCCEditorView, CScrollView)
 	ON_COMMAND(ID_POPUP_PROPERTIES, OnPopupProperties)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_PROPERTIES, OnUpdatePopupProperties)
 	ON_WM_LBUTTONUP()
-	ON_COMMAND_RANGE(ID_POPUP_CLEAR_TEMPLATE_LAYER, ID_POPUP_CLEAR_WAYPOINT_LAYER, OnPopupClearLayer)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_CLEAR_TEMPLATE_LAYER, ID_POPUP_CLEAR_WAYPOINT_LAYER, OnUpdatePopupClearLayer)
 	ON_COMMAND(ID_POPUP_FILL_WITH_CELLTRIGGERS, OnPopupFillWithCelltriggers)
 	ON_COMMAND(ID_POPUP_FILL_WITH_TIBERIUM, OnPopupFillWithTiberium)
 	ON_COMMAND(ID_POPUP_FILL_WITH_WATER, OnPopupFillWithWater)
@@ -117,6 +115,7 @@ BEGIN_MESSAGE_MAP(CXCCEditorView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_FILL_WITH_CONCRETE_WALL, OnUpdatePopupFillWithTiberium)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_FILL_WITH_SANDBAG_WALL, OnUpdatePopupFillWithTiberium)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_UPGRADE_TIBERIUM, OnUpdatePopupFillWithTiberium)
+	ON_WM_LBUTTONDBLCLK()
 	//}}AFX_MSG_MAP
 	// Standard printing commands
 	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
@@ -2023,4 +2022,17 @@ void CXCCEditorView::OnToolsEnergyStatus()
 {
 	Cenergy_status_dlg dlg(level());
 	dlg.DoModal();
+}
+
+void CXCCEditorView::OnLButtonDblClk(UINT nFlags, CPoint point) 
+{
+	switch (m_current_object_type)
+	{
+	case oi_infantry:
+	case oi_structure:
+	case oi_unit:
+		OnPopupProperties();
+		break;
+	}
+	CScrollView::OnLButtonDblClk(nFlags, point);
 }
