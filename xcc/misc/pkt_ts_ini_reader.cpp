@@ -88,7 +88,8 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 {
 	CXSTE xste;
 	bool xste_available = !xste.open(game_ra2_yr);
-	string page = "<tr><th>Name<th>Description<th>Gamemode<th>Preview";
+	os << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><link rel=stylesheet href=\"http://xccu.sourceforge.net/xcc.css\"><title>PKT dump</title><table border=1>"
+		<< "<tr><th>Name<th>Description<th>Gamemode<th>Preview";
 	for (t_map_list::const_iterator i = m_map_list.begin(); i != m_map_list.end(); i++)
 	{
 		/*
@@ -112,10 +113,10 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 			if (csf_f.has_name(to_lower(description)))
 				description = csf_f.get_converted_value(to_lower(description));
 		}
-		page += "<tr><td>" + a(i->first, "href=" + i->first + ".html") + "<td>" + description + "<td>" + i->second.m_gamemode + "<td><img src=" + i->first + "_pv.png>";
+		os << "<tr><td>" + a(i->first, "href=" + i->first + ".html") + "<td>" + description + "<td>" + i->second.m_gamemode + "<td><img src=" + i->first + "_pv.png>";
 		// page += "\"" + i->first + "\", " + "\"" + description + "\",\n";
 	}
-	os << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><link rel=stylesheet href=\"http://xccu.sourceforge.net/xcc.css\"><title>PKT dump</title><table border=1>" + page + "</table>";
+	os << "</table>";
 	// os << page;
 	if (xste_available)
 		xste.close();

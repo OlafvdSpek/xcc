@@ -150,15 +150,15 @@ void Cmap_ts_ini_reader::write_report(ostream& os, string fname, const Cmap_ts_e
 {
 	string path = Cfname(fname).get_path();
 	string image_fname = Cfname(fname).get_ftitle();
-	string page;
 	Cvirtual_image preview;
 	preview.load(encoder.preview_pack().data(), m_preview_data.cx, m_preview_data.cy, 3, NULL);
 	preview.save_as_png(path + image_fname + "_pv.png");
 	encoder.create_heightmap().save_as_png(path + image_fname + "_hm.png");
-	page += tr(td("Name:") + td(get_basic_data().name.empty() ? Cfname(fname).get_ftitle() : get_basic_data().name));
-	page += tr(td("Size:") + td(n(get_map_data().size_right) + " x " + n(get_map_data().size_bottom)));
-	page += tr(td("Max players:") + td(n(max_players())));
-	page += tr(td("Preview:") + td("<img src=" + image_fname + "_pv.png>"));
-	page += tr(td("Height map:") + td("<img src=" + image_fname +"_hm.png>"));
-	os << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1")));
+	os << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><link rel=stylesheet href=\"http://xccu.sourceforge.net/xcc.css\"><title>Map dump</title><table border=1>"
+		<< "<tr><td>Name:<td>" << (get_basic_data().name.empty() ? Cfname(fname).get_ftitle() : get_basic_data().name)
+		<< "<tr><td>Size:<td>" << get_map_data().size_right << " x " << get_map_data().size_bottom
+		<< "<tr><td>Max players:<td>" << max_players()
+		<< "<tr><td>Preview:<td><img src=" << image_fname << "_pv.png>"
+		<< "<tr><td>Height map:<td><img src=" << image_fname << "_hm.png>"
+		<< "</table>";
 }
