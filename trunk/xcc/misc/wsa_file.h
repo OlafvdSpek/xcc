@@ -14,11 +14,14 @@
 #include "fname.h"
 #include "palet.h"
 #include "video_file.h"
+#include "virtual_image.h"
 
 class Cwsa_file: public Cvideo_file<t_wsa_header>
 {
 public:
+	void decode(void* d) const;
 	int extract_as_pcx(const Cfname& name, t_file_type ft) const;
+	Cvirtual_image vimage() const;
 
 	bool is_valid() const
 	{
@@ -73,7 +76,7 @@ public:
 
 	int get_cb_palet() const
 	{
-		return has_palet() ? sizeof(t_palet) : 0;
+		return palet() ? sizeof(t_palet) : 0;
 	}
 
 	const byte* get_frame(int i) const
@@ -91,19 +94,16 @@ public:
 		return get_index()[i] + get_cb_palet();
     }
 
-    const t_palet_entry* get_palet() const
+    const t_palet_entry* palet() const
     {
-        return reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_wsa_header) + get_cb_index());
+        return get_index()[cf() + has_loop()] != get_size() 
+			? reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_wsa_header) + get_cb_index()) 
+			: NULL;
     }
 
 	bool has_loop() const
 	{
 		return get_index()[cf() + 1];
-	}
-
-	bool has_palet() const
-	{
-		return get_index()[cf() + has_loop()] != get_size();
 	}
 };
 
