@@ -402,6 +402,10 @@ SOURCE=..\misc\tmp_ts_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\video_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\virtual_audio.cpp
 # End Source File
 # Begin Source File

@@ -10,16 +10,23 @@
 #endif // _MSC_VER > 1000
 
 #include <string>
-#include "cc_file_sh.h"
 #include "cc_structures.h"
 #include "palet.h"
+#include "video_file.h"
 #include "virtual_file.h"
 
 using namespace std;
 
-class Cimage_file  
+template <class T>
+class Cimage_file: public Cvideo_file<T>
 {
 public:
+	virtual void decode(void*) const = 0;
+
+	int cf() const
+	{
+		return 1;
+	}
 };
 
 int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
