@@ -826,7 +826,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_wsa_dune2:
 		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
 	case ft_shp:
-		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
+		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
 	case ft_shp_ts:
 		return d == ft_clipboard || d == ft_jpeg || d == ft_jpeg_single || d == ft_pcx || d == ft_pcx_single || d == ft_png || d == ft_png_single || d == ft_tga || d == ft_tga_single;
 	case ft_text:
