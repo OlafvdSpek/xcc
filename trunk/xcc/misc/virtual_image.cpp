@@ -64,7 +64,7 @@ int Cvirtual_image::load(const Cvirtual_file& f)
 	return load(f.read());
 }
 
-int Cvirtual_image::load(string fname)
+int Cvirtual_image::load(const string& fname)
 {
 	Cvirtual_binary s;
 	int error = s.import(fname);
@@ -74,7 +74,7 @@ int Cvirtual_image::load(string fname)
 }
 
 #ifdef JPEG_SUPPORT
-int Cvirtual_image::load_as_jpeg(string fname)
+int Cvirtual_image::load_as_jpeg(const string& fname)
 {
 	Cjpeg_file f;
 	int error = f.open(fname);
@@ -87,7 +87,7 @@ int Cvirtual_image::load_as_jpeg(string fname)
 }
 #endif
 
-int Cvirtual_image::load_as_pcx(string fname)
+int Cvirtual_image::load_as_pcx(const string& fname)
 {
 	Cpcx_file f;
 	int error = f.open(fname);
@@ -104,7 +104,7 @@ int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
 	return image_file_write(f, ft, image(), palet(), m_cx, m_cy);
 }
 
-int Cvirtual_image::save(string fname, t_file_type ft) const
+int Cvirtual_image::save(const string& fname, t_file_type ft) const
 {
 	return image_file_write(fname, ft, image(), palet(), m_cx, m_cy);
 }
@@ -115,7 +115,7 @@ int Cvirtual_image::save_as_jpeg(Cvirtual_file& f, int q ) const
 	return jpeg_file_write(f, image(), palet(), m_cx, m_cy, q);
 }
 
-int Cvirtual_image::save_as_jpeg(string fname, int q) const
+int Cvirtual_image::save_as_jpeg(const string& fname, int q) const
 {
 	return jpeg_file_write(fname, image(), palet(), m_cx, m_cy, q);
 }
@@ -126,7 +126,7 @@ void Cvirtual_image::save_as_pcx(Cvirtual_file& f) const
 	pcx_file_write(f, image(), palet(), m_cx, m_cy);
 }
 
-int Cvirtual_image::save_as_pcx(string fname) const
+int Cvirtual_image::save_as_pcx(const string& fname) const
 {
 	return pcx_file_write(fname, image(), palet(), m_cx, m_cy);
 }
@@ -137,7 +137,7 @@ int Cvirtual_image::save_as_png(Cvirtual_file& f) const
 	return png_file_write(f, image(), palet(), m_cx, m_cy);
 }
 
-int Cvirtual_image::save_as_png(string fname) const
+int Cvirtual_image::save_as_png(const string& fname) const
 {
 	return png_file_write(fname, image(), palet(), m_cx, m_cy);
 }
