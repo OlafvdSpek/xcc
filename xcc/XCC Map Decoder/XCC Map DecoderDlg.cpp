@@ -59,9 +59,17 @@ BOOL CXCCMapDecoderDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	// TODO: Add extra initialization here
+	/*
+	HINSTANCE hin = AfxGetInstanceHandle();
+	HRSRC rc = FindResource(hin, MAKEINTRESOURCE(IDR_PALET), "Binary");
+	HGLOBAL hgl = LoadResource(NULL, rc);
+	int cb_data = SizeofResource(NULL, rc);	
+	const byte* data = static_cast<const byte*>(LockResource(hgl));	
+	m_palet.write(data, cb_data);
+	FreeResource(hgl);
+	*/
 	
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return true;
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -133,16 +141,16 @@ void CXCCMapDecoderDlg::convert(string _fname)
 				string title = fname.get_ftitle();
 				strstream ini, pkt;
 				Cmix_file_write mmx_f;
-				Cmap_ts_encoder::write_map(ini, k);
+				Cmap_ts_encoder::write_map(ini, k, m_palet);
 				Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
-				mmx_f.add_file(title + ".map", ini.str(), ini.pcount());
-				mmx_f.add_file(title + ".pkt", pkt.str(), pkt.pcount());
-				error = mmx_f.write(fname);
+				mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
+				mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
+				error = mmx_f.write().export(fname);
 			}
 			else
 			{
 				fname.set_ext(".mpr");				
-				Cmap_ts_encoder::write_map(ofstream(static_cast<string>(fname).c_str()), k);
+				Cmap_ts_encoder::write_map(ofstream(static_cast<string>(fname).c_str()), k, m_palet);
 			}
 		}
 		f.close();

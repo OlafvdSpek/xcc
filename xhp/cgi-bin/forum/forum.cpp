@@ -33,7 +33,8 @@ enum t_action
 {
 	a_none, a_admin_login, a_admin_logout, a_ban_ip, a_disable_html_msg, a_edit_msg, a_enable_html_msg, a_import_into_cookie, a_post_msg,
 	a_post_msg_submit, a_preferences_submit, a_set_msg_score, a_set_user_score, a_show_banned_msgs, a_show_index,
-	a_show_ip, a_show_ladder, a_show_msg, a_show_newest_msgs, a_show_news, a_show_preferences, a_show_removed_msgs, a_show_user, a_unban_ip
+	a_show_ip, a_show_ladder, a_show_msg, a_show_newest_msgs, a_show_news, a_show_preferences, a_show_removed_msgs, 
+	a_show_user, a_unban_ip, a_lock_msg, a_unlock_msg
 };
 
 enum t_config_text
@@ -46,6 +47,7 @@ enum t_config_text
 	ci_use_mail_notification,
 	ci_use_ladder,
 	ci_use_smilies,
+	ci_flood_limit,
 	ci_unknown,
 	ct_base_url = ci_unknown,
 	ct_css_url,
@@ -98,6 +100,7 @@ t_config_entry config[] =
 	{"use_mail_notification", ci_use_mail_notification, "1"},
 	{"use_ladder", ci_use_ladder, "1"},
 	{"use_smilies", ci_use_smilies, "1"},
+	{"flood_limit", ci_flood_limit, "15"},
 	{"base_url", ct_base_url, "http://xcc.tiberian.com/"},
 	{"css_url", ct_css_url, "/forum.css"},
 	{"forum_mail", ct_forum_mail, "Forum"},
@@ -105,7 +108,7 @@ t_config_entry config[] =
 	{"home_dir", ct_home_dir, "~/"},
 	{"private_dir", ct_private_dir, "data/forum/"},
 	{"public_dir", ct_public_dir, "htdocs/forum/"},
-	{"ct_public_url", ct_public_url, "/forum/"},
+	{"public_url", ct_public_url, "/forum/"},
 	{"send_mail_cmd", ct_send_mail_cmd, "/usr/sbin/sendmail -oi -t"},
 	{"ht_index", ht_index, "Forum"},
 	{"ht_ladder", ht_ladder, "Ladder"},
@@ -300,6 +303,7 @@ enum t_msg_flags
 	mf_signature = 0x200,
 	mf_enable_smilies = 0x400,
 	mf_parent = 0x800,
+	mf_locked = 0x1000,
 	mf_old = mf_mail | mf_link_once | mf_link_title | mf_link | mf_remote_addr | mf_notify_mail
 };
 
@@ -399,6 +403,7 @@ void send_mail(const string& from, const string& to, const string& subject, cons
 	{
 		fprintf(mail, "To: %s\n", to.c_str());
 		fprintf(mail, "From: %s\n", from.c_str());
+		// if (!subject.empty())
 		fprintf(mail, "Subject: %s\n", subject.c_str());
 		fputs(body.c_str(), mail);
 		pclose(mail);
@@ -532,9 +537,63 @@ int write_topics()
 	return 0;
 }
 
+bool bad_upper(const string& v, int limit)
+{
+	if (v.length() < limit)
+		return false;
+	int c = 0;
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (v[i] != tolower(v[i]))
+			c++;
+	}
+	return c << 1 > v.length();
+}
+
+/*
+string remove_cr(string v)
+{
+	int i;
+	while (i = v.find('\r'), i != string::npos)
+	{
+		v.erase(i);
+	}
+	return v;
+}
+*/
+
+int get_c_lines(const string& v, bool ignore_quotes = false)
+{
+	int r = 0;
+	int l = 0;
+	while (l < v.length())
+	{
+		int p = v.find('\n', l);
+		string line;
+		if (p == string::npos)
+		{
+			line = v.substr(l);
+			p = v.length();
+		}
+		else
+			line = v.substr(l, p - l);
+		if (ignore_quotes)
+		{
+			// line = remove_cr(line);
+			trim(line);
+			if (!line.empty() && line.find(">") != 0)
+				r++;
+		}
+		else
+			r++;
+		l = p + 1;
+	}
+	return r;
+}
+
 bool is_complete()
 {
-	return cgi.has_value("name") && cgi.has_value("subject") && cgi.has_value("body") && cgi.get_value("name").length() < 32 && cgi.get_value("subject").length() < 72;
+	return cgi.has_value("name") && cgi.has_value("subject") && cgi.has_value("body") && cgi.get_value("name").length() < 32 && cgi.get_value("subject").length() < 72 && get_c_lines(cgi.get_value("body"), true);
 }
 
 Chtml check_required(const string& name)
@@ -1158,6 +1217,12 @@ Chtml show_thread(int slot, int level, int last_date)
 	return r;
 }
 
+Chtml html_size_stats()
+{
+	int topic_size = sizeof(t_topic) * topics.size();
+	return "Size: " +  n(topic_names.size() + topic_subjects.size() + topic_size) + " (" + n(topic_names.size()) + ", " + n(topic_subjects.size()) + ", " + n(topic_size) + ")";
+}
+
 Chtml forum()
 {
 	open_topic_f(false);
@@ -1169,7 +1234,8 @@ Chtml forum()
 		get_bottom(br("Count messages: " + n(static_cast<int>(topics.size()))) +
 			br("Count threads: " + n(static_cast<int>(reverse_topics[0].size()))) +
 			br("Current time: " + cnv_date(get_time())) +
-			br("Last msg time: " + cnv_date(get_thread_date(0))));
+			br("Last msg time: " + cnv_date(get_thread_date(0)))
+			+ br(html_size_stats()));
 	return r;
 }
 
@@ -1213,6 +1279,19 @@ string trim_white(string r)
 	return r;
 }
 
+Chtml page_bad_upper(Cstrings& strings, int limit)
+{
+	Chtml page;
+	int o = 0;
+	while (o < strings.size())
+	{
+		string subject = strings.get_string(o);
+		o += subject.length() + 1;
+		page += tr(bad_upper(subject, limit) ? td("&nbsp;") + td(subject) : td(subject) + td("&nbsp;"));
+	}
+	return table(tr(th("Good") + th("Bad")) + page, "border=1 width=100%");
+}
+
 Chtml ladder()
 {
 	if (!config_int[ci_use_ladder])
@@ -1220,6 +1299,7 @@ Chtml ladder()
 	open_topic_f(false);
 	if (read_topics())
 		return "Error: unable to read topics\n";
+	return page_bad_upper(topic_names, 8) + hr() + page_bad_upper(topic_subjects, 16);
 	typedef map<string, t_ladder_entry> t_poster_list;
 	t_poster_list poster_list;
 	for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
@@ -1419,8 +1499,9 @@ Chtml preferences()
 			br("<input type=checkbox name=show_date" + checked_text(user_preferences.show_date) + "> Show when a message is posted") +
 			br("<input type=checkbox name=show_updated_by" + checked_text(user_preferences.show_updated_by) + "> Show by who a topic is updated") +
 			br("<input type=checkbox name=show_updated_on" + checked_text(user_preferences.show_updated_on) + "> Show when a topic is updated") +
-			br("Field length: <input type=text name=field_length size=3 maxlength=3 value=" + n(get_field_length()) + "> characters ") +
-			br("Time offset: <input type=text name=time_offset size=3 maxlength=3 value=" + n(get_time_offset()) + "> hours ") +
+			br("Field length: <input type=text name=field_length size=3 maxlength=3 value=" + n(get_field_length()) + "> characters") +
+			br("Newest limit: <input type=text name=newest_limit size=3 maxlength=3 value=" + n(user_preferences.newest_limit) + "> hours") +
+			br("Time offset: <input type=text name=time_offset size=3 maxlength=3 value=" + n(get_time_offset()) + "> hours") +
 			p("<input type=submit value=Submit>"), "action=" + cgi.get_url() + " method=get") +
 		get_bottom("");
 }
@@ -1434,25 +1515,6 @@ Chtml page_preferences_submit()
 	user_preferences.process(cgi, cookie);
 	location = cgi.get_value("location");
 	return page_forward();
-}
-
-int get_c_lines(const string& v)
-{
-	int r = 0;
-	bool e = true;
-	for (int i = 0; i < v.length(); i++)
-	{
-		if (v[i] == '\n')
-		{
-			e = true;
-			r++;
-		}
-		else
-			e = false;
-	}
-	if (!e)
-		r++;
-	return r;
 }
 
 Chtml show_msg(int slot, bool allow_reply)
@@ -1493,6 +1555,11 @@ Chtml show_msg(int slot, bool allow_reply)
 			d += an_self("Disable HTML", a_disable_html_msg, "slot=" + n(slot));
 		else
 			d += an_self("Enable HTML", a_enable_html_msg, "slot=" + n(slot));
+		d += " | ";
+		if (msg.flags & mf_locked)
+			d += an_self("Unlock", a_unlock_msg, "slot=" + n(slot));
+		else
+			d += an_self("Lock", a_lock_msg, "slot=" + n(slot));
 		int score = topics[slot].score;
 		r += p(table(tr(td(br("Host: " + web_encode(get_host_name(msg.remote_addr))) + br("IP: " + ip2a(msg.remote_addr)) + br("Score: " + n(score) + " " + an_set_msg_score("+", slot, score + 1) + " " + an_set_msg_score("-", slot, score - 1)), "valign=bottom") + td(an_self("Edit", a_edit_msg, "slot=" + n(slot)) + " | " + d + " | " + an_self("Index", a_show_user, "name=" + uri_encode(msg.name)), "align=right valign=bottom")), "width=100%"));
 	}
@@ -1505,7 +1572,13 @@ Chtml show_msg(int slot, bool allow_reply)
 			hr() +
 			table(tr(thread_header(false)) + thread);
 	}
-	if (allow_reply)
+	if (msg.flags & mf_locked)
+	{
+		r +=
+			hr() +
+			br("This message/thread has been locked.");
+	}
+	else if (allow_reply)
 	{
 		r +=
 			hr() +
@@ -1525,7 +1598,7 @@ Chtml show_msg(int slot, bool allow_reply)
 		+ get_bottom("");
 }
 
-Chtml page_enable_html_msg(int slot, int v)
+Chtml page_set_mf(int slot, int add, int remove)
 {
 	if (!admin)
 		return page_admin_login();
@@ -1534,10 +1607,8 @@ Chtml page_enable_html_msg(int slot, int v)
 	t_msg msg;
 	if (read_msg(slot, msg))
 		return "Error: unable to read message " + n(slot) + "\n";
-	if (v)
-		msg.flags |= mf_allow_html;
-	else
-		msg.flags &= ~mf_allow_html;
+	msg.flags |= add;
+	msg.flags &= ~remove;
 	if (write_msg(slot, msg))
 		return "Error: unable to write message\n";
 	location = get_env("HTTP_REFERER");
@@ -1601,18 +1672,34 @@ Chtml post_msg_submit()
 {
 	if (!is_complete())
 		return post_msg();
+	t_msg msg = get_msg_input();
 	int slot = cgi.get_value_int("slot");
 	bool edit = admin && slot;
-	if (!edit)
+	if (edit)
+	{
+		t_msg old_msg;
+		if (!read_msg(slot, old_msg))
+			msg.flags |= old_msg.flags & (mf_allow_html | mf_locked);
+	}
+	else
 	{
 		open_topic_f(true);
 		if (read_topics())
 		{
 			return "Error: unable to read topics\n";
 		}
+		int current_date = get_time();
+		for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
+		{
+			const t_topic& topic = i->second;
+			if (current_date - topic.date > config_int[ci_flood_limit])
+				break;
+			if (topic.remote_addr != msg.remote_addr)
+				continue;
+			return "Error: flood protection, last message: " + an_show_msg(web_encode(topic.subject()), i->first);
+		}
 		slot = get_next_slot();
 	}
-	t_msg msg = get_msg_input();
 	if (write_msg(slot, msg))
 		return "Error: unable to write message\n";
 	if (!edit)
@@ -1633,12 +1720,13 @@ Chtml post_msg_submit()
 		{
 			if (config_int[ci_use_icq_notification] && parent_msg.uin && parent_msg.flags & mf_notify_icq)
 			{
-				string icq_msg = "Somebody replied to your message on " + config_string[ct_forum_title] + "\n"
+				string icq_msg = msg.name + " replied to " + parent_msg.subject + " on " + config_string[ct_forum_title] + "\n"
 					+ "<a href=" + cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(slot) + ">msg</a>";
 				// send_icq_msg("", 0, "", "");
 				// send_mail(forum_mail, n(parent_msg.uin) + "@pager.icq.com", "Forum reply notification", icq_msg);
 				// send_mail(forum_mail, "OvdSpek@LIACS.NL", "Forum reply notification", icq_msg);
 				send_mail(config_string[ct_forum_mail], n(parent_msg.uin) + "@pager.icq.com", "Forum reply notification", icq_msg);
+				// send_mail(config_string[ct_forum_mail], n(parent_msg.uin) + "@pager.icq.com", "", icq_msg);
 			}
 			if (config_int[ci_use_mail_notification] && !parent_msg.mail.empty() && parent_msg.flags & mf_notify_mail)
 			{
@@ -1685,8 +1773,10 @@ Chtml page_show_newest_messages()
 	for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
 	{
 		const t_topic& topic = i->second;
-		if (topic.hidden() || current_date - topic.date > 3600)
+		if (topic.hidden())
 			continue;
+		if (current_date - topic.date > 3600 * user_preferences.newest_limit)
+			break;
 		Chtml r;
 		if (user_preferences.show_date)
 			r += td(cnv_date(topic.date), "nowrap");
@@ -1702,7 +1792,8 @@ Chtml page_show_newest_messages()
 		+ get_bottom(br("Count messages: " + n(static_cast<int>(topics.size())))
 			+ br("Count threads: " + n(static_cast<int>(reverse_topics[0].size())))
 			+ br("Current time: " + cnv_date(get_time()))
-			+ br("Last msg time: " + cnv_date(get_thread_date(0))));
+			+ br("Last msg time: " + cnv_date(get_thread_date(0)))
+			+ br(html_size_stats()));
 }
 
 Chtml page_show_news()
@@ -1843,13 +1934,16 @@ int main()
 						page = page_admin_logout();
 						break;
 					case a_disable_html_msg:
-						page = page_enable_html_msg(slot, false);
+						page = page_set_mf(slot, 0, mf_allow_html);
 						break;
 					case a_edit_msg:
 						page = page_edit_msg(slot);
 						break;
 					case a_enable_html_msg:
-						page = page_enable_html_msg(slot, true);
+						page = page_set_mf(slot, mf_allow_html, 0);
+						break;
+					case a_lock_msg:
+						page = page_set_mf(slot, mf_locked, 0);
 						break;
 					case a_set_msg_score:
 						page = page_set_msg_score(slot, cgi.get_value_int("score"));
@@ -1868,6 +1962,9 @@ int main()
 						break;
 					case a_show_user:
 						page = page_show_user(cgi.get_value("name"));
+						break;
+					case a_unlock_msg:
+						page = page_set_mf(slot, 0, mf_locked);
 						break;
 					default:
 						page = forum();

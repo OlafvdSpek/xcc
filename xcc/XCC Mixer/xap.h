@@ -11,21 +11,19 @@
 
 #include <mmsystem.h>
 #include <dsound.h>
+#include "virtual_binary.h"
 
 class Cxap  
 {
 public:
-	Cxap();
-	virtual ~Cxap();
 	bool busy();
-	int load(const byte* s, int cb_s);
+	int load(const Cvirtual_binary s);
 	int play(bool start_thread = true);
 	void ds(LPDIRECTSOUND ds);
 private:
 	static unsigned int play(void* p);
 
-	byte* m_s;
-	int mcb_s;
+	Cvirtual_binary m_s;
 	LPDIRECTSOUND m_ds;
 };
 

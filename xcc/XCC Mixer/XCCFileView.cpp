@@ -311,7 +311,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_aud:
 			{
 				Caud_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				draw_info("Audio:", n(f.get_samplerate()) + " hz, " + n(f.get_cb_sample() << 3) + " bit, " + (f.get_c_channels() == 1 ? "mono" : "stereo"));
 				draw_info("Count samples:", n(f.get_c_samples()));
 				draw_info("Compression:", nh(2, f.get_header()->compression));
@@ -320,7 +320,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_cps:
 			{
 				Ccps_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				draw_info("Palet:", f.has_palet() ? "yes" : "no");
 				m_y += m_y_inc;
 				byte* image = new byte[320 * 200];
@@ -334,7 +334,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_fnt:
 			{
 				Cfnt_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_chars = f.get_c_chars();
 				const t_fnt_header& header = *f.get_header();
 				draw_info("Count chars:", n(c_chars));
@@ -367,7 +367,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_jpeg:
 			{
 				Cjpeg_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				Cvirtual_image image;
 				if (!f.decode(image))
 				{
@@ -390,7 +390,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_map_td:
 			{
 				Cvirtual_tfile tf;
-				tf.load_data(m_data, m_size);
+				tf.load_data(m_data);
 				Cmap_td_ini_reader ir;
 				while (!tf.eof())
 				{
@@ -405,7 +405,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_map_ra:
 			{
 				Cvirtual_tfile tf;
-				tf.load_data(m_data, m_size);
+				tf.load_data(m_data);
 				Cmap_ra_ini_reader ir;
 				while (!tf.eof())
 				{
@@ -420,7 +420,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_map_ts:
 			{
 				Cvirtual_tfile tf;
-				tf.load_data(m_data, m_size);
+				tf.load_data(m_data);
 				Cmap_ts_ini_reader ir;
 				while (!tf.eof())
 				{
@@ -486,7 +486,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_pcx:
 			{
 				Cpcx_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_planes = f.get_c_planes();;
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
@@ -510,7 +510,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_png:
 			{
 				Cpng_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				Cvirtual_image image;
 				if (!f.decode(image))
 				{
@@ -533,7 +533,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_shp_dune2:
 			{
 				Cshp_dune2_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_images = f.get_c_images();
 				draw_info("Count images:", n(c_images));
 				draw_info("Offset size:", n(f.get_cb_ofs()));
@@ -563,7 +563,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_shp:
 			{
 				Cshp_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_images = f.get_c_images();
 				int cx = f.get_cx();
 				int cy = f.get_cy();
@@ -589,7 +589,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_shp_ts:
 			{
 				Cshp_ts_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_images = f.get_c_images();
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
@@ -623,7 +623,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_theme_ini_ts:
 			{
 				Cvirtual_tfile tf;
-				tf.load_data(m_data, m_size);
+				tf.load_data(m_data);
 				Ctheme_ts_ini_reader ir;
 				while (!tf.eof())
 				{
@@ -657,7 +657,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_tmp:
 			{
 				Ctmp_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_tiles = f.get_c_tiles();
 				draw_info("Count tiles:", n(c_tiles));
 				m_y += m_y_inc;
@@ -675,7 +675,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_tmp_ra:
 			{
 				Ctmp_ra_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_tiles = f.get_c_tiles();
 				const int cx = f.get_cblocks_x();
 				const int cy = f.get_cblocks_y();
@@ -716,7 +716,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_tmp_ts:
 			{
 				Ctmp_ts_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_tiles = f.get_c_tiles();
 				draw_info("Count tiles:", n(c_tiles));
 				draw_info("Size:", n(f.get_cblocks_x()) + " x " + n(f.get_cblocks_y()));
@@ -769,7 +769,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_voc:
 			{
 				Cvoc_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				draw_info("Audio:", n(f.get_samplerate()) + " hz, 8 bit, mono");
 				draw_info("Count samples:", n(f.get_c_samples()));
 				break;
@@ -777,7 +777,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_vqa:
 			{
 				Cvqa_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				draw_info("Version:", n(f.get_header()->version));
 				draw_info("Video flags:", nh(4, f.get_header()->video_flags));
 				draw_info("Count frames:", n(f.get_c_frames()));
@@ -790,7 +790,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				m_y += m_y_inc;
 				Cvxl_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				int vxl_mode = GetMainFrame()->get_vxl_mode();
 				load_color_table(get_default_palet(), true);
 				for (int i = 0; i < f.get_c_section_headers(); i++)
@@ -945,7 +945,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_wav:
 			{
 				Cwav_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				if (!f.process())
 				{
 					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
@@ -958,7 +958,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_wsa_dune2:
 			{
 				Cwsa_dune2_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_frames = f.get_c_frames();
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
@@ -987,7 +987,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		case ft_wsa:
 			{
 				Cwsa_file f;
-				f.load(m_data, m_cb_data);
+				f.load(m_data);
 				const int c_frames = f.get_c_frames();
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
@@ -1024,7 +1024,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			case ft_pal:
 				{
 					Cpal_file f;
-					f.load(m_data, m_cb_data);
+					f.load(m_data);
 					m_y += m_y_inc;
 					const t_palet_entry* palet = f.get_palet();
 					for (int i = 0; i < 256; i++)
@@ -1036,7 +1036,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			case ft_pkt_ts:
 				{
 					Cpkt_ts_ini_reader ir;
-					ir.process(m_data, m_size);
+					ir.process(m_data);
 					const Cpkt_ts_ini_reader::t_map_list& ml = ir.get_map_list();
 					draw_info("Count maps:", n(ml.size()));
 					m_y += m_y_inc;
@@ -1049,7 +1049,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			case ft_sound_ini_ts:
 				{
 					Csound_ts_ini_reader ir;
-					ir.process(m_data, m_size);
+					ir.process(m_data);
 					const Csound_ts_ini_reader::t_sound_list& sl = ir.get_sound_list();
 					draw_info("Count sounds:", n(sl.size()));
 					m_y += m_y_inc;
@@ -1071,7 +1071,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			case ft_st:
 				{
 					Cst_file f;
-					f.load(m_data, m_cb_data);
+					f.load(m_data);
 					const int c_strings = f.get_c_strings();
 					draw_info("Count strings", n(c_strings));
 					m_y += m_y_inc;
@@ -1086,7 +1086,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				{
 					m_y += m_y_inc;
 					Cvirtual_tfile tf;
-					tf.load_data(m_data, m_cb_data);
+					tf.load_data(m_data);
 					while (!tf.eof())
 						draw_info(tf.read_line(), "");
 					break;
@@ -1095,10 +1095,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				{
 					m_y += m_y_inc;
 					Cxif_key key;
-					if (!key.load_key(m_data, m_cb_data))
+					if (!key.load_key(m_data))
 					{
 						strstream s;
-						key.dump(s, true);
+						key.dump(s, m_data.size() < 1 << 20);
 						string line;
 						while (getline(s, line))
 						{
@@ -1111,15 +1111,15 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				if (show_binary)
 				{
 					m_y += m_y_inc;
-					if (m_cb_data > 32 * 1024)
-						m_cb_data = 32 * 1024;
-					for (int r = 0; r < m_cb_data; )
+					if (m_data.size() > 32 * 1024)
+						m_data.size(32 * 1024);
+					for (int r = 0; r < m_data.size(); )
 					{
 						string line = nwzl(5, r) + ' ';
 						int line_data[16];
 						for (int c = 0; c < 16; c++)
 						{
-							line_data[c] = r < m_cb_data ? m_data[r] : -1;
+							line_data[c] = r < m_data.size() ? m_data.data()[r] : -1;
 							r++;
 						}
 						for (c = 0; c < 16; c++)
@@ -1199,9 +1199,8 @@ void CXCCFileView::post_open(Ccc_file& f)
 		m_ft = f.get_file_type(false);
 		m_size = f.get_size();
 		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
-		m_cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
-		m_data = new byte[m_cb_data];
-		f.read(m_data, m_cb_data);
+		int cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
+		f.read(m_data.write_start(cb_data), cb_data);
 		f.close();
 		m_text_cache_valid = false;
 		m_is_open = true;
@@ -1214,7 +1213,6 @@ void CXCCFileView::close_f()
 {
 	m_is_open = false;
 	m_text_cache.clear();
-	delete[] m_data;
 }
 
 BOOL CXCCFileView::OnIdle(LONG lCount)

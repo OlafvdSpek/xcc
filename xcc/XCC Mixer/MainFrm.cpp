@@ -347,7 +347,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game)
 	if (!dir.empty())
 	{
 		WIN32_FIND_DATA fd;
-		HANDLE findhandle = FindFirstFile((dir + "*.m?x").c_str(), &fd);
+		HANDLE findhandle = FindFirstFile((dir + "*.mix").c_str(), &fd);
 		if (findhandle != INVALID_HANDLE_VALUE)
 		{
 			do

@@ -17,31 +17,14 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Cxap::Cxap()
-{
-	m_s = NULL;
-}
-
-Cxap::~Cxap()
-{
-	delete[] m_s;
-}
-
 bool Cxap::busy()
 {
-	return m_s;
+	return m_s.data();
 }
 
-int Cxap::load(const byte* s, int cb_s)
+int Cxap::load(const Cvirtual_binary s)
 {
-	delete[] m_s;
-	m_s = new byte[cb_s];
-	mcb_s = cb_s;
-	memcpy(m_s, s, cb_s);
+	m_s = s;
 	return 0;
 }
 
@@ -57,14 +40,13 @@ int Cxap::play(bool start_thread)
 		AfxBeginThread(play, this);
 		return 0;
 	}
-	byte* s = m_s;
-	int cb_s = mcb_s;
-	m_s = NULL;
+	Cvirtual_binary s = m_s;
+	m_s.clear();
 
 	int error = 0;
 	HRESULT dsr;
 	Ccc_file f(true);
-	f.load(s, cb_s);
+	f.load(s);
 	t_file_type ft = f.get_file_type();
 
 	int c_channels;
@@ -77,7 +59,7 @@ int Cxap::play(bool start_thread)
 	case ft_aud:
 		{
 			Caud_file f;
-			f.load(s, cb_s);
+			f.load(s);
 			c_channels = 1;
 			cb_sample = f.get_cb_sample();
 			c_samples = f.get_c_samples();
@@ -87,7 +69,7 @@ int Cxap::play(bool start_thread)
 	case ft_voc:
 		{
 			Cvoc_file f;
-			f.load(s, cb_s);
+			f.load(s);
 			c_channels = 1;
 			cb_sample = 1;
 			c_samples = f.get_c_samples();
@@ -97,7 +79,7 @@ int Cxap::play(bool start_thread)
 	case ft_wav:
 		{
 			Cwav_file f;
-			f.load(s, cb_s);
+			f.load(s);
 			if (f.process())
 				error = 0x105;
 			else
@@ -160,7 +142,7 @@ int Cxap::play(bool start_thread)
 			case ft_aud:
 				{
 					Caud_file f;
-					f.load(s, cb_s);
+					f.load(s);
 					int chunk_i = 0;
 					int cs_remaining = c_samples;
 					aud_decode decode;
@@ -179,14 +161,14 @@ int Cxap::play(bool start_thread)
 			case ft_voc:
 				{
 					Cvoc_file f;
-					f.load(s, cb_s);
+					f.load(s);
 					memcpy(p1, f.get_sound_data(), cb_audio);
 					break;
 				}
 			case ft_wav:
 				{
 					Cwav_file f;
-					f.load(s, cb_s);
+					f.load(s);
 					f.process();
 					switch (f.get_format_chunk().tag)
 					{
@@ -211,8 +193,6 @@ int Cxap::play(bool start_thread)
 				error = 0x104;
 			else
 			{
-				delete[] s;
-				s = NULL;
 				dword status;
 				while (dsr = dsb->GetStatus(&status), DS_OK == dsr && status & DSBSTATUS_PLAYING)
 				{
@@ -223,8 +203,6 @@ int Cxap::play(bool start_thread)
 			}
 		}
 	}
-	delete[] s;
-	s = NULL;
 	return error;
 }
 

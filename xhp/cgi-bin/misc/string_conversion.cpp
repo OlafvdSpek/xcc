@@ -124,27 +124,28 @@ string nh(int l, int v)
 
 bool is_white(char v)
 {
-        switch (v)
-        {
-		case '\n':
-        case '\t':
-        case ' ':
-                return true;
-        default:
-                return false;
-        }
+	switch (v)
+	{
+	case '\t':
+	case '\n':
+	case '\r':
+	case ' ':
+		return true;
+	default:
+		return false;
+	}
 }
 
 void ltrim(string& s)
 {
-        while (!s.empty() && is_white(s[0]))
-                s.erase(0, 1);
+	while (!s.empty() && is_white(s[0]))
+		s.erase(0, 1);
 }
 
 void rtrim(string& s)
 {
-        while (!s.empty() && is_white(s[s.length() - 1]))
-                s.erase(s.length() - 1, 1);
+	while (!s.empty() && is_white(s[s.length() - 1]))
+		s.erase(s.length() - 1, 1);
 }
 
 string to_lower(const string& s)

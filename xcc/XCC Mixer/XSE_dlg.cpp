@@ -135,16 +135,15 @@ BOOL CXSE_dlg::OnInitDialog()
 		throw;
 	if (m_bag_f.get_size() && m_idx_f.get_size())
 	{
+		Cvirtual_binary s;
 		int cb_s = m_idx_f.get_size();
-		byte* s = new byte[cb_s];
-		error = m_idx_f.read(s, cb_s);
+		error = m_idx_f.read(s.write_start(cb_s), cb_s);
 		if (!error)
 		{
 			Caudio_idx_file g;
-			g.load(s, cb_s);
+			g.load(s);
 			read_idx_file(g);
 		}
-		delete[] s;
 	}
 	else
 	{
@@ -277,37 +276,33 @@ void CXSE_dlg::OnPlay()
 	{
 		assert(!e.chunk_size);
 		int cb_d = sizeof(t_wav_header) + e.size;
-		byte* d = new byte[cb_d];
-		byte* w = d;
+		Cvirtual_binary d;
+		byte* w = d.write_start(cb_d);
 		int c_channels = e.flags & 1 ? 2 : 1;
 		int c_samples = e.size / c_channels >> 1;
 		w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 		m_bag_f.seek(e.offset);
-		if (!m_bag_f.read(w, e.size) && !m_xap.load(d, cb_d))
+		if (!m_bag_f.read(w, e.size) && !m_xap.load(d))
 			m_xap.play();
-		delete[] d;
 	}
 	else 
 	{
 		assert(e.flags & 8);
-		int cb_s = e.size;
-		byte* s = new byte[cb_s];
+		Cvirtual_binary s;
 		m_bag_f.seek(e.offset);
-		if (!m_bag_f.read(s, e.size))
+		if (!m_bag_f.read(s.write_start(e.size), e.size))
 		{
 			Cima_adpcm_wav_decode decode;
-			decode.load(s, cb_s, c_channels, e.chunk_size);
+			decode.load(s.data(), s.size(), c_channels, e.chunk_size);
 			int c_samples = decode.c_samples() / c_channels;
 			int cb_d = sizeof(t_wav_header) + (c_channels * c_samples << 1);
-			byte* d = new byte[cb_d];
-			byte* w = d;
+			Cvirtual_binary d;
+			byte* w = d.write_start(cb_d);
 			w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 			memcpy(w, decode.data(), c_channels * c_samples << 1);
-			if (!m_xap.load(d, cb_d))
+			if (!m_xap.load(d))
 				m_xap.play();			
-			delete[] d;
 		}
-		delete[] s;
 	}
 }
 

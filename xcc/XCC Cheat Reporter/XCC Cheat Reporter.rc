@@ -142,7 +142,7 @@ BEGIN
                     ES_READONLY | WS_VSCROLL | WS_HSCROLL
     EDITTEXT        IDC_GAME_ID,132,126,64,13,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Send to Westwood Studios",IDC_SEND_WS,"Button",
-                    BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,207,97,102,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,207,97,102,10
     CONTROL         "Send to XCC Home Page",IDC_SEND_XHP,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,169,111,96,10
 END

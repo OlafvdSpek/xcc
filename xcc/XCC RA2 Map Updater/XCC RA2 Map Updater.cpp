@@ -99,7 +99,7 @@ int CXCCRA2MapUpdaterApp::update()
 			}
 			f->Close();
 			Cvirtual_tfile f;
-			f.load_data(s.c_str(), s.length());
+			f.load_data(Cvirtual_binary(s.c_str(), s.length()));
 			while (!f.eof())
 			{
 				Cmulti_line l = f.read_line();
@@ -195,7 +195,7 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 void CXCCRA2MapUpdaterApp::create()
 {
 	const string in_dir = xcc_dirs::get_dir(game_ra2);
-	const string out_dir = "j:/xhp/ra2_maps/";
+	const string out_dir = "c:/xhp/ra2_maps/";
 	WIN32_FIND_DATA fd;
 	HANDLE findhandle = FindFirstFile((in_dir + "*.mmx").c_str(), &fd);
 	if (findhandle != INVALID_HANDLE_VALUE)
@@ -211,8 +211,8 @@ void CXCCRA2MapUpdaterApp::create()
 				Cxif_key k;
 				Cxif_key& l = k.open_key_write(0);
 				l.set_value_string(vi_fname, title + ".mmx");
-				l.set_value_binary(vi_fdata, fdata.data(), fdata.size());
-				k.save(out_dir + title + ".xmuf");
+				l.set_value_binary(vi_fdata, fdata);
+				k.vdata().export(out_dir + title + ".xmuf");
 				f << title << "=,http://xcc.tiberian.com/ra2_maps/" << title << ".xmuf" << endl;
 			}
 		}

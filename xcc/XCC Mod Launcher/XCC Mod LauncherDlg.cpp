@@ -67,14 +67,10 @@ static int load_banner(Cvirtual_image& image)
 	HINSTANCE hin = AfxGetInstanceHandle();
 	HRSRC rc = FindResource(hin, MAKEINTRESOURCE(IDR_BANNER), "Binary");
 	HGLOBAL hgl = LoadResource(NULL, rc);
-	int cb_data = SizeofResource(NULL, rc);	
-	const byte* data = static_cast<const byte*>(LockResource(hgl));	
-
 	Cjpeg_file f;
-	f.load(data, cb_data);
-	int error = !f.is_valid() || f.decode(image);
+	f.load(Cvirtual_binary(static_cast<const byte*>(LockResource(hgl)), SizeofResource(NULL, rc)));
 	FreeResource(hgl);
-	return error;
+	return !f.is_valid() || f.decode(image);
 }
 
 HBITMAP CXCCModLauncherDlg::create_bitmap(Cvirtual_image& image)
@@ -405,7 +401,7 @@ void CXCCModLauncherDlg::OnButtonUpdate()
 		}
 		f->Close();
 		Cvirtual_tfile f;
-		f.load_data(s.c_str(), s.length());
+		f.load_data(Cvirtual_binary(s.c_str(), s.length()));
 		error = 2;
 		while (!f.eof())
 		{

@@ -2340,7 +2340,7 @@ void CXCCMixerView::OnPopupPlay()
 	if (!open_f_index(f, get_current_index()))
 	{
 		m_xap.ds(GetMainFrame()->get_ds());
-		m_xap.load(f.get_data(), f.get_size());
+		m_xap.load(f.get_vdata());
 		f.close();
 		m_xap.play();
 	}
@@ -2742,7 +2742,6 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 {
 	if (m_reading)
 	{
-		int count = 16;
 		for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
 		{
 			t_index_entry& e = i->second;
@@ -2767,8 +2766,7 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 				lvf.lParam = i->first;
 				lc.Update(lc.FindItem(&lvf, -1));
 				m_sort_column = -1;
-				if (!count--)
-					return true;
+				return true;
 			}
 		}
 		sort_list(0, false);

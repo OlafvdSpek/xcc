@@ -127,9 +127,9 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 	else
 	{
 		int cb_s = ar.GetFile()->GetLength();
-		byte* s = new byte[cb_s];
+		Cvirtual_binary s;
 		Ctmp_ts_file f;
-		if (ar.Read(s, cb_s) != cb_s)
+		if (ar.Read(s.write_start(cb_s), cb_s) != cb_s)
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 		f.load(s, cb_s);
 		if (!f.is_valid())
@@ -166,7 +166,6 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 			else
 				load_temperate_palet();
 		}
-		delete[] s;
 	}
 }
 

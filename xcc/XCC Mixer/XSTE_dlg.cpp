@@ -163,10 +163,6 @@ int CXSTE_dlg::insert(int id)
 {
 	int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
 	m_list.SetItemData(index, id);
-	/*
-	m_list.SetItemText(index, 1, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 2, LPSTR_TEXTCALLBACK);
-	*/
 	return index;
 }
 
@@ -186,8 +182,8 @@ void CXSTE_dlg::check_selection()
 void CXSTE_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	if (pNMListView->uNewState & LVIS_FOCUSED)
-		check_selection();
+	// if (pNMListView->uNewState & LVIS_FOCUSED)
+	check_selection();
 	*pResult = 0;
 }
 

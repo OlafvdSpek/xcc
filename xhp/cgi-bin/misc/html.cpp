@@ -135,9 +135,9 @@ Chtml html(const Chtml& v)
 	return tag_dm("html", v);
 }
 
-Chtml body(const Chtml& v, const string& elements)
+Chtml body(const Chtml& v)
 {
-	return tag_dm("body", v, elements);
+	return tag_dm("body", v);
 }
 
 Chtml head(const Chtml& v)
@@ -149,14 +149,14 @@ Chtml head_xcc()
 {
 	return tag_dm("head", 
 		"<base href=http://xcc.tiberian.com/>\n" 
-		"<link rel=stylesheet href=/xcc.css>\n");
+		"<link rel=stylesheet href=xcc.css>\n");
 }
 
 Chtml head_xcc(const string& t)
 {
 	return tag_dm("head", 
 		"<base href=http://xcc.tiberian.com/>\n" 
-		"<link rel=stylesheet href=/xcc.css>\n" +
+		"<link rel=stylesheet href=xcc.css>\n" +
 		title(t));
 }
 

@@ -55,14 +55,8 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		Cxif_key k = m_mod.save(false);
-		if (k.save_start())
-			AfxThrowArchiveException(CArchiveException::generic, ar.m_strFileName);
-		else
-		{
-			ar.Write(k.key_data(), k.key_size());
-			k.save_finish();
-		}
+		Cvirtual_binary d = m_mod.save(false).vdata();
+		ar.Write(d.data(), d.size());
 	}
 	else
 	{
@@ -89,14 +83,7 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 
 int CXCCModCreatorDoc::export(string fname)
 {
-	Cxif_key k = m_mod.save(true);
-	int error = k.save_start();
-	if (!error)
-	{
-		error = file32_write(fname, k.key_data(), k.key_size());
-		k.save_finish();
-	}
-	return error;
+	return m_mod.save(true).vdata().export(fname);
 }
 
 /////////////////////////////////////////////////////////////////////////////
