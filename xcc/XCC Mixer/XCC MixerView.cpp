@@ -264,7 +264,7 @@ void CXCCMixerView::OnFileNew()
 	const char* save_filter = "Red Alert MIXs (*.mix)|*.mix|Tiberian Sun MIXs (*.mix)|*.mix|Red Alert 2 MIXs (*.mix)|*.mix|Renegade MIXs (*.mix)|*.mix|Generals BIGs (*.big)|*.big|";
 
 	close_all_locations();
-	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
+	CFileDialog dlg(false, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
 	dlg.m_ofn.nFilterIndex = 3;
 	if (IDOK == dlg.DoModal())
 	{
@@ -2928,7 +2928,7 @@ int CXCCMixerView::get_paste_fname(string& fname, t_file_type ft, const char* fi
 {
 	int id = get_current_id();
 	bool replace = id != -1 && m_index.find(id)->second.ft == ft;
-	CFileDialog dlg(false, "", replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
+	CFileDialog dlg(false, NULL, replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
 	if (!replace)
 		dlg.m_ofn.lpstrInitialDir = m_dir.c_str();
 	if (IDOK == dlg.DoModal())
