@@ -350,32 +350,32 @@
 	}
 	else if (isset($_GET[stats]))
 	{
-		$results = db_query(sprintf("select gsku, count(*) as count from xcl_games group by gsku order by count desc"));
+		$results = db_query("select gsku, count(*) as count from xcl_games group by gsku order by count desc");
 		echo("<table><tr><th>Games<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku order by count desc"));
+		$results = db_query("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku order by count desc");
 		echo("<table><tr><th>Players<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc"));
+		$results = db_query("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc");
 		echo("<table><tr><th>Clans<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select cty, count(*) as count from xcl_games_players group by cty order by count desc"));
+		$results = db_query("select cty, count(*) as count from xcl_games_players group by cty order by count desc");
 		echo("<table><tr><th>Count<th>Country");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, xcl_games.scen as scen_fname, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc"));
+		$results = db_query("select ifnull(xcl_maps.name, xcl_games.scen) as scen, xcl_games.scen as scen_fname, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc");
 		echo("<table><tr><th>Count<th>Scenario");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
 		echo("</table><hr>");
-		$results = db_query(sprintf("select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura order by dura"));
+		$results = db_query("select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura order by dura");
 		echo("<table><tr><th>Count<th>Duration");
 		while ($result = mysql_fetch_array($results))
 		{
@@ -386,7 +386,7 @@
 				echo("< 5");
 		}
 		echo("</table><hr>");
-		$results = db_query(sprintf("select afps, count(*) as count from xcl_games group by afps order by afps"));
+		$results = db_query("select afps, count(*) as count from xcl_games group by afps order by afps");
 		echo("<table><tr><th>Count<th>Average FPS");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%d", $result[count], $result[afps]);
