@@ -16,13 +16,13 @@
 bool g_enable_log = false;
 bool xcc_dirs::m_use_external_files = true;
 static string dune2_dir;
-string xcc_dirs::td_primary_dir;
-string xcc_dirs::td_secondary_dir;
-string xcc_dirs::cd_dir;
-string xcc_dirs::data_dir;
-string xcc_dirs::ra_dir;
+static string td_primary_dir;
+static string td_secondary_dir;
+static string cd_dir;
+static string data_dir;
+static string ra_dir;
 static string dune2000_dir;
-string xcc_dirs::ts_dir;
+static string ts_dir;
 static string ra2_dir;
 static string rg_dir;
 static string gr_dir;
@@ -428,4 +428,19 @@ string xcc_dirs::find_file(Cfname s)
 bool xcc_dirs::is_available(t_game game)
 {
 	return Cfname(get_exe(game)).exists();
+}
+
+const string& xcc_dirs::get_td_secondary_dir()
+{
+	return td_secondary_dir;
+}
+
+const string& xcc_dirs::get_cd_dir()
+{
+	return cd_dir;
+}
+
+const string& xcc_dirs::get_data_dir()
+{
+	return data_dir;
 }

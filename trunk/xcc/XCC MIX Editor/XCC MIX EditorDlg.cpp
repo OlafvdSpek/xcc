@@ -694,7 +694,7 @@ const char* all_filter = "All files (*.*)|*.*|";
 void CXCCMIXEditorDlg::OnButtonInsert() 
 {
 	CFileDialog dlg(true, NULL, 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, all_filter, this);
-	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_td_primary_dir().c_str();
+	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_dir(game_td).c_str();
 	if (IDOK == dlg.DoModal())
 		add_file(static_cast<string>(dlg.GetPathName()));
 }
