@@ -35,7 +35,7 @@ void Cxif_key::load_old(const byte*& data)
 		int count = read_int(data);
 		while (count--)
 		{
-			Cxif_key& i = set_key(*reinterpret_cast<const int*>(data));
+			Cxif_key& i = set_key(read_int(data));
 			i.load_old(data);
 		}
 	}

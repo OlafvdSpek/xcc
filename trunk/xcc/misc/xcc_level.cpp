@@ -862,14 +862,14 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 	while (!f.eof())
 	{
 		line_i++;
-		xstring s = f.read_line();
+		string s = f.read_line();
 		int pos = s.find(';');
 		if (pos != -1)
 			s.erase(pos, s.npos);
-		s.trim();
+		trim(s);
+		s = to_lower(s);
 		if (s.empty())
 			continue;
-		s.tolower();
 		try
 		{
 			if (is_section_start(s))
@@ -883,9 +883,9 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 				int pos = s.find('=');
 				if (pos == -1)
 					throw Cxcc_level_warning_ignored();
-				xstring a = s.substr(0, pos), b = s.substr(pos + 1, s.npos);
-				a.trim();
-				b.trim();
+				string a = s.substr(0, pos), b = s.substr(pos + 1, s.npos);
+				trim(a);
+				trim(b);
 				switch (section)
 				{
 				case si_basic:
