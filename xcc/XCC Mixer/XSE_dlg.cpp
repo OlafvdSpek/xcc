@@ -30,7 +30,7 @@ static CMainFrame* GetMainFrame()
 	return static_cast<CMainFrame*>(AfxGetMainWnd());
 }
 
-CXSE_dlg::CXSE_dlg(t_game game, bool expansion, CWnd* pParent /*=NULL*/)
+CXSE_dlg::CXSE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSE_dlg::IDD, pParent, "XSE_dlg")
 {
 	//{{AFX_DATA_INIT(CXSE_dlg)
@@ -38,7 +38,6 @@ CXSE_dlg::CXSE_dlg(t_game game, bool expansion, CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
 	m_ds = GetMainFrame()->get_ds();
-	m_expansion = expansion;
 	m_game = game;
 	m_xap.ds(m_ds);
 }
@@ -112,9 +111,9 @@ BOOL CXSE_dlg::OnInitDialog()
 		m_list.InsertColumn(i, &lvc);
 	}
 
-	string audio_mix_fname = xcc_dirs::get_audio_mix(m_game, m_expansion);
-	string csf_fname = xcc_dirs::get_csf_fname(m_game, m_expansion);
-	string language_fname = xcc_dirs::get_language_mix(m_game, m_expansion);
+	string audio_mix_fname = xcc_dirs::get_audio_mix(m_game);
+	string csf_fname = xcc_dirs::get_csf_fname(m_game);
+	string language_fname = xcc_dirs::get_language_mix(m_game);
 	int error = m_csf_f.open(xcc_dirs::get_ra2_dir() + csf_fname);
 	if (error)
 	{

@@ -132,6 +132,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_RA2, OnUpdateLaunchXSTE_RA2)
 	ON_COMMAND(ID_LAUNCH_XSTE_RA2_YR, OnLaunchXSTE_RA2_YR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_RA2_YR, OnUpdateLaunchXSTE_RA2_YR)
+	ON_COMMAND(ID_LAUNCH_XTW_RA2_YR, OnLaunchXTW_RA2_YR)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_RA2_YR, OnUpdateLaunchXTW_RA2_YR)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1193,7 +1195,7 @@ void CMainFrame::OnUpdateLaunchXSTE(CCmdUI* pCmdUI)
 
 void CMainFrame::OnLaunchXSTE_RA2() 
 {
-	CXSTE_dlg dlg(game_ra2, false);
+	CXSTE_dlg dlg(game_ra2);
 	dlg.DoModal();
 }
 
@@ -1204,18 +1206,18 @@ void CMainFrame::OnUpdateLaunchXSTE_RA2(CCmdUI* pCmdUI)
 
 void CMainFrame::OnLaunchXSTE_RA2_YR() 
 {
-	CXSTE_dlg dlg(game_ra2, true);
+	CXSTE_dlg dlg(game_ra2_yr);
 	dlg.DoModal();
 }
 
 void CMainFrame::OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(Cfname(xcc_dirs::get_main_mix(game_ra2, true)).exists());
+	pCmdUI->Enable(Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists());
 }
 
 void CMainFrame::OnLaunchXSE() 
 {
-	CXSE_dlg dlg(game_ra2, Cfname(xcc_dirs::get_main_mix(game_ra2, true)).exists());
+	CXSE_dlg dlg(Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists() ? game_ra2_yr : game_ra2);
 	dlg.DoModal();
 }
 
@@ -1320,16 +1322,17 @@ void CMainFrame::OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());	
 }
 
-void CMainFrame::OnLaunchXTW_RA2() 
+void CMainFrame::launch_xtw(t_game game)
 {
 	Cmix_file ra2;
-	if (!ra2.open("ra2.mix"))
+	if (!ra2.open(xcc_dirs::get_main_mix(game)))
 	{
 		Cmix_file local;
-		if (!local.open("local.mix", ra2))
+		if (!local.open(xcc_dirs::get_local_mix(game), ra2))
 		{
 			Ccc_file theme(true);
-			if (!theme.open("theme.ini", local))
+			string theme_ini_fname = game == game_ra2 ? "theme.ini" : "thememd.ini";
+			if (!theme.open(theme_ini_fname, local))
 			{
 				Ctheme_ts_ini_reader ir;
 				if (!ir.process(theme.get_data(), theme.get_size()))
@@ -1341,7 +1344,7 @@ void CMainFrame::OnLaunchXTW_RA2()
 					if (findhandle != INVALID_HANDLE_VALUE)
 					{
 						CXSTE xste;
-						bool xste_open = !xste.open();
+						bool xste_open = !xste.open(game);
 						do
 						{
 							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -1377,7 +1380,7 @@ void CMainFrame::OnLaunchXTW_RA2()
 						}
 						FindClose(findhandle);
 					}
-					ofstream g((dir + "theme.ini").c_str());
+					ofstream g((dir + theme_ini_fname).c_str());
 					g << "[Themes]" << endl;
 					int j = 51;
 					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
@@ -1398,9 +1401,9 @@ void CMainFrame::OnLaunchXTW_RA2()
 						g << endl;
 					}
 					if (g.fail())
-						MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
+						MessageBox(("Error writing " + theme_ini_fname + ".").c_str(), NULL, MB_ICONERROR);
 					else
-						MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
+						MessageBox((n(theme_list.size()) + " themes have been written to " + theme_ini_fname + ".").c_str());
 				}
 				theme.close();
 			}
@@ -1410,9 +1413,24 @@ void CMainFrame::OnLaunchXTW_RA2()
 	}
 }
 
+void CMainFrame::OnLaunchXTW_RA2() 
+{
+	launch_xtw(game_ra2);
+}
+
 void CMainFrame::OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+}
+
+void CMainFrame::OnLaunchXTW_RA2_YR() 
+{
+	launch_xtw(game_ra2_yr);
+}
+
+void CMainFrame::OnUpdateLaunchXTW_RA2_YR(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(Cfname(xcc_dirs::get_language_mix(game_ra2_yr)).exists());
 }
 
 CXCCMixerView* CMainFrame::left_mix_pane()
@@ -1465,5 +1483,3 @@ void CMainFrame::OnUpdateViewReport(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!OnIdle(0));
 }
-
-

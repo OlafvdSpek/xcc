@@ -20,14 +20,13 @@ static char THIS_FILE[] = __FILE__;
 // CXSTE_dlg dialog
 
 
-CXSTE_dlg::CXSTE_dlg(t_game game, bool expansion, CWnd* pParent /*=NULL*/)
+CXSTE_dlg::CXSTE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSTE_dlg::IDD, pParent, "XSTE_dlg")
 {
 	//{{AFX_DATA_INIT(CXSTE_dlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
-	m_expansion = expansion;
 	m_game = game;
 }
 
@@ -91,14 +90,14 @@ BOOL CXSTE_dlg::OnInitDialog()
 		lvc.pszText = column_label[i];
 		m_list.InsertColumn(i, &lvc);
 	}
-	int error = m_f.open(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game, m_expansion));
+	int error = m_f.open(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game));
 	if (error)
 	{
 		Cmix_file language;
-		error = language.open(xcc_dirs::get_language_mix(m_game, m_expansion));
+		error = language.open(xcc_dirs::get_language_mix(m_game));
 		if (!error)
 		{
-			error = m_f.open(xcc_dirs::get_csf_fname(m_game, m_expansion), language);
+			error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
 			language.close();
 		}
 	}
@@ -296,7 +295,7 @@ void CXSTE_dlg::OnOK()
 	int cb_d = m_f.get_write_size();
 	byte* d = new byte[cb_d];
 	m_f.write(d);
-	file32_write(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game, m_expansion), d, cb_d);
+	file32_write(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game), d, cb_d);
 	delete[] d;
 }
 

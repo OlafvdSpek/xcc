@@ -157,7 +157,7 @@ SOURCE="..\..\xhp\cgi-bin\misc\web_tools.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE=.\xap.cpp
+SOURCE=..\misc\xap.cpp
 # End Source File
 # Begin Source File
 
@@ -322,10 +322,6 @@ SOURCE=..\misc\virtual_image.h
 # Begin Source File
 
 SOURCE="..\..\..\XCC Home Page\cgi-bin\misc\web_tools.h"
-# End Source File
-# Begin Source File
-
-SOURCE=.\xap.h
 # End Source File
 # Begin Source File
 
