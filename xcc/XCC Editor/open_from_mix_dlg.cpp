@@ -185,13 +185,6 @@ void Copen_from_mix_dlg::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 void Copen_from_mix_dlg::OnOK() 
 {
-	LV_ITEM item_data;
-	item_data.mask = LVIF_TEXT;
-	item_data.iItem = m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
-	item_data.iSubItem = 1;
-	char s[256];
-	item_data.pszText = s;
-	m_list.GetItem(&item_data);
-	selected_fname = s;
+	selected_fname = m_list.GetItemText(m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED), 1);
 	CDialog::OnOK();
 }

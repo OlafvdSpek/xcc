@@ -72,7 +72,7 @@ BOOL Cedit_structure_properties_dlg::OnInitDialog()
 		m_combo_side.SetItemData(m_combo_side.AddString(side_code[i]), i);
 	}
 	
-	m_edit_type = xcc_structures::structure_data[m_d.t].long_name;
+	m_edit_type = xcc_structures::structure_data[m_d.t].long_name.c_str();
 	m_combo_side.SelectString(-1, side_code[m_d.side]);
 	m_edit_cell = static_cast<string>(Cxcc_cell(m_d.cell)).c_str();
 	m_edit_health = m_d.health;

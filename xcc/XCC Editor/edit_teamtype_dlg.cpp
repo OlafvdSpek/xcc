@@ -103,13 +103,13 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 		const xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)
 		{
-			index = m_combo_object.AddString(id.long_name);
+			index = m_combo_object.AddString(id.long_name.c_str());
 			m_combo_object.SetItemData(index, i);
 		}
 		const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 		if (ud.flags & ud_flags_in_use)
 		{
-			index = m_combo_object.AddString(ud.long_name);
+			index = m_combo_object.AddString(ud.long_name.c_str());
 			m_combo_object.SetItemData(index, 0x80 | i);
 		}
 	}

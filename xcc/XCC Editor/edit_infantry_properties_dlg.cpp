@@ -74,7 +74,7 @@ BOOL Cedit_infantry_properties_dlg::OnInitDialog()
 		m_combo_action.SetItemData(m_combo_action.AddString(action_code[i]), i);
 	}
 
-	m_edit_type = xcc_infantry::infantry_data[m_d.t].long_name;
+	m_edit_type = xcc_infantry::infantry_data[m_d.t].long_name.c_str();
 	m_combo_side.SelectString(-1, side_code[m_d.side]);
 	m_edit_cell = static_cast<string>(m_d.cell).c_str();
 	m_edit_health = m_d.health;
