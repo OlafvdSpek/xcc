@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Universal Container Reader.h"
 #include "formats_dlg.h"
 
 #ifdef _DEBUG
@@ -38,7 +37,6 @@ BEGIN_MESSAGE_MAP(Cformats_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cformats_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
-	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -54,7 +52,6 @@ BOOL Cformats_dlg::OnInitDialog()
 	const char* column_label[] = {"Name", "Extensions"};
 
 	m_list.SetRedraw(false);
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	for (int i = 0; i < c_colums; i++)
 		m_list.InsertColumn(i, column_label[i], LVCFMT_LEFT, -1, i);
 	{
@@ -67,10 +64,7 @@ BOOL Cformats_dlg::OnInitDialog()
 				m_list.SetItemState(index, LVNI_FOCUSED | LVNI_SELECTED, LVNI_FOCUSED | LVNI_SELECTED);
 		}
 	}
-	{
-		for (int i = 0; i < c_colums; i++)
-			m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
+	m_list.auto_size();
 	m_list.SetRedraw(true);
 	
 	CreateRoot(VERTICAL)
@@ -104,15 +98,4 @@ void Cformats_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 	if ((m_format = m_list.GetNextItem(-1, LVNI_SELECTED)) != -1)
 		EndDialog(IDOK);	
 	*pResult = 0;
-}
-
-void Cformats_dlg::OnSize(UINT nType, int cx, int cy) 
-{
-	ETSLayoutDialog::OnSize(nType, cx, cy);
-	
-	if (m_list.GetSafeHwnd())
-	{
-		for (int i = 0; i < c_colums; i++)
-			m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
 }

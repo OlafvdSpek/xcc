@@ -4,15 +4,12 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// format_edit_dlg.h : header file
-//
 
-/////////////////////////////////////////////////////////////////////////////
-// Cformat_edit_dlg dialog
+#include "resource.h"
+#include "ucr_format.h"
 
 class Cformat_edit_dlg : public ETSLayoutDialog
 {
-// Construction
 public:
 	void update_vars();
 	void set(const Cucr_format& v);
@@ -22,8 +19,8 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Cformat_edit_dlg)
 	enum { IDD = IDD_FORMAT };
-	CListCtrl	m_vars;
-	CListCtrl	m_blocks;
+	CListCtrlEx	m_vars;
+	CListCtrlEx	m_blocks;
 	CString	m_extensions;
 	CString	m_name;
 	CString	m_registry_keys;
@@ -43,7 +40,6 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(Cformat_edit_dlg)
 	virtual BOOL OnInitDialog();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnGetdispinfoBlocks(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnGetdispinfoVars(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnItemchangedBlocks(NMHDR* pNMHDR, LRESULT* pResult);

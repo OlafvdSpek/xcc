@@ -8,7 +8,9 @@
 // formats_dlg.h : header file
 //
 
+#include "resource.h"
 #include "string_conversion.h"
+#include "ucr_formats.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cformats_dlg dialog
@@ -32,7 +34,7 @@ public:
 	//{{AFX_DATA(Cformats_dlg)
 	enum { IDD = IDD_FORMATS };
 	CButton	m_ok_button;
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	//}}AFX_DATA
 
 
@@ -52,7 +54,6 @@ protected:
 	afx_msg void OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult);
 	virtual void OnOK();
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
