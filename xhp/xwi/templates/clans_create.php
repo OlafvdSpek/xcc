@@ -7,8 +7,11 @@
 			<td align=right>Player pass:
 			<td><input type=password name=pass maxlength=8>
 		<tr>
+			<td align=right>Clan abbreviation:
+			<td><input type=text name=cabbrev maxlength=6 value="<?php echo(htmlspecialchars($cabbrev))?>">
+		<tr>
 			<td align=right>Clan name:
-			<td><input type=text name=cname maxlength=6 value="<?php echo(htmlspecialchars($cname))?>">
+			<td><input type=text name=cname maxlength=32 value="<?php echo(htmlspecialchars($cname))?>">
 		<tr>
 			<td align=right>ICQ:
 			<td><input type=text name=icq maxlength=15 value="<?php echo(htmlspecialchars($icq))?>">
