@@ -40,11 +40,10 @@ int Cmix_rg_edit::open(const string& name)
 		if (!error)
 		{
 			Cmix_rg_file f;
-			error = f.attach(m_f.h());
+			error = f.open(m_f.h());
 			if (!error)
 			{				
 				m_index = f.index();
-				f.detach();
 				m_index_size = 4 + sizeof(t_mix_rg_index_entry) * m_index.size();
 				m_tailer_size = 4 + 2 * m_index.size();
 				for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
