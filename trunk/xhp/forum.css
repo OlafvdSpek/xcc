@@ -1,0 +1,7 @@
+@import url(/xcc.css);
+p.signature {color: yellow}
+span.name {color: yellow}
+span.status {color: yellow}
+span.subject {color: yellow}
+span.quote {color: purple}
+td {white-space: nowrap}
