@@ -13,6 +13,7 @@
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 #include <palet.h>
+#include "pcx_decode.h"
 
 class Cpcx_file: public Ccc_file_sh<t_pcx_header>  
 {
@@ -46,6 +47,11 @@ public:
 		return get_header()->c_planes;
 	}
 
+	void decode(byte* d) const
+	{
+		pcx_decode(get_image(), d, *get_header());
+	}
+	
 	const byte* get_image() const
 	{
 		return get_data() + sizeof(t_pcx_header);
