@@ -19,15 +19,3 @@ void Cpcx_file::decode(Cvirtual_image& d) const
 	d.load(image, cx(), cy(), c_planes, c_planes == 1 ? *get_palet() : NULL);
 	delete[] image;
 }
-
-#ifdef PNG_SUPPORT
-int Cpcx_file::extract_as_png(const string& name) const
-{
-	const int c_planes = get_c_planes();
-	byte* image = new byte[cx() * cy() * c_planes];
-	pcx_decode(get_image(), image, *get_header());
-	int error = png_file_write(name, image, c_planes == 1 ? *get_palet() : NULL, cx(), cy());
-	delete[] image;
-	return error;
-}
-#endif

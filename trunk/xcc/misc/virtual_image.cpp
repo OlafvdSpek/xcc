@@ -7,11 +7,13 @@
 #ifdef __AFX_H__
 #include <afxdlgs.h>
 #endif
+#include "dds_file.h"
 #include "image_file.h"
 #include "jpeg_file.h"
 #include "pcx_file.h"
 #include "pcx_file_write.h"
 #include "png_file.h"
+#include "tga_file.h"
 #include "virtual_image.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -36,6 +38,7 @@ void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const
 int Cvirtual_image::load(const Cvirtual_binary s)
 {
 	int error = 0;
+	Cdds_file dds_f;
 #ifdef JPEG_SUPPORT
 	Cjpeg_file jpeg_f;
 #endif
@@ -43,6 +46,10 @@ int Cvirtual_image::load(const Cvirtual_binary s)
 #ifdef PNG_SUPPORT
 	Cpng_file png_f;
 #endif
+	Ctga_file tga_f;
+	if (dds_f.load(s), dds_f.is_valid())
+		*this = dds_f.vimage();
+	else 
 #ifdef JPEG_SUPPORT
 	if (jpeg_f.load(s), jpeg_f.is_valid())
 		error = jpeg_f.decode(*this);
@@ -54,6 +61,8 @@ int Cvirtual_image::load(const Cvirtual_binary s)
 	else if (png_f.load(s), png_f.is_valid())
 		error = png_f.decode(*this);
 #endif
+	else if (tga_f.load(s), tga_f.is_valid())
+		error = tga_f.decode(*this);
 	else
 		error = 0x100;
 	return error;
@@ -280,7 +289,8 @@ void Cvirtual_image::add_alpha()
 
 void Cvirtual_image::remove_alpha()
 {
-	assert(cb_pixel() == 4);
+	if (cb_pixel() != 4)
+		return;
 	Cvirtual_binary t = m_image;
 	load(NULL, cx(), cy(), 3, NULL);
 	int count = m_cx * m_cy;
