@@ -77,7 +77,7 @@ IDR_MAINFRAME MENU PRELOAD DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
-        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&New...\tCtrl+N",             ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
         MENUITEM "Close\tCtrl+C",               ID_FILE_CLOSE
         MENUITEM "Create SFL",                  ID_FILE_CREATE_SFL
@@ -311,31 +311,31 @@ CAPTION "Resize"
 FONT 8, "MS Sans Serif"
 BEGIN
     EDITTEXT        IDC_RELATIVE_CX,43,49,46,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_RELATIVE_CY,131,49,46,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_RELATIVE_CY,131,49,42,13,ES_AUTOHSCROLL | ES_NUMBER
     CONTROL         "Maintain aspect ratio",IDC_MAINTAIN_ASPECT_RATIO,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,11,76,81,10
-    DEFPUSHBUTTON   "OK",IDOK,3,93,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,125,93,50,14
+                    BS_AUTOCHECKBOX | WS_TABSTOP,4,83,81,10
+    DEFPUSHBUTTON   "OK",IDOK,74,93,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,130,93,50,14
     EDITTEXT        IDC_CX,43,16,46,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_CY,131,16,46,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_CY,131,16,42,13,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Width:",IDC_STATIC,12,49,22,13
     LTEXT           "Height:",IDC_STATIC,98,49,24,13
-    GROUPBOX        "Percentage of original",IDC_STATIC,5,35,181,31
+    GROUPBOX        "Percentage of original",IDC_STATIC,4,35,176,31
     LTEXT           "Width:",IDC_STATIC,12,16,22,13
     LTEXT           "Height:",IDC_STATIC,98,16,24,13
-    GROUPBOX        "Pixel size",IDC_STATIC,5,2,181,31
+    GROUPBOX        "Pixel size",IDC_STATIC,4,2,176,31
 END
 
 IDD_SEARCH_FILE DIALOG DISCARDABLE  0, 0, 123, 143
 STYLE DS_MODALFRAME | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Find file"
+CAPTION "Search file"
 FONT 8, "MS Sans Serif"
 BEGIN
     EDITTEXT        IDC_FILENAME,45,7,77,14,ES_AUTOHSCROLL
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOCOLUMNHEADER | 
                     WS_BORDER | WS_TABSTOP,11,52,44,25
-    DEFPUSHBUTTON   "Find",IDOK,9,100,50,14
+    DEFPUSHBUTTON   "Search",IDOK,9,100,50,14
     PUSHBUTTON      "Close",IDCANCEL,68,122,50,14
     LTEXT           "Filename:",IDC_FILENAME_STATIC,7,7,31,8
 END
@@ -441,6 +441,17 @@ BEGIN
                     ES_READONLY | ES_NUMBER
 END
 
+IDD_NEW_CONTAINER DIALOG DISCARDABLE  0, 0, 186, 47
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "New container"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,75,26,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,26,50,14
+    COMBOBOX        IDC_COMBO,7,7,172,331,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -450,6 +461,15 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
+    IDD_RESIZE, DIALOG
+    BEGIN
+        VERTGUIDE, 4
+        VERTGUIDE, 173
+        VERTGUIDE, 180
+        BOTTOMMARGIN, 107
+        HORZGUIDE, 93
+    END
+
     IDD_SHP_VIEWER, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -457,8 +477,37 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 115
     END
+
+    IDD_NEW_CONTAINER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 40
+    END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_NEW_CONTAINER DLGINIT
+BEGIN
+    IDC_COMBO, 0x403, 10, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x0074, 
+    IDC_COMBO, 0x403, 13, 0
+0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
+    IDC_COMBO, 0x403, 12, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
+    IDC_COMBO, 0x403, 9, 0
+0x6552, 0x656e, 0x6167, 0x6564, "\000" 
+    IDC_COMBO, 0x403, 9, 0
+0x6547, 0x656e, 0x6172, 0x736c, "\000" 
+    0
+END
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -468,7 +517,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.22\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.24\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 

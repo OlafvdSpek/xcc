@@ -28,8 +28,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCMixerApp)
 	//}}AFX_MSG_MAP
 	// Standard file based document commands
-	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
-	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////

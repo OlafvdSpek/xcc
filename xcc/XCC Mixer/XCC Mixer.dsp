@@ -94,11 +94,23 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\misc\big_edit.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\big_file_write.cpp
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
 # End Source File
 # Begin Source File
 
 SOURCE=.\DirectoriesDlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\dlg_new_container.cpp
 # End Source File
 # Begin Source File
 
@@ -219,6 +231,14 @@ SOURCE=.\XSTE_edit_dlg.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
+SOURCE=..\misc\big_edit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\big_file_write.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\cc_file.h
 # End Source File
 # Begin Source File
@@ -228,6 +248,10 @@ SOURCE=..\misc\csf_file.h
 # Begin Source File
 
 SOURCE=.\DirectoriesDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\dlg_new_container.h
 # End Source File
 # Begin Source File
 
