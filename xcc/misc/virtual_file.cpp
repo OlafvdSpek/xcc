@@ -30,7 +30,6 @@ void Cvirtual_file::compact()
 	if (m_data.size() == 1)
 		return;
 	Cvirtual_binary t = read();
-	// read(t.write_start(size()));
 	clear();
 	write(t);
 }

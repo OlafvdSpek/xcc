@@ -1035,13 +1035,12 @@ int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 			error = 258;
 		else
 		{
-			Cvirtual_binary s, d;
+			Cvirtual_binary s;
 			pcx_decode(f.get_image(), s.write_start(320 * 200), *f.get_header());
 			t_palet palet;
 			memcpy(palet, f.get_palet(), sizeof(t_palet));
 			convert_palet_24_to_18(palet);
-			int cb_d = cps_file_write(s, d.write_start(256 << 10), palet);
-			error = cb_d ? d.export(fname) : 1;
+			error = cps_file_write(s, palet).export(fname);
 		}
 		f.close();
 	}
@@ -1120,9 +1119,7 @@ int CXCCMixerView::copy_as_hva(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		Cvirtual_binary d;
-		int cb_d = hva_file_write(f.get_data(), f.get_size(), d.write_start(64 << 10));
-		error = cb_d ? d.export(fname) : 1;
+		error = hva_file_write(f.get_data(), f.get_size()).export(fname);
 		f.close();
 	}
 	return error;
@@ -1149,8 +1146,8 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 		else
 			pcx_decode(f.get_image(), s.data_edit(), *f.get_header());
 		Cvirtual_binary d;
-		int cb_d = encode5(s, d.write_start(cx * cy * 6), s.size(), 5);
-		Cvirtual_binary e = encode64(Cvirtual_binary(d, cb_d));
+		d.size(encode5(s, d.write_start(cx * cy * 6), s.size(), 5));
+		Cvirtual_binary e = encode64(d);
 		ofstream g(fname.get_all().c_str());
 		g << "[Preview]" << endl
 			<< "Size=0,0," << cx << ',' << cy << endl
@@ -1503,10 +1500,8 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * c_images, rp);
 		}
-		Cvirtual_binary d;
-		const int cb_d = shp_file_write(s, d.write_start(sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images), cx, cy, c_images);
 		fname.set_title(base_name);
-		error = d.export(fname);
+		error = shp_file_write(s, cx, cy, c_images).export(fname);
 	}
 	delete[] s;
 	return error;
@@ -1646,10 +1641,8 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * (c_images >> convert_shadow), rp);
 		}
-		Cvirtual_binary d;
-		const int cb_d = shp_ts_file_write(s, d.write_start(Cshp_ts_file::get_max_size(cx, cy, c_images)), cx, cy, c_images, enable_compression);
 		fname.set_title(base_name);
-		error = d.export(fname);
+		error = shp_ts_file_write(s, cx, cy, c_images, enable_compression).export(fname);
 	}
 	delete[] s;
 	return error;
@@ -1714,8 +1707,8 @@ int CXCCMixerView::copy_as_tmp_ts(int i, Cfname fname) const
 		int cy = f.cy();
 		Cvirtual_binary s, d;
 		pcx_decode(f.get_image(), s.write_start(cx * cy), *f.get_header());
-		int cb_d = tmp_ts_file_write(s, d.write_start(256 << 10), cx, cy);
-		error = cb_d ? d.export(fname) : 1;
+		d.size(tmp_ts_file_write(s, d.write_start(256 << 10), cx, cy));
+		error = d.size() ? d.export(fname) : 1;
 		f.close();
 	}
 	return error;
@@ -1778,16 +1771,9 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				}
 				if (!error)
 				{
-					byte* d = new byte[1 << 20];
-					int cb_d = vxl_file_write(s, NULL, d, cx, cy, c_images);
-					if (cb_d)
-					{
-						fname.set_title(base_name);
-						error = file32_write(fname, d, cb_d);
-					}
-					else
-						error = 1;
-					delete[] d;
+					Cvirtual_binary d;
+					d.size(vxl_file_write(s, NULL, d.write_start(1 << 20), cx, cy, c_images));
+					error = d.size() ? d.export(fname) : 1;
 				}
 			}
 			break;
@@ -1819,8 +1805,8 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				if (!error)
 				{
 					Cvirtual_binary d;
-					int cb_d = vxl_file_write(k, d.write_start(1 << 20));
-					error = cb_d ? d.export(fname) : 1;
+					d.size(vxl_file_write(k, d.write_start(1 << 20)));
+					error = d.size() ? d.export(fname) : 1;
 				}
 				f.close();
 			}
@@ -2681,9 +2667,7 @@ void CXCCMixerView::OnPopupResize()
 							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
 					}
 					f.close();
-					Cvirtual_binary d;
-					shp_ts_file_write(d8, d.write_start(sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + global_cx_d * global_cy_d) * c_images), global_cx_d, global_cy_d, c_images);
-					error = d.export(fname);
+					error = shp_ts_file_write(d8, global_cx_d, global_cy_d, c_images).export(fname);
 					delete[] image32;
 					delete[] image8;
 					delete[] d32;
@@ -2972,10 +2956,7 @@ void CXCCMixerView::OnPopupClipboardPasteAsShpTs()
 					shp_split_shadows(image);
 					c_blocks <<= 1;
 				}
-				byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + image.cx() * image.cy() / c_blocks) * c_blocks];
-				const int cb_d = shp_ts_file_write(image.image(), d, dlg.get_cx(), dlg.get_cy(), c_blocks, GetMainFrame()->enable_compression());
-				error = file32_write(fname, d, cb_d);
-				delete[] d;
+				shp_ts_file_write(image.image(), dlg.get_cx(), dlg.get_cy(), c_blocks, GetMainFrame()->enable_compression()).export(fname);
 				update_list();
 			}
 		}
