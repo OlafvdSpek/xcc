@@ -76,7 +76,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VOXEL_DEPTH_INFORMATION, OnUpdateViewVoxelDepthInformation)
 	ON_COMMAND(ID_CONVERSION_SPLIT_SHADOWS, OnConversionSplitShadows)
 	ON_UPDATE_COMMAND_UI(ID_CONVERSION_SPLIT_SHADOWS, OnUpdateConversionSplitShadows)
-	ON_COMMAND(ID_INTERNET_GENIUS_SITE, OnInternetGeniusSite)
 	ON_COMMAND(ID_UTILITIES_XCC_AV_PLAYER, OnUtilitiesXccAvPlayer)
 	ON_UPDATE_COMMAND_UI(ID_UTILITIES_XCC_AV_PLAYER, OnUpdateUtilitiesXccAvPlayer)
 	ON_COMMAND(ID_UTILITIES_XCC_EDITOR, OnUtilitiesXccEditor)
@@ -661,14 +660,9 @@ void CMainFrame::OnInternetFsSite()
 	ShellExecute(m_hWnd, "open", "http://finalsun.wagnerma.de/", NULL, NULL, SW_SHOW);
 }
 
-void CMainFrame::OnInternetGeniusSite() 
-{
-	ShellExecute(m_hWnd, "open", "http://strategyzone.org/genius.html", NULL, NULL, SW_SHOW);
-}
-
 void CMainFrame::OnInternetSeSite() 
 {
-	ShellExecute(m_hWnd, "open", "http://www.childs-play-software.com/se2k/", NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, "open", "http://www.childs-play-software.co.uk/", NULL, NULL, SW_SHOW);
 }
 
 void CMainFrame::OnInternetXccSite() 

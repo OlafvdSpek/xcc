@@ -145,7 +145,7 @@ static string get_pkt(string fname, bool export, string title, string descriptio
 	else
 	{
 		CXSTE xste;
-		if (!xste.open())
+		if (!xste.open(game_ra2))
 		{
 			xste.csf_f().set_value("XMM:" + title, Ccsf_file::convert2wstring(description), "");
 			if (!xste.write())

@@ -8,6 +8,7 @@
 
 using namespace std;
 
+/*
 class Ccache_entry
 {
 public:
@@ -60,6 +61,8 @@ private:
 };
 
 typedef map<int, Ccache_entry> t_cache;
+*/
+typedef map<int, Cvirtual_binary> t_cache;
 
 t_cache cache;
 
@@ -101,7 +104,7 @@ int mix_cache::load()
 					s += 4;
 					int size = *reinterpret_cast<const int*>(s);
 					s += 4;
-					cache[crc] = Ccache_entry(s, size);
+					cache[crc] = Cvirtual_binary(s, size);
 					s += size;
 				}
 			}
@@ -124,8 +127,8 @@ int mix_cache::save()
 		for (t_cache::const_iterator i = cache.begin(); i != cache.end(); i++)
 		{
 			f.write(i->first);
-			f.write(i->second.get_size());
-			f.write(i->second.get_data(), i->second.get_size());
+			f.write(i->second.size());
+			f.write(i->second.data(), i->second.size());
 		}	
 		f.close();
 	}
@@ -135,10 +138,10 @@ int mix_cache::save()
 const void* mix_cache::get_data(int crc)
 {
 	t_cache::const_iterator i = cache.find(crc);
-	return i == cache.end() ? NULL : i->second.get_data();
+	return i == cache.end() ? NULL : i->second.data();
 }
 
 void mix_cache::set_data(int crc, const void* data, int size)
 {
-	cache[crc] = Ccache_entry(data, size);
+	cache[crc] = Cvirtual_binary(data, size);
 }

@@ -59,6 +59,7 @@ BOOL CXCCAudioPlayerApp::InitInstance()
 
 	CXCCAudioPlayerDlg dlg;
 	m_pMainWnd = &dlg;
+	Cmix_file::enable_ft_support();
 	xcc_dirs::load_from_registry();
 	mix_cache::load();
 	dlg.DoModal();

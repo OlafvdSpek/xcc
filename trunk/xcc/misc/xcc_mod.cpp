@@ -665,9 +665,17 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 									ir.process(g.get_data(), g.get_size());
 									ir.process(data.data(), data.size());
 									g.close();
+									/*
 									strstream s;
 									ir.write(s);
 									expand_mix.add_file(fname, Cvirtual_binary(s.str(), s.pcount()));
+									*/
+									Cvirtual_binary d(NULL, g.get_size() + data.size());
+									strstream s(reinterpret_cast<char*>(d.data_edit()), d.size());
+									ir.write(s);
+									error = s.pcount() == d.size();
+									d.size(s.pcount());
+									expand_mix.add_file(fname, d);
 								}
 							}
 							else

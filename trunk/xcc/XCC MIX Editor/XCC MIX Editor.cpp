@@ -55,6 +55,7 @@ BOOL CXCCMIXEditorApp::InitInstance()
 	CXCCMIXEditorDlg dlg;
 	m_pMainWnd = &dlg;
 
+	Cmix_file::enable_ft_support();
 	xcc_dirs::load_from_registry();
 	mix_database::load();
 	mix_cache::load();
