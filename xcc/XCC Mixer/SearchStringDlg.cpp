@@ -38,7 +38,6 @@ void CSearchStringDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CSearchStringDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CSearchStringDlg)
-	ON_WM_SIZE()
 	ON_BN_CLICKED(IDOK, OnSearch)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
 	//}}AFX_MSG_MAP
@@ -58,22 +57,10 @@ BOOL CSearchStringDlg::OnInitDialog()
 			<< item(IDCANCEL, NORESIZE)
 			);
 	ETSLayoutDialog::OnInitDialog();
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0, "Name");
 	m_list.InsertColumn(1, "Value");
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-	m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
+	m_list.auto_size();
 	return true;
-}
-
-void CSearchStringDlg::OnSize(UINT nType, int cx, int cy) 
-{
-	ETSLayoutDialog::OnSize(nType, cx, cy);
-	if (m_list.GetSafeHwnd())
-	{
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-		m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
-	}
 }
 
 void CSearchStringDlg::OnSearch() 
@@ -88,8 +75,7 @@ void CSearchStringDlg::OnSearch()
 				|| fname_filter(Ccsf_file::convert2string(i->second.value), static_cast<string>(m_name)))
 				m_list.SetItemText(m_list.InsertItem(m_list.GetItemCount(), i->first.c_str()), 1, Ccsf_file::convert2string(i->second.value).c_str());
 		}
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-		m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
+		m_list.auto_size();
 	}
 }
 

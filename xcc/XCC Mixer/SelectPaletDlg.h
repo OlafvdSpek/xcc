@@ -8,6 +8,7 @@
 // SelectPaletDlg.h : header file
 //
 
+#include "ListCtrlEx.h"
 #include "MainFrm.h"
 #include "resource.h"
 
@@ -39,7 +40,7 @@ public:
 	enum { IDD = IDD_SELECT_PALET };
 	CButton	m_ok;
 	CTreeCtrl	m_tree;
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	//}}AFX_DATA
 
 
@@ -59,7 +60,6 @@ protected:
 	afx_msg void OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
