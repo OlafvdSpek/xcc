@@ -133,6 +133,10 @@ SOURCE=..\misc\virtual_binary.cpp
 
 SOURCE=..\..\misc\virtual_tfile.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\win_handle.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
