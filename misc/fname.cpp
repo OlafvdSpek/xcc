@@ -117,7 +117,7 @@ bool Cfname::exists() const
 {
 	HANDLE h;
 	WIN32_FIND_DATA d;
-	h = FindFirstFile(static_cast<string>(get_all()).c_str(), &d);
+	h = FindFirstFile(get_all().c_str(), &d);
 	if (h == INVALID_HANDLE_VALUE)
 		return false;
 	FindClose(h);
@@ -150,9 +150,21 @@ string operator+(const string& a, const Cfname& b)
 	return a + static_cast<string>(b);
 }
 
-int create_directory(string dir)
+int create_dir(const string& dir)
 {
 	return !CreateDirectory(dir.c_str(), NULL);
+}
+
+void create_deep_dir(string dir, const string& name)
+{
+	int a = 0;
+	int b;
+	while ((b = name.find('\\', a)) != string::npos)
+	{
+		dir += '\\' + name.substr(a, b - a);
+		create_dir(dir);
+		a = b + 1;
+	}
 }
 
 int copy_file(string s, string d)

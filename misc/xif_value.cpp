@@ -4,7 +4,7 @@
 
 #include "stdafx.h"
 #include <minmax.h>
-#include <zlib.h>
+#include <zlib/zlib.h>
 #include "xif_value.h"
 
 #include "string_conversion.h"
