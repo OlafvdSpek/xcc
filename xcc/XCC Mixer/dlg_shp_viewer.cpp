@@ -46,8 +46,6 @@ END_MESSAGE_MAP()
 void Cdlg_shp_viewer::write(Cvideo_decoder* decoder)
 {
 	m_decoder = decoder;
-	if (decoder->palet())
-		convert_palet_18_to_24(decoder->palet(), m_palet);
 }
 
 static HBITMAP create_bitmap(Cvirtual_image image)
@@ -133,6 +131,19 @@ Cvirtual_image Cdlg_shp_viewer::decode_image(int i) const
 
 void Cdlg_shp_viewer::show_frame()
 {
+	if (m_decoder->palet())
+	{
+		const t_palet_entry* p = m_decoder->palet();
+		for (int i = 0; i < 256; i++)
+		{
+			if ((p[i].r | p[i].g | p[i].b) & 0xc0)
+				break;
+		}
+		if (i == 256)
+			convert_palet_18_to_24(p, m_palet);
+		else
+			memcpy(m_palet, p, sizeof(t_palet));
+	}
 	DeleteObject(m_image.SetBitmap(create_bitmap(decode_image(m_frame))));
 	m_index = m_frame;
 	m_slider.SetPos(m_frame);

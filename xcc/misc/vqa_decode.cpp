@@ -166,7 +166,7 @@ void Cvqa_decode::decode_vpt_chunk(const byte* in, byte* out)
 	}
 }
 
-void Cvqa_decode::decode_cbf_chunk(byte* s,  int cb_s)
+void Cvqa_decode::decode_cbf_chunk(const byte* s,  int cb_s)
 {
 	const __int16* r = reinterpret_cast<const __int16*>(s);
 	int count = cb_s >> 1;
@@ -211,9 +211,9 @@ void Cvqa_decode::decode_cbf_chunk(byte* s,  int cb_s)
 	}
 }
 
-void Cvqa_decode::decode_vqfl_chunk(byte* s, int cb_s)
+void Cvqa_decode::decode_vqfl_chunk(const byte* s, int cb_s)
 {
-	byte* in;
+	const byte* in;
 	int cb_in;
 	if (s[3] == 'Z')
 	{
@@ -231,10 +231,10 @@ void Cvqa_decode::decode_vqfl_chunk(byte* s, int cb_s)
 	decode_cbf_chunk(in, cb_in);
 }
 
-void Cvqa_decode::decode_vqfr_chunk(byte* in_raw, byte* out, t_palet palet)
+void Cvqa_decode::decode_vqfr_chunk(const byte* in_raw, byte* out, t_palet palet)
 {
 	bool cbf_compressed;
-	byte* in;
+	const byte* in;
 	byte* in_decoded = m_in_decoded;
 	while (1)
 	{
