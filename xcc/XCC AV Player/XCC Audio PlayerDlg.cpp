@@ -251,7 +251,7 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 void CXCCAudioPlayerDlg::OnOpenmix() 
 {
 	CFileDialog dlg(true, "mix", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, mix_filter, this);
-	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_td_primary_dir().c_str();
+	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_dir(game_td).c_str();
 	if (IDOK == dlg.DoModal())
 		OpenMix(static_cast<string>(dlg.GetPathName()));
 }
@@ -273,7 +273,7 @@ void CXCCAudioPlayerDlg::OnOpenaud()
 void CXCCAudioPlayerDlg::OnOpenvqa() 
 {
 	CFileDialog dlg(true, "vqa", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, vqa_filter, this);
-	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_td_primary_dir().c_str();
+	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_dir(game_td).c_str();
 	if (IDOK == dlg.DoModal())
 	{
 		Cvqa_file f;

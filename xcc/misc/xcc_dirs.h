@@ -17,14 +17,6 @@ using namespace std;
 
 class xcc_dirs  
 {
-private:
-	static bool m_use_external_files;
-	static string td_primary_dir;
-	static string td_secondary_dir;
-	static string cd_dir;
-	static string data_dir;
-	static string ra_dir;
-	static string ts_dir;
 public:
 	static bool enable_log();
 	static void load_from_registry();
@@ -48,9 +40,11 @@ public:
 	static void set_cd_dir(const string &s);
 	static void set_data_dir(const string &s);
 	static void set_dir(t_game game, const string& s);
-
 	static void reset_cd_dir();
 	static void reset_data_dir();
+	static const string& get_td_secondary_dir();
+	static const string& get_cd_dir();
+	static const string& get_data_dir();
 
 	static bool use_external_files()
 	{
@@ -61,21 +55,8 @@ public:
 	{
 		m_use_external_files = v;
 	}
-
-	static const string& get_td_secondary_dir()
-	{
-		return td_secondary_dir;
-	}
-	
-	static const string& get_cd_dir()
-	{
-		return cd_dir;
-	}
-	
-	static const string& get_data_dir()
-	{
-		return data_dir;
-	}
+private:
+	static bool m_use_external_files;
 };
 
 #endif // !defined(AFX_XCC_DIRS_H__F6959245_DF79_11D2_B750_CC1D91EBCE65__INCLUDED_)
