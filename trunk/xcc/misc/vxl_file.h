@@ -20,7 +20,7 @@
 class Cvxl_file: public Ccc_file_sh<t_vxl_header>
 {
 public:
-	int extract_as_pcx(const Cfname& name, const t_palet _palet) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
 	int extract_as_text(ostream& os) const;
 	int extract_as_xif(const string& name) const;
 	
@@ -111,9 +111,9 @@ int vxl_decode4_size(const byte* s);
 Cvirtual_binary vxl_decode4(const byte* s, int cb_d);
 int vxl_encode4(const Cvxl_file& f, byte* d);
 #ifndef NO_XIF_SUPPORT
-int vxl_file_write(const Cxif_key& s, byte* d);
-int vxl_file_write(const byte* s, const byte* s_normals, byte* d, int cx, int cy, int cz);
-int vxl_file_write(Cvirtual_tfile s, Cvirtual_binary& d);
+Cvirtual_binary vxl_file_write(const Cxif_key& s);
+Cvirtual_binary vxl_file_write(const byte* s, const byte* s_normals, int cx, int cy, int cz);
+Cvirtual_binary vxl_file_write(Cvirtual_tfile s);
 #endif
 
 #endif // !defined(AFX_VXL_FILE_H__C1E67081_DBD8_11D3_B604_0000B4936994__INCLUDED_)
