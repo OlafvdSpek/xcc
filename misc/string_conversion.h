@@ -5,6 +5,10 @@
 
 using namespace std;
 
+int a2ip(const string& s);
+string ip2a(int v);
+int get_net_mask(int v);
+int get_net_part(int v);
 bool atob(string s);
 string btoa(bool v);
 bool is_white(char v);
@@ -52,3 +56,4 @@ inline void trim(string& s)
 	ltrim(s);
 	rtrim(s);
 }
+

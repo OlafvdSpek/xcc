@@ -1,6 +1,39 @@
 #include "stdafx.h"
 #include "string_conversion.h"
 
+int a2ip(const string& s)
+{
+	int r = 0;
+	int l = 0;
+	for (int i = 0; i < 3; i++)
+	{
+		int c = s.find('.', l);
+		r = r << 8 | atoi(s.substr(l, c - l).c_str());
+		l = c + 1;
+	}
+	r = r << 8 | atoi(s.substr(l).c_str());
+	return r;
+}
+
+string ip2a(int v)
+{
+	return n(v >> 24 & 0xff) + '.' + n(v >> 16 & 0xff) + '.' + n(v >> 8 & 0xff) + '.' + n(v & 0xff);
+}
+
+int get_net_mask(int v)
+{
+	if (v & 0x80000000)
+		return 0xffffff00;
+	if (v & 0x40000000)
+		return 0xffff0000;
+	return 0xff000000;
+}
+
+int get_net_part(int v)
+{
+	return v & get_net_mask(v);
+}
+
 bool atob(string s)
 {
 	return s == "true" || s == "yes";
@@ -11,65 +44,22 @@ string btoa(bool v)
 	return v ? "yes" : "no";
 }
 
-char* make_c_str(const char* s)
-{
-	char* v = new char[strlen(s) + 1];
-	return strcpy(v, s);
-}
-
 string n(unsigned int v)
 {
-	if (!v)
-		return "0";
-	string s;
-	while (v)
-	{
-		s = char(v % 10 + 48) + s;
-		v /= 10;
-	}
-	return s;
+	char b[11];
+	return _i64toa(v, b, 10);
 }
 
 string n(int v)
 {
-	if (!v)
-		return "0";
-	string s;
-	bool negative = false;
-	if (v < 0)
-	{
-		negative = true;
-		v = -v;
-	}
-	while (v)
-	{
-		s = char(v % 10 + 48) + s;
-		v /= 10;
-	}
-	if (negative)
-		s = "-" + s;
-	return s;
+	char b[12];
+	return itoa(v, b, 10);
 }
 
 string n(__int64 v)
 {
-	if (!v)
-		return "0";
-	string s;
-	bool negative = false;
-	if (v < 0)
-	{
-		negative = true;
-		v = -v;
-	}
-	while (v)
-	{
-		s = char(v % 10 + 48) + s;
-		v /= 10;
-	}
-	if (negative)
-		s = "-" + s;
-	return s;
+	char b[21];
+	return _i64toa(v, b, 10);
 }
 
 string swsl(int l, string s)
@@ -154,8 +144,6 @@ string to_normal(string s)
 {
 	if (!s.empty())
 		s[0] = toupper(s[0]);
-	for (int i = 1; i < s.length(); i++)
-		s[i] = tolower(s[i]);
 	return s;
 }
 
