@@ -36,7 +36,7 @@ t_vt Cxif_value::get_type() const
 	const byte* data = m_data.data();
 	if (!data)
 		return vt_binary;
-	int size = get_size();
+	int size = m_data.size();
 	if (!data[size - 1])
 	{
 		const byte* r = data;
@@ -50,7 +50,7 @@ t_vt Cxif_value::get_type() const
 		if (c == -1)
 			return vt_string;
 	}	
-	if (get_size() == 4)
+	if (size == 4)
 		return vt_int32;
 	return vt_binary;
 }

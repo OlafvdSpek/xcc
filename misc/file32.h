@@ -25,7 +25,7 @@ class Cfile32
 {
 public:
 	Cvirtual_binary get_mm();
-	int open(Cwin_handle h);
+	int open(const Cwin_handle& h);
     int open(const string& name, dword access);
     int open(const string& name, dword access, dword creation, dword share);
 	int open_read(const string& name);
