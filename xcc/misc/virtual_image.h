@@ -18,8 +18,17 @@ class Cvirtual_image
 public:
 	void decrease_color_depth(const t_palet_entry* palet);
 	void increase_color_depth();
+	void increase_palet_depth();
 	void flip();
+	int get_clipboard();
+	int set_clipboard() const;
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
+	int load(Cvirtual_file& f);
+	int load(string fname);
+	int load_as_jpeg(Cvirtual_file& f);
+	int load_as_jpeg(string fname);
+	int load_as_pcx(Cvirtual_file& f);
+	int load_as_pcx(string fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
 	int save(string fname, t_file_type ft) const;
 	int save_as_jpeg(Cvirtual_file& f) const;
@@ -29,7 +38,9 @@ public:
 	int save_as_png(Cvirtual_file& f) const;
 	int save_as_png(string fname) const;
 	void swap_rb();
+	const Cvirtual_image& operator=(const Cvirtual_image& v);
 	Cvirtual_image();
+	Cvirtual_image(const Cvirtual_image& v);
 	~Cvirtual_image();
 
 	const byte* image() const
@@ -67,6 +78,9 @@ public:
 		return m_cx * m_cy * mcb_pixel;
 	}
 private:
+	static int get_clipboard(Cvirtual_image& image);
+	static int set_clipboard(const Cvirtual_image& image);
+
 	byte* m_image;
 	int m_cx;
 	int m_cy;

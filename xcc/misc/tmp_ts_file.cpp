@@ -137,26 +137,54 @@ int Ctmp_ts_file::extract_as_pcx(const string& name, const t_palet _palet) const
 	return error;
 }
 
-int encode_tile(const byte* s, byte* d)
+int decode_tile(const byte* s, byte* d, int cx_d)
 {
+	int cy = cx_d >> 1;
+	memset(d, 0, cx_d * cy);
 	const byte* r = s;
 	byte* w = d;
-	int x = 24;
+	int x = cx_d / 2;
 	int cx = 0;
-	for (int y = 0; y < 12; y++)
+	for (int y = 0; y < cy / 2; y++)
+	{
+		cx += 4;
+		x -= 2;
+		memcpy(w + x, r, cx);
+		r += cx;
+		w += cx_d;
+	}
+	for (; y < cy; y++)
+	{
+		cx -= 4;
+		x += 2;
+		memcpy(w + x, r, cx);
+		r += cx;
+		w += cx_d;
+	}
+	return w - d;
+}
+
+int encode_tile(const byte* s, byte* d, int cx_s)
+{
+	int cy = cx_s >> 1;
+	const byte* r = s;
+	byte* w = d;
+	int x = cx_s / 2;
+	int cx = 0;
+	for (int y = 0; y < cy / 2; y++)
 	{
 		cx += 4;
 		x -= 2;
 		memcpy(w, r + x, cx);
-		r += 48;
+		r += cx_s;
 		w += cx;
 	}
-	for (; y < 23; y++)
+	for (; y < cy; y++)
 	{
 		cx -= 4;
 		x += 2;
 		memcpy(w, r + x, cx);
-		r += 48;
+		r += cx_s;
 		w += cx;
 	}
 	return w - d;
@@ -164,6 +192,7 @@ int encode_tile(const byte* s, byte* d)
 
 int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy)
 {
+	return 0x200;
 	if (cx != 48 || cy != 24)
 		return 0;
 	for (int x = 0; x < cx; x++)
@@ -200,13 +229,15 @@ int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy)
 			image_header.cx_extra = 0;
 			image_header.cy_extra = 0;
 			*/
-			image_header.flags &= ~1;
+			image_header.has_extra_data = 0;
+			image_header.has_z_data = 1;
+			image_header.has_damaged_data = 0;
 			image_header.height = 0;
-			image_header.terraintype = 0xf;
-			image_header.direction = 0;
-			image_header.unknown2 = 0;
+			image_header.terrain_type = 0xf;
+			image_header.ramp_type = 0;
+			// image_header.unknown2 = 0;
 			w += sizeof(t_tmp_image_header);
-			encode_tile(s, w);
+			encode_tile(s, w, 48);
 			w += 576;
 			memset(w, 0, 576);
 			w += 576;

@@ -27,6 +27,9 @@ public:
 	int open_edit(const string& name);
 	int open_write(const string& name);
     int get_size() const;
+	FILETIME get_creation_time() const;
+	FILETIME get_last_access_time() const;
+	FILETIME get_last_write_time() const;
     int read(void* data, int size);
 	int read_line(string& s);
     int write(const void* data, int size);

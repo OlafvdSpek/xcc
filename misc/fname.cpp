@@ -15,7 +15,7 @@ Cfname::Cfname()
 
 Cfname::Cfname(const string &s)
 {
-	operator=(s);
+	*this = s;
 }
 
 string Cfname::get_fname() const
@@ -57,6 +57,23 @@ Cfname GetModuleFileName(HMODULE hModule)
 		return s;
 	else
 		return "";
+}
+
+string get_temp_path()
+{
+	char temp_dir[MAX_PATH];
+	return GetTempPath(MAX_PATH, temp_dir) ? temp_dir : ".\\";
+}
+
+string get_temp_fname(string path)
+{
+	char temp_fname[MAX_PATH];
+	return GetTempFileName(path.c_str(), "XCC", 0, temp_fname) ? temp_fname : "";
+}
+
+string get_temp_fname()
+{
+	return get_temp_fname(get_temp_path());
 }
 
 void Cfname::set_title(const string &s)
@@ -112,7 +129,7 @@ Cfname Cfname::operator=(const string &s)
 	long p1 = s.rfind('\\');
 	long p2 = s.rfind('.');
 	char t[MAX_PATH];
-	if (p1 != s.npos)
+	if (p1 != string::npos)
 	{	
 		//copy last \ also
 		t[s.copy(t, p1 + 1)] = 0;
@@ -126,4 +143,24 @@ Cfname Cfname::operator=(const string &s)
 		ext = t;
 	}
 	return *this;
+}
+
+string operator+(const string& a, const Cfname& b)
+{
+	return a + static_cast<string>(b);
+}
+
+int create_directory(string dir)
+{
+	return !CreateDirectory(dir.c_str(), NULL);
+}
+
+int delete_file(string fname)
+{
+	return !DeleteFile(fname.c_str());
+}
+
+int move_file(string s, string d)
+{
+	return !MoveFile(s.c_str(), d.c_str());
 }

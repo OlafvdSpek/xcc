@@ -269,17 +269,26 @@ struct t_tmp_image_header
 {
 	__int32 x;
 	__int32 y;
-	__int32 unknown1[3];
+	__int32 extra_ofs;
+	__int32 z_ofs;
+	__int32 extra_z_ofs;
 	__int32 x_extra;
 	__int32 y_extra;
 	__int32 cx_extra;
 	__int32 cy_extra;
-	__int32 flags;
+	unsigned int has_extra_data: 1;
+	unsigned int has_z_data: 1;
+	unsigned int has_damaged_data: 1;
 	__int8 height;
-	__int8 terraintype;
-	__int8 direction; // or probably just ramp_type
-	__int8 unknown2;
-	__int32 unknown3[2];
+	__int8 terrain_type;
+	__int8 ramp_type;
+	unsigned __int8 radar_red_left;
+	unsigned __int8 radar_green_left;
+	unsigned __int8 radar_blue_left;
+	unsigned __int8 radar_red_right;
+	unsigned __int8 radar_green_right;
+	unsigned __int8 radar_blue_right;
+	__int8 pad[3];
 };
 
 struct t_voc_header

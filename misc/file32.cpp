@@ -82,6 +82,33 @@ int Cfile32::get_size() const
     return res;
 }
 
+FILETIME Cfile32::get_creation_time() const
+{
+    assert(is_open());
+	FILETIME time;
+	int r = GetFileTime(m_handle, &time, NULL, NULL);
+	assert(r);
+	return time;
+}
+
+FILETIME Cfile32::get_last_access_time() const
+{
+    assert(is_open());
+	FILETIME time;
+	int r = GetFileTime(m_handle, NULL, &time,  NULL);
+	assert(r);
+	return time;
+}
+
+FILETIME Cfile32::get_last_write_time() const
+{
+    assert(is_open());
+	FILETIME time;
+	int r = GetFileTime(m_handle, NULL, NULL, &time);
+	assert(r);
+	return time;
+}
+
 int Cfile32::read(void* data, int size)
 {
     assert(is_open());

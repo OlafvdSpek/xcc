@@ -18,6 +18,7 @@ Cvirtual_binary::Cvirtual_binary()
 
 Cvirtual_binary::Cvirtual_binary(const Cvirtual_binary& v)
 {
+	m_data = NULL;
 	*this = v;
 }
 
@@ -35,9 +36,15 @@ Cvirtual_binary::~Cvirtual_binary()
 
 const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 {
-	m_data = new byte[v.m_size];
-	m_size = v.m_size;
-	memcpy(m_data, v.m_data, v.m_size);
+	delete[] m_data;
+	if (v.m_data)
+	{
+		m_data = new byte[v.m_size];
+		m_size = v.m_size;
+		memcpy(m_data, v.m_data, v.m_size);
+	}
+	else
+		m_data = NULL;
 	return *this;
 }
 
