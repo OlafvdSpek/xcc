@@ -1398,11 +1398,9 @@ CXCCFileView* CMainFrame::file_info_pane()
 BOOL CMainFrame::OnIdle(LONG lCount)
 {
 	initialize_lists();
-	if (m_left_mix_pane->OnIdle(lCount) 
+	return m_left_mix_pane->OnIdle(lCount) 
 		|| m_right_mix_pane->OnIdle(lCount) 
-		|| m_file_info_pane->OnIdle(lCount))
-		return true;
-	return false;
+		|| m_file_info_pane->OnIdle(lCount);
 }
 
 void CMainFrame::OnViewReport() 
