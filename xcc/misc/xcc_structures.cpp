@@ -49,12 +49,12 @@ long xcc_structures::load_data()
 	{
 		t_structure_data_entry& sd = structure_data[structure_i];
 		Cxif_key& sk = i->second;
-		sd.long_name = sk.get_value_c_str(vi_sd_long_name);
-		sd.short_name = sk.get_value_c_str(vi_sd_short_name);
-		sd.cx = sk.get_value_dword(vi_sd_cx);
-		sd.cy = sk.get_value_dword(vi_sd_cy);
-		sd.flags = sk.get_value_dword(vi_sd_flags);
-		sd.blocked = sk.get_value_dword(vi_sd_blocked);
+		sd.long_name = sk.get_value_string(vi_sd_long_name);
+		sd.short_name = sk.get_value_string(vi_sd_short_name);
+		sd.cx = sk.get_value_int(vi_sd_cx);
+		sd.cy = sk.get_value_int(vi_sd_cy);
+		sd.flags = sk.get_value_int(vi_sd_flags);
+		sd.blocked = sk.get_value_int(vi_sd_blocked);
 		sd.ground = 0;
 		sd.power_in = 0;
 		sd.power_out = 0;
@@ -63,13 +63,13 @@ long xcc_structures::load_data()
 			switch (i->first)
 			{
 			case vi_sd_ground:
-				sd.ground = i->second.get_data_dword();
+				sd.ground = i->second.get_int();
 				break;
 			case vi_sd_power_in:
-				sd.power_in = i->second.get_data_dword();
+				sd.power_in = i->second.get_int();
 				break;
 			case vi_sd_power_out:
-				sd.power_out = i->second.get_data_dword();
+				sd.power_out = i->second.get_int();
 				break;
 			}
 		}
@@ -92,15 +92,15 @@ long xcc_structures::save_data()
 			list[static_cast<string>(sd.short_name)] = i;
 		}
 	}
-	structures_key.delete_all_keys();
+	structures_key = Cxif_key(); // .delete_all_keys();
 	long structure_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
 		t_structure_data_entry& sd = structure_data[i->second];
 		Cxif_key& sk = structures_key.set_key(structure_i);
-		sk.set_value(vi_sd_long_name, sd.long_name);
-		sk.set_value(vi_sd_short_name, sd.short_name);
-		sk.set_value(vi_sd_cx, static_cast<dword>(sd.cx));
+		sk.set_value_string(vi_sd_long_name, sd.long_name);
+		sk.set_value_string(vi_sd_short_name, sd.short_name);
+		sk.set_value_int(vi_sd_cx, static_cast<dword>(sd.cx));
 		sk.set_value(vi_sd_cy, static_cast<dword>(sd.cy));
 		sk.set_value(vi_sd_flags, sd.flags);
 		sk.set_value(vi_sd_blocked, sd.blocked);
@@ -112,6 +112,8 @@ long xcc_structures::save_data()
 			sk.set_value(vi_sd_power_out, static_cast<dword>(sd.power_out));
 		structure_i++;
 	}
+	return structures_key.vdata().export(xcc_dirs::get_data_dir() + structures_xif_fname);
+	/*
 	Cfile32 f;
 	if (f.open_write(xcc_dirs::get_data_dir() + structures_xif_fname))
 		return 1;
@@ -122,6 +124,7 @@ long xcc_structures::save_data()
 	delete[] data;
 	f.close();
 	return 0;
+	*/
 }
 
 long xcc_structures::load_images(t_theater_id theater, bool load_icons)
@@ -203,8 +206,6 @@ void xcc_structures::destroy()
 	for (long i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
-		delete[] sd.long_name;
-		delete[] sd.short_name;;
 	}
 }
 

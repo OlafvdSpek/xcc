@@ -138,10 +138,10 @@ int Cxcc_overlays::load_data()
 				switch (i->first)
 				{
 				case vi_od_ox:
-					od.ox = i->second.get_data_dword();
+					od.ox = i->second.get_int();
 					break;
 				case vi_od_oy:
-					od.oy = i->second.get_data_dword();
+					od.oy = i->second.get_int();
 					break;
 				}
 			}
@@ -153,13 +153,13 @@ int Cxcc_overlays::load_data()
 		{
 			t_terrain_data_entry& td = terrain_data[i];
 			const Cxif_key& tk = terrain_key.get_key(i);
-			td.c_images = tk.get_value_dword(vi_td_c_images);
+			td.c_images = tk.get_value_int(vi_td_c_images);
 			for (t_xif_value_map::const_iterator i = tk.m_values.begin(); i != tk.m_values.end(); i++)
 			{
 				switch (i->first)
 				{
 				case vi_td_blocked:
-					td.blocked = i->second.get_data_dword();
+					td.blocked = i->second.get_int();
 					break;
 				}
 			}
@@ -193,6 +193,8 @@ int Cxcc_overlays::save_data()
 				tk.set_value(vi_td_blocked, td.blocked);
 		}
 	}
+	return base_key.vdata().export(xcc_dirs::get_data_dir() + overlays_xif_fname);
+	/*
 	Cfile32 f;
 	if (f.open_write(xcc_dirs::get_data_dir() + overlays_xif_fname))
 		return 1;
@@ -203,6 +205,7 @@ int Cxcc_overlays::save_data()
 	delete[] data;
 	f.close();
 	return 0;
+	*/
 }
 
 bool Cxcc_overlays::terrain_in(dword v, t_theater_id theater)

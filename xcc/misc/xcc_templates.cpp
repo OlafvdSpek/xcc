@@ -57,9 +57,9 @@ long Cxcc_templates::load_data()
 	{
 		t_template_data_entry& td = template_data[i];
 		const Cxif_key& tk = base_key.get_key(i);
-		td.cx = tk.get_value_dword(vi_td_cx);
-		td.cy = tk.get_value_dword(vi_td_cy);
-		td.c_images = tk.get_value_dword(vi_td_c_images);
+		td.cx = tk.get_value_int(vi_td_cx);
+		td.cy = tk.get_value_int(vi_td_cy);
+		td.c_images = tk.get_value_int(vi_td_c_images);
 		td.buildable = 0;
 		td.moveable = 0;
 		td.flags = 0;
@@ -79,13 +79,13 @@ long Cxcc_templates::load_data()
 			switch (i->first)
 			{
 			case vi_td_buildable:
-				td.buildable = i->second.get_data_qword();
+				td.buildable = *reinterpret_cast<const __int64*>(i->second.get_data());
 				break;
 			case vi_td_moveable:
-				td.moveable = i->second.get_data_qword();
+				td.moveable = *reinterpret_cast<const __int64*>(i->second.get_data());
 				break;
 			case vi_td_flags:
-				td.flags = i->second.get_data_dword();
+				td.flags = i->second.get_int();
 				break;
 			}
 		}
@@ -103,7 +103,7 @@ long Cxcc_templates::save_data()
 		template_key.set_value(vi_td_cx, td.cx);
 		template_key.set_value(vi_td_cy, td.cy);
 		template_key.set_value(vi_td_c_images, td.c_images);
-		template_key.set_value(vi_td_fname, template_code[i]);
+		template_key.set_value_string(vi_td_fname, template_code[i]);
 		if (td.buildable)
 			template_key.set_value(vi_td_buildable, td.buildable);
 		if (td.moveable)
@@ -111,6 +111,8 @@ long Cxcc_templates::save_data()
 		if (td.flags)
 			template_key.set_value(vi_td_flags, td.flags);
 	}
+	return base_key.vdata().export(xcc_dirs::get_data_dir() + theater_xif_fname);
+	/*
 	Cfile32 f;
 	if (f.open_write(xcc_dirs::get_data_dir() + theater_xif_fname))
 		return 1;
@@ -121,6 +123,7 @@ long Cxcc_templates::save_data()
 	delete[] data;
 	f.close();
 	return 0;
+	*/
 }
 
 long Cxcc_templates::load_images(t_theater_id theater)

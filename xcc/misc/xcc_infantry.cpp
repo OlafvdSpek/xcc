@@ -46,11 +46,11 @@ long xcc_infantry::load_data()
 	{
 		t_infantry_data_entry& id = infantry_data[infantry_i];
 		Cxif_key& ik = i->second;
-		id.long_name = ik.get_value_c_str(vi_id_long_name);
-		id.short_name = ik.get_value_c_str(vi_id_short_name);
-		id.cx = ik.get_value_dword(vi_id_cx);
-		id.cy = ik.get_value_dword(vi_id_cy);
-		id.flags = ik.get_value_dword(vi_id_flags);
+		id.long_name = ik.get_value_string(vi_id_long_name);
+		id.short_name = ik.get_value_string(vi_id_short_name);
+		id.cx = ik.get_value_int(vi_id_cx);
+		id.cy = ik.get_value_int(vi_id_cy);
+		id.flags = ik.get_value_int(vi_id_flags);
 		for (t_xif_value_map::const_iterator i = ik.m_values.begin(); i != ik.m_values.end(); i++)
 		{
 			switch (i->first)
@@ -76,19 +76,21 @@ long xcc_infantry::save_data()
 			list[static_cast<string>(id.short_name)] = i;
 		}
 	}
-	infantry_key.delete_all_keys();
+	infantry_key = Cxif_key(); // .delete_all_keys();
 	long infantry_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i->second];
 		Cxif_key& ik = infantry_key.set_key(infantry_i);
-		ik.set_value(vi_id_long_name, id.long_name);
-		ik.set_value(vi_id_short_name, id.short_name);
+		ik.set_value_string(vi_id_long_name, id.long_name);
+		ik.set_value_string(vi_id_short_name, id.short_name);
 		ik.set_value(vi_id_cx, static_cast<dword>(id.cx));
 		ik.set_value(vi_id_cy, static_cast<dword>(id.cy));
 		ik.set_value(vi_id_flags, id.flags);
 		infantry_i++;
 	}
+	return infantry_key.vdata().export(xcc_dirs::get_data_dir() + infantry_xif_fname);
+	/*
 	Cfile32 f;
 	if (f.open_write(xcc_dirs::get_data_dir() + infantry_xif_fname))
 		return 1;
@@ -99,6 +101,7 @@ long xcc_infantry::save_data()
 	delete[] data;
 	f.close();
 	return 0;
+	*/
 }
 
 long xcc_infantry::load_images(bool load_icons)
@@ -148,8 +151,6 @@ void xcc_infantry::destroy()
 	for (long i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
-		delete[] id.long_name;
-		delete[] id.short_name;;
 	}
 }
 

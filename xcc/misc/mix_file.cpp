@@ -263,11 +263,7 @@ int Cmix_file::post_open()
 				t_block_map block_map;
 				{
 					for (int i = 0; i < m_c_files; i++)
-					{
-						int id = get_id(i);
-						if (get_size(id))
-							block_map.insert(t_block_map::value_type(get_offset(id), i));
-					}
+						block_map.insert(t_block_map::value_type(get_offset(get_id(i)), i));
 				}
 				for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
 				{
