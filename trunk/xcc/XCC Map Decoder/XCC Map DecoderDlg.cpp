@@ -140,7 +140,7 @@ void CXCCMapDecoderDlg::convert(string _fname)
 					fname = to_lower(b);
 				string title = fname.get_ftitle();
 				strstream ini, pkt;
-				Cmix_file_write mmx_f;
+				Cmix_file_write mmx_f(game_ra2);
 				Cmap_ts_encoder::write_map(ini, k, m_palet);
 				Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
 				mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
