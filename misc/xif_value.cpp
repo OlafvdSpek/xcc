@@ -33,7 +33,7 @@ t_vt Cxif_value::get_type() const
 {
 	if (m_type != vt_unknown)
 		return m_type;
-	const byte* data = m_data.data(); // get_data();
+	const byte* data = m_data.data();
 	if (!data)
 		return vt_binary;
 	int size = get_size();
@@ -70,7 +70,6 @@ void Cxif_value::load_old(const byte*& data)
 void Cxif_value::load_new(const byte*& data)
 {
 	m_data.clear();
-	m_fast = false;
 	m_type = static_cast<t_vt>(read<__int8>(data));
 	switch (m_type)
 	{
@@ -85,8 +84,6 @@ void Cxif_value::load_new(const byte*& data)
 		break;
 	case vt_external_binary:
 		m_data.write_start(read_int(data));
-		m_fast = true;
-		m_type = vt_binary;
 		break;
 	default:
 		{
@@ -105,10 +102,36 @@ void Cxif_value::load_external(const byte*& data)
 	data += get_size();
 }
 
+int Cxif_value::skip(const byte* s)
+{
+	const byte* r = s;
+	t_vt type = static_cast<t_vt>(read<__int8>(r));
+	switch (type)
+	{
+	case vt_bin32:
+		read<unsigned __int32>(r);
+		break;
+	case vt_int32:
+		read<__int32>(r);
+		break;
+	case vt_float:
+		read<float>(r);
+		break;
+	case vt_external_binary:
+		read_int(r);
+		break;
+	default:
+		{
+			int size = read_int(r);
+			r += size;
+		}
+	}
+	return r - s;
+}
+
 void Cxif_value::save(byte*& data) const
 {
-	*reinterpret_cast<__int8*>(data) = external_data() ? vt_external_binary : m_type;
-	data++;
+	*reinterpret_cast<__int8*>(data++) = external_data() ? vt_external_binary : m_type;
 	switch (m_type)
 	{
 	case vt_bin32:
@@ -133,7 +156,7 @@ void Cxif_value::save(byte*& data) const
 
 bool Cxif_value::external_data() const
 {
-	return m_type == vt_binary && m_fast;
+	return m_type == vt_external_binary;
 }
 
 void Cxif_value::external_save(byte*& data) const
