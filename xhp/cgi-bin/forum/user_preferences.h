@@ -19,6 +19,7 @@ public:
 	void load(const Ccookie& cookie);
 	void process(const Ccgi_input& cgi, Ccookie& cookie);
 
+	bool enable_compression;
 	int newest_limit;
 	bool show_signatures;
 	bool show_smilies;
