@@ -2326,6 +2326,7 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 		case ft_dir:
 		case ft_drive:
 		case ft_mix:
+		case ft_mix_rg:
 		case ft_pak:
 		case ft_shp_ts:
 			pCmdUI->Enable(true);
@@ -2949,6 +2950,7 @@ void CXCCMixerView::open_item(int id)
 			break;
 		}
 	case ft_mix:
+	case ft_mix_rg:
 	case ft_pak:
 		{
 			if (m_mix_f)

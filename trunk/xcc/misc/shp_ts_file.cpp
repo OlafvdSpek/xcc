@@ -382,7 +382,7 @@ void shp_xor_encode_frames(Cvirtual_image& image, int c_frames)
 static int get_left_margin(const byte* r, int cx)
 {
 	int c = 0;
-	while (!*r++ && cx--)
+	while (cx-- && !*r++)
 		c++;
 	return c;
 }
@@ -390,8 +390,7 @@ static int get_left_margin(const byte* r, int cx)
 static int get_right_margin(const byte* r, int cx)
 {
 	int c = 0;
-	r += cx;
-	while (!*--r && cx--)
+	while (cx-- && !*--r)
 		c++;
 	return c;
 }
@@ -405,30 +404,36 @@ static int encode4_line(const byte* r, byte* d, int cx)
 		int v = *w++ = *r++;
 		if (!v)
 		{
-			int c = get_run_length(r - 1, s_end) - 1;
-			if (c > 0xff)
-				c = 0xff;
-			r += c;
+			int c = min(get_run_length(r - 1, s_end), 0xff);
+			r += c - 1;
 			*w++ = c;
 		}
 	}
 	return w - d;
 }
 
-static int decode4_line(const byte* s, byte* d, int cx)
+static int decode4_line_size(const byte*& r, int cx)
 {
-	const byte* r = s;
-	byte* w = d;
+	int w = 0;
 	while (cx--)
 	{
-		int v = *w++ = *r++;
-		if (!v)
+		w++;
+		if (!*r++)
 		{
-			int c = *r++;
-			memset(w, 0, c);
-			cx -= c;
-			w += c;
+			cx -= *r++ - 1;
+			w++;
 		}
+	}
+	return w;
+}
+
+static int decode4_line(const byte* s, byte*& w, int cx)
+{
+	const byte* r = s;
+	while (cx--)
+	{
+		if (!(*w++ = *r++))
+			cx -= (*w++ = *r++) - 1;
 	}
 	return r - s;
 }
@@ -441,7 +446,7 @@ static int encode4(const byte* s, byte* d, int cx, int cy)
 	for (int y = 0; y < cy; y++)
 	{
 		int lm = min(get_left_margin(r, cx), 0xff);
-		int rm = min(get_right_margin(r, cx - lm), 0xff);
+		int rm = min(get_right_margin(r + cx, cx - lm), 0xff);
 		*w++ = lm;
 		*w++ = rm;
 		w += encode4_line(r + lm, w, cx - lm - rm);
@@ -450,20 +455,44 @@ static int encode4(const byte* s, byte* d, int cx, int cy)
 	return w - d;
 }
 
-static int decode4(const byte* s, byte* d, int cx, int cy)
+static int decode4_size(const byte*& r, int cx, int cy)
 {
-	const byte* r = s;
-	byte* w = d;
+	int w = 0;
 	for (int y = 0; y < cy; y++)
 	{
 		int lm = *r++;
 		int rm = *r++;
-		memset(w, 0, lm);
-		w += lm;
+		w += 2;
+		if (lm)
+			w += 2;
+		w += decode4_line_size(r, cx - lm - rm);
+		if (rm)
+			w += 2;
+	}
+	return w;
+}
+
+static int decode4(const byte* s, byte*& w, int cx, int cy)
+{
+	const byte* r = s;
+	for (int y = 0; y < cy; y++)
+	{
+		int lm = *r++;
+		int rm = *r++;
+		byte* w_line = w;
+		w += 2;
+		if (lm)
+		{
+			*w++ = 0;
+			*w++ = lm;
+		}
 		r += decode4_line(r, w, cx - lm - rm);
-		w += cx - lm - rm;
-		memset(w, 0, rm);
-		w += rm;
+		if (rm)
+		{
+			*w++ = 0;
+			*w++ = rm;
+		}
+		*reinterpret_cast<unsigned __int16*>(w_line) = w - w_line;
 	}
 	return r - s;
 }
@@ -504,7 +533,7 @@ int shp_encode4(const Cshp_ts_file& f, byte* d)
 		const int cy = image_header.cy;
 
 		t_shp4_frame_header& frame_header = *reinterpret_cast<t_shp4_frame_header*>(w);
-		if (image_header.cx || image_header.cy)
+		if (image_header.cx && image_header.cy)
 		{
 			frame_header.lm = image_header.x;
 			frame_header.tm = image_header.y;
@@ -542,26 +571,16 @@ int shp_encode4(const Cshp_ts_file& f, byte* d)
 	return w - d;
 }
 
-/*
-int shp_decode4(const byte* s, byte* d)
+int shp_decode4_size(const byte* s)
 {
-	bool enable_compression = true;
+	Cvirtual_binary d;
 	const byte* r = s;
-	byte* w = d;
 	const t_shp4_header& s_header = *reinterpret_cast<const t_shp4_header*>(r);
 	const int global_cx = s_header.cx;
 	const int global_cy = s_header.cy;
 	const int c_frames = s_header.c_frames;
 	r += sizeof(t_shp4_header);
-	t_shp_ts_header& header = *reinterpret_cast<t_shp_ts_header*>(w);
-	header.zero = 0;
-	header.cx = global_cx;
-	header.cy = global_cy;
-	header.c_images = c_frames;
-	w += sizeof(t_shp_ts_header);
-	byte* w1 = d + sizeof(t_shp_ts_header) + c_frames * sizeof(t_shp_ts_image_header);
-	byte* t = new byte[global_cx * global_cy];
-	byte* u = new byte[(global_cx + 1) * global_cy * 2];
+	int w = 0;
 	for (int i = 0; i < c_frames; i++)
 	{
 		const t_shp4_frame_header& frame_header = *reinterpret_cast<const t_shp4_frame_header*>(r);
@@ -570,62 +589,32 @@ int shp_decode4(const byte* s, byte* d)
 		int cx = global_cx - x - frame_header.rm;
 		int cy = global_cy - y - frame_header.bm;
 		r += sizeof(t_shp4_frame_header);
-		t_shp_ts_image_header& image_header = *reinterpret_cast<t_shp_ts_image_header*>(w);
-		image_header.x = x;
-		image_header.y = y;
-		image_header.cx = cx;
-		image_header.cy = cy;
-		image_header.compression = 0;
-		image_header.unknown = 0;
-		image_header.zero = 0;
-		image_header.offset = w1 - d;
-		w += sizeof(t_shp_ts_image_header);
 		if (cy)
-		{
-			r += decode4(r, t, cx, cy);
-			int cb_u = enable_compression ? encode3(t, u, cx, cy) : INT_MAX;
-			if (cb_u < cx * cy)
-			{
-				image_header.compression = 3;
-				memcpy(w1, u, cb_u);
-				w1 += cb_u;
-			}
-			else
-			{
-				memcpy(w1, t, cx * cy);
-				w1 += cx * cy;
-			}
-		}
-		else
-			image_header.offset = 0;
-		// w1 = d + (w1 - d + 7 & ~7);
+			w += decode4_size(r, cx, cy);
+		w = w + 7 & ~7;
 	}
-	delete[] u;
-	delete[] t;
-	return w1 - d;
+	return w
+		+ sizeof(t_shp_ts_header)
+		+ c_frames * sizeof(t_shp_ts_image_header);
 }
-*/
 
-void shp_decode4(const byte* s, Cvirtual_file& f)
+Cvirtual_binary shp_decode4(const byte* s, int cb_d)
 {
-	bool enable_compression = true;
+	Cvirtual_binary d;
 	const byte* r = s;
 	const t_shp4_header& s_header = *reinterpret_cast<const t_shp4_header*>(r);
 	const int global_cx = s_header.cx;
 	const int global_cy = s_header.cy;
 	const int c_frames = s_header.c_frames;
 	r += sizeof(t_shp4_header);
-	byte* d = new byte[Cshp_ts_file::get_max_size(global_cx, global_cy, c_frames)];
-	byte* w = d;
+	byte* w = d.write_start(cb_d ? cb_d : Cshp_ts_file::get_max_size(global_cx, global_cy, c_frames));
 	t_shp_ts_header& header = *reinterpret_cast<t_shp_ts_header*>(w);
 	header.zero = 0;
 	header.cx = global_cx;
 	header.cy = global_cy;
 	header.c_images = c_frames;
 	w += sizeof(t_shp_ts_header);
-	byte* w1 = d + sizeof(t_shp_ts_header) + c_frames * sizeof(t_shp_ts_image_header);
-	byte* t = new byte[global_cx * global_cy];
-	byte* u = new byte[(global_cx + 1) * global_cy * 2];
+	byte* w1 = w + c_frames * sizeof(t_shp_ts_image_header);
 	for (int i = 0; i < c_frames; i++)
 	{
 		const t_shp4_frame_header& frame_header = *reinterpret_cast<const t_shp4_frame_header*>(r);
@@ -639,34 +628,17 @@ void shp_decode4(const byte* s, Cvirtual_file& f)
 		image_header.y = y;
 		image_header.cx = cx;
 		image_header.cy = cy;
-		image_header.compression = 0;
+		image_header.compression = 3;
 		image_header.unknown = 0;
 		image_header.zero = 0;
-		image_header.offset = w1 - d;
+		image_header.offset = w1 - d.data();
 		w += sizeof(t_shp_ts_image_header);
 		if (cy)
-		{
-			r += decode4(r, t, cx, cy);
-			int cb_u = enable_compression ? encode3(t, u, cx, cy) : INT_MAX;
-			if (cb_u < cx * cy)
-			{
-				image_header.compression = 3;
-				memcpy(w1, u, cb_u);
-				w1 += cb_u;
-			}
-			else
-			{
-				memcpy(w1, t, cx * cy);
-				w1 += cx * cy;
-			}
-		}
+			r += decode4(r, w1, cx, cy);
 		else
 			image_header.offset = 0;
-		w1 = d + (w1 - d + 7 & ~7);
+		w1 = d.data_edit() + (w1 - d.data() + 7 & ~7);
 	}
-	delete[] u;
-	delete[] t;
-	int cb_d = w1 - d;
-	f.write(d, cb_d);
-	delete[] d;
+	assert(!cb_d || d.size() == w1 - d.data());
+	return cb_d ? d : Cvirtual_binary(d.data(), w1 - d.data());
 }

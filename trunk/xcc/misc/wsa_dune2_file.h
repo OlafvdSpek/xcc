@@ -23,17 +23,9 @@ public:
 	{
 		const t_wsa_dune2_header& header = *get_header();
 		int size = get_size();
-		if (sizeof(t_wsa_dune2_header) + 4 > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_dune2_header) + get_cb_index() > size)
+		if (sizeof(t_wsa_dune2_header) + 4 > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_dune2_header) + 4 * (get_header()->c_frames + 2) > size)
 			return false;
-		int c_frames = get_c_frames();
-		if (has_loop())
-		{ 
-			if (get_offset(c_frames + 1) != size)
-				return false;
-		}
-		else if (get_offset(c_frames) != size)
-			return false;
-		return true;
+		return get_offset(get_c_frames() + has_loop()) == size;
 	}
 
 	int get_c_frames() const
@@ -51,24 +43,21 @@ public:
 		return get_header()->cy;
 	}
 
+	/*
 	int get_delta() const
 	{
 		return get_header()->delta;
 	}
-
-    int get_cb_index() const
-    {
-        return 4 * (get_header()->c_frames + 2);
-    }
+	*/
 
 	const byte* get_frame(int i) const
 	{
 		return get_data() + get_offset(i);
 	}
 
-    const int* get_index() const
+    const __int32* get_index() const
     {
-        return reinterpret_cast<const int*>(get_data() + sizeof(t_wsa_dune2_header));
+        return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header));
     }
 
     int get_offset(int i) const

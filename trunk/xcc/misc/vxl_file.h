@@ -107,7 +107,8 @@ public:
 	}
 };
 
-void vxl_decode4(const byte* s, Cvirtual_file& d);
+int vxl_decode4_size(const byte* s);
+Cvirtual_binary vxl_decode4(const byte* s, int cb_d);
 int vxl_encode4(const Cvxl_file& f, byte* d);
 #ifndef NO_XIF_SUPPORT
 int vxl_file_write(const Cxif_key& s, byte* d);
