@@ -69,6 +69,7 @@ BOOL Cdlg_login::OnInitDialog()
 		;
 	ETSLayoutDialog::OnInitDialog();
 	xcc_dirs::load_from_registry();
+	add_game("Software\\Westwood\\Renegade", game_rg, 0xc);
 	add_game("Software\\Westwood\\Tiberian Sun", game_ts, 0x12);
 	add_game("Software\\Westwood\\Emperor", game_ebfd, 0x1f);
 	add_game("Software\\Westwood\\Red Alert 2", game_ra2, 0x21);
