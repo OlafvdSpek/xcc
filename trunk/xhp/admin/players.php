@@ -20,7 +20,7 @@
 
 	function echo_warning($result)
 	{
-		printf('<tr><td align=right>%d<td><a href="?pname=%s">%s</a><td>', $result[wid], $result[name], $result[name]);
+		printf('<tr><td align=right><a href="?a=show_warning&amp;wid=%d">%d</a><td><a href="?pname=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
 		if ($result[link])
 			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
 		printf("<td>%s<td>%s<td>%s", htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
@@ -80,7 +80,7 @@
 		$dura = $_GET[dura] ? $_GET[dura] : 4;
 		if ($_GET['a'] == "bl_insert_submit" && $name && $reason)
 		{
-			db_query(sprintf("insert into xbl (admin, sid, name, link, reason) values ('%s', %d, '%s', '%s', '%s')", AddSlashes($_SERVER[REMOTE_USER]), $sid, $name, AddSlashes($link), AddSlashes($reason)));
+			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
 			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
 			$sids = array($sid);
 			while ($result = mysql_fetch_array($results))
@@ -131,7 +131,7 @@
 		echo('</table>');
 		break;
 	case 'xbl':
-		$results = db_query("select *, unix_timestamp(xbl.mtime) as mtime from xbl order by wid desc");
+		$results = db_query("select * from xbl order by wid desc");
 		echo('<table>');
 		echo_warnings($results);
 		echo('</table>');
@@ -142,6 +142,41 @@
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
 		echo('</table>');
+		break;
+	case 'edit_warning_delete_ipa_submit':
+	case 'edit_warning_insert_ipa_submit':
+	case 'show_warning':
+		$wid = $_REQUEST['wid'];
+		$results = db_query(sprintf("select * from xbl where wid = %d", $wid));
+		if ($row = mysql_fetch_array($results))
+		{
+			if ($_REQUEST['a'] == 'edit_warning_delete_ipa_submit')
+				db_query(sprintf("delete from xbl_ipas where ipa = %d and wid = %d", $_REQUEST['ipa'], $wid));
+			else if ($_REQUEST['a'] == 'edit_warning_insert_ipa_submit')
+				db_query(sprintf("insert into xbl_ipas (wid, ipa, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, ip2long($_REQUEST['ipa']), addslashes($_SERVER['REMOTE_USER'])));
+			$creator = $row['admin'];
+			$ctime = gmdate("H:i d-m-Y", $row['ctime']);
+			$link = htmlspecialchars($row['link']);
+			$mtime = gmdate("H:i d-m-Y", $row['mtime']);
+			$name = htmlspecialchars($row['name']);
+			$reason = htmlspecialchars($row['reason']);
+			$sid = $row['sid'];
+			include('templates/show_warning.php');
+			echo('<hr>');
+			echo('<table>');
+			$results = db_query(sprintf("select * from xbl_ipas where wid = %d", $wid));
+			while ($row = mysql_fetch_array($results))
+			{
+				echo('<tr>');
+				printf('<td><a href="logins.php?ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
+				printf('<td>%s', $row['creator']);
+				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
+				printf('<td><a href="?a=edit_warning_delete_ipa_submit&amp;ipa=%d&amp;wid=%d">delete</a>', $row['ipa'], $wid);
+			}
+			echo('</table>');
+			echo('<hr>');
+			include('templates/edit_warning_insert_ipa.php');
+		}
 		break;
 	default:
 		$cname = trim($_GET[cname]);
@@ -155,11 +190,11 @@
 		if ($_GET['a'] == "motds")
 			$where = " where motd != ''";
 		else if ($cname)
-			$where = sprintf(" where c.name like '%s'", AddSlashes($cname));
+			$where = sprintf(" where c.name like '%s'", addslashes($cname));
 		else if ($pid)
 			$where = sprintf(" where pid = %d", $pid);
 		else if ($pname)
-			$where = sprintf(" where p.name like '%s'", AddSlashes($pname));
+			$where = sprintf(" where p.name like '%s'", addslashes($pname));
 		else if ($sid)
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
