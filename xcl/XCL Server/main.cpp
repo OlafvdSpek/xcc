@@ -29,14 +29,12 @@ void process(const Cvirtual_binary& s)
 		Cxcc_error error;
 		if (error = database.open(mysql_host, mysql_user, mysql_pass, mysql_db))
 			throw error;
-		{
-			Csql_query q(database);
-			q.write("insert into xcl_input (d, ipa) values (%s, %s)");
-			q.pe(s);
-			q.pe(get_env("REMOTE_ADDR"));
-			q.execute();
-			database.insert_game(s);
-		}
+		Csql_query q(database);
+		q.write("insert into xcl_input (d, ipa) values (%s, %s)");
+		q.pe(s);
+		q.pe(get_env("REMOTE_ADDR"));
+		q.execute();
+		database.insert_game(s);
 	}
 	catch (Cxcc_error error)
 	{
