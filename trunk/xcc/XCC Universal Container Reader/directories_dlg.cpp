@@ -56,7 +56,6 @@ BOOL Cdirectories_dlg::OnInitDialog()
 	const char* column_label[] = {"Name"};
 
 	m_list.SetRedraw(false);
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	for (int i = 0; i < c_colums; i++)
 		m_list.InsertColumn(i, column_label[i], LVCFMT_LEFT, -1, i);
 	{
@@ -64,10 +63,7 @@ BOOL Cdirectories_dlg::OnInitDialog()
 		for (Cucr_library::t_directories::const_iterator i = list.begin(); i != list.end(); i++)
 			m_list.InsertItem(m_list.GetItemCount(), i->c_str());
 	}
-	{
-		for (int i = 0; i < c_colums; i++)
-			m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
+	m_list.auto_size();
 	m_list.SetRedraw(true);
 
 	CreateRoot(VERTICAL)
