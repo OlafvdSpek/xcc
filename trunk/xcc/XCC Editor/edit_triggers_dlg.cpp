@@ -63,8 +63,6 @@ BOOL Cedit_triggers_dlg::OnInitDialog()
 			);
 	ETSLayoutDialog::OnInitDialog();
 
-	m_list.set_full_row_selection();
-
 	m_list.add_column("Name", 0);
 	m_list.add_column("Cause", 1);	
 	m_list.add_column("Event", 2);	

@@ -53,12 +53,13 @@ void Clist_ctrl_extension::autosize_columns()
 		SetColumnWidth(i, LVSCW_AUTOSIZE);
 }
 
-void Clist_ctrl_extension::set_full_row_selection()
-{
-	SetExtendedStyle(GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-}
-
 int Clist_ctrl_extension::get_focused_item() const
 {
 	return GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+}
+
+void Clist_ctrl_extension::PreSubclassWindow() 
+{
+	CListCtrl::PreSubclassWindow();
+	SetExtendedStyle(GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 }
