@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CChildFrame
+LastClass=CLeftView
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "XCC TMP Editor.h"
@@ -74,7 +74,7 @@ ImplementationFile=LeftView.cpp
 Filter=T
 BaseClass=CListView
 VirtualFilter=VWC
-LastObject=ID_POPUP_DELETE_EXTRAIMAGE
+LastObject=ID_POPUP_COPY_IMAGE
 
 [CLS:CAboutDlg]
 Type=0

@@ -143,7 +143,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 				if (!f.get_index()[i])
 					continue;
 				const t_tmp_image_header& header = *f.get_image_header(i);
-				t_map_entry e;
+				t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
 				e.header = header;
 				bool has_z_data = header.has_z_data;
 				e.data = Cvirtual_binary(f.get_image(i), cb_diamond);
@@ -156,7 +156,6 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 					if (has_z_data)
 						e.extra_z_data = Cvirtual_binary(f.get_extra_z_data(i), cb_extra_data);
 				}
-				m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1] = e;
 			}
 			string ext = to_lower(Cfname(static_cast<string>(ar.m_strFileName)).get_fext());
 			if (ext == ".des")
@@ -304,6 +303,33 @@ void CXCCTMPEditorDoc::SetModifiedFlag(BOOL bModified)
 			title.Delete(title.GetLength() - 1);
 	}
 	SetTitle(title);
+}
+
+void CXCCTMPEditorDoc::insert()
+{
+	t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
+	{
+		t_tmp_image_header& h = e.header;
+		h.x = 0;
+		h.y = 0;
+		h.x_extra = 0;
+		h.y_extra = 0;
+		h.cx_extra = 0;
+		h.cy_extra = 0;
+		h.height = 0;
+		h.terrain_type = 0;
+		h.ramp_type = 0;
+		h.radar_red_left = 0x80;
+		h.radar_green_left = 0x80;
+		h.radar_blue_left = 0x80;
+		h.radar_red_right = 0x80;
+		h.radar_green_right = 0x80;
+		h.radar_blue_right = 0x80;
+	}
+	e.data = Cvirtual_binary(NULL, m_header.cx * m_header.cy >> 1);
+	// e = m_map.begin()->second;
+	SetModifiedFlag();
+	UpdateAllViews(NULL);
 }
 
 void CXCCTMPEditorDoc::remove(int id)
