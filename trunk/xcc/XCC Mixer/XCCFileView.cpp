@@ -391,18 +391,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 						draw_image24(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
 						m_y += f.cy() + m_y_inc;
 					}
-					/*
-					Cvirtual_binary d = f.decode();
-					if (d.data())
-					{
-						Cvirtual_image image;
-						image.load(d.data(), f.cx(), f.cy(), 4, NULL);
-						image.remove_alpha();
-						m_y += m_y_inc;
-						draw_image24(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
-						m_y += f.cy() + m_y_inc;
-					}
-					*/
 				}
 				if (ddsd.ddpfPixelFormat.dwFlags & DDPF_RGB && ddsd.ddpfPixelFormat.dwRGBBitCount == 24)
 				{
