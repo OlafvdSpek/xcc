@@ -128,14 +128,17 @@ int CXCCWOLIRCServerClientDlg::update_hosts(const string& ipa)
 	{
 		Cmulti_line l = Cmulti_line(s).get_next_line('#');
 		l.get_next_line(' ');
-		if (l.get_next_line(' ') == "servserv.westwood.com")
+		string a = l.get_next_line(' ');
+		if (a == "irc.westwood.com"
+			|| a == "servserv.westwood.com")
 			continue;
 		b += s + '\n';
 	}
 	if (f.bad())
 		return 1;
 	if (!ipa.empty())
-		b += ipa + " servserv.westwood.com\n";
+		b += ipa + " irc.westwood.com\n"
+			+ ipa + " servserv.westwood.com\n";
 	return !(ofstream(m_hosts) << b);
 }
 
