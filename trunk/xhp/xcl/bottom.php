@@ -5,7 +5,9 @@
 			<a href="http://communityteam.de/">Community Team</a> | <a href="http://strike-team.net/">Strike Team</a> | <a href="http://xccu.sourceforge.net/">XCC Home Page</a>
 		<td align=center valign=top>
 			<p>
-				<a href="https://www.paypal.com/xclick/business=st_xcl%40hotmail.com;item_name=XCL+Fund;image_url=http%3A//xccu.sourceforge.net/button.gif;no_shipping=1;no_note=1;cs=1;tax=0;currency_code=GBP"><img src="https://www.paypal.com/images/x-click-but04.gif" alt="PayPal Donate"></a>
+				<a href="http://communityteam.de/"><img src="http://communityteam.de/images/banner/ct_banner.gif"></a>
+			<p>
+				<a href="https://www.paypal.com/xclick/business=st_xcl%40hotmail.com&amp;item_name=XCL+Fund&amp;image_url=http%3A//xccu.sourceforge.net/button.gif&amp;no_shipping=1&amp;no_note=1&amp;cs=1&amp;tax=0&amp;currency_code=GBP"><img src="https://www.paypal.com/images/x-click-but04.gif" alt="PayPal Donate"></a>
 			<p>
 				<script language="JavaScript" type="text/javascript" src="http://m1.nedstatbasic.net/basic.js">
 				</script>
