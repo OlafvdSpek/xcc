@@ -28,7 +28,7 @@ int Cfile32::open(const string& name, int access, int creation, int share)
 
 FILETIME Cfile32::get_creation_time() const
 {
-    assert(is_open());
+	assert(is_open());
 	FILETIME time;
 	int r = GetFileTime(h(), &time, NULL, NULL);
 	assert(r);
@@ -141,13 +141,6 @@ int Cfile32::write(int v)
 	return write(&v, sizeof(int));
 };
 
-/*
-int Cfile32::write(const string& s)
-{
-	return write(s.c_str(), s.length() + 1);
-};
-*/
-
 int Cfile32::set_eof()
 {
     assert(is_open());
@@ -162,8 +155,6 @@ int Cfile32::set_eof()
 
 void Cfile32::close()
 {
-    if (!is_open())
-		return;
 #ifdef _MSC_VER
 	m_h.clear();
 #else
@@ -174,9 +165,7 @@ void Cfile32::close()
 Cvirtual_binary Cfile32::get_mm()
 {
 	int size = get_size();
-	if (!size)
-		return Cvirtual_binary(NULL, 0);
-	if (size < 0)
+	if (size < 1)
 		return Cvirtual_binary();
 	Cmemory_map mm(*this);
 	return Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm));
@@ -208,9 +197,24 @@ Cmemory_map_source::Cmemory_map_source(const Cfile32& f)
 	mc_references = 1;
 }
 
+Cmemory_map_source* Cmemory_map_source::attach()
+{
+	if (this)
+		mc_references++;
+	return this;
+}
+
+void Cmemory_map_source::detach()
+{
+	if (!this || --mc_references)
+		return;
+	UnmapViewOfFile(m_d);
+	delete this;
+}
+
 Cmemory_map::Cmemory_map(const Cmemory_map& v)
 {
-	m_source = v.m_source ? v.m_source->attach() : NULL;
+	m_source = v.m_source->attach();
 }
 
 Cmemory_map::Cmemory_map(const Cfile32& f)
@@ -220,25 +224,21 @@ Cmemory_map::Cmemory_map(const Cfile32& f)
 
 Cmemory_map::~Cmemory_map()
 {
-	if (m_source)
-		m_source->detach();
+	m_source->detach();
 }
 
 const Cmemory_map& Cmemory_map::operator=(const Cmemory_map& v)
 {
 	if (this != &v)
 	{
-		if (m_source)
-			m_source->detach();
-		m_source = v.m_source ? v.m_source->attach() : NULL;
+		m_source->detach();
+		m_source = v.m_source->attach();
 	}
 	return *this;
 }
 
 void Cmemory_map::clear()
 {
-	if (!m_source)
-		return;
 	m_source->detach();
 	m_source = NULL;
 }
