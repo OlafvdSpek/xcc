@@ -7,6 +7,7 @@
 
 #include "dlg_login.h"
 #include "multi_line.h"
+#include "socket.h"
 #include "string_conversion.h"
 
 #ifdef _DEBUG
@@ -73,7 +74,10 @@ BOOL CXCCWOLIRCServerClientDlg::OnInitDialog()
 
 	CDialog::OnInitDialog();
 
-	m_ipa.SetAddress(62, 93, 200, 61);
+	in_addr ipa;
+	ipa.s_addr = Csocket::get_host("servserv.xwis.net");
+
+	m_ipa.SetAddress(ipa.S_un.S_un_b.s_b1, ipa.S_un.S_un_b.s_b2, ipa.S_un.S_un_b.s_b3, ipa.S_un.S_un_b.s_b4);
 	update_ipa2();
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
