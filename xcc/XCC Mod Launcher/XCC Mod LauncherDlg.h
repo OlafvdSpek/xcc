@@ -9,6 +9,7 @@
 #endif // _MSC_VER > 1000
 
 #include "xcc_mod.h"
+#include "xap.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCModLauncherDlg dialog
@@ -18,7 +19,11 @@ class CXCCModLauncherDlg : public CDialog
 // Construction
 public:
 	static HBITMAP create_bitmap(Cvirtual_image& image);
+	LPDIRECTSOUND get_ds();
+	void open_ds();
+	void close_ds();
 	void load_button_image(string fname, CButton& button);
+	void load_intro();
 	int download_update(string link, string fname);
 	void set_mod(Cvirtual_binary v);
 	void set_mod_fname(string mod_fname);
@@ -62,11 +67,13 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
+	LPDIRECTSOUND m_ds;
 	string m_mod_fname;
 	Cxif_key m_key;
 	Cxcc_mod m_mod;
 	Cvirtual_binary m_source;
 	string m_uninstall_exe;
+	Cxap m_xap;
 };
 
 //{{AFX_INSERT_LOCATION}}
