@@ -5,7 +5,6 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <minmax.h>
 #include <set>
 #include <time.h>
 #ifndef _MSC_VER
@@ -13,11 +12,14 @@
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
+#else
+#include <minmax.h>
 #endif
 #include "cgi.h"
 #include "crc.h"
 #include "cookie.h"
 #include "html.h"
+#include "html_template.h"
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "strings.h"
@@ -48,16 +50,22 @@ enum t_config_text
 	ci_use_ladder,
 	ci_use_smilies,
 	ci_flood_limit,
+	ci_news_date_limit,
+	ci_news_size_limit,
+	ci_ssi,
 	ci_unknown,
 	ct_base_url = ci_unknown,
 	ct_css_url,
 	ct_forum_mail,
 	ct_forum_title,
 	ct_home_dir,
+	ct_news_entry_template,
 	ct_private_dir,
 	ct_public_dir,
 	ct_public_url,
 	ct_send_mail_cmd, 
+	ct_top_fname,
+	ct_bottom_fname,
 	ht_index,
 	ht_ladder,
 	ht_message,
@@ -74,6 +82,7 @@ enum t_config_text
 	ht_admin,
 	ht_ip,
 	ht_score,
+	ht_top,
 	ht_bottom,
 	ht_field_error,
 	ht_new_msg,
@@ -101,15 +110,21 @@ t_config_entry config[] =
 	{"use_ladder", ci_use_ladder, "1"},
 	{"use_smilies", ci_use_smilies, "1"},
 	{"flood_limit", ci_flood_limit, "15"},
+	{"news_date_limit", ci_news_date_limit, "30"},
+	{"news_size_limit", ci_news_size_limit, "100"},
+	{"ssi", ci_ssi, "0"},
 	{"base_url", ct_base_url, "http://xcc.tiberian.com/"},
 	{"css_url", ct_css_url, "/forum.css"},
 	{"forum_mail", ct_forum_mail, "Forum"},
 	{"forum_title", ct_forum_title, "Forum"},
 	{"home_dir", ct_home_dir, "~/"},
+	{"news_entry_template", ct_news_entry_template, ""},	
 	{"private_dir", ct_private_dir, "data/forum/"},
 	{"public_dir", ct_public_dir, "htdocs/forum/"},
 	{"public_url", ct_public_url, "/forum/"},
 	{"send_mail_cmd", ct_send_mail_cmd, "/usr/sbin/sendmail -oi -t"},
+	{"ct_top_fname", ct_top_fname, ""},
+	{"ct_bottom_fname", ct_bottom_fname, ""},
 	{"ht_index", ht_index, "Forum"},
 	{"ht_ladder", ht_ladder, "Ladder"},
 	{"ht_message", ht_message, "Message"},
@@ -126,6 +141,7 @@ t_config_entry config[] =
 	{"ht_admin", ht_admin, "Admin"},
 	{"ht_ip", ht_ip, "<th align=left>IP</th>"},
 	{"ht_score", ht_score, "<th align=left>Score</th>"},
+	{"ht_top", ht_top, ""},
 	{"ht_bottom", ht_bottom, ""},
 	{"ht_field_error", ht_field_error, "<img src=/forum/error.gif>"},
 	{"ht_new_msg", ht_new_msg, "<font color=yellow>(new)<font>"},
@@ -455,6 +471,10 @@ struct t_topic_header
 
 int read_topics()
 {
+
+	if (!topics.empty())
+
+		return 0;
 	int flags = tf_none;
 	int size = read_int(topic_f);
 	if (!size)
@@ -990,6 +1010,16 @@ void add_smily(string id, string fname)
 	smily_map[id] = fname;
 }
 
+string read_file(string fname)
+{
+	string r;
+	ifstream f(fname.c_str());
+	string s;
+	while (getline(f, s))
+		r += s + '\n';
+	return r;
+}
+
 int read_config()
 {
 	int i;
@@ -1027,9 +1057,14 @@ int read_config()
 	for (i = 0; i < ci_unknown; i++)
 		config_int[i] = atoi(config_string[i].c_str());
 	// config_string[ct_private_dir] = "data/nldark/forum/";
+	config_string[ct_news_entry_template] = config_string[ct_home_dir] + config_string[ct_news_entry_template];
 	config_string[ct_private_dir] = config_string[ct_home_dir] + config_string[ct_private_dir];
 	config_string[ct_public_dir] = config_string[ct_home_dir] + config_string[ct_public_dir];
 	// config_string[ht_bottom] += "<div align=right><a href=\"mailto:Webmaster <XCC@XCC.TMFWeb.NL>\">Olaf van der Spek</a>'s <a href=\"http://xcc.tiberian.com/show_frame.php?src=/downloads/\">Forum</a> v0.90</div>";
+	if (!config_string[ct_top_fname].empty())
+		config_string[ht_top] = read_file(config_string[ct_home_dir] + config_string[ct_top_fname]);
+	if (!config_string[ct_bottom_fname].empty())
+		config_string[ht_bottom] = read_file(config_string[ct_home_dir] + config_string[ct_bottom_fname]);
 	return 0;
 }
 
@@ -1135,7 +1170,7 @@ Chtml get_top(t_config_text title)
 			r += br(get_admin_links ());
 		r += br(get_links2()) + br(get_links());
 	}
-	return table(tr(td(html_span(config_string[title], "class=page_title"), "valign=bottom") + td(br(config_string[ct_forum_title]) + r, "align=right valign=bottom")), "width=100%") + hr();
+	return config_string[ht_top] + table(tr(td(html_span(config_string[title], "class=page_title"), "valign=bottom") + td(br(config_string[ct_forum_title]) + r, "align=right valign=bottom")), "width=100%") + hr();
 }
 
 Chtml get_bottom(Chtml text)
@@ -1146,10 +1181,8 @@ Chtml get_bottom(Chtml text)
 		r += br(get_links()) + br(get_links2());
 		if (admin)
 			r += br(get_admin_links ());
-	}
-	
-	return hr() + table(tr(td(text, "valign=top") + td(r + br(config_string[ct_forum_title]) + "<a href=\"mailto:Webmaster <XCC@XCC.TMFWeb.NL>\">Olaf van der Spek</a>'s <a href=\"http://xcc.tiberian.com/show_frame.php?src=/downloads/\">Forum</a> v0.90", "align=right valign=top")), "width=100%") + config_string[ht_bottom];
-	return hr() + table(tr(td(text, "valign=top") + td(r + br(config_string[ct_forum_title]), "align=right valign=top")), "width=100%") + config_string[ht_bottom];
+	}	
+	return hr() + table(tr(td(text, "valign=top") + td(r + br(config_string[ct_forum_title]) + "<a href=\"mailto:Webmaster <XCC@XCC.TMFWeb.NL>\">Olaf van der Spek</a>'s <a href=\"http://xcc.tiberian.com/show_frame.php?src=/downloads/\">Forum</a> v0.92", "align=right valign=top")), "width=100%") + config_string[ht_bottom];
 }
 
 Chtml thread_header(bool no_parent)
@@ -1681,7 +1714,13 @@ Chtml post_msg_submit()
 	{
 		t_msg old_msg;
 		if (!read_msg(slot, old_msg))
+
+		{
+
+			msg.remote_addr = old_msg.remote_addr;
 			msg.flags |= old_msg.flags & (mf_allow_html | mf_locked);
+
+		}
 	}
 	else
 	{
@@ -1739,6 +1778,10 @@ Chtml post_msg_submit()
 		}
 	}
 	location = cgi.get_value("location");
+
+	if (location.empty())
+
+		return show_msg(slot, true);
 	return
 		get_top(ht_message_posted) +
 		"Your message has been posted, click " + an_self("here", a_show_index) + " to return to the index.\n" +
@@ -1800,16 +1843,50 @@ Chtml page_show_newest_messages()
 
 Chtml page_show_news()
 {
+	Cvirtual_binary tb;
+	if (!config_string[ct_news_entry_template].empty())
+	{
+		Ctemplate_write tw;
+		ifstream f(config_string[ct_news_entry_template].c_str());
+		string s;
+		while (getline(f, s))
+			tw.import_line(s);
+		tb = tw.value();
+	}
 	open_topic_f(false);
 	if (read_topics())
 		return "Error: unable to read topics\n";
 	Chtml page;
+	int current_date = get_time();
+	int date_limit = config_int[ci_news_date_limit] * 24 * 60 * 60;
+	int size_limit = config_int[ci_news_size_limit];
 	for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
 	{
+		// page += "<!--" + n(size_limit) + "," + n(current_date - i->second.date) + "-->";
 		t_msg msg;
 		if (i->second.news() && !read_msg(i->first, msg))
 		{
-			page += table(tr(td("<img src=/Image2.gif> " + msg.subject) + td("Posted by " + get_name(msg.name, msg.mail) + " on " + cnv_date(i->second.date, true), "align=right")), "width=100%") + html_ul(msg.body + p(an_self("Comments", a_show_msg, "slot=" + n(i->first))) + " (" + n(get_thread_size(i->first) - 1) + ")");
+			if (!size_limit--
+				|| current_date - i->second.date > date_limit)
+				break;
+			if (tb.size())
+			{
+				Chtml_template t = tb;
+				t.r("name", msg.name);
+				t.r("mail", msg.mail);
+				t.r("subject", msg.subject);
+				t.r("body", msg.body);
+				t.r("signature", msg.signature);
+				t.r("uin", msg.uin);
+				t.r("link_once", msg.link_once);
+				t.r("link_title", msg.link_title);
+				t.r("link", msg.link);
+				t.r("show_message", cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(i->first));
+				t.r("c_comments", n(get_thread_size(i->first) - 1));
+				page += static_cast<string>(t);
+			}
+			else
+				page += table(tr(td("<img src=/Image2.gif> " + msg.subject) + td("Posted by " + get_name(msg.name, msg.mail) + " on " + cnv_date(i->second.date, true), "align=right")), "width=100%") + html_ul(msg.body + p(an_self("Comments", a_show_msg, "slot=" + n(i->first))) + " (" + n(get_thread_size(i->first) - 1) + ")");
 		}
 	}
 	return page;
@@ -2026,7 +2103,7 @@ int main()
 		cout << "Content-type: text/html" << endl
 			<< cookie
 			<< endl
-			<< html(head_forum() + body(page));
+			<< (config_int[ci_ssi] ? page : html(head_forum() + body(page)));
 	}
 	return 0;
 }
