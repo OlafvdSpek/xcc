@@ -70,7 +70,6 @@ END_MESSAGE_MAP()
 
 CLeftView::CLeftView()
 {
-	m_buffer_w = 0;
 }
 
 CLeftView::~CLeftView()
@@ -107,7 +106,7 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
-	m_buffer[m_buffer_w].erase();
+	m_buffer[++m_buffer_w &= 3].erase();
 	const CXCCTMPEditorDoc::t_map_entry& e = GetDocument()->map().find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
@@ -130,8 +129,7 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = n(e.header.ramp_type);
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w++].c_str());
-	m_buffer_w &= 3;
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
 	*pResult = 0;
 }
 

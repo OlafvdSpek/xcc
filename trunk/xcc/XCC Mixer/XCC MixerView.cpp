@@ -203,7 +203,6 @@ static CMainFrame* GetMainFrame()
 
 CXCCMixerView::CXCCMixerView()
 {
-	m_buffer_w = 0;
 	m_mix_f = NULL;
 	m_reading = false;
 }
@@ -503,7 +502,7 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
-	m_buffer[m_buffer_w].erase();
+	m_buffer[++m_buffer_w &= 3].erase();
 	const t_index_entry&  e = m_index.find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
@@ -522,8 +521,7 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = e.description;
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w++].c_str());
-	m_buffer_w &= 3;
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
 	*pResult = 0;
 }
 
