@@ -78,6 +78,17 @@ BEGIN
     LTEXT           "Size:",IDC_STATIC,7,41,38,8
 END
 
+IDD_MODE DIALOG DISCARDABLE  0, 0, 152, 45
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Mode"
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_MODE,7,7,138,343,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,38,24,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,95,24,50,14
+END
+
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -147,6 +158,14 @@ BEGIN
         RIGHTMARGIN, 327
         TOPMARGIN, 7
         BOTTOMMARGIN, 72
+    END
+
+    IDD_MODE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 145
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 38
     END
 END
 #endif    // APSTUDIO_INVOKED

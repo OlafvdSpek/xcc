@@ -8,7 +8,9 @@
 #define IDB_BANNER_NEW                  131
 #define IDR_BANNER                      135
 #define IDD_DOWNLOAD_UPDATE             141
+#define IDD_MODE                        144
 #define IDC_BANNER                      1003
+#define IDC_MODE                        1003
 #define IDC_BUTTON_XHP                  1008
 #define IDC_SOURCE                      1009
 #define IDC_DESTINATION                 1010
@@ -24,7 +26,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        144
+#define _APS_NEXT_RESOURCE_VALUE        145
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1090
 #define _APS_NEXT_SYMED_VALUE           101
