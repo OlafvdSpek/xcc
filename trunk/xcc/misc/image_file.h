@@ -14,6 +14,7 @@
 #include "palet.h"
 #include "video_file.h"
 #include "virtual_file.h"
+#include "virtual_image.h"
 
 using namespace std;
 
@@ -22,6 +23,7 @@ class Cimage_file: public Cvideo_file<T>
 {
 public:
 	virtual void decode(void*) const = 0;
+	virtual Cvirtual_image vimage() const = 0;
 
 	int cf() const
 	{

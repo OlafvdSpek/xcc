@@ -19,7 +19,7 @@ class Cpcx_file: public Cimage_file<t_pcx_header>
 {
 public:
 	void decode(void*) const;
-	void decode(Cvirtual_image& image) const;
+	Cvirtual_image vimage() const;
 
 	bool is_valid() const
 	{
@@ -33,6 +33,11 @@ public:
 			header.c_planes != 1 && header.c_planes != 3);
 	}
 
+	int cb_pixel() const
+	{
+		return get_header()->c_planes;
+	}
+
 	int cx() const
 	{
 		return get_header()->xmax - get_header()->xmin + 1;
@@ -41,11 +46,6 @@ public:
 	int cy() const
 	{
 		return get_header()->ymax - get_header()->ymin + 1;
-	}
-
-	int get_c_planes() const
-	{
-		return get_header()->c_planes;
 	}
 
 	void decode(byte* d) const
