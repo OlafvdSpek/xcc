@@ -61,17 +61,19 @@
 			while ($result = mysql_fetch_array($results))
 				printf("%s %d %d %d %d %d\n", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
 		}
-		else
+		else if ($lid)
 		{
-			$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET[pname])));
-			if ($result = mysql_fetch_array($results))
-				printf("%d %d %d %d", $result[rank], $result[win_count], $result[loss_count], $result[points]);
+			if ($pname)
+				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET[pname])));
+			else
+				$results = db_query(sprintf("select * from xcl_players where lid = %d and points", $lid));
+			while ($result = mysql_fetch_array($results))
+				printf("%d %d %d %d %s\n", $result[rank], $result[win_count], $result[loss_count], $result[points], $result[name]);
 		}
 		return;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html>
 	<link rel=stylesheet href="/xcl.css">
 	<meta http-equiv=content-type content="text/html; charset=us-ascii">
 	<title>XCC Community Ladder</title>
@@ -216,16 +218,16 @@
 		default:
 			$country_flag_urls = array
 			(
-				"http://xcc.arm-ent.com/xcl/usai.png",
-				"http://xcc.arm-ent.com/xcl/japi.png",
-				"http://xcc.arm-ent.com/xcl/frai.png",
-				"http://xcc.arm-ent.com/xcl/geri.png",
-				"http://xcc.arm-ent.com/xcl/gbri.png",
-				"http://xcc.arm-ent.com/xcl/djbi.png",
-				"http://xcc.arm-ent.com/xcl/arbi.png",
-				"http://xcc.arm-ent.com/xcl/lati.png",
-				"http://xcc.arm-ent.com/xcl/rusi.png",
-				"http://xcc.arm-ent.com/xcl/yrii.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/usai.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/japi.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/frai.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/geri.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/gbri.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/djbi.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/arbi.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/lati.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/rusi.png",
+				"http://www.liacs.nl/~ovdspek/xcl/images/yrii.png",
 			);
 		}
 		return $country_flag_urls[$i & 0xff];
@@ -365,13 +367,12 @@
 	else if (isset($_GET[hos]))
 	{
 		echo("<center><table><tr><th>Name");
-		$results = db_query("select xcl_players.* from xcl_players inner join bl using (name) order by xcl_players.name");
+		$results = db_query("select xcl_players.pid from xcl_players inner join bl using (name) where points");
 		while ($result = mysql_fetch_array($results))
-		{
+			db_query(sprintf("update xcl_players set points = 0 where pid = %d", $result[pid]));
+		$results = db_query("select distinct xcl_players.name from xcl_players inner join bl using (name) order by xcl_players.name");
+		while ($result = mysql_fetch_array($results))
 			printf("<tr><td>%s", $result[name]);
-			if ($result[points])
-				db_query(sprintf("update xcl_players set points = 0 where pid = %d", $result[pid]));
-		}
 		echo("</table></center>");
 	}
 	else if (isset($_GET[stats]))
@@ -564,7 +565,7 @@
 					? $lid
 					? sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc", $lid, AddSlashes($pname))
 					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.name like \"%s\" order by points desc", AddSlashes($pname))
-					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and points order by points desc", $lid));
+					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and points order by points desc limit 250", $lid));
 				if ($result = mysql_fetch_array($results))
 				{
 					do
@@ -634,9 +635,21 @@
 <hr>
 <table width="100%">
 	<tr>
-		<td align=vtop>
-			<a href="http://strike-team.net/">Strike Team.Net</a>
+		<td valign=top>
+			<a href="http://striketeam.net/">Strike Team</a> | <a href="/">XCC Home Page</a>
+		<td align=center valign=top>
+			<a href="http://www.striketeam.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=14"><img src="https://www.paypal.com/images/x-click-but04.gif"></a>
+
+			<script language="JavaScript" type="text/javascript" src="http://m1.nedstatbasic.net/basic.js">
+			</script>
+			<script language="JavaScript" type="text/javascript" >
+			<!--
+				nedstatbasic("ACYaRA5mKkSNw9DcBlC+vYnGi83A", 0);
+			// -->
+			</script>
+			<noscript>
+				<a target="_blank" href="http://v1.nedstatbasic.net/stats?ACYaRA5mKkSNw9DcBlC+vYnGi83A"><img src="http://m1.nedstatbasic.net/n?id=ACYTXwDHntQULdYZIrOjZRmDVgjQ"	border="0" nosave width="18" height="18"></a>
+			</noscript>
 		<td align=right valign=top>
 			<?php echo(date("H:i d-m-Y", time())); ?>
 </table>
-</html>
