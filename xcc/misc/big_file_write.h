@@ -15,7 +15,7 @@ class Cbig_file_write
 {
 public:
 	void clear();
-	void insert(string name, const Cvirtual_binary d);
+	void insert(const string& name, const Cvirtual_binary& d);
 	Cvirtual_binary write();
 private:
 	typedef map<string, Cvirtual_binary> t_index;

@@ -13,7 +13,7 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
-void Cbig_file_write::insert(string name, const Cvirtual_binary d)
+void Cbig_file_write::insert(const string& name, const Cvirtual_binary& d)
 {
 	m_index[name] = d;
 }
@@ -50,7 +50,7 @@ Cvirtual_binary Cbig_file_write::write()
 		w += sizeof(t_big_index_entry);		
 		memcpy(w, i->first.c_str(), i->first.length() + 1);
 		w += i->first.length() + 1;
-		w2 += i->second.read(w);
+		w2 += i->second.read(w2);
 	}
 	assert(w2 == d.data_end());
 	return d;
