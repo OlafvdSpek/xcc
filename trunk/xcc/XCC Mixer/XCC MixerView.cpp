@@ -692,6 +692,12 @@ int CXCCMixerView::open_f_index(Ccc_file& f, int i) const
 	return open_f_id(f, GetListCtrl().GetItemData(i));
 }
 
+Cvirtual_binary CXCCMixerView::get_vdata(int i) const
+{
+	int id = GetListCtrl().GetItemData(i);
+	return m_mix_f ? m_mix_f->get_vdata(id) : Cvirtual_binary(m_dir + m_index.find(id)->second.name);
+}
+
 void CXCCMixerView::OnPopupExtract()
 {
 	int id = get_current_id();
@@ -761,17 +767,16 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_wsa:
 		return d == ft_pcx;
 	case ft_dds:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx || d == ft_png || ft_tga;
+	case ft_jpeg:
+	case ft_png:
+	case ft_tga:
+		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
 	case ft_hva:
 		return d == ft_csv;
-	case ft_jpeg:
-		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_pal:
 		return d == ft_pal_jasc;
 	case ft_pcx:
 		return d == ft_clipboard || d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tmp_ts || d == ft_vxl;
-	case ft_png:
-		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
@@ -780,8 +785,6 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png || d == ft_tga;
 	case ft_text:
 		return d == ft_html || d == ft_hva || d == ft_vxl;
-	case ft_tga:
-		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
@@ -1279,15 +1282,15 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			}
 			break;
 		}
+	case ft_jpeg:
 	case ft_pcx:
+	case ft_png:
+	case ft_tga:
 		{
-			Cpcx_file f;
-			error = open_f_index(f, i);
+			Cvirtual_image image;
+			error = image.load(get_vdata(i));
 			if (!error)
-			{
-				error = f.extract_as_png(fname);
-				f.close();
-			}
+				error = image.save(fname, ft);
 			break;
 		}
 	case ft_shp_dune2:
@@ -1573,9 +1576,9 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		{
 			Cvirtual_image image;
 			error = image.load(f.get_vdata());
+			f.close();
 			if (!error)
 			{
-				f.close();
 				if (image.palet())
 					memcpy(s_palet, image.palet(), sizeof(t_palet));
 				else
