@@ -136,6 +136,10 @@ SOURCE=..\misc\mix_file_write.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\palet.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\shp_decode.cpp
 # End Source File
 # Begin Source File

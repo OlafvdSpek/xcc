@@ -141,6 +141,10 @@ SOURCE=..\..\misc\ddpf_conversion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\dds_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\extract_object.cpp
 # End Source File
 # Begin Source File
@@ -226,6 +230,10 @@ SOURCE=..\misc\mix_file.cpp
 # Begin Source File
 
 SOURCE=..\misc\mix_file_write.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_rg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -390,6 +398,10 @@ SOURCE=..\misc\vxl_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\w3d_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\wav_file.cpp
 # End Source File
 # Begin Source File
@@ -531,6 +543,10 @@ SOURCE=..\misc\dd_window.h
 # Begin Source File
 
 SOURCE=..\..\misc\ddpf_conversion.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\dds_file.h
 # End Source File
 # Begin Source File
 
@@ -831,6 +847,10 @@ SOURCE=..\misc\vqp_file.h
 # Begin Source File
 
 SOURCE=..\misc\vxl_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\w3d_file.h
 # End Source File
 # Begin Source File
 
