@@ -511,7 +511,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.29\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.30\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
