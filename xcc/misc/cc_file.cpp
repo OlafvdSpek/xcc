@@ -227,7 +227,7 @@ int Ccc_file::open(const Cwin_handle& h)
 	return 0;
 }
 
-void Ccc_file::load(const Cvirtual_binary d, int size)
+void Ccc_file::load(const Cvirtual_binary& d, int size)
 {
 	m_data = d;
 	m_mix_f = NULL;
@@ -516,40 +516,27 @@ int Ccc_file::read(void* data, int size)
 int Ccc_file::extract(const string& name)
 {
 	assert(is_open());
+	if (get_data())
+		return get_vdata().export(name);
 	seek(0);
-	int error = 0;
 	Cfile32 f;
-	error = f.open_write(name);
-	if (!error)
+	int error = f.open_write(name);
+	if (error)
+		return error;
+	Cvirtual_binary data;
+	for (int size = get_size(); size; )
 	{
-		if (get_data())
-			error = f.write(get_data(), get_size());
-		else
-		{
-			int cb_max_write = 1024 * 1024;
-			int size = get_size();
-			if (cb_max_write > size)
-				cb_max_write = size;
-			byte* data = new byte[cb_max_write];
-			while (!error && size)
-			{
-				int cb_write = size > cb_max_write ? cb_max_write : size;
-				error = read(data, cb_write);
-				if (!error)
-				{
-					error = f.write(data, cb_write);
-					size -= cb_write;
-				}
-			}
-		}
-		f.close();
+		int cb_write = min(size, 1 << 20);
+		if (error = read(data.write_start(cb_write), cb_write))
+			return error;
+		size -= cb_write;
 	}
-	return error;
+	return 0;
 }
 
 void Ccc_file::close()
 {
 	m_data.clear();
-    m_f.close();
-    m_is_open = false;
+	m_f.close();
+	m_is_open = false;
 }
