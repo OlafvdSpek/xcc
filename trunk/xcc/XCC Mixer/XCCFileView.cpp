@@ -7,6 +7,7 @@
 #include "XCC Mixer.h"
 
 #include <cmath>
+#include <strstream>
 #include "aud_file.h"
 #include "cps_file.h"
 #include "fname.h"
@@ -22,6 +23,7 @@
 #include "pcx_decode.h"
 #include "pcx_file.h"
 #include "png_file.h"
+#include "pkt_ts_ini_reader.h"
 #include "shp_decode.h"
 #include "shp_images.h"
 #include "shp_dune2_file.h"
@@ -186,10 +188,30 @@ void CXCCFileView::load_color_table(const t_palet palet, bool convert_palet)
 	}
 }
 
-void CXCCFileView::draw_info(const string& n, const string& d)
+static string t2s(const string& v)
+{
+	string r;
+	for (int i = 0; i < v.length(); i++)
+	{
+		char c = v[i];
+		if (c == '\t')
+		{
+			do
+				r += ' ';
+			while (r.length() & 3);
+		}
+		else
+			r += c;
+	}
+	return r;
+}
+
+void CXCCFileView::draw_info(string n, string d)
 {
 	if (!m_text_cache_valid)
 	{
+		n = t2s(n);
+		d = t2s(d);
 		t_text_cache_entry e;
 		e.text_extent = CRect(CPoint(0, m_y), m_dc->GetTextExtent(n.c_str()));
 		e.t = n;
@@ -283,6 +305,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		draw_info("ID:", nh(8, m_id));
 		draw_info("Size:", n(m_size));
 		draw_info("Type:", ft_name[m_ft]);
+		bool show_binary = false;
 		switch (m_ft)
 		{
 		case ft_aud:
@@ -405,17 +428,18 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				}
 				const Cmap_ts_ini_reader::t_map_data& md = ir.get_map_data();
 				const Cmap_ts_ini_reader::t_preview_data& pd = ir.get_preview_data();
-				const string& pdp = ir.get_preview_pack_data();
+				const string& ppd = ir.get_preview_pack_data();
 				draw_info("Name:", ir.get_basic_data().name);
 				draw_info("Size:", n(md.size_right) + " x " + n(md.size_bottom));
 				draw_info("Theater:", ir.get_map_data().theater);
+				draw_info("Max players:", n(ir.max_players()));
 				if (pd.cx && pd.cy)
 				{
 					m_y += m_y_inc;
-					byte* s = new byte[pdp.length()];
-					int cb_s = decode64(reinterpret_cast<const byte*>(pdp.c_str()), s);
+					byte* s = new byte[ppd.length()];
+					int cb_s = decode64(reinterpret_cast<const byte*>(ppd.c_str()), s);
 					byte* image = new byte[pd.cx * pd.cy * 3];
-					decode5(s, image, cb_s);
+					decode5(s, image, cb_s, 5);
 					draw_image24(image, pd.cx, pd.cy, pDC, 0, m_y);
 					delete[] image;
 					delete[] s;
@@ -457,18 +481,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Padding:", header.padding() ? "yes" : "no");
 				draw_info("Samplerate:", n(header.samplerate()));
 				draw_info("Version:", mpv_name[header.version()]);
-				break;
-			}
-		case ft_pal:
-			{
-				Cpal_file f;
-				f.load(m_data, m_cb_data);
-				m_y += m_y_inc;
-				const t_palet_entry* palet = f.get_palet();
-				for (int i = 0; i < 256; i++)
-				{
-					draw_info((nh(2, i) + " - " + nwzl(2, palet[i].r) + ' '+ nwzl(2, palet[i].g) + ' '+ nwzl(2, palet[i].b)), "");
-				}
 				break;
 			}
 		case ft_pcx:
@@ -608,53 +620,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				}
 				break;
 			}
-		case ft_sound_ini_ts:
-			{
-				Csound_ts_ini_reader ir;
-				ir.process(m_data, m_size);
-				const Csound_ts_ini_reader::t_sound_list& sl = ir.get_sound_list();
-				draw_info("Count sounds:", n(sl.size()));
-				m_y += m_y_inc;
-				/*
-				int column_size[] = {0, 6, 3, 0};
-				for (Csound_ts_ini_reader::t_sound_list::const_iterator i = sl.begin(); i != sl.end(); i++)
-				{
-					const Csound_data& td = i->second;
-					column_size[0] = max(column_size[0], td.name().length());
-					column_size[3] = max(column_size[3], td.side().length());
-				}
-				*/
-				for (Csound_ts_ini_reader::t_sound_list::const_iterator i = sl.begin(); i != sl.end(); i++)
-				{
-					draw_info(i->first, "");
-				}
-				break;
-			}
-		case ft_st:
-			if (!m_text_cache_valid)
-			{
-				Cst_file f;
-				f.load(m_data, m_cb_data);
-				const int c_strings = f.get_c_strings();
-				draw_info("Count strings", n(c_strings));
-				m_y += m_y_inc;
-				for (int i = 0; i < c_strings; i++)
-					draw_info(nwzl(5, i) + ' ' + f.get_string(i), "");
-			}
-			break;
-		case ft_art_ini_ts:
-		case ft_ini:
-		case ft_rules_ini_ts:
-		case ft_text:
-			if (!m_text_cache_valid)
-			{
-				m_y += m_y_inc;
-				Cvirtual_tfile tf;
-				tf.load_data(m_data, m_cb_data);
-				while (!tf.eof())
-					draw_info(tf.read_line(), "");
-			}
-			break;
 		case ft_theme_ini_ts:
 			{
 				Cvirtual_tfile tf;
@@ -1050,35 +1015,126 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				break;
 			}
 		default:
-			if (!m_text_cache_valid)
-			{
-				m_y += m_y_inc;
-				if (m_cb_data > 32 * 1024)
-					m_cb_data = 32 * 1024;
-				for (int r = 0; r < m_cb_data; )
-				{
-					string line = nwzl(5, r) + ' ';
-					int line_data[16];
-					for (int c = 0; c < 16; c++)
-					{
-						line_data[c] = r < m_cb_data ? m_data[r] : -1;
-						r++;
-					}
-					for (c = 0; c < 16; c++)
-					{
-						if (!(c & 7))
-							line += "- ";
-						line += line_data[c] == -1 ? "   " : nh(2, line_data[c]) + ' ';
-					}
-					line += "- ";
-					for (c = 0; c < 16; c++)
-						line += line_data[c] < 0x20 ? ' ' : line_data[c];
-					draw_info(line, "");
-				}
-			}
+			show_binary = true;
 		}
 		if (!m_text_cache_valid)
 		{
+			switch (m_ft)
+			{
+			case ft_pal:
+				{
+					Cpal_file f;
+					f.load(m_data, m_cb_data);
+					m_y += m_y_inc;
+					const t_palet_entry* palet = f.get_palet();
+					for (int i = 0; i < 256; i++)
+					{
+						draw_info((nh(2, i) + " - " + nwzl(2, palet[i].r) + ' '+ nwzl(2, palet[i].g) + ' '+ nwzl(2, palet[i].b)), "");
+					}
+					break;
+				}
+			case ft_pkt_ts:
+				{
+					Cpkt_ts_ini_reader ir;
+					ir.process(m_data, m_size);
+					const Cpkt_ts_ini_reader::t_map_list& ml = ir.get_map_list();
+					draw_info("Count maps:", n(ml.size()));
+					m_y += m_y_inc;
+					for (Cpkt_ts_ini_reader::t_map_list::const_iterator i = ml.begin(); i != ml.end(); i++)
+					{
+						draw_info(i->first, i->second.m_description + ", " + i->second.m_gamemode);
+					}
+					break;
+				}
+			case ft_sound_ini_ts:
+				{
+					Csound_ts_ini_reader ir;
+					ir.process(m_data, m_size);
+					const Csound_ts_ini_reader::t_sound_list& sl = ir.get_sound_list();
+					draw_info("Count sounds:", n(sl.size()));
+					m_y += m_y_inc;
+					/*
+					int column_size[] = {0, 6, 3, 0};
+					for (Csound_ts_ini_reader::t_sound_list::const_iterator i = sl.begin(); i != sl.end(); i++)
+					{
+					const Csound_data& td = i->second;
+					column_size[0] = max(column_size[0], td.name().length());
+					column_size[3] = max(column_size[3], td.side().length());
+					}
+					*/
+					for (Csound_ts_ini_reader::t_sound_list::const_iterator i = sl.begin(); i != sl.end(); i++)
+					{
+						draw_info(i->first, "");
+					}
+					break;
+				}
+			case ft_st:
+				{
+					Cst_file f;
+					f.load(m_data, m_cb_data);
+					const int c_strings = f.get_c_strings();
+					draw_info("Count strings", n(c_strings));
+					m_y += m_y_inc;
+					for (int i = 0; i < c_strings; i++)
+						draw_info(nwzl(5, i) + ' ' + f.get_string(i), "");
+					break;
+				}
+			case ft_art_ini_ts:
+			case ft_ini:
+			case ft_rules_ini_ts:
+			case ft_text:
+				{
+					m_y += m_y_inc;
+					Cvirtual_tfile tf;
+					tf.load_data(m_data, m_cb_data);
+					while (!tf.eof())
+						draw_info(tf.read_line(), "");
+					break;
+				}
+			case ft_xif:
+				{
+					m_y += m_y_inc;
+					Cxif_key key;
+					if (!key.load_key(m_data, m_cb_data))
+					{
+						strstream s;
+						key.dump(s, true);
+						string line;
+						while (getline(s, line))
+						{
+							draw_info(line, "");
+						}
+					}
+					break;
+				}
+			default:
+				if (show_binary)
+				{
+					m_y += m_y_inc;
+					if (m_cb_data > 32 * 1024)
+						m_cb_data = 32 * 1024;
+					for (int r = 0; r < m_cb_data; )
+					{
+						string line = nwzl(5, r) + ' ';
+						int line_data[16];
+						for (int c = 0; c < 16; c++)
+						{
+							line_data[c] = r < m_cb_data ? m_data[r] : -1;
+							r++;
+						}
+						for (c = 0; c < 16; c++)
+						{
+							if (!(c & 7))
+								line += "- ";
+							line += line_data[c] == -1 ? "   " : nh(2, line_data[c]) + ' ';
+						}
+						line += "- ";
+						for (c = 0; c < 16; c++)
+							line += line_data[c] < 0x20 ? ' ' : line_data[c];
+						draw_info(line, "");
+					}
+				}
+			}
 			SetScrollSizes(MM_TEXT, CSize(m_x, m_y));
 			m_text_cache_valid = true;
 		}
@@ -1140,9 +1196,9 @@ void CXCCFileView::post_open(Ccc_file& f)
 {
 	if (f.is_open())
 	{
-		m_ft = f.get_file_type();
+		m_ft = f.get_file_type(false);
 		m_size = f.get_size();
-		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa) ? m_size : 256 << 10;
+		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
 		m_cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
 		m_data = new byte[m_cb_data];
 		f.read(m_data, m_cb_data);

@@ -41,7 +41,7 @@ RSC=rc.exe
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\libjpeg" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
 # ADD BASE RSC /l 0x413 /d "NDEBUG"
 # ADD RSC /l 0x413 /d "NDEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
@@ -64,7 +64,7 @@ LIB32=link.exe -lib
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\libjpeg" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE RSC /l 0x413 /d "_DEBUG"
 # ADD RSC /l 0x413 /d "_DEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
@@ -157,6 +157,10 @@ SOURCE=..\misc\fs_ini_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\hva_file.cpp
 # End Source File
 # Begin Source File
@@ -197,7 +201,15 @@ SOURCE=..\misc\map_td_ini_reader.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\map_ts_encoder.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\map_ts_ini_reader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\lzo\minilzo\minilzo.cpp
 # End Source File
 # Begin Source File
 
@@ -266,6 +278,10 @@ SOURCE=..\misc\pcx_file.cpp
 # Begin Source File
 
 SOURCE=..\misc\pcx_file_write.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\pkt_ts_ini_reader.cpp
 # End Source File
 # Begin Source File
 
@@ -422,6 +438,14 @@ SOURCE=..\..\misc\xfile32.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\xif_key.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\xif_value.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\xse.cpp
 # End Source File
 # Begin Source File
@@ -534,6 +558,10 @@ SOURCE=..\misc\fs_ini_file.h
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\xhp\cgi-bin\misc\html.h"
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\hva_file.h
 # End Source File
 # Begin Source File
@@ -578,7 +606,15 @@ SOURCE=..\misc\map_td_ini_reader.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\map_ts_encoder.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\map_ts_ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\lzo\minilzo\minilzo.h
 # End Source File
 # Begin Source File
 
@@ -651,6 +687,10 @@ SOURCE=..\misc\pcx_file.h
 # Begin Source File
 
 SOURCE=..\misc\pcx_file_write.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\pkt_ts_ini_reader.h
 # End Source File
 # Begin Source File
 
@@ -751,6 +791,10 @@ SOURCE=..\..\misc\vartypes.h
 # Begin Source File
 
 SOURCE=..\misc\virtual_audio.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_binary.h
 # End Source File
 # Begin Source File
 

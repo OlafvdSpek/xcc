@@ -22,10 +22,10 @@ Resource3=IDR_TMPTYPE
 Class5=CChildFrame
 Class6=CLeftView
 Resource4=IDD_ABOUTBOX (English (U.S.))
-Resource5=IDR_TMPTYPE (English (U.S.))
+Resource5=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
 Class8=Cproperties_dlg
 Resource6=IDD_PROPERTIES
-Resource7=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
+Resource7=IDR_TMPTYPE (English (U.S.))
 Resource8=IDD_PROPERTIES (English (U.S.))
 
 [CLS:CXCCTMPEditorApp]

@@ -82,7 +82,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 				for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
 				{
 					t_map_entry& e = i->second;
-					if (e.header.x == half_cx * x - half_cx * y && e.header.y == half_cy * x + half_cy * y)
+					if (e.header.x == half_cx * (x - y) && e.header.y == half_cy * (x + y))
 					{
 						*index++ = w - d;
 						int cb_diamond = m_header.cx * m_header.cy >> 1;
@@ -394,7 +394,7 @@ t_rect CXCCTMPEditorDoc::get_rect(bool view_true_height) const
 	}
 	if (view_true_height)
 	{
-		int y = half_cy * m_header.cblocks_x + half_cy * m_header.cblocks_y;
+		int y = half_cy * (m_header.cblocks_x + m_header.cblocks_y);
 		rect.b = max(rect.b, y);
 	}
 	return rect;
@@ -527,4 +527,3 @@ void CXCCTMPEditorDoc::draw_reverse(const byte* d)
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
 }
-

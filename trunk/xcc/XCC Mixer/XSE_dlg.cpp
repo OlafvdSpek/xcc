@@ -464,7 +464,7 @@ void CXSE_dlg::add_file(const string& name)
 					e.offset = m_bag_f.get_size();
 					e.size = cb_s;
 					e.samplerate = format_chunk.samplerate;
-					e.flags = 4 | format_chunk.c_channels == 2;
+					e.flags = 4 | (format_chunk.c_channels == 2);
 					if (format_chunk.tag == 1)
 					{
 						e.flags |= 2;

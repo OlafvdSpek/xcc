@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /D "NO_MIX_SUPPORT" /D "NO_INI_SUPPORT" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /D "NO_FT_SUPPORT" /D "NO_INI_SUPPORT" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x413 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 libpng.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 libpng.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
 
 !ELSEIF  "$(CFG)" == "XCC Map Decoder - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /D "NO_MIX_SUPPORT" /D "NO_INI_SUPPORT" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_AFXDLL" /D "NO_FT_SUPPORT" /D "NO_INI_SUPPORT" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x413 /d "_DEBUG" /d "_AFXDLL"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libpng.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 libpng.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
 
 !ENDIF 
 
@@ -92,7 +92,19 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\..\misc\blowfish.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\cc_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\crc.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\csf_file.cpp
 # End Source File
 # Begin Source File
 
@@ -112,12 +124,28 @@ SOURCE=..\..\misc\lzo\minilzo\minilzo.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_decode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_file_write.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\shp_decode.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\string_conversion.cpp
 # End Source File
 # Begin Source File
 
@@ -134,6 +162,22 @@ SOURCE=".\XCC Map Decoder.rc"
 # Begin Source File
 
 SOURCE=".\XCC Map DecoderDlg.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_dirs.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_lmd_file_write.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_registry.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\XSTE.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

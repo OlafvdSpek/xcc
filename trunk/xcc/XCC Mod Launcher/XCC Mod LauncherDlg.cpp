@@ -366,13 +366,7 @@ int CXCCModLauncherDlg::download_update(string link, string fname)
 				delete[] p;
 				size += cb_p;
 				dlg.set_size(size);
-				MSG msg;		
-				while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
-					AfxGetApp()->PumpMessage();
-				
-				long count = 0;
-				while (AfxGetApp()->OnIdle(count++));
-				Sleep(1000);
+				dlg.UpdateWindow();
 			}
 			g.close();
 			dlg.DestroyWindow();
@@ -423,7 +417,7 @@ void CXCCModLauncherDlg::OnButtonUpdate()
 				string link = l.get_next_line(',');
 				if (m_mod.options().mod_version < version)
 				{
-					if (MessageBox(("Version " + version + " is available. Would you like to download the update?").c_str(), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+					if (MessageBox(("Version " + version + " is available. Would you like to download this update?").c_str(), NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
 					{
 						Cfname bak_fname = m_mod_fname;
 						bak_fname.set_ext(".bak");
@@ -436,6 +430,7 @@ void CXCCModLauncherDlg::OnButtonUpdate()
 							EnableWindow(true);
 							if (error)
 							{
+								move_file(static_cast<string>(bak_fname), m_mod_fname);
 								MessageBox("Error retrieving update.", NULL, MB_ICONERROR);
 								error = 0;
 							}

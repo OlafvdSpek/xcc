@@ -13,8 +13,10 @@
 #include "map_ts_ini_reader.h"
 #include "mix_file_write.h"
 #include "shp_decode.h"
+#include "string_conversion.h"
 #include "virtual_image.h"
 #include "xcc_map.h"
+#include "xste.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -30,9 +32,8 @@ CXCCMapEncoderDlg::CXCCMapEncoderDlg(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(CXCCMapEncoderDlg)
 	m_create_mmx = FALSE;
-	m_export_pkt = TRUE;
 	m_create_xmmf = TRUE;
-	m_import_pkt = TRUE;
+	m_gamemode = _T("standard");
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -41,13 +42,12 @@ void CXCCMapEncoderDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCMapEncoderDlg)
-	DDX_Control(pDX, IDC_EXPORT_PKT, mc_export_pkt);
+	DDX_Control(pDX, IDC_GAMEMODE, mc_gamemode);
 	DDX_Control(pDX, IDC_CREATE_MMX, mc_create_mmx);
 	DDX_Control(pDX, IDC_CREATE_XMMF, mc_create_xmmf);
 	DDX_Check(pDX, IDC_CREATE_MMX, m_create_mmx);
-	DDX_Check(pDX, IDC_EXPORT_PKT, m_export_pkt);
 	DDX_Check(pDX, IDC_CREATE_XMMF, m_create_xmmf);
-	DDX_Check(pDX, IDC_IMPORT_PKT, m_import_pkt);
+	DDX_Text(pDX, IDC_GAMEMODE, m_gamemode);
 	//}}AFX_DATA_MAP
 }
 
@@ -59,8 +59,6 @@ BEGIN_MESSAGE_MAP(CXCCMapEncoderDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_XCC_HOME_PAGE, OnButtonXccHomePage)
 	ON_WM_DROPFILES()
 	ON_BN_CLICKED(IDC_CREATE_MMX, OnCreateMmx)
-	ON_BN_CLICKED(IDC_CREATE_XMMF, OnCreateXmmf)
-	ON_BN_CLICKED(IDC_IMPORT_PKT, OnImportPkt)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -74,7 +72,7 @@ BOOL CXCCMapEncoderDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return true;
 }
 
 // If you add a minimize button to your dialog, you will need the code below
@@ -123,7 +121,7 @@ void CXCCMapEncoderDlg::OnButtonXccHomePage()
 	ShellExecute(m_hWnd, "open", "http://xcc.tiberian.com/", NULL, NULL, SW_SHOW);
 }
 
-static string get_pkt(string fname, bool export, string description)
+static string get_pkt(string fname, bool export, string title, string description, int max_players, string gamemode)
 {
 	Ccc_file pkt_f(true);
 	if (!pkt_f.open(fname))
@@ -134,16 +132,24 @@ static string get_pkt(string fname, bool export, string description)
 	}
 	else
 	{
+		CXSTE xste;
+		if (!xste.open())
+		{
+			xste.csf_f().set_value("XMM:" + title, Ccsf_file::convert2wstring(description), "");
+			if (!xste.write())
+				description = "XMM:" + title;
+			xste.close();			
+		}
 		strstream pkt_f;
 		pkt_f << "[MultiMaps]" << endl
-			<< "1=" << description << endl
+			<< "1=" << title << endl
 			<< endl
-			<< '[' << description << ']' << endl
+			<< '[' << title << ']' << endl
 			<< "Description=" << description << endl
 			<< "CD=0,1" << endl
 			<< "MinPlayers=2" << endl
-			<< "MaxPlayers=2" << endl
-			<< "GameMode=standard" << endl;
+			<< "MaxPlayers=" << max_players << endl
+			<< "GameMode=" << gamemode << endl;
 		if (export)
 			file32_write(fname, pkt_f.str(), pkt_f.pcount());
 		return string(pkt_f.str(), pkt_f.pcount());
@@ -158,23 +164,42 @@ void CXCCMapEncoderDlg::convert(string _fname)
 		CWaitCursor wait;
 		Cfname fname = _fname;
 		strstream s;
-		Cmap_ts_encoder encoder(s, m_create_xmmf);
 		Cmap_ts_ini_reader ir;
-		encoder.process(f.get_data(), f.get_size());
 		ir.fast(true);
 		ir.process(f.get_data(), f.get_size());
+		Cmap_ts_encoder encoder(s, m_create_xmmf);
+		string description = ir.get_basic_data().name;
+		if (description.empty())
+			description = fname.get_ftitle();
+		Cmap_ts_encoder::t_header header;
+		header.description = description;
+		header.gamemode = m_create_mmx ? static_cast<string>(m_gamemode) : "";
+		header.cx = ir.get_map_data().size_right;
+		header.cy = ir.get_map_data().size_bottom;
+		header.cmax_players = ir.max_players();
+		encoder.header(header);
+		encoder.process(f.get_data(), f.get_size());
 		f.close();
 		UpdateWindow();
 		int error = 0;
-		fname.set_ext(".pkt");
+		if (m_create_mmx)
+		{
+			char b[MAX_PATH];
+			int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
+			if (length > 0 && length < MAX_PATH)
+				fname = to_lower(b);
+		}
 		string title = fname.get_ftitle();
 		string pkt;
-		if (m_import_pkt)
-			pkt = get_pkt(fname, m_export_pkt, title);
+		if (m_create_mmx)
+		{
+			fname.set_ext(".pkt");
+			pkt = get_pkt(fname, false, title, description, ir.max_players(), static_cast<string>(m_gamemode));
+		}
 		if (m_create_xmmf)
 		{
 			fname.set_ext(".xmmf");
-			error = encoder.write_map(fname, string(s.str(), s.pcount()), pkt);
+			error = encoder.write_map(fname, string(s.str(), s.pcount()));
 		}
 		else if (m_create_mmx)
 		{
@@ -187,7 +212,7 @@ void CXCCMapEncoderDlg::convert(string _fname)
 		else
 			error = file32_write(_fname, s.str(), s.pcount());			
 		if (error)
-			MessageBox("Error converting map.", NULL, MB_ICONERROR);
+			MessageBox("Error writing map.", NULL, MB_ICONERROR);
 	}
 }
 
@@ -206,17 +231,5 @@ void CXCCMapEncoderDlg::OnDropFiles(HDROP hDropInfo)
 void CXCCMapEncoderDlg::OnCreateMmx() 
 {
 	UpdateData(true);
-	mc_create_xmmf.EnableWindow(!m_create_mmx);
-}
-
-void CXCCMapEncoderDlg::OnCreateXmmf() 
-{
-	UpdateData(true);
-	mc_create_mmx.EnableWindow(!m_create_xmmf);
-}
-
-void CXCCMapEncoderDlg::OnImportPkt() 
-{
-	UpdateData(true);
-	mc_export_pkt.EnableWindow(m_import_pkt);
+	mc_gamemode.EnableWindow(m_create_mmx);
 }

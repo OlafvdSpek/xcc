@@ -15,8 +15,8 @@ Class3=CXCCAudioPlayerInfoDlg
 
 ResourceCount=4
 Resource1=IDD_XCCAUDIOPLAYER_DIALOG
-Resource2=IDD_XCCAUDIOPLAYER_DIALOG (English (U.S.))
-Resource3=IDD_XCCDIRECTORIES (English (U.S.))
+Resource2=IDD_XCCDIRECTORIES (English (U.S.))
+Resource3=IDD_XCCAUDIOPLAYER_DIALOG (English (U.S.))
 Resource4=IDD_INFO (English (U.S.))
 
 [CLS:CXCCAudioPlayerApp]
