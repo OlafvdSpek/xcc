@@ -37,6 +37,9 @@ CXCCRA2RadarCustomizerDlg::CXCCRA2RadarCustomizerDlg(CWnd* pParent /*=NULL*/)
 	m_ts = FALSE;
 	m_snow = TRUE;
 	m_lock = TRUE;
+	m_desert = TRUE;
+	m_lunar = TRUE;
+	m_ra2_yr = FALSE;
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -62,6 +65,9 @@ void CXCCRA2RadarCustomizerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_TS, m_ts);
 	DDX_Check(pDX, IDC_SNOW, m_snow);
 	DDX_Check(pDX, IDC_LOCK, m_lock);
+	DDX_Check(pDX, IDC_DESERT, m_desert);
+	DDX_Check(pDX, IDC_LUNAR, m_lunar);
+	DDX_Check(pDX, IDC_RA2_YR, m_ra2_yr);
 	//}}AFX_DATA_MAP
 }
 
@@ -182,65 +188,78 @@ void CXCCRA2RadarCustomizerDlg::OnOK()
 			if (m_urban)
 				customize_radar(game_ra2, 2);
 		}
+		if (m_ra2_yr)
+		{
+			if (m_desert)
+				customize_radar(game_ra2_yr, 3);
+			if (m_lunar)
+				customize_radar(game_ra2_yr, 4);
+			if (m_urban)
+				customize_radar(game_ra2_yr, 5);
+		}
 	}
 }
 
 int CXCCRA2RadarCustomizerDlg::customize_radar(t_game game, int theater)
 {
 	CWaitCursor wait;
-	const string theater_mname[] = {"snow", "temp", "urb"};
+	const string theater_mname[] = {"snow", "temp", "urb", "des", "lun", "ubn"};
 
 	const Cfname fname = xcc_dirs::get_dir(game) + "iso" + theater_mname[theater] + ".mix";
 	if (m_reset)
 		return delete_file(fname);
 	Cmix_file main_mix;
-	main_mix.open(xcc_dirs::get_main_mix(game));
+	int error = main_mix.open(xcc_dirs::get_main_mix(game));
+	if (!error)
 	{
 		Ccc_file mix_f(false);
-		mix_f.open(fname.get_fname(), main_mix);
-		mix_f.extract(fname);
-		mix_f.close();
-	}
-	Cfile32 mix_fe;
-	mix_fe.open_edit(fname);
-	Cmix_file mix_f;
-	mix_f.attach(mix_fe.handle());
-	for (int i = 0; i < mix_f.get_c_files(); i++)
-	{
-		const int id = mix_f.get_id(i);
-		Ctmp_ts_file f;
-		f.open(id, mix_f);
-		if (f.is_valid())
+		error = mix_f.open(fname.get_fname(), main_mix);
+		if (!error)
 		{
-			for (int j = 0; j < f.get_c_tiles(); j++)
+			error = mix_f.extract(fname);
+			mix_f.close();
+			Cfile32 mix_fe;
+			mix_fe.open_edit(fname);
+			Cmix_file mix_f;
+			mix_f.attach(mix_fe.handle());
+			for (int i = 0; i < mix_f.get_c_files(); i++)
 			{
-				if (!f.get_index()[j])
-					continue;
-				t_tmp_image_header header = *f.get_image_header(j);
-				if (m_relative)
+				const int id = mix_f.get_id(i);
+				Ctmp_ts_file f;
+				f.open(id, mix_f);
+				if (f.is_valid())
 				{
-					header.radar_red_left = header.radar_red_left * m_red / 255;
-					header.radar_red_right = header.radar_red_right * m_red / 255;
-					header.radar_green_left = header.radar_green_left * m_green / 255;
-					header.radar_green_right = header.radar_green_right * m_green / 255;
-					header.radar_blue_left = header.radar_blue_left * m_blue / 255;
-					header.radar_blue_right = header.radar_blue_right * m_blue / 255;
+					for (int j = 0; j < f.get_c_tiles(); j++)
+					{
+						if (!f.get_index()[j])
+							continue;
+						t_tmp_image_header header = *f.get_image_header(j);
+						if (m_relative)
+						{
+							header.radar_red_left = header.radar_red_left * m_red / 255;
+							header.radar_red_right = header.radar_red_right * m_red / 255;
+							header.radar_green_left = header.radar_green_left * m_green / 255;
+							header.radar_green_right = header.radar_green_right * m_green / 255;
+							header.radar_blue_left = header.radar_blue_left * m_blue / 255;
+							header.radar_blue_right = header.radar_blue_right * m_blue / 255;
+						}
+						else
+						{
+							header.radar_red_left = header.radar_red_right = m_red;
+							header.radar_green_left = header.radar_green_right = m_green;
+							header.radar_blue_left = header.radar_blue_right = m_blue;
+						}
+						mix_fe.seek(mix_f.get_offset(id) + f.get_index()[j]);
+						mix_fe.write(&header, sizeof(t_tmp_image_header));
+					}
 				}
-				else
-				{
-					header.radar_red_left = header.radar_red_right = m_red;
-					header.radar_green_left = header.radar_green_right = m_green;
-					header.radar_blue_left = header.radar_blue_right = m_blue;
-				}
-				mix_fe.seek(mix_f.get_offset(id) + f.get_index()[j]);
-				mix_fe.write(&header, sizeof(t_tmp_image_header));
+				f.close();
 			}
+			mix_f.detach();
+			mix_fe.close();
 		}
-		f.close();
+		main_mix.close();
 	}
-	mix_f.detach();
-	mix_fe.close();
-	main_mix.close();
 	return 0;
 }
 

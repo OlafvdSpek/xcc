@@ -164,3 +164,29 @@ int move_file(string s, string d)
 {
 	return !MoveFile(s.c_str(), d.c_str());
 }
+
+bool fname_filter(string fname, string filter)
+{
+	for (int i = 0; i < filter.length(); i++)
+	{
+		char c = filter[i];
+		if (c == '*')
+		{
+			if (filter.find('*', i + 1) == string::npos)
+			{
+				int j = fname.length() - filter.length() + 1;
+				return j < 0 ? false : fname_filter(fname.substr(i + j), filter.substr(i + 1));
+
+			}
+			for (int j = 0; j < filter.length(); j++)
+			{
+				if (fname_filter(fname.substr(i + j), filter.substr(i + 1)))
+					return true;
+			}
+			return false;
+		}
+		if (c != '?' && c != fname[i])
+			return false;
+	}
+	return fname.length() == i;
+}

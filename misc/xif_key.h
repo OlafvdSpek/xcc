@@ -20,12 +20,22 @@ using namespace std;
 const static __int32 file_id = 0x1a464958; // *reinterpret_cast<const __int32*>("XIF\x1a");
 const static int file_version_old = 0;
 const static int file_version_new = 1;
+const static int file_version_fast = 2;
 
-struct t_xif_header
+struct t_xif_header_old
 {
 	__int32 id;
 	__int32 version;
 	__int32 size_uncompressed;
+};
+
+struct t_xif_header_fast
+{
+	__int32 id;
+	__int32 version;
+	__int32 size_uncompressed;
+	__int32 size_compressed;
+	__int32 size_external;
 };
 
 class Cxif_key;
@@ -112,17 +122,15 @@ public:
 		m_values[id] = Cxif_value(vt_bin32, v);
 	}
 
-	void set_value_binary(int id, const Cvirtual_binary v)
+	void set_value_binary(int id, const Cvirtual_binary v, bool fast = false)
+	{
+		m_values[id] = Cxif_value(v, fast);
+	}
+
+	void set_value_float(int id, float v)
 	{
 		m_values[id] = Cxif_value(v);
 	}
-
-	/*
-	void set_value_binary(int id, const void* v, int size)
-	{
-		m_values[id] = Cxif_value(v, size);
-	}
-	*/
 
 	void set_value_int(int id, int v)
 	{
@@ -151,6 +159,16 @@ public:
 		static Cxif_value z;
 		t_xif_value_map::iterator i = m_values.find(id);
 		return i == m_values.end() ? z : i->second;
+	}
+
+	float get_value_float(int id) const
+	{
+		return get_value(id).get_float();
+	}
+
+	float get_value_float(float id, float v) const
+	{
+		return get_value(id).get_float(v);
 	}
 
 	int get_value_int(int id) const
@@ -203,43 +221,6 @@ public:
 		return load_key(data.data(), data.size());
 	}
 
-	/*
-	int save_start()
-	{
-		int cb_s = get_size();
-		byte* s = new byte[cb_s];
-		byte* w = s;
-		save(w);
-		unsigned long cb_d = cb_s + (cb_s + 999) / 1000 + 12;
-		m_data_c = new byte[sizeof(t_xif_header) + cb_d];
-		t_xif_header& header = *reinterpret_cast<t_xif_header*>(m_data_c);
-		header.id = file_id;
-		header.version = file_version_new;		
-		header.size_uncompressed = cb_s;
-		int error = compress(m_data_c + sizeof(t_xif_header), &cb_d, s, cb_s) != Z_OK;
-		mcb_data_c = sizeof(t_xif_header) + cb_d;
-		delete[] s;
-		if (error)
-			delete[] m_data_c;
-		return error;
-	}
-
-	int key_size() const
-	{
-		return mcb_data_c;
-	}
-
-	const byte* key_data() const
-	{
-		return m_data_c;
-	}
-
-	void save_finish() const
-	{
-		delete[] m_data_c;
-	}
-	*/
-
 	void delete_key(int id)
 	{
 		m_keys.erase(id);
@@ -258,138 +239,19 @@ public:
 
 	void dump(ostream& os, bool show_ratio, int depth = 0, Cvirtual_binary* t = NULL) const;
 	void dump_ratio(ostream& os, Cvirtual_binary* t) const;
-	// int save(string fname);
 	int load_key(const byte* data, int size);
-	Cvirtual_binary vdata() const;
+	Cvirtual_binary vdata(bool fast = false) const;
 
 	t_xif_key_map& m_keys;
 	t_xif_value_map& m_values;
 private:
-	void load_old(const byte*& data)
-	{
-		{
-			// keys
-			int count = *reinterpret_cast<const int*>(data);
-			data += 4;
-			while (count--)
-			{
-				Cxif_key& i = set_key(*reinterpret_cast<const int*>(data));
-				data += 4;
-				i.load_old(data);
-			}
-		}
-
-		{
-			// values
-			int count = *reinterpret_cast<const int*>(data);
-			data += 4;
-			while (count--)
-			{
-				Cxif_value& i = set_value(*reinterpret_cast<const int*>(data));
-				data += 4;
-				i.load_old(data);
-			}
-		}
-	}
-
-	void load_new(const byte*& data)
-	{
-		{
-			// keys
-			int count = *reinterpret_cast<const int*>(data);
-			data += 4;
-			int id = 0;
-			while (count--)
-			{
-				id += *reinterpret_cast<const int*>(data);
-				Cxif_key& i = open_key_write(id);
-				data += 4;
-				i.load_new(data);
-			}
-		}
-
-		{
-			// values
-			int count = *reinterpret_cast<const int*>(data);
-			data += 4;
-			int id = 0;
-			while (count--)
-			{
-				id += *reinterpret_cast<const int*>(data);
-				Cxif_value& i = open_value_write(id);
-				data += 4;
-				i.load_new(data);
-			}
-		}
-	}
-
-	int get_size() const
-	{
-		int size = 8;
-		{
-			// keys
-			for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-				size += 4 + i->second.get_size();
-		}
-
-		{
-			// values
-			for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
-			{
-				size += 9;
-				if (i->second.get_type() != vt_bin32 && i->second.get_type() != vt_int32)
-					size += i->second.get_size();
-			}
-		}
-		return size;
-	}
-
-	/*
-	void save_key(byte* data) const
-	{
-		byte* write_p = data;
-		t_xif_header& header = *reinterpret_cast<t_xif_header*>(write_p);
-		header.id = file_id;
-		header.version = file_version_new;		
-		header.size_uncompressed = sizeof(t_xif_header) + get_size();
-		write_p += sizeof(t_xif_header);
-		save(write_p);
-	}
-	*/
-
-	void save(byte*& data) const
-	{
-		{
-			// keys
-			*reinterpret_cast<int*>(data) = m_keys.size();
-			data += 4;
-			int id = 0;
-			for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			{
-				*reinterpret_cast<int*>(data) = i->first - id;
-				id = i->first;
-				data += 4;
-				i->second.save(data);
-			}
-		}
-
-		{
-			// values
-			*reinterpret_cast<int*>(data) = m_values.size();
-			data += 4;
-			int id = 0;
-			for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
-			{
-				*reinterpret_cast<int*>(data) = i->first - id;
-				id = i->first;
-				data += 4;
-				i->second.save(data);
-			}
-		}
-	}
-
-	byte* m_data_c;
-	int mcb_data_c;
+	int get_size() const;
+	int get_external_size() const;
+	void load_old(const byte*& data);
+	void load_new(const byte*& data);
+	void load_external(const byte*& data);
+	void save(byte*& data) const;
+	void external_save(byte*& data) const;
 };
 
 #endif // !defined(AFX_XIF_KEY_H__99A07CE4_FA5D_11D2_B601_8B199B22657D__INCLUDED_)

@@ -19,6 +19,7 @@
 #include "mix_sfl.h"
 #include "ogg_file.h"
 #include "searchfiledlg.h"
+#include "selectpaletdlg.h"
 #include "string_conversion.h"
 #include "theme_ts_ini_reader.h"
 #include "wav_file.h"
@@ -133,6 +134,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_RA2_YR, OnUpdateLaunchXSTE_RA2_YR)
 	ON_COMMAND(ID_LAUNCH_XTW_RA2_YR, OnLaunchXTW_RA2_YR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_RA2_YR, OnUpdateLaunchXTW_RA2_YR)
+	ON_COMMAND(ID_VIEW_PALET_SELECT, OnViewPaletSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -253,8 +255,6 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 	SetActiveView(reinterpret_cast<CView*>(m_left_mix_pane));
 
-	// initialize_lists();
-
 	return true;
 }
 
@@ -308,7 +308,66 @@ void CMainFrame::set_msg(const string& s)
 	SetMessageText(s.c_str());
 }
 
-void CMainFrame::do_mix(Cmix_file& f, const string& mix_name)
+int CMainFrame::mix_list_create_map(string name, string fname, int file_id, int parent)
+{
+	int id = m_mix_map_list.size();
+	t_mix_map_list_entry& e = m_mix_map_list[id];
+	e.name = name;
+	e.fname = fname;
+	e.id = file_id;
+	e.parent = parent;
+	return id;
+}
+
+int CMainFrame::pal_list_create_map(string name, int parent)
+{
+	int id = m_pal_map_list.size();
+	t_pal_map_list_entry& e = m_pal_map_list[id];
+	e.name = name;
+	e.parent = parent;
+	return id;
+}
+
+void CMainFrame::clean_pal_map_list()
+{
+	typedef set<int> t_used_set;
+	t_used_set used_set;
+	{
+		typedef t_pal_list t_map;
+		const t_map& map = m_pal_list;
+		for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+			used_set.insert(i->second.parent);
+	}
+	{
+		typedef t_pal_map_list t_map;
+		const t_map& map = m_pal_map_list;
+		for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+		{
+			if (used_set.find(i->first) == used_set.end())
+				continue;
+			int p = i->second.parent;
+			while (p != -1)
+			{
+				used_set.insert(p);
+				p = m_pal_map_list.find(p)->second.parent;
+			}
+
+		}
+	}
+	{
+		typedef t_pal_map_list t_map;
+		t_map& map = m_pal_map_list;
+		for (t_map::iterator i = map.begin(); i != map.end(); )
+		{
+			if (used_set.find(i->first) == used_set.end())
+				i = map.erase(i);
+			else
+				i++;
+		}
+	}
+}
+
+void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent)
 {
 	xcc_log::write_line("do_mix starts: " + mix_name);
 	set_msg("Reading " + mix_name);
@@ -327,7 +386,7 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name)
 		case ft_mix:
 			if (!g.open(id, f))
 			{
-				do_mix(g, mix_name + " - " + name);
+				do_mix(g, mix_name + " - " + name, mix_list_create_map(name, "", id, mix_parent), pal_list_create_map(name, pal_parent));
 				g.close();
 			}
 			break;
@@ -338,6 +397,7 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name)
 				h.open(id, f);
 				memcpy(e.palet, h.get_data(), sizeof(t_palet));
 				h.close();
+				e.parent = pal_parent;
 				m_pal_list[m_pal_list.size()] = e;
 				break;
 			}
@@ -355,6 +415,8 @@ void CMainFrame::find_mixs(const string& dir, t_game game)
 		HANDLE findhandle = FindFirstFile((dir + "*.mix").c_str(), &fd);
 		if (findhandle != INVALID_HANDLE_VALUE)
 		{
+			int mix_parent = mix_list_create_map(game_name[game], "", 0, -1);
+			int pal_parent = pal_list_create_map(game_name[game], -1);
 			do
 			{
 				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -364,7 +426,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game)
 					Cmix_file f;
 					if (!f.open(dir + fname))
 					{
-						do_mix(f, dir + fname);
+						do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, mix_parent), pal_list_create_map(fname, pal_parent));
 						f.close();
 					}
 				}
@@ -387,6 +449,7 @@ void CMainFrame::find_paks(const string& dir, t_game game)
 		HANDLE findhandle = FindFirstFile((dir + "*.pak").c_str(), &fd);
 		if (findhandle != INVALID_HANDLE_VALUE)
 		{
+			int parent = pal_list_create_map(game_name[game], -1);
 			do
 			{
 				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -396,7 +459,7 @@ void CMainFrame::find_paks(const string& dir, t_game game)
 					Cmix_file f;
 					if (!f.open(dir + fname))
 					{
-						do_mix(f, dir + fname);
+						do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, parent), pal_list_create_map(fname, parent));
 						f.close();
 					}
 				}
@@ -459,7 +522,6 @@ void CMainFrame::OnUpdateViewPaletUpdate(CCmdUI* pCmdUI)
 				continue;
 			CMenu sub_menu;
 			sub_menu.CreatePopupMenu();
-			t_sort_list sort_list;
 			for (; j < m_pal_i[i]; j++)
 				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL000 + j, m_pal_list[j].name.c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
@@ -544,6 +606,7 @@ void CMainFrame::initialize_lists()
 	}
 	if (m_palet_i >= m_pal_list.size())
 		m_palet_i = -1;
+	clean_pal_map_list();
 	m_lists_initialized = true;
 	xcc_log::write_line("initialize_lists ends");
 }
@@ -580,8 +643,7 @@ int CMainFrame::get_vxl_mode() const
 
 void CMainFrame::OnViewPaletAuto() 
 {
-	m_palet_i = -1;
-	Invalidate();
+	set_palet(-1);
 }
 
 void CMainFrame::OnUpdateViewPaletAuto(CCmdUI* pCmdUI) 
@@ -591,8 +653,7 @@ void CMainFrame::OnUpdateViewPaletAuto(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewPalet(dword ID) 
 {
-	m_palet_i = ID - ID_VIEW_PALET_PAL000;
-	Invalidate();
+	set_palet(ID - ID_VIEW_PALET_PAL000);
 }
 
 void CMainFrame::OnUpdateViewPalet(CCmdUI* pCmdUI) 
@@ -972,142 +1033,11 @@ void CMainFrame::OnUpdateLaunchRA2(CCmdUI* pCmdUI)
 	pCmdUI->Enable(GetApp()->is_ra2_available());
 }
 
-typedef map<string, Ctheme_data> t_theme_list;
-
-/*
-void CMainFrame::OnLaunchXccThemeWriter() 
-{
-	Cmix_file tibsun;
-	if (!tibsun.open("tibsun.mix"))
-	{
-		Cmix_file local;
-		if (!local.open("local.mix", tibsun))
-		{
-			Ccc_file theme(true);
-			if (!theme.open("theme.ini", local))
-			{
-				Ctheme_ts_ini_reader ir;
-				if (!ir.process(theme.get_data(), theme.get_size()))
-				{
-					t_theme_list theme_list = ir.get_theme_list();
-					string dir = xcc_dirs::get_ts_dir();
-					WIN32_FIND_DATA fd;
-					HANDLE findhandle = FindFirstFile((dir + "*.aud").c_str(), &fd);
-					if (findhandle != INVALID_HANDLE_VALUE)
-					{
-						do
-						{
-							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-							{
-								const string fname = dir + fd.cFileName;
-								Caud_file f;
-								if (!f.open(fname))
-								{
-									char b[MAX_PATH];
-									int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
-									if (error > 0 && error < MAX_PATH)
-									{
-										Ctheme_data e;
-										e.name(Cfname(fd.cFileName).get_ftitle());
-										theme_list[to_upper(Cfname(b).get_ftitle())] = e;
-									}
-									f.close();
-								}
-							}
-						}
-						while (FindNextFile(findhandle, &fd));
-						FindClose(findhandle);
-					}
-					ofstream g((dir + "theme.ini").c_str());
-					g << "[Themes]" << endl <<
-						"1=INTRO" << endl;
-					int j = 51;
-					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
-						g << n(j++) << '=' << to_upper(i->first) << endl;
-					g << endl;
-					for (i = theme_list.begin(); i != theme_list.end(); i++)
-					{
-						const Ctheme_data& e = i->second;
-						g << '[' << to_upper(i->first) << ']' << endl
-							<< "Name=" << e.name() << endl;
-						if (e.normal())
-							g << "Length=" << e.length() << endl;
-						if (!e.normal())
-							g << "Normal=no" << endl;
-						if (e.scenario())
-							g << "Scenario=" <<  n(e.scenario()) << endl;
-						if (!e.side().empty())
-							g << "Side=" <<  e.side() << endl;
-						if (e.repeat())
-							g << "Repeat=yes" << endl;
-						g << endl;
-					}
-					if (g.fail())
-						MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
-					else
-						MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
-				}
-				theme.close();
-			}
-			local.close();
-		}
-		tibsun.close();
-	}
-}
-
-void CMainFrame::OnUpdateLaunchXccThemeWriter(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());	
-}
-*/
-
-static string find_file(Cmix_file& f, const string& file_name, const string& mix_name)
-{
-	if (f.get_index(Cmix_file::get_id(f.get_game(), file_name)) != -1)
-		return mix_name;
-	for (int i = 0; i < f.get_c_files(); i++)
-	{
-		const int id = f.get_id(i);
-		if (f.get_type(id) == ft_mix)
-		{
-			Cmix_file g;
-			if (!g.open(id, f))
-			{
-				string name = f.get_name(id);
-				if (name.empty())
-					name = nh(8, id);
-				string location = find_file(g, file_name, mix_name + " - " + name);
-				g.close();
-				if (!location.empty())
-					return location;
-			}
-		}
-	}
-	return "";
-}
-
 void CMainFrame::OnFileSearch() 
 {
 	CSearchFileDlg dlg;
-	if (IDOK == dlg.DoModal())
-	{
-		CWaitCursor wait;
-		for (t_mix_list::const_iterator i = m_mix_list.begin(); i != m_mix_list.end(); i++)
-		{
-			Cmix_file f;
-			if (!f.open(i->second))
-			{
-				string location = find_file(f, dlg.get_filename(), static_cast<Cfname>(i->second).get_fname());
-				f.close();
-				if (!location.empty())
-				{
-					MessageBox(("The file has been found in " + location + ".").c_str());
-					return;
-				}
-			}
-		}
-		MessageBox("The file has not been found.");
-	}
+	dlg.set(this);
+	dlg.DoModal();
 }
 
 static void add_mix_to_sfl(t_game game, Cmix_file& g)
@@ -1229,6 +1159,8 @@ void CMainFrame::OnDestroy()
 	AfxGetApp()->WriteProfileInt(m_reg_key, "use_palet_for_conversion", m_use_palet_for_conversion);
 	CFrameWnd::OnDestroy();
 }
+
+typedef map<string, Ctheme_data> t_theme_list;
 
 void CMainFrame::OnLaunchXTW_TS() 
 {
@@ -1476,4 +1408,26 @@ void CMainFrame::OnViewReport()
 void CMainFrame::OnUpdateViewReport(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(!OnIdle(0));
+}
+
+void CMainFrame::OnViewPaletSelect() 
+{
+	int old_palet = m_palet_i;
+	CSelectPaletDlg dlg;
+	if (m_palet_i != -1)
+		dlg.current_palet(m_palet_i);
+	dlg.set(this, m_pal_map_list, m_pal_list);
+	if (IDOK == dlg.DoModal())
+		assert(m_palet_i == dlg.current_palet());
+	else
+		set_palet(old_palet);
+}
+
+
+void CMainFrame::set_palet(int id)
+{
+	if (m_palet_i == id)
+		return;
+	m_palet_i = id;
+	m_file_info_pane->Invalidate();
 }

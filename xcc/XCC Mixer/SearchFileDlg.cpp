@@ -3,7 +3,10 @@
 
 #include "stdafx.h"
 #include "xcc mixer.h"
+#include "MainFrm.h"
 #include "SearchFileDlg.h"
+
+#include "string_conversion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -16,28 +19,155 @@ static char THIS_FILE[] = __FILE__;
 
 
 CSearchFileDlg::CSearchFileDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CSearchFileDlg::IDD, pParent)
+	: ETSLayoutDialog(CSearchFileDlg::IDD, pParent, "find_file_dlg")
 {
+	m_reg_key = "find_file_dlg";
 	//{{AFX_DATA_INIT(CSearchFileDlg)
 	m_filename = _T("");
 	//}}AFX_DATA_INIT
+	m_filename = AfxGetApp()->GetProfileString(m_reg_key, "file_name");
 }
 
 
 void CSearchFileDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CSearchFileDlg)
+	DDX_Control(pDX, IDC_LIST, m_list);
 	DDX_Text(pDX, IDC_FILENAME, m_filename);
 	//}}AFX_DATA_MAP
 }
 
 
-BEGIN_MESSAGE_MAP(CSearchFileDlg, CDialog)
+BEGIN_MESSAGE_MAP(CSearchFileDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CSearchFileDlg)
-		// NOTE: the ClassWizard will add message map macros here
+	ON_BN_CLICKED(IDOK, OnFind)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
+	ON_WM_SIZE()
+	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CSearchFileDlg message handlers
+
+void CSearchFileDlg::set(CMainFrame* main_frame)
+{
+	m_main_frame = main_frame;
+}
+
+BOOL CSearchFileDlg::OnInitDialog() 
+{
+	ETSLayoutDialog::OnInitDialog();
+	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "Name");
+	CreateRoot(VERTICAL)
+		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
+			<< item(IDC_FILENAME_STATIC, NORESIZE)
+			<< item(IDC_FILENAME, GREEDY)
+			)
+		<< (pane(HORIZONTAL, GREEDY)
+			<< item(IDC_LIST, GREEDY)
+			)
+		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
+			<< itemGrowing(HORIZONTAL)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			);
+	UpdateLayout();
+	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+	return true;
+}
+
+void CSearchFileDlg::find(Cmix_file& f, string file_name, string mix_name, int mix_id)
+{
+	{
+		for (int i = 0; i < f.get_c_files(); i++)
+		{
+			const int id = f.get_id(i);
+			string name = f.get_name(id);
+			if (name.empty())
+			{
+				name = nh(8, id);
+				if (Cmix_file::get_id(f.get_game(), file_name) == id)
+					add(mix_name + " - " + name, name, mix_id, id);
+			}
+			else if (fname_filter(name, file_name))
+				add(mix_name + " - " + name, name, mix_id, id);
+		}
+	}
+	{
+		const t_mix_map_list& mix_list = m_main_frame->mix_map_list();
+		for (t_mix_map_list::const_iterator i = mix_list.begin(); i != mix_list.end(); i++)
+		{
+			if (i->second.parent != mix_id)
+				continue;
+			Cmix_file g;
+			if (!g.open(i->second.id, f))
+			{
+				find(g, file_name, mix_name + " - " + (i->second.name.empty() ? nh(8, i->second.id) : i->second.name), i->first);
+				g.close();
+			}
+		}
+	}
+}
+
+void CSearchFileDlg::OnFind() 
+{
+	if (UpdateData(true))
+	{
+		CWaitCursor wait;
+		m_list.DeleteAllItems();
+		const t_mix_map_list& mix_list = m_main_frame->mix_map_list();
+		for (t_mix_map_list::const_iterator i = mix_list.begin(); i != mix_list.end(); i++)
+		{
+			if (i->second.fname.empty())
+				continue;
+			Cmix_file f;
+			if (!f.open(i->second.fname))
+			{
+				const t_mix_map_list_entry& e = mix_list.find(i->second.parent)->second;
+				find(f, get_filename(), e.name + " - " + i->second.name, i->first);
+				f.close();
+			}
+		}
+	}
+}
+
+void CSearchFileDlg::add(string name, string fname, int mix_id, int file_id)
+{
+	int id = m_map.size();
+	t_map_entry& e = m_map[id];
+	// e.name = fname;
+	e.id = file_id;
+	e.parent = mix_id;
+	m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), name.c_str()), id);
+}
+
+void CSearchFileDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
+	if (index != -1)
+		open_mix(m_list.GetItemData(index));
+	*pResult = 0;
+}
+
+void CSearchFileDlg::OnSize(UINT nType, int cx, int cy) 
+{
+	ETSLayoutDialog::OnSize(nType, cx, cy);
+	if (m_list.GetSafeHwnd())
+		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+}
+
+void CSearchFileDlg::open_mix(int id)
+{
+	const t_map_entry& e = m_map.find(id)->second;
+	m_main_frame->left_mix_pane()->open_location_mix(m_main_frame->mix_map_list().find(e.parent), e.id);
+	EndDialog(IDCANCEL);
+}
+
+void CSearchFileDlg::OnDestroy() 
+{
+	ETSLayoutDialog::OnDestroy();
+	m_filename = AfxGetApp()->WriteProfileString(m_reg_key, "file_name", m_filename);
+}

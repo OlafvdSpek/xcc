@@ -29,6 +29,7 @@ public:
 	static void load_from_registry();
 	static void save_to_registry();
 	static string find_file(Cfname s);
+	static bool is_available(t_game game);
 	static string get_audio_mix(t_game game);
 	static string get_csf_fname(t_game game);
 	static string get_dune2_dir();

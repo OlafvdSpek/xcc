@@ -20,7 +20,7 @@
 
 void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet)
 {
-	assert(cb_pixel < 4);
+	assert(cb_pixel == 1 || cb_pixel == 3 || cb_pixel == 4);
 	m_cx = cx;
 	m_cy = cy;
 	mcb_pixel = cb_pixel;
@@ -173,38 +173,126 @@ void Cvirtual_image::flip()
 	flip_frame(t.data(), image_edit(), cx(), cy(), cb_pixel());
 }
 
-void Cvirtual_image::decrease_color_depth(const t_palet_entry* palet)
+
+void Cvirtual_image::decrease_color_depth(int new_cb_pixel, const t_palet_entry* palet)
 {
-	assert(mcb_pixel == 3);
-	memcpy(m_palet.write_start(sizeof(t_palet)), palet, sizeof(t_palet));
-	int count = m_cx * m_cy;
-	Cvirtual_binary t = m_image;
-	const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(t.data());
-	byte* w = m_image.write_start(count);
-	while (count--)
+	if (new_cb_pixel == 3)
 	{
-		*w++ = find_color(r->r, r->g, r->b, palet);
-		r++;
+		remove_alpha();
+		return;
 	}
-	mcb_pixel = 1;
+	assert(new_cb_pixel == 1);
+	int old_cb_pixel = cb_pixel();
+	Cvirtual_binary t = m_image;
+	load(NULL, cx(), cy(), new_cb_pixel, palet);
+	byte* w = image_edit();
+	int count = m_cx * m_cy;
+	if (old_cb_pixel == 3)
+	{
+		const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(t.data());
+		while (count--)
+		{
+			*w++ = find_color(r->r, r->g, r->b, palet);
+			r++;
+		}
+	}
+	else
+	{
+		assert(old_cb_pixel == 4);
+		const t_palet32entry* r = reinterpret_cast<const t_palet32entry*>(t.data());
+		while (count--)
+		{
+			*w++ = r->a < 0x80 ? find_color(r->r, r->g, r->b, palet) : 0;
+			r++;
+		}
+	}
 }
 
-void Cvirtual_image::increase_color_depth()
+inline static t_palet32entry p32e(int r, int g, int b, int a = 0)
 {
-	assert(mcb_pixel == 1);
+	t_palet32entry e;
+	e.r = r;
+	e.g = g;
+	e.b = b;
+	e.a = a;
+	return e;
+}
+
+inline static t_palet32entry p32e(t_palet_entry e)
+{
+	return p32e(e.r, e.g, e.b);
+}
+
+inline static t_palet32entry p32e(const t_palet palet, int i)
+{
+	return i ? p32e(palet[i]) : p32e(0x80, 0x80, 0x80, 0xff);
+}
+
+void Cvirtual_image::increase_color_depth(int new_cb_pixel)
+{
+	if (cb_pixel() == 3)
+	{
+		assert(new_cb_pixel == 4);
+		add_alpha();
+		return;
+	}
+	assert(cb_pixel() == 1);
+	Cvirtual_image t = *this;
+	const byte* r = t.image();
+	load(NULL, cx(), cy(), new_cb_pixel, NULL);
 	int count = m_cx * m_cy;
+	if (cb_pixel() == 3)
+	{
+		t_palet_entry* w = reinterpret_cast<t_palet_entry*>(image_edit());
+		while (count--)
+			*w++ = t.palet()[*r++];
+	}
+	else
+	{
+		assert(cb_pixel() == 4);
+		t_palet32entry* w = reinterpret_cast<t_palet32entry*>(image_edit());
+		while (count--)
+			*w++ = p32e(t.palet(), *r++);
+	}
+}
+
+void Cvirtual_image::add_alpha()
+{
+	assert(cb_pixel() == 3);
 	Cvirtual_binary t = m_image;
+	load(NULL, cx(), cy(), 4, NULL);
+	int count = m_cx * m_cy;
 	const byte* r = t.data();
-	load(NULL, cx(), cy(), 3, NULL);
-	t_palet_entry* w = reinterpret_cast<t_palet_entry*>(image_edit());
+	byte* w = image_edit();
 	while (count--)
 	{
-		*w++ = palet()[*r++];
+		*w++ = *r++;
+		*w++ = *r++;
+		*w++ = *r++;
+		*w++ = 0;
+	}
+}
+
+void Cvirtual_image::remove_alpha()
+{
+	assert(cb_pixel() == 4);
+	Cvirtual_binary t = m_image;
+	load(NULL, cx(), cy(), 4, NULL);
+	int count = m_cx * m_cy;
+	const byte* r = t.data();
+	byte* w = image_edit();
+	while (count--)
+	{
+		*w++ = *r++;
+		*w++ = *r++;
+		*w++ = *r++;
+		r++;
 	}
 }
 
 void Cvirtual_image::increase_palet_depth()
 {
+	assert(false);
 	Cvirtual_binary t = m_palet;
 	const t_palet_entry* s = reinterpret_cast<const t_palet_entry*>(t.data());
 	t_palet_entry* d = reinterpret_cast<t_palet_entry*>(t.data_edit());
@@ -280,74 +368,6 @@ int Cvirtual_image::get_clipboard()
 		CloseClipboard();
 	}
 	return error;
-	return get_clipboard(*this);
-}
-
-int Cvirtual_image::get_clipboard(Cvirtual_image& image)
-{
-	int error = 0;
-#if 0
-	if (!OpenClipboard(NULL))
-		error = 0x100;
-	else
-	{
-		void* h_mem = GetClipboardData(CF_DIB);
-		if (!h_mem)
-			error = 0x101;
-		else
-		{
-			byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
-			if (!mem)
-				error = 0x102;
-			else
-			{	const BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
-				int cb_pixel = header->biBitCount >> 3;
-				if (cb_pixel != 1 && cb_pixel != 3)
-					error = 0x103;
-				else
-				{
-					t_palet_entry* palet = cb_pixel == 1 ? new t_palet : NULL;
-					const RGBQUAD* r = reinterpret_cast<RGBQUAD*>(mem + header->biSize);
-					if (palet)
-					{
-						for (int i = 0; i < (header->biClrUsed ? header->biClrUsed : 256); i++)
-						{
-							palet[i].r = r->rgbRed;
-							palet[i].g = r->rgbGreen;
-							palet[i].b = r->rgbBlue;
-							r++;
-						}
-					}
-					int cx = header->biWidth;
-					int cy = header->biHeight;
-					if (cx * cb_pixel & 3)
-					{
-						int cb_line = cx * cb_pixel;
-						byte* d = new byte[cb_line * cy];
-						byte* w = d;
-						for (int y = 0; y < cy; y++)
-						{
-							memcpy(w, r, cb_line);
-							r += cb_line + 3 >> 2;
-							w += cb_line;
-						}
-						image.load(d, cx, cy, cb_pixel, palet);
-						delete[] d;
-					}
-					else
-						image.load(r, cx, cy, cb_pixel, palet);
-					image.flip();
-					if (cb_pixel == 3)
-						image.swap_rb();
-					delete palet;
-				}
-				GlobalUnlock(h_mem);
-			}
-		}
-		CloseClipboard();
-	}
-#endif
-	return error;
 }
 
 int Cvirtual_image::set_clipboard() const
@@ -420,13 +440,12 @@ int Cvirtual_image::set_clipboard() const
 			GlobalFree(h_mem);
 	}
 	return error;
-	return set_clipboard(*this);
 }
 
+#if 0
 int Cvirtual_image::set_clipboard(const Cvirtual_image& image)
 {
 	int error = 0;
-#if 0
 	int cb_line = image.cx() * image.cb_pixel();
 	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * image.cy());
 	if (!h_mem)
@@ -499,9 +518,9 @@ int Cvirtual_image::set_clipboard(const Cvirtual_image& image)
 		if (h_mem)
 			GlobalFree(h_mem);
 	}
-#endif
 	return error;
 }
+#endif
 
 int Cvirtual_image::load()
 {

@@ -106,11 +106,11 @@ void CXCCModLauncherDlg::load_button_image(string fname, CButton& button)
 
 void CXCCModLauncherDlg::load_intro()
 {
-	Cvirtual_audio audio;
+	Cvirtual_binary audio;
 	if (!Cxcc_mod::load_launcher_audio(m_key, "intro.ogg", audio))
 	{
 		m_xap.ds(get_ds());
-		m_xap.load(audio.save_as_wav_pcm().read());
+		m_xap.load(audio); // audio.save_as_wav_pcm().read());
 		m_xap.play(true);
 	}
 }

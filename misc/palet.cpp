@@ -39,7 +39,7 @@ void convert_image_24_to_8(const byte* s, byte* d, int cx, int cy, const byte* r
 		int red = *r++ >> 2 & 0x3f;
 		int green = *r++ >> 2 & 0x3f;
 		int blue = *r++ >> 2 & 0x3f;
-		*w++ = rp[red | green << 6| blue << 12];
+		*w++ = rp[red | green << 6 | blue << 12];
 	}
 }
 
@@ -65,10 +65,22 @@ void downsample_image(const t_palet32entry* s, byte* d, int cx, int cy, const by
 	while (c--)
 	{
 		t_palet32entry e = *r++;
+		*w++ = e.a < 0x80 ? 0 : rp[e.r >> 2 | (e.g & 0xfc) << 4 | (e.b & 0xfc) << 10];
+	}
+}
+
+void downsample_image(const t_palet32entry* s, byte* d, int cx, int cy, const t_palet palet)
+{
+	const t_palet32entry* r = s;
+	byte* w = d;
+	int c = cx * cy;
+	while (c--)
+	{
+		t_palet32entry e = *r++;
 		if (e.a < 0x80)
 			*w++ = 0;
 		else
-			*w++ = rp[e.r >> 2 | e.g & 0xfc << 6| e.b & 0xfc << 12];
+			*w++ = find_color(e.r, e.g, e.b, palet);;
 	}
 }
 
@@ -90,7 +102,12 @@ void upsample_image(const byte* s, t_palet32entry* d, int cx, int cy, const t_pa
 			e.a = 0xff;
 		}
 		else
+		{
+			e.r = 0x80;
+			e.g = 0x80;
+			e.b = 0x80;
 			e.a = 0;
+		}
 	}
 }
 

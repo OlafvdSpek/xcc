@@ -410,7 +410,7 @@ int Ccc_file::read()
 
 int Ccc_file::read(void* data, int size)
 {
-	if (get_p() + size > get_size())
+	if (get_p() < 0 || get_p() + size > get_size())
 		return 1;
 	if (m_data_loaded)
 	{

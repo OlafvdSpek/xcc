@@ -29,7 +29,7 @@ ImplementationFile=XCC RA2 Radar CustomizerDlg.cpp
 Filter=D
 BaseClass=CDialog
 VirtualFilter=dWC
-LastObject=CXCCRA2RadarCustomizerDlg
+LastObject=IDC_DESERT
 
 
 
@@ -44,7 +44,7 @@ Class=CXCCRA2RadarCustomizerDlg
 [DLG:IDD_XCCRA2RADARCUSTOMIZER_DIALOG (English (U.S.))]
 Type=1
 Class=CXCCRA2RadarCustomizerDlg
-ControlCount=18
+ControlCount=21
 Control1=IDC_STATIC,static,1342308352
 Control2=IDC_STATIC,static,1342308352
 Control3=IDC_STATIC,static,1342308352
@@ -63,4 +63,7 @@ Control15=IDC_SNOW_PREVIEW,static,1342177806
 Control16=IDC_TEMPERATE_PREVIEW,static,1342177806
 Control17=IDOK,button,1342242817
 Control18=IDC_URBAN_PREVIEW,static,1342177806
+Control19=IDC_DESERT,button,1342242819
+Control20=IDC_LUNAR,button,1342242819
+Control21=IDC_RA2_YR,button,1342242819
 

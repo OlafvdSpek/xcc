@@ -11,7 +11,11 @@
 
 #include <string>
 #include <vartypes.h>
+#ifdef _MSC_VER
 #include <windows.h>
+#else
+#include <fstream>
+#endif
 
 using namespace std;
 
@@ -65,7 +69,11 @@ public:
         m_p += p;
     }
 private:
+#ifdef _MSC_VER
     HANDLE m_handle;
+#else
+	fstream m_f;
+#endif
     bool m_is_open;
     int m_p;
 };

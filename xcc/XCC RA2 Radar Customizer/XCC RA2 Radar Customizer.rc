@@ -62,6 +62,12 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,291,7,50,14
     CONTROL         "",IDC_URBAN_PREVIEW,"Static",SS_BITMAP | SS_CENTERIMAGE,
                     233,56,108,80
+    CONTROL         "Desert",IDC_DESERT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,215,7,37,10
+    CONTROL         "Lunar",IDC_LUNAR,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    215,18,34,10
+    CONTROL         "Red Alert 2 YR",IDC_RA2_YR,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,215,41,63,10
 END
 
 

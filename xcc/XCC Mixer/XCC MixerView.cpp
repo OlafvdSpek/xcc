@@ -119,8 +119,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PAL_JASC, OnUpdatePopupCopyAsPAL_JASC)
 	ON_COMMAND(ID_POPUP_COPY_AS_TEXT, OnPopupCopyAsText)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TEXT, OnUpdatePopupCopyAsText)
-	ON_COMMAND(ID_POPUP_PLAY, OnPopupPlay)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_PLAY, OnUpdatePopupPlay)
 	ON_COMMAND(ID_POPUP_COPY_AS_MAP_TS_PREVIEW, OnPopupCopyAsMapTsPreview)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_MAP_TS_PREVIEW, OnUpdatePopupCopyAsMapTsPreview)
 	ON_COMMAND(ID_POPUP_REFRESH, OnPopupRefresh)
@@ -163,8 +161,32 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+enum t_error_message
+{
+	em_bad_fname = 0x400,
+	em_bad_depth,
+	em_bad_size
+};
+
+const char* error_messages[] =
+{
+	"Bad filename. All files should have a name like \"image ####.pcx\" where #### is the zero based index.",
+	"Bad color depth. Only 8-bit images are supported.",
+	"Bad size. All images should have the same size."
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // CXCCMixerView construction/destruction
+
+static CXCCMixerApp* GetApp()
+{
+	return static_cast<CXCCMixerApp*>(AfxGetApp());
+}
+
+static CMainFrame* GetMainFrame()
+{
+	return static_cast<CMainFrame*>(AfxGetMainWnd());
+}
 
 CXCCMixerView::CXCCMixerView()
 {
@@ -201,11 +223,19 @@ void CXCCMixerView::OnInitialUpdate()
 	{
 		Cfname fn = dir;
 		fn.make_path();
-		m_dir = fn.get_all();;
+		m_dir = fn.get_all();
 	}
 	else
 		m_dir = "c:\\";
-	m_dir = AfxGetApp()->GetProfileString(m_reg_key, "path", m_dir.c_str());
+	{
+		string dir = AfxGetApp()->GetProfileString(m_reg_key, "path", m_dir.c_str());
+		string fname = dir + "write_check.temp";
+		if (!file32_write(fname, NULL, 0))
+		{
+			delete_file(fname);
+			m_dir = dir;
+		}
+	}
 	CListView::OnInitialUpdate();
 	ListView_SetExtendedListViewStyle(m_hWnd, ListView_GetExtendedListViewStyle(m_hWnd) | LVS_EX_FULLROWSELECT);
 	LV_COLUMN lvc;
@@ -272,16 +302,6 @@ void CXCCMixerView::open_location_dir(const string& name)
 
 void CXCCMixerView::open_location_mix(const string& name)
 {
-	/*
-	Cfname fname = to_lower(name);
-	if (fname.get_fext() == ".mmx")
-	{
-		fname.set_ext(".map");
-		mix_database::add_name(game_ra2, fname.get_fname(), "-");
-		fname.set_ext(".pkt");
-		mix_database::add_name(game_ra2, fname.get_fname(), "-");
-	}
-	*/
 	Cmix_file* mix_f = new Cmix_file;
 	if (mix_f->open(name))
 		delete mix_f;
@@ -291,6 +311,48 @@ void CXCCMixerView::open_location_mix(const string& name)
 		m_mix_f = mix_f;
 	}
 	update_list();
+}
+
+void CXCCMixerView::open_location_mix(t_mix_map_list::const_iterator i, int file_id)
+{
+	typedef stack<int> t_stack;
+	t_stack stack;
+	close_all_locations();
+	const t_mix_map_list& mix_list = GetMainFrame()->mix_map_list();
+	while (i->second.fname.empty())
+	{
+		stack.push(i->second.id);
+		i = mix_list.find(i->second.parent);
+	}
+	open_location_mix(i->second.fname);
+	while (!stack.empty())
+	{
+		open_location_mix(stack.top());
+		stack.pop();
+	}
+	if (file_id)
+	{
+		CListCtrl& lc = GetListCtrl();
+		LVFINDINFO lvf;
+		lvf.flags = LVFI_PARAM;
+		lvf.lParam = file_id;
+		int i = lc.FindItem(&lvf, -1);
+		if (i != -1)
+		{
+			lc.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+			lc.EnsureVisible(i, false);
+		}
+		/*
+		for (int i = 0; i < lc.GetItemCount(); i++)
+		{
+			if (lc.GetItemData(i) != file_id)
+				continue;
+			lc.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+			lc.EnsureVisible(i, false);
+			break;
+		}
+		*/
+	}
 }
 
 void CXCCMixerView::open_location_mix(int id)
@@ -435,7 +497,6 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
 	int id = pDispInfo->item.lParam;
-	// assert(id == plc.GetItemData(pDispInfo->item.iItem);
 	m_buffer[m_buffer_w].erase();
 	const t_index_entry&  e = m_index.find(id)->second;
 	switch (pDispInfo->item.iSubItem)
@@ -528,16 +589,6 @@ void CXCCMixerView::sort_list(int i, bool reverse)
 	GetListCtrl().SortItems(Compare, reinterpret_cast<dword>(this));
 }
 
-static CXCCMixerApp* GetApp()
-{
-	return static_cast<CXCCMixerApp*>(AfxGetApp());
-}
-
-static CMainFrame* GetMainFrame()
-{
-	return static_cast<CMainFrame*>(AfxGetMainWnd());
-}
-
 void CXCCMixerView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
@@ -555,35 +606,7 @@ void CXCCMixerView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int id = get_current_id();
 	if (id != -1)
-	{
-		t_index_entry& index = m_index.find(id)->second;
-		switch (index.ft)
-		{
-		case ft_dir:
-			{
-				string name = index.name;
-				close_location(false);
-				open_location_dir(m_dir + name + '\\');
-				break;
-			}
-		case ft_drive:
-			{
-				string name = index.name;
-				close_location(false);
-				open_location_dir(name);
-				break;
-			}
-		case ft_mix:
-		case ft_pak:
-			{
-				if (m_mix_f)
-					open_location_mix(id);
-				else
-					open_location_mix(m_dir + index.name);
-				break;
-			}
-		}
-	}
+		open_item(id);
 	*pResult = 0;
 }
 
@@ -804,7 +827,13 @@ static void set_msg(const string& s)
 
 static void copy_failed(const Cfname& fname, int error)
 {
-	set_msg("Copy " + fname.get_ftitle() + " failed, error " + n(error));
+	string v = "Copy " + fname.get_ftitle() + " failed, error " + n(error);
+	if (error & 0x400)
+	{
+		v += ": ";
+		v += error_messages[error & 0x3ff];
+	}
+	set_msg(v);
 }
 
 static void copy_succeeded(const Cfname& fname)
@@ -1534,7 +1563,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		{
 			base_name = get_base_name(fname);
 			if (get_index_from_name(base_name, fname))
-				return 0x102;
+				return em_bad_fname;
 			Cpcx_file f;
 			error = open_f_index(f, i);
 			if (!error)
@@ -1566,9 +1595,9 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 					else
 					{
 						if (f.get_cx() != cx || f.get_cy() != cy)
-							error = 0x100;
+							error = em_bad_size;
 						else if (f.get_c_planes() != 1)
-							error = 0x101;
+							error = em_bad_depth;
 						else if (!error)
 						{
 							if (!s)
@@ -1711,6 +1740,7 @@ int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_tmp_ts(int i, Cfname fname) const
 {
+	return 1;
 	int error = 0;
 	fname.set_ext(".tmp");
 	Cpcx_file f;
@@ -1987,7 +2017,6 @@ int CXCCMixerView::copy_as_wav_pcm(int i, Cfname fname) const
 							memcpy(w, decode.data(), cb_audio);
 							error = file32_write(fname, d, cb_d);
 							delete[] d;
-
 						}
 						delete[] s;
 					}
@@ -2277,17 +2306,31 @@ t_game CXCCMixerView::get_game()
 
 void CXCCMixerView::OnPopupOpen()
 {
-	int id = get_current_id();
-	if (m_mix_f)
-		open_location_mix(get_current_id());
-	else
-		open_location_mix(m_dir + m_index.find(id)->second.name);
+	open_item(get_current_id());
 }
 
 void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(get_current_id() != -1 &&
-		m_index.find(get_current_id())->second.ft == ft_mix);
+	int id = get_current_id();
+	if (id != -1)
+	{
+		switch (m_index.find(id)->second.ft)
+		{
+		case ft_aud:
+		case ft_ogg:
+		case ft_voc:
+		case ft_wav:
+			pCmdUI->Enable(!m_xap.busy() && GetMainFrame()->get_ds());
+			return;
+		case ft_dir:
+		case ft_drive:
+		case ft_mix:
+		case ft_pak:
+			pCmdUI->Enable(true);
+			return;
+		}
+	}
+	pCmdUI->Enable(false);
 }
 
 void CXCCMixerView::OnPopupOpenForEdit()
@@ -2353,6 +2396,7 @@ void CXCCMixerView::OnUpdatePopupExplore(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!m_mix_f);
 }
 
+/*
 void CXCCMixerView::OnPopupPlay()
 {
 	CWaitCursor wait;
@@ -2385,12 +2429,12 @@ void CXCCMixerView::OnUpdatePopupPlay(CCmdUI* pCmdUI)
 			case ft_vqa:
 				pCmdUI->Enable(GetMainFrame()->get_dd() && GetMainFrame()->get_ds());
 				return;
-			*/
 			}
 		}
 	}
 	pCmdUI->Enable(false);
 }
+*/
 
 void CXCCMixerView::OnPopupRefresh()
 {
@@ -2404,84 +2448,134 @@ void CXCCMixerView::OnUpdatePopupRefresh(CCmdUI* pCmdUI)
 
 void CXCCMixerView::OnPopupResize()
 {
+	int error = 0;
 	int id = get_current_id();
-	Cshp_ts_file f;
-	int error = open_f_index(f, get_current_index());
-	if (!error)
+	Cfname fname = get_dir() + m_index.find(id)->second.name;
+	switch (m_index.find(id)->second.ft)
 	{
-		const int global_cx = f.get_cx();
-		const int global_cy = f.get_cy();
-		CResizeDlg dlg;
-		dlg.set_size(global_cx, global_cy);
-		if (IDOK == dlg.DoModal())
+	case ft_jpeg:
+	case ft_pcx:
+	case ft_png:
 		{
-			const int global_cx_d = dlg.get_cx();
-			const int global_cy_d = dlg.get_cy();
-			const int c_images = f.get_c_images();
-			t_palet palet;
-			convert_palet_18_to_24(get_default_palet(), palet);
-			palet[0].r = palet[0].b = 0xff;
-			palet[0].g = 0;
-			byte* rp = global_cx_d * global_cy_d * c_images > 1 << 18 ? new byte[1 << 18] : NULL;
-			if (rp)
-				create_downsample_table(palet, rp);
-			byte* d8 = new byte[global_cx_d * global_cy_d * c_images];
-			byte* d24 = new byte[global_cx_d * global_cy_d * 3];
-			byte* image8 = new byte[global_cx * global_cy];
-			byte* image24 = new byte[global_cx * global_cy * 3];
-			for (int i = 0; i < c_images; i++)
-			{
-				set_msg("Resize: " + n(i * 100 / c_images) + "%");
-				const int cx = f.get_cx(i);
-				const int cy = f.get_cy(i);
-				byte* image = new byte[cx * cy];
-				const byte* r;
-				if (f.is_compressed(i))
-				{
-					decode3(f.get_image(i), image, cx, cy);
-					r = image;
-				}
-				else
-					r = f.get_image(i);
-				memset(image8, 0, global_cx * global_cy);
-				byte* w = image8 + f.get_x(i) + global_cx * f.get_y(i);
-				for (int y = 0; y < cy; y++)
-				{
-					memcpy(w, r, cx);
-					r += cx;
-					w += global_cx;
-				}
-				delete[] image;
-				convert_image_8_to_24(image8, image24, global_cx, global_cy, palet);
-				if (global_cx < global_cx_d)
-					resize_image_up(image24, d24, global_cx, global_cy, 3, global_cx_d, global_cy_d);
-				else
-					resize_image_down(image24, d24, global_cx, global_cy, 3, global_cx_d, global_cy_d);
-				if (rp)
-					convert_image_24_to_8(d24, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, rp);
-				else
-					convert_image_24_to_8(d24, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
-			}
-			Cfile32 g;
-			Cfname fname = get_dir() + m_index.find(id)->second.name;
-			error = g.open_write(fname);
+			Ccc_file f(true);
+			error = open_f_index(f, get_current_index());
 			if (!error)
 			{
-				byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + global_cx_d * global_cy_d) * c_images];
-				error = g.write(d, shp_ts_file_write(d8, d, global_cx_d, global_cy_d, c_images));
-				delete[] d;
-				g.close();
+				Cvirtual_image s, s_palet, d;
+				error = s.load(f.get_vdata());
+				f.close();
+				if (!error)
+				{
+					CResizeDlg dlg;
+					dlg.set_size(s.cx(), s.cy());
+					if (IDOK == dlg.DoModal())
+					{
+						Cvirtual_image s_palet = s;
+						int cb_pixel = s.cb_pixel();
+						switch (cb_pixel)
+						{
+						case 1:
+						case 3:
+							s.increase_color_depth(4);
+							break;
+						default:
+							error = 1;
+						}
+						if (!error)
+						{
+							d.load(NULL, dlg.get_cx(), dlg.get_cy(), 4, s.palet());
+							if (s.cx() < d.cx())
+								resize_image_up(reinterpret_cast<const t_palet32entry*>(s.image()), reinterpret_cast<t_palet32entry*>(d.image_edit()), s.cx(), s.cy(), d.cx(), d.cy());
+							else
+								resize_image_down(reinterpret_cast<const t_palet32entry*>(s.image()), reinterpret_cast<t_palet32entry*>(d.image_edit()), s.cx(), s.cy(), d.cx(), d.cy());
+							d.decrease_color_depth(cb_pixel, s_palet.palet());
+							error = d.save(fname, m_index.find(id)->second.ft);
+						}
+					}
+				}								
 			}
-			delete[] image24;
-			delete[] image8;
-			delete[] d24;
-			delete[] d8;
-			delete[] rp;
-			set_msg("Resize " + fname.get_ftitle() + (error ? " failed, error " + n(error) : " succeeded"));
-			update_list();
 		}
-		f.close();
+		break;
+	case ft_shp_ts:
+		{
+			Cshp_ts_file f;
+			error = open_f_index(f, get_current_index());
+			if (!error)
+			{
+				const int global_cx = f.get_cx();
+				const int global_cy = f.get_cy();
+				CResizeDlg dlg;
+				dlg.set_size(global_cx, global_cy);
+				if (IDOK == dlg.DoModal())
+				{
+					const int global_cx_d = dlg.get_cx();
+					const int global_cy_d = dlg.get_cy();
+					const int c_images = f.get_c_images();
+					t_palet palet;
+					convert_palet_18_to_24(get_default_palet(), palet);
+					palet[0].r = palet[0].b = 0xff;
+					palet[0].g = 0;
+					Cvirtual_binary rp;
+					if (global_cx_d * global_cy_d * c_images > 1 << 18)
+						create_downsample_table(palet, rp.write_start(1 << 18));
+					byte* d8 = new byte[global_cx_d * global_cy_d * c_images];
+					t_palet32entry* d32 = new t_palet32entry[global_cx_d * global_cy_d];
+					byte* image8 = new byte[global_cx * global_cy];
+					t_palet32entry* image32 = new t_palet32entry[global_cx * global_cy];
+					for (int i = 0; i < c_images; i++)
+					{
+						set_msg("Resize: " + n(i * 100 / c_images) + "%");
+						const int cx = f.get_cx(i);
+						const int cy = f.get_cy(i);
+						byte* image = new byte[cx * cy];
+						const byte* r;
+						if (f.is_compressed(i))
+						{
+							decode3(f.get_image(i), image, cx, cy);
+							r = image;
+						}
+						else
+							r = f.get_image(i);
+						memset(image8, 0, global_cx * global_cy);
+						byte* w = image8 + f.get_x(i) + global_cx * f.get_y(i);
+						for (int y = 0; y < cy; y++)
+						{
+							memcpy(w, r, cx);
+							r += cx;
+							w += global_cx;
+						}
+						delete[] image;
+						upsample_image(image8, image32, global_cx, global_cy, palet);
+						if (global_cx < global_cx_d)
+							resize_image_up(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
+						else
+							resize_image_down(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
+						if (rp.size())
+							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, rp.data());
+						else
+							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
+					}
+					Cfile32 g;
+					error = g.open_write(fname);
+					if (!error)
+					{
+						byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + global_cx_d * global_cy_d) * c_images];
+						error = g.write(d, shp_ts_file_write(d8, d, global_cx_d, global_cy_d, c_images));
+						delete[] d;
+						g.close();
+					}
+					delete[] image32;
+					delete[] image8;
+					delete[] d32;
+					delete[] d8;
+				}
+				f.close();
+			}
+		}
+		break;
 	}
+	set_msg("Resize " + fname.get_ftitle() + (error ? " failed, error " + n(error) : " succeeded"));
+	update_list();
 }
 
 void CXCCMixerView::OnUpdatePopupResize(CCmdUI* pCmdUI)
@@ -2491,6 +2585,9 @@ void CXCCMixerView::OnUpdatePopupResize(CCmdUI* pCmdUI)
 	{
 		switch (m_index.find(get_current_id())->second.ft)
 		{
+		case ft_jpeg:
+		case ft_pcx:
+		case ft_png:
 		case ft_shp_ts:
 			pCmdUI->Enable(true);
 			return;
@@ -2697,7 +2794,7 @@ void CXCCMixerView::OnPopupClipboardPasteAsShpTs()
 			memcpy(p, get_default_palet(), sizeof(t_palet));
 			convert_palet_18_to_24(p);
 			if (image.cb_pixel() == 3)
-				image.decrease_color_depth(p);
+				image.decrease_color_depth(1, p);
 			else
 			{
 				byte rp[256];
@@ -2811,4 +2908,52 @@ Chtml CXCCMixerView::report() const
 		page += tr(td(e.name) + td(ft_name[e.ft]) + td(e.size == -1 ? "&nbsp;" : n(e.size), "align=right"));
 	}
 	return table(page, "border=1 width=100%");
+}
+
+void CXCCMixerView::open_item(int id)
+{
+	t_index_entry& index = m_index.find(id)->second;
+	switch (index.ft)
+	{
+	case ft_aud:
+	case ft_ogg:
+	case ft_voc:
+	case ft_wav:
+		if (!m_xap.busy() && GetMainFrame()->get_ds())
+		{
+			CWaitCursor wait;
+			Ccc_file f(true);
+			if (!open_f_index(f, get_current_index()))
+			{
+				m_xap.ds(GetMainFrame()->get_ds());
+				m_xap.load(f.get_vdata());
+				f.close();
+				m_xap.play();
+			}
+		}
+		break;
+	case ft_dir:
+		{
+			string name = index.name;
+			close_location(false);
+			open_location_dir(m_dir + name + '\\');
+			break;
+		}
+	case ft_drive:
+		{
+			string name = index.name;
+			close_location(false);
+			open_location_dir(name);
+			break;
+		}
+	case ft_mix:
+	case ft_pak:
+		{
+			if (m_mix_f)
+				open_location_mix(id);
+			else
+				open_location_mix(m_dir + index.name);
+			break;
+		}
+	}
 }

@@ -8,60 +8,6 @@
 
 using namespace std;
 
-/*
-class Ccache_entry
-{
-public:
-	const void* get_data() const
-	{
-		return m_data;
-	}
-
-	int get_size() const
-	{
-		return m_size;
-	}
-
-	Ccache_entry()
-	{
-		m_data = NULL;
-		m_size = 0;
-	}
-
-	Ccache_entry(const void* data, int size)
-	{
-		m_data = new byte[size];
-		m_size = size;
-		memcpy(m_data, data, size);
-	}
-
-	Ccache_entry(const Ccache_entry& v)
-	{
-		m_data = new byte[v.m_size];
-		m_size = v.m_size;
-		memcpy(m_data, v.m_data, v.m_size);
-	}
-
-	const Ccache_entry& operator=(const Ccache_entry& v)
-	{
-		delete[] m_data;
-		m_data = new byte[v.m_size];
-		m_size = v.m_size;
-		memcpy(m_data, v.m_data, v.m_size);
-		return *this;
-	}
-
-	~Ccache_entry()
-	{
-		delete[] m_data;
-	}
-private:
-	void* m_data;
-	int m_size;
-};
-
-typedef map<int, Ccache_entry> t_cache;
-*/
 typedef map<int, Cvirtual_binary> t_cache;
 
 t_cache cache;
