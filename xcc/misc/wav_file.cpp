@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include <assert.h>
+#include "ima_adpcm_wav_encode.h"
 #include "wav_file.h"
 #include "wav_structures.h"
 
@@ -113,4 +114,25 @@ int wav_ima_adpcm_file_write_header(void* w, int cb_audio, int c_samples, int sa
 	header.data_chunk_header.id = wav_data_id;
 	header.data_chunk_header.size = cb_audio;
 	return sizeof(t_wav_ima_adpcm_header);
+}
+
+void wav_ima_adpcm_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+{
+	Cima_adpcm_wav_encode encode;
+	encode.load(reinterpret_cast<const short*>(s), cb_s, c_channels);
+	int cb_audio = encode.cb_data();
+	int cb_d = sizeof(t_wav_ima_adpcm_header) + cb_audio;
+	byte* d = new byte[cb_d];
+	byte* w = d;
+	w += wav_ima_adpcm_file_write_header(w, cb_audio, c_samples, samplerate, c_channels);
+	memcpy(w, encode.data(), cb_audio);
+	f.write(d, cb_d);
+	delete[] d;
+}
+
+int wav_ima_adpcm_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+{
+	Cvirtual_file f;
+	wav_ima_adpcm_file_write(f, s, cb_s, c_samples, samplerate, c_channels);
+	return f.export(fname);
 }

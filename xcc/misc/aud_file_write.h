@@ -11,6 +11,7 @@
 
 #include "cc_structures.h"
 #include "file32.h"
+#include "virtual_file.h"
 
 class Caud_file_write: public Cfile32
 {
@@ -25,6 +26,8 @@ private:
 	int m_samplerate;
 };
 
+void aud_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
+int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 void audio_combine_channels(__int16* data, int c_samples);
 
 #endif // !defined(AFX_AUD_FILE_WRITE_H__33F65560_F820_11D3_B605_0000B4936994__INCLUDED_)

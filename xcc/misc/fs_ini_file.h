@@ -16,13 +16,6 @@
 
 using namespace std;
 
-/*
-class SortDummy{
-public:
-	bool operator() (const string&, const string&) const;
-};
-*/
-
 class CIniFileSection
 {
 public:
@@ -30,25 +23,25 @@ public:
 	int FindValue(string sval);
 	const string* GetValueName(unsigned int Index);
 	string* GetValue(unsigned int index);
-	map<string, string/*, SortDummy*/> values;
+	map<string, string> values;
 	CIniFileSection();
-	virtual ~CIniFileSection();
+	~CIniFileSection();
 };
 
 class CIniFile  
 {
 public:
-	BOOL SaveFile(const char* Filename);
-	const string* GetSectionName(unsigned int Index);
+	// bool SaveFile(const char* Filename);
+	// const string* GetSectionName(unsigned int Index);
 	CIniFileSection* GetSection(unsigned int index);
-	WORD InsertFile(const char* filename, const char* Section);
+	int InsertFile(const char* filename, const char* Section);
 	void Clear();
-	WORD LoadFile(const char* filename);
+	int LoadFile(const char* filename);
 	map<string, CIniFileSection> sections;
 	CIniFile();
-	virtual ~CIniFile();
+	~CIniFile();
 private:
-	char m_filename[MAX_PATH];
+	// char m_filename[MAX_PATH];
 };
 
 #endif // !defined(AFX_INIFILE_H__96455620_6528_11D3_99E0_DB2A1EF71411__INCLUDED_)

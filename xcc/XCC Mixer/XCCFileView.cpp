@@ -17,6 +17,7 @@
 #include "map_ra_ini_reader.h"
 #include "map_ts_ini_reader.h"
 #include "mp3_file.h"
+#include "jpeg_file.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
@@ -333,6 +334,26 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Count sections:", n(f.get_c_sections()));
 				break;
 			}
+		case ft_jpeg:
+			{
+				Cjpeg_file f;
+				f.load(m_data, m_cb_data);
+				Cvirtual_image image;
+				f.decode(image);
+				const int cx = image.cx();
+				const int cy = image.cy();
+				draw_info("Size:", n(cx) + " x " + n(cy));
+				m_y += m_y_inc;
+				if (image.cb_pixel() == 1)
+				{
+					load_color_table(image.palet(), false);
+					draw_image8(image.image(), cx, cy, pDC, 0, m_y);
+				}
+				else
+					draw_image24(image.image(), cx, cy, pDC, 0, m_y);
+				m_y += cy + m_y_inc;
+				break;
+			}
 		case ft_map_td:
 			{
 				Cvirtual_tfile tf;
@@ -451,7 +472,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;
 				byte* image = new byte[c_planes * cx * cy];
-				pcx_decode(f.get_image(), image, *f.get_header());
+				f.decode(image);
+				// pcx_decode(f.get_image(), image, *f.get_header());
 				if (c_planes == 1)
 				{
 					load_color_table(*f.get_palet(), false);
@@ -769,11 +791,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cvxl_file f;
 				f.load(m_data, m_cb_data);
 				int vxl_mode = GetMainFrame()->get_vxl_mode();
-				t_palet gray_palet;
-				for (int i = 0; i < 256; i++)
-					gray_palet[i].r = gray_palet[i].g = gray_palet[i].b = i * 255 / 35;
-				load_color_table(get_default_palet()/*f.get_palet()*/, true);
-				for (i = 0; i < f.get_c_section_headers(); i++)
+				load_color_table(get_default_palet(), true);
+				for (int i = 0; i < f.get_c_section_headers(); i++)
 				{
 					const t_vxl_section_tailer& section_tailer = *f.get_section_tailer(i);
 					const int cx = section_tailer.cx;
@@ -863,8 +882,21 @@ void CXCCFileView::OnDraw(CDC* pDC)
 									draw_image8(image, cl, cl, pDC, xr * (cl + m_y_inc), m_y);
 									break;
 								case 1:
-									load_color_table(gray_palet, false);
-									draw_image8(image_s, cl, cl, pDC, xr * (cl + m_y_inc), m_y);
+									{
+										t_palet gray_palet;
+										if (section_tailer.unknown == 2)
+										{
+											for (int i = 0; i < 256; i++)
+												gray_palet[i].r = gray_palet[i].g = gray_palet[i].b = i * 255 / 35;
+										}
+										else
+										{
+											for (int i = 0; i < 256; i++)
+												gray_palet[i].r = gray_palet[i].g = gray_palet[i].b = i;
+										}
+										load_color_table(gray_palet, false);
+										draw_image8(image_s, cl, cl, pDC, xr * (cl + m_y_inc), m_y);
+									}
 									break;
 								case 2:
 									{
@@ -888,6 +920,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 												image_z[o] -= min_z;
 										}
 										max_z -= min_z;
+										t_palet gray_palet;
 										for (int p = 0; p < max_z; p++)
 											gray_palet[p].r = gray_palet[p].g = gray_palet[p].b = p * 255 / max_z;
 										gray_palet[0xff].r = 0;

@@ -33,6 +33,8 @@ public:
 	static string get_dune2000_dir();
 	static string get_ra2_dir();
 	static string get_dir(t_game game);
+	static string get_exe(t_game game);
+	static string get_main_mix(t_game game);
 	static void set_dune2_dir(const string &s);
 	static void set_td_primary_dir(const string &s);
 	static void set_td_secondary_dir(const string &s);

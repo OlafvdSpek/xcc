@@ -35,15 +35,15 @@ RSC=rc.exe
 # PROP BASE Output_Dir "Release"
 # PROP BASE Intermediate_Dir "Release"
 # PROP BASE Target_Dir ""
-# PROP Use_MFC 0
+# PROP Use_MFC 2
 # PROP Use_Debug_Libraries 0
 # PROP Output_Dir "Release"
 # PROP Intermediate_Dir "Release"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\libpng" /I "..\..\misc\zlib" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\libjpeg" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /Yu"stdafx.h" /FD /c
 # ADD BASE RSC /l 0x413 /d "NDEBUG"
-# ADD RSC /l 0x413 /d "NDEBUG"
+# ADD RSC /l 0x413 /d "NDEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -58,15 +58,15 @@ LIB32=link.exe -lib
 # PROP BASE Output_Dir "Debug"
 # PROP BASE Intermediate_Dir "Debug"
 # PROP BASE Target_Dir ""
-# PROP Use_MFC 0
+# PROP Use_MFC 2
 # PROP Use_Debug_Libraries 1
 # PROP Output_Dir "Debug"
 # PROP Intermediate_Dir "Debug"
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\libpng" /I "..\..\misc\zlib" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "_DEBUG" /D "_MBCS" /D "_LIB" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\libjpeg" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_MBCS" /D "_LIB" /D "_AFXDLL" /D "JPEG_SUPPORT" /D "OGG_SUPPORT" /D "PNG_SUPPORT" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE RSC /l 0x413 /d "_DEBUG"
-# ADD RSC /l 0x413 /d "_DEBUG"
+# ADD RSC /l 0x413 /d "_DEBUG" /d "_AFXDLL"
 BSC32=bscmake.exe
 # ADD BASE BSC32 /nologo
 # ADD BSC32 /nologo
@@ -153,6 +153,10 @@ SOURCE=..\..\misc\fname.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\fs_ini_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\hva_file.cpp
 # End Source File
 # Begin Source File
@@ -169,11 +173,19 @@ SOURCE=..\misc\ima_adpcm_wav_encode.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\image_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\image_tools.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\ini_reader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\jpeg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -226,6 +238,10 @@ SOURCE=..\misc\neat_ini_reader.cpp
 # Begin Source File
 
 SOURCE=..\misc\neat_key_list.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ogg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -322,6 +338,22 @@ SOURCE=..\misc\tmp_ts_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_audio.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_binary.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_image.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\virtual_tfile.cpp
 # End Source File
 # Begin Source File
@@ -358,6 +390,10 @@ SOURCE=..\misc\wsa_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\xcc_apps.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\xcc_dirs.cpp
 # End Source File
 # Begin Source File
@@ -383,6 +419,10 @@ SOURCE=..\misc\xcc_registry.cpp
 # Begin Source File
 
 SOURCE=..\..\misc\xfile32.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xse.cpp
 # End Source File
 # Begin Source File
 
@@ -510,11 +550,19 @@ SOURCE=..\misc\ima_adpcm_wav_encode.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\image_file.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\image_tools.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\jpeg_file.h
 # End Source File
 # Begin Source File
 
@@ -575,6 +623,10 @@ SOURCE=..\misc\neat_key_list.h
 # Begin Source File
 
 SOURCE=..\misc\null_ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ogg_file.h
 # End Source File
 # Begin Source File
 
@@ -698,6 +750,18 @@ SOURCE=..\..\misc\vartypes.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_audio.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_image.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\virtual_tfile.h
 # End Source File
 # Begin Source File
@@ -743,6 +807,10 @@ SOURCE=..\misc\wsa_dune2_file.h
 # Begin Source File
 
 SOURCE=..\misc\wsa_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_apps.h
 # End Source File
 # Begin Source File
 

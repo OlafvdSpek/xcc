@@ -15,6 +15,7 @@
 #define IDD_XSTE                        134
 #define IDD_XSTE_EDIT                   135
 #define IDD_XSE                         136
+#define IDD_SHP_PROPERTIES              137
 #define IDC_DUNE2                       1000
 #define IDC_TD_PRIMARY                  1001
 #define IDC_CY                          1001
@@ -24,6 +25,7 @@
 #define IDC_DUNE2000                    1003
 #define IDC_LIST                        1003
 #define IDC_RELATIVE_CX                 1003
+#define IDC_C_FRAMES                    1003
 #define IDC_TS                          1004
 #define IDC_CAT_LIST                    1004
 #define IDC_RELATIVE_CY                 1004
@@ -332,18 +334,25 @@
 #define ID_CONVERSION_COMBINE_SHADOWS   33100
 #define ID_POPUP_COPY_AS_PCX_SINGLE     33101
 #define ID_POPUP_CLIPBOARD_COPY         33102
-#define ID_POPUP_CLIPBOARD_PASTEASPCX   33103
-#define ID_POPUP_CLIPBOARD_PASTEASSHPTS 33104
+#define ID_POPUP_CLIPBOARD_PASTE_AS_PCX 33103
+#define ID_POPUP_CLIPBOARD_PASTE_AS_SHP_TS 33104
 #define ID_POPUP_COPY_AS_PNG_SINGLE     33105
+#define ID_POPUP_CLIPBOARD_PASTE_AS_PNG 33106
+#define ID_POPUP_OPEN_WITH_FINALALERT   33107
+#define ID_POPUP_COPY_AS_JPEG           33108
+#define ID_POPUP_CLIPBOARD_PASTE_AS_JPEG 33109
+#define ID_POPUP_EXPLORE                33111
+#define ID_LAUNCH_XMC                   33112
+#define ID_LAUNCH_XML                   33113
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        137
-#define _APS_NEXT_COMMAND_VALUE         33106
-#define _APS_NEXT_CONTROL_VALUE         1027
+#define _APS_NEXT_RESOURCE_VALUE        138
+#define _APS_NEXT_COMMAND_VALUE         33114
+#define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

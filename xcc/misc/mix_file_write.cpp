@@ -17,7 +17,7 @@ Cmix_file_write::~Cmix_file_write()
 		delete[] i->second.d;
 }
 
-void Cmix_file_write::add_file(int id, const byte* d, int cb_d)
+void Cmix_file_write::add_file(int id, const void* d, int cb_d)
 {
 	t_index::iterator i = m_index.find(id);
 	if (i != m_index.end())
@@ -32,10 +32,19 @@ void Cmix_file_write::add_file(int id, const byte* d, int cb_d)
 	m_index[id] = e;
 }
 
-void Cmix_file_write::add_file(string name, const byte* d, int cb_d)
+void Cmix_file_write::add_file(string name, const void* d, int cb_d)
 {
 	add_file(Cmix_file::get_id(game_ts, name), d, cb_d);
 	m_lmd_fw.add_fname(name);
+}
+
+void Cmix_file_write::add_file(string name, Cmix_file_write& s)
+{
+	int cb_d = s.write_start();
+	byte* d = new byte[cb_d];
+	s.write(d);
+	add_file(name, d, cb_d);
+	delete[] d;
 }
 
 int Cmix_file_write::write_start()

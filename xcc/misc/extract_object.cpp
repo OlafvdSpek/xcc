@@ -928,7 +928,7 @@ int Cextract_object::insert(const Cxif_key& k)
 				int cb_exm = expand_mix.write_start();
 				byte* exm = new byte[cb_exm];
 				expand_mix.write(exm);
-				error = file32_write(xcc_dirs::get_ts_dir() + "expand99.mix", exm, cb_exm);
+				error = file32_write(xcc_dirs::get_dir(m_game) + "expand99.mix", exm, cb_exm);
 				delete[] exm;
 			}
 		}

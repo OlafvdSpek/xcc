@@ -10,6 +10,7 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+#ifdef PNG_SUPPORT
 int png_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)
 {
 	int c_planes = palet ? 1 : 3;
@@ -54,3 +55,4 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 	fclose(out_file);
 	return 0;
 }
+#endif

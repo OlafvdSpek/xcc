@@ -9,7 +9,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "cc_file.h"
 #include "palet.h"
+#include "virtual_file.h"
 
 class Cvirtual_image  
 {
@@ -18,7 +20,13 @@ public:
 	void increase_color_depth();
 	void flip();
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
+	int save(Cvirtual_file& f, t_file_type ft) const;
+	int save(string fname, t_file_type ft) const;
+	int save_as_jpeg(Cvirtual_file& f) const;
+	int save_as_jpeg(string fname) const;
+	void save_as_pcx(Cvirtual_file& f) const;
 	int save_as_pcx(string fname) const;
+	int save_as_png(Cvirtual_file& f) const;
 	int save_as_png(string fname) const;
 	void swap_rb();
 	Cvirtual_image();

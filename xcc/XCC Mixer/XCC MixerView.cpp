@@ -23,6 +23,7 @@
 #include "ima_adpcm_wav_decode.h"
 #include "ima_adpcm_wav_encode.h"
 #include "image_tools.h"
+#include "jpeg_file.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
@@ -31,6 +32,7 @@
 #include "shp_dune2_file.h"
 #include "shp_file.h"
 #include "shp_images.h"
+#include "shp_properties_dlg.h"
 #include "shp_ts_file.h"
 #include "shp_ts_file_write.h"
 #include "st_file.h"
@@ -138,6 +140,20 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_COPY, OnUpdatePopupClipboardCopy)
 	ON_COMMAND(ID_POPUP_COPY_AS_PNG_SINGLE, OnPopupCopyAsPngSingle)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PNG_SINGLE, OnUpdatePopupCopyAsPngSingle)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_PCX, OnPopupClipboardPasteAsPcx)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PCX, OnUpdatePopupClipboardPasteAsImage)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_SHP_TS, OnPopupClipboardPasteAsShpTs)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_SHP_TS, OnUpdatePopupClipboardPasteAsVideo)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnPopupClipboardPasteAsPng)
+	ON_COMMAND(ID_POPUP_OPEN_WITH_FINALALERT, OnPopupOpenWithFinalalert)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_OPEN_WITH_FINALALERT, OnUpdatePopupOpenWithFinalalert)
+	ON_COMMAND(ID_POPUP_COPY_AS_JPEG, OnPopupCopyAsJpeg)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_JPEG, OnUpdatePopupCopyAsJpeg)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnPopupClipboardPasteAsJpeg)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
+	ON_COMMAND(ID_POPUP_EXPLORE, OnPopupExplore)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_EXPLORE, OnUpdatePopupExplore)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -674,20 +690,22 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_pcx;
 	case ft_hva:
 		return d == ft_csv;
+	case ft_jpeg:
+		return d == ft_clipboard;
 	case ft_pal:
 		return d == ft_pal_jasc;
 	case ft_pcx:
-		return d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tmp_ts || d == ft_vxl;
+		return d == ft_clipboard || d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tmp_ts || d == ft_vxl;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
 		return d == ft_pcx || d == ft_shp_ts;
 	case ft_shp_ts:
-		return d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
+		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
 	case ft_text:
 		return d == ft_hva;
 	case ft_vqa:
-		return d == ft_avi || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
+		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
 		return d == ft_pcx || d == ft_xif;
 	case ft_wav:
@@ -775,6 +793,11 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		case ft_hva:
 			error = copy_as_hva(*i, fname);
 			break;
+		case ft_jpeg:
+		case ft_pcx:
+		case ft_png:
+			error = copy_as_pcx(*i, fname, ft);
+			break;
 		case ft_map_ts_preview:
 			error = copy_as_map_ts_preview(*i, fname);
 			break;
@@ -787,10 +810,6 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		case ft_pcx_single:
 		case ft_png_single:
 			error = copy_as_pcx_single(*i, fname, ft);
-			break;
-		case ft_pcx:
-		case ft_png:
-			error = copy_as_pcx(*i, fname, ft);
 			break;
 		case ft_shp:
 			error = copy_as_shp(*i, fname);
@@ -1143,7 +1162,17 @@ int CXCCMixerView::copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 {
 	int error = 0;
-	fname.set_ext(ft == ft_png ? ".png" : ".pcx");
+	switch (ft)
+	{
+	case ft_jpeg:
+		fname.set_ext(".jpeg");
+		break;
+	case ft_pcx:
+		fname.set_ext(".pcx");
+		break;
+	default:
+		fname.set_ext(".png");
+	}	
 	switch (m_index.find(get_id(i))->second.ft)
 	{
 	case ft_cps:
@@ -1937,6 +1966,16 @@ void CXCCMixerView::OnUpdatePopupCopyAsHVA(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_hva));
 }
 
+void CXCCMixerView::OnPopupCopyAsJpeg() 
+{
+	copy_as(ft_jpeg);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsJpeg(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_jpeg));
+}
+
 void CXCCMixerView::OnPopupCopyAsMapTsPreview()
 {
 	copy_as(ft_map_ts_preview);
@@ -2160,8 +2199,40 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 void CXCCMixerView::OnUpdatePopupOpenWithFinalsun(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1 &&
-		m_index.find(get_current_id())->second.ft == ft_map_ts &&
+		m_index.find(get_current_id())->second.ft == ft_map_ts || m_index.find(get_current_id())->second.ft == ft_text &&
 		GetApp()->is_fs_available());
+}
+
+void CXCCMixerView::OnPopupOpenWithFinalalert() 
+{
+	Ccc_file f(false);
+	if (open_f_index(f, get_current_index()))
+	{
+	}
+	else
+	{
+		const string fname = xcc_dirs::get_ra2_dir() + m_index.find(get_current_id())->second.name;
+		f.extract(fname);
+		f.close();
+		ShellExecute(m_hWnd, "open", GetApp()->get_fa_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
+	}
+}
+
+void CXCCMixerView::OnUpdatePopupOpenWithFinalalert(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(get_current_id() != -1 &&
+		m_index.find(get_current_id())->second.ft == ft_map_ra2 || m_index.find(get_current_id())->second.ft == ft_text &&
+		GetApp()->is_fa_available());
+}
+
+void CXCCMixerView::OnPopupExplore() 
+{
+	ShellExecute(m_hWnd, "open", m_dir.c_str(), NULL, NULL, SW_SHOW);	
+}
+
+void CXCCMixerView::OnUpdatePopupExplore(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!m_mix_f);
 }
 
 void CXCCMixerView::OnPopupPlay()
@@ -2187,13 +2258,16 @@ void CXCCMixerView::OnUpdatePopupPlay(CCmdUI* pCmdUI)
 			switch (m_index.find(get_current_id())->second.ft)
 			{
 			case ft_aud:
+			// case ft_ogg:
 			case ft_voc:
 			case ft_wav:
 				pCmdUI->Enable(static_cast<bool>(GetMainFrame()->get_ds()));
 				return;
+			/*
 			case ft_vqa:
 				pCmdUI->Enable(GetMainFrame()->get_dd() && GetMainFrame()->get_ds());
 				return;
+			*/
 			}
 		}
 	}
@@ -2379,6 +2453,32 @@ void CXCCMixerView::OnPopupClipboardCopy()
 	int id = get_current_id();
 	switch (m_index.find(id)->second.ft)
 	{
+	case ft_jpeg:
+		{
+			Cjpeg_file f;
+			error = open_f_id(f, id);
+			if (!error)
+			{
+				Cvirtual_image image;
+				f.decode(image);
+				error = set_clipboard_image(image);
+				f.close();
+			}
+			break;
+		}
+	case ft_pcx:
+		{
+			Cpcx_file f;
+			error = open_f_id(f, id);
+			if (!error)
+			{
+				Cvirtual_image image;
+				f.decode(image);
+				error = set_clipboard_image(image);
+				f.close();
+			}
+			break;
+		}
 	case ft_shp_ts:
 		{
 			Cshp_ts_file f;
@@ -2388,40 +2488,7 @@ void CXCCMixerView::OnPopupClipboardCopy()
 				Cvirtual_image image;
 				error = f.extract_as_pcx_single(image, get_default_palet(), GetMainFrame()->combine_shadows());
 				if (!error)
-				{
-					CBitmap bitmap;
-					if (bitmap.CreateBitmap(image.cx(), image.cy(), image.cb_pixel(), 8, image.image()))
-					{
-						if (OpenClipboard())
-						{
-							if (EmptyClipboard())
-							{
-								if (SetClipboardData(CF_BITMAP, bitmap.m_hObject))
-								{
-									LOGPALETTE* logpalette = reinterpret_cast<LOGPALETTE*>(new byte[sizeof(LOGPALETTE) + 255 * sizeof(PALETTEENTRY)]);
-									logpalette->palVersion = 0;
-									logpalette->palNumEntries = 256;
-									for (int i = 0; i < 256; i++)
-									{
-										logpalette->palPalEntry[i].peRed = image.palet()[i].r;
-										logpalette->palPalEntry[i].peGreen = image.palet()[i].g;
-										logpalette->palPalEntry[i].peBlue = image.palet()[i].b;
-										logpalette->palPalEntry[i].peFlags = 0;
-									}
-									CPalette palet;
-									if (palet.CreatePalette(logpalette))
-									{
-										if (SetClipboardData(CF_PALETTE, palet.m_hObject))
-											palet.Detach();
-									}
-									delete logpalette;
-									bitmap.Detach();
-								}
-							}
-							CloseClipboard();
-						}
-					}
-				}
+					error = set_clipboard_image(image);
 				f.close();
 			}
 			break;
@@ -2431,6 +2498,239 @@ void CXCCMixerView::OnPopupClipboardCopy()
 
 void CXCCMixerView::OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(can_copy_as(ft_pcx_single));
+	pCmdUI->Enable(can_copy_as(ft_clipboard));
+}
+
+int CXCCMixerView::get_clipboard_image(Cvirtual_image& image)
+{
+	int error = 0;
+	if (!OpenClipboard())
+		error = 0x100;
+	else
+	{
+		void* h_mem = GetClipboardData(CF_DIB);
+		if (!h_mem)
+			error = 0x101;
+		else
+		{
+			byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
+			if (!mem)
+				error = 0x102;
+			else
+			{	const BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
+				int cb_pixel = header->biBitCount >> 3;
+				if (cb_pixel != 1 && cb_pixel != 3)
+					error = 0x103;
+				else
+				{
+					t_palet_entry* palet = cb_pixel == 1 ? new t_palet : NULL;
+					const RGBQUAD* r = reinterpret_cast<RGBQUAD*>(mem + header->biSize);
+					if (palet)
+					{
+						for (int i = 0; i < (header->biClrUsed ? header->biClrUsed : 256); i++)
+						{
+							palet[i].r = r->rgbRed;
+							palet[i].g = r->rgbGreen;
+							palet[i].b = r->rgbBlue;
+							r++;
+						}
+					}
+					image.load(r, header->biWidth, header->biHeight, cb_pixel, palet);
+					image.flip();
+					if (cb_pixel == 3)
+						image.swap_rb();
+					delete palet;
+				}
+				GlobalUnlock(h_mem);
+			}
+		}
+		CloseClipboard();
+	}
+	return error;
+}
+
+int CXCCMixerView::set_clipboard_image(Cvirtual_image& image)
+{
+	int error = 0;
+	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + image.cb_image());
+	if (!h_mem)
+		error = 0x100;
+	else
+	{
+		byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
+		if (!mem)
+			error = 0x101;
+		else
+		{
+			image.flip();
+			if (image.cb_pixel() == 3)
+				image.swap_rb();
+			BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
+			ZeroMemory(header, sizeof(BITMAPINFOHEADER));
+			header->biSize = sizeof(BITMAPINFOHEADER);
+			header->biWidth = image.cx();
+			header->biHeight = image.cy();
+			header->biPlanes = 1;
+			header->biBitCount = image.cb_pixel() << 3;
+			header->biCompression = BI_RGB;
+			RGBQUAD* palet = reinterpret_cast<RGBQUAD*>(mem + sizeof(BITMAPINFOHEADER));
+			if (image.cb_pixel() == 1)
+			{
+				for (int i = 0; i < 256; i++)
+				{
+					palet->rgbBlue = image.palet()[i].b;
+					palet->rgbGreen = image.palet()[i].g;
+					palet->rgbRed = image.palet()[i].r;
+					palet->rgbReserved = 0;
+					palet++;
+				}
+			}
+			memcpy(palet, image.image(), image.cb_image());
+			GlobalUnlock(h_mem);
+			if (!OpenClipboard())
+				error = 0x102;
+			else
+			{
+				if (EmptyClipboard() && SetClipboardData(CF_DIB, h_mem))
+					h_mem = NULL;
+				else
+					error = 0x103;
+				CloseClipboard();
+			}
+		}
+		if (h_mem)
+			GlobalFree(h_mem);
+	}
+	return error;
+}
+
+int CXCCMixerView::get_paste_fname(string& fname, t_file_type ft)
+{
+	int id = get_current_id();
+	bool replace = id != -1 && m_index.find(id)->second.ft == ft;
+	CFileDialog dlg(false, NULL, replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, "All files (*.*)|*.*|", this);
+	if (!replace)
+		dlg.m_ofn.lpstrInitialDir = m_dir.c_str();
+	if (IDOK == dlg.DoModal())
+	{
+		fname = dlg.GetPathName();
+		return 0;
+	}
+	return 1;
+}
+
+void CXCCMixerView::OnPopupClipboardPasteAsJpeg() 
+{
+	Cvirtual_image image;
+	int error = get_clipboard_image(image);
+	if (!error)
+	{
+		string fname;
+		if (!get_paste_fname(fname, ft_jpeg))
+		{
+			image.save_as_jpeg(fname);
+			update_list();
+		}
+	}
+}
+
+void CXCCMixerView::OnPopupClipboardPasteAsPcx() 
+{
+	Cvirtual_image image;
+	int error = get_clipboard_image(image);
+	if (!error)
+	{
+		string fname;
+		if (!get_paste_fname(fname, ft_pcx))
+		{
+			image.save_as_pcx(fname);
+			update_list();
+		}
+	}
+}
+
+void CXCCMixerView::OnPopupClipboardPasteAsPng() 
+{
+	Cvirtual_image image;
+	int error = get_clipboard_image(image);
+	if (!error)
+	{
+		string fname;
+		if (!get_paste_fname(fname, ft_png))
+		{
+			image.save_as_png(fname);
+			update_list();
+		}
+	}
+}
+
+void CXCCMixerView::OnUpdatePopupClipboardPasteAsImage(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_accept() && IsClipboardFormatAvailable(CF_DIB));
+}
+
+void CXCCMixerView::OnPopupClipboardPasteAsShpTs() 
+{
+	Cvirtual_image image;
+	int error = get_clipboard_image(image);
+	if (!error)
+	{
+		if (image.cb_pixel() == 3 || GetMainFrame()->use_palet_for_conversion())
+		{
+			t_palet p;
+			memcpy(p, get_default_palet(), sizeof(t_palet));
+			convert_palet_18_to_24(p);
+			if (image.cb_pixel() == 3)
+				image.decrease_color_depth(p);
+			else
+			{
+				byte rp[256];
+				if (GetMainFrame()->convert_from_td())
+					create_rp(image.palet(), p, rp, game_td);
+				else if (GetMainFrame()->convert_from_ra())
+					create_rp(image.palet(), p, rp, game_ra);
+				else
+					create_rp(image.palet(), p, rp);
+				apply_rp(image.image_edit(), image.cx() * image.cy(), rp);
+			}
+		}
+		string fname;
+		if (!get_paste_fname(fname, ft_shp_ts))
+		{
+			Cshp_properties_dlg dlg;
+			Cshp_ts_file f;
+			int id = get_current_id();
+			if (!open_f_id(f, id))
+			{
+				if (f.is_valid())
+					dlg.set_size(f.get_cx(), f.get_cy(), f.get_c_images() >> GetMainFrame()->split_shadows());
+				else
+					dlg.set_size(image.cx(), image.cy(), 1);
+				f.close();
+			}
+			if (IDOK == dlg.DoModal())
+			{
+				int cblocks_x = image.cx() / dlg.get_cx();
+				int cblocks_y = image.cy() / dlg.get_cy();
+				int c_blocks = dlg.get_c_frames();
+				shp_split_frames(image, cblocks_x, cblocks_y);
+				if (GetMainFrame()->split_shadows())
+				{
+					shp_split_shadows(image);
+					c_blocks <<= 1;
+				}
+				byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + image.cx() * image.cy() / c_blocks) * c_blocks];
+				const int cb_d = shp_ts_file_write(image.image(), d, dlg.get_cx(), dlg.get_cy(), c_blocks, GetMainFrame()->enable_compression());
+				error = file32_write(fname, d, cb_d);
+				delete[] d;
+				update_list();
+			}
+		}
+	}
+}
+
+void CXCCMixerView::OnUpdatePopupClipboardPasteAsVideo(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_accept() && IsClipboardFormatAvailable(CF_DIB));
 }
 

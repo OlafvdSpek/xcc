@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libjpeg" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_AFXDLL" /D "JPEG_SUPPORT" /D "PNG_SUPPORT" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "XCC Mixer - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libjpeg" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_AFXDLL" /D "JPEG_SUPPORT" /D "PNG_SUPPORT" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x409 /d "_DEBUG" /d "_AFXDLL"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -200,11 +200,19 @@ SOURCE=..\misc\ima_adpcm_wav_encode.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\image_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\image_tools.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\ini_reader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\jpeg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -265,6 +273,10 @@ SOURCE=..\misc\neat_ini_reader.cpp
 # Begin Source File
 
 SOURCE=..\misc\neat_key_list.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ogg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -332,6 +344,10 @@ SOURCE=..\misc\shp_images.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\shp_properties_dlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\shp_ts_file.cpp
 # End Source File
 # Begin Source File
@@ -370,6 +386,14 @@ SOURCE=..\misc\tmp_ra.cpp
 # Begin Source File
 
 SOURCE=..\misc\tmp_ts_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_audio.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_binary.cpp
 # End Source File
 # Begin Source File
 
@@ -434,6 +458,10 @@ SOURCE=".\XCC MixerDoc.cpp"
 # Begin Source File
 
 SOURCE=".\XCC MixerView.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_apps.cpp
 # End Source File
 # Begin Source File
 
@@ -525,6 +553,14 @@ SOURCE=..\misc\ima_adpcm_wav_encode.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\image_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\jpeg_file.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\MainFrm.h
 # End Source File
 # Begin Source File
@@ -541,11 +577,23 @@ SOURCE=..\misc\map_ts_ini_reader.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\ogg_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ResizeDlg.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
 
 SOURCE=.\SearchFileDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\shp_properties_dlg.h
 # End Source File
 # Begin Source File
 

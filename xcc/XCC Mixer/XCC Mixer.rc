@@ -142,6 +142,8 @@ BEGIN
         MENUITEM "XCC &AV Player",              ID_UTILITIES_XCC_AV_PLAYER
         MENUITEM "XCC &Editor",                 ID_UTILITIES_XCC_EDITOR
         MENUITEM "XCC &MIX Editor",             ID_UTILITIES_XCC_MIX_EDITOR
+        MENUITEM "XCC Mod Creator",             ID_LAUNCH_XMC
+        MENUITEM "XCC Mod Launcher",            ID_LAUNCH_XML
         POPUP "XCC &Object Extractor"
         BEGIN
             MENUITEM "&Tiberian Sun",               ID_LAUNCH_XOE_TS
@@ -304,14 +306,21 @@ BEGIN
         MENUITEM "Open read-only",              ID_POPUP_OPEN
         MENUITEM "Open read-write",             ID_POPUP_OPEN_FOR_EDIT
         MENUITEM "Open with FinalSun",          ID_POPUP_OPEN_WITH_FINALSUN
+        MENUITEM "Open with FinalAlert",        ID_POPUP_OPEN_WITH_FINALALERT
+
+        MENUITEM "&Explore",                    ID_POPUP_EXPLORE
         MENUITEM "&Play\tCtrl+P",               ID_POPUP_PLAY
         MENUITEM SEPARATOR
         POPUP "Clipboard"
         BEGIN
             MENUITEM "Copy",                        ID_POPUP_CLIPBOARD_COPY
-            MENUITEM "Paste as PCX",                ID_POPUP_CLIPBOARD_PASTEASPCX
+            MENUITEM "Paste as JPEG",               ID_POPUP_CLIPBOARD_PASTE_AS_JPEG
 
-            MENUITEM "Paste as SHP (TS)",           ID_POPUP_CLIPBOARD_PASTEASSHPTS
+            MENUITEM "Paste as PCX",                ID_POPUP_CLIPBOARD_PASTE_AS_PCX
+
+            MENUITEM "Paste as PNG",                ID_POPUP_CLIPBOARD_PASTE_AS_PNG
+
+            MENUITEM "Paste as SHP (TS)",           ID_POPUP_CLIPBOARD_PASTE_AS_SHP_TS
 
         END
         MENUITEM "&Extract...",                 ID_POPUP_EXTRACT
@@ -322,6 +331,7 @@ BEGIN
         MENUITEM "Copy as CSV",                 ID_POPUP_COPY_AS_CSV
         MENUITEM "Copy as HTML",                ID_POPUP_COPY_AS_HTML
         MENUITEM "Copy as HVA",                 ID_POPUP_COPY_AS_HVA
+        MENUITEM "Copy as JPEG",                ID_POPUP_COPY_AS_JPEG
         MENUITEM "Copy as MAP (TS) Preview",    ID_POPUP_COPY_AS_MAP_TS_PREVIEW
 
         MENUITEM "Copy as PAL",                 ID_POPUP_COPY_AS_PAL
@@ -400,9 +410,9 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,3,93,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,125,93,50,14
     LTEXT           "Width:",IDC_STATIC,12,49,22,13
-    EDITTEXT        IDC_RELATIVE_CX,43,49,46,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RELATIVE_CX,43,49,46,13,ES_AUTOHSCROLL | ES_NUMBER
     LTEXT           "Height:",IDC_STATIC,98,49,24,13
-    EDITTEXT        IDC_RELATIVE_CY,131,49,46,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_RELATIVE_CY,131,49,46,13,ES_AUTOHSCROLL | ES_NUMBER
     GROUPBOX        "Percentage of original",IDC_STATIC,5,35,181,31
     LTEXT           "Width:",IDC_STATIC,12,16,22,13
     EDITTEXT        IDC_CX,43,16,46,13,ES_AUTOHSCROLL | ES_NUMBER
@@ -494,6 +504,21 @@ BEGIN
     PUSHBUTTON      "...",IDC_EXTRACT_TO_BUTTON,309,98,11,14
 END
 
+IDD_SHP_PROPERTIES DIALOG DISCARDABLE  0, 0, 186, 95
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SHP properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,7,74,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,74,50,14
+    LTEXT           "Width:",IDC_STATIC,7,7,22,8
+    LTEXT           "Height:",IDC_STATIC,95,7,24,8
+    EDITTEXT        IDC_CX,34,7,57,10,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_CY,122,7,57,10,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Count frames:",IDC_STATIC,7,30,44,8
+    EDITTEXT        IDC_C_FRAMES,64,30,57,10,ES_AUTOHSCROLL | ES_NUMBER
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -506,6 +531,14 @@ BEGIN
     IDD_RESIZE, DIALOG
     BEGIN
         BOTTOMMARGIN, 114
+    END
+
+    IDD_SHP_PROPERTIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 88
     END
 END
 #endif    // APSTUDIO_INVOKED

@@ -15,6 +15,7 @@
 #include "aud_file.h"
 #include "directoriesdlg.h"
 #include "mix_sfl.h"
+#include "ogg_file.h"
 #include "searchfiledlg.h"
 #include "string_conversion.h"
 #include "theme_ts_ini_reader.h"
@@ -38,6 +39,8 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL00, ID_VIEW_PALET_PAL99, OnViewPalet)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL00, ID_VIEW_PALET_PAL99, OnUpdateViewPalet)
+	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnUpdateLaunchApp)
 	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_GAME_TD, OnViewGameTD)
@@ -808,6 +811,12 @@ void CMainFrame::OnUtilitiesXccMixEditor()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_mix_editor_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
+void CMainFrame::OnLaunchApp(dword ID) 
+{
+	t_app app = static_cast<t_app>(ID - ID_LAUNCH_XMC);
+	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
+}
+
 void CMainFrame::OnUpdateUtilitiesXccAvPlayer(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_xcc_av_player_available());
@@ -821,6 +830,12 @@ void CMainFrame::OnUpdateUtilitiesXccEditor(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateUtilitiesXccMixEditor(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_xcc_mix_editor_available());
+}
+
+void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI) 
+{
+	t_app app = static_cast<t_app>(pCmdUI->m_nID - ID_LAUNCH_XMC);
+	pCmdUI->Enable(m_apps.is_available(app));
 }
 
 void CMainFrame::OnViewDirectories() 
@@ -953,6 +968,7 @@ void CMainFrame::OnUpdateLaunchRA2(CCmdUI* pCmdUI)
 
 typedef map<string, Ctheme_data> t_theme_list;
 
+/*
 void CMainFrame::OnLaunchXccThemeWriter() 
 {
 	Cmix_file tibsun;
@@ -1037,6 +1053,7 @@ void CMainFrame::OnUpdateLaunchXccThemeWriter(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());	
 }
+*/
 
 static string find_file(Cmix_file& f, const string& file_name, const string& mix_name)
 {
@@ -1365,4 +1382,3 @@ void CMainFrame::OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
-

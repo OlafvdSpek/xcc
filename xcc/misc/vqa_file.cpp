@@ -8,9 +8,8 @@
 #include <windows.h>
 #include <vfw.h>
 #endif
+#include "image_file.h"
 #include "pcx_decode.h"
-#include "pcx_file_write.h"
-#include "png_file.h"
 #include "string_conversion.h"
 #include "vqa_decode.h"
 #include "vqa_file.h"
@@ -288,7 +287,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 			delete[] data;
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-			error = ft == ft_png ? png_file_write(t, frame, palet, cx, cy) : pcx_file_write(t, frame, palet, cx, cy);
+			error = image_file_write(t, ft, frame, palet, cx, cy);
 			if (error)
 				break;
 		}
@@ -322,7 +321,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 			delete[] data;
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-			error = ft == ft_png ? png_file_write(t, frame, NULL, cx, cy) : pcx_file_write(t, frame, NULL, cx, cy);
+			error = image_file_write(t, ft, frame, NULL, cx, cy);
 			if (error)
 				break;
 		}

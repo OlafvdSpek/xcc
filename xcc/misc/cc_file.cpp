@@ -13,12 +13,14 @@
 #include "cps_file.h"
 #include "fnt_file.h"
 #include "hva_file.h"
+#include "jpeg_file.h"
 #include "map_td_ini_reader.h"
 #include "map_ra_ini_reader.h"
 #include "map_ts_ini_reader.h"
 #include "mix_file.h"
 #include "mp3_file.h"
 #include "null_ini_reader.h"
+#include "ogg_file.h"
 #include "pak_file.h"
 #include "pal_file.h"
 #include "pcx_file.h"
@@ -51,11 +53,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "cps", "csv", "dir", "drive", "fnt", "html", "hva", 
-	"ini", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
-	"mix", "mng", "mp3", "mrf", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
+const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dir", "drive", "fnt", "html", "hva", 
+	"ini", "jpeg", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
+	"mix", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
 	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
-	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
+	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
@@ -120,6 +122,12 @@ int Ccc_file::open(const string& name)
     return 0;
 }
 
+HANDLE Ccc_file::handle()
+{
+	assert(is_open());
+	return m_f.handle();
+}
+
 int Ccc_file::attach(HANDLE handle)
 {
     assert(!is_open());
@@ -157,6 +165,11 @@ void Ccc_file::load(const byte* data, int size)
 	post_open();
 }
 
+void Ccc_file::load(const Ccc_file& f)
+{
+	load(f.get_data(), f.get_size());
+}
+
 #ifndef NO_MIX_SUPPORT
 #ifndef NO_FT_SUPPORT
 t_file_type Ccc_file::get_file_type()
@@ -188,6 +201,8 @@ t_file_type Ccc_file::get_file_type()
 	Chva_file hva_f;
 	Cmix_file mix_f;
 	Cmp3_file mp3_f;
+	Cjpeg_file jpeg_f;
+	Cogg_file ogg_f;
 	Cpak_file pak_f;
 	Cpal_file pal_f;
 	Cpcx_file pcx_f;
@@ -216,7 +231,9 @@ t_file_type Ccc_file::get_file_type()
 	fnt_f.load(data, m_size);
 	hva_f.load(data, m_size);
 	mix_f.load(data, m_size);
+	jpeg_f.load(data, m_size);
 	mp3_f.load(data, m_size);
+	ogg_f.load(data, m_size);
 	pak_f.load(data, m_size);
 	pal_f.load(data, m_size);
 	pcx_f.load(data, m_size);
@@ -254,6 +271,10 @@ t_file_type Ccc_file::get_file_type()
 		ft = ft_mix;
 	else if (mp3_f.is_valid())
 		ft = ft_mp3;
+	else if (jpeg_f.is_valid())
+		ft = ft_jpeg;
+	else if (ogg_f.is_valid())
+		ft = ft_ogg;
 	else if (pak_f.is_valid())
 		ft = ft_pak;
 	else if (pal_f.is_valid())

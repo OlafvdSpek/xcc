@@ -13,6 +13,7 @@
 #include <mix_file.h>
 #include <stack>
 #include "fname.h"
+#include "virtual_image.h"
 #include "xap.h"
 
 struct t_index_entry
@@ -63,6 +64,9 @@ public:
 	int copy_as_xif(int i, Cfname fname) const;
 	int get_current_id() const;
 	int get_current_index() const;
+	int get_clipboard_image(Cvirtual_image& image);
+	int set_clipboard_image(Cvirtual_image& image);
+	int get_paste_fname(string& fname, t_file_type ft);
 	const t_paletentry* get_default_palet() const;
 	string get_dir() const;
 	void set_reg_key(const string& v);
@@ -179,6 +183,18 @@ protected:
 	afx_msg void OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsPngSingle();
 	afx_msg void OnUpdatePopupCopyAsPngSingle(CCmdUI* pCmdUI);
+	afx_msg void OnPopupClipboardPasteAsPcx();
+	afx_msg void OnUpdatePopupClipboardPasteAsImage(CCmdUI* pCmdUI);
+	afx_msg void OnPopupClipboardPasteAsShpTs();
+	afx_msg void OnUpdatePopupClipboardPasteAsVideo(CCmdUI* pCmdUI);
+	afx_msg void OnPopupClipboardPasteAsPng();
+	afx_msg void OnPopupOpenWithFinalalert();
+	afx_msg void OnUpdatePopupOpenWithFinalalert(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsJpeg();
+	afx_msg void OnUpdatePopupCopyAsJpeg(CCmdUI* pCmdUI);
+	afx_msg void OnPopupClipboardPasteAsJpeg();
+	afx_msg void OnPopupExplore();
+	afx_msg void OnUpdatePopupExplore(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

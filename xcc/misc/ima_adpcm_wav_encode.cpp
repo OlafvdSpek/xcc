@@ -28,7 +28,7 @@ void Cima_adpcm_wav_encode::load(const short* s, int cb_s, int c_channels)
 	mc_samples = (cb_s / c_channels >> 1);
 	int c_chunks = (mc_samples + 1016) / 1017;
 	delete[] m_data;
-	mcb_data = sizeof(t_ima_adpcm_chunk_header) * c_channels * c_chunks + (c_channels * (mc_samples - c_chunks) >> 1);
+	mcb_data = sizeof(t_ima_adpcm_chunk_header) * c_channels * c_chunks + (c_channels * (mc_samples - c_chunks + 1) >> 1);
 	int align_mask = (c_channels << 3) - 1;
 	mcb_data = mcb_data + align_mask & ~align_mask;
 	m_data = new byte[mcb_data];
