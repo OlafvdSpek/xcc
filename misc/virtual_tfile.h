@@ -25,6 +25,7 @@ private:
 	dword size;
 public:
 	string read_line();
+	string read_line(bool remove_ws);
 	void write(const string& s);
 	void write_line(const string& s);
 	void release_memory();

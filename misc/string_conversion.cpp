@@ -199,3 +199,21 @@ void split_key(const string& key, string& name, string& value)
 		value = key.substr(i + 1);
 	}
 }
+
+string tabs2spaces(const string& v)
+{
+	string r;
+	for (int i = 0; i < v.length(); i++)
+	{
+		char c = v[i];
+		if (c == '\t')
+		{
+			do
+				r += ' ';
+			while (r.length() & 3);
+		}
+		else
+			r += c;
+	}
+	return r;
+}
