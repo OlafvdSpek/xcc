@@ -16,7 +16,7 @@ string get_country_name(int i)
 		"Russia",
 		"Yuri"
 	};
-	return i < 10 ? country_names[i] : n(i);
+	return country_names[i];
 }
 
 string get_map_name(const string& v)
