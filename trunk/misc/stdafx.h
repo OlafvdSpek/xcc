@@ -6,6 +6,7 @@
 
 #include <cassert>
 #include <climits>
+#include <fstream>
 #include <memory>
 #include <string>
 

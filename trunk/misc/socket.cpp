@@ -5,6 +5,10 @@
 #include "stdafx.h"
 #include "socket.h"
 
+#ifndef WIN32
+#include <netdb.h>
+#endif
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -61,11 +65,7 @@ int Csocket::bind(int h, int p)
 {
 	sockaddr_in a;
 	a.sin_family = AF_INET;
-#ifdef WIN32
-	a.sin_addr.S_un.S_addr = h;
-#else
 	a.sin_addr.s_addr = h;
-#endif
 	a.sin_port = p;
 	return ::bind(*this, reinterpret_cast<sockaddr*>(&a), sizeof(sockaddr_in));
 }
@@ -79,11 +79,7 @@ int Csocket::connect(int h, int p)
 {
 	sockaddr_in a;
 	a.sin_family = AF_INET;
-#ifdef WIN32
-	a.sin_addr.S_un.S_addr = h;
-#else
 	a.sin_addr.s_addr = h;
-#endif
 	a.sin_port = p;
 	return ::connect(*this, reinterpret_cast<sockaddr*>(&a), sizeof(sockaddr_in));
 }
