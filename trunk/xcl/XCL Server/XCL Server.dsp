@@ -91,6 +91,10 @@ SOURCE=..\..\misc\sql\database.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\db_config.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\xcc\misc\wol\game_result.cpp
 # End Source File
 # Begin Source File
@@ -125,6 +129,10 @@ SOURCE=.\xcl_player.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\db_config.h
+# End Source File
 # Begin Source File
 
 SOURCE=..\..\xcc\misc\wol\game_result.h
