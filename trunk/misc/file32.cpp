@@ -6,7 +6,7 @@
 #include "file32.h"
 
 #ifdef _MSC_VER
-int Cfile32::open(Cwin_handle h)
+int Cfile32::open(const Cwin_handle& h)
 {
 	m_h = h;
 	m_p = 0;

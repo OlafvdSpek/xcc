@@ -66,7 +66,6 @@ public:
 		// m_w = m_d.data_edit() + o;
 	}
 
-
 	void skip(int o)
 	{
 		m_w += o;
