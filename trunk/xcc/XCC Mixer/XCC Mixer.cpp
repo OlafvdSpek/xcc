@@ -150,24 +150,36 @@ void CXCCMixerApp::find_fa_exe()
 void CXCCMixerApp::find_se_exe()
 {
 	HKEY kh_base;
-	HKEY kh_cps;
 	char s[256];
 	dword size;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software", 0, KEY_QUERY_VALUE, &kh_base) &&
-		ERROR_SUCCESS == RegOpenKeyEx(kh_base, "Childs Play Software", 0, KEY_QUERY_VALUE, &kh_cps))
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software", 0, KEY_QUERY_VALUE, &kh_base))
 	{
-		if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit2K", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (byte*)s, &(size = 256)))
+		HKEY kh_cps;
+		if (ERROR_SUCCESS == RegOpenKeyEx(kh_base, "Childs Play Software", 0, KEY_QUERY_VALUE, &kh_cps))
 		{
-			m_se_exe = s;
-			m_se_exe += "se2k.exe";
+			HKEY kh_se2k;
+			if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit2K", 0, KEY_QUERY_VALUE, &kh_se2k))
+			{
+				if (ERROR_SUCCESS == RegQueryValueEx(kh_se2k, "AppPath", 0, 0, (byte*)s, &(size = 256)))
+				{
+					m_se_exe = s;
+					m_se_exe += "se2k.exe";
+				}
+				RegCloseKey(kh_se2k);
+			}
+			HKEY kh_se2k_mm;
+			if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit 2K ModMan", 0, KEY_QUERY_VALUE, &kh_se2k_mm))
+			{
+				if (ERROR_SUCCESS == RegQueryValueEx(kh_se2k_mm, "AppPath", 0, 0, (byte*)s, &(size = 256)))
+				{
+					m_semm_exe = s;
+					m_semm_exe += "se2kmm.exe";
+				}
+				RegCloseKey(kh_se2k_mm);
+			}
+			RegCloseKey(kh_cps);
 		}
-		if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit 2K ModMan", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (byte*)s, &(size = 256)))
-		{
-			m_semm_exe = s;
-			m_semm_exe += "se2kmm.exe";
-		}
+		RegCloseKey(kh_base);
 	}
 }
 
