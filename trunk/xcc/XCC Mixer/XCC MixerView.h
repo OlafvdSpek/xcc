@@ -57,7 +57,6 @@ public:
 	int copy_as_map_ts_preview(int i, Cfname fname) const;
 	int copy_as_pal(int i, Cfname fname) const;
 	int copy_as_pal_jasc(int i, Cfname fname) const;
-	int copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const;
 	int copy_as_pcx(int i, Cfname fname, t_file_type ft) const;
 	int copy_as_shp(int i, Cfname fname) const;
 	int copy_as_shp_ts(int i, Cfname fname) const;
@@ -205,6 +204,10 @@ protected:
 	afx_msg void OnEditSelectAll();
 	afx_msg void OnPopupClipboardPasteAsTga();
 	afx_msg void OnUpdatePopupClipboardPasteAsTga(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsJpegSingle();
+	afx_msg void OnUpdatePopupCopyAsJpegSingle(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsTgaSingle();
+	afx_msg void OnUpdatePopupCopyAsTgaSingle(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

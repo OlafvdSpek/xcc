@@ -218,6 +218,7 @@ BEGIN
         MENUITEM "Copy as CSV",                 ID_POPUP_COPY_AS_CSV
         MENUITEM "Copy as HTML",                ID_POPUP_COPY_AS_HTML
         MENUITEM "Copy as HVA",                 ID_POPUP_COPY_AS_HVA
+        MENUITEM "Copy as JPEG (single)",       ID_POPUP_COPY_AS_JPEG_SINGLE
         MENUITEM "Copy as JPEG",                ID_POPUP_COPY_AS_JPEG
         MENUITEM "Copy as MAP (TS) Preview",    ID_POPUP_COPY_AS_MAP_TS_PREVIEW
 
@@ -229,6 +230,7 @@ BEGIN
         MENUITEM "Copy as PNG",                 ID_POPUP_COPY_AS_PNG
         MENUITEM "Copy as SHP",                 ID_POPUP_COPY_AS_SHP
         MENUITEM "Copy as SHP (TS)",            ID_POPUP_COPY_AS_SHP_TS
+        MENUITEM "Copy as TGA (single)",        ID_POPUP_COPY_AS_TGA_SINGLE
         MENUITEM "Copy as TGA",                 ID_POPUP_COPY_AS_TGA
         MENUITEM "Copy as TXT",                 ID_POPUP_COPY_AS_TEXT
         MENUITEM "Copy as TMP (TS)",            ID_POPUP_COPY_AS_TMP_TS

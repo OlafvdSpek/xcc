@@ -270,6 +270,8 @@
 #define ID_LAUNCH_XSTE_OPEN             33126
 #define ID_CONVERSION_FIX_SHADOWS       33127
 #define ID_POPUP_CLIPBOARD_PASTE_AS_TGA 33128
+#define ID_POPUP_COPY_AS_TGA_SINGLE     33129
+#define ID_POPUP_COPY_AS_JPEG_SINGLE    33130
 #define ID_VIEW_PALET_PAL000            40000
 #define ID_VIEW_PALET_PAL001            40001
 #define ID_VIEW_PALET_PAL002            40002
@@ -1277,7 +1279,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        141
-#define _APS_NEXT_COMMAND_VALUE         33129
+#define _APS_NEXT_COMMAND_VALUE         33131
 #define _APS_NEXT_CONTROL_VALUE         1037
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

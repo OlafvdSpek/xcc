@@ -169,10 +169,14 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_COMMAND(ID_POPUP_COPY_AS_TGA, OnPopupCopyAsTga)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TGA, OnUpdatePopupCopyAsTga)
 	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_TGA, OnPopupClipboardPasteAsTga)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
-	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_TGA, OnPopupClipboardPasteAsTga)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_TGA, OnUpdatePopupClipboardPasteAsImage)
+	ON_COMMAND(ID_POPUP_COPY_AS_JPEG_SINGLE, OnPopupCopyAsJpegSingle)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_JPEG_SINGLE, OnUpdatePopupCopyAsJpegSingle)
+	ON_COMMAND(ID_POPUP_COPY_AS_TGA_SINGLE, OnPopupCopyAsTgaSingle)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TGA_SINGLE, OnUpdatePopupCopyAsTgaSingle)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -724,6 +728,13 @@ Cvirtual_image CXCCMixerView::get_vimage(int i) const
 	case ft_tga:
 		d.load(get_vdata(i));
 		break;
+	case ft_shp_ts:
+		{
+			Cshp_ts_file f;
+			f.load(get_vdata(i));
+			f.extract_as_pcx_single(d, get_default_palet(), GetMainFrame()->combine_shadows());
+		}
+		break;
 	case ft_tmp_ra:
 		{
 			Ctmp_ra_file f;
@@ -830,7 +841,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp:
 		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
 	case ft_shp_ts:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png || d == ft_tga;
+		return d == ft_clipboard || d == ft_jpeg || d == ft_jpeg_single || d == ft_pcx || d == ft_pcx_single || d == ft_png || d == ft_png_single || d == ft_tga || d == ft_tga_single;
 	case ft_text:
 		return d == ft_html || d == ft_hva || d == ft_vxl;
 	case ft_vqa:
@@ -932,9 +943,13 @@ void CXCCMixerView::copy_as(t_file_type ft)
 			error = copy_as_hva(*i, fname);
 			break;
 		case ft_jpeg:
+		case ft_jpeg_single:
 		case ft_pcx:
+		case ft_pcx_single:
 		case ft_png:
+		case ft_png_single:
 		case ft_tga:
+		case ft_tga_single:
 			error = copy_as_pcx(*i, fname, ft);
 			break;
 		case ft_map_ts_preview:
@@ -945,10 +960,6 @@ void CXCCMixerView::copy_as(t_file_type ft)
 			break;
 		case ft_pal_jasc:
 			error = copy_as_pal_jasc(*i, fname);
-			break;
-		case ft_pcx_single:
-		case ft_png_single:
-			error = copy_as_pcx_single(*i, fname, ft);
 			break;
 		case ft_shp:
 			error = copy_as_shp(*i, fname);
@@ -1262,39 +1273,21 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	return error;
 }
 
-int CXCCMixerView::copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const
-{
-	int error = 0;
-	fname.set_ext(ft == ft_png_single ? ".png" : ".pcx");
-	switch (m_index.find(get_id(i))->second.ft)
-	{
-	case ft_shp_ts:
-		{
-			Cshp_ts_file f;
-			error = open_f_index(f, i);
-			if (!error)
-			{
-				error = f.extract_as_pcx_single(fname, ft == ft_png_single? ft_png : ft_pcx, get_default_palet(), GetMainFrame()->combine_shadows());
-				f.close();
-			}
-			break;
-		}
-	}
-	return error;
-}
-
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 {
 	int error = 0;
 	switch (ft)
 	{
 	case ft_jpeg:
+	case ft_jpeg_single:
 		fname.set_ext(".jpeg");
 		break;
 	case ft_pcx:
+	case ft_pcx_single:
 		fname.set_ext(".pcx");
 		break;
 	case ft_tga:
+	case ft_tga_single:
 		fname.set_ext(".tga");
 		break;
 	default:
@@ -1336,12 +1329,24 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 		}
 	case ft_shp_ts:
 		{
-			Cshp_ts_file f;
-			error = open_f_index(f, i);
-			if (!error)
+			switch (ft)
 			{
+			case ft_jpeg_single:
+				error = get_vimage(i).save(ft_jpeg).export(fname);
+				break;
+			case ft_pcx_single:
+				error = get_vimage(i).save(ft_pcx).export(fname);
+				break;
+			case ft_png_single:
+				error = get_vimage(i).save(ft_png).export(fname);
+				break;
+			case ft_tga_single:
+				error = get_vimage(i).save(ft_tga).export(fname);
+				break;
+			default:
+				Cshp_ts_file f;
+				f.load(get_vdata(i));
 				error = f.extract_as_pcx(fname, ft, get_default_palet(), GetMainFrame()->combine_shadows());
-				f.close();
 			}
 			break;
 		}
@@ -2046,6 +2051,16 @@ void CXCCMixerView::OnUpdatePopupCopyAsHVA(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_hva));
 }
 
+void CXCCMixerView::OnPopupCopyAsJpegSingle() 
+{
+	copy_as(ft_jpeg_single);	
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsJpegSingle(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_jpeg_single));		
+}
+
 void CXCCMixerView::OnPopupCopyAsJpeg() 
 {
 	copy_as(ft_jpeg);
@@ -2146,6 +2161,16 @@ void CXCCMixerView::OnUpdatePopupCopyAsSHP_TS(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_shp_ts));
 }
 
+
+void CXCCMixerView::OnPopupCopyAsTgaSingle() 
+{
+	copy_as(ft_tga_single);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsTgaSingle(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_tga_single));
+}
 
 void CXCCMixerView::OnPopupCopyAsTga() 
 {
@@ -2791,22 +2816,7 @@ void CXCCMixerView::OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI)
 
 void CXCCMixerView::OnPopupClipboardCopy() 
 {
-	int i = get_current_index();
-	int id = get_current_id();
-	switch (m_index.find(id)->second.ft)
-	{
-	case ft_shp_ts:
-		{
-			Cshp_ts_file f;
-			f.load(get_vdata(i));
-			Cvirtual_image image;
-			if (!f.extract_as_pcx_single(image, get_default_palet(), GetMainFrame()->combine_shadows()))
-				image.set_clipboard();
-			break;
-		}
-	default:
-		get_vimage(i).set_clipboard();
-	}
+	get_vimage(get_current_index()).set_clipboard();
 }
 
 void CXCCMixerView::OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI) 
