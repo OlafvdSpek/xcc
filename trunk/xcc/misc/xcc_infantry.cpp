@@ -30,13 +30,9 @@ dword xcc_infantry::c_infantry()
 
 int xcc_infantry::load_data()
 {
-	Ccc_file f(true);
-	f.open(xcc_dirs::get_data_dir() + infantry_xif_fname);
-	if (!f.is_open())
-		return 1;
 	Cxif_key infantry_key;
-	infantry_key.load_key(f.get_vdata());
-	f.close();
+	if (infantry_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + infantry_xif_fname)))
+		return 1;
 	int infantry_i = 0;
 	for (t_xif_key_map::iterator i = infantry_key.m_keys.begin(); i != infantry_key.m_keys.end(); i++)
 	{

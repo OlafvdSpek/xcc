@@ -42,13 +42,9 @@ enum
 
 long Cxcc_templates::load_data()
 {
-	Ccc_file f(true);
-	f.open(xcc_dirs::get_data_dir() + theater_xif_fname);
-	if (!f.is_open())
-		return 1;
 	Cxif_key base_key;
-	base_key.load_key(f.get_vdata());
-	f.close();
+	if (base_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + theater_xif_fname)))
+		return 1;
 	for (long i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
