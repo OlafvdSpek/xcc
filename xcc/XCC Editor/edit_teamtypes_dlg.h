@@ -19,7 +19,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_teamtypes_dlg dialog
 
-class Cedit_teamtypes_dlg : public CDialog
+class Cedit_teamtypes_dlg: public ETSLayoutDialog
 {
 // Construction
 public:

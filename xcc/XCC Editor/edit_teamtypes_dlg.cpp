@@ -15,8 +15,8 @@ static char THIS_FILE[] = __FILE__;
 // Cedit_teamtypes_dlg dialog
 
 
-Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wanted)
-	: CDialog(Cedit_teamtypes_dlg::IDD, 0),
+Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wanted):
+	ETSLayoutDialog(Cedit_teamtypes_dlg::IDD, 0),
 	m_level(level),
 	m_teamtype_data(level.teamtype_data),
 	m_selection_wanted(selection_wanted)
@@ -28,7 +28,7 @@ Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wante
 
 void Cedit_teamtypes_dlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Cedit_teamtypes_dlg)
 	DDX_Control(pDX, IDC_LIST, m_list);
 	DDX_Control(pDX, IDOK, m_ok_button);
@@ -38,7 +38,7 @@ void Cedit_teamtypes_dlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Cedit_teamtypes_dlg, CDialog)
+BEGIN_MESSAGE_MAP(Cedit_teamtypes_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cedit_teamtypes_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
@@ -53,7 +53,16 @@ END_MESSAGE_MAP()
 
 BOOL Cedit_teamtypes_dlg::OnInitDialog() 
 {
-	CDialog::OnInitDialog();
+	CreateRoot(HORIZONTAL)
+		<< item(IDC_LIST, GREEDY)
+		<< (pane(VERTICAL, ABSOLUTE_HORZ)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			<< item(IDC_NEW, NORESIZE)
+			<< item(IDC_EDIT, NORESIZE)
+			<< item(IDC_DELETE, NORESIZE)
+			);
+	ETSLayoutDialog::OnInitDialog();
 
 	m_list.set_full_row_selection();
 
