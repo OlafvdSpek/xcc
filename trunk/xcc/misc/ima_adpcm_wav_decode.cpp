@@ -5,13 +5,8 @@
 #include "stdafx.h"
 #include "aud_decode.h"
 #include "ima_adpcm_wav_decode.h"
+#include "minmax.h"
 #include "riff_structures.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -27,11 +22,12 @@ Cima_adpcm_wav_decode::~Cima_adpcm_wav_decode()
 	delete[] m_data;
 }
 
-void Cima_adpcm_wav_decode::load(byte* r, int cb_s, int c_channels, int chunk_size)
+void Cima_adpcm_wav_decode::load(const byte* r, int cb_s, int c_channels, int chunk_size)
 {
 	int c_chunks = (cb_s + chunk_size - 1) / chunk_size ;
 	mc_samples = (cb_s - sizeof(t_ima_adpcm_chunk_header) * c_channels * c_chunks << 1) + c_chunks * c_channels;
 	delete[] m_data;
+	mcb_data = mc_samples << 1;
 	m_data = new short[mc_samples];
 	short* w = m_data;
 	int cs_remaining = mc_samples;
@@ -84,4 +80,5 @@ void Cima_adpcm_wav_decode::load(byte* r, int cb_s, int c_channels, int chunk_si
 			}
 		}
 	}
+	mc_samples /= c_channels;
 }
