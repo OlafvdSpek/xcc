@@ -27,13 +27,13 @@ public:
 	Cxif_value(float v)
 	{
 		m_type = vt_float;
-		memcpy(m_data.write_start(4), &v, 4);
+		m_value_float = v;
 	}
 
 	Cxif_value(t_vt type, int v)
 	{
 		m_type = type;
-		memcpy(m_data.write_start(4), &v, 4);
+		m_value_int = v;
 	}
 
 	Cxif_value(const Cvirtual_binary v, bool fast = false)
@@ -51,23 +51,24 @@ public:
 
 	Cvirtual_binary get_vdata() const
 	{
+		assert(!idata());
 		return m_data;
 	}
 
 	const byte* get_data() const
 	{
-		return m_data.data();
+		return idata() ? m_value : m_data.data();
 	}
 
 	int get_size() const 
 	{
-		return m_data.size();
+		return idata() ? 4 : m_data.size();
 	}
 
 	float get_float() const
 	{
 		assert(get_size() == 4);
-		return *reinterpret_cast<const float*>(get_data());
+		return m_value_float;
 	}
 
 	float get_float(float v) const
@@ -78,7 +79,7 @@ public:
 	int get_int() const
 	{
 		assert(get_size() == 4);
-		return *reinterpret_cast<const __int32*>(get_data());
+		return m_value_int;
 	}
 
 	int get_int(int v) const
@@ -97,6 +98,12 @@ public:
 		return get_size() ? get_string() : v;
 	}
 
+	bool idata() const
+	{
+		// internal data?
+		return get_type() == vt_bin32 || get_type() == vt_float || get_type() == vt_int32;
+	}
+
 	void dump(ostream& os, int depth = 0) const;
 	t_vt get_type() const;
 	void load_old(const byte*& data);
@@ -109,7 +116,12 @@ private:
 	Cvirtual_binary m_data;
 	bool m_fast;
 	t_vt m_type;
-	// int m_value;
+	union
+	{
+		byte m_value[4];
+		float m_value_float;
+		int m_value_int;
+	};
 };
 
 #endif // !defined(AFX_XIF_VALUE_H__99A07CE5_FA5D_11D2_B601_8B199B22657D__INCLUDED_)

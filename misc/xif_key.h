@@ -147,7 +147,7 @@ public:
 		m_values[id] = Cxif_value(v);
 	}
 
-	void set_value(int id, __int64 v)
+	void set_value_int64(int id, __int64 v)
 	{
 		set_value_binary(id, Cvirtual_binary(&v, 8));
 	}
