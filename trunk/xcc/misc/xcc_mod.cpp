@@ -747,7 +747,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 									fname.set_ext(".shp");
 									Cvirtual_image image;
 									g.decode(image);							
-									shp_ts_file_write(image, h, 1, true);
+									h = shp_ts_file_write(image.image(), image.cx(), image.cy(), 1, true);
 									data = h.read();
 								}
 							}
