@@ -28,6 +28,7 @@ public:
 	int set_clipboard() const;
 	int load();
 	int save() const;
+	void load(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate = false);
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate = false);
 	int load(const Cvirtual_binary& s);
 	int load(const Cvirtual_file& f);
@@ -44,6 +45,7 @@ public:
 	int save_as_png(const string& fname) const;
 	void swap_rb();
 	Cvirtual_image();
+	Cvirtual_image(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);
 	Cvirtual_image(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);
 
 	const byte* image() const
