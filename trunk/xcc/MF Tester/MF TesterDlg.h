@@ -15,8 +15,9 @@ class CMFTesterDlg : public ETSLayoutDialog
 {
 // Construction
 public:
+	void test_mf();
 	void test_hostname(const char* name);
-	void test_serverlist_server(int gid);
+	void test_serverlist_server(const char* ipa, int gid);
 	CMFTesterDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
