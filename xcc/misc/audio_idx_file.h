@@ -12,29 +12,6 @@
 #include "cc_file_sh.h"
 #include "cc_structures.h"
 
-#pragma pack(push, 1)
-
-struct t_audio_idx_header
-{
-	__int32 id;
-	__int32 two;
-	__int32 c_sounds;
-};
-
-struct t_audio_idx_entry
-{
-	char fname[16];
-	__int32 offset;
-	__int32 size;
-	__int32 samplerate;
-	__int32 unknown1;
-	__int32 unknown2;
-};
-
-const __int32 audio_idx_id = *(__int32*)"GABA";
-
-#pragma pack(pop)
-
 class Caudio_idx_file: public Ccc_file_sh<t_audio_idx_header>
 {
 public:
@@ -58,5 +35,9 @@ public:
 		return reinterpret_cast<const t_audio_idx_entry*>(get_data() + sizeof(t_audio_idx_header))[i];
 	}
 };
+
+int audio_idx_file_get_write_size(int c_sounds);
+int audio_idx_file_write_header(void* w, int c_sounds);
+int audio_idx_file_write_entry(void* w, string fname, int offset, int size, int samplerate, int flags, int chunk_size);
 
 #endif // !defined(AFX_AUDIO_IDX_FILE_H__10CE2E06_B67A_11D4_B606_0000B4936994__INCLUDED_)
