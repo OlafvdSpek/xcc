@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Game Spy Player.h"
 #include "dlg_open.h"
 
 #include "wol/ra2_names.h"
