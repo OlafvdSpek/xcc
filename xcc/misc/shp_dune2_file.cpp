@@ -9,6 +9,27 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
+bool Cshp_dune2_file::is_valid() const
+{
+	const t_shp_dune2_header& header = *get_header();
+	int size = get_size();
+	if (sizeof(t_shp_dune2_header) + 4 > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_dune2_header) + get_cb_ofs() * header.c_images > size)
+		return false;
+	for (int i = 0; i < get_c_images(); i++)
+	{
+		if (get_ofs(i) < 0 || get_ofs(i) + sizeof(t_shp_dune2_image_header) > min(size, 32 << 10))
+			return false;
+		const t_shp_dune2_image_header& image_header = *get_image_header(i);
+		if (image_header.compression & ~3 ||
+			!image_header.cx || 
+			!image_header.cy ||
+			image_header.cy != image_header.cy2 ||
+			image_header.size_in > size - get_ofs(i))
+			return false;
+	}
+	return true;
+}
+
 int Cshp_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;

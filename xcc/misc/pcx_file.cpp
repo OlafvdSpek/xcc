@@ -5,6 +5,18 @@
 #include "stdafx.h"
 #include "pcx_file.h"
 
+bool Cpcx_file::is_valid() const
+{
+	const t_pcx_header& header = *get_header();
+	int size = get_size();
+	return !(sizeof(t_pcx_header) > size ||
+		header.manufacturer != 10 ||
+		header.version != 5 ||
+		header.encoding != 1 ||
+		header.cbits_pixel != 8 ||
+		header.c_planes != 1 && header.c_planes != 3);
+}
+
 void Cpcx_file::decode(void* d) const
 {
 	pcx_decode(get_image(), reinterpret_cast<byte*>(d), *get_header());

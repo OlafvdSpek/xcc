@@ -18,26 +18,11 @@ public:
 	const t_aud_chunk_header* get_chunk_header(int i);
 	const byte* get_chunk_data(int i);
 	int extract_as_wav(const string& name);
+	bool is_valid();
 
 	Caud_file():
 	    Ccc_file(false)
 	{
-	}
-
-	bool is_valid()
-	{
-		if (sizeof(t_aud_header) > get_size() ||
-			m_header.samplerate < 8000 || m_header.samplerate > 48000 ||
-			m_header.size_in != get_size() - sizeof(t_aud_header))
-			return false;
-		switch (m_header.compression)
-		{
-		case 1:
-			return m_header.flags == 0;
-		case 0x63:
-			return m_header.flags == 2;
-		}
-		return false;
 	}
 
     int post_open()

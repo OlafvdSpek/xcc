@@ -17,29 +17,8 @@ class Ccps_file: public Cimage_file<t_cps_header>
 {
 public:
 	void decode(void*) const;
+	bool is_valid() const;
 	Cvirtual_image vimage() const;
-
-	bool is_valid() const
-	{
-		const t_cps_header& header = *get_header();
-		int size = get_size();
-		if (sizeof(t_cps_header) > size ||
-			header.image_size != 320 * 200 ||
-			header.palet_size && header.palet_size != 0x300 ||
-			header.zero)
-			return false;
-		switch (header.unknown)
-		{
-		/*
-		case 3:
-			return header.size == size;
-		*/
-		case 4:
-			return 2 + header.size == size;
-		default:
-			return false;
-		}
-	}
 
 	int cb_pixel() const
 	{

@@ -3,6 +3,28 @@
 
 #include "shp_decode.h"
 
+bool Ccps_file::is_valid() const
+{
+	const t_cps_header& header = *get_header();
+	int size = get_size();
+	if (sizeof(t_cps_header) > size ||
+		header.image_size != 320 * 200 ||
+		header.palet_size && header.palet_size != 0x300 ||
+		header.zero)
+		return false;
+	switch (header.unknown)
+	{
+	/*
+	case 3:
+		return header.size == size;
+	*/
+	case 4:
+		return 2 + header.size == size;
+	default:
+		return false;
+	}
+}
+
 void Ccps_file::decode(void* d) const
 {
 	decode80(get_image(), reinterpret_cast<byte*>(d));

@@ -20,16 +20,7 @@ class Cshp_file: public Ccc_file_sh<t_shp_header>
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet) const;
-
-	bool is_valid() const
-	{
-		const t_shp_header& header = *get_header();
-		int size = get_size();
-		if (sizeof(t_shp_header) > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_header) + 8 * (get_header()->c_images + 2) > size)
-			return false;
-		int c_images = get_c_images();
-		return !(get_offset(c_images) != size || get_offset(c_images + 1));
-	}
+	bool is_valid() const;
 
 	int get_c_images() const
 	{
