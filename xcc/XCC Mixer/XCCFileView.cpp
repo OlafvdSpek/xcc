@@ -356,7 +356,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				m_y += m_y_inc;
 				byte* image = new byte[320 * 200];
 				decode80(f.get_image(), image);
-				load_color_table(f.palet() ? f.palet() : get_default_palet(), true);
+				load_color_table(f.palet(), true);
 				draw_image8(image, 320, 200, pDC, 0, m_y);
 				m_y += 200 + m_y_inc;
 				delete[] image;
@@ -1121,14 +1121,14 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				const int cx = f.cx();
 				const int cy = f.cy();
 				draw_info("Count frames:", n(c_frames));
-				draw_info("Palet:", f.has_palet() ? "yes" : "no");
+				draw_info("Palet:", f.palet() ? "yes" : "no");
 				draw_info("Position:", n(f.get_x()) + "," + n(f.get_y()));
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;
 				byte* frame = new byte[cx * cy];
 				memset(frame, 0, cx * cy);
 				byte* temp = new byte[64 << 10];
-				load_color_table(f.has_palet() ? f.get_palet() : get_default_palet(), true);
+				load_color_table(f.palet(), true);
 				for (int i = 0; i < c_frames; i++)
 				{
 					if (f.get_offset(i))
