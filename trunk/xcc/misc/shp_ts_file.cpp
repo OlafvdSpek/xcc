@@ -6,6 +6,76 @@
 #include "string_conversion.h"
 #include "xcc_log.h"
 
+class Cshp_ts_decoder: public Cvideo_decoder
+{
+public:
+	int cb_pixel() const
+	{
+		return m_f.cb_pixel();
+	}
+
+	int cf() const
+	{
+		return m_f.cf();
+	}
+
+	int cx() const
+	{
+		return m_f.cx();
+	}
+
+	int cy() const
+	{
+		return m_f.cy();
+	}
+
+	int decode(void* d0)
+	{
+		byte* d = reinterpret_cast<byte*>(d0);
+		Cvirtual_binary s;
+		const int cx = m_f.get_cx(m_frame_i);
+		const int cy = m_f.get_cy(m_frame_i);
+		const byte* r;
+		if (m_f.is_compressed(m_frame_i))
+		{
+			decode3(m_f.get_image(m_frame_i), s.write_start(cx * cy), cx, cy);
+			r = s;
+		}
+		else
+			r = m_f.get_image(m_frame_i);
+		memset(d, 0, cb_image());
+		byte* w = d + m_f.get_x(m_frame_i) + Cshp_ts_decoder::cx() * m_f.get_y(m_frame_i);
+		for (int y = 0; y < cy; y++)
+		{
+			memcpy(w, r, cx);
+			r += cx;
+			w += Cshp_ts_decoder::cx();
+		}
+		m_frame_i++;
+		return 0;
+	}
+
+	int seek(int f)
+	{
+		m_frame_i = f;
+		return 0;
+	}
+
+	Cshp_ts_decoder(const Cshp_ts_file& f)
+	{
+		m_f.load(f);
+		m_frame_i = 0;
+	}
+private:
+	Cshp_ts_file m_f;
+	int m_frame_i;
+};
+
+Cvideo_decoder* Cshp_ts_file::decoder()
+{
+	return new Cshp_ts_decoder(*this);
+}
+
 bool Cshp_ts_file::is_valid() const
 {
 	const t_shp_ts_header& header = *get_header();
@@ -148,91 +218,6 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	}
 	return error;
 }
-
-/*
-Cvirtual_image Cshp_ts_file::extract_as_pcx(const t_palet _palet, bool combine_shadows) const
-{
-	t_palet palet;
-	convert_palet_18_to_24(_palet, palet);
-	const int global_cx = get_cx();
-	const int global_cy = get_cy();
-	int c_images = get_c_images();
-	if (combine_shadows && c_images & 1)
-		combine_shadows = false;
-	if (combine_shadows)
-		c_images >>= 1;
-	int cy_s = c_images * global_cy;
-	byte* image = new byte[global_cx * global_cy];
-	byte* s = new byte[global_cx * cy_s];
-	memset(s, 0, global_cx * cy_s);
-	if (combine_shadows)
-	{
-		c_images <<= 1;
-		bool shadow = false;
-		for (int i = 0; i < c_images; i++)
-		{
-			const int cx = get_cx(i);
-			const int cy = get_cy(i);
-			const byte* r;
-			if (is_compressed(i))
-			{
-				decode3(get_image(i), image, cx, cy);
-				r = image;
-			}
-			else
-				r = get_image(i);
-			if (!shadow && i == c_images >> 1)
-				shadow = true;
-			byte* w = s + get_x(i) + global_cx * (global_cy * i + get_y(i));
-			for (int y = 0; y < cy; y++)
-			{
-				if (shadow)
-				{
-					for (int x = 0; x < cx; x++)
-					{
-						if (*r++)
-							w[x] = 4;
-					}
-				}
-				else
-				{
-					memcpy(w, r, cx);
-					r += cx;
-				}
-				w += global_cx;
-			}
-		}
-	}
-	else
-	{
-		for (int i = 0; i < c_images; i++)
-		{
-			const int cx = get_cx(i);
-			const int cy = get_cy(i);
-			const byte* r;
-			if (is_compressed(i))
-			{
-				decode3(get_image(i), image, cx, cy);
-				r = image;
-			}
-			else
-				r = get_image(i);
-			byte* w = s + get_x(i) + global_cx * (global_cy * i + get_y(i));
-			for (int y = 0; y < cy; y++)
-			{
-				memcpy(w, r, cx);
-				r += cx;
-				w += global_cx;
-			}
-		}
-	}
-	Cvirtual_image d;
-	d.load(s, global_cx, cy_s, 1, palet);
-	delete[] s;
-	delete[] image;
-	return d;
-}
-*/
 
 Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool combine_shadows) const
 {

@@ -19,6 +19,7 @@
 class Cshp_ts_file: public Cvideo_file<t_shp_ts_header>  
 {
 public:
+	Cvideo_decoder* decoder();
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
 	Cvirtual_image extract_as_pcx_single(const t_palet _palet, bool combine_shadows = false) const;
 	bool is_valid() const;

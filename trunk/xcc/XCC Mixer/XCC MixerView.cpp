@@ -2794,8 +2794,12 @@ void CXCCMixerView::open_item(int id)
 	case ft_shp_ts:
 		{
 			Cdlg_shp_viewer dlg;
-			dlg.write(get_vdata_id(id), get_default_palet());
+			Cshp_ts_file f;
+			f.load(get_vdata_id(id));
+			Cvideo_decoder* decoder = f.decoder();
+			dlg.write(decoder, get_default_palet());
 			dlg.DoModal();
+			delete decoder;
 			break;
 		}
 	}
