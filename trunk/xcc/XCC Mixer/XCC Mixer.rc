@@ -157,8 +157,11 @@ BEGIN
         POPUP "XCC &String Table Editor"
         BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XSTE_RA2
-            MENUITEM "&Red Alert 2 YR",             ID_LAUNCH_XSTE_RA2_YR
+            MENUITEM "Red Alert 2 &Yuri's Revenge", ID_LAUNCH_XSTE_RA2_YR
             MENUITEM "&Generals",                   ID_LAUNCH_XSTE_GR
+            MENUITEM "Generals &Zero Hour",         ID_LAUNCH_XSTE_GR_ZH
+            MENUITEM SEPARATOR
+            MENUITEM "&Open...",                    ID_LAUNCH_XSTE_OPEN
         END
         POPUP "XCC &Theme Writer"
         BEGIN
@@ -477,7 +480,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.26\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.27\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
