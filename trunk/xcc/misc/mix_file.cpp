@@ -421,8 +421,7 @@ int Cmix_file::get_id(t_game game, string name)
 			{
 				a >>= 8;
 				if (i < l)
-					a += static_cast<unsigned int>(name[i]) << 24;
-				i++;
+					a |= static_cast<unsigned int>(name[i++]) << 24;
 			}
 			id = (id << 1 | id >> 31) + a;
 		}

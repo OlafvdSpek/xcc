@@ -75,7 +75,7 @@ private:
 	static int overlay_decode4(const byte* s, byte* d, const t_header& header);
 	static int overlay_data_decode4(const byte* s, byte* d, const byte* overlay, const t_header& header);
 	ostream& m_f;
-	byte* m_d;
+	Cvirtual_binary m_d;
 	byte* m_w;
 	bool m_encode4;
 	string m_section_name;
