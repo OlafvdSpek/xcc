@@ -7,7 +7,7 @@
 #include "string_conversion.h"
 #include "xcc_log.h"
 
-int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
+int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet, bool combine_shadows) const
 {
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
@@ -20,43 +20,106 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	if (cx != 60 || cy != 48 || c_images != 1)
 		return 1;
 	*/
-	byte* image = new byte[global_cx * global_cy];
-	byte* s = new byte[global_cx * global_cy];
-	for (int i = 0; i < c_images; i++)
+	if (combine_shadows && ~c_images & 1)
 	{
-		const int cx = get_cx(i);
-		const int cy = get_cy(i);
-		const byte* r;
-		if (is_compressed(i))
+		bool shadow = false;
+		byte* image = new byte[global_cx * global_cy];
+		byte* d = new byte[global_cx * global_cy * c_images >> 1];
+		byte* w = d;
+		for (int i = 0; i < c_images; i++)
 		{
-			decode3(get_image(i), image, cx, cy);
-			r = image;
+			const int cx = get_cx(i);
+			const int cy = get_cy(i);
+			const byte* r;
+			if (is_compressed(i))
+			{
+				decode3(get_image(i), image, cx, cy);
+				r = image;
+			}
+			else
+				r = get_image(i);
+			if (!shadow)
+			{
+				if (i == c_images >> 1)
+				{
+					shadow = true;
+					w = d;
+				}
+				else
+					memset(w, 0, global_cx * global_cy);
+			}
+			byte* w_start = w;
+			w += get_x(i) + global_cx * get_y(i);
+			for (int y = 0; y < cy; y++)
+			{
+				if (shadow)
+				{
+					for (int x = 0; x < cx; x++)
+					{
+						if (*r++)
+							w[x] = 4;
+					}
+				}
+				else
+				{
+					memcpy(w, r, cx);
+					r += cx;
+				}
+				w += global_cx;
+			}
+			if (shadow)
+			{
+				Cfname t = name;
+				t.set_title(name.get_ftitle() + " " + nwzl(4, i - (c_images >> 1)));
+				error = ft == ft_png ? png_file_write(t, w_start, palet, global_cx, global_cy) : pcx_file_write(t, w_start, palet, global_cx, global_cy);
+				if (error)
+					break;
+			}
+			w = w_start + global_cx * global_cy;
 		}
-		else
-			r = get_image(i);
-		memset(s, 0, global_cx * global_cy);
-		byte* w = s + get_x(i) + global_cx * get_y(i);
-		for (int y = 0; y < cy; y++)
-		{
-			memcpy(w, r, cx);
-			r += cx;
-			w += global_cx;
-		}
-		// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=" + name.get_fname() + "></td></tr>");
-		Cfname t = name;
-		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		if (ft == ft_png)
-		{
-			error = png_file_write(t, s, palet, global_cx, global_cy);
-		}
-		else
-		{
-			error = pcx_file_write(t, s, palet, global_cx, global_cy);
-		}
-		if (error)
-			break;
+		delete[] d;
+		delete[] image;
 	}
-	delete[] s;
-	delete[] image;
+	else
+	{
+		byte* image = new byte[global_cx * global_cy];
+		byte* s = new byte[global_cx * global_cy];
+		for (int i = 0; i < c_images; i++)
+		{
+			const int cx = get_cx(i);
+			const int cy = get_cy(i);
+			const byte* r;
+			if (is_compressed(i))
+			{
+				decode3(get_image(i), image, cx, cy);
+				r = image;
+			}
+			else
+				r = get_image(i);
+			memset(s, 0, global_cx * global_cy);
+			byte* w = s + get_x(i) + global_cx * get_y(i);
+			for (int y = 0; y < cy; y++)
+			{
+				memcpy(w, r, cx);
+				r += cx;
+				w += global_cx;
+			}
+			// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=" + name.get_fname() + "></td></tr>");
+			Cfname t = name;
+			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
+			if (ft == ft_png)
+			{
+				error = png_file_write(t, s, palet, global_cx, global_cy);
+			}
+			else
+			{
+				error = pcx_file_write(t, s, palet, global_cx, global_cy);
+			}
+			if (error)
+				break;
+		}
+		delete[] s;
+		delete[] image;
+	}
 	return error;
 }
