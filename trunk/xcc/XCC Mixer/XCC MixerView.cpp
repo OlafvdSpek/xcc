@@ -495,13 +495,7 @@ void CXCCMixerView::autosize_colums()
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < c_colums; i++)
-	{
 		lc.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-		int cx = lc.GetColumnWidth(i);
-		lc.SetColumnWidth(i, LVSCW_AUTOSIZE);
-		if (lc.GetColumnWidth(i) < cx)
-			lc.SetColumnWidth(i, cx);
-	}
 	SetRedraw(true);
 }
 
@@ -509,9 +503,8 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
-	int id = pDispInfo->item.lParam;
 	m_buffer[m_buffer_w].erase();
-	const t_index_entry&  e = m_index.find(id)->second;
+	const t_index_entry&  e = m_index.find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:

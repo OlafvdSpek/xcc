@@ -107,9 +107,8 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
-	int id = lc.GetItemData(pDispInfo->item.iItem);	
 	m_buffer[m_buffer_w].erase();
-	const CXCCTMPEditorDoc::t_map_entry& e = GetDocument()->map().find(id)->second;
+	const CXCCTMPEditorDoc::t_map_entry& e = GetDocument()->map().find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -131,10 +130,8 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = n(e.header.ramp_type);
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w++].c_str());
+	m_buffer_w &= 3;
 	*pResult = 0;
 }
 
@@ -143,13 +140,7 @@ void CLeftView::autosize_colums()
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < c_colums; i++)
-	{
 		lc.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-		int cx = lc.GetColumnWidth(i);
-		lc.SetColumnWidth(i, LVSCW_AUTOSIZE);
-		if (lc.GetColumnWidth(i) < cx)
-			lc.SetColumnWidth(i, cx);
-	}
 	SetRedraw(true);
 	Invalidate();
 }
