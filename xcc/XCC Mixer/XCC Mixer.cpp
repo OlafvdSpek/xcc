@@ -65,6 +65,7 @@ BOOL CXCCMixerApp::InitInstance()
 
 	LoadStdProfileSettings(0);  // Load standard INI file options (including MRU)
 
+	Cmix_file::enable_ft_support();
 	xcc_dirs::load_from_registry();
 	xcc_log::attach_file("XCC Mixer log.txt");
 	if (mix_database::load())

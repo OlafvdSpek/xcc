@@ -24,8 +24,15 @@ public:
 	void close();
 	Cmix_file();
 
-    void enable_mix_expansion()
+    static void enable_ft_support()
 	{
+		assert(!m_ft_support);
+		m_ft_support = true;
+	}
+
+	void enable_mix_expansion()
+	{
+		assert(!m_mix_expansion);
 		m_mix_expansion = true;
 	}
 
@@ -74,6 +81,8 @@ public:
 		return m_is_encrypted;	
 	}
 private:
+	static bool m_ft_support;
+
     void clean_up();
     int m_c_files;
 	t_game m_game;

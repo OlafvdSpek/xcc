@@ -175,7 +175,6 @@ protected:
 	afx_msg void OnUpdateViewVoxelDepthInformation(CCmdUI* pCmdUI);
 	afx_msg void OnConversionSplitShadows();
 	afx_msg void OnUpdateConversionSplitShadows(CCmdUI* pCmdUI);
-	afx_msg void OnInternetGeniusSite();
 	afx_msg void OnUtilitiesXccAvPlayer();
 	afx_msg void OnUpdateUtilitiesXccAvPlayer(CCmdUI* pCmdUI);
 	afx_msg void OnUtilitiesXccEditor();

@@ -16,6 +16,8 @@
 
 using namespace std;
 
+bool Cmix_file::m_ft_support = false;
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
@@ -41,30 +43,25 @@ bool Cmix_file::is_valid()
 		return false;
 	m_has_checksum = header.flags & mix_checksum;
 	m_is_encrypted = header.flags & mix_encrypted;
-	Cblowfish bf;
 	if (m_is_encrypted)
 	{
+		Cblowfish bf;
 		byte key[cb_mix_key];
 		get_blowfish_key(data + 4, key);
 		bf.set_key(key, cb_mix_key);
+		byte e[8];
+		bf.decipher(data + 84, e, 8);
+		t_mix_header* header = reinterpret_cast<t_mix_header*>(e);
+		if (!header->c_files || 84 + sizeof(t_mix_header) + (header->c_files * sizeof(t_mix_index_entry) + 7 & ~7) + header->size + (m_has_checksum ? 20 : 0) != size)
+			return false;
 	}
-	int error = 0;
+	else
 	{
-		if (m_is_encrypted)
-		{
-			t_mix_header* header = reinterpret_cast<t_mix_header*>(new byte[8]);
-			bf.decipher(data + 84, header, 8);
-			if (!header->c_files || 4 + (m_is_encrypted ? 80 : 0) + sizeof(t_mix_header) + 2 + (header->c_files * sizeof(t_mix_index_entry) + 5 & ~7) + header->size + (m_has_checksum ? 20 : 0) != size)
-				error = true;
-		}
-		else
-		{
-			const t_mix_header* header = reinterpret_cast<const t_mix_header*>(data + 4);
-			if (!header->c_files || 4 + sizeof(t_mix_header) + header->c_files * sizeof(t_mix_index_entry) + header->size + (m_has_checksum ? 20 : 0) != size)
-				error = true;
-		}
+		const t_mix_header* header = reinterpret_cast<const t_mix_header*>(data + 4);
+		if (!header->c_files || 4 + sizeof(t_mix_header) + header->c_files * sizeof(t_mix_index_entry) + header->size + (m_has_checksum ? 20 : 0) != size)
+			return false;
 	}
-	return !error;
+	return true;
 }
 
 #define test_fail(res) { int v = res; if (v) { clean_up(); return v; }}
@@ -73,18 +70,14 @@ int Cmix_file::post_open()
 {
 #ifndef NO_FT_SUPPORT
 	Cpak_file f;
-	byte* data;
 	if (get_data())
-	{
-		data = NULL;
 		f.load(get_vdata());
-	}
 	else
 	{
 		int size = min(get_size(), 64 << 10);
-		data = new byte[size];
-		test_fail(read(data, size));
-		f.load(Cvirtual_binary(data, size), get_size());
+		Cvirtual_binary data;
+		test_fail(read(data.write_start(size), size));
+		f.load(data, get_size());
 	}
 	if (f.is_valid())
 	{
@@ -148,13 +141,12 @@ int Cmix_file::post_open()
 					test_fail(1);
 				if (m_c_files)
 				{
-					byte* f = new byte[cb_f];
-					read(f, cb_f);
-					bf.decipher(f, f, cb_f);
+					Cvirtual_binary f;
+					read(f.write_start(cb_f), cb_f);
+					bf.decipher(f.data_edit(), f.data_edit(), cb_f);
 					m_index = new t_mix_index_entry[m_c_files];
 					memcpy(m_index, e + 6, 2);
-					memcpy(reinterpret_cast<byte*>(m_index) + 2, f, cb_index - 2);
-					delete[] f;
+					memcpy(reinterpret_cast<byte*>(m_index) + 2, f.data(), cb_index - 2);
 					for (int i = 0; i < m_c_files; i++)
 					{
 						if (m_index[i].offset & 0xf)
@@ -193,64 +185,66 @@ int Cmix_file::post_open()
 		}
 	}
 #ifndef NO_FT_SUPPORT
-	delete[] data;
-	int count[game_unknown] = {0};
-	for (int i = 0; i < get_c_files(); i++)
+	if (m_ft_support)
 	{
-		int id = get_id(i);
-		for (int game = game_td; game < game_unknown; game++)
-			count[game] += mix_database::get_name(static_cast<t_game>(game), id).empty();
-	}
-	int min = count[0];
-	for (int game = 0; game < game_unknown; game++)
-	{
-		if (count[game] < min)
-		{
-			m_game = static_cast<t_game>(game);
-			min = count[game];
-		}
-	}
-	if (!m_data_loaded)
-	{
-		Ccrc crc;
-		crc.init();
-		crc.do_block(m_index, m_c_files * sizeof(t_mix_index_entry));
-		const void* s = mix_cache::get_data(crc.get_crc());
-		m_index_ft = new t_file_type[m_c_files];
-		if (s)
-			memcpy(m_index_ft, s, m_c_files * sizeof(t_file_type));
-		else
-		{
-			for (int i = 0; i < m_c_files; i++)
-			{
-				Ccc_file f(false);
-				f.open(get_id(i), *this);
-				m_index_ft[i] = f.get_file_type();
-				f.close();
-			}
-			mix_cache::set_data(crc.get_crc(), m_index_ft, m_c_files * sizeof(t_file_type));
-		}
-		for (int i = 0; i < m_c_files; i++)
+		int count[game_unknown] = {0};
+		for (int i = 0; i < get_c_files(); i++)
 		{
 			int id = get_id(i);
-			if (get_type(id) == ft_xcc_lmd)
+			for (int game = game_td; game < game_unknown; game++)
+				count[game] += mix_database::get_name(static_cast<t_game>(game), id).empty();
+		}
+		int min = count[0];
+		for (int game = 0; game < game_unknown; game++)
+		{
+			if (count[game] < min)
 			{
-				Cxcc_lmd_file f;
-				if (!f.open(id, *this))
+				m_game = static_cast<t_game>(game);
+				min = count[game];
+			}
+		}
+		if (!m_data_loaded)
+		{
+			Ccrc crc;
+			crc.init();
+			crc.do_block(m_index, m_c_files * sizeof(t_mix_index_entry));
+			const void* s = mix_cache::get_data(crc.get_crc());
+			m_index_ft = new t_file_type[m_c_files];
+			if (s)
+				memcpy(m_index_ft, s, m_c_files * sizeof(t_file_type));
+			else
+			{
+				for (int i = 0; i < m_c_files; i++)
 				{
-					if (f.is_valid())
-					{
-						m_game = f.get_game();
-						int count = f.get_c_fnames();
-						const char* r = f.get_fnames();
-						while (count--)
-						{
-							string name = r;
-							r += name.length() + 1;
-							mix_database::add_name(m_game, name, "-");
-						}
-					}
+					Ccc_file f(false);
+					f.open(get_id(i), *this);
+					m_index_ft[i] = f.get_file_type();
 					f.close();
+				}
+				mix_cache::set_data(crc.get_crc(), m_index_ft, m_c_files * sizeof(t_file_type));
+			}
+			for (int i = 0; i < m_c_files; i++)
+			{
+				int id = get_id(i);
+				if (get_type(id) == ft_xcc_lmd)
+				{
+					Cxcc_lmd_file f;
+					if (!f.open(id, *this))
+					{
+						if (f.is_valid())
+						{
+							m_game = f.get_game();
+							int count = f.get_c_fnames();
+							const char* r = f.get_fnames();
+							while (count--)
+							{
+								string name = r;
+								r += name.length() + 1;
+								mix_database::add_name(m_game, name, "-");
+							}
+						}
+						f.close();
+					}
 				}
 			}
 		}
