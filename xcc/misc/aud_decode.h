@@ -27,7 +27,6 @@ private:
 	int m_sample;
 };
 
-void aud_decode_ws_chunk(const byte* r, char* w, int cs_chunk);
-// void aud_encode_chunk(const short* audio_in, byte* audio_out, int& index, int& sample, int cs_chunk);
+void aud_decode_ws_chunk(const byte* s, char* d, int cb_s, int cb_d);
 
 #endif // !defined(AFX_AUD_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)
