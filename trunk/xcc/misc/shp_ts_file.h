@@ -13,12 +13,14 @@
 #include <cc_structures.h>
 #include "fname.h"
 #include "palet.h"
+#include "virtual_image.h"
 
 class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
-
+	int extract_as_pcx_single(Cvirtual_image& d, const t_palet _palet, bool combine_shadows = false) const;
+	int extract_as_pcx_single(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
 	bool is_valid() const
 	{
 		const t_shp_ts_header& header = *get_header();

@@ -76,6 +76,7 @@ BOOL CXCCMixerApp::InitInstance()
 	mix_sfl::load();
 	m_nCmdShow = SW_SHOWMAXIMIZED;
 	find_fs_exe();
+	find_fa_exe();
 	find_se_exe();
 	string xcc_path = GetModuleFileName().get_path();
 	m_xcc_av_player_exe = xcc_path + "XCC AV Player.exe";
@@ -186,6 +187,17 @@ void CXCCMixerApp::find_fs_exe()
 	m_fs_exe = f.sections["FinalSun"].values["Path"] + "finalsun.exe";
 }
 
+void CXCCMixerApp::find_fa_exe()
+{
+	CIniFile f;
+	char win_dir[256];
+	if (!GetWindowsDirectory(win_dir, 256))
+		return;
+	if (f.LoadFile((static_cast<string>(win_dir) + "\\finalalert.ini").c_str()))
+		return;
+	m_fa_exe = f.sections["FinalAlert"].values["Path"] + "finalalert.exe";
+}
+
 void CXCCMixerApp::find_se_exe()
 {
 	HKEY kh_base;
@@ -215,6 +227,11 @@ string CXCCMixerApp::get_fs_exe() const
 	return m_fs_exe;
 }
 
+string CXCCMixerApp::get_fa_exe() const
+{
+	return m_fa_exe;
+}
+
 string CXCCMixerApp::get_se_exe() const
 {
 	return m_se_exe;
@@ -223,6 +240,11 @@ string CXCCMixerApp::get_se_exe() const
 string CXCCMixerApp::get_semm_exe() const
 {
 	return m_semm_exe;
+}
+
+string CXCCMixerApp::get_rage_exe() const
+{
+	return m_rage_exe;
 }
 
 string CXCCMixerApp::get_xcc_av_player_exe() const
@@ -290,6 +312,11 @@ bool CXCCMixerApp::is_fs_available() const
 	return Cfname(m_fs_exe).exists();
 }
 
+bool CXCCMixerApp::is_fa_available() const
+{
+	return Cfname(m_fa_exe).exists();
+}
+
 bool CXCCMixerApp::is_se_available() const
 {
 	return Cfname(m_se_exe).exists();
@@ -298,6 +325,11 @@ bool CXCCMixerApp::is_se_available() const
 bool CXCCMixerApp::is_semm_available() const
 {
 	return Cfname(m_semm_exe).exists();
+}
+
+bool CXCCMixerApp::is_rage_available() const
+{
+	return Cfname(m_rage_exe).exists();
 }
 
 bool CXCCMixerApp::is_xcc_av_player_available() const

@@ -18,11 +18,20 @@
 #include "rules_ts_ini_reader.h"
 #include "sound_ts_ini_reader.h"
 #include "xif_key.h"
+#include "xste.h"
 
 class Cextract_object  
 {
 public:
-	enum t_object_type {ot_aircraft, ot_animation, ot_art, ot_building, ot_credits, ot_infantry, ot_infantry_sequence, ot_particle, ot_particle_system, ot_projectile, ot_sound, ot_vehicle, ot_voxel_animation, ot_warhead, ot_weapon, ot_unknown};
+	struct t_credits
+	{
+		string name;
+		string mail;
+		string link_title;
+		string link;
+	};
+
+	enum t_object_type {ot_aircraft, ot_animation, ot_art, ot_building, ot_credits, ot_infantry, ot_infantry_sequence, ot_particle, ot_particle_system, ot_projectile, ot_sound, ot_vehicle, ot_voxel_animation, ot_warhead, ot_weapon, ot_st_entry, ot_unknown};
 
 	Cextract_object();
 	~Cextract_object();
@@ -39,11 +48,11 @@ public:
 	int read_ini(const string& name, Cneat_ini_reader& ir);
 	static string get_object_name(const Cxif_key& k);
 	static int report(const Cxif_key& k, char* d, const string& files_url);
-	void get_credits(const Cxif_key& k, string& name, string& mail, string& link_title, string& link);
+	static t_credits get_credits(const Cxif_key& k);
+	static void set_credits(Cxif_key& k, t_credits credits);
 	t_game get_game(Cxif_key& k) const;
 	t_object_type get_object_type(const Cxif_key& k) const;
 	int prepare_for_web(Cfname fname, byte* d);
-	static void set_credits(Cxif_key& k, string name, string mail, string link_title, string link);
 
 	const Crules_ts_ini_reader& get_rir() const
 	{
@@ -74,6 +83,7 @@ private:
 	Cart_ts_ini_reader m_air;
 	Crules_ts_ini_reader m_rir;
 	Csound_ts_ini_reader m_sir;
+	CXSTE m_xste;
 };
 
 #endif // !defined(AFX_EXTRACT_OBJECT_H__C5FFFB40_8F20_11D4_B606_0000B4936994__INCLUDED_)
