@@ -5,6 +5,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+#include "resource.h"
 #include "string_conversion.h"
 #include "xcc_level.h"
 

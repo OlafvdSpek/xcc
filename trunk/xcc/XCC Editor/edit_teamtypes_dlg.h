@@ -5,15 +5,16 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+// edit_teamtypes_dlg.h : header file
+//
+
 #include "list_ctrl_extension.h"
+#include "resource.h"
 #include "string_conversion.h"
 #include "xcc_infantry.h"
 #include "xcc_level.h"
 #include "xcc_structures.h"
 #include "xcc_units.h"
-
-// edit_teamtypes_dlg.h : header file
-//
 
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_teamtypes_dlg dialog

@@ -37,10 +37,6 @@ CXCCEditorApp::CXCCEditorApp()
 	m_save_data = false;
 }
 
-CXCCEditorApp::~CXCCEditorApp()
-{
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCEditorApp object
 

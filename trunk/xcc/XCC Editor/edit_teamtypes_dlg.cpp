@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "edit_teamtypes_dlg.h"
 #include "edit_teamtype_dlg.h"
 

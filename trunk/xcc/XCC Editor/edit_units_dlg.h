@@ -6,6 +6,7 @@
 #endif // _MSC_VER >= 1000
 
 #include "list_ctrl_extension.h"
+#include "resource.h"
 #include "string_conversion.h"
 #include "xcc_units.h"
 

@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "edit_infantry_properties_dlg.h"
 #include "edit_triggers_dlg.h"
 #include "xcc_cell.h"

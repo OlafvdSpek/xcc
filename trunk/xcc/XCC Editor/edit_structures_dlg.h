@@ -5,13 +5,13 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "list_ctrl_extension.h"
-#include "string_conversion.h"
-#include "XCC Editor.h"
-#include "xcc_structures.h"
-
 // edit_structures_dlg.h : header file
 //
+
+#include "list_ctrl_extension.h"
+#include "resource.h"
+#include "string_conversion.h"
+#include "xcc_structures.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_structures_dlg dialog

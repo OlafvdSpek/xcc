@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "edit_map_dlg.h"
 
 #ifdef _DEBUG

@@ -24,7 +24,6 @@ class CXCCEditorApp : public CWinApp
 public:
 	int ExitInstance();
 	CXCCEditorApp();
-	~CXCCEditorApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

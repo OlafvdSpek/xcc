@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Editor.h"
 
 #include "MainFrm.h"
 #include "XCC EditorDoc.h"
