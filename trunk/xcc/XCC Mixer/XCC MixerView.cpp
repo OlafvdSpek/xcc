@@ -529,19 +529,13 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = e.description;
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w++].c_str());
+	m_buffer_w &= 3;
 	*pResult = 0;
 }
 
-static int compare_int(int a, int b)
-{
-	return a < b ? -1 : a != b;
-}
-
-static int compare_string(const string& a, const string& b)
+template <class T>
+static int compare(const T& a, const T& b)
 {
 	return a < b ? -1 : a != b;
 }
@@ -569,13 +563,13 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 	switch (m_sort_column)
 	{
 	case 0:
-		return compare_string(to_lower(a.name), to_lower(b.name));
+		return ::compare(to_lower(a.name), to_lower(b.name));
 	case 1:
-		return compare_int(a.ft, b.ft);
+		return ::compare(a.ft, b.ft);
 	case 2:
-		return compare_int(a.size, b.size);
+		return ::compare(a.size, b.size);
 	case 3:
-		return compare_string(a.description, b.description);
+		return ::compare(a.description, b.description);
 	}
 	return 0;
 }
