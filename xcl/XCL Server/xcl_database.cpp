@@ -87,7 +87,7 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	}
 	else if (gr.get_int("cmp0") == 2 && gr.get_int("cmp1") == 2)
 	{
-		if (!gr.get_int("spid"))
+		if (gr.get_int("spid"))
 		{
 			gr.set_int("cmp0", 0x220);
 			gr.set_int("cmp1", 0x100);
