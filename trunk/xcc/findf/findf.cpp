@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -20,7 +21,7 @@ typedef map<int, string> t_file_list;
 
 const string filename_chars = "-.0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 t_file_list flist;
-const t_game game = game_ts;
+const t_game game = game_ra2;
 
 void init_filename_chars()
 {
@@ -99,7 +100,9 @@ void check_name(const string& name, ofstream& log_f, bool check_chars = true)
 	}
 	if (name.length() >= 2 && tolower(name[1]) == 'a')
 	{
+		check_name(name.substr(0, 1) + 'd' + name.substr(2), log_f, false);
 		check_name(name.substr(0, 1) + 'g' + name.substr(2), log_f, false);
+		check_name(name.substr(0, 1) + 'l' + name.substr(2), log_f, false);
 		check_name(name.substr(0, 1) + 't' + name.substr(2), log_f, false);
 		check_name(name.substr(0, 1) + 'u' + name.substr(2), log_f, false);
 	}
@@ -110,11 +113,14 @@ void check_name(const string& name, ofstream& log_f, bool check_chars = true)
 		check_name(name + ".bik", log_f, false);
 		check_name(name + ".bin", log_f, false);
 		check_name(name + ".cps", log_f, false);
+		check_name(name + ".des", log_f, false);
 		check_name(name + ".fnt", log_f, false);
 		check_name(name + ".hva", log_f, false);
+		check_name(name + "bar.hva", log_f, false);
 		check_name(name + "barl.hva", log_f, false);
 		check_name(name + "tur.hva", log_f, false);
 		check_name(name + ".ini", log_f, false);
+		check_name(name + ".lun", log_f, false);
 		check_name(name + ".map", log_f, false);
 		check_name(name + ".mix", log_f, false);
 		check_name(name + ".mpr", log_f, false);
@@ -127,11 +133,13 @@ void check_name(const string& name, ofstream& log_f, bool check_chars = true)
 		check_name(name + ".tem", log_f, false);
 		check_name(name + ".tmp", log_f, false);
 		check_name(name + ".txt", log_f, false);
+		check_name(name + ".ubn", log_f, false);
 		check_name(name + ".urb", log_f, false);
 		check_name(name + ".voc", log_f, false);
 		check_name(name + ".vqa", log_f, false);
 		check_name(name + ".vqp", log_f, false);
 		check_name(name + ".vxl", log_f, false);
+		check_name(name + "bar.vxl", log_f, false);
 		check_name(name + "barl.vxl", log_f, false);
 		check_name(name + "tur.vxl", log_f, false);
 		check_name(name + ".wav", log_f, false);
@@ -209,6 +217,7 @@ int main()
 	mix_database::load();
 	check_dir(xcc_dirs::get_dir(game));
 	check_dir(xcc_dirs::get_cd_dir());
+	check_dir("f:/");
 	int known = 0;
 	int total = flist.size();
 	for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
@@ -231,7 +240,7 @@ int main()
 		Ccc_file f(true);
 		f.open("c:/temp/filemon.log");
 		Cvirtual_tfile t;
-		t.load_data(f.get_data(), f.get_size());
+		t.load_data(f.get_vdata());
 		while (!t.eof())
 		{
 			Cmulti_line l = t.read_line();
@@ -259,7 +268,8 @@ int main()
 	}
 	if (1)
 	{
-		// check_binary_file("i:/games/ra2/game.exe", log_f);
+		// check_binary_file("c:/games/ra2/game.exe", log_f);
+		// check_binary_file("c:/games/ra2/gamemd.exe", log_f);
 		// check_text_file("c:/temp/missions.pkt", log_f);
 		string name = "c:/temp/";
 		WIN32_FIND_DATA finddata;
