@@ -1,7 +1,7 @@
 <?php
 	require("../xcc_common.php");
 
-	ob_start(ob_gzhandler);
+	ob_start("ob_gzhandler");
 	db_connect();
 
 	function a2lid($v)
@@ -42,11 +42,11 @@
 		return $names[$v];
 	}
 
-	$cid = $_GET[cid];
-	$lid = a2lid($_GET[lid]);
-	$pid = $_GET[pid];
-	$pname = $_GET[pname];
-	if (isset($_GET[js]))
+	$cid = isset($_GET['cid']) ? $_GET['cid'] : 0;
+	$lid = isset($_GET['lid']) ? a2lid($_GET['lid']) : 0;
+	$pid = isset($_GET['pid']) ? $_GET['pid'] : 0;
+	$pname = isset($_GET['pname']) ? $_GET['pname'] : "";
+	if (isset($_GET['js']))
 	{
 		$pnames = explode(",", $pname);
 		foreach ($pnames as $key => $pname)
@@ -56,7 +56,7 @@
 			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
 		return;
 	}
-	else if (isset($_GET[pure]))
+	else if (isset($_GET['pure']))
 	{
 		if ($cid)
 		{
@@ -69,11 +69,11 @@
 			if ($pid)
 				$results = db_query(sprintf("select * from xcl_players where pid = %d", $pid));
 			else if ($pname)
-				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET[pname])));
+				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET['pname'])));
 			else
 				$results = db_query(sprintf("select * from xcl_players where lid = %d and points", $lid));
 			while ($result = mysql_fetch_assoc($results))
-				printf("%d %d %d %d %s\n", $result[rank], $result[win_count], $result[loss_count], $result[points], $result[name]);
+				printf("%d %d %d %d %s\n", $result['rank'], $result['win_count'], $result['loss_count'], $result['points'], $result['name']);
 		}
 		return;
 	}
@@ -298,12 +298,12 @@
 		echo("</table>");
 	}
 
-	if (isset($_GET[update_ranks]))
+	if (isset($_GET['update_ranks']))
 	{
 		for ($i = 1; $i < 9; $i++)
 			update_ranks($i);
 	}
-	if (isset($_GET[hof]))
+	if (isset($_GET['hof']))
 	{
 		echo("<center><table><tr><td>");
 		echo_hof(1, "Red Alert 2");
@@ -355,7 +355,7 @@
 			printf("</table></center>");
 		}
 	}
-	else if (isset($_GET[hos]))
+	else if (isset($_GET['hos']))
 	{
 		echo("<center><table><tr><th>Name");
 		$results = db_query("select xcl_players.pid from xcl_players inner join bl using (name) where points");
@@ -366,7 +366,7 @@
 			printf("<tr><td>%s", $result[name]);
 		echo("</table></center>");
 	}
-	else if (isset($_GET[stats]))
+	else if (isset($_GET['stats']))
 	{
 		$results = db_query("show table status like 'xcl_stats_gsku'");
 		$result = mysql_fetch_assoc($results);
@@ -509,12 +509,13 @@
 	}
 	else
 	{
-		$cid = $_GET[cid];
-		$gid = $_GET[gid];
-		$pid = $_GET[pid];
-		$pname = trim($_GET[pname]);
-		$recent_games = $_GET[recent_games];
-		$unfair_games = $_GET[unfair_games];
+		$cid = isset($_GET['cid']) ? $_GET['cid'] : 0;
+		$gid = isset($_GET['gid']) ? $_GET['gid'] : 0;
+		$pid = isset($_GET['pid']) ? $_GET['pid'] : 0;
+		$pname = isset($_GET['pname']) ? trim($_GET['pname']) : "";
+		$recent_games = isset($_GET['recent_games']) ? $_GET['recent_games'] : 0;
+		$unfair_games = isset($_GET['unfair_games']) ? $_GET['unfair_games'] : 0;
+		$wash_games = isset($_GET['wash_games']) ? $_GET['wash_games'] : 0;
 		if ($cid || $gid || $pid || $recent_games || $unfair_games || $wash_games)
 		{
 			if ($gid)
