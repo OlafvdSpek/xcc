@@ -82,6 +82,9 @@ BOOL CXCCGameSpyPlayerApp::InitInstance()
 		return FALSE;
 	m_pMainWnd = pMainFrame;
 
+	// Enable drag/drop open
+	m_pMainWnd->DragAcceptFiles();
+
 	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) 

@@ -498,8 +498,7 @@ void CXCCGameSpyPlayerView::rewind()
 
 void CXCCGameSpyPlayerView::move_back(int i)
 {
-	while (i-- && m_shot_time)
-		shot_time(m_shot_time - 1);
+	shot_time(i < m_shot_time ? m_shot_time - i : 0);
 }
 
 void CXCCGameSpyPlayerView::move_front(int i)

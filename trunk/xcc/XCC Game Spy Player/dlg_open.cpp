@@ -83,7 +83,7 @@ BOOL Cdlg_open::OnInitDialog()
 	insert_replays_columns();
 	string dir = xcc_dirs::get_dir(game_ra2) + "replays/";
 	WIN32_FIND_DATA fd;
-	HANDLE fh = FindFirstFile((dir + "game replay *.xif").c_str(), &fd);
+	HANDLE fh = FindFirstFile((dir + "*.xif").c_str(), &fd);
 	if (fh != INVALID_HANDLE_VALUE)
 	{
 		CWaitCursor wc;
