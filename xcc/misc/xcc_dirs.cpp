@@ -68,8 +68,9 @@ string xcc_dirs::get_dir(t_game game)
 	case game_rg:
 		return rg_dir;
 	case game_gr:
-	case game_gr_zh:
 		return gr_dir;
+	case game_gr_zh:
+		return gr_zh_dir;
 	case game_ebfd:
 		return ebfd_dir;
 	}
@@ -124,7 +125,7 @@ string xcc_dirs::get_csf_fname(t_game game)
 	case game_ra2_yr:
 		return "ra2md.csf";
 	case game_gr:
-		return "data/english/generals.csf";
+	case game_gr_zh:
 		return "data/english/generals.csf";
 	}
 	assert(false);
@@ -242,6 +243,9 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 		break;
 	case game_gr:
 		set_path(s, gr_dir);
+		break;
+	case game_gr_zh:
+		set_path(s, gr_zh_dir);
 		break;
 	case game_ebfd:
 		set_path(s, ebfd_dir);
