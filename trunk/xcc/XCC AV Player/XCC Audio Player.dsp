@@ -101,6 +101,10 @@ SOURCE=..\..\misc\ETSLayout.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\ListCtrlEx.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File

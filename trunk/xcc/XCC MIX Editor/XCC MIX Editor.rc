@@ -29,13 +29,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 IDD_XCCMIXEDITOR_DIALOG DIALOGEX 0, 0, 170, 166
 STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU | WS_THICKFRAME
-EXSTYLE WS_EX_APPWINDOW
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_APPWINDOW
 CAPTION "XCC MIX Editor"
-FONT 8, "MS Sans Serif", 0, 0, 0x1
+FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
-                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,85,111,
-                    WS_EX_ACCEPTFILES
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,85,111
     PUSHBUTTON      "&New...",IDC_BUTTON_NEW,98,7,65,14
     PUSHBUTTON      "&Open...",IDC_BUTTON_OPEN,98,22,65,14
     PUSHBUTTON      "&Save",IDC_BUTTON_SAVE,98,37,65,14
@@ -48,43 +47,6 @@ BEGIN
     EDITTEXT        IDC_EDIT_STATUS,7,146,84,13,ES_AUTOHSCROLL | ES_READONLY
     PUSHBUTTON      "&Insert",IDC_BUTTON_INSERT,98,97,65,14
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_XCCMIXEDITOR_DIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 163
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 159
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Dutch (Netherlands) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
-#ifdef _WIN32
-LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
 
 IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 161, 58
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
@@ -110,6 +72,14 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
+    IDD_XCCMIXEDITOR_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 163
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 159
+    END
+
     IDD_OPTIONS, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -120,6 +90,44 @@ BEGIN
 END
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_OPTIONS DLGINIT
+BEGIN
+    IDC_COMBO_GAME, 0x403, 14, 0
+0x6954, 0x6562, 0x6972, 0x6d75, 0x4420, 0x7761, 0x006e, 
+    IDC_COMBO_GAME, 0x403, 10, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x0074, 
+    IDC_COMBO_GAME, 0x403, 13, 0
+0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
+    IDC_COMBO_GAME, 0x403, 7, 0
+0x7544, 0x656e, 0x3220, "\000" 
+    IDC_COMBO_GAME, 0x403, 10, 0
+0x7544, 0x656e, 0x3220, 0x3030, 0x0030, 
+    IDC_COMBO_GAME, 0x403, 12, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
+    IDC_COMBO_GAME, 0x403, 27, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x7559, 0x6972, 0x7327, 
+0x5220, 0x7665, 0x6e65, 0x6567, "\000" 
+    0
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -167,32 +175,6 @@ END
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
 IDR_MAINFRAME           ICON    DISCARDABLE     "res\\mixedit.ico"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog Info
-//
-
-IDD_OPTIONS DLGINIT
-BEGIN
-    IDC_COMBO_GAME, 0x403, 14, 0
-0x6954, 0x6562, 0x6972, 0x6d75, 0x4420, 0x7761, 0x006e, 
-    IDC_COMBO_GAME, 0x403, 10, 0
-0x6552, 0x2064, 0x6c41, 0x7265, 0x0074, 
-    IDC_COMBO_GAME, 0x403, 13, 0
-0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
-    IDC_COMBO_GAME, 0x403, 7, 0
-0x7544, 0x656e, 0x3220, "\000" 
-    IDC_COMBO_GAME, 0x403, 10, 0
-0x7544, 0x656e, 0x3220, 0x3030, 0x0030, 
-    IDC_COMBO_GAME, 0x403, 12, 0
-0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
-    IDC_COMBO_GAME, 0x403, 27, 0
-0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x7559, 0x6972, 0x7327, 
-0x5220, 0x7665, 0x6e65, 0x6567, "\000" 
-    0
-END
-
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 

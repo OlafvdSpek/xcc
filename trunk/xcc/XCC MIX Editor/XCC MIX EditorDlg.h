@@ -10,9 +10,9 @@
 
 #include <map>
 #include <string>
+#include "ListCtrlEx.h"
 #include "cc_file.h"
 #include "mix_file.h"
-#include "MIXList.h"
 #include "resource.h"
 
 using namespace std;
@@ -24,7 +24,6 @@ class CXCCMIXEditorDlg : public ETSLayoutDialog
 {
 // Construction
 public:
-	void autosize_colums();
 	void add_entry(int id);
 	void add_file(const string& name);
 	int compact_mix();
@@ -53,7 +52,7 @@ public:
 	CButton	m_button_close;
 	CButton	m_button_open;
 	CButton	m_button_new;
-	CMIXList	m_list;
+	CListCtrlEx	m_list;
 	CString	m_edit_status;
 	//}}AFX_DATA
 
@@ -85,6 +84,7 @@ protected:
 	afx_msg void OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) ;
 	afx_msg void OnButtonInsert();
+	afx_msg void OnDropFiles(HDROP hDropInfo);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
