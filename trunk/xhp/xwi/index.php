@@ -1,4 +1,12 @@
-<link rel=stylesheet href="/xcl.css">
+<?php
+	ob_start('ob_gzhandler');
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<link rel=stylesheet href="/egx.css">
+<script type="text/javascript" src="/xcl/xcl.js"></script>
+<title>XCC Clans</title>
+<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Clans<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="/xcl/?hof=" title="Hall of Fame">HoF</a> | <a href="/xcl/?hos=" title="Hall of Shame">HoS</a> | <a href="/xcl/?">Home</a> | <a href="/xcl/?stats=">Stats</a></table>
+<hr>
 <a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=delete_nick">Delete nick</a>
 <hr>
 <?php
@@ -41,7 +49,6 @@
 
 	require("../xcc_common.php");
 
-	ob_start(ob_gzhandler);
 	db_connect();
 
 	$name = $_POST[name];
@@ -425,7 +432,7 @@
 			$results = db_query(sprintf("select * from xwi_players where cid = %d order by name", $cid));
 			echo("</table><hr><table>");
 			while ($result = mysql_fetch_array($results))
-				printf("<tr><td><a href=\"?pid=%d\">%s</a>", $result[pid], $result[name]);
+				printf("<tr><td><a href=\"/xcl/?pid=%d\">%s</a>", $result[pid], $result[name]);
 			echo("</table>");
 		}
 		else
@@ -443,8 +450,8 @@
 			if ($_GET[text])
 				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by size desc", $_GET[text], $_GET[text]));
 			else
-				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name order by size desc");
-			echo("<table>");
+				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name having size > 1 order by size desc");
+			echo("<table><tr><th align=left>Name<th align=right>Players");
 			while ($result = mysql_fetch_array($results))
 				printf("<tr><td><a href=\"?cid=%d\">%s</a><td align=right>%d", $result[cid], $result[name], $result[size]);
 			echo("</table>");
@@ -453,3 +460,8 @@
 ?>
 <hr>
 <a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=delete_nick">Delete nick</a>
+<?php
+	echo('<script type="text/javascript">');
+	printf("page_bottom(%d);", time());
+	echo('</script>');
+?>
