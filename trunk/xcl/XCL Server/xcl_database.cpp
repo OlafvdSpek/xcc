@@ -115,8 +115,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 		{
 			q.write("select count(*) from bl where name = %s");
 			q.pe(gr.nam(i));
-			if (q.execute().fetch_row().f_int(0))
-				bl = true;
+			bl |= q.execute().fetch_row().f_int(0) > 0;
 		}
 		for (i = 0; i < gr.plrs(); i++)
 		{
