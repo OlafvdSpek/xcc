@@ -39,8 +39,8 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
-	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL00, ID_VIEW_PALET_PAL99, OnViewPalet)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL00, ID_VIEW_PALET_PAL99, OnUpdateViewPalet)
+	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnViewPalet)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnUpdateViewPalet)
 	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnUpdateLaunchApp)
 	//{{AFX_MSG_MAP(CMainFrame)
@@ -128,6 +128,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_CONVERSION_COMBINE_SHADOWS, OnUpdateConversionCombineShadows)
 	ON_COMMAND(ID_VIEW_REPORT, OnViewReport)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_REPORT, OnUpdateViewReport)
+	ON_COMMAND(ID_LAUNCH_XSTE_RA2, OnLaunchXSTE_RA2)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_RA2, OnUpdateLaunchXSTE_RA2)
+	ON_COMMAND(ID_LAUNCH_XSTE_RA2_YR, OnLaunchXSTE_RA2_YR)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_RA2_YR, OnUpdateLaunchXSTE_RA2_YR)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -456,7 +460,7 @@ void CMainFrame::OnUpdateViewPaletUpdate(CCmdUI* pCmdUI)
 			sub_menu.CreatePopupMenu();
 			t_sort_list sort_list;
 			for (; j < m_pal_i[i]; j++)
-				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL00 + j, m_pal_list[j].name.c_str());
+				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL000 + j, m_pal_list[j].name.c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
@@ -586,13 +590,13 @@ void CMainFrame::OnUpdateViewPaletAuto(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewPalet(dword ID) 
 {
-	m_palet_i = ID - ID_VIEW_PALET_PAL00;
+	m_palet_i = ID - ID_VIEW_PALET_PAL000;
 	Invalidate();
 }
 
 void CMainFrame::OnUpdateViewPalet(CCmdUI* pCmdUI) 
 {
-	pCmdUI->SetCheck(m_palet_i == pCmdUI->m_nID - ID_VIEW_PALET_PAL00);
+	pCmdUI->SetCheck(m_palet_i == pCmdUI->m_nID - ID_VIEW_PALET_PAL000);
 }
 
 void CMainFrame::OnViewPaletPrev() 
@@ -1178,7 +1182,7 @@ void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI)
 
 void CMainFrame::OnLaunchXSTE() 
 {
-	CXSTE_dlg dlg;
+	CXSTE_dlg dlg(game_ra2, false);
 	dlg.DoModal();
 }
 
@@ -1187,9 +1191,31 @@ void CMainFrame::OnUpdateLaunchXSTE(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
 
+void CMainFrame::OnLaunchXSTE_RA2() 
+{
+	CXSTE_dlg dlg(game_ra2, false);
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSTE_RA2(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());		
+}
+
+void CMainFrame::OnLaunchXSTE_RA2_YR() 
+{
+	CXSTE_dlg dlg(game_ra2, true);
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(Cfname(xcc_dirs::get_main_mix(game_ra2, true)).exists());
+}
+
 void CMainFrame::OnLaunchXSE() 
 {
-	CXSE_dlg dlg;
+	CXSE_dlg dlg(game_ra2, Cfname(xcc_dirs::get_main_mix(game_ra2, true)).exists());
 	dlg.DoModal();
 }
 
@@ -1439,3 +1465,5 @@ void CMainFrame::OnUpdateViewReport(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!OnIdle(0));
 }
+
+

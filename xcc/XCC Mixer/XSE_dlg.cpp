@@ -30,7 +30,7 @@ static CMainFrame* GetMainFrame()
 	return static_cast<CMainFrame*>(AfxGetMainWnd());
 }
 
-CXSE_dlg::CXSE_dlg(CWnd* pParent /*=NULL*/)
+CXSE_dlg::CXSE_dlg(t_game game, bool expansion, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSE_dlg::IDD, pParent, "XSE_dlg")
 {
 	//{{AFX_DATA_INIT(CXSE_dlg)
@@ -38,6 +38,8 @@ CXSE_dlg::CXSE_dlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
 	m_ds = GetMainFrame()->get_ds();
+	m_expansion = expansion;
+	m_game = game;
 	m_xap.ds(m_ds);
 }
 
@@ -110,14 +112,17 @@ BOOL CXSE_dlg::OnInitDialog()
 		m_list.InsertColumn(i, &lvc);
 	}
 
-	int error = m_csf_f.open(xcc_dirs::get_ra2_dir() + "ra2.csf");
+	string audio_mix_fname = xcc_dirs::get_audio_mix(m_game, m_expansion);
+	string csf_fname = xcc_dirs::get_csf_fname(m_game, m_expansion);
+	string language_fname = xcc_dirs::get_language_mix(m_game, m_expansion);
+	int error = m_csf_f.open(xcc_dirs::get_ra2_dir() + csf_fname);
 	if (error)
 	{
 		Cmix_file language;
-		error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
+		error = language.open(xcc_dirs::get_ra2_dir() + language_fname);
 		if (!error)
 		{
-			error = m_csf_f.open("ra2.csf", language);
+			error = m_csf_f.open(csf_fname, language);
 			language.close();
 		}
 	}
@@ -149,11 +154,11 @@ BOOL CXSE_dlg::OnInitDialog()
 	{
 		CWaitCursor wait;
 		Cmix_file language;
-		error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
+		error = language.open(xcc_dirs::get_ra2_dir() + language_fname);
 		if (!error)
 		{
 			Cmix_file audio;
-			error = audio.open("audio.mix", language);
+			error = audio.open(audio_mix_fname, language);
 			if (!error)
 			{
 				Ccc_file f(true);
@@ -623,9 +628,9 @@ int CXSE_dlg::compare(int id_a, int id_b) const
 	case 0:
 		return compare_string(a.name, b.name);
 	case 1:
-		return compare_string(a.extra_value, b.extra_value);
-	case 2:
 		return compare_string(a.value, b.value);
+	case 2:
+		return compare_string(a.extra_value, b.extra_value);
 	case 4:
 		return compare_int(a.offset, b.offset);
 	case 5:
