@@ -7,7 +7,7 @@
 <title>XCC Clans</title>
 <table width="100%"><tr><td valign=bottom><p class=page_title>XCC Clans<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="/xcl/?hof=" title="Hall of Fame">HoF</a> | <a href="/xcl/?hos=" title="Hall of Shame">HoS</a> | <a href="/xcl/?">Home</a> | <a href="/xcl/?stats=">Stats</a></table>
 <hr>
-<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=delete_nick">Delete nick</a>
+<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=retrieve_pass">Retrieve pass</a> | <a href="?a=delete_nick">Delete nick</a>
 <hr>
 <?php
 	function apgar_encode($v)
@@ -73,32 +73,7 @@
 					echo("Wrong clan pass<hr>");
 			}
 			$clan = get_clan($cid);
-			?>
-			<table>
-				<form action="?a=edit" method=post>
-					<input type=hidden name=cid value=<?php printf($cid) ?>>
-					<tr>
-						<td align=right>Clan pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td align=right>ICQ:
-						<td><input type=text name=icq maxlength=15 value="<?php if ($clan[icq]) echo(htmlspecialchars($clan[icq]))?>">
-					<tr>
-						<td align=right>Mail:
-						<td><input type=text name=mail maxlength=63 value="<?php echo(htmlspecialchars($clan[mail]))?>">
-					<tr>
-						<td align=right>MSN:
-						<td><input type=text name=msn maxlength=63 value="<?php echo(htmlspecialchars($clan[msn]))?>">
-					<tr>
-						<td align=right>Site:
-						<td><input type=text name=site maxlength=127 value="<?php echo(htmlspecialchars($clan[site]))?>">
-					<tr>
-						<td>
-						<td><input type=submit value="Edit">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_edit.php');
 		}
 		break;
 	case "create":
@@ -146,37 +121,7 @@
 					echo("Wrong name/pass combo");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=create" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Pass:
-						<td><input type=password name=pass maxlength=8>
-					<tr>
-						<td align=right>Clan name:
-						<td><input type=text name=cname maxlength=6 value="<?php echo(htmlspecialchars($cname))?>">
-					<tr>
-						<td align=right>ICQ:
-						<td><input type=text name=icq maxlength=15 value="<?php echo(htmlspecialchars($icq))?>">
-					<tr>
-						<td align=right>Mail:
-						<td><input type=text name=mail maxlength=63 value="<?php echo(htmlspecialchars($mail))?>">
-					<tr>
-						<td align=right>MSN:
-						<td><input type=text name=msn maxlength=63 value="<?php echo(htmlspecialchars($msn))?>">
-					<tr>
-						<td align=right>Site:
-						<td><input type=text name=site maxlength=127 value="<?php echo(htmlspecialchars($site))?>">
-					<tr>
-						<td>
-						<td><input type=submit value="Create">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_create.php');
 		}
 		break;
 	case "delete_nick":
@@ -206,22 +151,7 @@
 					echo("Wrong name/pass combo");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=delete_nick" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td>
-						<td><input type=submit value="Delete">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/players_delete.php');
 		}
 		break;
 	case "invite":
@@ -256,22 +186,7 @@
 					echo("Unknown player");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=invite" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Clan admin pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td>
-						<td><input type=submit value="Invite">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_invite.php');
 		}
 		break;
 	case "join":
@@ -301,25 +216,7 @@
 					echo("Wrong name/pass combo");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=join" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td align=right>Clan join pass:
-						<td><input type=password name=cpass>
-					<tr>
-						<td>
-						<td><input type=submit value="Join">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_join.php');
 		}
 		break;
 	case "kick":
@@ -353,23 +250,10 @@
 					echo("Unknown player");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=kick" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Clan admin pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td>
-						<td><input type=submit value="Kick">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_kick.php');
 		}
+		break;
+	case 'retrieve_pass':
 		break;
 	case "leave":
 		{
@@ -393,22 +277,7 @@
 					echo("Wrong name/pass combo");
 				echo("<hr>");
 			}
-			?>
-			<table>
-				<form action="?a=leave" method=post>
-					<tr>
-						<td align=right>Name:
-						<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
-					<tr>
-						<td align=right>Pass:
-						<td><input type=password name=pass>
-					<tr>
-						<td>
-						<td><input type=submit value="Leave">
-					</tr>
-				</form>
-			</table>
-			<?php
+			require('templates/clans_leave.php');
 		}
 		break;
 	default:
@@ -459,7 +328,7 @@
 	}
 ?>
 <hr>
-<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=delete_nick">Delete nick</a>
+<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=retrieve_pass">Retrieve pass</a> | <a href="?a=delete_nick">Delete nick</a>
 <?php
 	echo('<script type="text/javascript">');
 	printf("page_bottom(%d);", time());
