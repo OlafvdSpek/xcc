@@ -474,7 +474,7 @@ t_event_id get_event_id(const string& s)
 	return static_cast<t_event_id>(find_id(s, event_code, c_event_id));
 }
 
-dword convert_overlay_edit(dword v)
+int convert_overlay_edit(int v)
 {
 	return is_tiberium(static_cast<t_overlay_id>(v >> 8)) ? v >> 8 : v;
 }
@@ -732,7 +732,7 @@ static void handle_overlay_section_entry(const string &a, const string &b, t_ove
 	}
 	Cxcc_cell cell;
 	cell.set_cc(get_cell_value(a));
-	dword w = 0;
+	int w = 0;
 	if (is_tiberium(v))
 	{
 		w = v - o_ti1;
@@ -1072,7 +1072,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		{
 			const t_trigger_data_entry& d = i->second;
 			f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' + 
-				n(d.count) + ',' + (static_cast<dword>(d.side) < c_side_id ? side_code[d.side] : "none") + ',' + 
+				n(d.count) + ',' + (static_cast<int>(d.side) < c_side_id ? side_code[d.side] : "none") + ',' + 
 				d.teamtype + ',' + n(d.loop));
 		}
 		f.write_line("");
@@ -1226,8 +1226,8 @@ void Cxcc_level::convert_bin(word* data) const
 		word& v = data[i];
 		if ((v & 0xff) > 0xd7 || !(v & 0xff))
 		{
-			dword x = i & 0x3f;
-			dword y = i >> 6;
+			int x = i & 0x3f;
+			int y = i >> 6;
 			v = x & 3 | (y & 3) << 2;
 		}
 		else
@@ -1246,8 +1246,8 @@ void Cxcc_level::process()
 	{
 		for (int i = 0; i < 4096; i++)
 		{
-			dword x = i & 0x3f;
-			dword y = i >> 6;
+			int x = i & 0x3f;
+			int y = i >> 6;
 			word& v = bin_data[i];
 			switch (v >> 8)
 			{
@@ -1264,9 +1264,9 @@ void Cxcc_level::process()
 		// overlay
 		for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
 		{
-			dword cell = i->first;
+			int cell = i->first;
 			t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
-			dword w = i->second & 0xff;
+			int w = i->second & 0xff;
 			if (is_wall(v))
 			{
 				t_overlay_data::const_iterator j;
@@ -1317,8 +1317,8 @@ void Cxcc_level::clear()
 	{
 		for (int i = 0; i < 4096; i++)
 		{
-			dword x = i & 0x3f;
-			dword y = i >> 6;
+			int x = i & 0x3f;
+			int y = i >> 6;
 			bin_data[i] = x & 3 | (y & 3) << 2;
 		}
 	}
