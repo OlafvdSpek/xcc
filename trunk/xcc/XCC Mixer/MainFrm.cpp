@@ -160,7 +160,7 @@ CMainFrame::CMainFrame()
 	m_remap_team_colors = false;
 	m_combine_shadows = m_split_shadows = false;
 	m_game = static_cast<t_game>(-1);
-	m_lists_initialized = false;
+	m_lists_initialized = GetAsyncKeyState(VK_SHIFT) < 0;
 	m_palet_i = -1;
 	m_reg_key = "MainFrame";
 	m_vxl_mode = 0;
@@ -1118,7 +1118,8 @@ void CMainFrame::OnLaunchXSTE_GR()
 
 void CMainFrame::OnUpdateLaunchXSTE_GR(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(Cfname(xcc_dirs::get_dir(game_gr) + xcc_dirs::get_csf_fname(game_gr)).exists());	
+	pCmdUI->Enable(Cfname(xcc_dirs::get_dir(game_gr) + xcc_dirs::get_csf_fname(game_gr)).exists()
+		|| Cfname(xcc_dirs::get_dir(game_gr) + "english.big").exists());
 }
 
 void CMainFrame::OnLaunchXSE() 

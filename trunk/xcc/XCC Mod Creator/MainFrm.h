@@ -33,15 +33,9 @@ public:
 // Implementation
 public:
 	virtual ~CMainFrame();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:  // control bar embedded members
 	CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
-	CReBar      m_wndReBar;
 
 // Generated message map functions
 protected:

@@ -93,12 +93,27 @@ BOOL CXSTE_dlg::OnInitDialog()
 	int error = m_f.open(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game));
 	if (error)
 	{
-		Cmix_file language;
-		error = language.open(xcc_dirs::get_language_mix(m_game));
-		if (!error)
+		if (m_game != game_gr)
 		{
-			error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
-			language.close();
+			Cmix_file language;
+			error = language.open(xcc_dirs::get_language_mix(m_game));
+			if (!error)
+			{
+				error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
+				language.close();
+			}
+		}
+		else
+		{
+			Cmix_file f;
+			error = f.open(xcc_dirs::get_dir(m_game) + "english.big");
+			if (!error)
+			{
+				error = m_f.open("data\\english\\generals.csf", f);
+				if (!error)
+					create_deep_dir(xcc_dirs::get_dir(m_game), "data\\english\\");
+				f.close();
+			}		
 		}
 	}
 	if (!error)

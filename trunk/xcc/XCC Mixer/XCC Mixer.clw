@@ -27,20 +27,21 @@ Class15=CXSE_list
 Class16=CXSTE_dlg
 Class17=CXSTE_edit_dlg
 
-ResourceCount=13
-Resource1=IDD_SELECT_PALET
+ResourceCount=14
+Resource1="IDD_NEW_CONTAINER" (English (U.S.))
 Resource2=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
-Resource3=IDR_MAINFRAME (English (U.S.))
-Resource4=IDD_DIRECTORIES (English (U.S.))
-Resource5=IDD_RESIZE (English (U.S.))
-Resource6=IDD_SEARCH_FILE (English (U.S.))
-Resource7=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
-Resource8=IDD_XSTE (English (U.S.))
-Resource9=IDD_XSTE_EDIT (English (U.S.))
-Resource10=IDD_XSE (English (U.S.))
-Resource11=IDD_SHP_PROPERTIES (English (U.S.))
-Resource12=IDD_SHP_VIEWER (English (U.S.))
+Resource3=IDD_SEARCH_FILE (English (U.S.))
+Resource4=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
+Resource5=IDD_XSTE (English (U.S.))
+Resource6=IDD_XSTE_EDIT (English (U.S.))
+Resource7=IDD_XSE (English (U.S.))
+Resource8=IDD_SHP_PROPERTIES (English (U.S.))
+Resource9=IDD_SHP_VIEWER (English (U.S.))
+Resource10=IDR_MAINFRAME (English (U.S.))
+Resource11=IDD_DIRECTORIES (English (U.S.))
+Resource12=IDD_RESIZE (English (U.S.))
 Resource13=IDD_NEW_CONTAINER (English (U.S.))
+Resource14=IDD_SELECT_PALET
 
 [CLS:CDirectoriesDlg]
 Type=0
@@ -461,4 +462,11 @@ ControlCount=3
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
 Control3=IDC_COMBO,combobox,1344339971
+
+[DLG:"IDD_NEW_CONTAINER" (English (U.S.))]
+Type=1
+Class=?
+ControlCount=2
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
 

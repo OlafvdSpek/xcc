@@ -1,8 +1,8 @@
-// XCC Mod Creator.h : main header file for the XCC MOD CREATOR application
+// XRG Mod Launcher.h : main header file for the XRG MOD LAUNCHER application
 //
 
-#if !defined(AFX_XCCMODCREATOR_H__CA392AE6_CC6E_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XCCMODCREATOR_H__CA392AE6_CC6E_11D4_B606_0000B4936994__INCLUDED_
+#if !defined(AFX_XRGMODLAUNCHER_H__41EEDC9D_B099_43A4_A8D9_E50D2ECF6B42__INCLUDED_)
+#define AFX_XRGMODLAUNCHER_H__41EEDC9D_B099_43A4_A8D9_E50D2ECF6B42__INCLUDED_
 
 #if _MSC_VER > 1000
 #pragma once
@@ -12,27 +12,28 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // main symbols
+#include "resource.h"		// main symbols
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorApp:
-// See XCC Mod Creator.cpp for the implementation of this class
+// CXRGModLauncherApp:
+// See XRG Mod Launcher.cpp for the implementation of this class
 //
 
-class CXCCModCreatorApp : public CWinApp
+class CXRGModLauncherApp : public CWinApp
 {
 public:
-	CXCCModCreatorApp();
+	CXRGModLauncherApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CXCCModCreatorApp)
+	//{{AFX_VIRTUAL(CXRGModLauncherApp)
 	public:
 	virtual BOOL InitInstance();
 	//}}AFX_VIRTUAL
 
 // Implementation
-	//{{AFX_MSG(CXCCModCreatorApp)
+
+	//{{AFX_MSG(CXRGModLauncherApp)
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
@@ -43,4 +44,4 @@ public:
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
-#endif // !defined(AFX_XCCMODCREATOR_H__CA392AE6_CC6E_11D4_B606_0000B4936994__INCLUDED_)
+#endif // !defined(AFX_XRGMODLAUNCHER_H__41EEDC9D_B099_43A4_A8D9_E50D2ECF6B42__INCLUDED_)

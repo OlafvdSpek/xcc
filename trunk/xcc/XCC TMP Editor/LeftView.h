@@ -21,7 +21,10 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	CXCCTMPEditorDoc* GetDocument();
+	CXCCTMPEditorDoc* GetDocument()
+	{ 
+		return (CXCCTMPEditorDoc*)m_pDocument; 
+	}
 
 // Operations
 public:
@@ -51,10 +54,6 @@ public:
 	void sync();
 	int get_current_id();
 	virtual ~CLeftView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
@@ -100,11 +99,6 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 };
-
-#ifndef _DEBUG  // debug version in LeftView.cpp
-inline CXCCTMPEditorDoc* CLeftView::GetDocument()
-   { return (CXCCTMPEditorDoc*)m_pDocument; }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 

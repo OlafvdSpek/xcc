@@ -109,27 +109,6 @@ void CLeftView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CLeftView diagnostics
-
-#ifdef _DEBUG
-void CLeftView::AssertValid() const
-{
-	CListView::AssertValid();
-}
-
-void CLeftView::Dump(CDumpContext& dc) const
-{
-	CListView::Dump(dc);
-}
-
-CXCCTMPEditorDoc* CLeftView::GetDocument() // non-debug version is inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CXCCTMPEditorDoc)));
-	return (CXCCTMPEditorDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CLeftView message handlers
 
 void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
