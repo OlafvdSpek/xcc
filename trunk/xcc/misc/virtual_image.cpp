@@ -27,6 +27,11 @@ Cvirtual_image::Cvirtual_image()
 	mcb_pixel = 0;
 }
 
+Cvirtual_image::Cvirtual_image(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate)
+{
+	load(image, cx, cy, cb_pixel, palet, inflate);
+}
+
 Cvirtual_image::Cvirtual_image(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate)
 {
 	load(image, cx, cy, cb_pixel, palet, inflate);
@@ -43,6 +48,19 @@ const Cvirtual_image& Cvirtual_image::palet(const t_palet_entry* palet, bool inf
 	else
 		m_palet.clear();
 	return *this;
+}
+
+void Cvirtual_image::load(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* p, bool inflate)
+{
+	assert(cb_pixel == 1 || cb_pixel == 3 || cb_pixel == 4);
+	m_cx = cx;
+	m_cy = cy;
+	mcb_pixel = cb_pixel;
+	if (image.size() == cb_image()))
+		m_image = image;
+	else
+		m_image.write_start(cb_image());
+	palet(p, inflate);
 }
 
 void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* p, bool inflate)
