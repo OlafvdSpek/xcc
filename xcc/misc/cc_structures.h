@@ -31,6 +31,25 @@ struct t_aud_chunk_header
 
 const __int32 aud_chunk_id = 0x0000deaf;
 
+struct t_audio_idx_header
+{
+	__int32 id;
+	__int32 two;
+	__int32 c_sounds;
+};
+
+struct t_audio_idx_entry
+{
+	char fname[16];
+	__int32 offset;
+	__int32 size;
+	__int32 samplerate;
+	__int32 flags;
+	__int32 chunk_size;
+};
+
+const __int32 audio_idx_id = *(__int32*)"GABA";
+
 struct t_cps_header
 {
 	unsigned __int16 size;
@@ -39,6 +58,21 @@ struct t_cps_header
 	__int16 zero;
 	__int16 palet_size;
 };
+
+struct t_csf_header
+{
+	__int32 id;
+	__int32 flags1;
+	__int32 count1;
+	__int32 count2;
+	__int32 zero;
+	__int32 flags2;
+};
+
+const __int32 csf_file_id = 'CSF ';
+const __int32 csf_label_id = 'LBL ';
+const __int32 csf_string_id = 'STR ';
+const __int32 csf_string_w_id = 'STRW';
 
 struct t_fnt_header
 {
