@@ -110,10 +110,6 @@ SOURCE=.\DirectoriesDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\dlg_new_container.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\dlg_shp_viewer.cpp
 # End Source File
 # Begin Source File
@@ -248,10 +244,6 @@ SOURCE=..\misc\csf_file.h
 # Begin Source File
 
 SOURCE=.\DirectoriesDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\dlg_new_container.h
 # End Source File
 # Begin Source File
 
