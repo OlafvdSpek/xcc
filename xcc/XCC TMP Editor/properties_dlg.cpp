@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC TMP Editor.h"
 #include "properties_dlg.h"
 
 #ifdef _DEBUG
