@@ -616,4 +616,17 @@ function t17(v)
 	document.write('</table>');
 }
 
+function tr18(count, lid, name)
+{
+	document.write('<tr><td align=right>', count, '<td><a href="?pname=', name, '">', name, '</a><td><a href="?lid=', lid, '">', lid2a(lid), '</a>');
+}
+
+function t18(v)
+{
+	document.write('<table><tr><th>Count<th>Name<th>Ladder');
+	for (var i = 0; i + 3 <= v.length; i += 3)
+		tr18(v[i + 0], v[i + 1], v[i + 2]);
+	document.write('</table><hr>');
+}
+
 document.write('<script type="text/javascript" src="http://m1.nedstatbasic.net/basic.js"></script>');

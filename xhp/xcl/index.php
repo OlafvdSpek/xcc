@@ -165,10 +165,12 @@
 		$result = mysql_fetch_assoc($results);
 		if (time() - strtotime($result['Update_time']) > 15 * 60)
 		{
+			db_query("delete from xcl_stats_games");
+			db_query("insert into xcl_stats_games select p.lid, p.name, count(distinct g.gid) c from xcl_players p inner join xcl_games_players using (pid) inner join xcl_games g using (gid) where g.dura >= 180 group by p.pid order by c desc limit 25");
 			db_query("delete from xcl_stats_gsku");
-			db_query("insert into xcl_stats_gsku select gsku, trny, count(*) as count from xcl_games group by gsku, trny");
+			db_query("insert into xcl_stats_gsku select gsku >> 8 gsku, trny, count(*) as count from xcl_games group by gsku, trny");
 			db_query("delete from xcl_stats_players");
-			db_query("insert into xcl_stats_players select gsku, if(cid, 2, 1) as trny, if(cid, count(distinct cid), count(distinct pid)) as count from xcl_games inner join xcl_games_players using (gid) group by gsku, trny");
+			db_query("insert into xcl_stats_players select gsku >> 8, if(cid, 2, 1) as trny, if(cid, count(distinct cid), count(distinct pid)) as count from xcl_games inner join xcl_games_players using (gid) group by gsku, trny");
 			db_query("delete from xcl_stats_countries");
 			db_query("insert into xcl_stats_countries select cty, count(*) as count from xcl_games_players group by cty");
 			db_query("delete from xcl_stats_maps");
@@ -218,6 +220,11 @@
 		echo("t8(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,", $result['count'], $result['cty']);
+		echo("0));");
+		$results = db_query("select lid, name, count from xcl_stats_games order by count desc");
+		echo("t18(new Array(");
+		while ($result = mysql_fetch_assoc($results))
+			printf("%d,%d,'%s',", $result['count'], $result['lid'], $result['name']);
 		echo("0));");
 		$results = db_query("select scen, count from xcl_stats_maps order by count desc");
 		echo("t9(new Array(");
