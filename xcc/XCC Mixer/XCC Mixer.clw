@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=Cdlg_new_container
+LastClass=CXCCMixerView
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "xcc mixer.h"
@@ -27,21 +27,22 @@ Class15=CXSE_list
 Class16=CXSTE_dlg
 Class17=CXSTE_edit_dlg
 
-ResourceCount=14
+ResourceCount=15
 Resource1="IDD_NEW_CONTAINER" (English (U.S.))
 Resource2=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
-Resource3=IDD_SEARCH_FILE (English (U.S.))
-Resource4=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
-Resource5=IDD_XSTE (English (U.S.))
-Resource6=IDD_XSTE_EDIT (English (U.S.))
-Resource7=IDD_XSE (English (U.S.))
-Resource8=IDD_SHP_PROPERTIES (English (U.S.))
-Resource9=IDD_SHP_VIEWER (English (U.S.))
-Resource10=IDR_MAINFRAME (English (U.S.))
-Resource11=IDD_DIRECTORIES (English (U.S.))
-Resource12=IDD_RESIZE (English (U.S.))
+Resource3=IDD_SHP_PROPERTIES (English (U.S.))
+Resource4=IDD_SHP_VIEWER (English (U.S.))
+Resource5=IDD_SEARCH_STRING (English (U.S.))
+Resource6=IDD_DIRECTORIES (English (U.S.))
+Resource7=IDD_RESIZE (English (U.S.))
+Resource8=IDD_SEARCH_FILE (English (U.S.))
+Resource9=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
+Resource10=IDD_XSTE (English (U.S.))
+Resource11=IDD_XSTE_EDIT (English (U.S.))
+Resource12=IDD_XSE (English (U.S.))
 Resource13=IDD_NEW_CONTAINER (English (U.S.))
-Resource14=IDD_SELECT_PALET
+Resource14=IDR_MAINFRAME (English (U.S.))
+Resource15=IDD_SELECT_PALET
 
 [CLS:CDirectoriesDlg]
 Type=0
@@ -69,6 +70,9 @@ Type=0
 BaseClass=CFrameWnd
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
+LastObject=ID_LAUNCH_XSTE_GR
+Filter=T
+VirtualFilter=fWC
 
 [CLS:CResizeDlg]
 Type=0
@@ -111,6 +115,9 @@ Type=0
 BaseClass=CListView
 HeaderFile=XCC MixerView.h
 ImplementationFile=XCC MixerView.cpp
+Filter=C
+VirtualFilter=VWC
+LastObject=ID_EDIT_SELECT_ALL
 
 [CLS:CXCCFileView]
 Type=0
@@ -243,21 +250,23 @@ Command40=ID_LAUNCH_XSE
 Command41=ID_LAUNCH_XSTE_RA2
 Command42=ID_LAUNCH_XSTE_RA2_YR
 Command43=ID_LAUNCH_XSTE_GR
-Command44=ID_LAUNCH_XTW_TS
-Command45=ID_LAUNCH_XTW_RA2
-Command46=ID_LAUNCH_XTW_RA2_YR
-Command47=ID_UTILITIES_FS
-Command48=ID_LAUNCH_FA
-Command49=ID_UTILITIES_SE
-Command50=ID_UTILITIES_SEMM
-Command51=ID_LAUNCH_RAGE
-Command52=ID_LAUNCH_DUNE2
-Command53=ID_LAUNCH_TD
-Command54=ID_LAUNCH_RA
-Command55=ID_LAUNCH_DUNE2000
-Command56=ID_LAUNCH_TS
-Command57=ID_LAUNCH_RA2
-CommandCount=57
+Command44=ID_LAUNCH_XSTE_GR_ZH
+Command45=ID_LAUNCH_XSTE_OPEN
+Command46=ID_LAUNCH_XTW_TS
+Command47=ID_LAUNCH_XTW_RA2
+Command48=ID_LAUNCH_XTW_RA2_YR
+Command49=ID_UTILITIES_FS
+Command50=ID_LAUNCH_FA
+Command51=ID_UTILITIES_SE
+Command52=ID_UTILITIES_SEMM
+Command53=ID_LAUNCH_RAGE
+Command54=ID_LAUNCH_DUNE2
+Command55=ID_LAUNCH_TD
+Command56=ID_LAUNCH_RA
+Command57=ID_LAUNCH_DUNE2000
+Command58=ID_LAUNCH_TS
+Command59=ID_LAUNCH_RA2
+CommandCount=59
 
 [MNU:CG_IDR_POPUP_MIX_VIEW (English (U.S.))]
 Type=1
@@ -310,17 +319,19 @@ Type=1
 Class=?
 Command1=ID_VIEW_PALET_PREV
 Command2=ID_VIEW_PALET_NEXT
-Command3=ID_FILE_CLOSE
-Command4=ID_FILE_SEARCH
-Command5=ID_FILE_NEW
-Command6=ID_FILE_OPEN
-Command7=ID_VIEW_PALET_SELECT
-Command8=ID_VIEW_PALET_AUTO_SELECT
-Command9=ID_POPUP_DELETE
-Command10=ID_POPUP_DELETE
-Command11=ID_POPUP_REFRESH
-Command12=ID_POPUP_OPEN
-CommandCount=12
+Command3=ID_EDIT_SELECT_ALL
+Command4=ID_FILE_CLOSE
+Command5=ID_FILE_SEARCH
+Command6=ID_FILE_NEW
+Command7=ID_FILE_OPEN
+Command8=ID_VIEW_PALET_SELECT
+Command9=ID_VIEW_PALET_AUTO_SELECT
+Command10=ID_FILE_CLOSE
+Command11=ID_POPUP_DELETE
+Command12=ID_POPUP_DELETE
+Command13=ID_POPUP_REFRESH
+Command14=ID_POPUP_OPEN
+CommandCount=14
 
 [DLG:IDD_DIRECTORIES (English (U.S.))]
 Type=1
@@ -399,14 +410,15 @@ Control14=IDC_EXTRACT_TO_BUTTON,button,1342242816
 [DLG:IDD_XSTE (English (U.S.))]
 Type=1
 Class=?
-ControlCount=7
+ControlCount=8
 Control1=IDOK,button,1342242816
 Control2=IDCANCEL,button,1342242816
 Control3=IDC_LIST,SysListView32,1350631945
 Control4=IDC_EDIT,button,1476460545
 Control5=IDC_INSERT,button,1342242816
 Control6=IDC_DELETE,button,1476460544
-Control7=IDC_CAT_LIST,SysListView32,1350664223
+Control7=IDC_CAT_LIST,SysListView32,1350680605
+Control8=IDC_SEARCH,button,1342242816
 
 [DLG:IDD_XSTE_EDIT (English (U.S.))]
 Type=1
@@ -469,4 +481,13 @@ Class=?
 ControlCount=2
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
+
+[DLG:IDD_SEARCH_STRING (English (U.S.))]
+Type=1
+Class=?
+ControlCount=4
+Control1=IDC_NAME,edit,1350631552
+Control2=IDC_LIST,SysListView32,1350647821
+Control3=IDOK,button,1342242817
+Control4=IDCANCEL,button,1342242816
 

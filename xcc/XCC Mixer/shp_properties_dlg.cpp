@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "shp_properties_dlg.h"
 
 #ifdef _DEBUG

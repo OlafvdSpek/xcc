@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "XCCFileView.h"
-#include "XCC Mixer.h"
 
 #include <cmath>
 #include <fstream>

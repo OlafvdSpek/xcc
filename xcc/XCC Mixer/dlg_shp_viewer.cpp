@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "dlg_shp_viewer.h"
 
 #include "shp_decode.h"

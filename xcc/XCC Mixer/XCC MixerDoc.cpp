@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mixer.h"
 
 #include "XCC MixerDoc.h"
 

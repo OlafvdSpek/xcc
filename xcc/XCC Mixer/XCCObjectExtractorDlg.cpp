@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "XCCObjectExtractorDlg.h"
 #include "string_conversion.h"
 #include "xcc_dirs.h"

@@ -13,6 +13,7 @@
 #include "cc_structures.h"
 #include "csf_file.h"
 #include "file32.h"
+#include "resource.h"
 #include "XSE_list.h"
 #include "xap.h"
 

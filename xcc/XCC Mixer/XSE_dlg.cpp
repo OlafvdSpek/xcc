@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "MainFrm.h"
-#include "xcc mixer.h"
 #include "XSE_dlg.h"
 
 #include <assert.h>
