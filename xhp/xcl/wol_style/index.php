@@ -56,30 +56,6 @@
 	}
 
 
-	function dec2ip($dec)
-	{
-		return long2ip($dec);
-		/*
-		if($dec<0) {
-		$dec=(double) 4294967296+$dec;
-		}
-		if($dec>16777215) {
-		$ip=$dec-(intval($dec/256)*256);
-		$dec=(double) intval($dec/256);
-		} else $ip="0";
-		if($dec>65535) {
-		$ip=($dec-(intval($dec/256)*256)).".".$ip;
-		$dec=(double) intval($dec/256);
-		} else $ip="0.".$ip;
-		if($dec>255) {
-		$ip=($dec-(intval($dec/256)*256)).".".$ip;
-		$dec=(double) intval($dec/256);
-		} else $ip="0.".$ip;
-		$ip=$dec.".".$ip;
-		return (string) $ip;
-		*/
-	}
-
 	if ($_GET["laddertype"] != "") { $laddertype = $_GET["laddertype"]; } else { $laddertype = $_POST["laddertype"]; }
 	if ($_GET["ladr"] != "") { $ladr = $_GET["ladr"]; } else { $ladr = $_POST["ladr"]; }
 	if ($_GET["mode"] != "") { $mode = $_GET["mode"]; } else { $mode = $_POST["mode"]; }
