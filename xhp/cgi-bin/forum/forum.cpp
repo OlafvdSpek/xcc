@@ -591,9 +591,36 @@ int get_c_lines(const string& v, bool ignore_quotes = false)
 	return r;
 }
 
+bool get_admin()
+{
+	const char* id = "password";
+	if (cgi.has_name(id))
+	{
+		if (!cgi.has_value(id))
+			cookie.set_session_value(id, "");
+		else
+		{
+			string password = cgi.get_value(id);
+			if (admin_hash.find(get_hash(password)) != admin_hash.end())
+			{
+				cookie.set_session_value(id, password);
+				return true;
+			}
+		}
+	}
+	else if (cookie.has_value(id))
+	{
+		if (admin_hash.find(get_hash(cookie.get_value(id))) != admin_hash.end())
+			return true;
+	}
+	return false;
+}
+
 bool is_complete()
 {
-	return cgi.has_value("name") && cgi.has_value("subject") && cgi.has_value("body") && cgi.get_value("name").length() < 32 && cgi.get_value("subject").length() < 72 && get_c_lines(cgi.get_value("body"), true);
+	return cgi.has_value("name") && cgi.has_value("subject") && cgi.has_value("body") 
+		&& cgi.get_value("name").length() < 32 && cgi.get_value("subject").length() < 72 && get_c_lines(cgi.get_value("body"), true)
+		&& (get_admin() || (!bad_upper(cgi.get_value("name"), 8) && !bad_upper(cgi.get_value("subject"), 16)));
 }
 
 Chtml check_required(const string& name)
@@ -653,31 +680,6 @@ Chtml get_spaces(int count)
 	while (count--)
 		r += "&nbsp;";
 	return r;
-}
-
-bool get_admin()
-{
-	const char* id = "password";
-	if (cgi.has_name(id))
-	{
-		if (!cgi.has_value(id))
-			cookie.set_session_value(id, "");
-		else
-		{
-			string password = cgi.get_value(id);
-			if (admin_hash.find(get_hash(password)) != admin_hash.end())
-			{
-				cookie.set_session_value(id, password);
-				return true;
-			}
-		}
-	}
-	else if (cookie.has_value(id))
-	{
-		if (admin_hash.find(get_hash(cookie.get_value(id))) != admin_hash.end())
-			return true;
-	}
-	return false;
 }
 
 int get_days()
@@ -1299,7 +1301,7 @@ Chtml ladder()
 	open_topic_f(false);
 	if (read_topics())
 		return "Error: unable to read topics\n";
-	return page_bad_upper(topic_names, 8) + hr() + page_bad_upper(topic_subjects, 16);
+	// return page_bad_upper(topic_names, 8) + hr() + page_bad_upper(topic_subjects, 16);
 	typedef map<string, t_ladder_entry> t_poster_list;
 	t_poster_list poster_list;
 	for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
