@@ -20,11 +20,12 @@ public:
 	void drop_tables();
 	void create_tables();
 	Cxcl_player player(int pid);
+	Cxcl_player player(int lid, const string& name);
+	Cxcl_player player(int lid, int cid);
 	void insert_game(const Cgame_result& gr);
 	void insert_game(const Cvirtual_binary&);
 	int pid(int lid, const string& name);
-	int pid(int lid, int cid);
-	int update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b);
+	int update_player(int cmp, int cty, const Cxcl_player& a, const Cxcl_player& b);
 };
 
 #endif // !defined(AFX_XCL_DATABASE_H__96E5131C_1A7C_4A26_9DE5_0CC56ECD5139__INCLUDED_)
