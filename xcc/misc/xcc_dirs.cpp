@@ -25,6 +25,7 @@ string xcc_dirs::ts_dir;
 static string ra2_dir;
 static string rg_dir;
 static string gr_dir;
+static string gr_zh_dir;
 
 bool xcc_dirs::enable_log()
 {
@@ -120,8 +121,7 @@ string xcc_dirs::get_csf_fname(t_game game)
 		return "ra2md.csf";
 	case game_gr:
 		return "data/english/generals.csf";
-	case game_gr_zh:
-		return "data/englishzh/generals.csf";
+		return "data/english/generals.csf";
 	}
 	assert(false);
 	return "";
@@ -328,6 +328,7 @@ void xcc_dirs::load_from_registry()
 			set_data_dir(s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "enable_log", 0, 0, (byte*)s, &(size = 256)))
 			g_enable_log = true;
+		RegCloseKey(kh_base);
 	}
 	if (cd_dir.empty())
 		reset_cd_dir();
@@ -337,41 +338,48 @@ void xcc_dirs::load_from_registry()
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Westwood", 0, KEY_QUERY_VALUE, &kh_westwood))
 	{
 		if (td_primary_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Command & Conquer Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Command & Conquer Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_td_primary_dir(static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_td_primary_dir(static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
 		if (ra_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_ra_dir(static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_ra_dir(static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
 		if (dune2000_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Dune 2000", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Dune 2000", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_dune2000_dir(static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_dune2000_dir(static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
 		if (ts_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Tiberian Sun", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Tiberian Sun", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_ts_dir(static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_ts_dir(static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
-		if (ra2_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert 2", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+		if (ra2_dir.empty() &&
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert 2", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_ra2_dir(static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_ra2_dir(static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
 		if (rg_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Renegade", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Renegade", 0, KEY_QUERY_VALUE, &kh_base))
 		{
-			set_dir(game_rg, static_cast<Cfname>(s).get_path());
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_dir(game_rg, static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
 		}
+		RegCloseKey(kh_westwood);
 	}
 	HKEY kh_gr;
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Generals", 0, KEY_QUERY_VALUE, &kh_gr))
@@ -380,6 +388,14 @@ void xcc_dirs::load_from_registry()
 			ERROR_SUCCESS == RegQueryValueEx(kh_gr, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
 			set_dir(game_gr, static_cast<Cfname>(s).get_path());
 		RegCloseKey(kh_gr);
+	}
+	HKEY kh_gr_zh;
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Command and Conquer Generals Zero Hour", 0, KEY_QUERY_VALUE, &kh_gr_zh))
+	{
+		if (gr_zh_dir.empty() &&
+			ERROR_SUCCESS == RegQueryValueEx(kh_gr_zh, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			set_dir(game_gr_zh, static_cast<Cfname>(s).get_path());
+		RegCloseKey(kh_gr_zh);
 	}
 }
 
@@ -399,6 +415,7 @@ void xcc_dirs::save_to_registry()
 	RegSetValueEx(kh_base, "ra_dir", ra_dir);
 	RegSetValueEx(kh_base, "cddir", 0, REG_SZ, (byte*)cd_dir.c_str(), cd_dir.length() + 1);
 	RegSetValueEx(kh_base, "datadir", 0, REG_SZ, (byte*)data_dir.c_str(), data_dir.length() + 1);
+	RegCloseKey(kh_base);
 };
 
 string xcc_dirs::find_file(Cfname s)

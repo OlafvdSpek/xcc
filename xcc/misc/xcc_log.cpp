@@ -7,6 +7,8 @@
 
 using namespace std;
 
+static CRITICAL_SECTION g_lock;
+bool g_lock_inited = false;
 static ofstream log_f;
 static int log_t = time(NULL);
 static int log_x = 0;
@@ -28,13 +30,31 @@ void xcc_log::attach_file(const string& name)
 		log_f.open((xcc_dirs::get_data_dir() + name).c_str());
 }
 
+static void lock()
+{
+	if (!g_lock_inited)
+	{
+		InitializeCriticalSection(&g_lock);
+		g_lock_inited = true;
+	}
+	EnterCriticalSection(&g_lock);
+}
+
+static void unlock()
+{
+	LeaveCriticalSection(&g_lock);
+}
+
 void xcc_log::indent(int x)
 {
+	lock();
 	log_x += x;
+	unlock();
 }
 
 void xcc_log::write_line(const string& s, int x)
 {
+	lock();
 	if (x < 0)
 		log_x += x;
 	if (log_f.is_open())
@@ -48,4 +68,5 @@ void xcc_log::write_line(const string& s, int x)
 	if (log_window)
 		log_window->write_line(s);
 #endif
+	unlock();
 }

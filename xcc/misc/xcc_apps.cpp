@@ -65,24 +65,28 @@ static string find_fa_exe()
 static void find_se_exe(string& se_exe, string& semm_exe)
 {
 	HKEY kh_base;
-	HKEY kh_cps;
 	char s[256];
 	DWORD size;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software", 0, KEY_QUERY_VALUE, &kh_base) &&
-		ERROR_SUCCESS == RegOpenKeyEx(kh_base, "Childs Play Software", 0, KEY_QUERY_VALUE, &kh_cps))
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software", 0, KEY_QUERY_VALUE, &kh_base))
 	{
-		if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit2K", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (BYTE*)s, &(size = 256)))
+		HKEY kh_cps;
+		if (ERROR_SUCCESS == RegOpenKeyEx(kh_base, "Childs Play Software", 0, KEY_QUERY_VALUE, &kh_cps))
 		{
-			se_exe = s;
-			se_exe += "se2k.exe";
+			if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit2K", 0, KEY_QUERY_VALUE, &kh_base) &&
+				ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (BYTE*)s, &(size = 256)))
+			{
+				se_exe = s;
+				se_exe += "se2k.exe";
+			}
+			if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit 2K ModMan", 0, KEY_QUERY_VALUE, &kh_base) &&
+				ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (BYTE*)s, &(size = 256)))
+			{
+				semm_exe = s;
+				semm_exe += "se2kmm.exe";
+			}
+			RegCloseKey(kh_cps);
 		}
-		if (ERROR_SUCCESS == RegOpenKeyEx(kh_cps, "SunEdit 2K ModMan", 0, KEY_QUERY_VALUE, &kh_base) &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_base, "AppPath", 0, 0, (BYTE*)s, &(size = 256)))
-		{
-			semm_exe = s;
-			semm_exe += "se2kmm.exe";
-		}
+		RegCloseKey(kh_base);
 	}
 }
 
