@@ -21,12 +21,24 @@ void ltrim(string& s);
 void rtrim(string& s);
 string to_lower(const string& s);
 string to_upper(const string& s);
+bool string_equal_i(const char* a, const char* b);
+bool string_equal_ip(const char* a, const char* b);
 void split_key(const string& key, string& name, string& value);
 
 inline string n(bool v)
 {
 	return n(static_cast<int>(v));
 };
+
+inline bool string_equal_i(const string& a, const string& b)
+{
+	return string_equal_i(a.c_str(), b.c_str());
+}
+
+inline bool string_equal_ip(const string& a, const string& b)
+{
+	return string_equal_ip(a.c_str(), b.c_str());
+}
 
 inline void trim(string& s)
 {

@@ -46,7 +46,7 @@ Chtml head(const Chtml& v);
 Chtml head_xcc();
 Chtml head_xcc(const string& t);
 Chtml html(const Chtml& v);
-Chtml body(const Chtml& v);
+Chtml body(const Chtml& v, const string& elements = "");
 Chtml hr();
 Chtml p(const Chtml& v, const string& elements = "");
 Chtml php(const Chtml& v);
@@ -71,3 +71,4 @@ Chtml operator+(const Chtml& a, const Chtml& b);
 ostream& operator<<(ostream& os, const Chtml& v);
 
 #endif // !defined(AFX_HTML_H__A9DC65D0_E86C_11D3_B0C6_0000F809802D__INCLUDED_)
+

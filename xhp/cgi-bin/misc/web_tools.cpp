@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <minmax.h>
 #include "cgi.h"
 #include "multi_line.h"
 #include "string_conversion.h"

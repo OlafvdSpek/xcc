@@ -186,7 +186,23 @@ string web_encode(const string& v, bool add_br)
 string web_decode(const string& v)
 {
 	string r;
-	r = v;
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (v[i] == '&')
+		{
+			const char* a = v.c_str() + i + 1;
+			int j = v.find(';', i + 1);
+			if (string_equal_ip(a, "nbsp;"))
+			{
+				i = j;
+				r += ' ';
+				continue;
+			}
+			assert(false);
+		}
+		r += v[i];
+	}
+	int z = atoi(r.c_str());
 	return r;
 }
 
@@ -321,6 +337,7 @@ int get_hash(const string& v)
 	return crc.get_crc();
 }
 
+/*
 string xor_encode(const string& v)
 {
 	string r;
@@ -347,3 +364,4 @@ string xor_decode(const string& v)
 	}
 	return r;
 }
+*/

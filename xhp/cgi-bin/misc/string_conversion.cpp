@@ -202,3 +202,29 @@ void split_key(const string& key, string& name, string& value)
 		trim(value);
 	}
 }
+
+bool string_equal_i(const char* a, const char* b)
+{
+	while (1)
+	{
+		if (*a != *b && tolower(*a) != tolower(*b))
+			return false;
+		if (!*a)
+			return true;
+		a++;
+		b++;
+	}
+}
+
+bool string_equal_ip(const char* a, const char* b)
+{
+	while (1)
+	{
+		if (!*b)
+			return true;
+		if (*a != *b && tolower(*a) != tolower(*b))
+			return false;
+		a++;
+		b++;
+	}
+}
