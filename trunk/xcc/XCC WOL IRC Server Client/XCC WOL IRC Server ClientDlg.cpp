@@ -24,6 +24,7 @@ CXCCWOLIRCServerClientDlg::CXCCWOLIRCServerClientDlg(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(CXCCWOLIRCServerClientDlg)
 	m_hosts = _T("");
+	m_wolapi_dll = _T("");
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -35,6 +36,7 @@ void CXCCWOLIRCServerClientDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_IPA2, m_ipa2);
 	DDX_Control(pDX, IDC_IPA, m_ipa);
 	DDX_Text(pDX, IDC_HOSTS, m_hosts);
+	DDX_Text(pDX, IDC_WOLAPI_DLL, m_wolapi_dll);
 	//}}AFX_DATA_MAP
 }
 
@@ -68,9 +70,25 @@ static string hosts_fname()
 	return static_cast<string>(win_dir) + (platform_nt() ? "\\drivers\\etc\\hosts" : "\\hosts");
 }
 
+static string wolapi_dll_fname()
+{
+	string dir;
+	HKEY key;
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Westwood\\WOLAPI", 0, KEY_QUERY_VALUE, &key))
+	{
+		char s[MAX_PATH];
+		dword size = MAX_PATH;
+		if (ERROR_SUCCESS == RegQueryValueEx(key, "InstallPath", 0, 0, (byte*)s, &size))
+			dir = s;
+		RegCloseKey(key);
+	}
+	return dir;
+}
+
 BOOL CXCCWOLIRCServerClientDlg::OnInitDialog()
 {
 	m_hosts = hosts_fname().c_str();
+	m_wolapi_dll = wolapi_dll_fname().c_str();
 
 	CDialog::OnInitDialog();
 
