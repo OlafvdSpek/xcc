@@ -1608,12 +1608,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 					if (image.cx() != cx || image.cy() != cy)
 						error = em_bad_size;
 					else if (image.cb_pixel() != 1)
-					{
-						t_palet p;
-						memcpy(p, get_default_palet(), sizeof(t_palet));
-						convert_palet_18_to_24(p);
-						image.decrease_color_depth(1, p);
-					}
+						image.decrease_color_depth(1, s_palet);
 					if (!error)
 					{
 						if (!s)
