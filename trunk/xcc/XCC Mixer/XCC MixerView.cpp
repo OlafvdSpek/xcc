@@ -842,7 +842,7 @@ static void copy_succeeded(const Cfname& fname)
 	set_msg("Copy " + fname.get_ftitle() + " succeeded");
 }
 
-void CXCCMixerView::copy_as(t_file_type ft) const
+void CXCCMixerView::copy_as(t_file_type ft)
 {
 	CWaitCursor wait;
 	int error;
@@ -925,6 +925,8 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		else
 			copy_succeeded(fname);
 	}
+	if (m_dir == m_other_pane->m_dir && !m_mix_f)
+		update_list();
 	m_other_pane->update_list();
 }
 

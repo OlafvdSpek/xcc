@@ -45,7 +45,7 @@ public:
 	void close_all_locations();
 	void close_location(int reload);
 	int copy(int i, Cfname fname) const;
-	void copy_as(t_file_type ft) const;
+	void copy_as(t_file_type ft);
 	int copy_as_aud(int i, Cfname fname) const;
 	int copy_as_avi(int i, Cfname fname) const;
 	int copy_as_cps(int i, Cfname fname) const;
