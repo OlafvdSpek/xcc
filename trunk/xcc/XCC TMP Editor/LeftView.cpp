@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC TMP Editor.h"
 
 #include "XCC TMP EditorDoc.h"
 #include "LeftView.h"

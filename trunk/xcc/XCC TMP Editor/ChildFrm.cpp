@@ -2,11 +2,11 @@
 //
 
 #include "stdafx.h"
-#include "XCC TMP Editor.h"
 
 #include "ChildFrm.h"
 #include "LeftView.h"
 #include "XCC TMP EditorView.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
