@@ -15,7 +15,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-long Cxcc_registry::get_base_key(HKEY &kh_base)
+int Cxcc_registry::get_base_key(HKEY& kh_base)
 {
 	dword disposition;
 	return ERROR_SUCCESS != RegCreateKeyEx(HKEY_LOCAL_MACHINE, "Software\\XCC", 0, 0, 0, KEY_ALL_ACCESS, 0, &kh_base, &disposition);

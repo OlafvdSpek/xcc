@@ -106,10 +106,9 @@ string Ccsf_file::get_converted_value(const string& name) const
 
 void Ccsf_file::set_value(const string& name, const wstring& value, const string& extra_value)
 {
-	t_map_entry e;
+	t_map_entry& e = m_map[name];
 	e.value = value;
 	e.extra_value = extra_value;
-	m_map[name] = e;
 }
 
 int Ccsf_file::get_write_size() const
