@@ -1410,7 +1410,7 @@ void CMainFrame::OnViewReport()
 	string page;
 	CString version;
 	if (version.LoadString(IDR_MAINFRAME))
-		page += tr(th(static_cast<string>(version.Left(version.Find('\n'))), "colspan=2"));
+		page += tr(th(static_cast<string>(version), "colspan=2"));
 	page += tr(td("Left pane") + td(m_left_mix_pane->get_dir()))
 		+ tr(td("Right pane") + td(m_right_mix_pane->get_dir()))
 		+ tr(td("Combine shadows") + td(btoa(m_combine_shadows)))

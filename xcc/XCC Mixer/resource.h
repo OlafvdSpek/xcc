@@ -63,6 +63,7 @@
 #define IDC_SLIDER                      1032
 #define IDC_FRAME                       1033
 #define IDC_SEARCH                      1034
+#define IDC_FIX_SHADOWS                 1036
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -1276,7 +1277,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        141
 #define _APS_NEXT_COMMAND_VALUE         33128
-#define _APS_NEXT_CONTROL_VALUE         1036
+#define _APS_NEXT_CONTROL_VALUE         1037
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif
