@@ -42,7 +42,6 @@ BEGIN_MESSAGE_MAP(CSearchFileDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CSearchFileDlg)
 	ON_BN_CLICKED(IDOK, OnFind)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
-	ON_WM_SIZE()
 	ON_WM_DESTROY()
 	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST, OnGetdispinfoList)
 	//}}AFX_MSG_MAP
@@ -63,18 +62,15 @@ BOOL CSearchFileDlg::OnInitDialog()
 			<< item(IDC_FILENAME_STATIC, NORESIZE)
 			<< item(IDC_FILENAME, GREEDY)
 			)
-		<< (pane(HORIZONTAL, GREEDY)
-			<< item(IDC_LIST, GREEDY)
-			)
+		<< item(IDC_LIST, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< itemGrowing(HORIZONTAL)
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
 	ETSLayoutDialog::OnInitDialog();
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0, "Name");
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+	m_list.auto_size();
 	return true;
 }
 
@@ -153,13 +149,6 @@ void CSearchFileDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 	if (index != -1)
 		open_mix(m_list.GetItemData(index));
 	*pResult = 0;
-}
-
-void CSearchFileDlg::OnSize(UINT nType, int cx, int cy) 
-{
-	ETSLayoutDialog::OnSize(nType, cx, cy);
-	if (m_list.GetSafeHwnd())
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 }
 
 void CSearchFileDlg::open_mix(int id)

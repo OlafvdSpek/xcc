@@ -9,6 +9,7 @@
 //
 
 #include <string>
+#include "ListCtrlEx.h"
 #include "resource.h"
 
 using namespace std;
@@ -34,7 +35,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CSearchFileDlg)
 	enum { IDD = IDD_SEARCH_FILE };
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	CString	m_filename;
 	//}}AFX_DATA
 
@@ -54,7 +55,6 @@ protected:
 	virtual BOOL OnInitDialog();
 	afx_msg void OnFind();
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnDestroy();
 	afx_msg void OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
