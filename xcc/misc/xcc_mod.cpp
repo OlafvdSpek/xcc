@@ -747,11 +747,10 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 							{
 								Cpcx_file g;
 								g.load(data);
-								if (g.get_c_planes() == 1)
+								if (g.cb_pixel() == 1)
 								{
 									fname.set_ext(".shp");
-									Cvirtual_image image;
-									g.decode(image);							
+									Cvirtual_image image = g.vimage();
 									h = shp_ts_file_write(image.image(), image.cx(), image.cy(), 1, true);
 									data = h.read();
 								}
