@@ -90,30 +90,41 @@ BOOL CXSTE_dlg::OnInitDialog()
 		lvc.pszText = column_label[i];
 		m_list.InsertColumn(i, &lvc);
 	}
-	int error = m_f.open(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game));
+	if (m_fname.empty())
+		m_fname = xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game);
+	int error = m_f.open(m_fname);
 	if (error)
 	{
-		if (m_game != game_gr)
+		switch (m_game)
 		{
-			Cmix_file language;
-			error = language.open(xcc_dirs::get_language_mix(m_game));
-			if (!error)
+		case game_ra2:
+		case game_ra2_yr:
 			{
-				error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
-				language.close();
-			}
-		}
-		else
-		{
-			Cmix_file f;
-			error = f.open(xcc_dirs::get_dir(m_game) + "english.big");
-			if (!error)
-			{
-				error = m_f.open("data\\english\\generals.csf", f);
+				Cmix_file language;
+				error = language.open(xcc_dirs::get_language_mix(m_game));
 				if (!error)
-					create_deep_dir(xcc_dirs::get_dir(m_game), "data\\english\\");
-				f.close();
-			}		
+				{
+					error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
+					language.close();
+				}
+			}
+			break;
+		case game_gr:
+		case game_gr_zh:
+			{
+				Cmix_file f;
+				error = f.open(xcc_dirs::get_language_mix(m_game));
+				if (!error)
+				{
+					error = m_f.open(xcc_dirs::get_csf_fname(m_game), f);
+					if (!error)
+						create_deep_dir(xcc_dirs::get_dir(m_game), m_game == game_gr ? "data/english/" : "data/englishzh/");
+					f.close();
+				}		
+			}
+			break;
+		default:
+			error = 1;
 		}
 	}
 	if (!error)
@@ -128,6 +139,11 @@ BOOL CXSTE_dlg::OnInitDialog()
 	SetRedraw(true);
 	Invalidate();
 	return true;
+}
+
+void CXSTE_dlg::open(const string& name)
+{
+	m_fname = name;
 }
 
 static string get_cat(const string& name)
@@ -307,7 +323,7 @@ void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 void CXSTE_dlg::OnOK() 
 {
 	ETSLayoutDialog::OnOK();
-	m_f.write().export(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game));
+	m_f.write().export(m_fname);
 }
 
 void CXSTE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 

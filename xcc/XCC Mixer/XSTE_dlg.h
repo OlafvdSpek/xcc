@@ -17,6 +17,7 @@ class CXSTE_dlg : public ETSLayoutDialog
 {
 // Construction
 public:
+	void open(const string& name);
 	void create_cat_map();
 	int get_cat_id(const string& name) const;
 	void set_map_entry(int id, const string& name);
@@ -75,6 +76,7 @@ private:
 	typedef map<string, int> t_reverse_cat_map;
 
 	t_game m_game;
+	string m_fname;
 	string m_buffer[4];
 	int m_buffer_w;
 	t_cat_map m_cat_map;

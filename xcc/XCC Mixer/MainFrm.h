@@ -262,6 +262,9 @@ protected:
 	afx_msg void OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSTE_GR();
 	afx_msg void OnUpdateLaunchXSTE_GR(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE_GR_ZH();
+	afx_msg void OnUpdateLaunchXSTE_GR_ZH(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE_Open();
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

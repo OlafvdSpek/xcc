@@ -45,8 +45,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnUpdateViewPalet)
 	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnUpdateLaunchApp)
-	// ON_COMMAND(ID_LAUNCH_XSTE, OnLaunchXSTE)
-	// ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE, OnUpdateLaunchXSTE)
 	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_GAME_TD, OnViewGameTD)
@@ -139,6 +137,7 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_AUTO_SELECT, OnUpdateViewPaletAutoSelect)
 	ON_COMMAND(ID_LAUNCH_XSTE_GR, OnLaunchXSTE_GR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_GR, OnUpdateLaunchXSTE_GR)
+	ON_COMMAND(ID_LAUNCH_XSTE_OPEN, OnLaunchXSTE_Open)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1096,7 +1095,7 @@ void CMainFrame::OnLaunchXSTE_RA2()
 
 void CMainFrame::OnUpdateLaunchXSTE_RA2(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());		
+	pCmdUI->Enable(Cfname(xcc_dirs::get_language_mix(game_ra2)).exists());
 }
 
 void CMainFrame::OnLaunchXSTE_RA2_YR() 
@@ -1107,7 +1106,7 @@ void CMainFrame::OnLaunchXSTE_RA2_YR()
 
 void CMainFrame::OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists());
+	pCmdUI->Enable(Cfname(xcc_dirs::get_language_mix(game_ra2_yr)).exists());
 }
 
 void CMainFrame::OnLaunchXSTE_GR() 
@@ -1116,10 +1115,33 @@ void CMainFrame::OnLaunchXSTE_GR()
 	dlg.DoModal();
 }
 
+void CMainFrame::OnLaunchXSTE_GR_ZH() 
+{
+	CXSTE_dlg dlg(game_gr_zh);
+	dlg.DoModal();
+}
+
 void CMainFrame::OnUpdateLaunchXSTE_GR(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(Cfname(xcc_dirs::get_dir(game_gr) + xcc_dirs::get_csf_fname(game_gr)).exists()
-		|| Cfname(xcc_dirs::get_dir(game_gr) + "english.big").exists());
+		|| Cfname(xcc_dirs::get_language_mix(game_gr)).exists());
+}
+
+void CMainFrame::OnUpdateLaunchXSTE_GR_ZH(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(Cfname(xcc_dirs::get_dir(game_gr_zh) + xcc_dirs::get_csf_fname(game_gr_zh)).exists()
+		|| Cfname(xcc_dirs::get_language_mix(game_gr_zh)).exists());
+}
+
+void CMainFrame::OnLaunchXSTE_Open() 
+{
+	CFileDialog dlg(true, "csf", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "CSF files (*.csf)|*.csf|", this);
+	if (IDOK == dlg.DoModal())
+	{
+		CXSTE_dlg dlg2(game_unknown);
+		dlg2.open(static_cast<string>(dlg.GetPathName()));
+		dlg2.DoModal();
+	}
 }
 
 void CMainFrame::OnLaunchXSE() 
