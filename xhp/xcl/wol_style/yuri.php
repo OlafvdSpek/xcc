@@ -183,17 +183,17 @@ while ($data = mysql_fetch_array($query)) {
 
 
 if(get_side($data[countries]) == 1) {
-if($data[points] > 699) { $button = "<img src=\"images/yuri/yuri-red3.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-red2.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-red1.jpg\" alt=\"\" border=\"0\">"; }
+if($data[points] > 699) { $button = "<img src=\"images/yuri/yuri-red3.jpg\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-red2.jpg\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-red1.jpg\" alt=\"\" >"; }
 } elseif(get_side($data[countries]) == 2) {
-if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-p3.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-p2.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-p1.jpg\" alt=\"\" border=\"0\">"; }
+if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-p3.jpg\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-p2.jpg\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-p1.jpg\" alt=\"\" >"; }
 } else {
-if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-blue3.gif\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-blue2.gif\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-blue1.gif\" alt=\"\" border=\"0\">"; }
+if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-blue3.gif\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-blue2.gif\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-blue1.gif\" alt=\"\" >"; }
 }
 
 ?>
@@ -276,7 +276,7 @@ $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_p
 while ($data_sides = mysql_fetch_array($query_sides)) {
 $co++;
 if($co != 1) { echo "<br>"; }
-echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"0\"> ".$data_sides[count];
+echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" > ".$data_sides[count];
 }
 ?>
 
@@ -472,7 +472,7 @@ $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_p
 while ($data_sides = mysql_fetch_array($query_sides)) {
 $co++;
 if($co != 1) { echo "<br>"; }
-echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"0\"> ".$data_sides[count];
+echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" > ".$data_sides[count];
 }
 ?>
 
@@ -1028,17 +1028,17 @@ $query = db_query("SELECT * FROM xcl_players WHERE lid='$ladderc' AND points!='0
 while ($data = mysql_fetch_array($query)) {
 
 if(get_side($data[countries]) == 1) {
-if($data[points] > 699) { $button = "<img src=\"images/yuri/yuri-red3.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-red2.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-red1.jpg\" alt=\"\" border=\"0\">"; }
+if($data[points] > 699) { $button = "<img src=\"images/yuri/yuri-red3.jpg\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-red2.jpg\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-red1.jpg\" alt=\"\" >"; }
 } elseif(get_side($data[countries]) == 2) {
-if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-p3.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-p2.jpg\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-p1.jpg\" alt=\"\" border=\"0\">"; }
+if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-p3.jpg\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-p2.jpg\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-p1.jpg\" alt=\"\" >"; }
 } else {
-if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-blue3.gif\" alt=\"\" border=\"0\">"; }
-if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-blue2.gif\" alt=\"\" border=\"0\">"; }
-if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-blue1.gif\" alt=\"\" border=\"0\">"; }
+if($data[points] > 700) { $button = "<img src=\"images/yuri/yuri-blue3.gif\" alt=\"\" >"; }
+if($data[points] < 700 && $data[points] > 299) { $button = "<img src=\"images/yuri/yuri-blue2.gif\" alt=\"\" >"; }
+if($data[points] < 300 && $data[points] > 0) { $button = "<img src=\"images/yuri/yuri-blue1.gif\" alt=\"\" >"; }
 }
 
 if($ladr != "player") { $data[name] = strtoupper($data[name]); }
