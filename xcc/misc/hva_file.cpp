@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include <fstream>
 #include "hva_file.h"
+
+#include <fstream>
 #include "multi_line.h"
 #include "virtual_tfile.h"
 
@@ -33,8 +34,9 @@ int Chva_file::extract_as_csv(const string& name) const
 	return f.fail();
 }
 
-int hva_file_write(const byte* s, int cb_s, byte* d)
+Cvirtual_binary hva_file_write(const byte* s, int cb_s)
 {
+	Cvirtual_binary d;
 	const char sep = ';';
 	Cvirtual_tfile f;
 	f.load_data(Cvirtual_binary(s, cb_s));
@@ -46,7 +48,7 @@ int hva_file_write(const byte* s, int cb_s, byte* d)
 	l.get_next_line(sep);
 	int c_sections = atoi(l.get_next_line(sep).c_str());
 	f.read_line();
-	byte* w = d;
+	byte* w = d.write_start(64 << 10);
 	t_hva_header& header = *reinterpret_cast<t_hva_header*>(w);
 	strcpy(header.id, "NONE");
 	header.c_frames = c_frames;
@@ -80,5 +82,6 @@ int hva_file_write(const byte* s, int cb_s, byte* d)
 		f.read_line();
 	}
 	w += 4 * 12 * c_frames * c_sections;
-	return w - d;
+	d.size(w - d);
+	return d;
 }

@@ -1,9 +1,10 @@
 #include "stdafx.h"
+#include "shp_file.h"
+
 #include "pcx_decode.h"
 #include "pcx_file_write.h"
 #include "shp_decode.h"
 #include "shp_images.h"
-#include "shp_file.h"
 #include "string_conversion.h"
 
 int Cshp_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
@@ -45,10 +46,11 @@ int Cshp_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 	return error;
 }
 
-int shp_file_write(const byte* s, byte* d, int cx, int cy, int c_images)
+Cvirtual_binary shp_file_write(const byte* s, int cx, int cy, int c_images)
 {
+	Cvirtual_binary d;
 	const byte* r = s;
-	byte* w = d;
+	byte* w = d.write_start(sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images);
 	t_shp_header& header = *reinterpret_cast<t_shp_header*>(w);
     header.c_images = c_images;
     header.unknown1 = 0;
@@ -70,5 +72,6 @@ int shp_file_write(const byte* s, byte* d, int cx, int cy, int c_images)
 	*index++ = 0;
 	*index++ = 0;
 	*index++ = 0;
-	return w - d;
+	d.size(w - d);
+	return d;
 }

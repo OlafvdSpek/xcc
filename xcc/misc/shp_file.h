@@ -9,8 +9,8 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include <cc_file_sh.h>
-#include <cc_structures.h>
+#include "cc_file_sh.h"
+#include "cc_structures.h"
 #include "fname.h"
 #include "palet.h"
 
@@ -72,6 +72,6 @@ public:
     }
 };
 
-int shp_file_write(const byte* s, byte* d, int cx, int cy, int c_images);
+Cvirtual_binary shp_file_write(const byte* s, int cx, int cy, int c_images);
 
 #endif // !defined(AFX_SHP_FILE_H__F9704D71_D4BF_11D3_A718_0000F81AF8CC__INCLUDED_)

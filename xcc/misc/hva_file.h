@@ -48,6 +48,6 @@ public:
 	}
 };
 
-int hva_file_write(const byte* s, int cb_s, byte* d);
+Cvirtual_binary hva_file_write(const byte* s, int cb_s);
 
 #endif // !defined(AFX_HVA_FILE_H__B17E6760_DC97_11D3_B604_0000B4936994__INCLUDED_)
