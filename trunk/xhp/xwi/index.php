@@ -129,7 +129,7 @@
 							$result = mysql_fetch_array($results);
 						}
 						while ($result['0']);
-						db_query(sprintf("insert into xwi_clans (name, full_name, pass, icq, mail, msn, site, ctime) values (lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), NULL)", addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
+						db_query(sprintf("insert into xwi_clans (name, full_name, pass, icq, mail, msn, site, ctime) values (lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), unix_timestamp())", addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
 						$cid = mysql_insert_id();
 						db_query(sprintf("update xwi_players set cid = %d where pid = %d", $cid, $player['pid']));
 						$clan = get_clan($cid);
