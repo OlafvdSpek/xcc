@@ -23,7 +23,6 @@
 class CXCCAudioPlayerApp : public CWinApp
 {
 public:
-	CXCCAudioPlayerApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

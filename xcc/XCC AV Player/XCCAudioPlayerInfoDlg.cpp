@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Audio Player.h"
 #include "XCCAudioPlayerInfoDlg.h"
 
 #ifdef _DEBUG

@@ -1,15 +1,14 @@
 #include "stdafx.h"
-#include <fstream>
 #include <map>
 #include <iostream>
-#include <string>
+#include <windows.h>
+#include "crc.h"
 #include "fname.h"
 #include "file32.h"
 #include "mix_file.h"
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "vartypes.h"
-#include "windows.h"
 #include "xcc_dirs.h"
 
 using namespace std;
@@ -107,7 +106,7 @@ void add_file(t_game game, const string& fname, t_idlist& id_list)
 			continue;
 		}
 		parse_line_normal(line, idinfo);
-		if (idinfo.name != "")
+		if (!idinfo.name.empty())
 			id_list[Cmix_file::get_id(game, idinfo.name)] = idinfo;
 	}
 }

@@ -24,15 +24,6 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCAudioPlayerApp construction
-
-CXCCAudioPlayerApp::CXCCAudioPlayerApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCAudioPlayerApp object
 
 CXCCAudioPlayerApp theApp;
