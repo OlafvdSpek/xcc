@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "MainFrm.h"
 #include "SearchFileDlg.h"
 

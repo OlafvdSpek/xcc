@@ -9,6 +9,7 @@
 //
 
 #include <string>
+#include "resource.h"
 
 using namespace std;
 

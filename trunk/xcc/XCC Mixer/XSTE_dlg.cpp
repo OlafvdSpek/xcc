@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "XSTE_dlg.h"
 #include "XSTE_edit_dlg.h"
 

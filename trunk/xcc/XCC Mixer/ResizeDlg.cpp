@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc mixer.h"
 #include "ResizeDlg.h"
 
 #ifdef _DEBUG
