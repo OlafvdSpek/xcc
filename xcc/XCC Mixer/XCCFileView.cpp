@@ -36,6 +36,7 @@
 #include "voc_file.h"
 #include "vqa_file.h"
 #include "vxl_file.h"
+#include "wav_file.h"
 #include "wsa_dune2_file.h"
 #include "wsa_file.h"
 
@@ -898,6 +899,19 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					delete[] image_z;
 					delete[] image_s;
 					delete[] image;
+				}
+				break;
+			}
+		case ft_wav:
+			{
+				Cwav_file f;
+				f.load(m_data, m_cb_data);
+				if (!f.process())
+				{
+					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+					draw_info("Audio:", n(format_chunk.samplerate) + " hz, " + n(format_chunk.cbits_sample) + " bit, " + (format_chunk.c_channels == 1 ? "mono" : "stereo"));
+					draw_info("Count samples:", n(f.get_data_header().size * 8 / (format_chunk.cbits_sample * format_chunk.c_channels)));
+					draw_info("Format:", nh(4, format_chunk.tag));
 				}
 				break;
 			}

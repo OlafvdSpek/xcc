@@ -108,6 +108,10 @@ SOURCE=..\misc\aud_file_write.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\audio_idx_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\avi_file.cpp
 # End Source File
 # Begin Source File
@@ -128,7 +132,7 @@ SOURCE=..\misc\cc_structures.cpp
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\Xhp\cgi-bin\misc\cgi.cpp"
+SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
 # End Source File
 # Begin Source File
 
@@ -140,6 +144,10 @@ SOURCE=..\..\misc\crc.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\csf_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\ddpf_conversion.cpp
 # End Source File
 # Begin Source File
@@ -148,11 +156,15 @@ SOURCE=.\DirectoriesDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\extract_object.cpp
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\Xhp\cgi-bin\misc\file31.cpp"
+SOURCE="..\..\xhp\cgi-bin\misc\file31.cpp"
 # End Source File
 # Begin Source File
 
@@ -168,7 +180,7 @@ SOURCE=..\misc\fs_ini_file.cpp
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\Xhp\cgi-bin\misc\html.cpp"
+SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
 # End Source File
 # Begin Source File
 
@@ -177,6 +189,10 @@ SOURCE=..\misc\hva_file.cpp
 # Begin Source File
 
 SOURCE=..\misc\id_log.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ima_adpcm_wav_decode.cpp
 # End Source File
 # Begin Source File
 
@@ -377,7 +393,7 @@ SOURCE=..\misc\wav_file.cpp
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\..\Xhp\cgi-bin\misc\web_tools.cpp"
+SOURCE="..\..\xhp\cgi-bin\misc\web_tools.cpp"
 # End Source File
 # Begin Source File
 
@@ -429,6 +445,22 @@ SOURCE=.\XCCObjectExtractorDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\XSE_dlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSE_list.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSTE_dlg.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSTE_edit_dlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Group
@@ -437,23 +469,7 @@ SOURCE=..\..\misc\xstring.cpp
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
 # Begin Source File
 
-SOURCE=..\misc\art_ts_ini_reader.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file_write.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\avi_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\bink_file.h
+SOURCE=..\misc\audio_idx_file.h
 # End Source File
 # Begin Source File
 
@@ -461,7 +477,7 @@ SOURCE=..\misc\cc_file.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\cps_file.h
+SOURCE=..\misc\csf_file.h
 # End Source File
 # Begin Source File
 
@@ -482,6 +498,10 @@ SOURCE=..\misc\hva_file.h
 # Begin Source File
 
 SOURCE=..\misc\id_log.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\ima_adpcm_wav_decode.h
 # End Source File
 # Begin Source File
 
@@ -590,6 +610,22 @@ SOURCE=.\XCCFileView.h
 # Begin Source File
 
 SOURCE=.\XCCObjectExtractorDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSE_dlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSE_list.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSTE_dlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XSTE_edit_dlg.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

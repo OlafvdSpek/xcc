@@ -7,6 +7,9 @@
 #include "MainFrm.h"
 
 #include "XCCFileView.h"
+#include "XSE_dlg.h"
+#include "XSTE_dlg.h"
+
 #include <assert.h>
 #include <fstream>
 #include "aud_file.h"
@@ -101,6 +104,10 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_RA2, OnUpdateLaunchXOE_RA2)
 	ON_COMMAND(ID_LAUNCH_XOE_TS, OnLaunchXOE_TS)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_TS, OnUpdateLaunchXOE_TS)
+	ON_COMMAND(ID_LAUNCH_XSTE, OnLaunchXSTE)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE, OnUpdateLaunchXSTE)
+	ON_COMMAND(ID_LAUNCH_XSE, OnLaunchXSE)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE, OnUpdateLaunchXSE)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1058,6 +1065,28 @@ void CMainFrame::OnLaunchXOE_RA2()
 }
 
 void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+}
+
+void CMainFrame::OnLaunchXSTE() 
+{
+	CXSTE_dlg dlg;
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSTE(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+}
+
+void CMainFrame::OnLaunchXSE() 
+{
+	CXSE_dlg dlg;
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSE(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }

@@ -164,9 +164,9 @@ void CXCCMixerView::OnDraw(CDC* pDC)
 {
 }
 
-int c_colums = 4;
-char* column_label[] = {"Name", "Type", "Description", "Size"};
-int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT};
+static int c_colums = 4;
+static char* column_label[] = {"Name", "Type", "Description", "Size"};
+static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT};
 
 void CXCCMixerView::OnInitialUpdate()
 {
@@ -385,13 +385,15 @@ void CXCCMixerView::update_list()
 	}
 	for (j = 0; j < c_colums; j++)
 		GetListCtrl().SetColumnWidth(j, LVSCW_AUTOSIZE);
-	sort_list(0);
-	sort_list(1);
+	sort_list(0, false);
+	sort_list(1, false);
 	SetRedraw(true);
 }
 
 int CXCCMixerView::compare(int id_a, int id_b) const
 {
+	if (m_sort_reverse)
+		swap(id_a, id_b);
 	const t_index_entry& a = m_index.find(id_a)->second;
 	const t_index_entry& b = m_index.find(id_b)->second;
 	if (a.ft == ft_drive)
@@ -438,14 +440,15 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 	return 0;
 }
 
-int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
 	return reinterpret_cast<CXCCMixerView*>(lParamSort)->compare(lParam1, lParam2);
 }
 
-void CXCCMixerView::sort_list(int i)
+void CXCCMixerView::sort_list(int i, bool reverse)
 {
 	m_sort_column = i;
+	m_sort_reverse = reverse;
 	GetListCtrl().SortItems(Compare, reinterpret_cast<dword>(this));
 }
 
@@ -462,7 +465,8 @@ static CMainFrame* GetMainFrame()
 
 void CXCCMixerView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	sort_list(reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem);
+	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
+	sort_list(column, column == m_sort_column ? !m_sort_reverse : false);
 	*pResult = 0;
 }
 
@@ -646,7 +650,6 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_wav;
 	case ft_cps:
 	case ft_shp_dune2:
-	case ft_shp_ts:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
 	case ft_wsa_dune2:
@@ -662,6 +665,8 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_text;
 	case ft_shp:
 		return d == ft_pcx || d == ft_shp_ts;
+	case ft_shp_ts:
+		return d == ft_pcx || d == ft_png;
 	case ft_text:
 		return d == ft_hva;
 	case ft_vqa:
@@ -1148,7 +1153,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			error = open_f_index(f, i);
 			if (!error)
 			{
-				error = f.extract_as_pcx(fname, get_default_palet());
+				error = f.extract_as_pcx(fname, ft, get_default_palet());
 				f.close();
 			}
 			break;
@@ -1550,9 +1555,9 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 	case ft_pcx:
 		{
 			const string t = fname.get_ftitle();
-			if (t.length() < 4 || t.substr(t.length() - 4, 4) != " 000")
+			if (t.length() < 5 || t.substr(t.length() - 5, 5) != " 0000")
 				return 1;
-			string base_name = t.substr(0, t.length() - 4);
+			string base_name = t.substr(0, t.length() - 5);
 			Cpcx_file f;
 			error = open_f_index(f, i);
 			if (!error)
@@ -1562,8 +1567,8 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				int c_images = 0;
 				byte* s = NULL;
 				f.close();
-				int index[1000];
-				for (int i = 0; i < 1000; i++)
+				int index[256];
+				for (int i = 0; i < 256; i++)
 					index[i] = -1;
 				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 				{
