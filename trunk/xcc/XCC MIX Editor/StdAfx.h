@@ -20,12 +20,20 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#pragma warning(disable: 4503)
+#pragma warning(disable: 4786)
+#pragma warning(disable: 4800)
+
 #include <assert.h>
 #include <climits>
 #include <memory>
+#include <map>
+#include <set>
+#include <string>
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
+using namespace std;
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.
