@@ -173,7 +173,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.11"
+    IDR_MAINFRAME           "XCC Mod Creator 1.12"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
@@ -249,29 +249,30 @@ BEGIN
     EDITTEXT        IDC_MOD_VERSION,87,115,254,12,ES_AUTOHSCROLL
     EDITTEXT        IDC_MOD_UCF,87,133,254,12,ES_AUTOHSCROLL
     CONTROL         "CSF diff compression",IDC_CSF_DIFF_COMPRESSION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,173,82,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,187,82,10
     CONTROL         "INI diff compression",IDC_INI_DIFF_COMPRESSION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,186,78,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,200,78,10
     CONTROL         "Custom button text",IDC_CUSTOM_BUTTON_TEXT,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,199,75,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,213,75,10
     CONTROL         "XCC Home Page button",IDC_XHP_BUTTON,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,212,91,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,226,91,10
     CONTROL         "Exit button",IDC_EXIT_BUTTON,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,225,49,10
+                    WS_TABSTOP,7,239,49,10
     CONTROL         "Update button",IDC_UPDATE_BUTTON,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,238,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,252,61,10
     CONTROL         "Manual button",IDC_MANUAL_BUTTON,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,251,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,265,61,10
     CONTROL         "Site button",IDC_SITE_BUTTON,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,264,50,10
-    CONTROL         "Confirm deactivate",IDC_CONFIRM_DEACTIVATE,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,278,75,10
+                    WS_TABSTOP,7,278,50,10
     CONTROL         "SHP compression",IDC_SHP_COMPRESSION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,101,173,72,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,101,187,72,10
     CONTROL         "VXL compression",IDC_VXL_COMPRESSION,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,101,186,71,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,101,200,71,10
     LTEXT           "Mod MIX filename suffix:",IDC_STATIC,7,151,78,8
     EDITTEXT        IDC_MOD_MFS,87,151,254,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_DEACTIVATE,87,166,254,201,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "Deactivate:",IDC_STATIC,7,167,38,8
 END
 
 IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 186, 63
@@ -368,6 +369,12 @@ BEGIN
     IDC_GAME, 0x403, 27, 0
 0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x7559, 0x6972, 0x7327, 
 0x5220, 0x7665, 0x6e65, 0x6567, "\000" 
+    IDC_DEACTIVATE, 0x403, 3, 0
+0x6f4e, "\000" 
+    IDC_DEACTIVATE, 0x403, 4, 0
+0x7341, 0x006b, 
+    IDC_DEACTIVATE, 0x403, 4, 0
+0x6559, 0x0073, 
     0
 END
 

@@ -31,6 +31,7 @@
 #define IDC_SHP_COMPRESSION             1017
 #define IDC_VXL_COMPRESSION             1018
 #define IDC_MOD_MFS                     1019
+#define IDC_DEACTIVATE                  1020
 #define ID_EDIT_INSERT                  32771
 #define ID_EDIT_DELETE                  32772
 #define ID_POPUP_OPEN                   32775
@@ -67,7 +68,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        134
 #define _APS_NEXT_COMMAND_VALUE         32903
-#define _APS_NEXT_CONTROL_VALUE         1004
+#define _APS_NEXT_CONTROL_VALUE         1021
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

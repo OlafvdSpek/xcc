@@ -36,10 +36,10 @@ Coptions_dlg::Coptions_dlg(CWnd* pParent /*=NULL*/)
 	m_mod_ucf = _T("");
 	m_mod_version = _T("");
 	m_update_button = FALSE;
-	m_confirm_deactivate = FALSE;
 	m_shp_compression = FALSE;
 	m_vxl_compression = FALSE;
 	m_mod_mfs = _T("");
+	m_deactivate = -1;
 	//}}AFX_DATA_INIT
 }
 
@@ -64,10 +64,10 @@ void Coptions_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_MOD_UCF, m_mod_ucf);
 	DDX_Text(pDX, IDC_MOD_VERSION, m_mod_version);
 	DDX_Check(pDX, IDC_UPDATE_BUTTON, m_update_button);
-	DDX_Check(pDX, IDC_CONFIRM_DEACTIVATE, m_confirm_deactivate);
 	DDX_Check(pDX, IDC_SHP_COMPRESSION, m_shp_compression);
 	DDX_Check(pDX, IDC_VXL_COMPRESSION, m_vxl_compression);
 	DDX_Text(pDX, IDC_MOD_MFS, m_mod_mfs);
+	DDX_CBIndex(pDX, IDC_DEACTIVATE, m_deactivate);
 	//}}AFX_DATA_MAP
 }
 
@@ -111,7 +111,7 @@ Cxcc_mod::t_options Coptions_dlg::get() const
 	r.site_button = m_site_button;
 	r.mod_version = m_mod_version;
 	r.mod_ucf = m_mod_ucf;
-	r.confirm_deactivate = m_confirm_deactivate;
+	r.deactivate = m_deactivate;
 	r.mod_mfs = m_mod_mfs;
 	// r.@ = m_@;
 	return r;	
@@ -147,6 +147,6 @@ void Coptions_dlg::set(Cxcc_mod::t_options options)
 	m_site_button = options.site_button;
 	m_mod_version = options.mod_version.c_str();
 	m_mod_ucf = options.mod_ucf.c_str();
-	m_confirm_deactivate = options.confirm_deactivate;
+	m_deactivate = options.deactivate;
 	m_mod_mfs = options.mod_mfs.c_str();
 }
