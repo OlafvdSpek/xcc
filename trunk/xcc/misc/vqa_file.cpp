@@ -77,19 +77,23 @@ public:
 	{
 		if (f == m_frame_i)
 			return 0;
-		m_f.seek(sizeof(t_vqa_header));
-		m_f.read_chunk_header();
-		m_vqa_d.start_decode(*m_f.get_header());
-		if (cb_pixel() != 1)
+		if (f < m_frame_i || m_frame_i == -1)
 		{
-			DDPIXELFORMAT pf;
-			pf.dwRGBAlphaBitMask = 0;
-			pf.dwRBitMask = 0x0000ff;
-			pf.dwGBitMask = 0x00ff00;
-			pf.dwBBitMask = 0xff0000;
-			m_vqa_d.set_pf(pf, 3);
+			m_f.seek(sizeof(t_vqa_header));
+			m_f.read_chunk_header();
+			m_vqa_d.start_decode(*m_f.get_header());
+			if (cb_pixel() != 1)
+			{
+				DDPIXELFORMAT pf;
+				pf.dwRGBAlphaBitMask = 0;
+				pf.dwRBitMask = 0x0000ff;
+				pf.dwGBitMask = 0x00ff00;
+				pf.dwBBitMask = 0xff0000;
+				m_vqa_d.set_pf(pf, 3);
+			}
+			m_frame_i = 0;
 		}
-		for (m_frame_i = 0; m_frame_i < f && !decode(NULL); )
+		while (m_frame_i < f && !decode(NULL))
 			;
 		return 0;
 	}
