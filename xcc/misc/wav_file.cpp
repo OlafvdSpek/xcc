@@ -3,6 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include <assert.h>
 #include "wav_file.h"
 #include "wav_structures.h"
 
@@ -81,7 +82,7 @@ int wav_file_write_header(void* w, int c_samples, int samplerate, int cb_sample,
 	header.format_chunk.formattag = 1;
 	header.format_chunk.c_channels = c_channels;
 	header.format_chunk.samplerate = samplerate;
-	header.format_chunk.byterate =  cb_sample * c_channels;
+	header.format_chunk.byterate =  cb_sample * c_channels * samplerate;
 	header.format_chunk.blockalign = cb_sample * c_channels;
 	header.format_chunk.cbits_sample = cb_sample << 3;
 	header.data_chunk_header.id = wav_data_id;
