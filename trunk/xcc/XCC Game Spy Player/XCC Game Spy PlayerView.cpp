@@ -33,6 +33,8 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerView, CView)
 	//{{AFX_MSG_MAP(CXCCGameSpyPlayerView)
 	ON_WM_CHAR()
 	ON_WM_ERASEBKGND()
+	ON_COMMAND(ID_VIEW_NON_HUMAN_OBJECTS, OnViewNonHumanObjects)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_NON_HUMAN_OBJECTS, OnUpdateViewNonHumanObjects)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -274,9 +276,11 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 			for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
 			{
 				const Cobject& object = i->second;
-				if (object.x && object.y) // && player.human)
+				if (object.x && object.y)
 				{
 					const Cplayer& player = game_state.players.find(object.owner)->second;
+					if (!m_view_non_human_objects && !player.human)
+						continue;
 					m_history_map[object.x >> 8][object.y >> 8] = player.id;
 					int x, y;
 					transform(object.x, object.y, x, y);
@@ -415,6 +419,7 @@ void CXCCGameSpyPlayerView::OnInitialUpdate()
 	m_show_history = false;
 	m_show_names = true;
 	m_show_terrain = false;
+	m_view_non_human_objects = true;
 
 	if (live)
 	{
@@ -565,39 +570,30 @@ void CXCCGameSpyPlayerView::read_map(string name)
 	if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + "multi.mix"))
 	{
 		Cvirtual_binary s = mix_f.get_vdata(name);
-		if (!s)
-			s.import(xcc_dirs::get_dir(game_ra2) + name);
-		if (s)
-		{
-			Cmap_ts_ini_reader ir;
-			ir.fast(true);
-			ir.process(s);
-			m_terrain_colormap.import(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
-			strstream ini;
-			Cmap_ts_encoder encoder(ini, true);
-			Cmap_ts_encoder::t_header header;
-			header.cx = ir.get_map_data().size_right;
-			header.cy = ir.get_map_data().size_bottom;
-			encoder.header(header);
-			encoder.process(s);
-			encoder.extract_map(*m_terrain_map);
-			/*
-			m_min_z = INT_MAX;
-			m_max_z = INT_MIN;
-			for (int y = 0; y < 512; y++)
-			{
-			for (int x = 0; x < 512; x++)
-			{
-			int z = m_terrain_map[x][y].z;
-			if (z == 0xff)
-			continue;
-			m_min_z = min(m_min_z, z);
-			m_max_z = max(m_min_z, z);
-			}
-			}
-			*/
-		}
 		mix_f.close();
+		if (!s && s.import(xcc_dirs::get_dir(game_ra2) + name))
+		{
+			name = static_cast<Cfname>(name).get_ftitle();
+			if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
+			{
+				s = mix_f.get_vdata(name + ".map");
+				mix_f.close();
+			}
+		}
+		if (!s)
+			return;
+		Cmap_ts_ini_reader ir;
+		ir.fast(true);
+		ir.process(s);
+		m_terrain_colormap.import(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
+		strstream ini;
+		Cmap_ts_encoder encoder(ini, true);
+		Cmap_ts_encoder::t_header header;
+		header.cx = ir.get_map_data().size_right;
+		header.cy = ir.get_map_data().size_bottom;
+		encoder.header(header);
+		encoder.process(s);
+		encoder.extract_map(*m_terrain_map);
 	}
 }
 
@@ -615,4 +611,16 @@ const Cgame_state& CXCCGameSpyPlayerView::get_game_state(int game_state_i)
 		m_game_state_i = game_state_i;
 	}
 	return m_game_state;
+}
+
+void CXCCGameSpyPlayerView::OnViewNonHumanObjects() 
+{
+	m_view_non_human_objects = !m_view_non_human_objects;
+	m_mem_dc_valid = false;
+	Invalidate();
+}
+
+void CXCCGameSpyPlayerView::OnUpdateViewNonHumanObjects(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_view_non_human_objects);	
 }

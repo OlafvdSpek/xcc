@@ -56,6 +56,8 @@ protected:
 	//{{AFX_MSG(CXCCGameSpyPlayerView)
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
+	afx_msg void OnViewNonHumanObjects();
+	afx_msg void OnUpdateViewNonHumanObjects(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -79,6 +81,7 @@ private:
 	bool m_show_history;
 	bool m_show_names;
 	bool m_show_terrain;
+	bool m_view_non_human_objects;
 	int m_min_z;
 	int m_max_z;
 
