@@ -45,6 +45,15 @@ void Cextract_object::open_default(t_game game)
 	}
 	else
 	{
+		int j;
+		for (j = 0; j < 10; j++)
+		{
+			add_mix(xcc_dirs::get_ts_dir() + "ecache" + nwzl(1, 9 - j) + ".mix");
+		}
+		for (j = 0; j < 100; j++)
+		{
+			add_mix(xcc_dirs::get_ts_dir() + "expand" + nwzl(2, 99 - j) + ".mix");
+		}
 		add_mix(xcc_dirs::get_ra2_dir() + "language.mix");
 		add_mix(xcc_dirs::get_ra2_dir() + "ra2.mix");
 		add_path(xcc_dirs::get_ra2_dir());
