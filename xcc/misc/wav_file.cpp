@@ -89,3 +89,28 @@ int wav_file_write_header(void* w, int c_samples, int samplerate, int cb_sample,
 	header.data_chunk_header.size = cb_sample * c_samples * c_channels;
 	return sizeof(t_wav_header);
 }
+
+int wav_ima_adpcm_file_write_header(void* w, int cb_audio, int c_samples, int samplerate, int c_channels)
+{
+	t_wav_ima_adpcm_header& header = *reinterpret_cast<t_wav_ima_adpcm_header*>(w);
+	memset(&header, 0, sizeof(t_wav_ima_adpcm_header));
+	header.file_header.id = wav_file_id;
+	header.file_header.size = sizeof(header) - sizeof(header.file_header) + cb_audio;
+	header.form_type = wav_form_id;
+	header.format_chunk.header.id = wav_format_id;
+	header.format_chunk.header.size = sizeof(header.format_chunk) - sizeof(header.format_chunk.header);
+	header.format_chunk.formattag = 0x11;
+	header.format_chunk.c_channels = c_channels;
+	header.format_chunk.samplerate = samplerate;
+	header.format_chunk.byterate =  11100 * c_channels * samplerate / 22050;
+	header.format_chunk.blockalign = 512 * c_channels;
+	header.format_chunk.cbits_sample = 4;
+	header.format_chunk.cb_extra = 2;
+	header.format_chunk.cb_block = 1017;
+	header.fact_chunk.header.id = wav_fact_id;
+	header.fact_chunk.header.size = sizeof(t_wav_fact_chunk) - sizeof(t_wav_chunk_header);
+	header.fact_chunk.c_samples = c_samples;
+	header.data_chunk_header.id = wav_data_id;
+	header.data_chunk_header.size = cb_audio;
+	return sizeof(t_wav_ima_adpcm_header);
+}
