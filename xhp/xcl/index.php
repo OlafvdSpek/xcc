@@ -298,6 +298,10 @@
 	if (isset($_GET[hof]))
 	{
 		echo("<center><table><tr><td>");
+		echo_hof(7, "Tiberian Sun");
+		echo("<td><td>");
+		echo_hof(8, "Clan");
+		echo("<td><td>");
 		echo_hof(1, "Red Alert 2");
 		echo("<td><td>");
 		echo_hof(2, "Clan");
@@ -578,10 +582,9 @@
 ?>
 <center>
 	<form action="<?php echo $_SERVER[SCRIPT_NAME]; ?>">
-		<input type=hidden name=lid value=<?php echo($lid) ?>>
 		<table>
 			<tr>
-				<td>Player:
+				<td>Player:<input type=hidden name=lid value=<?php echo($lid) ?>>
 				<td><input type=text name=pname size=9>
 				<td><input type=submit value="Search">
 			</tr>
