@@ -123,14 +123,9 @@ void Cdlg_shp_viewer::OnTimer(UINT nIDEvent)
 Cvirtual_image Cdlg_shp_viewer::decode_image(int i) const
 {
 	Cvirtual_image d;
-	d.load(NULL, m_decoder->cx(), m_decoder->cy(), 1, m_palet);
+	d.load(NULL, m_decoder->cx(), m_decoder->cy(), 1, NULL);
 	m_decoder->seek(i);
 	m_decoder->decode(d.image_edit());
-	return d;
-}
-
-void Cdlg_shp_viewer::show_frame()
-{
 	if (m_decoder->palet())
 	{
 		const t_palet_entry* p = m_decoder->palet();
@@ -139,11 +134,13 @@ void Cdlg_shp_viewer::show_frame()
 			if ((p[i].r | p[i].g | p[i].b) & 0xc0)
 				break;
 		}
-		if (i == 256)
-			convert_palet_18_to_24(p, m_palet);
-		else
-			memcpy(m_palet, p, sizeof(t_palet));
+		d.palet(p, i == 256);
 	}
+	return d;
+}
+
+void Cdlg_shp_viewer::show_frame()
+{
 	DeleteObject(m_image.SetBitmap(create_bitmap(decode_image(m_frame))));
 	m_index = m_frame;
 	m_slider.SetPos(m_frame);
