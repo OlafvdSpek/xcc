@@ -23,8 +23,12 @@ IMPLEMENT_DYNCREATE(CINIView, CCrystalEditView)
 
 BEGIN_MESSAGE_MAP(CINIView, CCrystalEditView)
 	//{{AFX_MSG_MAP(CINIView)
+	ON_COMMAND(ID_VIEW_SYNTAX_HIGHLIGHTING, OnViewSyntaxHighlighting)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNTAX_HIGHLIGHTING, OnUpdateViewSyntaxHighlighting)
 	ON_WM_KILLFOCUS()
 	ON_WM_SETFOCUS()
+	ON_COMMAND(ID_VIEW_SELECTION_MARGIN, OnViewSelectionMargin)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_SELECTION_MARGIN, OnUpdateViewSelectionMargin)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -34,6 +38,7 @@ END_MESSAGE_MAP()
 CINIView::CINIView()
 {
 	SetSelectionMargin(false);
+	m_syntax_highlighting = true;
 }
 
 CINIView::~CINIView()
@@ -80,10 +85,11 @@ void CINIView::OnInitialUpdate()
 
 void CINIView::DrawSingleLine(CDC *pDC, const CRect &rect, int nLineIndex)
 {
-	/*
-	CCrystalEditView::DrawSingleLine(pDC, rect, nLineIndex);
-	return;
-	*/
+	if (!m_syntax_highlighting)
+	{
+		CCrystalEditView::DrawSingleLine(pDC, rect, nLineIndex);
+		return;
+	}
 	COLORREF bk_color = RGB(255, 255, 255);
 	if (nLineIndex == -1)
 	{
@@ -131,4 +137,25 @@ void CINIView::DrawSingleLine(CDC *pDC, const CRect &rect, int nLineIndex)
 	}
 	pDC->SetBkMode(old_bk_mode);
 	pDC->SelectObject(old_font);
+}
+
+void CINIView::OnViewSyntaxHighlighting() 
+{
+	m_syntax_highlighting = !m_syntax_highlighting;
+	Invalidate();
+}
+
+void CINIView::OnUpdateViewSyntaxHighlighting(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_syntax_highlighting);
+}
+
+void CINIView::OnViewSelectionMargin() 
+{
+	SetSelectionMargin(!GetSelectionMargin());
+}
+
+void CINIView::OnUpdateViewSelectionMargin(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(GetSelectionMargin());
 }

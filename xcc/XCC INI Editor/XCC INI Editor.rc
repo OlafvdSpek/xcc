@@ -105,11 +105,26 @@ BEGIN
         MENUITEM "Select &All\tCtrl+A",         ID_EDIT_SELECT_ALL
         MENUITEM SEPARATOR
         MENUITEM "&Find...\tCtrl+F",            ID_EDIT_FIND
-        MENUITEM "Find &Next\tF3",              ID_EDIT_REPEAT
         MENUITEM "Find Previous\tShift+F3",     ID_EDIT_FIND_PREVIOUS
+        MENUITEM "Find &Next\tF3",              ID_EDIT_REPEAT
         MENUITEM "&Replace...\tCtrl+H",         ID_EDIT_REPLACE
+        MENUITEM SEPARATOR
+        POPUP "&Bookmarks"
+        BEGIN
+            MENUITEM "Clear &All\tCtrl+Shift+F2",   ID_EDIT_CLEAR_ALL_BOOKMARKS
+
+            MENUITEM "Previous\tShift+F2",          ID_EDIT_GOTO_PREV_BOOKMARK
+
+            MENUITEM "&Next\tF2",                   ID_EDIT_GOTO_NEXT_BOOKMARK
+
+            MENUITEM "&Toggle\tCtrl+F2",            ID_EDIT_TOGGLE_BOOKMARK
+        END
     END
-    MENUITEM "&View",                       65535
+    POPUP "&View"
+    BEGIN
+        MENUITEM "Selection margin",            ID_VIEW_SELECTION_MARGIN
+        MENUITEM "Syntax highlighting",         ID_VIEW_SYNTAX_HIGHLIGHTING
+    END
     POPUP "&Window"
     BEGIN
         MENUITEM "&New Window",                 ID_WINDOW_NEW

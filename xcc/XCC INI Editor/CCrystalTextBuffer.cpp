@@ -707,7 +707,6 @@ int CCrystalTextBuffer::GetLineWithFlag(DWORD dwFlag)
 
 void CCrystalTextBuffer::SetLineFlag(int nLine, DWORD dwFlag, BOOL bSet, BOOL bRemoveFromPreviousLine /*= TRUE*/)
 {
-#if 0
 	ASSERT(m_bInit);	//	Text buffer not yet initialized.
 						//	You must call InitNew() or LoadFromFile() first!
 
@@ -756,7 +755,6 @@ void CCrystalTextBuffer::SetLineFlag(int nLine, DWORD dwFlag, BOOL bSet, BOOL bR
 		m_aLines[nLine].m_dwFlags = dwNewFlags;
 		UpdateViews(NULL, NULL, UPDATE_SINGLELINE | UPDATE_FLAGSONLY, nLine);
 	}
-#endif
 }
 
 void CCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, int nEndChar, CString &text, LPCTSTR pszCRLF /*= NULL*/)
