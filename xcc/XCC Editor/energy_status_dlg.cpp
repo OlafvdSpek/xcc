@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "energy_status_dlg.h"
 
 #include "xcc_structures.h"

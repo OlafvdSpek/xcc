@@ -5,10 +5,11 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "xcc_level.h"
-
 // edit_basic_dlg.h : header file
 //
+
+#include "resource.h"
+#include "xcc_level.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_basic_dlg dialog

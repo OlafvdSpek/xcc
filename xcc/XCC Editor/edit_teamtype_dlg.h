@@ -5,13 +5,14 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+// edit_teamtype_dlg.h : header file
+//
+
 #include <string>
+#include "resource.h"
 #include "xcc_level.h"
 
 using namespace std;
-
-// edit_teamtype_dlg.h : header file
-//
 
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_teamtype_dlg dialog

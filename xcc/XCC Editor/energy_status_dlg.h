@@ -5,10 +5,11 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "xcc_level.h"
-
 // energy_status_dlg.h : header file
 //
+
+#include "resource.h"
+#include "xcc_level.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cenergy_status_dlg dialog

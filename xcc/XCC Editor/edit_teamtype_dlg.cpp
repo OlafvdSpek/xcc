@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "edit_teamtype_dlg.h"
 #include "edit_waypoints_dlg.h"
 #include "string_conversion.h"

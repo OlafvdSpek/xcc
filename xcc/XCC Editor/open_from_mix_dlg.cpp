@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "open_from_mix_dlg.h"
 
 #include "xcc_log.h"

@@ -5,13 +5,14 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+// edit_waypoints_dlg.h : header file
+//
+
 #include "list_ctrl_extension.h"
+#include "resource.h"
 #include "string_conversion.h"
 #include "xcc_cell.h"
 #include "xcc_level.h"
-
-// edit_waypoints_dlg.h : header file
-//
 
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_waypoints_dlg dialog

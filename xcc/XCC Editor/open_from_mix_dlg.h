@@ -8,6 +8,7 @@
 #include <map>
 #include "id_log.h"
 #include "mix_file.h"
+#include "resource.h"
 #include "string_conversion.h"
 #include "cc_file.h"
 #include "xcc_level.h"

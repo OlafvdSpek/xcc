@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Editor.h"
 #include "XCC EditorDoc.h"
 #include "bin_file.h"
 #include "edit_map_dlg.h"

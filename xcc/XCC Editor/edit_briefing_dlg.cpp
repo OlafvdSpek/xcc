@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc editor.h"
 #include "edit_briefing_dlg.h"
 
 #ifdef _DEBUG
