@@ -2,9 +2,8 @@
 .page_title {font-size: xx-large}
 .header {color: white}
 .main {color: #929292}
+a {color: white}
 a:hover {color: yellow}
-a:link {color: white}
-a:visited {color: white}
 body, td, th {color: #2a5ad3; font-weight: bold}
 body {font-family: arial, sans-serif; background-color: black}
 img {border-style: none}
