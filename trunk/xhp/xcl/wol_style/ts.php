@@ -19,7 +19,7 @@ $total=mysql_num_rows($result);
 if($total == 0) {
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Search Result for <?=$id?></font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Search Result for <?=$id?></font></th>
 </table>
 <table bgcolor="#113341" width="100%" cellspacing="0" cellpadding="5" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
 <tr>
@@ -31,11 +31,11 @@ if($total == 0) {
 <? if($lid == $player_lid) { $ladr = "player"; } else { $ladr = "clan"; } ?>
 <META HTTP-EQUIV=Refresh CONTENT="1; URL=<?=$PHP_SELF?>?ladr=<?=$ladr?>&laddertype=3">
 <br><div align="center"><font face="VERDANA,ARIAL,HELVETICA" size="2">Clan/Player/rank not found</div><br><br>
-</td>
-</tr>
+
+
 </table>
-</td>
-</tr>
+
+
 
 </table>
 <?
@@ -67,7 +67,7 @@ function jumpTo(URL_List){
 <option value="http://xwis.net/xcl/?stats=" style="color: #B5B5B5;">Statistics</option>
 <option value="http://www.strike-team.net/forums" style="color: #B5B5B5;">ST forum</option>
 <option value="http://xwis.net:4005" style="color: #B5B5B5;">Online</option>
-</select></font></td><td class="thnorm" colspan="2" height="30" width="60%" align="right"><a href="http://xwis.net/xwi/" target="_blank"><img src="images/clan-manager.gif" alt="" border="0"></a>&nbsp;<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13" target="_blank"><img src="images/rules.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISC.exe"><img src="images/c-tool.gif" alt="" border="0"></a>&nbsp;<a href="http://xccu.sourceforge.net/utilities/XGS.zip"><img src="images/xgs.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISB.zip"><img src="images/xwis.gif" alt="" border="0"></a></td></tr>
+</select></font><td class="thnorm" colspan="2" height="30" width="60%" align="right"><a href="http://xwis.net/xwi/" target="_blank"><img src="images/clan-manager.gif" alt="" border="0"></a>&nbsp;<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13" target="_blank"><img src="images/rules.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISC.exe"><img src="images/c-tool.gif" alt="" border="0"></a>&nbsp;<a href="http://xccu.sourceforge.net/utilities/XGS.zip"><img src="images/xgs.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISB.zip"><img src="images/xwis.gif" alt="" border="0"></a>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#113341" valign="top" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -80,7 +80,7 @@ function jumpTo(URL_List){
 <tr>
 <td width="34%" align="left" valign="top">
 &nbsp;
-</td>
+
 <td width="41%" align="center" valign="top">
 <img src="images/ts/ts2.gif" alt="" border="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 <?
@@ -156,7 +156,7 @@ setTimeout("countdown()",1000)
 <?
 }
 ?>
-</td>
+
 <td width="14%" align="right" valign="top">
 <img src="images/monitor.gif" alt="" border="0"><br>
 <table width="100%" align="center">
@@ -166,14 +166,14 @@ setTimeout("countdown()",1000)
 <input type=hidden name="mode" value="searchsubmit">
 <input type=hidden name="lid" value="<? if($ladr == "player") { echo $player_lid; } else { echo $clan_lid; } ?>">
 <input type="Text" name="id" size="10" value="<?=$id?>">
-</td>
-</tr>
+
+
 <tr>
-<td width="100%" align="center">&nbsp;<input type="image" src="images/search.gif" border="0" align="absbottom"></form></td>
-</tr>
+<td width="100%" align="center">&nbsp;<input type="image" src="images/search.gif" border="0" align="absbottom"></form>
+
 </table>
-</td>
-</tr>
+
+
 </table>
 <br>
 <table width="72%" cellspacing="0" cellpadding="3" align="center">
@@ -200,26 +200,26 @@ if($data[points] < 150 && $data[points] > 0) { $button = "<img src=\"images/ts/b
 <td bgcolor="#113341" width="100%">
 <table bgcolor="#113341" width="100%">
 <tr>
-<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?></font></td>
-<td width="12%"><?=$button?></td>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=3&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=3&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font></td>
-<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font></td>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font></td>
-<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font></td>
-</tr>
+<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?></font>
+<td width="12%"><?=$button?>
+<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=3&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=3&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
+
 </table>
 <table width="100%">
-<td width="100%"><hr noshade size="1"></td>
-</tr>
+<td width="100%"><hr noshade size="1">
+
 </table>
-</td>
-</tr>
+
+
 <?
 }
 ?>
 </table>
-</td>
-</tr>
+
+
 
 </table>
 <?
@@ -235,7 +235,7 @@ while ($data = mysql_fetch_array($query)) {
 ?>
 
 <table width="100%" border="0" class="maintitle" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th colspan="2" align="left" class="maintitle" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Clanstats for [<?=$data[name]?>]</font></th></tr>
+<tr><th colspan="2" align="left" class="maintitle" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Clanstats for [<?=$data[name]?>]</font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" bgcolor="#113341" valign="top" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -248,27 +248,27 @@ while ($data = mysql_fetch_array($query)) {
 <td width="65%">
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="16%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?></td>
-</tr>
+<td width="16%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Clan Ladder</td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Clan Ladder
+
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b></td>
+<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b>
 <td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_players WHERE cid='$id' group by cty order by count desc");
@@ -278,10 +278,10 @@ if($co != 1) { echo "<br>"; }
 echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"0\"> ".$data_sides[count];
 }
 ?>
-</td>
-</tr>
+
+
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b></td>
+<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b>
 <td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
@@ -296,25 +296,25 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"
 					while ($result = mysql_fetch_array($results));
 				}
 ?>
-</td>
-</tr>
-</table>
-</td>
-<td width="30%" align="center" valign="top">
-<br><a href="http://xccu.sourceforge.net/" target="_blank"><img src="images/xwis-logo.gif" alt="" border="0"></a>
-</td>
-</tr>
+
+
 </table>
 
-</td>
-</tr>
+<td width="30%" align="center" valign="top">
+<br><a href="http://xccu.sourceforge.net/" target="_blank"><img src="images/xwis-logo.gif" alt="" border="0"></a>
+
+
+</table>
+
+
+
 
 </table>
 
 <br>
 
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Matches</font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Matches</font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" bgcolor="#113341" valign="top" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -401,8 +401,8 @@ $map = $map[0];
 echo "$month $Tag, $Jahr";
 ?> - <?=$matchtext?> in game# <a href="<?=$PHP_SELF?>?laddertype=3&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
-</td>
-</tr>
+
+
 <?
 }
 }
@@ -428,7 +428,7 @@ $query = db_query("SELECT * FROM xcl_players WHERE pid='$id' AND lid='$player_li
 while ($data = mysql_fetch_array($query)) {
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Playerstats for <?=$data[name]?></font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Playerstats for <?=$data[name]?></font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -442,27 +442,27 @@ while ($data = mysql_fetch_array($query)) {
 
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="13%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?></td>
-</tr>
+<td width="13%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?></td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b></td>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Player Ladder</td>
-</tr>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b>
+<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Player Ladder
+
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b></td>
+<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b>
 <td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_players WHERE pid='$id' AND cid='0' group by cty order by count desc");
@@ -472,10 +472,10 @@ if($co != 1) { echo "<br>"; }
 echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"0\"> ".$data_sides[count];
 }
 ?>
-</td>
-</tr>
+
+
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b></td>
+<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b>
 <td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
@@ -490,16 +490,16 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"
 					while ($result = mysql_fetch_array($results));
 				}
 ?>
-</td>
-</tr>
+
+
 </table>
 
 
-</td>
+
 <td width="30%" align="center" valign="top">
 <br><a href="http://xccu.sourceforge.net/" target="_blank"><img src="images/xwis-logo.gif" alt="" border="0"></a>
-</td>
-</tr>
+
+
 </table>
 
 </table>
@@ -507,7 +507,7 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"
 <br>
 
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Matches</font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Matches</font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -595,8 +595,8 @@ $map = $map[0];
 echo "$month $Tag, $Jahr";
 ?> - <?=$matchtext?> in game# <a href="<?=$PHP_SELF?>?mode=showmatch&laddertype=3&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
-</td>
-</tr>
+
+
 <?
 }
 }
@@ -620,7 +620,7 @@ while ($data = mysql_fetch_array($query)) {
 $gametype = $data[trny];
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Match #<?=$data[gid]?></font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=3">XCC community ladder</a> &raquo; Match #<?=$data[gid]?></font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -671,34 +671,34 @@ $clan[$cc] = $data_match2[name];
 
 }
 echo "$clan[1] vs. $clan[2]";
-?></h3></td></tr>
+?></h3>
 </table>
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Scenario:</b></td>
+<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Scenario:</b>
 <td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 $map = explode(".",$data[scen]);
 $mapsave = $map[0];
 echo $map[0];
-?></td>
-</tr>
+?>
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Game Duration:</b></td>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Game Duration:</b>
 <td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 $minutes_seconds = intval($data[dura]/60).":".($data[dura]%60);
 echo $minutes_seconds;
-?> minutes</td>
-</tr>
+?> minutes
+
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Type:</b></td>
+<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Type:</b>
 <td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <? if($data[trny] == "1") { echo "Player tournament"; } ?>
 <? if($data[trny] == "2") { echo "Clan tournament"; } ?>
 <? if($data[trny] == "0") { echo "FFG"; } ?>
-</td>
-</tr>
+
+
 <?
 if($gametype == 2) {
 $query3 = db_query("SELECT * FROM xcl_games_players WHERE gid='$id' ORDER BY pc DESC");
@@ -712,7 +712,7 @@ while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
 if($data3[pc] == 0) { $show = "+0"; }
-echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b></td><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font></td></tr>";
+echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
 }
 }
 
@@ -726,23 +726,23 @@ while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
 if($data3[pc] == 0) { $show = "+0"; }
-echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b></td><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font></td></tr>";
+echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
 }
 }
 }
 ?>
 </table>
-</td>
+
 <td width="30%" valign="top" align="top"><br>
-</td>
-</tr>
+
+
 </table>
 </table>
 
 <br>
 
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Match details</font></th></tr>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;Match details</font></th>
 </table>
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
 <tr>
@@ -772,39 +772,39 @@ if($clansh != "") { $alink = "<a href=\"$PHP_SELF?mode=showclan&laddertype=3&id=
 <?=$alink?><Font size="4"><b><?=$data_nick1[name]?></a> <?=$clansh?></b></font>
 <table width="60%" cellspacing="2" cellpadding="3">
 <tr>
-<td width="37%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Result:</b></td>
-<td width="60%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$result?></font></td>
-</tr>
+<td width="37%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Result:</b>
+<td width="60%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$result?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Points:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[points]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Points:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[points]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Record:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[win_count]?>/<?=$data_nick1[loss_count]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Record:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[win_count]?>/<?=$data_nick1[loss_count]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Side:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><img src="<?=get_country_flag_url($data3[cty])?>" alt="" border="0"></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Side:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><img src="<?=get_country_flag_url($data3[cty])?>" alt="" border="0"></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Units Killed/Bought/Left:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[unk]?>/<?=$data3[unb]?>/<?=$data3[unl]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Units Killed/Bought/Left:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[unk]?>/<?=$data3[unb]?>/<?=$data3[unl]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Buildings Killed/Bought/Left:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[blk]?>/<?=$data3[blb]?>/<?=$data3[bll]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Buildings Killed/Bought/Left:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[blk]?>/<?=$data3[blb]?>/<?=$data3[bll]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Infantry Killed/Bought/Left:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[ink]?>/<?=$data3[inb]?>/<?=$data3[inl]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Infantry Killed/Bought/Left:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[ink]?>/<?=$data3[inb]?>/<?=$data3[inl]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Planes Killed/Bought/Left:</b></td>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[plk]?>/<?=$data3[plb]?>/<?=$data3[pll]?></font></td>
-</tr>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Planes Killed/Bought/Left:</b>
+<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[plk]?>/<?=$data3[plb]?>/<?=$data3[pll]?></font>
+
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">IP:</b></td>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">IP:</b>
 <td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
 $ipdd = long2ip($data3[ipa]);
@@ -818,8 +818,8 @@ $ip_crypt_1x = substr($ip_crypt[2], 0,$count_cryptip_1);
 $ip_crypt_1 = $ip_crypt_1x."X";
 $ip_show = $ip_crypt[0].".".$ip_crypt[1].".".$ip_crypt_1.".".$ip_crypt_2;
 echo $ip_show;
-?></font></td>
-</tr>
+?></font>
+
 
 </table><br>
 <?
@@ -868,7 +868,7 @@ function jumpTo(URL_List){
 <option value="http://xwis.net/xcl/?stats=" style="color: #B5B5B5;">Statistics</option>
 <option value="http://www.strike-team.net/forums" style="color: #B5B5B5;">ST forum</option>
 <option value="http://xwis.net:4005" style="color: #B5B5B5;">Online</option>
-</select></font></td><td class="thnorm" colspan="2" height="30" width="60%" align="right"><a href="http://xwis.net/xwi/" target="_blank"><img src="images/clan-manager.gif" alt="" border="0"></a>&nbsp;<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13" target="_blank"><img src="images/rules.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISC.exe"><img src="images/c-tool.gif" alt="" border="0"></a>&nbsp;<a href="http://xccu.sourceforge.net/utilities/XGS.zip"><img src="images/xgs.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISB.zip"><img src="images/xwis.gif" alt="" border="0"></a></td></tr>
+</select></font><td class="thnorm" colspan="2" height="30" width="60%" align="right"><a href="http://xwis.net/xwi/" target="_blank"><img src="images/clan-manager.gif" alt="" border="0"></a>&nbsp;<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13" target="_blank"><img src="images/rules.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISC.exe"><img src="images/c-tool.gif" alt="" border="0"></a>&nbsp;<a href="http://xccu.sourceforge.net/utilities/XGS.zip"><img src="images/xgs.gif" alt="" border="0"></a>&nbsp;<a href="http://xwis.net/downloads/XWISB.zip"><img src="images/xwis.gif" alt="" border="0"></a>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" bgcolor="#113341" valign="top" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -881,7 +881,7 @@ function jumpTo(URL_List){
 <tr>
 <td width="34%" align="left" valign="top">
 &nbsp;
-</td>
+
 <td width="41%" align="center" valign="top">
 <img src="images/ts/ts2.gif" alt="" border="0">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
 <?
@@ -957,7 +957,7 @@ setTimeout("countdown()",1000)
 <?
 }
 ?>
-</td>
+
 <td width="14%" align="right" valign="top">
 <img src="images/monitor.gif" alt="" border="0"><br>
 <table width="100%" align="center">
@@ -967,14 +967,14 @@ setTimeout("countdown()",1000)
 <input type=hidden name="mode" value="searchsubmit">
 <input type=hidden name="lid" value="<? if($ladr == "player") { echo $player_lid; } else { echo $clan_lid; } ?>">
 <input type="Text" name="id" size="10" maxlength="">
-</td>
-</tr>
+
+
 <tr>
-<td width="100%" align="center">&nbsp;<input type="image" src="images/search.gif" border="0" align="absbottom"></form></td>
-</tr>
+<td width="100%" align="center">&nbsp;<input type="image" src="images/search.gif" border="0" align="absbottom"></form>
+
 </table>
-</td>
-</tr>
+
+
 </table>
 <br>
 <table width="72%" cellspacing="0" cellpadding="3" align="center">
@@ -1041,20 +1041,20 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
 <td width="100%">
 <table width="100%">
 <tr>
-<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?><? if($data[rank] == 1) { echo "</font></b>"; } ?></font></td>
-<td width="12%"><?=$button?></td>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=3&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=3&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font></td>
-<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font></td>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font></td>
-<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font></td>
-</tr>
+<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?><? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="12%"><?=$button?>
+<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=3&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=3&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
+
 </table>
 <table width="100%">
-<td width="100%"><hr noshade size="1"></td>
-</tr>
+<td width="100%"><hr noshade size="1">
+
 </table>
-</td>
-</tr>
+
+
 <?
 }
 // END LIST
@@ -1074,10 +1074,10 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
 
 
  <? } ?>
- </td>
+
  <td width="60%" align="center">
  <font face="VERDANA,ARIAL,HELVETICA" size="2">Page <?=$site?> / <?=$seiten_a2?></font>
- </td>
+
  <td width="20%" align="right">
  <?
  if($site < $seitencheck) { ?>
@@ -1085,13 +1085,13 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
  <font face="VERDANA,ARIAL,HELVETICA" size="2"><a class="text" href="<?=$PHP_SELF?>?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$nextsite?>">Next Page &raquo</a></font>
 
  <? } ?>
- </td>
- </tr>
+
+
  </table>
 
 </div>
-</td>
-</tr>
+
+
 </table>
 <?
 }
