@@ -2,9 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Creator.h"
 
-#include "XCC Mod CreatorDoc.h"
 #include "LeftView.h"
 
 #include "xcc_mod.h"

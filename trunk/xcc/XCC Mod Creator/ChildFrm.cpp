@@ -2,13 +2,13 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Creator.h"
 
 #include "ChildFrm.h"
 #include "LeftView.h"
 #include "XCC Mod CreatorView.h"
 
 #include "fname.h"
+#include "resource.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

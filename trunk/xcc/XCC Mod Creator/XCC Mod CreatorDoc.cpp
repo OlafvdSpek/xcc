@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Creator.h"
 
 #include "mainfrm.h"
 #include "XCC Mod CreatorDoc.h"
