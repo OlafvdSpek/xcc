@@ -23,7 +23,7 @@ public:
 	void insert_game(const Cgame_result& gr);
 	void insert_game(const Cvirtual_binary&);
 	int pid(const string& name);
-	int update_player(int pid, int cmp, const Cxcl_player& a, const Cxcl_player& b);
+	int update_player(int pid, int cmp, int cty, const Cxcl_player& a, const Cxcl_player& b);
 };
 
 #endif // !defined(AFX_XCL_DATABASE_H__96E5131C_1A7C_4A26_9DE5_0CC56ECD5139__INCLUDED_)
