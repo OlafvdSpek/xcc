@@ -454,10 +454,6 @@ SOURCE=..\misc\xcc_registry.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\xfile32.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\xif_key.cpp
 # End Source File
 # Begin Source File
@@ -471,10 +467,6 @@ SOURCE=..\misc\xse.cpp
 # Begin Source File
 
 SOURCE=..\misc\XSTE.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -982,10 +974,6 @@ SOURCE=..\misc\XCCSetDirectoriesDlg.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\xfile32.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\xif_file.h
 # End Source File
 # Begin Source File
@@ -999,10 +987,6 @@ SOURCE=..\..\misc\xif_value.h
 # Begin Source File
 
 SOURCE=..\misc\XSTE.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.h
 # End Source File
 # End Group
 # Begin Source File
