@@ -129,10 +129,9 @@ int CXCCWOLIRCServerClientDlg::update_hosts(const string& ipa)
 		Cmulti_line l = Cmulti_line(s).get_next_line('#');
 		l.get_next_line(' ');
 		string a = l.get_next_line(' ');
-		if (a == "irc.westwood.com"
-			|| a == "servserv.westwood.com")
-			continue;
-		b += s + '\n';
+		if (a != "irc.westwood.com"
+			&& a != "servserv.westwood.com")
+			b += s + '\n';
 	}
 	if (f.bad())
 		return 1;
