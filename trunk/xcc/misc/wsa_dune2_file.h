@@ -13,8 +13,9 @@
 #include "cc_structures.h"
 #include "fname.h"
 #include "palet.h"
+#include "video_file.h"
 
-class Cwsa_dune2_file: public Ccc_file_sh<t_wsa_dune2_header>  
+class Cwsa_dune2_file: public Cvideo_file<t_wsa_dune2_header>  
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
@@ -25,20 +26,25 @@ public:
 		int size = get_size();
 		if (sizeof(t_wsa_dune2_header) + 4 > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_dune2_header) + 4 * (get_header()->c_frames + 2) > size)
 			return false;
-		return get_offset(get_c_frames() + has_loop()) == size;
+		return get_offset(cf() + has_loop()) == size;
 	}
 
-	int get_c_frames() const
+	int cb_pixel() const
+	{
+		return 1;
+	}
+
+	int cf() const
 	{
 		return get_header()->c_frames;
 	}
 
-	int get_cx() const
+	int cx() const
 	{
 		return get_header()->cx;
 	}
 
-	int get_cy() const
+	int cy() const
 	{
 		return get_header()->cy;
 	}
@@ -85,7 +91,7 @@ public:
 
 	bool has_loop() const
 	{
-		return get_ofs(get_c_frames() + 1);
+		return get_ofs(cf() + 1);
 	}
 };
 

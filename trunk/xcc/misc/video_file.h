@@ -23,7 +23,12 @@ public:
 
 	int cb_image() const
 	{
-		return cb_pixel() * cf() * cx() * cy();
+		return cb_pixel() * cx() * cy();
+	}
+
+	int cb_video() const
+	{
+		return cf() * cb_image();
 	}
 
 	virtual const t_palet_entry* palet() const
