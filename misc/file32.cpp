@@ -44,6 +44,11 @@ int Cfile32::open_read(const string& name)
 	return open(name, GENERIC_READ, OPEN_EXISTING, FILE_SHARE_READ);
 }
 
+int Cfile32::open_edit(const string& name)
+{
+	return open(name, GENERIC_READ | GENERIC_WRITE, OPEN_ALWAYS, 0);
+}
+
 int Cfile32::open_write(const string& name)
 {
 	return open(name, GENERIC_WRITE, CREATE_ALWAYS, 0);
