@@ -35,7 +35,7 @@ public:
 	{
 		SDL_FreeSurface(m_source);
 	}
-private:
+protected:
 	SDL_Surface* m_source;
 };
 

@@ -48,10 +48,10 @@ static void scanRegions(byte map[64][64])
 		for (int x = 0; x < 64; x++)
 		{
 			int middle = map[y][x];
-			int left   = x ? currln[x-1] : middle;
+			int left   = x ? currln[x - 1] : middle;
 			int up     = y ? prevln[x] : middle;
-			int right  = x != 63 ? currln[x+1] : middle;
-			int down   = y != 63 ? map[y+1][x] : middle;
+			int right  = x != 63 ? currln[x + 1] : middle;
+			int down   = y != 63 ? map[y + 1][x] : middle;
 			int id = (left == middle) << 3 | (down == middle) << 2 | (right == middle) << 1 | up == middle;
 			if (middle == ROCK)
 				id |= (left == MOUNTAINS) << 3 | (down == MOUNTAINS) << 2 | (right == MOUNTAINS) << 1 | up == MOUNTAINS;
@@ -132,10 +132,14 @@ static void balanceMap(byte map[64][64])
          int lu = prevln[x-1],   u = prevln[x],   ru = prevln[x+1];
          int l  = currln[x-1],   c = currln[x],   r  = currln[x+1];
          int rd = map[y+1][x+1], d = map[y+1][x], ld = map[y+1][x-1];
-         if (!x)  lu = l = ld = c; /* left edge */
-         if (!y)  lu = u = ru = c; /* top edge*/
-         if (x == 63) ru = r = rd = c; /* right edge */
-         if (y == 63) ld = d = rd = c; /* bottom edge */
+         if (!x)  
+			 lu = l = ld = c; /* left edge */
+         else if (x == 63) 
+			 ru = r = rd = c; /* right edge */
+         if (!y)  
+			 lu = u = ru = c; /* top edge*/
+         else if (y == 63) 
+			 ld = d = rd = c; /* bottom edge */
          map[y][x] = (lu + u + ru + r + rd + d + ld + l + c) / 9;
       }
    }
