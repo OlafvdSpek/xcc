@@ -21,13 +21,6 @@ BEGIN_MESSAGE_MAP(CMy3DS2VXLFEApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CMy3DS2VXLFEApp construction
-
-CMy3DS2VXLFEApp::CMy3DS2VXLFEApp()
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CMy3DS2VXLFEApp object
 
 CMy3DS2VXLFEApp theApp;
@@ -47,15 +40,6 @@ BOOL CMy3DS2VXLFEApp::InitInstance()
 
 	CMy3DS2VXLFEDlg dlg;
 	m_pMainWnd = &dlg;
-	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-	}
-	else if (nResponse == IDCANCEL)
-	{
-	}
-
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
-	return FALSE;
+	dlg.DoModal();
+	return false;
 }

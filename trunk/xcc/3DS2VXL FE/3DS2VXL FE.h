@@ -22,7 +22,6 @@
 class CMy3DS2VXLFEApp : public CWinApp
 {
 public:
-	CMy3DS2VXLFEApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
