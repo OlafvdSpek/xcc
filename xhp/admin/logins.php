@@ -1,5 +1,6 @@
 <?php
 	header("refresh: 60");
+	ob_start('ob_gzhandler');
 ?>
 <link rel=stylesheet href="/xcc.css">
 <a href="?">Home</a> | <a href="players.php">Players</a>
