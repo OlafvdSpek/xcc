@@ -59,6 +59,7 @@ static HBITMAP create_bitmap(Cvirtual_image image)
 		for (int y = 0; y < image.cy(); y++)
 		{
 			memcpy(w, r, image.cx() * image.cb_pixel());
+			memset(w + image.cx(), 0, image.cb_pixel() * (- image.cx() & 3));
 			r += image.cx();
 			w += d.cx();
 		}
