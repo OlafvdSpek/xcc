@@ -38,7 +38,6 @@ Cmap_ts_encoder::Cmap_ts_encoder(ostream& f, bool encode4):
 	m_f(f)
 {
 	lower_case(false);
-	m_d = NULL;
 	m_w = NULL;
 	m_encode4 = encode4;
 }
@@ -51,9 +50,9 @@ void Cmap_ts_encoder::header(t_header v)
 int Cmap_ts_encoder::process_section_start(const string& name)
 {
 	if (name == "IsoMapPack5")
-		m_w = m_d = new byte[4 << 20];
+		m_w = m_d.write_start(4 << 20);
 	else if (m_encode4 && (name == "OverlayPack" || name == "OverlayDataPack") || name == "PreviewPack")
-		m_w = m_d = new byte[1 << 20];
+		m_w = m_d.write_start(1 << 20);
 	else
 		m_w = NULL;
 	if (!m_encode4 || !m_w)
@@ -373,13 +372,12 @@ void Cmap_ts_encoder::process_section_end()
 	if (m_w)
 	{
 		m_w = NULL;
-		byte* d = new byte[strlen(reinterpret_cast<const char*>(m_d))];
-		int cb_d = decode64(m_d, d);
+		Cvirtual_binary d = decode64(m_d);
 		if (m_encode4)
 		{
 			if (m_section_name == "IsoMapPack5")
 			{
-				int count = decode5(d, m_d, cb_d, 5) / sizeof(t_iso_map_pack_entry);
+				int count = decode5(d, m_d.data_edit(), d.size(), 5) / sizeof(t_iso_map_pack_entry);
 				t_iso_map_pack_entry4* f = new t_iso_map_pack_entry4[count];
 				t_iso_map_pack_entry* g = new t_iso_map_pack_entry[count];
 				map_encode4(m_d, f, count);
@@ -401,7 +399,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayPack")
 			{
-				m_overlay_pack.size(decode5(d, m_overlay_pack.write_start(256 << 10), cb_d, 80));
+				m_overlay_pack.size(decode5(d, m_overlay_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				decode5(d, m_d, cb_d, 80);
 				// log_overlay_pack(m_d, m_header);
@@ -410,7 +408,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayDataPack")
 			{
-				m_overlay_data_pack.size(decode5(d, m_overlay_data_pack.write_start(256 << 10), cb_d, 80));
+				m_overlay_data_pack.size(decode5(d, m_overlay_data_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				Cvirtual_binary t;
 				t.size(overlay_encode4(m_d, t.write_start(256 << 10)));
@@ -421,22 +419,20 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "PreviewPack")
 			{
-				if (strcmp(reinterpret_cast<char*>(m_d), "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA"))
-					m_preview_pack.write(m_d, decode5(d, m_d, cb_d, 5));
+				if (strcmp(reinterpret_cast<const char*>(m_d.data()), "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA"))
+					m_preview_pack.write(m_d, decode5(d, m_d.data_edit(), d.size(), 5));
 				else
 					m_preview_pack.clear();
 			}
 		}
 		else
 		{
-			byte* e = m_d;
-			int cb_e = decode5(d, e, cb_d, 5);
-			cb_d = encode5(e, d, cb_e, 5);
+			byte* e = m_d.data_edit();
+			int cb_e = decode5(d, e, d.size(), 5);
+			d.size(encode5(e, d.data_edit(), cb_e, 5));
 			// cb_e = encode64(d, e, cb_d);
-			write_pack(m_f, d, cb_d);
+			write_pack(m_f, d, d.size());
 		}
-		delete[] d;
-		delete[] m_d;
 	}
 	else
 		m_f << endl;
