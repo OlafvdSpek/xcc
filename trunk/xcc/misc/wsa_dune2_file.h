@@ -14,12 +14,15 @@
 #include "fname.h"
 #include "palet.h"
 #include "video_file.h"
+#include "virtual_image.h"
 
 class Cwsa_dune2_file: public Cvideo_file<t_wsa_dune2_header>  
 {
 public:
+	void decode(void* d) const;
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
 	bool is_valid() const;
+	Cvirtual_image vimage() const;
 
 	int cb_pixel() const
 	{
@@ -66,14 +69,19 @@ public:
 			return get_index32()[i];
 	}
 
+	int get_cb_delta() const
+	{
+		return *reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header)) ? 2 : 4;
+	}
+
 	const __int16* get_index16() const
 	{
-		return reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header));
+		return reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header) + get_cb_delta() - 2);
 	}
 
 	const __int32* get_index32() const
 	{
-		return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header));
+		return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header) + get_cb_delta() - 2);
 	}
 
     int get_offset(int i) const

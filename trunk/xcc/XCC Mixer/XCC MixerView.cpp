@@ -743,6 +743,13 @@ Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 			d = f.vimage();
 		}
 		break;
+	case ft_wsa_dune2:
+		{
+			Cwsa_dune2_file f;
+			f.load(get_vdata_id(id));
+			d = f.vimage();
+		}
+		break;
 	case ft_wsa:
 		{
 			Cwsa_file f;
@@ -822,6 +829,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
+	case ft_wsa_dune2:
 	case ft_wsa:
 		return d == ft_clipboard 
 			|| d == ft_cps 
@@ -842,7 +850,6 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_st:
 		return d == ft_text;
 	case ft_shp_dune2:
-	case ft_wsa_dune2:
 		return d == ft_jpeg 
 			|| d == ft_pcx 
 			|| d == ft_png 
