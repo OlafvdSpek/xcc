@@ -17,7 +17,7 @@
 class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
 {
 public:
-	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
 
 	bool is_valid() const
 	{
