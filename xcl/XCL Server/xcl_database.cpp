@@ -48,6 +48,9 @@ int Cxcl_database::update_player(int pid, int cmp, const Cxcl_player& a, const C
 
 void Cxcl_database::insert_game(const Cgame_result& gr)
 {
+	if (gr.get_int("dura") < 90
+		|| !gr.get_int("trny"))
+		return;
 	int pids[4];
 	Cxcl_player players[4];
 	int pc[4];
@@ -76,6 +79,13 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	}
 	q.p(gr.get_int("idno"));
 	q.execute();
+}
+
+void Cxcl_database::insert_game(const Cvirtual_binary& s)
+{
+	Cgame_result gr;
+	if (!gr.write(s))
+		insert_game(gr);
 }
 
 Cxcl_player Cxcl_database::player(int pid)

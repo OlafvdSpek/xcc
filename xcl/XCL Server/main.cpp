@@ -35,9 +35,7 @@ void process(const Cvirtual_binary& s)
 			q.pe(s);
 			q.pe(get_env("REMOTE_ADDR"));
 			q.execute();
-			Cgame_result gr;
-			if (gr.write(s) && gr.get_int("dura") > 90 && gr.get_int("trny"))
-				database.insert_game(gr);
+			database.insert_game(s);
 		}
 	}
 	catch (Cxcc_error error)
@@ -47,6 +45,7 @@ void process(const Cvirtual_binary& s)
 
 int main()
 {
+	process(Cvirtual_binary());
 	cout << "Content-type: text/html" << endl
 		<< endl;
 	int cb_s = atoi(get_env("CONTENT_LENGTH").c_str());
