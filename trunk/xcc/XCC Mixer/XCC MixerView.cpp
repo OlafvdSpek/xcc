@@ -18,6 +18,8 @@
 #include "aud_decode.h"
 #include "aud_file.h"
 #include "aud_file_write.h"
+#include "big_edit.h"
+#include "big_file_write.h"
 #include "cps_file.h"
 #include "dds_file.h"
 #include "dlg_shp_viewer.h"
@@ -30,7 +32,9 @@
 #include "map_ts_encoder.h"
 #include "map_ts_ini_reader.h"
 #include "mix_edit.h"
+#include "mix_file_write.h"
 #include "mix_rg_edit.h"
+#include "mix_rg_file_write.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
@@ -261,26 +265,41 @@ void CXCCMixerView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCMixerView diagnostics
-
-#ifdef _DEBUG
-void CXCCMixerView::AssertValid() const
-{
-	CListView::AssertValid();
-}
-
-void CXCCMixerView::Dump(CDumpContext& dc) const
-{
-	CListView::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCMixerView message handlers
 
 void CXCCMixerView::OnFileNew()
 {
+	const char* save_filter = "Red Alert MIXs (*.mix)|*.mix|Tiberian Sun MIXs (*.mix)|*.mix|Red Alert 2 MIXs (*.mix)|*.mix|Renegade MIXs (*.mix)|*.mix|Generals BIGs (*.big)|*.big|";
+
 	close_all_locations();
+	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
+	dlg.m_ofn.nFilterIndex = 3;
+	if (IDOK == dlg.DoModal())
+	{
+		string name = dlg.GetPathName();
+		int error = 0;
+		switch (dlg.m_ofn.nFilterIndex)
+		{
+		case 1:
+			error = Cmix_file_write(game_ra).write().export(name);
+			break;
+		case 2:
+			error = Cmix_file_write(game_ts).write().export(name);
+			break;
+		case 3:
+			error = Cmix_file_write(game_ra2).write().export(name);
+			break;
+		case 4:
+			error = Cmix_rg_file_write().write().export(name);
+			break;
+		case 5:
+			error = Cbig_file_write().write().export(name);
+			break;
+		default:
+			assert(false);
+		}
+		update_list();
+	}
 }
 
 void CXCCMixerView::OnFileOpen()
@@ -857,7 +876,7 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 	{
 		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(*i))->second.name;
 		if (m_index.find(get_id(*i))->second.name.find('\\') != string::npos)
-			create_dir(fname.get_path());
+			create_deep_dir(m_other_pane->get_dir(), Cfname(m_index.find(get_id(*i))->second.name).get_path());
 		switch (ft)
 		{
 		case -1:
@@ -2319,6 +2338,34 @@ void CXCCMixerView::OnUpdatePopupCopyAsXIF(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_xif));
 }
 
+int big_insert_dir(Cbig_edit& f, const string& dir, const string& name_prefix)
+{
+	int error = 0;
+	WIN32_FIND_DATA fd;
+	HANDLE fh = FindFirstFile((dir + '*').c_str(), &fd);
+	if (fh !=  INVALID_HANDLE_VALUE)
+	{
+		do
+		{
+			string fname = dir + fd.cFileName;
+			if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			{
+				if (*fd.cFileName != '.')
+					error = error ? big_insert_dir(f, fname + '/', name_prefix + fd.cFileName + '\\'), error : big_insert_dir(f, fname + '/', name_prefix + fd.cFileName + '\\');
+			}
+			else
+			{
+				Cvirtual_binary d;
+				if (!d.import(fname))
+					error = error ? f.insert(name_prefix + fd.cFileName, d) : f.insert(name_prefix + fd.cFileName, d), error;
+			}
+		}
+		while (FindNextFile(fh, &fd));
+		FindClose(fh);
+	}
+	return error;
+}
+
 void CXCCMixerView::OnDropFiles(HDROP hDropInfo) 
 {
 	CWaitCursor wait;
@@ -2329,25 +2376,51 @@ void CXCCMixerView::OnDropFiles(HDROP hDropInfo)
 	{
 		t_file_type ft = m_mix_f->get_file_type();
 		close_location(false);
-		if (ft == ft_mix_rg)
+		switch (ft)
 		{
-			Cmix_rg_edit f;
-			error = f.open(m_mix_fname);
-			if (!error)
+		case ft_big:
 			{
-				for (int i = 0; i < c_files; i++)
+				Cbig_edit f;
+				error = f.open(m_mix_fname);
+				if (!error)
 				{
-					DragQueryFile(hDropInfo, i, fname, MAX_PATH);
-					Cvirtual_binary d;
-					if (!d.import(fname))
-						error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
+					for (int i = 0; i < c_files; i++)
+					{
+						DragQueryFile(hDropInfo, i, fname, MAX_PATH);
+						DWORD file_attributes = GetFileAttributes(fname);
+						if (file_attributes == INVALID_FILE_ATTRIBUTES || ~file_attributes & FILE_ATTRIBUTE_DIRECTORY)
+						{
+							Cvirtual_binary d;
+							if (!d.import(fname))
+								error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
+						}
+						else
+							error = error ? big_insert_dir(f, string(fname) + '/', Cfname(fname).get_fname() + '\\'), error : big_insert_dir(f, string(fname) + '/', Cfname(fname).get_fname() + '\\');
+					}
+					error = error ? f.write_index(), error : f.write_index();
+					f.close();
 				}
-				error = error ? f.write_index(), error : f.write_index();
-				f.close();
+				break;
 			}
-		}
-		else
-		{
+		case ft_mix_rg:
+			{
+				Cmix_rg_edit f;
+				error = f.open(m_mix_fname);
+				if (!error)
+				{
+					for (int i = 0; i < c_files; i++)
+					{
+						DragQueryFile(hDropInfo, i, fname, MAX_PATH);
+						Cvirtual_binary d;
+						if (!d.import(fname))
+							error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
+					}
+					error = error ? f.write_index(), error : f.write_index();
+					f.close();
+				}
+				break;
+			}
+		default:
 			Cmix_edit f;
 			error = f.open(m_mix_fname);
 			if (!error)
@@ -2384,18 +2457,31 @@ void CXCCMixerView::OnPopupCompact()
 	int error = 0;
 	t_file_type ft = m_mix_f->get_file_type();
 	close_location(false);
-	if (ft == ft_mix_rg)
+	switch (ft)
 	{
-		Cmix_rg_edit f;
-		error = f.open(m_mix_fname);
-		if (!error)
+	case ft_big:
 		{
-			error = f.compact();
-			f.close();
+			Cbig_edit f;
+			error = f.open(m_mix_fname);
+			if (!error)
+			{
+				error = f.compact();
+				f.close();
+			}
+			break;
 		}
-	}
-	else
-	{
+	case ft_mix_rg:
+		{
+			Cmix_rg_edit f;
+			error = f.open(m_mix_fname);
+			if (!error)
+			{
+				error = f.compact();
+				f.close();
+			}
+			break;
+		}
+	default:
 		Cmix_edit f;
 		error = f.open(m_mix_fname);
 		if (!error)
@@ -2423,7 +2509,22 @@ void CXCCMixerView::OnPopupDelete()
 	{
 		t_file_type ft = m_mix_f->get_file_type();
 		close_location(false);
-		if (ft == ft_mix_rg)
+		switch (ft)
+		{
+		case ft_big:
+		{
+			Cbig_edit f;
+			error = f.open(m_mix_fname);
+			if (!error)
+			{
+				for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
+					f.erase(m_index.find(get_id(*i))->second.name);
+				error = f.write_index();
+				f.close();
+			}
+			break;
+		}
+		case ft_mix_rg:
 		{
 			Cmix_rg_edit f;
 			error = f.open(m_mix_fname);
@@ -2434,9 +2535,9 @@ void CXCCMixerView::OnPopupDelete()
 				error = f.write_index();
 				f.close();
 			}
+			break;
 		}
-		else
-		{
+		default:
 			Cmix_edit f;
 			error = f.open(m_mix_fname);
 			if (!error)
@@ -2490,6 +2591,7 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 		case ft_wav:
 			pCmdUI->Enable(!m_xap.busy() && GetMainFrame()->get_ds());
 			return;
+		case ft_big:
 		case ft_dir:
 		case ft_drive:
 		case ft_mix:
@@ -3088,6 +3190,7 @@ void CXCCMixerView::open_item(int id)
 			open_location_dir(name);
 			break;
 		}
+	case ft_big:
 	case ft_mix:
 	case ft_mix_rg:
 	case ft_pak:

@@ -88,10 +88,6 @@ public:
 	int get_vxl_mode() const;
 	void set_msg(const string& s);
 	virtual ~CMainFrame();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 	bool combine_shadows() const
 	{

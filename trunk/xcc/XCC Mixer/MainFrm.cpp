@@ -145,9 +145,6 @@ END_MESSAGE_MAP()
 static UINT indicators[] =
 {
 	ID_SEPARATOR,           // status line indicator
-	ID_INDICATOR_CAPS,
-	ID_INDICATOR_NUM,
-	ID_INDICATOR_SCRL,
 };
 
 /////////////////////////////////////////////////////////////////////////////
@@ -201,22 +198,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	cs.style &= ~FWS_ADDTOTITLE;
 	return CFrameWnd::PreCreateWindow(cs);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame diagnostics
-
-#ifdef _DEBUG
-void CMainFrame::AssertValid() const
-{
-	CFrameWnd::AssertValid();
-}
-
-void CMainFrame::Dump(CDumpContext& dc) const
-{
-	CFrameWnd::Dump(dc);
-}
-
-#endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
@@ -538,6 +519,7 @@ void CMainFrame::initialize_lists()
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dbs");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.mix");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.pkg");
+	find_mixs(xcc_dirs::get_dir(game_gr), game_gr, "*.big");
 
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();
@@ -936,7 +918,6 @@ void CMainFrame::OnUtilitiesSEMM()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_semm_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
-
 void CMainFrame::OnLaunchRAGE() 
 {
 	ShellExecute(m_hWnd, NULL, GetApp()->get_rage_exe().c_str(), NULL, NULL, SW_SHOW);
@@ -1106,19 +1087,6 @@ void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
-
-/*
-void CMainFrame::OnLaunchXSTE() 
-{
-	CXSTE_dlg dlg(game_ra2, false);
-	dlg.DoModal();
-}
-
-void CMainFrame::OnUpdateLaunchXSTE(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
-}
-*/
 
 void CMainFrame::OnLaunchXSTE_RA2() 
 {
@@ -1411,6 +1379,8 @@ void CMainFrame::OnViewReport()
 		+ tr(td("RA dir") + td(xcc_dirs::get_ra_dir()))
 		+ tr(td("TS dir") + td(xcc_dirs::get_ts_dir()))
 		+ tr(td("RA2 dir") + td(xcc_dirs::get_ra2_dir()))
+		+ tr(td("RG dir") + td(xcc_dirs::get_dir(game_rg)))
+		+ tr(td("GR dir") + td(xcc_dirs::get_dir(game_gr)))
 		+ tr(td("Data dir") + td(xcc_dirs::get_data_dir()))
 		+ tr(td("EXE dir") + td(GetModuleFileName().get_path()));
 		// + tr(td() + td())

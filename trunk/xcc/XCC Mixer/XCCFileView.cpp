@@ -1275,21 +1275,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCFileView diagnostics
-
-#ifdef _DEBUG
-void CXCCFileView::AssertValid() const
-{
-	CScrollView::AssertValid();
-}
-
-void CXCCFileView::Dump(CDumpContext& dc) const
-{
-	CScrollView::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCFileView message handlers
 
 void CXCCFileView::open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet)

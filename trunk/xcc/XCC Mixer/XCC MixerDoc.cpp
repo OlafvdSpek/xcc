@@ -44,32 +44,4 @@ BOOL CXCCMixerDoc::OnNewDocument()
 
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCMixerDoc serialization
-
-void CXCCMixerDoc::Serialize(CArchive& ar)
-{
-	if (ar.IsStoring())
-	{
-	}
-	else
-	{
-	}
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerDoc diagnostics
-
-#ifdef _DEBUG
-void CXCCMixerDoc::AssertValid() const
-{
-	CDocument::AssertValid();
-}
-
-void CXCCMixerDoc::Dump(CDumpContext& dc) const
-{
-	CDocument::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCMixerDoc commands

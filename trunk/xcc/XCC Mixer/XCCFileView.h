@@ -59,10 +59,6 @@ public:
 // Implementation
 protected:
 	virtual ~CXCCFileView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 	// Generated message map functions
 	//{{AFX_MSG(CXCCFileView)
 	afx_msg void OnDisable(CCmdUI* pCmdUI);
