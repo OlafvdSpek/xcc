@@ -1,7 +1,7 @@
 <table>
 	<form action="?a=invite" method=post>
 		<tr>
-			<td align=right>Name:
+			<td align=right>Player name:
 			<td><input type=text name=name value="<?php echo(htmlspecialchars($name))?>">
 		<tr>
 			<td align=right>Clan admin pass:
