@@ -135,6 +135,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_LAUNCH_XTW_RA2_YR, OnLaunchXTW_RA2_YR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_RA2_YR, OnUpdateLaunchXTW_RA2_YR)
 	ON_COMMAND(ID_VIEW_PALET_SELECT, OnViewPaletSelect)
+	ON_COMMAND(ID_VIEW_PALET_AUTO_SELECT, OnViewPaletAutoSelect)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_AUTO_SELECT, OnUpdateViewPaletAutoSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -682,6 +684,19 @@ void CMainFrame::OnViewPaletNext()
 		m_file_info_pane->Invalidate();
 		set_msg(m_pal_list.find(m_palet_i)->second.name + " selected");
 	}
+}
+
+bool CMainFrame::auto_select(t_game game, string palet)
+{
+	for (int i = game < 1 ? 0 : m_pal_i[game - 1]; i < m_pal_i[game]; i++)
+	{
+		if (m_pal_list.find(i)->second.name.find(palet) == string::npos)
+			continue;	
+		set_palet(i);
+		set_msg(m_pal_list.find(m_palet_i)->second.name + " selected");
+		return true;
+	}
+	return false;
 }
 
 void CMainFrame::OnViewPaletUseForConversion() 
@@ -1430,4 +1445,14 @@ void CMainFrame::set_palet(int id)
 		return;
 	m_palet_i = id;
 	m_file_info_pane->Invalidate();
+}
+
+void CMainFrame::OnViewPaletAutoSelect() 
+{
+	m_file_info_pane->auto_select();
+}
+
+void CMainFrame::OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(m_file_info_pane->can_auto_select());
 }

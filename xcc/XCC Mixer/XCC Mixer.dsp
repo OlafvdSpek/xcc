@@ -100,6 +100,10 @@ SOURCE=.\DirectoriesDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\dlg_shp_viewer.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\ETSLayout.cpp
 # End Source File
 # Begin Source File
@@ -125,6 +129,10 @@ SOURCE=.\MainFrm.cpp
 # Begin Source File
 
 SOURCE=..\misc\map_ts_encoder.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\palet_filter.cpp
 # End Source File
 # Begin Source File
 
@@ -229,6 +237,10 @@ SOURCE=.\DirectoriesDlg.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\dlg_shp_viewer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\extract_object.h
 # End Source File
 # Begin Source File
@@ -286,6 +298,10 @@ SOURCE=..\misc\map_ts_ini_reader.h
 # Begin Source File
 
 SOURCE=..\misc\ogg_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\palet_filter.h
 # End Source File
 # Begin Source File
 

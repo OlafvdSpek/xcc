@@ -69,6 +69,7 @@ public:
 
 // Implementation
 public:
+	bool auto_select(t_game game, string palet);
 	void set_palet(int id);
 	void clean_pal_map_list();
 	int mix_list_create_map(string name, string fname, int id, int parent);
@@ -261,6 +262,8 @@ protected:
 	afx_msg void OnLaunchXTW_RA2_YR();
 	afx_msg void OnUpdateLaunchXTW_RA2_YR(CCmdUI* pCmdUI);
 	afx_msg void OnViewPaletSelect();
+	afx_msg void OnViewPaletAutoSelect();
+	afx_msg void OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

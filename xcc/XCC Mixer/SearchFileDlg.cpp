@@ -23,8 +23,8 @@ CSearchFileDlg::CSearchFileDlg(CWnd* pParent /*=NULL*/)
 {
 	m_reg_key = "find_file_dlg";
 	//{{AFX_DATA_INIT(CSearchFileDlg)
-	m_filename = _T("");
 	//}}AFX_DATA_INIT
+	m_buffer_w = 0;
 	m_filename = AfxGetApp()->GetProfileString(m_reg_key, "file_name");
 }
 
@@ -45,6 +45,7 @@ BEGIN_MESSAGE_MAP(CSearchFileDlg, ETSLayoutDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
 	ON_WM_SIZE()
 	ON_WM_DESTROY()
+	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST, OnGetdispinfoList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -90,10 +91,10 @@ void CSearchFileDlg::find(Cmix_file& f, string file_name, string mix_name, int m
 			{
 				name = nh(8, id);
 				if (Cmix_file::get_id(f.get_game(), file_name) == id)
-					add(mix_name + " - " + name, name, mix_id, id);
+					add(mix_name + " - " + name, mix_id, id);
 			}
 			else if (fname_filter(name, file_name))
-				add(mix_name + " - " + name, name, mix_id, id);
+				add(mix_name + " - " + name, mix_id, id);
 		}
 	}
 	{
@@ -118,6 +119,7 @@ void CSearchFileDlg::OnFind()
 	{
 		CWaitCursor wait;
 		m_list.DeleteAllItems();
+		m_map.clear();
 		const t_mix_map_list& mix_list = m_main_frame->mix_map_list();
 		for (t_mix_map_list::const_iterator i = mix_list.begin(); i != mix_list.end(); i++)
 		{
@@ -131,17 +133,20 @@ void CSearchFileDlg::OnFind()
 				f.close();
 			}
 		}
+		{
+			m_list.SetItemCount(m_map.size());
+			for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+				m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
+		}
 	}
 }
 
-void CSearchFileDlg::add(string name, string fname, int mix_id, int file_id)
+void CSearchFileDlg::add(string name, int mix_id, int file_id)
 {
-	int id = m_map.size();
-	t_map_entry& e = m_map[id];
-	// e.name = fname;
+	t_map_entry& e = m_map[m_map.size()];
+	e.name = name;
 	e.id = file_id;
 	e.parent = mix_id;
-	m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), name.c_str()), id);
 }
 
 void CSearchFileDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -170,4 +175,17 @@ void CSearchFileDlg::OnDestroy()
 {
 	ETSLayoutDialog::OnDestroy();
 	m_filename = AfxGetApp()->WriteProfileString(m_reg_key, "file_name", m_filename);
+}
+
+void CSearchFileDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	int id = pDispInfo->item.lParam;
+	const t_map_entry& e = m_map.find(id)->second;
+	m_buffer[m_buffer_w] = e.name;
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
+	m_buffer_w--;
+	if (m_buffer_w < 0)
+		m_buffer_w += 4;
+	*pResult = 0;
 }

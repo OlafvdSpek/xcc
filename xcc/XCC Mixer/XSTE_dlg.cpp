@@ -292,11 +292,7 @@ void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 void CXSTE_dlg::OnOK() 
 {
 	ETSLayoutDialog::OnOK();
-	int cb_d = m_f.get_write_size();
-	byte* d = new byte[cb_d];
-	m_f.write(d);
-	file32_write(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game), d, cb_d);
-	delete[] d;
+	m_f.write().export(xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game));
 }
 
 void CXSTE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 

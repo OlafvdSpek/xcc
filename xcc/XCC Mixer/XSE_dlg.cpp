@@ -510,7 +510,7 @@ void CXSE_dlg::add_file(const string& name)
 void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	int id = m_list.GetItemData(pDispInfo->item.iItem);
+	int id = pDispInfo->item.lParam;
 	const t_map_entry& e = m_map.find(id)->second;
 	switch (pDispInfo->item.iSubItem)
 	{

@@ -19,6 +19,7 @@
 #include "aud_file.h"
 #include "aud_file_write.h"
 #include "cps_file.h"
+#include "dlg_shp_viewer.h"
 #include "extract_object.h"
 #include "hva_file.h"
 #include "ima_adpcm_wav_decode.h"
@@ -2326,6 +2327,7 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 		case ft_drive:
 		case ft_mix:
 		case ft_pak:
+		case ft_shp_ts:
 			pCmdUI->Enable(true);
 			return;
 		}
@@ -2923,7 +2925,7 @@ void CXCCMixerView::open_item(int id)
 		{
 			CWaitCursor wait;
 			Ccc_file f(true);
-			if (!open_f_index(f, get_current_index()))
+			if (!open_f_id(f, id))
 			{
 				m_xap.ds(GetMainFrame()->get_ds());
 				m_xap.load(f.get_vdata());
@@ -2953,6 +2955,18 @@ void CXCCMixerView::open_item(int id)
 				open_location_mix(id);
 			else
 				open_location_mix(m_dir + index.name);
+			break;
+		}
+	case ft_shp_ts:
+		{
+			Cshp_ts_file f;
+			if (!open_f_id(f, id))
+			{
+				Cdlg_shp_viewer dlg;
+				dlg.write(f.get_vdata(), get_default_palet());
+				f.close();
+				dlg.DoModal();
+			}
 			break;
 		}
 	}
