@@ -89,6 +89,7 @@ class Csocket
 public:
 	static string error2a(int v);
 	static int get_host(const string& name);
+	static string inet_ntoa(int h);
 	int bind(int h, int p);
 	int blocking(bool v);
 	void close();

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "wav_header.h"
 
-void wav_fill_header(t_wav_header &header, long samplesize, long samplerate, long cbits_sample, long c_channels)
+void wav_fill_header(t_wav_header& header, int samplesize, int samplerate, int cbits_sample, int c_channels)
 {
 	header.file_header.id = wav_file_id;
 	header.file_header.size = sizeof(header) - sizeof(header.file_header) + samplesize;
