@@ -19,6 +19,7 @@ public:
 	const Cvirtual_image& palet(const t_palet_entry* palet, bool inflate = false);
 	void remove_alpha();
 	void add_alpha();
+	void cb_pixel(int cb_pixel, const t_palet_entry* palet = NULL);
 	void decrease_color_depth(int cb_pixel, const t_palet_entry* palet = NULL);
 	void increase_color_depth(int cb_pixel);
 	void increase_palet_depth();
