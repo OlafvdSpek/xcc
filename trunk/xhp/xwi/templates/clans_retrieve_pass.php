@@ -1,5 +1,5 @@
 <table>
-	<form action="?a=create" method=post>
+	<form action="?a=retrieve_pass" method=post>
 		<tr>
 			<td align=right>Clan name:
 			<td><input type=text name=cname maxlength=6 value="<?php echo(htmlspecialchars($cname))?>">
