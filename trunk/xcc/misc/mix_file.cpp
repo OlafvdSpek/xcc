@@ -52,7 +52,7 @@ bool Cmix_file::is_valid()
 		byte e[8];
 		bf.decipher(data + 84, e, 8);
 		t_mix_header* header = reinterpret_cast<t_mix_header*>(e);
-		if (!header->c_files || 84 + sizeof(t_mix_header) + (header->c_files * sizeof(t_mix_index_entry) + 7 & ~7) + header->size + (m_has_checksum ? 20 : 0) != size)
+		if (!header->c_files || 84 + (sizeof(t_mix_header) + header->c_files * sizeof(t_mix_index_entry) + 7 & ~7) + header->size + (m_has_checksum ? 20 : 0) != size)
 			return false;
 	}
 	else

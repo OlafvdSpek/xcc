@@ -371,3 +371,8 @@ string xcc_dirs::find_file(Cfname s)
 	s.set_path(cd_dir);
 	return s;
 }
+
+bool xcc_dirs::is_available(t_game game)
+{
+	return Cfname(get_exe(game)).exists();
+}

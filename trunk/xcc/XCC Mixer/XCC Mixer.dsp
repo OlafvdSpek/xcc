@@ -140,6 +140,10 @@ SOURCE=.\SearchFileDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\SelectPaletDlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\shp_properties_dlg.cpp
 # End Source File
 # Begin Source File
@@ -301,6 +305,10 @@ SOURCE=.\SearchFileDlg.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\SelectPaletDlg.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\shp_properties_dlg.h
 # End Source File
 # Begin Source File
@@ -342,6 +350,10 @@ SOURCE=.\XCCFileView.h
 # Begin Source File
 
 SOURCE=.\XCCObjectExtractorDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\xm_types.h
 # End Source File
 # Begin Source File
 

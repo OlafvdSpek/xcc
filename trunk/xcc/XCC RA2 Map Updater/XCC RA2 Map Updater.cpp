@@ -178,7 +178,9 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 					if (error)
 						break;
 					const Cxif_key& l = ki->second;
-					if (to_lower(Cfname(l.get_value_string(vi_fname)).get_fext()) != ".mmx")
+					string fext = to_lower(Cfname(l.get_value_string(vi_fname)).get_fext());
+					if (fext != ".mmx"
+						&& (fext != ".yro") || !Cfname(xcc_dirs::get_exe(game_ra2_yr)).exists())
 						continue;
 					if (file32_write(Cfname(fname).get_path() + l.get_value_string(vi_fname), l.get_value(vi_fdata).get_data(), l.get_value(vi_fdata).get_size()))
 						error = 6;
@@ -191,15 +193,12 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 	return error;
 }
 
-void CXCCRA2MapUpdaterApp::create()
+static void scan_dir(string in_dir, string out_dir, string postfix, ofstream& f)
 {
-	const string in_dir = xcc_dirs::get_dir(game_ra2);
-	const string out_dir = "c:/xhp/ra2_maps/";
 	WIN32_FIND_DATA fd;
-	HANDLE findhandle = FindFirstFile((in_dir + "*.mmx").c_str(), &fd);
+	HANDLE findhandle = FindFirstFile((in_dir + '*' + postfix).c_str(), &fd);
 	if (findhandle != INVALID_HANDLE_VALUE)
-	{
-		ofstream f((out_dir + "official.ucf").c_str());
+	{		
 		do
 		{
 			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -209,13 +208,22 @@ void CXCCRA2MapUpdaterApp::create()
 				fdata.import(in_dir + fd.cFileName);
 				Cxif_key k;
 				Cxif_key& l = k.open_key_write(0);
-				l.set_value_string(vi_fname, title + ".mmx");
+				l.set_value_string(vi_fname, to_lower(fd.cFileName));
 				l.set_value_binary(vi_fdata, fdata);
 				k.vdata().export(out_dir + title + ".xmuf");
-				f << title << "=,http://xcc.virtualgn.com/ra2_maps/" << title << ".xmuf" << endl;
+				f << title << "=,http://xccu.sourceforge.net/ra2_maps/" << title << ".xmuf" << endl;
 			}
 		}
 		while (FindNextFile(findhandle, &fd));
 		FindClose(findhandle);
 	}
+}
+
+void CXCCRA2MapUpdaterApp::create()
+{
+	const string in_dir = xcc_dirs::get_dir(game_ra2);
+	const string out_dir = "z:/xhp/ra2_maps/";
+	ofstream f((out_dir + "official.ucf").c_str());
+	scan_dir(in_dir, out_dir, ".mmx", f);
+	scan_dir(in_dir, out_dir, ".yro", f);
 }

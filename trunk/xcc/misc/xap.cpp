@@ -8,6 +8,7 @@
 #include "aud_decode.h"
 #include "aud_file.h"
 #include "ima_adpcm_wav_decode.h"
+#include "ogg_file.h"
 #include "voc_file.h"
 #include "wav_file.h"
 
@@ -62,6 +63,16 @@ int Cxap::play(bool start_thread)
 			f.load(s);
 			c_channels = 1;
 			cb_sample = f.get_cb_sample();
+			c_samples = f.get_c_samples();
+			samplerate = f.get_samplerate();
+			break;
+		}
+	case ft_ogg:
+		{
+			Cogg_file f;
+			f.load(s);
+			c_channels = f.get_c_channels();
+			cb_sample = 2;
 			c_samples = f.get_c_samples();
 			samplerate = f.get_samplerate();
 			break;
@@ -158,6 +169,15 @@ int Cxap::play(bool start_thread)
 					}			
 					break;
 				}
+			case ft_ogg:
+				{
+					Cogg_file f;
+					f.load(s);
+					Cvirtual_audio audio;
+					if (!f.decode(audio))
+						memcpy(p1, audio.audio(), audio.cb_audio());
+					break;
+				}
 			case ft_voc:
 				{
 					Cvoc_file f;
@@ -179,7 +199,7 @@ int Cxap::play(bool start_thread)
 					case 0x11:
 						{
 							Cima_adpcm_wav_decode decode;
-							decode.load(f.get_data() + f.get_data_ofs(), f.get_data_size(), c_channels, 512 * c_channels);							
+							decode.load(f.get_data() + f.get_data_ofs(), f.get_data_size(), c_channels, 512 * c_channels);
 							memcpy(p1, decode.data(), cb_audio);
 							break;
 						}
@@ -195,9 +215,7 @@ int Cxap::play(bool start_thread)
 			{
 				dword status;
 				while (dsr = dsb->GetStatus(&status), DS_OK == dsr && status & DSBSTATUS_PLAYING)
-				{
 					Sleep(100);
-				}
 				dsb->Release();
 				dsb = NULL;
 			}

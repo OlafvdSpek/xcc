@@ -12,6 +12,7 @@
 #include "jpeg_file.h"
 #include "html.h"
 #include "map_ts_encoder.h"
+#include "multi_line.h"
 #include "mix_file.h"
 #include "mix_file_write.h"
 #include "neat_ini_reader.h"
@@ -339,7 +340,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 								}
 								strstream s;
 								ir1.write(s);
-								// ir1.write("c:/temp/" + fname);
+								ir1.write("c:/temp/" + fname);
 								l.set_value_binary(vi_fdata, Cvirtual_binary(s.str(), s.pcount()));
 								l.set_value_int(vi_encoding, enc_diff);						
 							}
@@ -362,9 +363,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 										e.set_value(i->first, i->second.value, i->second.extra_value);
 								}
 								g.close();
-								Cvirtual_binary d;
-								e.write(d.write_start(e.get_write_size()));
-								l.set_value_binary(vi_fdata, d);
+								l.set_value_binary(vi_fdata, e.write());
 								l.set_value_int(vi_encoding, enc_diff);
 							}
 						}
@@ -388,6 +387,8 @@ Cxif_key Cxcc_mod::save(bool export) const
 							l.set_value_binary(vi_fdata, d);
 							l.set_value_int(vi_encoding, enc_vxl);
 						}
+						else if (ft == ft_bink || ft == ft_jpeg || ft == ft_ogg || ft == ft_png)
+							l.set_value_binary(vi_fdata, f.get_vdata(), true);
 						else
 							l.set_value_binary(vi_fdata, f.get_vdata());
 					}
@@ -493,7 +494,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						if (error)
 							break;
 						const Cfname external_fname = i->second.get_value_string(vi_fname);
-						Cfname fname = Cfname(external_fname).get_fname();
+						Cfname fname = external_fname.get_fname();
 						t_file_type ft;
 						Cvirtual_binary data;
 						t_encoding encoding;
@@ -563,7 +564,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 											h = audio.save_as_aud();
 									}
 									else
-										h = audio.save_as_wav_ima_adpcm();
+										h = audio.save_as_wav_pcm(); // audio.save_as_wav_ima_adpcm();
 									if (!error)
 									{
 										if (external_data)
@@ -650,6 +651,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						{
 						case ct_cameo:
 						case ct_shp:
+						case ct_speech:
 						case ct_tmp:
 							ecache_mix.add_file(fname, data);
 							break;
@@ -665,11 +667,6 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 									ir.process(g.get_data(), g.get_size());
 									ir.process(data.data(), data.size());
 									g.close();
-									/*
-									strstream s;
-									ir.write(s);
-									expand_mix.add_file(fname, Cvirtual_binary(s.str(), s.pcount()));
-									*/
 									Cvirtual_binary d(NULL, g.get_size() + data.size());
 									strstream s(reinterpret_cast<char*>(d.data_edit()), d.size());
 									ir.write(s);
@@ -681,9 +678,11 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 							else
 								expand_mix.add_file(fname, data);
 							break;
-						case ct_interface:
 						case ct_screen:
-							expand_mix.add_file(fname, data);
+							if (fname.get_fname() == "glslmd.shp")
+								error = data.export(dir + fname);
+							else
+								expand_mix.add_file(fname, data);
 							break;
 						case ct_sound:
 							if (game == game_ts)
@@ -695,7 +694,6 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								xse.insert(fname.get_ftitle(), f);
 							}
 							break;
-						case ct_speech:
 							ecache_mix.add_file(fname, data);
 							break;
 						case ct_st:
@@ -708,18 +706,33 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								{
 									Ccsf_file e, h;
 									e.load(g);
+									g.close();
 									h.load(data);
 									const Ccsf_file::t_map& map = h.get_map();
 									for (Ccsf_file::t_map::const_iterator i = map.begin(); i != map.end(); i++)
-									{
 										e.set_value(i->first, i->second.value, i->second.extra_value);
-									}
+									error = e.write().export(dir + fname);
+								}
+							}
+							else if (ft == ft_text)
+							{
+								Ccc_file g(true);
+								if (!language_mix.is_open() || g.open(xcc_dirs::get_csf_fname(game), language_mix))
+									error = 1;
+								else
+								{
+									Ccsf_file e;
+									e.load(g);
 									g.close();
-									int cb_d = e.get_write_size();
-									byte* d = new byte[cb_d];
-									e.write(d);
-									error = file32_write(dir + fname, d, cb_d);
-									delete[] d;
+									Cmulti_line p = string(reinterpret_cast<const char*>(data.data()), data.size());
+									while (!p.empty())
+									{
+										string name, value;
+										split_key(p.get_next_line('\n'), name, value);
+										if (!name.empty() || !value.empty())
+											e.set_value(name, Ccsf_file::convert2wstring(value), "");
+									}
+									error = e.write().export(dir + xcc_dirs::get_csf_fname(game));
 								}
 							}
 							else
@@ -739,8 +752,10 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 				case ct_sound:
 					if (game != game_ts)
 					{
+						/*
 						if (!error)
 							error = xse.compact();
+						*/
 						if (!error)
 							xse.write_idx_file();
 						xse.close();
@@ -796,8 +811,10 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 			}
 		}
 	}
-	// delete_file(dir + "audio.bag");
-	// delete_file(dir + "audio.idx");
+	delete_file(dir + "audio.bag");
+	delete_file(dir + "audio.idx");
+	delete_file(dir + "glslmd.shp");
+	delete_file(dir + xcc_dirs::get_csf_fname(game));
 	delete_file(xcc_dirs::get_ecache_mix(game, true, 98));
 	delete_file(xcc_dirs::get_expand_mix(game, 98));
 	return 0;
@@ -846,7 +863,7 @@ void Cxcc_mod::clear_game_dir() const
 	delete_file(dir + "uimd.ini");
 }
 
-int Cxcc_mod::load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_audio& audio)
+int Cxcc_mod::load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_binary& audio)
 {
 	if (!key.exists_key(ct_launcher))
 		return 1;
@@ -857,8 +874,9 @@ int Cxcc_mod::load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_au
 			continue;
 		Cogg_file f;
 		f.load(i->second.get_value(vi_fdata).get_vdata());
-		if (!f.is_valid() || f.decode(audio))
+		if (!f.is_valid())
 			break;
+		audio = f.get_vdata();
 		return 0;
 	}
 	return 1;

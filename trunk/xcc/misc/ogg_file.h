@@ -25,6 +25,9 @@ public:
 	}
 
 	int decode(Cvirtual_audio& audio);
+	int get_c_channels();
+	int get_c_samples();
+	int get_samplerate();
 };
 
 int ogg_test();

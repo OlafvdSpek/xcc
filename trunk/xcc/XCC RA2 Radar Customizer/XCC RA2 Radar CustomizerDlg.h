@@ -42,6 +42,9 @@ public:
 	BOOL	m_ts;
 	BOOL	m_snow;
 	BOOL	m_lock;
+	BOOL	m_desert;
+	BOOL	m_lunar;
+	BOOL	m_ra2_yr;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides

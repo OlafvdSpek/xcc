@@ -27,7 +27,10 @@
 #define IDC_RED_SPIN                    1014
 #define IDC_URBAN_PREVIEW               1014
 #define IDC_GREEN_SPIN                  1015
+#define IDC_DESERT                      1015
 #define IDC_BLUE_SPIN                   1016
+#define IDC_LUNAR                       1016
+#define IDC_RA2_YR                      1017
 
 // Next default values for new objects
 // 

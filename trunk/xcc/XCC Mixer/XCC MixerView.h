@@ -16,6 +16,7 @@
 #include "html.h"
 #include "virtual_image.h"
 #include "xap.h"
+#include "xm_types.h"
 
 struct t_index_entry
 {
@@ -76,6 +77,7 @@ public:
 	void open_location_dir(const string& name);
 	void open_location_mix(const string& name);
 	void open_location_mix(int id);
+	void open_location_mix(t_mix_map_list::const_iterator i, int file_id);
 	void set_other_panes(CXCCFileView* file_view_pane, CXCCMixerView* other_pane);
 	void sort_list(int i, bool reverse);
 	void update_list();
@@ -92,6 +94,7 @@ public:
 
 // Implementation
 public:
+	void open_item(int id);
 	Chtml report() const;
 	void autosize_colums();
 	BOOL OnIdle(LONG lCount);
@@ -159,8 +162,6 @@ protected:
 	afx_msg void OnUpdatePopupCopyAsPAL_JASC(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsText();
 	afx_msg void OnUpdatePopupCopyAsText(CCmdUI* pCmdUI);
-	afx_msg void OnPopupPlay();
-	afx_msg void OnUpdatePopupPlay(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsMapTsPreview();
 	afx_msg void OnUpdatePopupCopyAsMapTsPreview(CCmdUI* pCmdUI);
 	afx_msg void OnPopupRefresh();

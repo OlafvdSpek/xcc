@@ -57,7 +57,7 @@ public:
 	int launch_game(bool wait) const;
 	static int launch_manual(const Cxif_key& key, string dir, HWND hWnd);
 	int load(const Cxif_key& key, string dir = "");
-	static int load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_audio& audio);
+	static int load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_binary& audio);
 	static int load_launcher_image(const Cxif_key& key, string fname, Cvirtual_image& image);
 	t_options options() const;
 	void options(t_options options);

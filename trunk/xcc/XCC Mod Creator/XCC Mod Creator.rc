@@ -207,7 +207,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.08"
+    IDR_MAINFRAME           "XCC Mod Creator 1.09"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
@@ -356,7 +356,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "&Open\tEnter",                ID_POPUP_OPEN
         MENUITEM "&Explore",                    ID_POPUP_EXPLORE
-        MENUITEM "&Insert\tIns",                ID_EDIT_INSERT
+        MENUITEM "&Insert...\tIns",             ID_EDIT_INSERT
         MENUITEM "&Delete\tDel",                ID_EDIT_DELETE
     END
 END

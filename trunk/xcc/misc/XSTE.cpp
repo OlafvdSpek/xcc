@@ -44,11 +44,8 @@ int CXSTE::open(t_game game)
 int CXSTE::write()
 {
 	m_f.seek(0);
-	int cb_d = m_csf_f.get_write_size();
-	byte* d = new byte[cb_d];
-	m_csf_f.write(d);
-	int error = m_f.write(d, cb_d);
-	delete[] d;
+	Cvirtual_binary d = m_csf_f.write();
+	int error = m_f.write(d.data(), d.size());
 	if (!error)
 		error = m_f.set_eof();
 	return error;

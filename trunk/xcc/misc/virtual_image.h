@@ -16,8 +16,10 @@
 class Cvirtual_image  
 {
 public:
-	void decrease_color_depth(const t_palet_entry* palet);
-	void increase_color_depth();
+	void remove_alpha();
+	void add_alpha();
+	void decrease_color_depth(int cb_pixel, const t_palet_entry* palet = NULL);
+	void increase_color_depth(int cb_pixel);
 	void increase_palet_depth();
 	void flip();
 	int get_clipboard();
@@ -39,12 +41,6 @@ public:
 	int save_as_png(Cvirtual_file& f) const;
 	int save_as_png(string fname) const;
 	void swap_rb();
-	/*
-	const Cvirtual_image& operator=(const Cvirtual_image& v);
-	Cvirtual_image();
-	Cvirtual_image(const Cvirtual_image& v);
-	~Cvirtual_image();
-	*/
 
 	const byte* image() const
 	{
@@ -111,9 +107,6 @@ public:
 		reinterpret_cast<t_palet_entry*>(m_image.data_edit())[ofs8(x, y)] = v;
 	}
 private:
-	static int get_clipboard(Cvirtual_image& image);
-	static int set_clipboard(const Cvirtual_image& image);
-
 	Cvirtual_binary m_image;
 	Cvirtual_binary m_palet;
 	int m_cx;

@@ -30,8 +30,7 @@ public:
 	void set_value(const string& name, const wstring& value, const string& extra_value);
 	static string convert2string(const wstring& s);
 	static wstring convert2wstring(const string& s);
-	int get_write_size() const;
-	void write(byte* d) const;
+	Cvirtual_binary write() const;
 
 	bool is_valid() const
 	{
@@ -66,6 +65,9 @@ public:
 		return m_map.find(name) != m_map.end();
 	}
 private:
+	int get_write_size() const;
+	void write(byte* d) const;
+
 	t_map m_map;
 };
 

@@ -57,14 +57,16 @@ void CLeftView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
 	CTreeCtrl& tc = GetTreeCtrl();
+	/*
 	HTREEITEM root = tc.InsertItem("\\");
 	tc.SetItemData(root, Cxcc_mod::ct_unknown);
+	*/
 	for (int i = 0; i < Cxcc_mod::ct_unknown; i++)
 	{
-		HTREEITEM h = tc.InsertItem(Cxcc_mod::ct_name[i], root);
+		HTREEITEM h = tc.InsertItem(Cxcc_mod::ct_name[i], TVI_ROOT);
 		tc.SetItemData(h, i);
 	}
-	tc.Expand(root, TVE_EXPAND);
+	// tc.Expand(root, TVE_EXPAND);
 }
 
 /////////////////////////////////////////////////////////////////////////////

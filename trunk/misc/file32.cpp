@@ -20,6 +20,7 @@ Cfile32::~Cfile32()
     assert(!is_open());
 }
 
+#ifdef _MSC_VER
 HANDLE Cfile32::handle()
 {
 	assert(is_open());
@@ -58,30 +59,6 @@ int Cfile32::open(const string& name, dword access, dword creation, dword share)
     m_is_open = true;
     return 0;
 }
-
-int Cfile32::open_read(const string& name)
-{
-	return open(name, GENERIC_READ, OPEN_EXISTING, FILE_SHARE_READ);
-}
-
-int Cfile32::open_edit(const string& name)
-{
-	return open(name, GENERIC_READ | GENERIC_WRITE, OPEN_ALWAYS, 0);
-}
-
-int Cfile32::open_write(const string& name)
-{
-	return open(name, GENERIC_WRITE, CREATE_ALWAYS, 0);
-}
-
-int Cfile32::get_size() const
-{
-    assert(is_open());
-    int res = GetFileSize(m_handle, NULL);
-    assert(res != -1);
-    return res;
-}
-
 FILETIME Cfile32::get_creation_time() const
 {
     assert(is_open());
@@ -108,10 +85,60 @@ FILETIME Cfile32::get_last_write_time() const
 	assert(r);
 	return time;
 }
+#endif
+
+int Cfile32::open_read(const string& name)
+{
+#ifdef _MSC_VER
+	return open(name, GENERIC_READ, OPEN_EXISTING, FILE_SHARE_READ);
+#else
+	assert(!m_f.is_open());
+	m_f.open(name.c_str(), ios::binary | ios::in);
+	return m_f.fail();
+#endif
+}
+
+int Cfile32::open_edit(const string& name)
+{
+#ifdef _MSC_VER
+	return open(name, GENERIC_READ | GENERIC_WRITE, OPEN_ALWAYS, 0);
+#else
+	m_f.open(name.c_str(), ios::binary | ios::in | ios::out);
+	return m_f.fail();
+#endif
+}
+
+int Cfile32::open_write(const string& name)
+{
+#ifdef _MSC_VER
+	return open(name, GENERIC_WRITE, CREATE_ALWAYS, 0);
+#else
+	m_f.open(name.c_str(), ios::binary | ios::out | ios::trunc);
+	return m_f.fail();
+#endif
+}
+
+int Cfile32::get_size() const
+{
+    assert(is_open());
+#ifdef _MSC_VER
+    int res = GetFileSize(m_handle, NULL);
+    assert(res != -1);
+    return res;
+#else
+	fstream f = m_f;
+	int pos = f.tellp();
+	f.seekp(0, ios::end);
+	int size = f.tellp();
+	f.seekp(pos);
+	return size;
+#endif
+}
 
 int Cfile32::read(void* data, int size)
 {
     assert(is_open());
+#ifdef _MSC_VER
     if (SetFilePointer(m_handle, m_p, 0, FILE_BEGIN) == -1)
         return 1;
     dword cb_read;
@@ -119,6 +146,10 @@ int Cfile32::read(void* data, int size)
 		return 1;
     m_p += size;
     return 0;
+#else
+	m_f.read(reinterpret_cast<char*>(data), size);
+	return m_f.fail();
+#endif
 }
 
 int Cfile32::read_line(string& s)
@@ -150,6 +181,7 @@ int Cfile32::read_line(string& s)
 int Cfile32::write(const void* data, int size)
 {
     assert(is_open());
+#ifdef _MSC_VER
     if (SetFilePointer(m_handle, m_p, 0, FILE_BEGIN) == -1)
         return 1;
     dword cb_write;
@@ -157,6 +189,10 @@ int Cfile32::write(const void* data, int size)
 		return 1;
     m_p += size;
     return 0;
+#else
+	m_f.write(reinterpret_cast<const char*>(data), size);
+	return m_f.fail();
+#endif
 }
 
 int Cfile32::write(int v)
@@ -169,18 +205,30 @@ int Cfile32::write(const string& s)
 	return write(s.c_str(), s.length() + 1);
 };
 
+#ifdef _MSC_VER
+#else
+#endif
+
 int Cfile32::set_eof()
 {
     assert(is_open());
+#ifdef _MSC_VER
     if (SetFilePointer(m_handle, m_p, 0, FILE_BEGIN) == -1)
         return 1;
 	return !SetEndOfFile(m_handle);
+#else
+	return write(NULL, 0);
+#endif
 }
 
 void Cfile32::close()
 {
     assert(is_open());
+#ifdef _MSC_VER
 	CloseHandle(m_handle);
+#else
+	m_f.close();
+#endif
     m_is_open = false;
 }
 

@@ -55,6 +55,9 @@ void convert_palet_24_to_18(const t_palet s, t_palet d);
 void convert_palet_24_to_18(t_palet palet);
 void create_downsample_table(const t_palet palet, byte* rp);
 void create_rp(const t_palet s1, const t_palet s2, byte* d);
+void downsample_image(const t_palet32entry* s, byte* d, int cx, int cy, const byte* rp);
+void downsample_image(const t_palet32entry* s, byte* d, int cx, int cy, const t_palet palet);
+void upsample_image(const byte* s, t_palet32entry* d, int cx, int cy, const t_palet palet);
 int find_color(int r, int g, int b, const t_palet p);
 int find_color_t(int r, int g, int b, const t_palet p);
 

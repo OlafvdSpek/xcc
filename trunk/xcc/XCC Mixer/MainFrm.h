@@ -9,6 +9,9 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+#include "XCCFileView.h"
+#include "XCC MixerView.h"
+
 #include <ddraw.h>
 #include <mmsystem.h>
 #include <dsound.h>
@@ -16,16 +19,23 @@
 #include "mix_file.h"
 #include "pal_file.h"
 #include "xcc_apps.h"
-#include "XCCFileView.h"
-#include "XCC MixerView.h"
+#include "xm_types.h"
+
+struct t_pal_map_list_entry
+{
+	string name;
+	int parent;
+};
 
 struct t_pal_list_entry
 {
 	string name;
 	t_palet palet;
+	int parent;
 };
 
 typedef map<int, string> t_mix_list;
+typedef map<int, t_pal_map_list_entry> t_pal_map_list;
 typedef map<int, t_pal_list_entry> t_pal_list;
 
 class CMainFrame : public CFrameWnd
@@ -42,7 +52,7 @@ public:
 
 // Operations
 public:
-	void do_mix(Cmix_file& f, const string& mix_name);
+	void do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent);
 	void find_mixs(const string& dir, t_game game);
 	void find_paks(const string& dir, t_game game);
 	void initialize_lists();
@@ -59,6 +69,10 @@ public:
 
 // Implementation
 public:
+	void set_palet(int id);
+	void clean_pal_map_list();
+	int mix_list_create_map(string name, string fname, int id, int parent);
+	int pal_list_create_map(string name, int parent);
 	BOOL OnIdle(LONG lCount);
 	void close_dd();
 	void open_dd();
@@ -98,6 +112,16 @@ public:
 		return m_enable_compression;
 	}
 
+	const t_mix_map_list& mix_map_list() const
+	{
+		return m_mix_map_list;
+	}
+
+	const t_mix_list& mix_list() const
+	{
+		return m_mix_list;
+	}
+
 	bool remap_team_colors() const
 	{
 		return m_remap_team_colors;
@@ -123,6 +147,8 @@ protected:  // control bar embedded members
 	int m_mix_i[6];
 	int m_pal_i[6];
 	t_mix_list m_mix_list;
+	t_mix_map_list m_mix_map_list;
+	t_pal_map_list m_pal_map_list;
 	t_pal_list m_pal_list;
 	bool m_combine_shadows;
 	bool m_convert_from_td;
@@ -234,6 +260,7 @@ protected:
 	afx_msg void OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXTW_RA2_YR();
 	afx_msg void OnUpdateLaunchXTW_RA2_YR(CCmdUI* pCmdUI);
+	afx_msg void OnViewPaletSelect();
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

@@ -143,3 +143,10 @@ void Ccsf_file::write(byte* d) const
 	}
 	assert(w - d == get_write_size());
 }
+
+Cvirtual_binary Ccsf_file::write() const
+{
+	Cvirtual_binary d;
+	write(d.write_start(get_write_size()));
+	return d;
+}
