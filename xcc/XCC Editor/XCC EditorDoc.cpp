@@ -30,8 +30,6 @@ END_MESSAGE_MAP()
 
 CXCCEditorDoc::CXCCEditorDoc()
 {
-	// TODO: add one-time construction code here
-
 }
 
 CXCCEditorDoc::~CXCCEditorDoc()
@@ -84,21 +82,6 @@ void CXCCEditorDoc::Serialize(CArchive& ar)
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorDoc diagnostics
-
-#ifdef _DEBUG
-void CXCCEditorDoc::AssertValid() const
-{
-	CDocument::AssertValid();
-}
-
-void CXCCEditorDoc::Dump(CDumpContext& dc) const
-{
-	CDocument::Dump(dc);
-}
-#endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCEditorDoc commands

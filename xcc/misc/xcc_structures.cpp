@@ -33,13 +33,9 @@ dword xcc_structures::c_structures()
 
 int xcc_structures::load_data()
 {
-	Ccc_file f(true);
-	f.open(xcc_dirs::get_data_dir() + structures_xif_fname);
-	if (!f.is_open())
-		return 1;
 	Cxif_key structures_key;
-	structures_key.load_key(f.get_vdata());
-	f.close();
+	if (structures_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + structures_xif_fname)))
+		return 1;
 	int structure_i = 0;
 	for (t_xif_key_map::iterator i = structures_key.m_keys.begin(); i != structures_key.m_keys.end(); i++)
 	{

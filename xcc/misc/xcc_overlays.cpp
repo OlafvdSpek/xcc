@@ -116,16 +116,8 @@ enum
 
 int Cxcc_overlays::load_data()
 {
-	Ccc_file f(false);
-	f.open(xcc_dirs::get_data_dir() + overlays_xif_fname);
-	if (!f.is_open())
+	if (base_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + overlays_xif_fname)))
 		return 1;
-	const dword size = f.get_size();
-	byte* data = new byte[size];
-	f.read(data, size);
-	f.close();
-	base_key.load_key(data, size);
-	delete[] data;
 	{
 		const Cxif_key& overlay_key = base_key.get_key(ki_overlay);
 		for (int i = 0; i < c_overlay_id; i++)

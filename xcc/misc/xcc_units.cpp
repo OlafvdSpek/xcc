@@ -32,13 +32,9 @@ dword xcc_units::c_units()
 
 int xcc_units::load_data()
 {
-	Ccc_file f(true);
-	f.open(xcc_dirs::get_data_dir() + units_xif_fname);
-	if (!f.is_open())
-		return 1;
 	Cxif_key units_key;
-	units_key.load_key(f.get_vdata());
-	f.close();
+	if (units_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + units_xif_fname)))
+		return 1;
 	int unit_i = 0;
 	for (t_xif_key_map::iterator i = units_key.m_keys.begin(); i != units_key.m_keys.end(); i++)
 	{
