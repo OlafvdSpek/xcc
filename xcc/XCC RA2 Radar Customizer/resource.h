@@ -12,6 +12,8 @@
 #define IDC_RESET                       1006
 #define IDC_URBAN                       1007
 #define IDC_RELATIVE                    1008
+#define IDC_TS                          1009
+#define IDC_RA2                         1010
 
 // Next default values for new objects
 // 

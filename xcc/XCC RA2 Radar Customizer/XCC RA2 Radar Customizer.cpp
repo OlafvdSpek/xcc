@@ -53,13 +53,7 @@ BOOL CXCCRA2RadarCustomizerApp::InitInstance()
 
 	CXCCRA2RadarCustomizerDlg dlg;
 	m_pMainWnd = &dlg;
-	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-	}
-	else if (nResponse == IDCANCEL)
-	{
-	}
+	dlg.DoModal();
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.
