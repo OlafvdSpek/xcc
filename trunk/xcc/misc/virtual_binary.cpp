@@ -26,16 +26,22 @@ Cvirtual_binary_source::Cvirtual_binary_source(const void* d, int cb_d, Csmart_r
 	mc_references = 1;
 }
 
+Cvirtual_binary_source* Cvirtual_binary_source::attach()
+{
+	if (this)
+		mc_references++;
+	return this;
+}
+
 void Cvirtual_binary_source::detach()
 {
-	if (!--mc_references)
-	{
-		if (m_source)
-			m_source->detach();
-		else
-			delete m_data;
-		delete this;
-	}
+	if (!this || --mc_references)
+		return;
+	if (m_source)
+		m_source->detach();
+	else
+		delete[] m_data;
+	delete this;
 }
 
 Cvirtual_binary_source* Cvirtual_binary_source::pre_edit()
@@ -58,7 +64,7 @@ Cvirtual_binary::Cvirtual_binary()
 
 Cvirtual_binary::Cvirtual_binary(const Cvirtual_binary& v)
 {
-	m_source = v.m_source ? v.m_source->attach() : NULL;
+	m_source = v.m_source->attach();
 }
 
 Cvirtual_binary::Cvirtual_binary(const void* d, int cb_d)
@@ -79,17 +85,15 @@ Cvirtual_binary::Cvirtual_binary(const string& fname, bool use_mm)
 
 Cvirtual_binary::~Cvirtual_binary()
 {
-	if (m_source)
-		m_source->detach();
+	m_source->detach();
 }
 
 const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 {
 	if (this != &v)
 	{
-		if (m_source)
-			m_source->detach();
-		m_source = v.m_source ? v.m_source->attach() : NULL;
+		m_source->detach();
+		m_source = v.m_source->attach();
 	}
 	return *this;
 }
@@ -116,8 +120,6 @@ int Cvirtual_binary::import(const string& fname, bool use_mm)
 
 void Cvirtual_binary::clear()
 {
-	if (!m_source)
-		return;
 	m_source->detach();
 	m_source = NULL;
 }
@@ -137,8 +139,7 @@ byte* Cvirtual_binary::write_start(int cb_d)
 {
 	if (data() && size() == cb_d)
 		return data_edit();
-	if (m_source)
-		m_source->detach();
+	m_source->detach();
 	m_source = new Cvirtual_binary_source(NULL, cb_d);
 	return data_edit();
 }
