@@ -38,6 +38,13 @@ public:
 	BOOL	m_swap_xy;
 	BOOL	m_textures;
 	int		m_size;
+	BOOL	m_flip_z;
+	BOOL	m_swap_yz;
+	BOOL	m_swap_zx;
+	BOOL	m_materials;
+	int		m_resolution;
+	BOOL	m_enable_viewer;
+	float	m_scale;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides

@@ -17,13 +17,20 @@ struct t_options
 	bool estimate_origin;
 	bool flip_x;
 	bool flip_y;
+	bool flip_z;
 	bool sgal;
 	bool sgn;
 	int size;
 	string skybox;
 	string source;
 	bool swap_xy;
+	bool swap_yz;
+	bool swap_zx;
+	bool materials;
 	bool textures;
+	int resolution;
+	float scale;
+	bool enable_viewer;
 };
 
 class C3ds2vxl_fe_ini_reader: public Cini_reader

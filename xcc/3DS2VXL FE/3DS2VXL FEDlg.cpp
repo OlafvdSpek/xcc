@@ -34,6 +34,13 @@ CMy3DS2VXLFEDlg::CMy3DS2VXLFEDlg(CWnd* pParent /*=NULL*/)
 	m_swap_xy = FALSE;
 	m_textures = FALSE;
 	m_size = 0;
+	m_flip_z = FALSE;
+	m_swap_yz = FALSE;
+	m_swap_zx = FALSE;
+	m_materials = FALSE;
+	m_resolution = 0;
+	m_enable_viewer = FALSE;
+	m_scale = 0.0f;
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -54,6 +61,13 @@ void CMy3DS2VXLFEDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_SWAP_XY, m_swap_xy);
 	DDX_Check(pDX, IDC_TEXTURES, m_textures);
 	DDX_Text(pDX, IDC_MAX_SIZE, m_size);
+	DDX_Check(pDX, IDC_FLIP_Z, m_flip_z);
+	DDX_Check(pDX, IDC_SWAP_YZ, m_swap_yz);
+	DDX_Check(pDX, IDC_SWAP_ZX, m_swap_zx);
+	DDX_Check(pDX, IDC_MATERIALS, m_materials);
+	DDX_CBIndex(pDX, IDC_RESOLUTION, m_resolution);
+	DDX_Check(pDX, IDC_ENABLE_VIEWER, m_enable_viewer);
+	DDX_Text(pDX, IDC_SCALE, m_scale);
 	//}}AFX_DATA_MAP
 }
 
@@ -93,13 +107,20 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 	m_estimate_origin = options.estimate_origin;
 	m_flip_x = options.flip_x;
 	m_flip_y = options.flip_y;
+	m_flip_z = options.flip_z;
 	m_sgal = options.sgal;
 	m_sgn = options.sgn;
 	m_size = options.size;
 	m_skybox = options.skybox.c_str();
 	m_source = options.source.c_str();
 	m_swap_xy = options.swap_xy;
+	m_swap_yz = options.swap_yz;
+	m_swap_zx = options.swap_zx;
+	m_materials = options.materials;
 	m_textures = options.textures;
+	m_resolution = options.resolution;
+	m_scale = options.scale;
+	m_enable_viewer = options.enable_viewer;
 	
 	CDialog::OnInitDialog();
 
@@ -114,11 +135,18 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 		m_tooltip.Activate(TRUE);
 		m_tooltip.AddTool(GetDlgItem(IDC_FLIP_X), "Change this if the model is facing backwards.");
 		m_tooltip.AddTool(GetDlgItem(IDC_FLIP_Y), "Change this if you get a sort of x-ray vision effect.");
+		m_tooltip.AddTool(GetDlgItem(IDC_FLIP_Z), "Change this if the model is upside-down.");
 		m_tooltip.AddTool(GetDlgItem(IDC_SWAP_XY), "Change this if the model is facing sideways.");
+		m_tooltip.AddTool(GetDlgItem(IDC_SWAP_YZ), "Change this if the model is lying on it's side.");
+		m_tooltip.AddTool(GetDlgItem(IDC_SWAP_ZX), "Change this if the model is facing up or down.");
 		m_tooltip.AddTool(GetDlgItem(IDC_ESTIMATE_ORIGIN), "Change this if the reference ellipsoids are not centered in the center of mass of the model. Neither way may be what you want but just pick the best.");
-		m_tooltip.AddTool(GetDlgItem(IDC_SGN), "I recommend you keep this off.");
+		m_tooltip.AddTool(GetDlgItem(IDC_SGN), "I recommend you keep this off most times.");
 		m_tooltip.AddTool(GetDlgItem(IDC_SGAL), "Not working yet.");
-		m_tooltip.AddTool(GetDlgItem(IDC_TEXTURES), "Working partially and only in the viewer. Try deactivating if the model looks full of static.");
+		m_tooltip.AddTool(GetDlgItem(IDC_TEXTURES), "Working partially. Try deactivating if the model looks full of static.");
+		m_tooltip.AddTool(GetDlgItem(IDC_MATERIALS), "Deactivate this if you want the whole model to be the same default color.");
+		m_tooltip.AddTool(GetDlgItem(IDC_ENABLE_VIEWER), "Deactivate this if running from a server edition of windows.");
+		
+			
 	}
 	return true;
 }
@@ -202,13 +230,20 @@ void CMy3DS2VXLFEDlg::OnOK()
 	options.estimate_origin = m_estimate_origin;
 	options.flip_x = m_flip_x;
 	options.flip_y = m_flip_y;
+	options.flip_z = m_flip_z;
 	options.sgal = m_sgal;
 	options.sgn = m_sgn;
 	options.size = m_size;
 	options.skybox = m_skybox;
 	options.source = m_source;
 	options.swap_xy = m_swap_xy;
+	options.swap_yz = m_swap_yz;
+	options.swap_zx = m_swap_zx;
+	options.materials = m_materials;
 	options.textures = m_textures;
+	options.resolution = m_resolution;
+	options.scale = m_scale;
+	options.enable_viewer = m_enable_viewer;
 	write_ini(options, ofstream(m_fname.c_str()));
 	Cfname fname = "3ds2vxl.exe";
 	fname.set_path(GetModuleFileName().get_path());

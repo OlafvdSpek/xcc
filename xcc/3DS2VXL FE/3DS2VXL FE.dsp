@@ -127,6 +127,10 @@ SOURCE=..\..\misc\string_conversion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_binary.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\virtual_tfile.cpp
 # End Source File
 # End Group
