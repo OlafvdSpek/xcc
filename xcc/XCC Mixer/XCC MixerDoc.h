@@ -13,7 +13,6 @@
 class CXCCMixerDoc : public CDocument
 {
 protected: // create from serialization only
-	CXCCMixerDoc();
 	DECLARE_DYNCREATE(CXCCMixerDoc)
 
 // Attributes
@@ -26,12 +25,10 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCMixerDoc)
 	public:
-	virtual BOOL OnNewDocument();
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CXCCMixerDoc();
 
 protected:
 
