@@ -694,28 +694,32 @@ int CXCCMixerView::open_f_index(Ccc_file& f, int i) const
 	return open_f_id(f, GetListCtrl().GetItemData(i));
 }
 
-Cvirtual_binary CXCCMixerView::get_vdata(int i) const
+Cvirtual_binary CXCCMixerView::get_vdata_id(int id) const
 {
-	int id = GetListCtrl().GetItemData(i);
 	return m_mix_f ? m_mix_f->get_vdata(id) : Cvirtual_binary(m_dir + m_index.find(id)->second.name);
 }
 
-Cvirtual_image CXCCMixerView::get_vimage(int i) const
+Cvirtual_binary CXCCMixerView::get_vdata(int i) const
+{
+	return get_vdata(GetListCtrl().GetItemData(i));
+}
+
+Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 {
 	Cvirtual_image d;
-	switch (m_index.find(GetListCtrl().GetItemData(i))->second.ft)
+	switch (m_index.find(id)->second.ft)
 	{
 	case ft_cps:
 		{
 			Ccps_file f;
-			f.load(get_vdata(i));
+			f.load(get_vdata_id(id));
 			d = f.vimage();
 		}
 		break;
 	case ft_dds:
 		{
 			Cdds_file f;
-			f.load(get_vdata(i));
+			f.load(get_vdata_id(id));
 			d = f.vimage();
 			d.remove_alpha();
 		}
@@ -724,26 +728,26 @@ Cvirtual_image CXCCMixerView::get_vimage(int i) const
 	case ft_pcx:
 	case ft_png:
 	case ft_tga:
-		d.load(get_vdata(i));
+		d.load(get_vdata_id(id));
 		break;
 	case ft_shp_ts:
 		{
 			Cshp_ts_file f;
-			f.load(get_vdata(i));
+			f.load(get_vdata_id(id));
 			f.extract_as_pcx_single(d, get_default_palet(), GetMainFrame()->combine_shadows());
 		}
 		break;
 	case ft_tmp_ra:
 		{
 			Ctmp_ra_file f;
-			f.load(get_vdata(i));
+			f.load(get_vdata_id(id));
 			d = f.vimage();
 		}
 		break;
 	case ft_tmp_ts:
 		{
 			Ctmp_ts_file f;
-			f.load(get_vdata(i));
+			f.load(get_vdata_id(id));
 			d = f.vimage();
 		}
 		break;
@@ -751,6 +755,11 @@ Cvirtual_image CXCCMixerView::get_vimage(int i) const
 	if (d.cb_pixel() == 1 && !d.palet())
 		d.palet(get_default_palet(), true);
 	return d;
+}
+
+Cvirtual_image CXCCMixerView::get_vimage(int i) const
+{
+	return get_vimage_id(GetListCtrl().GetItemData(i));
 }
 
 void CXCCMixerView::OnPopupExtract()
@@ -808,7 +817,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_cps:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
-		if (d == ft_clipboard)
+		if (d == ft_clipboard || d == ft_map_ts_preview)
 			return true;
 	case ft_shp_dune2:
 	case ft_wsa_dune2:
@@ -818,13 +827,13 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_jpeg:
 	case ft_png:
 	case ft_tga:
-		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
+		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
 	case ft_hva:
 		return d == ft_csv;
 	case ft_pal:
 		return d == ft_pal_jasc;
 	case ft_pcx:
-		return d == ft_clipboard || d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_vxl;
+		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
@@ -995,71 +1004,53 @@ int CXCCMixerView::copy_as_aud(int i, Cfname fname) const
 {
 	Cwav_file f;
 	int error = open_f_index(f, i);
-	if (!error)
+	if (error)
+		return error;
+	fname.set_ext(".aud");
+	if (error = f.process())
+		return error;
+	const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+	int cb_data = f.get_data_header().size;
+	int samplerate = format_chunk.samplerate;
+	if (format_chunk.tag != 0x0001 ||
+		format_chunk.c_channels != 1 && format_chunk.c_channels != 2 ||
+		format_chunk.cbits_sample != 16)
+		return 0x100;
+	Cvirtual_binary data;
+	f.seek(f.get_data_ofs());
+	if (error = f.read(data.write_start(cb_data), cb_data))
+		return error;
+	int c_samples = cb_data >> 1;
+	if (format_chunk.c_channels == 2)
 	{
-		fname.set_ext(".aud");
-		error = f.process();
-		const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
-		int cb_data = f.get_data_header().size;
-		int samplerate = format_chunk.samplerate;
-		if (!error)
-		{
-			if (format_chunk.tag != 0x0001 ||
-				format_chunk.c_channels != 1 && format_chunk.c_channels != 2 ||
-				format_chunk.cbits_sample != 16)
-			{
-				error = 256;
-			}
-			else
-			{
-				byte* data = new byte[cb_data];
-				f.seek(f.get_data_ofs());
-				error = f.read(data, cb_data);
-				if (!error)
-				{
-					int c_samples = cb_data >> 1;
-					if (format_chunk.c_channels == 2)
-					{
-						audio_combine_channels(reinterpret_cast<__int16*>(data), c_samples);
-						c_samples >>= 1;
-					}
-					if (samplerate == 44100)
-					{
-						audio_combine_channels(reinterpret_cast<__int16*>(data), c_samples);
-						c_samples >>= 1;
-						samplerate >>= 1;
-					}
-					Caud_file_write g;
-					error = g.open_write(fname);
-					if (!error)
-					{
-						g.set_c_samples(c_samples);
-						g.set_samplerate(samplerate);
-						error = g.write_header();
-						if (!error)
-						{
-							aud_decode aud_d;
-							aud_d.init();
-							const short* r = reinterpret_cast<const short*>(data);
-							byte chunk[512];
-							while (c_samples)
-							{
-								int cs_chunk = min(c_samples, 1024);
-								aud_d.encode_chunk(r, chunk, cs_chunk);
-								r += cs_chunk;
-								error = g.write_chunk(chunk, cs_chunk);
-								if (error)
-									break;
-								c_samples -= cs_chunk;
-							}
-						}
-						delete[] data;
-						g.close();
-					}
-				}
-			}
-		}
-		f.close();
+		audio_combine_channels(reinterpret_cast<__int16*>(data.data_edit()), c_samples);
+		c_samples >>= 1;
+	}
+	if (samplerate == 44100)
+	{
+		audio_combine_channels(reinterpret_cast<__int16*>(data.data_edit()), c_samples);
+		c_samples >>= 1;
+		samplerate >>= 1;
+	}
+	Caud_file_write g;
+	if (error = g.open_write(fname))
+		return error;
+	g.set_c_samples(c_samples);
+	g.set_samplerate(samplerate);
+	if (error = g.write_header())
+		return error;
+	aud_decode aud_d;
+	aud_d.init();
+	const short* r = reinterpret_cast<const short*>(data.data());
+	byte chunk[512];
+	while (c_samples)
+	{
+		int cs_chunk = min(c_samples, 1024);
+		aud_d.encode_chunk(r, chunk, cs_chunk);
+		r += cs_chunk;
+		if (error = g.write_chunk(chunk, cs_chunk))
+			return error;
+		c_samples -= cs_chunk;
 	}
 	return error;
 }
@@ -1169,28 +1160,14 @@ int CXCCMixerView::copy_as_hva(int i, Cfname fname) const
 int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 {
 	fname.set_ext(".txt");
-	Cpcx_file f;
-	int error = open_f_index(f, i);
-	if (error)
-		return error;
-	int cx = f.cx();
-	int cy = f.cy();
-	Cvirtual_binary s(NULL, cx * cy * 3);
-	if (f.cb_pixel() == 1)
-	{
-		byte* t = new byte[cx * cy];
-		pcx_decode(f.get_image(), t, *f.get_header());
-		convert_image_8_to_24(t, s.data_edit(), cx, cy, *f.get_palet());
-		delete[] t;
-	}
-	else
-		pcx_decode(f.get_image(), s.data_edit(), *f.get_header());
+	Cvirtual_image image = get_vimage(i);
+	image.cb_pixel(3);
 	Cvirtual_binary d;
-	d.size(encode5(s, d.write_start(cx * cy * 6), s.size(), 5));
+	d.size(encode5(image.image(), d.write_start(image.cx() * image.cy() * 6), image.cb_image(), 5));
 	Cvirtual_binary e = encode64(d);
 	ofstream g(fname.get_all().c_str());
 	g << "[Preview]" << endl
-		<< "Size=0,0," << cx << ',' << cy << endl
+		<< "Size=0,0," << image.cx() << ',' << image.cy() << endl
 		<< endl
 		<< "[PreviewPack]" << endl;
 	const byte* r = e;
@@ -1605,46 +1582,6 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 	fname.set_ext(".vxl");
 	switch (m_index.find(get_id(i))->second.ft)
 	{
-	case ft_pcx:
-		{
-			string base_name = get_base_name(fname);
-			if (get_index_from_name(base_name, fname))
-				return em_bad_fname;
-			Cvirtual_image image;			
-			if (error = image.load(get_vdata(i)))
-				return error;
-			int cx = image.cx();
-			int cy = image.cy();
-			int c_images = 0;
-			byte* s = NULL;
-			int index[256];
-			for (int i = 0; i < 256; i++)
-				index[i] = -1;
-			for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
-			{
-				int z = get_index_from_name(base_name, j->second.name);
-				if (z != -1 && z < 256)
-					index[z] = j->first;
-			}
-			while (i--)
-			{
-				int id = index[i];
-				if (id == -1)
-					continue;
-				if (error = image.load(get_vdata(i)))
-					return error;
-				if (image.cx() != cx || image.cy() != cy || image.cb_pixel() != 1)
-					return em_bad_depth;
-				if (!s)
-				{
-					c_images = i + 1;
-					s = new byte[cx * cy * c_images];
-				}
-				memcpy(s + cx * cy * i, image.image(), cx * cy);
-			}
-			Cvirtual_binary d = vxl_file_write(s, NULL, cx, cy, c_images);
-			return d.size() ? d.export(fname) : 1;
-		}
 	case ft_text:
 		{
 			Cvirtual_tfile f;
@@ -1659,6 +1596,44 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			if (error)
 				return error;
 			Cvirtual_binary d = vxl_file_write(k);
+			return d.size() ? d.export(fname) : 1;
+		}
+	default:
+		{
+			string base_name = get_base_name(fname);
+			if (get_index_from_name(base_name, fname))
+				return em_bad_fname;
+			Cvirtual_image image = get_vimage(i);
+			int cx = image.cx();
+			int cy = image.cy();
+			Cvirtual_binary s;
+			int index[256];
+			for (int i = 0; i < 256; i++)
+				index[i] = -1;
+			for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+			{
+				int z = get_index_from_name(base_name, j->second.name);
+				if (z != -1 && z < 256)
+					index[z] = j->first;
+			}
+			int c_images = 0;
+			while (i--)
+			{
+				int id = index[i];
+				if (id == -1)
+					continue;
+				image = get_vimage_id(id);
+				if (image.cx() != cx || image.cy() != cy)
+					return em_bad_size;
+				if (image.cb_pixel() != 1)
+					return em_bad_depth;
+				if (!s)
+					c_images = i + 1;
+				memcpy(s.write_start(cx * cy * c_images) + cx * cy * i, image.image(), cx * cy);
+			}
+			Cvirtual_binary d = vxl_file_write(s, NULL, cx, cy, c_images);
+			trim(base_name);
+			fname.set_title(base_name);
 			return d.size() ? d.export(fname) : 1;
 		}
 	}
