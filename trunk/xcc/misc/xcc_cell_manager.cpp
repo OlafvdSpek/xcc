@@ -8,7 +8,7 @@ void xcc_cell_manager::clear()
 	ZeroMemory(cell_info, sizeof(cell_info));
 }
 
-void xcc_cell_manager::add(const Cxcc_cell& cell, dword v)
+void xcc_cell_manager::add(const Cxcc_cell& cell, int v)
 {
 	t_cell_info* ci = &cell_info[cell.get_y() >> 10][cell.get_x() >> 10];
 	while (ci->c_entries == 16)
@@ -16,9 +16,9 @@ void xcc_cell_manager::add(const Cxcc_cell& cell, dword v)
 		if (!ci->next)
 		{
 			bool found = false;
-			for (long j = 0; j < 0x40; j++)
+			for (int j = 0; j < 0x40; j++)
 			{
-				for (long i = 0; i < 0x40; i++)
+				for (int i = 0; i < 0x40; i++)
 				{
 					if (!cell_info[64 | j][i].c_entries)
 					{
@@ -33,7 +33,7 @@ void xcc_cell_manager::add(const Cxcc_cell& cell, dword v)
 		}
 		ci = &cell_info[ci->next >> 8][ci->next & 0xff];
 	}
-	for (long i = 0; i < 16; i++)
+	for (int i = 0; i < 16; i++)
 	{
 		if (!ci->entry[i])
 		{
@@ -70,7 +70,7 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	}
 	{
 		// infantry
-		long index = 0;
+		int index = 0;
 		for (t_infantry_data::const_iterator i = level.infantry_data.begin(); i != level.infantry_data.end(); i++)
 		{
 			add(i->cell, oi_infantry << 24 | index++);
@@ -78,7 +78,7 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	}
 	{
 		// structure
-		long index = 0;
+		int index = 0;
 		for (t_structure_data::const_iterator i = level.structure_data.begin(); i != level.structure_data.end(); i++)
 		{
 			add(i->cell, oi_structure << 24 | index++);
@@ -86,7 +86,7 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	}
 	{
 		// unit
-		long index = 0;
+		int index = 0;
 		for (t_unit_data::const_iterator i = level.unit_data.begin(); i != level.unit_data.end(); i++)
 		{
 			add(i->cell, oi_unit << 24 | index++);

@@ -23,12 +23,12 @@ namespace xcc_infantry
 		string short_name;
 		int cx;
 		int cy;
-		dword flags;
+		int flags;
 		void* images;
 		void* icon;
 	};
 	
-	dword c_infantry();
+	int c_infantry();
 
 	int load_data();
 	int save_data();

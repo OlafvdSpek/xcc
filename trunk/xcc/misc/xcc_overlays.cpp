@@ -74,14 +74,14 @@ static const char* overlays_xif_fname = "overlays.xif";
 
 struct t_overlay_data_entry
 {
-	dword ox;
-	dword oy;
+	int ox;
+	int oy;
 };
 
 struct t_terrain_data_entry
 {
-	dword c_images;
-	dword blocked;
+	int c_images;
+	int blocked;
 };
 
 Cxif_key base_key;
@@ -188,7 +188,7 @@ int Cxcc_overlays::save_data()
 	return base_key.vdata().export(xcc_dirs::get_data_dir() + overlays_xif_fname);
 }
 
-bool Cxcc_overlays::terrain_in(dword v, t_theater_id theater)
+bool Cxcc_overlays::terrain_in(int v, t_theater_id theater)
 {
 	return (terrain_data[v >> 8].c_images >> (theater << 3)) & 0xff;
 }
@@ -261,24 +261,24 @@ void Cxcc_overlays::destroy()
 	}
 }
 
-bool Cxcc_overlays::terrain_blocked(dword v)
+bool Cxcc_overlays::terrain_blocked(int v)
 {
 	return terrain_data[v >> 8].blocked >> (v & 0xff) & 1;
 }
 
-void Cxcc_overlays::terrain_switch_blocked(dword v)
+void Cxcc_overlays::terrain_switch_blocked(int v)
 {
 	terrain_data[v >> 8].blocked ^= 1 << (v & 0xff);
 }
 
-const byte* Cxcc_overlays::get_overlay_image(dword v, int& x, int& y, int& cx, int& cy)
+const byte* Cxcc_overlays::get_overlay_image(int v, int& x, int& y, int& cx, int& cy)
 {
 	x = overlay_data[v >> 8].ox;
 	y = overlay_data[v >> 8].oy;
 	return shp_images::get_shp(overlay_image_list[v >> 8], v & 0xff, cx, cy);
 }
 
-const byte* Cxcc_overlays::get_terrain_image(dword v, int& x, int& y, int& cx, int& cy)
+const byte* Cxcc_overlays::get_terrain_image(int v, int& x, int& y, int& cx, int& cy)
 {
 	x = 0;
 	y = 0;

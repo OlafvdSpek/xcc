@@ -24,7 +24,7 @@ Cxcc_dsb::~Cxcc_dsb()
 {
 }
 
-long Cxcc_dsb::create(Cxcc_ds &ds, long size, long c_channels, long samplerate, long cbits_sample, dword flags)
+int Cxcc_dsb::create(Cxcc_ds &ds, int size, int c_channels, int samplerate, int cbits_sample, int flags)
 {
 	pds = &ds;
 	WAVEFORMATEX wfdesc;
@@ -66,7 +66,7 @@ const LPDIRECTSOUNDBUFFER Cxcc_dsb::get_p() const
 	return pdsb;
 }
 
-long Cxcc_dsb::play(dword flags)
+int Cxcc_dsb::play(int flags)
 {
 	if (DS_OK != pdsb->Play(0, 0, flags))
 	{
@@ -76,7 +76,7 @@ long Cxcc_dsb::play(dword flags)
 	return 0;
 }
 
-long Cxcc_dsb::stop()
+int Cxcc_dsb::stop()
 {
 	if (DS_OK != pdsb->Stop())
 	{
@@ -86,7 +86,7 @@ long Cxcc_dsb::stop()
 	return 0;
 }
 
-long Cxcc_dsb::set_pos(dword pos)
+int Cxcc_dsb::set_pos(int pos)
 {
 	if (DS_OK != pdsb->SetCurrentPosition(pos))
 	{
@@ -96,7 +96,7 @@ long Cxcc_dsb::set_pos(dword pos)
 	return 0;
 }
 
-long Cxcc_dsb::set_samplerate(dword samplerate)
+int Cxcc_dsb::set_samplerate(int samplerate)
 {
 	if (DS_OK != pdsb->SetFrequency(samplerate))
 	{
@@ -106,7 +106,7 @@ long Cxcc_dsb::set_samplerate(dword samplerate)
 	return 0;
 }
 
-long Cxcc_dsb::lock(dword pos, dword size, void** p1, dword* s1, void** p2, dword* s2)
+int Cxcc_dsb::lock(int pos, int size, void** p1, dword* s1, void** p2, dword* s2)
 {
 
 	if (DS_OK != pdsb->Lock(pos, size, p1, s1, p2, s2, 0))
@@ -117,7 +117,7 @@ long Cxcc_dsb::lock(dword pos, dword size, void** p1, dword* s1, void** p2, dwor
 	return 0;
 }
 
-long Cxcc_dsb::unlock(void* p1, dword s1, void* p2, dword s2)
+int Cxcc_dsb::unlock(void* p1, int s1, void* p2, int s2)
 {
 	
 	if (DS_OK != pdsb->Unlock(p1, s1, p2, s2))
