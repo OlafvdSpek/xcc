@@ -95,7 +95,7 @@ var occasion="reset"
 var message_on_occasion="reset"
 var opentags='<span class="norm"><font size="2" color="#FF8000"><b>'
 var closetags='</span></font>'
-var montharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+var montharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dez")
 var crosscount=''
 function start_countdown(){
 if (document.layers)
@@ -897,7 +897,7 @@ var occasion="reset"
 var message_on_occasion="reset"
 var opentags='<span class="norm"><font size="2" color="#FF8000"><b>'
 var closetags='</span></font>'
-var montharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec")
+var montharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dez")
 var crosscount=''
 function start_countdown(){
 if (document.layers)

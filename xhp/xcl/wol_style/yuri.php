@@ -398,7 +398,7 @@ if($Monat == 8) { $month = "Aug"; }
 if($Monat == 9) { $month = "Sep"; }
 if($Monat == 10) { $month = "Oct"; }
 if($Monat == 11) { $month = "Nov"; }
-if($Monat == 12) { $month = "Dez"; }
+if($Monat == 12) { $month = "Dec"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
 echo "$month $Tag, $Jahr";
@@ -594,7 +594,7 @@ if($Monat == 8) { $month = "Aug"; }
 if($Monat == 9) { $month = "Sep"; }
 if($Monat == 10) { $month = "Oct"; }
 if($Monat == 11) { $month = "Nov"; }
-if($Monat == 12) { $month = "Dez"; }
+if($Monat == 12) { $month = "Dec"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
 echo "$month $Tag, $Jahr";
