@@ -54,6 +54,7 @@ BSC32=bscmake.exe
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
 # ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
+# SUBTRACT LINK32 /profile
 
 !ELSEIF  "$(CFG)" == "XCC Mixer - Win32 Debug"
 
@@ -80,6 +81,7 @@ BSC32=bscmake.exe
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
+# SUBTRACT LINK32 /profile
 
 !ENDIF 
 
@@ -129,10 +131,6 @@ SOURCE=.\MainFrm.cpp
 # Begin Source File
 
 SOURCE=..\misc\map_ts_encoder.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_rg_file.cpp
 # End Source File
 # Begin Source File
 
