@@ -4,6 +4,8 @@
 
 #include "stdafx.h"
 #include "xcc_level.h"
+
+#include "virtual_tfile_write.h"
 #include "xcc_log.h"
 #include "xcc_infantry.h"
 #include "xcc_structures.h"
@@ -853,7 +855,7 @@ int Cxcc_level::load_bin(const word* data)
 int Cxcc_level::load_ini(const byte* data, dword size, bool fast)
 {
 	Cvirtual_tfile f;
-	f.load_data(data, size);
+	f.load_data(Cvirtual_binary(data, size));
 	t_section_id section;
 	bool handle_section = false;
 	int line_i = 0;
@@ -974,8 +976,8 @@ void Cxcc_level::save_bin(word*& data) const
 
 void Cxcc_level::save_ini(byte*& data, dword& size) const
 {
-	Cvirtual_tfile f;
-	f.set_force_upper_case(true);
+	Cvirtual_tfile_write f;
+	// f.set_force_upper_case(true);
 
 	// basic
 

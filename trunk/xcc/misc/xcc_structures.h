@@ -26,8 +26,8 @@ namespace xcc_structures
 {
 	struct t_structure_data_entry
 	{
-		char* long_name;
-		char* short_name;
+		string long_name;
+		string short_name;
 		long cx;
 		long cy;
 		dword flags;

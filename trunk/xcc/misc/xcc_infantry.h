@@ -19,8 +19,8 @@ namespace xcc_infantry
 {
 	struct t_infantry_data_entry
 	{
-		char* long_name;
-		char* short_name;
+		string long_name;
+		string short_name;
 		long cx;
 		long cy;
 		dword flags;

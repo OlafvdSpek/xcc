@@ -21,8 +21,8 @@ namespace xcc_units
 {
 	struct t_unit_data_entry
 	{
-		char* long_name;
-		char* short_name;
+		string long_name;
+		string short_name;
 		int cx;
 		int cy;
 		int base_ox;

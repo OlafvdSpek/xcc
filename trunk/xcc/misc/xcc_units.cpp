@@ -48,23 +48,23 @@ int xcc_units::load_data()
 	{
 		t_unit_data_entry& ud = unit_data[unit_i];
 		Cxif_key& uk = i->second;
-		ud.long_name = uk.get_value_c_str(vi_ud_long_name);
-		ud.short_name = uk.get_value_c_str(vi_ud_short_name);
-		ud.cx = uk.get_value_dword(vi_ud_cx);
-		ud.cy = uk.get_value_dword(vi_ud_cy);
+		ud.long_name = uk.get_value_string(vi_ud_long_name);
+		ud.short_name = uk.get_value_string(vi_ud_short_name);
+		ud.cx = uk.get_value_int(vi_ud_cx);
+		ud.cy = uk.get_value_int(vi_ud_cy);
 		ud.base_ox = 0;
 		ud.base_oy = 0;
-		ud.flags = uk.get_value_dword(vi_ud_flags);
-		ud.c_rotations = uk.get_value_dword(vi_ud_c_rotations);
+		ud.flags = uk.get_value_int(vi_ud_flags);
+		ud.c_rotations = uk.get_value_int(vi_ud_c_rotations);
 		for (t_xif_value_map::const_iterator i = uk.m_values.begin(); i != uk.m_values.end(); i++)
 		{
 			switch (i->first)
 			{
 			case vi_ud_base_ox:
-				ud.base_ox = i->second.get_data_dword();
+				ud.base_ox = i->second.get_int();
 				break;
 			case vi_ud_base_oy:
-				ud.base_oy = i->second.get_data_dword();
+				ud.base_oy = i->second.get_int();
 				break;
 			}
 		}
@@ -87,14 +87,14 @@ int xcc_units::save_data()
 			list[static_cast<string>(ud.short_name)] = i;
 		}
 	}
-	units_key.delete_all_keys();
+	units_key = Cxif_key(); // .delete_all_keys();
 	int unit_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
 		t_unit_data_entry& ud = unit_data[i->second];
 		Cxif_key& uk = units_key.set_key(unit_i);
-		uk.set_value(vi_ud_long_name, ud.long_name);
-		uk.set_value(vi_ud_short_name, ud.short_name);
+		uk.set_value_string(vi_ud_long_name, ud.long_name);
+		uk.set_value_string(vi_ud_short_name, ud.short_name);
 		uk.set_value(vi_ud_cx, static_cast<dword>(ud.cx));
 		uk.set_value(vi_ud_cy, static_cast<dword>(ud.cy));
 		if (ud.base_ox)
@@ -105,6 +105,8 @@ int xcc_units::save_data()
 		uk.set_value(vi_ud_c_rotations, static_cast<dword>(ud.c_rotations));
 		unit_i++;
 	}
+	return units_key.vdata().export(xcc_dirs::get_data_dir() + units_xif_fname);
+	/*
 	Cfile32 f;
 	if (f.open_write(xcc_dirs::get_data_dir() + units_xif_fname))
 		return 1;
@@ -115,6 +117,7 @@ int xcc_units::save_data()
 	delete[] data;
 	f.close();
 	return 0;
+	*/
 }
 
 int xcc_units::load_images(bool load_icons)
@@ -166,8 +169,6 @@ void xcc_units::destroy()
 	for (int i = 0; i < 256; i++)
 	{
 		t_unit_data_entry& ud = unit_data[i];
-		delete[] ud.long_name;
-		delete[] ud.short_name;;
 	}
 }
 
