@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
+#include "fname.h"
 #include "virtual_audio.h"
 #include "virtual_image.h"
 #include "xif_key.h"
@@ -41,7 +42,7 @@ public:
 		int mf_version;
 	};
 
-	enum t_category_type {ct_cameo, ct_hva, ct_ini, ct_map, ct_mix, ct_screen, ct_shp, ct_sound, ct_speech, ct_st, ct_theme, ct_video, ct_vxl, ct_launcher, ct_manual, ct_interface, ct_tmp, ct_unknown};
+	enum t_category_type {ct_cameo, ct_hva, ct_ini, ct_map, ct_mix, ct_screen, ct_shp, ct_sound, ct_speech, ct_st, ct_theme, ct_video, ct_vxl, ct_launcher, ct_manual, ct_interface, ct_tmp, ct_side_1, ct_side_2, ct_side_3, ct_unknown};
 	typedef set<string> t_category_file_list;
 
 	t_category_file_list category_file_list(t_category_type category) const;
@@ -51,12 +52,13 @@ public:
 	bool contains(t_category_type category, string fname, bool strip_path = false) const;
 	bool future_version();
 	int insert(t_category_type category, string fname);
-	static int activate(const Cxif_key& key, bool external_data);
-	int activate() const;
+	int activate(Cxif_key key, bool external_data);
+	int activate();
 	int deactivate(bool remove_themes) const;
 	int launch_game(bool wait) const;
 	static int launch_manual(const Cxif_key& key, string dir, HWND hWnd);
 	int load(const Cxif_key& key, string dir = "");
+	void load_modules(Cxif_key& key, Cfname fname);
 	static int load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_binary& audio);
 	static int load_launcher_image(const Cxif_key& key, string fname, Cvirtual_image& image);
 	t_options options() const;
@@ -71,7 +73,10 @@ public:
 	static const char* ct_name[];
 private:
 	typedef map<t_category_type, t_category_file_list> t_file_list;
+	typedef list<string> t_module_list;
+
 	t_file_list m_file_list;
+	t_module_list m_module_list;
 	t_options m_options;
 };
 
