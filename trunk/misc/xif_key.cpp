@@ -5,7 +5,8 @@
 #include "stdafx.h"
 #include "xif_key.h"
 
-#include "file32.h"
+#include <bzip/bzlib.h>
+#include <zlib/zlib.h>
 #include "string_conversion.h"
 
 template <class T>
@@ -258,21 +259,26 @@ int Cxif_key::load_key(const byte* data, int size)
 		{
 			Cvirtual_binary d;
 			if (header.version == file_version_new)
-				error = uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_old), size - sizeof(t_xif_header_old)) != Z_OK;
+				error = Z_OK != uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_old), size - sizeof(t_xif_header_old));
 			else
-				error = uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_fast), header.size_compressed) != Z_OK;
+			{
+				if (memcmp(data + sizeof(t_xif_header_fast), "BZh", 3))
+					error = Z_OK != uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_fast), header.size_compressed);
+				else
+					error = BZ_OK != BZ2_bzBuffToBuffDecompress(reinterpret_cast<char*>(d.write_start(cb_d)), reinterpret_cast<unsigned int*>(&cb_d), const_cast<char*>(reinterpret_cast<const char*>(data + sizeof(t_xif_header_fast))), header.size_compressed, 0, 0);
+			}
 			// d.export("c:/temp/xif data.bin");
 			if (!error)
 			{
 				read_p = d.data();
 				load_new(read_p);
 				error = read_p != d.data_end();
-			}
-			if (header.version == file_version_fast && !error)
-			{
-				read_p = data + sizeof(t_xif_header_fast) + header.size_compressed;
-				load_external(read_p);
-				error = size != read_p - data;
+				if (header.version == file_version_fast && !error)
+				{
+					read_p = data + sizeof(t_xif_header_fast) + header.size_compressed;
+					load_external(read_p);
+					error = size != read_p - data;
+				}
 			}
 		}
 		else
@@ -311,6 +317,29 @@ Cvirtual_binary Cxif_key::vdata(bool fast) const
 	unsigned long cb_d = s.size() + (s.size() + 999) / 1000 + 12;
 	t_xif_header_fast& header = *reinterpret_cast<t_xif_header_fast*>(d.write_start(sizeof(t_xif_header_fast) + cb_d + external_size));
 	compress(d.data_edit() + sizeof(t_xif_header_fast), &cb_d, s.data(), s.size());
+	w = d.data_edit() + sizeof(t_xif_header_fast) + cb_d;
+	external_save(w);
+	header.id = file_id;
+	header.version = file_version_fast;
+	header.size_uncompressed = size;
+	header.size_compressed = cb_d;
+	header.size_external = external_size;
+	d.size(sizeof(t_xif_header_fast) + cb_d + external_size);
+	return d;
+}
+
+Cvirtual_binary Cxif_key::export_bz() const
+{
+	Cvirtual_binary d;
+	int size = get_size();
+	int external_size = get_external_size();
+	Cvirtual_binary s;
+	byte* w = s.write_start(size);
+	save(w);
+	unsigned int cb_d = s.size() + (s.size() + 99) / 100 + 600;
+	t_xif_header_fast& header = *reinterpret_cast<t_xif_header_fast*>(d.write_start(sizeof(t_xif_header_fast) + cb_d + external_size));
+	if (BZ_OK != BZ2_bzBuffToBuffCompress(reinterpret_cast<char*>(d.data_edit() + sizeof(t_xif_header_fast)), &cb_d, const_cast<char*>(reinterpret_cast<const char*>(s.data())), s.size(), 9, 0, 0))
+		return Cvirtual_binary();
 	w = d.data_edit() + sizeof(t_xif_header_fast) + cb_d;
 	external_save(w);
 	header.id = file_id;

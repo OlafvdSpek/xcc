@@ -9,11 +9,13 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+// #pragma comment(lib, "bzip_static.lib")
+// #pragma comment(lib, "z_static.lib")
+
 #include <map>
 #include <string>
 #include "virtual_binary.h"
 #include "xif_value.h"
-#include "zlib.h"
 
 using namespace std;
 
@@ -241,6 +243,7 @@ public:
 
 	void dump(ostream& os, bool show_ratio, int depth = 0, Cvirtual_binary* t = NULL) const;
 	void dump_ratio(ostream& os, Cvirtual_binary* t) const;
+	Cvirtual_binary export_bz() const;
 	int load_key(const byte* data, int size);
 	Cvirtual_binary vdata(bool fast = false) const;
 
