@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "../misc/ ../../misc/" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x409 /d "NDEBUG" /d "_AFXDLL"
@@ -193,6 +193,10 @@ SOURCE=..\misc\id_log.cpp
 # Begin Source File
 
 SOURCE=..\misc\ima_adpcm_wav_decode.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ima_adpcm_wav_encode.cpp
 # End Source File
 # Begin Source File
 
@@ -369,6 +373,14 @@ SOURCE=..\misc\tmp_ts_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_image.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\virtual_tfile.cpp
 # End Source File
 # Begin Source File
@@ -402,6 +414,10 @@ SOURCE=..\misc\wsa_dune2_file.cpp
 # Begin Source File
 
 SOURCE=..\misc\wsa_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\xap.cpp
 # End Source File
 # Begin Source File
 
@@ -453,6 +469,10 @@ SOURCE=.\XSE_list.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\XSTE.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\XSTE_dlg.cpp
 # End Source File
 # Begin Source File
@@ -467,10 +487,6 @@ SOURCE=..\..\misc\xstring.cpp
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
-# Begin Source File
-
-SOURCE=..\misc\audio_idx_file.h
-# End Source File
 # Begin Source File
 
 SOURCE=..\misc\cc_file.h
@@ -501,7 +517,11 @@ SOURCE=..\misc\id_log.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\ima_adpcm_wav_decode.h
+SOURCE=..\misc\ima_adpcm_wav_decode.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ima_adpcm_wav_encode.h
 # End Source File
 # Begin Source File
 
@@ -521,51 +541,11 @@ SOURCE=..\misc\map_ts_ini_reader.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\mix_cache.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_sfl.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mp3_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mp3_frame_header.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\null_ini_reader.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\pak_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=.\ResizeDlg.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Resource.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\rules_ts_ini_reader.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\SearchFileDlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\sound_ts_ini_reader.h
 # End Source File
 # Begin Source File
 
@@ -577,7 +557,19 @@ SOURCE=.\StdAfx.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_image.h
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\XCC Home Page\cgi-bin\misc\web_tools.h"
+# End Source File
+# Begin Source File
+
+SOURCE=.\xap.h
 # End Source File
 # Begin Source File
 
@@ -590,18 +582,6 @@ SOURCE=".\XCC MixerDoc.h"
 # Begin Source File
 
 SOURCE=".\XCC MixerView.h"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_file_sh.h
 # End Source File
 # Begin Source File
 
@@ -618,6 +598,10 @@ SOURCE=.\XSE_dlg.h
 # Begin Source File
 
 SOURCE=.\XSE_list.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\XSTE.h
 # End Source File
 # Begin Source File
 

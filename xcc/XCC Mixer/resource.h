@@ -5,13 +5,13 @@
 #define IDC_RESET_DATA                  3
 #define IDC_RESET_CD                    4
 #define IDD_ABOUTBOX                    100
+#define IDD_XCC_OBJECT_EXTRACTOR        101
 #define CG_IDR_POPUP_MIX_VIEW           102
 #define IDR_MAINFRAME                   128
 #define IDR_XCCMIXTYPE                  129
 #define IDD_DIRECTORIES                 130
 #define IDD_RESIZE                      131
 #define IDD_SEARCH_FILE                 132
-#define IDD_XCC_OBJECT_EXTRACTOR        133
 #define IDD_XSTE                        134
 #define IDD_XSTE_EDIT                   135
 #define IDD_XSE                         136
@@ -23,7 +23,10 @@
 #define IDC_FILENAME                    1002
 #define IDC_DUNE2000                    1003
 #define IDC_LIST                        1003
+#define IDC_RELATIVE_CX                 1003
 #define IDC_TS                          1004
+#define IDC_CAT_LIST                    1004
+#define IDC_RELATIVE_CY                 1004
 #define IDC_RA                          1005
 #define IDC_NAME                        1005
 #define IDC_RA2                         1006
@@ -43,6 +46,11 @@
 #define IDC_EXTRACT_TO_EDIT             1017
 #define IDC_EXTRACT_TO_STATIC           1018
 #define IDC_EXTRACT_TO_BUTTON           1019
+#define IDC_NAME_STATIC                 1020
+#define IDC_MAIL_STATIC                 1021
+#define IDC_LINK_TITLE_STATIC           1022
+#define IDC_LINK_STATIC                 1023
+#define IDC_MAINTAIN_ASPECT_RATIO       1024
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -302,11 +310,9 @@
 #define ID_LAUNCH_RA2                   33071
 #define ID_LAUNCH_TS                    33072
 #define ID_POPUP_COPY_AS_MAP_TS_PREVIEW 33073
-#define ID_LAUNCH_XCC_THEME_WRITER      33074
 #define ID_POPUP_REFRESH                33075
 #define ID_POPUP_RESIZE                 33076
 #define ID_FILE_SEARCH                  33077
-#define ID_LAUNCH_XCC_OBJECT_EXTRACTOR  33078
 #define ID_POPUP_COPY_AS_HTML           33079
 #define ID_FILE_CREATE_SFL              33080
 #define ID_POPUP_IMPORT_INTO_TS         33081
@@ -316,6 +322,19 @@
 #define ID_LAUNCH_XOE_RA2               33085
 #define ID_LAUNCH_XSE                   33086
 #define ID_LAUNCH_XSTE                  33089
+#define ID_LAUNCH_FA                    33090
+#define ID_LAUNCH_RAGE                  33091
+#define ID_CONVERSION_ENABLE_COMPRESSION 33092
+#define ID_LAUNCH_XTW_TS                33093
+#define ID_LAUNCH_XTW_RA2               33094
+#define ID_POPUP_COPY_AS_WAV_IMA_ADPCM  33098
+#define ID_POPUP_COPY_AS_WAV_PCM        33099
+#define ID_CONVERSION_COMBINE_SHADOWS   33100
+#define ID_POPUP_COPY_AS_PCX_SINGLE     33101
+#define ID_POPUP_CLIPBOARD_COPY         33102
+#define ID_POPUP_CLIPBOARD_PASTEASPCX   33103
+#define ID_POPUP_CLIPBOARD_PASTEASSHPTS 33104
+#define ID_POPUP_COPY_AS_PNG_SINGLE     33105
 
 // Next default values for new objects
 // 
@@ -323,8 +342,8 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        137
-#define _APS_NEXT_COMMAND_VALUE         33090
-#define _APS_NEXT_CONTROL_VALUE         1020
+#define _APS_NEXT_COMMAND_VALUE         33106
+#define _APS_NEXT_CONTROL_VALUE         1027
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

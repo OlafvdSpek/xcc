@@ -53,7 +53,7 @@
 
 const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "cps", "csv", "dir", "drive", "fnt", "html", "hva", 
 	"ini", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
-	"mix", "mng", "mp3", "mrf", "pak", "pal", "pal (jasc)", "pcx", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
+	"mix", "mng", "mp3", "mrf", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
 	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
 	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 

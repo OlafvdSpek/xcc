@@ -39,6 +39,11 @@ public:
 		return m_game;
 	}
 
+	void set_game(t_game game)
+	{
+		m_game = game;
+	}
+
 	int get_id(int index) const
 	{
 		return m_index[index].id;

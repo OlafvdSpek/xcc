@@ -8,6 +8,7 @@
 
 static const char* section_code[] = {"movies", "unknown"};
 
+/*
 static const char* key_code[] =
 {
 	"activeanim",
@@ -213,6 +214,7 @@ static const char* key_code[] =
 	"zshapepointmove",
 	"unknown"
 };
+*/
 
 Cart_ts_ini_reader::Cart_ts_ini_reader()
 {
@@ -255,6 +257,7 @@ int Cart_ts_ini_reader::process_key(const string& name, const string& value)
 	case sei_unknown:
 		if (m_fast)
 		{
+			/*
 			switch (find_id(name, key_code, kid_unknown))
 			{
 			case kid_activeanim:
@@ -462,6 +465,8 @@ int Cart_ts_ini_reader::process_key(const string& name, const string& value)
 			default:
 				return 1;
 			}
+			*/
+			return 1;
 		}
 		else
 			(*m_current_entry)[name]=value;

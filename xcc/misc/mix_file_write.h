@@ -23,6 +23,7 @@ public:
 	void add_file(string name, const byte* d, int cb_d);
 	int write_start();
 	int write(byte* d) const;
+	int write(string fname);
 	~Cmix_file_write();
 private:
 	struct t_index_entry

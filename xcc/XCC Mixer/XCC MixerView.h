@@ -51,6 +51,7 @@ public:
 	int copy_as_map_ts_preview(int i, Cfname fname) const;
 	int copy_as_pal(int i, Cfname fname) const;
 	int copy_as_pal_jasc(int i, Cfname fname) const;
+	int copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const;
 	int copy_as_pcx(int i, Cfname fname, t_file_type ft) const;
 	int copy_as_shp(int i, Cfname fname) const;
 	int copy_as_shp_ts(int i, Cfname fname) const;
@@ -124,8 +125,6 @@ protected:
 	afx_msg void OnUpdatePopupCopyAsPCX(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsSHP();
 	afx_msg void OnUpdatePopupCopyAsSHP(CCmdUI* pCmdUI);
-	// afx_msg void OnPopupCopyAsWAV();
-	// afx_msg void OnUpdatePopupCopyAsWAV(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsWSA();
 	afx_msg void OnUpdatePopupCopyAsWSA(CCmdUI* pCmdUI);
 	afx_msg void OnPopupDelete();
@@ -174,6 +173,12 @@ protected:
 	afx_msg void OnUpdatePopupCopyAsWavImaAdpcm(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsWavPcm();
 	afx_msg void OnUpdatePopupCopyAsWavPcm(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsPcxSingle();
+	afx_msg void OnUpdatePopupCopyAsPcxSingle(CCmdUI* pCmdUI);
+	afx_msg void OnPopupClipboardCopy();
+	afx_msg void OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsPngSingle();
+	afx_msg void OnUpdatePopupCopyAsPngSingle(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

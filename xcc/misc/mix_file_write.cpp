@@ -73,3 +73,14 @@ int Cmix_file_write::write(byte* d) const
 	header.size = w - body_start;
 	return w - d;
 }
+
+
+int Cmix_file_write::write(string fname)
+{
+	int cb_d = write_start();
+	byte* d = new byte[cb_d];
+	write(d);
+	int error = file32_write(fname, d, cb_d);
+	delete[] d;
+	return error;
+}

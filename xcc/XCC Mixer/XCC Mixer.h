@@ -26,13 +26,18 @@ class CXCCMixerApp : public CWinApp
 {
 public:
 	void find_fs_exe();
+	void find_fa_exe();
 	void find_se_exe();
 	string get_fs_exe() const;
 	bool is_fs_available() const;
+	string get_fa_exe() const;
+	bool is_fa_available() const;
 	string get_se_exe() const;
 	bool is_se_available() const;
 	string get_semm_exe() const;
 	bool is_semm_available() const;
+	string get_rage_exe() const;
+	bool is_rage_available() const;
 	string get_xcc_av_player_exe() const;
 	bool is_xcc_av_player_available() const;
 	string get_xcc_editor_exe() const;
@@ -75,8 +80,10 @@ public:
 	DECLARE_MESSAGE_MAP()
 private:
 	string m_fs_exe;
+	string m_fa_exe;
 	string m_se_exe;
 	string m_semm_exe;
+	string m_rage_exe;
 	string m_xcc_av_player_exe;
 	string m_xcc_editor_exe;
 	string m_xcc_mix_editor_exe;

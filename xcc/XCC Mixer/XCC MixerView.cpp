@@ -132,6 +132,12 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV_IMA_ADPCM, OnUpdatePopupCopyAsWavImaAdpcm)
 	ON_COMMAND(ID_POPUP_COPY_AS_WAV_PCM, OnPopupCopyAsWavPcm)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV_PCM, OnUpdatePopupCopyAsWavPcm)
+	ON_COMMAND(ID_POPUP_COPY_AS_PCX_SINGLE, OnPopupCopyAsPcxSingle)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PCX_SINGLE, OnUpdatePopupCopyAsPcxSingle)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_COPY, OnPopupClipboardCopy)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_COPY, OnUpdatePopupClipboardCopy)
+	ON_COMMAND(ID_POPUP_COPY_AS_PNG_SINGLE, OnPopupCopyAsPngSingle)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PNG_SINGLE, OnUpdatePopupCopyAsPngSingle)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -677,7 +683,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp:
 		return d == ft_pcx || d == ft_shp_ts;
 	case ft_shp_ts:
-		return d == ft_pcx || d == ft_png;
+		return d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
 	case ft_text:
 		return d == ft_hva;
 	case ft_vqa:
@@ -778,11 +784,13 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		case ft_pal_jasc:
 			error = copy_as_pal_jasc(*i, fname);
 			break;
-		case ft_pcx:
-			error = copy_as_pcx(*i, fname, ft_pcx);
+		case ft_pcx_single:
+		case ft_png_single:
+			error = copy_as_pcx_single(*i, fname, ft);
 			break;
+		case ft_pcx:
 		case ft_png:
-			error = copy_as_pcx(*i, fname, ft_png);
+			error = copy_as_pcx(*i, fname, ft);
 			break;
 		case ft_shp:
 			error = copy_as_shp(*i, fname);
@@ -1107,6 +1115,27 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	{
 		error =  f.extract_as_pal_jasc(fname);
 		f.close();
+	}
+	return error;
+}
+
+int CXCCMixerView::copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const
+{
+	int error = 0;
+	fname.set_ext(ft == ft_png_single ? ".png" : ".pcx");
+	switch (m_index.find(get_id(i))->second.ft)
+	{
+	case ft_shp_ts:
+		{
+			Cshp_ts_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error = f.extract_as_pcx_single(fname, ft, get_default_palet(), GetMainFrame()->combine_shadows());
+				f.close();
+			}
+			break;
+		}
 	}
 	return error;
 }
@@ -1948,6 +1977,26 @@ void CXCCMixerView::OnUpdatePopupCopyAsPCX(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_pcx));
 }
 
+void CXCCMixerView::OnPopupCopyAsPcxSingle() 
+{
+	copy_as(ft_pcx_single);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsPcxSingle(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_pcx_single));
+}
+
+void CXCCMixerView::OnPopupCopyAsPngSingle() 
+{
+	copy_as(ft_png_single);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsPngSingle(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_png_single));
+}
+
 void CXCCMixerView::OnPopupCopyAsPNG() 
 {
 	copy_as(ft_png);
@@ -2322,5 +2371,66 @@ void CXCCMixerView::OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI)
 		}
 	}
 	pCmdUI->Enable(false);
+}
+
+void CXCCMixerView::OnPopupClipboardCopy() 
+{
+	int error = 0;
+	int id = get_current_id();
+	switch (m_index.find(id)->second.ft)
+	{
+	case ft_shp_ts:
+		{
+			Cshp_ts_file f;
+			error = open_f_id(f, id);
+			if (!error)
+			{
+				Cvirtual_image image;
+				error = f.extract_as_pcx_single(image, get_default_palet(), GetMainFrame()->combine_shadows());
+				if (!error)
+				{
+					CBitmap bitmap;
+					if (bitmap.CreateBitmap(image.cx(), image.cy(), image.cb_pixel(), 8, image.image()))
+					{
+						if (OpenClipboard())
+						{
+							if (EmptyClipboard())
+							{
+								if (SetClipboardData(CF_BITMAP, bitmap.m_hObject))
+								{
+									LOGPALETTE* logpalette = reinterpret_cast<LOGPALETTE*>(new byte[sizeof(LOGPALETTE) + 255 * sizeof(PALETTEENTRY)]);
+									logpalette->palVersion = 0;
+									logpalette->palNumEntries = 256;
+									for (int i = 0; i < 256; i++)
+									{
+										logpalette->palPalEntry[i].peRed = image.palet()[i].r;
+										logpalette->palPalEntry[i].peGreen = image.palet()[i].g;
+										logpalette->palPalEntry[i].peBlue = image.palet()[i].b;
+										logpalette->palPalEntry[i].peFlags = 0;
+									}
+									CPalette palet;
+									if (palet.CreatePalette(logpalette))
+									{
+										if (SetClipboardData(CF_PALETTE, palet.m_hObject))
+											palet.Detach();
+									}
+									delete logpalette;
+									bitmap.Detach();
+								}
+							}
+							CloseClipboard();
+						}
+					}
+				}
+				f.close();
+			}
+			break;
+		}
+	}
+}
+
+void CXCCMixerView::OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_pcx_single));
 }
 

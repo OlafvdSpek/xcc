@@ -45,23 +45,22 @@ void Cextract_object::open_default(t_game game)
 	}
 	else
 	{
-		int j;
-		for (j = 0; j < 10; j++)
+		for (int j = 0; j < 100; j++)
 		{
-			add_mix(xcc_dirs::get_ts_dir() + "ecache" + nwzl(1, 9 - j) + ".mix");
-		}
-		for (j = 0; j < 100; j++)
-		{
-			add_mix(xcc_dirs::get_ts_dir() + "expand" + nwzl(2, 99 - j) + ".mix");
+			add_mix(xcc_dirs::get_ra2_dir() + "ecache" + nwzl(2, 99 - j) + ".mix");
+			add_mix(xcc_dirs::get_ra2_dir() + "expand" + nwzl(2, 99 - j) + ".mix");
 		}
 		add_mix(xcc_dirs::get_ra2_dir() + "language.mix");
 		add_mix(xcc_dirs::get_ra2_dir() + "ra2.mix");
 		add_path(xcc_dirs::get_ra2_dir());
+		m_xste.open();
 	}
 }
 
 void Cextract_object::close_all()
 {
+	if (m_game == game_ra2)
+		m_xste.close();
 	for (t_mix_list::iterator i = m_mix_list.begin(); i != m_mix_list.end(); i++)
 		i->close();
 	m_mix_list.clear();
@@ -104,6 +103,7 @@ int Cextract_object::add_mix(string name, Cmix_file* g)
 		add_mix("sounds01.mix", &f);
 		add_mix("sounds.mix", &f);
 		add_mix("temperat.mix", &f);
+		add_mix("urban.mix", &f);
 	}
 	for (t_mix_list::iterator i = m_mix_list.begin(); i != m_mix_list.end(); )
 	{
@@ -258,9 +258,11 @@ void Cextract_object::store_file(string name, Cxif_key& k, int& n)
 		l.set_value_binary(vi_value, f.get_data(), f.get_size());
 		f.close();
 	}
-	if (name.length() >= 2 && name[1] == 'A')
+	if (name.length() >= 2 && tolower(name[1]) == 'a')
 	{
-		name[1] = 'T';
+		name[1] = 't';
+		store_file(name, k, n);
+		name[1] = 'u';
 		store_file(name, k, n);
 	}
 }
@@ -323,8 +325,16 @@ void Cextract_object::add_one(string name, t_object_type ot)
 	case ot_weapon:
 		{
 			const t_object_type_list& tl = get_object_type_list(ot);
-			if (tl.find(name) == tl.end() && ot != ot_animation)
-				return;
+			if (tl.find(name) == tl.end())
+			{
+				if (tl.find(to_upper(name)) != tl.end())
+				{
+					add_one(to_upper(name), ot);
+					return;
+				}
+				if (ot != ot_animation)
+					return;
+			}
 			if (ot == ot_animation || ot == ot_art || ot == ot_infantry_sequence)
 				m_art_list[name] = ot;
 			else
@@ -342,19 +352,27 @@ void Cextract_object::add_one(string name, t_object_type ot)
 					add(kl, "AuxSound1", ot_sound);
 					add(kl, "AuxSound2", ot_sound);
 					add(kl, "CrashingSound", ot_sound);
-					add(kl, "CrushSound", ot_sound);
+					add(kl, "CrushSound", ot_sound);					
+					add(kl, "DebrisAnim", ot_animation);
+					add(kl, "DeploySound", ot_sound);
+					add(kl, "DestroyAnim", ot_animation);
 					add(kl, "DieSound", ot_sound);
 					add(kl, "Elite", ot_weapon);
+					add(kl, "ElitePrimary", ot_weapon);
+					add(kl, "EliteSecondary", ot_weapon);
 					add(kl, "ImpactLandSound", ot_sound);
 					add(kl, "MoveSound", ot_sound);
 					add(kl, "Primary", ot_weapon);
 					add(kl, "Secondary", ot_weapon);
+					add(kl, "SinkingSound", ot_sound);
 					add(kl, "VoiceAttack", ot_sound);
 					add(kl, "VoiceComment", ot_sound);
 					add(kl, "VoiceDie", ot_sound);
 					add(kl, "VoiceFeedback", ot_sound);
 					add(kl, "VoiceMove", ot_sound);
 					add(kl, "VoiceSelect", ot_sound);
+					add(kl, "VoiceSpecialAttack", ot_sound);
+					add(kl, "UIName", ot_st_entry);
 					t_key_list::const_iterator image = kl.find("Image");
 					add(image == kl.end() ? name : image->second, ot_art);
 					t_key_list::const_iterator explosion = kl.find("Explosion");
@@ -460,6 +478,7 @@ void Cextract_object::add_one(string name, t_object_type ot)
 			break;
 		}
 	case ot_sound:
+	case ot_st_entry:
 		m_object_list[name] = ot;
 		break;
 	}
@@ -526,6 +545,18 @@ Cxif_key Cextract_object::extract(string name)
 			store_file(i->first + ".aud", m, z);
 			store_file(i->first + ".wav", m, z);
 			break;
+		case ot_st_entry:
+			{
+				const Ccsf_file& csf_f = m_xste.csf_f();
+				if (csf_f.has_name(i->first))
+				{
+					Cxif_key& k = m.open_key_write(ki_keys);
+					Cxif_key& l = k.open_key_write(j++);
+					l.set_value_string(vi_name, csf_f.get_converted_value(i->first));
+					l.set_value_string(vi_value, csf_f.get_extra_value(i->first));
+				}
+				break;
+			}
 		}
 	}
 	m_object_list.clear();
@@ -534,27 +565,29 @@ Cxif_key Cextract_object::extract(string name)
 	return k;
 }
 
-void Cextract_object::get_credits(const Cxif_key& k, string& name, string& mail, string& link_title, string& link)
+Cextract_object::t_credits Cextract_object::get_credits(const Cxif_key& k)
 {
+	t_credits r;
 	const Cxif_key& l = k.open_key_read(ot_credits);
-	name = l.get_value_string(vi_name);
-	mail = l.get_value_string(vi_mail);
-	link_title = l.get_value_string(vi_link_title);
-	link = l.get_value_string(vi_link);
+	r.name = l.get_value_string(vi_name);
+	r.mail = l.get_value_string(vi_mail);
+	r.link_title = l.get_value_string(vi_link_title);
+	r.link = l.get_value_string(vi_link);
+	return r;
+}
+
+void Cextract_object::set_credits(Cxif_key& k, t_credits credits)
+{
+	Cxif_key& l = k.open_key_edit(ot_credits);
+	l.set_value_string(vi_name, credits.name);
+	l.set_value_string(vi_mail, credits.mail);
+	l.set_value_string(vi_link_title, credits.link_title);
+	l.set_value_string(vi_link, credits.link);
 }
 
 t_game Cextract_object::get_game(Cxif_key& k) const
 {
 	return static_cast<t_game>(k.get_value_int(vi_game));
-}
-
-void Cextract_object::set_credits(Cxif_key& k, string name, string mail, string link_title, string link)
-{
-	Cxif_key& l = k.open_key_edit(ot_credits);
-	l.set_value_string(vi_name, name);
-	l.set_value_string(vi_mail, mail);
-	l.set_value_string(vi_link_title, link_title);
-	l.set_value_string(vi_link, link);
 }
 
 void Cextract_object::store_art_list(Cxif_key& k)
@@ -683,7 +716,7 @@ string Cextract_object::get_object_name(const Cxif_key& k)
 
 }
 
-const char* ot_name[] = {"Aircraft", "Animation", "Art", "Building", "Credits", "Infantry", "Infantry sequence", "Particle", "Particle system", "Projectile", "Sound", "Vehicle", "Voxel animation", "Warhead", "Weapon", "Unknown"};
+const char* ot_name[] = {"Aircraft", "Animation", "Art", "Building", "Credits", "Infantry", "Infantry sequence", "Particle", "Particle system", "Projectile", "Sound", "Vehicle", "Voxel animation", "Warhead", "Weapon", "ST entry", "Unknown"};
 
 int Cextract_object::report(const Cxif_key& k, char* d, const string& files_url)
 {
@@ -770,7 +803,6 @@ int Cextract_object::insert(const Cxif_key& k)
 	{
 		Cmix_file_write expand_mix;
 		Cmix_file_write ecache_mix;
-		// Cmix_file_write sounds_mix;
 		t_xif_key_map::const_iterator ki;
 		for (ki = k.m_keys.begin(); ki != k.m_keys.end(); ki++)
 		{
@@ -832,7 +864,6 @@ int Cextract_object::insert(const Cxif_key& k)
 							Cfname fname = o.get_value_string(vi_name);
 							const Cxif_value& f = o.open_value_read(vi_value);
 							if (fname.get_fext() == ".aud")
-								// sounds_mix.add_file(fname, f.get_data(), f.get_size());
 								ecache_mix.add_file(fname, f.get_data(), f.get_size());
 							else if (fname.get_fext() == ".shp")
 								ecache_mix.add_file(fname, f.get_data(), f.get_size());
@@ -891,32 +922,6 @@ int Cextract_object::insert(const Cxif_key& k)
 			ecache_mix.write(ecm);
 			expand_mix.add_file("ecache99.mix", ecm, cb_ecm);
 			delete[] ecm;
-			/*
-			Cmix_file g;
-			error = open(g, "sounds.mix");
-			if (!error)
-			{
-				for (int i = 0; i < g.get_c_files(); i++)
-				{
-					Ccc_file f(true);
-					int id = g.get_id(i);
-					error = f.open(id, g);
-					if (error)
-						break;
-					sounds_mix.add_file(id, f.get_data(), f.get_size());
-					f.close();
-				}
-				g.close();
-			}
-			if (!error)
-			{
-				int cb_som = sounds_mix.write_start();
-				byte* som = new byte[cb_som];
-				sounds_mix.write(som);
-				expand_mix.add_file("sounds.mix", som, cb_som);
-				delete[] som;
-			}
-			*/
 			if (!error)
 			{
 				close_all();
@@ -983,12 +988,11 @@ int Cextract_object::prepare_for_web(Cfname fname, byte* d)
 			out_f.open_write(fname);
 			out_f.write_int(0);
 			out_f.write_int(Cextract_object::get_game(k));
-			string name, mail, link_title, link;
-			Cextract_object::get_credits(k, name, mail, link_title, link);
-			out_f.write_str(name);
-			out_f.write_str(mail);
-			out_f.write_str(link_title);
-			out_f.write_str(link);
+			t_credits credits = Cextract_object::get_credits(k);
+			out_f.write_str(credits.name);
+			out_f.write_str(credits.mail);
+			out_f.write_str(credits.link_title);
+			out_f.write_str(credits.link);
 			out_f.write_str(fname.get_ftitle());
 			out_f.write_int(get_object_type(k));
 			out_f.write_bin(f.get_data(), f.get_size());
