@@ -33,9 +33,11 @@ DWORD CListCtrlEx::GetItemData(int nItem) const
 	return nItem == -1 ? -1 : CListCtrl::GetItemData(nItem);
 }
 
-void CListCtrlEx::InsertItemData(int nItem, DWORD dwData)
+int CListCtrlEx::InsertItemData(int nItem, DWORD dwData)
 {
-	SetItemData(InsertItem(nItem, LPSTR_TEXTCALLBACK), dwData);
+	int index = InsertItem(nItem, LPSTR_TEXTCALLBACK);
+	SetItemData(index, dwData);
+	return index;
 }
 
 void CListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
