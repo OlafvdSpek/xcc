@@ -62,8 +62,9 @@ void audio_combine_channels(__int16* data, int c_samples)
 	}
 }
 
-void aud_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+Cvirtual_file aud_file_write(const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
+	Cvirtual_file f;
 	assert(c_channels == 1);
 	t_aud_header header;
 	header.samplerate = samplerate;
@@ -89,11 +90,10 @@ void aud_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, in
 		f.write(chunk, chunk_header.size_in);
 		c_samples -= cs_chunk;
 	}
+	return f;
 }
 
 int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
-	Cvirtual_file f;
-	aud_file_write(f, s, cb_s, c_samples, samplerate, c_channels);
-	return f.export(fname);
+	return aud_file_write(s, cb_s, c_samples, samplerate, c_channels).export(fname);
 }

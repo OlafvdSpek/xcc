@@ -11,6 +11,15 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+Cvirtual_file::Cvirtual_file()
+{
+}
+
+Cvirtual_file::Cvirtual_file(const Cvirtual_binary& d)
+{
+	write(d);
+}
+
 void Cvirtual_file::clear()
 {
 	m_data.clear();
@@ -47,12 +56,8 @@ int Cvirtual_file::export(string fname) const
 	int error = f.open_write(fname);
 	if (!error)
 	{
-		for (t_data::const_iterator i = m_data.begin(); i != m_data.end(); i++)
-		{
+		for (t_data::const_iterator i = m_data.begin(); !error && i != m_data.end(); i++)
 			error = f.write(i->data(), i->size());
-			if (error)
-				break;
-		}
 		f.close();
 	}
 	return error;

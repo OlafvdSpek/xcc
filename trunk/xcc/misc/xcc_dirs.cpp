@@ -53,11 +53,11 @@ string xcc_dirs::get_dir(t_game game)
 	case game_dune2000:
 		return dune2000_dir;
 	case game_ra2:
+	case game_ra2_yr:
 		return ra2_dir;
-	default:
-		assert(false);
-		return "";
 	}
+	assert(false);
+	return "";
 }
 
 string xcc_dirs::get_exe(t_game game)
@@ -76,43 +76,66 @@ string xcc_dirs::get_exe(t_game game)
 		return dune2000_dir + "dune2000.exe";
 	case game_ra2:
 		return ra2_dir + "ra2.exe";
-	default:
-		assert(false);
-		return "";
+	case game_ra2_yr:
+		return ra2_dir + "ra2md.exe";
 	}
+	assert(false);
+	return "";
 }
 
-string xcc_dirs::get_audio_mix(t_game game, bool expansion)
+string xcc_dirs::get_audio_mix(t_game game)
 {
 	switch (game)
 	{
 	case game_ra2:
-		return expansion ? "audiomd.mix" : "audio.mix";
+		return "audio.mix";
+	case game_ra2_yr:
+		return "audiomd.mix";
 	}
+	assert(false);
 	return "";
 }
 
-string xcc_dirs::get_csf_fname(t_game game, bool expansion)
+string xcc_dirs::get_csf_fname(t_game game)
 {
 	switch (game)
 	{
 	case game_ra2:
-		return expansion ? "ra2md.csf" : "ra2.csf";
+		return "ra2.csf";
+	case game_ra2_yr:
+		return "ra2md.csf";
 	}
+	assert(false);
 	return "";
 }
 
-string xcc_dirs::get_language_mix(t_game game, bool expansion)
+string xcc_dirs::get_language_mix(t_game game)
 {
 	switch (game)
 	{
 	case game_ra2:
-		return ra2_dir + (expansion ? "langmd.mix" : "language.mix");
+		return ra2_dir + "language.mix";
+	case game_ra2_yr:
+		return ra2_dir + "langmd.mix";
 	}
+	assert(false);
 	return "";
 }
 
-string xcc_dirs::get_main_mix(t_game game, bool expansion)
+string xcc_dirs::get_local_mix(t_game game)
+{
+	switch (game)
+	{
+	case game_ra2:
+		return "local.mix";
+	case game_ra2_yr:
+		return "localmd.mix";
+	}
+	assert(false);
+	return "";
+}
+
+string xcc_dirs::get_main_mix(t_game game)
 {
 	switch (game)
 	{
@@ -121,7 +144,9 @@ string xcc_dirs::get_main_mix(t_game game, bool expansion)
 	case game_ts:
 		return ts_dir + "tibsun.mix";
 	case game_ra2:
-		return ra2_dir + (expansion ? "ra2md.mix" : "ra2.mix");
+		return ra2_dir + "ra2.mix";
+	case game_ra2_yr:
+		return ra2_dir + "ra2md.mix";
 	}
 	assert(false);
 	return "";

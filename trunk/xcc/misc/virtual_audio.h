@@ -15,11 +15,12 @@ class Cvirtual_audio
 {
 public:
 	void load(Cvirtual_file f, int c_samples, int samplerate, int cb_sample, int c_channels);
-	// void load(const void* audio, int c_samples, int samplerate, int cb_sample, int c_channels);
-	void save_as_aud(Cvirtual_file& f) const;
+	Cvirtual_file save_as_aud() const;
 	int save_as_aud(string fname) const;
-	void save_as_wav_ima_adpcm(Cvirtual_file& f) const;
+	Cvirtual_file save_as_wav_ima_adpcm() const;
 	int save_as_wav_ima_adpcm(string fname) const;
+	Cvirtual_file save_as_wav_pcm() const;
+	int save_as_wav_pcm(string fname) const;
 	Cvirtual_audio();
 	~Cvirtual_audio();
 

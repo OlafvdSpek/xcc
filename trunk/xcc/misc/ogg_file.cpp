@@ -110,62 +110,43 @@ int Cogg_file::decode(Cvirtual_audio& audio)
 {
 	// ogg_test();
 	int error = 0;
+	/*
 	ov_callbacks cbs;
 	cbs.read_func = null_read;
 	cbs.seek_func = null_seek;
 	cbs.close_func = null_close;
 	cbs.tell_func = null_tell;
+	*/
 	OggVorbis_File vf;
-	{
-		if (ov_open_callbacks(NULL, &vf, const_cast<char*>(reinterpret_cast<const char*>(get_data())), get_size(), cbs) < 0) 
-			error = 0x100;
-		else
-		{		
-			vorbis_info* vi = ov_info(&vf, -1);			
-			Cvirtual_file f;
-			// int cb_d = 4 << 20;
-			// byte* d = new byte[cb_d];
-			// byte* w = d;
-			
-			const int cb_b = 16 << 10;
-			char b[cb_b];
-			while (!error)
+	// if (ov_open_callbacks(NULL, &vf, const_cast<char*>(reinterpret_cast<const char*>(get_data())), get_size(), cbs) < 0) 
+	if (ov_open(NULL, &vf, const_cast<char*>(reinterpret_cast<const char*>(get_data())), get_size()) < 0) 
+		error = 0x100;
+	else
+	{		
+		vorbis_info* vi = ov_info(&vf, -1);			
+		Cvirtual_file f;
+		// const int cb_samples = ov_pcm_total(&vf, -1);
+		const int cb_b = 16 << 10;
+		char b[cb_b];
+		while (!error)
+		{
+			int current_section;
+			int cb_read = ov_read(&vf, b, cb_b, 0, 2, 1, &current_section);
+			// int c_samples = ov_pcm_total(&vf, current_section);
+			if (!cb_read) 
+				break;
+			else if (cb_read < 0) 
+				error = 1;
+			else 
 			{
-				int current_section;
-				int cb_read = ov_read(&vf, b, cb_b, 0, 2, 1, &current_section);
-				// int c_samples = ov_pcm_total(&vf, current_section);
-				if (!cb_read) 
-					break;
-				else if (cb_read < 0) 
-					error = 1;
-				else 
-				{
-					/*
-					if (w - d + cb_read > cb_d)
-					{
-						cb_d <<= 1;
-						byte* t = new byte[cb_d];
-						memcpy(t, d, w - d);
-						w = w - d + t;
-						delete[] d;
-						d = t;
-					}
-					memcpy(w, b, cb_read);
-					w += cb_read;
-					*/
-					f.write(b, cb_read);
-				}
+				f.write(b, cb_read);
 			}
-			if (!error)
-			{
-				// cb_d = w - d;
-				audio.load(f, f.size() / (vi->channels << 1), vi->rate, 2, vi->channels);
-			}
-			// delete[] d;
-			ov_clear(&vf);
 		}
+		if (!error)
+			audio.load(f, f.size() / (vi->channels << 1), vi->rate, 2, vi->channels);
+		ov_clear(&vf);
 	}
-	return error;
+return error;
 }
 #endif
 

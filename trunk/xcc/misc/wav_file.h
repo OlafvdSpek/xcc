@@ -51,7 +51,9 @@ private:
 
 int wav_file_write_header(void* w, int c_samples, int samplerate, int cb_sample, int c_channels);
 int wav_ima_adpcm_file_write_header(void* w, int cb_audio, int c_samples, int samplerate, int c_channels);
-void wav_ima_adpcm_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
+Cvirtual_file wav_ima_adpcm_file_write(const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 int wav_ima_adpcm_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
+Cvirtual_file wav_pcm_file_write(const void* s, int cb_s, int samplerate, int cb_sample, int c_channels);
+int wav_pcm_file_write(string fname, const void* s, int cb_s, int samplerate, int cb_sample, int c_channels);
 
 #endif // !defined(AFX_WAV_FILE_H__310B5361_F770_11D3_B605_0000B4936994__INCLUDED_)

@@ -16,7 +16,7 @@ class CXSTE
 {
 public:
 	Ccsf_file& csf_f();
-	int open();
+	int open(t_game game);
 	int write();
 	void close();
 private:

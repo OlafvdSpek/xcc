@@ -30,18 +30,9 @@ void Cvirtual_audio::load(Cvirtual_file f, int c_samples, int samplerate, int cb
 	m_f.compact();
 }
 
-/*
-void Cvirtual_audio::load(const void* audio, int c_samples, int samplerate, int cb_sample, int c_channels)
+Cvirtual_file Cvirtual_audio::save_as_aud() const
 {
-	Cvirtual_file f;
-	f.write(audio, cb_audio());
-	load(f, c_samples, samplerate, cb_sample, c_channels);
-}
-*/
-
-void Cvirtual_audio::save_as_aud(Cvirtual_file& f) const
-{
-	aud_file_write(f, audio(), cb_audio(), c_samples(), samplerate(), c_channels());
+	return aud_file_write(audio(), cb_audio(), c_samples(), samplerate(), c_channels());
 }
 
 int Cvirtual_audio::save_as_aud(string fname) const
@@ -49,12 +40,22 @@ int Cvirtual_audio::save_as_aud(string fname) const
 	return aud_file_write(fname, audio(), cb_audio(), c_samples(), samplerate(), c_channels());
 }
 
-void Cvirtual_audio::save_as_wav_ima_adpcm(Cvirtual_file& f) const
+Cvirtual_file Cvirtual_audio::save_as_wav_ima_adpcm() const
 {
-	wav_ima_adpcm_file_write(f, audio(), cb_audio(), c_samples(), samplerate(), c_channels());
+	return wav_ima_adpcm_file_write(audio(), cb_audio(), c_samples(), samplerate(), c_channels());
 }
 
 int Cvirtual_audio::save_as_wav_ima_adpcm(string fname) const
 {
 	return wav_ima_adpcm_file_write(fname, audio(), cb_audio(), c_samples(), samplerate(), c_channels());
+}
+
+Cvirtual_file Cvirtual_audio::save_as_wav_pcm() const
+{
+	return wav_pcm_file_write(audio(), cb_audio(), samplerate(), cb_sample(), c_channels());
+}
+
+int Cvirtual_audio::save_as_wav_pcm(string fname) const
+{
+	return wav_pcm_file_write(fname, audio(), cb_audio(), samplerate(), cb_sample(), c_channels());
 }
