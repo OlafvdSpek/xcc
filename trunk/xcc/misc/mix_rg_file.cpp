@@ -63,6 +63,7 @@ int Cmix_rg_file::post_open()
 	{
 		int size = *reinterpret_cast<const __int32*>(index.data());
 		assert(*reinterpret_cast<const __int32*>(tailer.data()) == size);
+		m_old_index.reserve(size);
 		const t_mix_rg_index_entry* r_index = reinterpret_cast<const t_mix_rg_index_entry*>(index.data() + 4);
 		const byte* r_tailer = tailer.data() + 4;
 		while (size--)

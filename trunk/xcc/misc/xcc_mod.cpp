@@ -541,15 +541,15 @@ __int64 get_last_write_time(string fname)
 
 int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 {
-	Cmix_file_write expand_mix;
-	Cmix_file_write ecache_mix;
-	Cmix_file main_mix;
-	Cmix_file local_mix;
-	Cmix_file language_mix;
 	const string mod_name = key.get_value_string(vi_mod_name);
 	const t_game game = static_cast<t_game>(key.get_value_int(vi_game));
 	const string dir = xcc_dirs::get_dir(game);
 	const string temp_dir = get_temp_path() + mod_name + " Cache/";
+	Cmix_file_write expand_mix(game);
+	Cmix_file_write ecache_mix(game);
+	Cmix_file main_mix;
+	Cmix_file local_mix;
+	Cmix_file language_mix;
 	if (!xcc_dirs::is_available(game))
 		return 2;
 	if (external_data)
@@ -595,7 +595,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 					if (category->second.m_keys.empty())
 						continue;
 					xcc_log::write_line(ct_name[category->first]);
-					Cmix_file_write side_mix;
+					Cmix_file_write side_mix(game);
 					Cxse xse;
 					switch (category->first)
 					{
@@ -1065,7 +1065,7 @@ int Cxcc_mod::launch_manual(const Cxif_key& key, string dir, HWND hWnd)
 
 void Cxcc_mod::report(string fname) const
 {
-	Chtml page;
+	string page;
 	const t_game game = m_options.game;
 	t_file_type ft_audio = game == game_ts ? ft_aud : ft_wav;
 	for (int category = 0; category < ct_unknown; category++)
@@ -1077,7 +1077,7 @@ void Cxcc_mod::report(string fname) const
 		for (t_category_file_list::const_iterator i = list.begin(); i != list.end(); i++)
 		{
 			Cfname fname = Cfname(i->first).get_fname();
-			Chtml row = td(static_cast<string>(fname));
+			string row = td(static_cast<string>(fname));
 			Ccc_file f(false);
 			if (f.open(i->first))
 				row += td("not found", "colspan=3");

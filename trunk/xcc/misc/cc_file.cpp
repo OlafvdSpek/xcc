@@ -7,6 +7,7 @@
 #include "art_ts_ini_reader.h"
 #include "aud_file.h"
 #include "avi_file.h"
+#include "big_file.h"
 #include "bin_file.h"
 #include "bink_file.h"
 #include "cc_file.h"
@@ -60,11 +61,82 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dds", "dir", "drive", "fnt", "html", "hva", 
-	"ini", "jpeg", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
-	"mix", "mix (rg)", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "pkt (ts)", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
-	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "tga", "theme ini (ts)", "theme ini (ra2)", 
-	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "w3d", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
+const char* ft_name[] = 
+{
+	"ai ini (ts)", 
+	"ai ini (ra2)", 
+	"art ini (ts)", 
+	"art ini (ra2)",
+	"aud",
+	"avi",
+	"big",
+	"bin",
+	"bink",
+	"bmp",
+	"clipboard",
+	"cps",
+	"csv",
+	"dds",
+	"dir",
+	"drive",
+	"fnt",
+	"html",
+	"hva", 
+	"ini",
+	"jpeg",
+	"map (dune2)",
+	"map (td)",
+	"map (ra)",
+	"map (ts)",
+	"map (ts) preview",
+	"map (ra2)", 
+	"mix", 
+	"mix (rg)",
+	"mng",
+	"mp3",
+	"mrf",
+	"ogg",
+	"pak",
+	"pal",
+	"pal (jasc)",
+	"pcx (single)",
+	"pcx",
+	"png (single)",
+	"png",
+	"pkt (ts)",
+	"riff",
+	"rules ini (ts)",
+	"rules ini (ra2)",
+	"shp (dune2)",
+	"shp",
+	"shp (ts)",
+	"sound ini (ts)",
+	"sound ini (ra2)",
+	"string table",
+	"text",
+	"tga",
+	"theme ini (ts)",
+	"theme ini (ra2)",
+	"tmp",
+	"tmp (ra)",
+	"tmp (ts)",
+	"voc",
+	"vpl",
+	"vqa",
+	"vqp",
+	"vxl",
+	"w3d",
+	"wav",
+	"pcm wav",
+	"ima adpcm wav",
+	"wsa (dune2)",
+	"wsa",
+	"xcc lmd",
+	"xcc unknown",
+	"xif",
+	"zip",
+	"unknown"
+};
 
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
@@ -208,6 +280,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Caud_file aud_f;
 	Cbin_file bin_f;
 	Cbink_file bink_f;
+	Cbig_file big_f;
 	Ccps_file cps_f;
 	Cdds_file dds_f;
 	Cfnt_file fnt_f;
@@ -242,6 +315,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cxif_file xif_f;
 	if (aud_f.load(data, m_size), aud_f.is_valid())
 		ft = ft_aud;
+	else if (big_f.load(data, m_size), big_f.is_valid())
+		ft = ft_big;
 	else if (bin_f.load(data, m_size), bin_f.is_valid())
 		ft = ft_bin;
 	else if (bink_f.load(data, m_size), bink_f.is_valid())
@@ -387,8 +462,6 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_vqp;
 	else if (vxl_f.load(data, m_size), vxl_f.is_valid())
 		ft = ft_vxl;
-	else if (w3d_f.load(data, m_size), w3d_f.is_valid())
-		ft = ft_w3d;
 	else if (wsa_dune2_f.load(data, m_size), wsa_dune2_f.is_valid())
 		ft = ft_wsa_dune2;
 	else if (wsa_f.load(data, m_size), wsa_f.is_valid())
@@ -412,6 +485,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_mix_rg;
 	else if (pak_f.load(data, m_size), pak_f.is_valid())
 		ft = ft_pak;
+	else if (w3d_f.load(data, m_size), w3d_f.is_valid())
+		ft = ft_w3d;
 	return ft;
 }
 #endif

@@ -21,8 +21,10 @@ public:
 	{
 		const t_hva_header& header = *get_header();
 		int size = get_size();
-		return !(sizeof(t_hva_header) > size ||
-			sizeof(t_hva_header) + (48 * header.c_frames + 16) * header.c_sections != size);
+		return !(sizeof(t_hva_header) > size
+			|| !header.c_frames 
+			|| !header.c_sections
+			|| sizeof(t_hva_header) + (48 * header.c_frames + 16) * header.c_sections != size);
 	}
 
 	int get_c_frames() const

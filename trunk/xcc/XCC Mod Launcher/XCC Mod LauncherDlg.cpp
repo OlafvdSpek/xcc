@@ -123,7 +123,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	if (!m_source.data() && m_source.import(m_mod_fname))
+	if (!m_source && m_source.import(m_mod_fname))
 	{
 		MessageBox("Error opening mod.", NULL, MB_ICONERROR);
 		EndDialog(IDCANCEL);
@@ -131,7 +131,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 	}
 	else
 	{
-		if (m_key.load_key(m_source.data(), m_source.size()))
+		if (m_key.load_key(m_source))
 		{
 			MessageBox("Error reading mod.", NULL, MB_ICONERROR);
 			EndDialog(IDCANCEL);
