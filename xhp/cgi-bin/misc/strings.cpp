@@ -63,8 +63,7 @@ int Cstrings::read(fstream& f)
 		return 1;
 	m_data = new char[m_size];
 	f.read(m_data, m_size);
-	if (f.fail())
-		return 1;
+	return !f.fail();
 }
 
 int Cstrings::write(fstream& f)
