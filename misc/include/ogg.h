@@ -1,3 +1,19 @@
+/********************************************************************
+ *                                                                  *
+ * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
+ * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
+ * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
+ * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
+ *                                                                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2001             *
+ * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+
+ ********************************************************************
+
+ function: toplevel libogg include
+ last mod: $Id$
+
+ ********************************************************************/
 #ifndef _OGG_H
 #define _OGG_H
 
@@ -5,7 +21,7 @@
 extern "C" {
 #endif
 
-#include <os_types.h>
+#include <ogg/os_types.h>
 
 typedef struct {
   long endbyte;
@@ -146,6 +162,8 @@ extern ogg_int64_t  ogg_page_granulepos(ogg_page *og);
 extern int      ogg_page_serialno(ogg_page *og);
 extern long     ogg_page_pageno(ogg_page *og);
 extern int      ogg_page_packets(ogg_page *og);
+
+extern void     ogg_packet_clear(ogg_packet *op);
 
 
 #ifdef __cplusplus
