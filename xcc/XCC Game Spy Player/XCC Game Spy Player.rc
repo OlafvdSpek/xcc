@@ -73,6 +73,7 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
+        MENUITEM "Non-human objects",           ID_VIEW_NON_HUMAN_OBJECTS
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
     POPUP "&Window"
@@ -118,7 +119,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Game Spy Player 1.03"
+    IDR_MAINFRAME           "XCC Game Spy Player 1.04"
     IDR_XCCGAMTYPE          "\nXCCGam\nXCCGam\n\n\nXCCGameSpyPlayer.Document\nXCCGam Document"
 END
 
