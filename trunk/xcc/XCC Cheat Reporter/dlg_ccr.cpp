@@ -11,6 +11,7 @@
 #include "cgi.h"
 #include "database.h"
 #include "file32.h"
+#include "fname.h"
 #include "html.h"
 #include "multi_line.h"
 #include "string_conversion.h"
@@ -385,6 +386,137 @@ enum
 	vi_cheater
 };
 
+const char* html_cheat_report = 
+	"<html>"
+	"<BODY BGCOLOR=\"#000000\" TEXT=\"#FFFFFF\" LINK=\"#FFFF00\" ALINK=\"#66FF99\" VLINK=\"#999900\" leftmargin=\"0\" topmargin=\"0\" marginwidth=\"0\" marginheight=\"0\">"
+	"<br>"
+	""
+	"<TABLE WIDTH=593 BORDER=0>"
+	"  <TR><TD><FONT COLOR=\"000000\">...</FONT></TD>"
+	"    <TD> <b><br>"
+	"      <FONT SIZE=4> Thank you for submitting your cheater report</FONT></b> "
+	"      <p><font face=\"Arial, Helvetica, sans-serif\" size=\"2\" color=\"#FFFFFF\"><b><i>Very "
+	"        Important: You must fill out *ALL* the fields below in order for your "
+	"        entry to be valid. Forms which are incomplete will be kicked out of our "
+	"        system.</i></b></font> </p>"
+	"      <FONT FACE=\"ARIAL\" color=\"AAAAFF\"><HR>"
+	"      </font><form action=\"http://westwood.ea.com/cgi-bin/cheaterform/forminput.cgi\" method=\"post\">"
+	"        <FONT COLOR=\"66FF66\"> "
+	"        <input type=\"hidden\" name=\"_send_email1\" value=\"email.txt\">"
+	"<!--    <input type=\"hidden\" name=\"_send_email2\" value=\"email2.txt\">           -->"
+	"<!--    <input type=\"hidden\" name=\"_out_file\"    value=\"logfile.txt\">          -->"
+	"        <input type=\"hidden\" name=\"_error_path\"  value=\"error.txt\">"
+	"        <input type=\"hidden\" name=\"_browser_out\" value=\"output.txt\">"
+	"	<input type=\"hidden\" name=\"e_email\" value=\"nobody@westwood.com\">"
+	"        </font>"
+	""
+	""
+	"  <table border=\"0\" cellpadding=\"5\" cellspacing=\"2\" width=\"551\">"
+	"          <tr>"
+	"            <td colspan=\"2\"><b><font size=\"4\" face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">ALL FIELDS ARE REQUIRED</font></b></td>"
+	"          </tr>"
+	"<tr>"
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Game "
+	"                Played </font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <select name=\"r_game\">"
+	"                <option value=\"REDALERT2\">Command &amp; Conquer Red Alert 2</option>"
+	"                <option value=\"TIBERIANSUN\">Command &amp; Conquer Tiberian Sun</option>"
+	"              </select>"
+	"            </td>"
+	"          </tr>"
+	"<tr>"
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Your "
+	"                Westwood Online Nickname</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <input type=\"textbox\" length=10 maxlength=10 name=\"r_player1nick\" value=\"%s\">"
+	"            </td>"
+	"          </tr>"
+	"<tr>"
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Your "
+	"                Opponent's Nickname</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <input type=\"textbox\" length=10 maxlength=10 name=\"r_player2nick\" value=\"%s\">"
+	"            </td>"
+	"          </tr>"
+	"          <tr> "
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Your "
+	"                Email Address</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <input type=\"textbox\" length=10 maxlength=35 name=\"re_email\" value=\"%s\">"
+	"            </td>"
+	"          </tr>"
+	"          <tr> "
+	"            <td width=\"50%%\" height=\"30\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Type "
+	"                of Game Played</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\" height=\"30\"> "
+	"              <select name=\"r_gametype\">"
+	"                <option value=\"TOURNAMENT\">Tournament Game</option>"
+	"                <option value=\"CLAN\">CLAN Ranked Game</option>"
+	"                <option value=\"NON-TOURNAMENT\">Non-Tournament Game</option>"
+	"              </select>"
+	"            </td>"
+	"          </tr>"
+	"          <tr> "
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Game "
+	"                Number and/or date and time of game played.</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <input type=\"textbox\" length=10 maxlength=20 name=\"r_datetimenum\" value=\"%d\">"
+	"            </td>"
+	"          </tr>"
+	"          <tr> "
+	"            <td width=\"50%%\"> "
+	"              <p><font face=\"Arial,Helvetica,Geneva,Swiss,SunSans-Regular\">Please "
+	"                describe how you feel this person played unfairly. List any details "
+	"                about the game you think would be useful to us (for example, the "
+	"                map used, the type of game played, etc.)</font></p>"
+	"            </td>"
+	"            <td width=\"50%%\"> "
+	"              <textarea name=\"r_probdescription\" cols=\"30\" rows=\"6\">%s</textarea>"
+	"            </td>"
+	"          </tr>"
+	"        </table>"
+	"        <br>"
+	"        <hr width=\"50%%\">"
+	"        <input type=hidden name=\"redirect\" value=\"/westwoodonline/fansiteform/thanks.html\">"
+	"          <p></p><CENTER>"
+	"        <p align=\"center\"><font face=\"ARIAL\" color=\"AAAAFF\">"
+	"            <input type=\"submit\" value=\"SUBMIT MY REPORT\" name=\"submit\">"
+	"          </font></p></CENTER>"
+	"        <FONT FACE=\"ARIAL\" color=\"AAAAFF\"> "
+	"        <table width=\"500\" border=\"0\" cellspacing=\"0\" cellpadding=\"0\" align=\"center\">"
+	"          <tr> "
+	"            <td width=\"64\" height=\"40\">&nbsp; </td>"
+	"            <td width=\"354\" height=\"40\"> "
+	"              <div align=\"center\"><font face=\"ARIAL\" color=\"66FF66\" size=\"2\">Westwood "
+	"                Studios respects your privacy. For more information, <a href=\"http://www.ea.com/privacy.html\" target=\"_blank\">please "
+	"                read our privacy policy statement.</a></font></div>"
+	"            </td>"
+	"            <td width=\"72\" height=\"40\"><font face=\"ARIAL\" color=\"66FF66\"><img src=\"../../assets/esrb_rating_icons/PrivacyCertified_sm.gif\" align=\"right\" width=\"64\" height=\"45\"></font></td>"
+	"          </tr>"
+	"        </table>"
+	"        <p align=\"center\"><a href=\"http://www.ea.com/global/legal/legalnotice.jsp\" target=\"_blank\"><img src=\"../../assets/copyright_logos/copyright-white.gif\" width=\"265\" height=\"40\" border=\"0\"></a></p>"
+	"        </font> "
+	"      </form>"
+	"      </td>"
+	"			</tr>"
+	"		</table>"
+	"		"
+	"</body>"
+	"</html>";
+
 void Cdlg_ccr::OnOK()
 {
 	if (UpdateData(true))
@@ -529,6 +661,14 @@ void Cdlg_ccr::OnOK()
 				}
 			}
 #endif
+			if (m_send_ws)
+			{
+				CString page;
+				page.Format(html_cheat_report, nickname, cheater, m_mail, m_game_id, web_encode(static_cast<string>(m_description), false).c_str());
+				string fname = get_temp_path() + "cheat_report.html";
+				ofstream(fname.c_str()) << static_cast<const char*>(page);
+				ShellExecute(m_hWnd, "open", fname.c_str(), NULL, NULL, SW_SHOW);
+			}
 			ETSLayoutDialog::OnOK();
 		}
 	}
@@ -657,7 +797,8 @@ int xcrf_decode(Cvirtual_binary s, string fname)
 		name.erase(0, name.rfind('\\') + 1);
 		index_f << tr(td(key.get_value_string(vi_name)) + td(key.get_value_string(vi_nickname)) + td(key.get_value_string(vi_cheater, "")) + td(report_cheats(key)) + td(a("HTML", "href=\"" + name + "/\"")) + td(a("XCRF", "href=\"" + name + ".xcrf\""))) << endl;
 		Cdatabase database;
-		database.open();
+		if (database.open())
+			MessageBox(NULL, "Unable to open database.", NULL, MB_ICONERROR);
 		create_tables(database);
 		Csql_query sql_query(database);
 		sql_query.write("insert into xcr_index (name, reporter, cheater, cheats, lid, gid, fname) values (%s, %s, %s, %s, %s, %s, %s)");
