@@ -17,14 +17,15 @@ class Ccps_file: public Cimage_file<t_cps_header>
 {
 public:
 	void decode(void*) const;
-	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
+	Cvirtual_image vimage() const;
 
 	bool is_valid() const
 	{
 		const t_cps_header& header = *get_header();
 		int size = get_size();
 		if (sizeof(t_cps_header) > size ||
-			header.image_size != 320 * 200 ||				
+			header.image_size != 320 * 200 ||
+			header.palet_size && header.palet_size != 0x300 ||
 			header.zero)
 			return false;
 		switch (header.unknown)
@@ -38,6 +39,11 @@ public:
 		default:
 			return false;
 		}
+	}
+
+	int cb_pixel() const
+	{
+		return 1;
 	}
 
 	int cx() const
@@ -55,14 +61,9 @@ public:
 		return get_data() + sizeof(t_cps_header) + get_header()->palet_size;
 	}
 
-    const t_palet_entry* get_palet() const
-    {
-        return reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_cps_header));
-    }
-
-	bool has_palet() const
+	const t_palet_entry* palet() const
 	{
-		return get_header()->palet_size;
+		return get_header()->palet_size ? reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_cps_header)) : NULL;
 	}
 };
 
