@@ -19,7 +19,11 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	CXCCTMPEditorDoc* GetDocument();
+	CXCCTMPEditorDoc* GetDocument()
+	{ 
+		return (CXCCTMPEditorDoc*)m_pDocument; 
+	}
+
 	bool view_true_height() const;
 	void view_true_height(bool v);
 
@@ -42,10 +46,6 @@ public:
 public:
 	void select(int id);
 	virtual ~CXCCTMPEditorView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
@@ -60,11 +60,6 @@ private:
 	int m_selected;
 	bool m_view_true_height;
 };
-
-#ifndef _DEBUG  // debug version in XCC TMP EditorView.cpp
-inline CXCCTMPEditorDoc* CXCCTMPEditorView::GetDocument()
-   { return (CXCCTMPEditorDoc*)m_pDocument; }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 

@@ -92,7 +92,7 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
 	int error;
 	if (exe.data())
 	{
-		Cvirtual_binary mod = m_mod.save(true, -1).vdata();
+		Cvirtual_binary mod = m_mod.save(true, -1).export_bz();
 		Cfile32 f;
 		error = f.open_write(fname);
 		if (!error)

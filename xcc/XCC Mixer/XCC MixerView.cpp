@@ -218,13 +218,6 @@ BOOL CXCCMixerView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerView drawing
-
-void CXCCMixerView::OnDraw(CDC* pDC)
-{
-}
-
 static int c_colums = 4;
 static char* column_label[] = {"Name", "Type", "Size", "Description"};
 static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT};

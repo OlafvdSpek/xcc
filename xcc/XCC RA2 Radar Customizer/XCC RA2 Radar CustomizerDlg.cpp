@@ -221,7 +221,7 @@ int CXCCRA2RadarCustomizerDlg::customize_radar(t_game game, int theater)
 			Cfile32 mix_fe;
 			mix_fe.open_edit(fname);
 			Cmix_file mix_f;
-			mix_f.attach(mix_fe.handle());
+			mix_f.attach(mix_fe.h());
 			for (int i = 0; i < mix_f.get_c_files(); i++)
 			{
 				const int id = mix_f.get_id(i);

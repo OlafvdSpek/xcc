@@ -43,16 +43,6 @@ BOOL CLeftView::PreCreateWindow(CREATESTRUCT& cs)
 	return CTreeView::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView drawing
-
-void CLeftView::OnDraw(CDC* pDC)
-{
-	CXCCModCreatorDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-}
-
-
 void CLeftView::OnInitialUpdate()
 {
 	CTreeView::OnInitialUpdate();
@@ -65,34 +55,13 @@ void CLeftView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CLeftView diagnostics
-
-#ifdef _DEBUG
-void CLeftView::AssertValid() const
-{
-	CTreeView::AssertValid();
-}
-
-void CLeftView::Dump(CDumpContext& dc) const
-{
-	CTreeView::Dump(dc);
-}
-
-CXCCModCreatorDoc* CLeftView::GetDocument() // non-debug version is inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CXCCModCreatorDoc)));
-	return (CXCCModCreatorDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CLeftView message handlers
 
 void CLeftView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	if (~pNMTreeView->itemOld.state & TVIS_SELECTED && pNMTreeView->itemNew.state & TVIS_SELECTED)
-		m_other_pane->set_category(static_cast<Cxcc_mod::t_category_type>(pNMTreeView->itemNew.lParam));	
+		m_other_pane->set_category(static_cast<Cxcc_mod::t_category_type>(pNMTreeView->itemNew.lParam));
 	*pResult = 0;
 }
 

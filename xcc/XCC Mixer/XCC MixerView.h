@@ -87,7 +87,6 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCMixerView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct

@@ -72,7 +72,6 @@ BOOL CXCCMixerApp::InitInstance()
 	}
 	mix_cache::load();
 	mix_sfl::load();
-	m_nCmdShow = SW_SHOWMAXIMIZED;
 	find_fs_exe();
 	find_fa_exe();
 	find_se_exe();
@@ -110,7 +109,7 @@ BOOL CXCCMixerApp::InitInstance()
 	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
-	m_pMainWnd->ShowWindow(SW_SHOW);
+	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
 
 	return TRUE;
@@ -344,7 +343,5 @@ bool CXCCMixerApp::is_ra2_available() const
 
 BOOL CXCCMixerApp::OnIdle(LONG lCount) 
 {
-	if (static_cast<CMainFrame*>(GetMainWnd())->OnIdle(lCount))
-		return true;	
-	return CWinApp::OnIdle(lCount);
+	return static_cast<CMainFrame*>(GetMainWnd())->OnIdle(lCount) || CWinApp::OnIdle(lCount);
 }

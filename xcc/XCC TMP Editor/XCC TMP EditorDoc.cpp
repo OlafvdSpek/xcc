@@ -269,21 +269,6 @@ int CXCCTMPEditorDoc::load_urban2_palet(bool probe)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorDoc diagnostics
-
-#ifdef _DEBUG
-void CXCCTMPEditorDoc::AssertValid() const
-{
-	CDocument::AssertValid();
-}
-
-void CXCCTMPEditorDoc::Dump(CDumpContext& dc) const
-{
-	CDocument::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCTMPEditorDoc commands
 
 void CXCCTMPEditorDoc::SetModifiedFlag(BOOL bModified)

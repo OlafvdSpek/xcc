@@ -188,27 +188,6 @@ void CXCCTMPEditorView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorView diagnostics
-
-#ifdef _DEBUG
-void CXCCTMPEditorView::AssertValid() const
-{
-	CScrollView::AssertValid();
-}
-
-void CXCCTMPEditorView::Dump(CDumpContext& dc) const
-{
-	CScrollView::Dump(dc);
-}
-
-CXCCTMPEditorDoc* CXCCTMPEditorView::GetDocument() // non-debug version is inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CXCCTMPEditorDoc)));
-	return (CXCCTMPEditorDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCTMPEditorView message handlers
 
 

@@ -30,7 +30,6 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CLeftView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
@@ -40,10 +39,6 @@ public:
 public:
 	void set_other_pane(CXCCModCreatorView* other_pane);
 	virtual ~CLeftView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 

@@ -80,8 +80,7 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 
 void CChildFrame::ActivateFrame(int nCmdShow)
 {
-	nCmdShow = SW_SHOWMAXIMIZED;
-	CMDIChildWnd::ActivateFrame(nCmdShow);
+	CMDIChildWnd::ActivateFrame(SW_SHOWMAXIMIZED);
 }
 
 /////////////////////////////////////////////////////////////////////////////

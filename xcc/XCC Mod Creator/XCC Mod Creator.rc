@@ -33,39 +33,6 @@ IDR_XCCMODTYPE          ICON    DISCARDABLE     "res\\XCC Mod CreatorDoc.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Bitmap
-//
-
-IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Toolbar
-//
-
-IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
-BEGIN
-    BUTTON      ID_FILE_NEW
-    BUTTON      ID_FILE_OPEN
-    BUTTON      ID_FILE_SAVE
-    SEPARATOR
-    BUTTON      ID_EDIT_CUT
-    BUTTON      ID_EDIT_COPY
-    BUTTON      ID_EDIT_PASTE
-    SEPARATOR
-    BUTTON      ID_FILE_PRINT
-    SEPARATOR
-    BUTTON      ID_VIEW_LARGEICON
-    BUTTON      ID_VIEW_SMALLICON
-    BUTTON      ID_VIEW_LIST
-    BUTTON      ID_VIEW_DETAILS
-    SEPARATOR
-    BUTTON      ID_APP_ABOUT
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // Menu
 //
 
@@ -82,7 +49,6 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
     END
 END
@@ -118,7 +84,6 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
         MENUITEM "&Refresh\tF5",                ID_VIEW_REFRESH
     END
@@ -208,7 +173,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.09"
+    IDR_MAINFRAME           "XCC Mod Creator 1.10"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
@@ -216,117 +181,6 @@ STRINGTABLE PRELOAD DISCARDABLE
 BEGIN
     AFX_IDS_APP_TITLE       "XCC Mod Creator"
     AFX_IDS_IDLEMESSAGE     "Ready"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_INDICATOR_EXT        "EXT"
-    ID_INDICATOR_CAPS       "CAP"
-    ID_INDICATOR_NUM        "NUM"
-    ID_INDICATOR_SCRL       "SCRL"
-    ID_INDICATOR_OVR        "OVR"
-    ID_INDICATOR_REC        "REC"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_NEW             "Create a new document\nNew"
-    ID_FILE_OPEN            "Open an existing document\nOpen"
-    ID_FILE_CLOSE           "Close the active document\nClose"
-    ID_FILE_SAVE            "Save the active document\nSave"
-    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
-    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_FILE_MRU_FILE1       "Open this document"
-    ID_FILE_MRU_FILE2       "Open this document"
-    ID_FILE_MRU_FILE3       "Open this document"
-    ID_FILE_MRU_FILE4       "Open this document"
-    ID_FILE_MRU_FILE5       "Open this document"
-    ID_FILE_MRU_FILE6       "Open this document"
-    ID_FILE_MRU_FILE7       "Open this document"
-    ID_FILE_MRU_FILE8       "Open this document"
-    ID_FILE_MRU_FILE9       "Open this document"
-    ID_FILE_MRU_FILE10      "Open this document"
-    ID_FILE_MRU_FILE11      "Open this document"
-    ID_FILE_MRU_FILE12      "Open this document"
-    ID_FILE_MRU_FILE13      "Open this document"
-    ID_FILE_MRU_FILE14      "Open this document"
-    ID_FILE_MRU_FILE15      "Open this document"
-    ID_FILE_MRU_FILE16      "Open this document"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
-    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_WINDOW_NEW           "Open another window for the active document\nNew Window"
-    ID_WINDOW_ARRANGE       "Arrange icons at the bottom of the window\nArrange Icons"
-    ID_WINDOW_CASCADE       "Arrange windows so they overlap\nCascade Windows"
-    ID_WINDOW_TILE_HORZ     "Arrange windows as non-overlapping tiles\nTile Windows"
-    ID_WINDOW_TILE_VERT     "Arrange windows as non-overlapping tiles\nTile Windows"
-    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_EDIT_CLEAR           "Erase the selection\nErase"
-    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
-    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
-    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
-    ID_EDIT_FIND            "Find the specified text\nFind"
-    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
-    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
-    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
-    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
-    ID_EDIT_UNDO            "Undo the last action\nUndo"
-    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
-    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
-    ID_VIEW_AUTOARRANGE     "Arrange icons on a grid."
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    AFX_IDS_SCSIZE          "Change the window size"
-    AFX_IDS_SCMOVE          "Change the window position"
-    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
-    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
-    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
-    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
-    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    AFX_IDS_SCRESTORE       "Restore the window to normal size"
-    AFX_IDS_SCTASKLIST      "Activate Task List"
-    AFX_IDS_MDICHILD        "Activate this window"
-END
-
-STRINGTABLE DISCARDABLE 
-BEGIN
-    ID_VIEW_SMALLICON       "Display items by using small icons.\nSmall Icons"
-    ID_VIEW_LARGEICON       "Display items by using large icons.\nLarge Icons"
-    ID_VIEW_LIST            "Displays items in a list.\nList"
-    ID_VIEW_DETAILS         "Displays detailed information about each item in the window.\nDetails"
-    ID_VIEW_LINEUP          "Arranges icons in a grid."
-    ID_VIEW_BYNAME          "Sorts the icons alphabetically."
 END
 
 #endif    // English (U.S.) resources
@@ -378,22 +232,22 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,234,274,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,291,274,50,14
     LTEXT           "Name:",IDC_STATIC,7,7,22,12
-    LTEXT           "Mail:",IDC_STATIC,7,28,16,12
-    LTEXT           "Link title:",IDC_STATIC,7,49,29,12
-    LTEXT           "Link:",IDC_STATIC,7,70,16,12
-    LTEXT           "Mod name:",IDC_STATIC,7,91,38,8
-    LTEXT           "Game:",IDC_STATIC,7,112,22,8
-    LTEXT           "Mod version:",IDC_STATIC,7,133,42,8
-    LTEXT           "Mod update control file:",IDC_STATIC,7,154,75,8
+    LTEXT           "Mail:",IDC_STATIC,7,27,16,12
+    LTEXT           "Link title:",IDC_STATIC,7,47,29,12
+    LTEXT           "Link:",IDC_STATIC,7,67,16,12
+    LTEXT           "Mod name:",IDC_STATIC,7,87,38,8
+    LTEXT           "Game:",IDC_STATIC,7,103,22,8
+    LTEXT           "Mod version:",IDC_STATIC,7,119,42,8
+    LTEXT           "Mod update control file:",IDC_STATIC,7,135,75,8
     EDITTEXT        IDC_NAME,87,7,254,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_MAIL,87,28,254,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LINK_TITLE,87,49,254,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_LINK,87,70,254,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_MOD_NAME,87,91,254,12,ES_AUTOHSCROLL
-    COMBOBOX        IDC_GAME,87,112,254,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
+    EDITTEXT        IDC_MAIL,87,25,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LINK_TITLE,87,43,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_LINK,87,61,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOD_NAME,87,79,254,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_GAME,87,97,254,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
                     WS_TABSTOP
-    EDITTEXT        IDC_MOD_VERSION,87,133,254,12,ES_AUTOHSCROLL
-    EDITTEXT        IDC_MOD_UCF,87,154,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOD_VERSION,87,115,254,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_MOD_UCF,87,133,254,12,ES_AUTOHSCROLL
     CONTROL         "CSF diff compression",IDC_CSF_DIFF_COMPRESSION,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,173,82,10
     CONTROL         "INI diff compression",IDC_INI_DIFF_COMPRESSION,"Button",
@@ -416,6 +270,8 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,101,173,72,10
     CONTROL         "VXL compression",IDC_VXL_COMPRESSION,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,101,186,71,10
+    LTEXT           "Mod MIX filename suffix:",IDC_STATIC,7,151,78,8
+    EDITTEXT        IDC_MOD_MFS,87,151,254,12,ES_AUTOHSCROLL
 END
 
 IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 186, 63
@@ -423,14 +279,14 @@ STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Properties"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,72,42,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,129,42,50,14
-    LTEXT           "Mode:",IDC_STATIC,7,7,21,8
-    COMBOBOX        IDC_MODE,41,7,138,343,CBS_DROPDOWN | WS_VSCROLL | 
-                    WS_TABSTOP
-    LTEXT           "Module:",IDC_STATIC,7,26,26,8
     COMBOBOX        IDC_MODULE,41,25,138,343,CBS_DROPDOWN | WS_VSCROLL | 
                     WS_TABSTOP
+    DEFPUSHBUTTON   "OK",IDOK,72,42,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,42,50,14
+    COMBOBOX        IDC_MODE,41,7,138,343,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Mode:",IDC_STATIC,7,7,21,8
+    LTEXT           "Module:",IDC_STATIC,7,26,26,8
 END
 
 
@@ -509,8 +365,9 @@ BEGIN
 0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
     IDC_GAME, 0x403, 12, 0
 0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
-    IDC_GAME, 0x403, 15, 0
-0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x5259, "\000" 
+    IDC_GAME, 0x403, 27, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x7559, 0x6972, 0x7327, 
+0x5220, 0x7665, 0x6e65, 0x6567, "\000" 
     0
 END
 

@@ -76,7 +76,7 @@ static int c_colums = 5;
 
 void CXCCModCreatorView::OnInitialUpdate()
 {
-	char* column_label[] = {"Name", "Size", "Type", "Mode", "Module"};
+	const char* column_label[] = {"Name", "Size", "Type", "Mode", "Module"};
 	int column_alignment[] = {LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT};
 
 	CListCtrl& lc = GetListCtrl();
