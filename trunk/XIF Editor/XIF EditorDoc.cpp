@@ -25,32 +25,6 @@ BEGIN_MESSAGE_MAP(CXIFEditorDoc, CDocument)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXIFEditorDoc construction/destruction
-
-CXIFEditorDoc::CXIFEditorDoc()
-{
-	// TODO: add one-time construction code here
-
-}
-
-CXIFEditorDoc::~CXIFEditorDoc()
-{
-}
-
-BOOL CXIFEditorDoc::OnNewDocument()
-{
-	if (!CDocument::OnNewDocument())
-		return FALSE;
-
-	// TODO: add reinitialization code here
-	// (SDI documents will reuse this document)
-
-	return TRUE;
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////
 // CXIFEditorDoc serialization
 
 void CXIFEditorDoc::Serialize(CArchive& ar)
@@ -71,24 +45,5 @@ void CXIFEditorDoc::Serialize(CArchive& ar)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXIFEditorDoc diagnostics
-
-#ifdef _DEBUG
-void CXIFEditorDoc::AssertValid() const
-{
-	CDocument::AssertValid();
-}
-
-void CXIFEditorDoc::Dump(CDumpContext& dc) const
-{
-	CDocument::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXIFEditorDoc commands
 
-Cxif_key& CXIFEditorDoc::get_top()
-{
-	return m_top;
-}

@@ -93,7 +93,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 							e.header.extra_z_ofs = 2 * cb_diamond + cb_extra_data + sizeof(t_tmp_image_header);
 						e.header.has_extra_data = static_cast<bool>(i->second.extra_data.data());
 						e.header.has_z_data = static_cast<bool>(e.z_data.data());
-						e.header.has_damaged_data = false;
+						e.header.has_damaged_data = true; // false;
 						*reinterpret_cast<t_tmp_image_header*>(w) = e.header;
 						w += sizeof(t_tmp_image_header);
 						memcpy(w, e.data.data(), cb_diamond);

@@ -14,7 +14,6 @@
 class CXIFEditorDoc : public CDocument
 {
 protected: // create from serialization only
-	CXIFEditorDoc();
 	DECLARE_DYNCREATE(CXIFEditorDoc)
 
 // Attributes
@@ -27,18 +26,15 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXIFEditorDoc)
 	public:
-	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	Cxif_key& get_top();
-	virtual ~CXIFEditorDoc();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
+	Cxif_key& get_top()
+	{
+		return m_top;
+	}
 
 protected:
 
