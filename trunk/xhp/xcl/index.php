@@ -43,9 +43,10 @@
 	}
 
 	$lid = a2lid($_GET[lid]);
+	$pname = $_GET[pname];
 	if (isset($_GET[js]))
 	{
-		$pnames = explode(",", $_GET[pname]);
+		$pnames = explode(",", pname);
 		foreach ($pnames as $key => $pname)
 			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
 		$results = db_query(sprintf("select * from xcl_players where name in (%s)", implode(",", $pnames)));
