@@ -543,30 +543,21 @@ int shp_encode4(const Cshp_ts_file& f, byte* d)
 			frame_header.lm = min(global_cx, 0xff);
 			frame_header.tm = min(global_cy, 0xff);
 		}
+		if (global_cx - frame_header.lm - cx > 0xff
+			|| global_cy - frame_header.tm - cy > 0xff)
+			return 0;
 		frame_header.rm = global_cx - frame_header.lm - cx;
 		frame_header.bm = global_cy - frame_header.tm - cy;
-		assert(global_cx - frame_header.lm - cx < 0x100);
-		assert(global_cy - frame_header.tm - cy < 0x100);
 		w += sizeof(t_shp4_frame_header);
-
-		const byte* r;
-		byte* image;
 
 		if (f.is_compressed(i))
 		{
-			image = new byte[cx * cy];
-			decode3(f.get_image(i), image, cx, cy);
-			r = image;
+			Cvirtual_binary image;
+			decode3(f.get_image(i), image.write_start(cx * cy), cx, cy);
+			w += encode4(image, w, cx, cy);
 		}
 		else
-		{
-			image = NULL;
-			r = f.get_image(i);
-		}
-
-		w += encode4(r, w, cx, cy);
-
-		delete[] image;
+			w += encode4(f.get_image(i), w, cx, cy);
 	}
 	return w - d;
 }
