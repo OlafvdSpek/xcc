@@ -303,11 +303,10 @@ int decode40(const byte image_in[], byte image_out[])
 
 	const byte* readp = image_in;
 	byte* writep = image_out;
-	dword code;
-	dword count;
+	int count;
 	while (1)
 	{
-		code = *readp++;
+		int code = *readp++;
 		if (~code & 0x80)
 		{
 			//bit 7 = 0
@@ -565,8 +564,8 @@ int decode80c(const byte image_in[], byte image_out[], int cb_in)
 	const byte* copyp;
 	const byte* readp = image_in;
 	byte* writep = image_out;
-	dword code;
-	dword count;
+	int code;
+	int count;
 	while (1)
 	{
 		code = *readp++;

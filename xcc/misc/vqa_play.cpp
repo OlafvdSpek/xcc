@@ -188,7 +188,7 @@ bool Cvqa_play::run()
 		else if (f->is_audio_chunk())
 		{
 			short* aud_out;
-			dword size = f->get_chunk_size();
+			int size = f->get_chunk_size();
 			if (f->get_chunk_id() >> 24 == '0')
 			{
 				aud_out = new short[size / 2];
@@ -256,7 +256,7 @@ bool Cvqa_play::run()
 		}
 		else
 		{
-			dword* pixel = reinterpret_cast<dword*>(line_start);
+			int* pixel = reinterpret_cast<int*>(line_start);
 			for (int x = 0; x < cx; x++)
 				*pixel++ = m_color_table[*out_read++];
 		}

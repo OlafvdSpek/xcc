@@ -32,12 +32,12 @@ enum
 
 struct t_template_data_entry
 {
-	dword cx;
-	dword cy;
-	dword c_images;
+	int cx;
+	int cy;
+	int c_images;
 	qword buildable;
 	qword moveable;
-	dword flags;
+	int flags;
 };
 
 class Cxcc_templates  
@@ -51,11 +51,11 @@ private:
 	static byte template_list[256][64];
 public:
 	~Cxcc_templates();
-	static long load_data();
-	static long save_data();
-	static long load_images(t_theater_id theater);
+	static int load_data();
+	static int save_data();
+	static int load_images(t_theater_id theater);
 
-	static const byte* get_image(dword v)
+	static const byte* get_image(int v)
 	{
 		return image_list[v >> 8] + 576 * (v & 0xff);
 	}
@@ -65,7 +65,7 @@ public:
 		return palet;
 	}
 
-	static const t_template_data_entry& get_template_data(long i)
+	static const t_template_data_entry& get_template_data(int i)
 	{
 		return template_data[i];
 	}
@@ -75,32 +75,32 @@ public:
 		return shade_rp;
 	}
 
-	static dword convert_bin_data(dword v)
+	static int convert_bin_data(int v)
 	{
 		return (v & 0xff) << 8 | template_list[v & 0xff][v >> 8];
 	}
 
-	static dword deconvert_bin_data(dword v)
+	static int deconvert_bin_data(int v)
 	{
-		dword a = v >> 8;
-		dword b = 0;
+		int a = v >> 8;
+		int b = 0;
 		while (template_list[a][b] != (v & 0xff))
 			b++;
 		return b << 8 | a;
 	}
 
-	static bool moveable(dword v)
+	static bool moveable(int v)
 	{
 		return template_data[v >> 8].moveable >> (v & 0xff) & 1;
 	}
 
-	static void moveable(dword v, bool w)
+	static void moveable(int v, bool w)
 	{
 		if (moveable(v) != w)
 			template_data[v >> 8].moveable ^= static_cast<qword>(1) << (v & 0xff);
 	}
 
-	static void* get_bib(long v)
+	static void* get_bib(int v)
 	{
 		return bib[v];
 	}

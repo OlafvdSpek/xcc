@@ -137,7 +137,7 @@ static int process_audio_chunk_for_avi(Cvqa_file& f, Cvqa_decode& vqa_d, int& au
 {
 	int error = 0;
 	short* aud_out;
-	dword size = f.get_chunk_size();
+	int size = f.get_chunk_size();
 	if (f.get_chunk_id() >> 24 == '0')
 	{
 		aud_out = new short[size / 2];

@@ -40,12 +40,12 @@ enum
 	vi_td_flags,
 };
 
-long Cxcc_templates::load_data()
+int Cxcc_templates::load_data()
 {
 	Cxif_key base_key;
 	if (base_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + theater_xif_fname)))
 		return 1;
-	for (long i = 0; i < 0xd8; i++)
+	for (int i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
 		const Cxif_key& tk = base_key.get_key(i);
@@ -85,10 +85,10 @@ long Cxcc_templates::load_data()
 	return 0;
 }
 
-long Cxcc_templates::save_data()
+int Cxcc_templates::save_data()
 {
 	Cxif_key base_key;
-	for (long i = 0; i < 0xd8; i++)
+	for (int i = 0; i < 0xd8; i++)
 	{
 		Cxif_key& template_key = base_key.set_key(i);
 		const t_template_data_entry& td = template_data[i];
@@ -106,7 +106,7 @@ long Cxcc_templates::save_data()
 	return base_key.vdata().export(xcc_dirs::get_data_dir() + theater_xif_fname);
 }
 
-long Cxcc_templates::load_images(t_theater_id theater)
+int Cxcc_templates::load_images(t_theater_id theater)
 {
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 	if (theater == loaded_theater)
@@ -121,7 +121,7 @@ long Cxcc_templates::load_images(t_theater_id theater)
 	memset(template_list, -1, sizeof(template_list));
 	int write_i = 0;
 // #define RELOAD
-	for (long i = 0; i < 0xd8; i++)
+	for (int i = 0; i < 0xd8; i++)
 	{
 #ifdef RELOAD
 		t_template_data_entry& td = template_data[i];
@@ -150,7 +150,7 @@ long Cxcc_templates::load_images(t_theater_id theater)
 		image_list[i] = write_p;
 		const int c_tiles = td.cx * td.cy;
 		const byte* ofs_list = f.get_index1();
-		for (long j = 0; j < c_tiles; j++)
+		for (int j = 0; j < c_tiles; j++)
 		{
 			if (ofs_list[j] != 0xff)
 			{
@@ -174,7 +174,7 @@ long Cxcc_templates::load_images(t_theater_id theater)
 	}
 	{
 		Cshp_file f;
-		for (long i = 0; i < 3; i++)
+		for (int i = 0; i < 3; i++)
 		{
 			f.open("bib" + n(3 - i) + ext, mixf);
 			shp_images::load_shp(f, bib[i]);

@@ -18,7 +18,7 @@ enum
 	vi_id_flags,
 };
 
-dword xcc_infantry::c_infantry()
+int xcc_infantry::c_infantry()
 {
 	for (int i = 0; i < 256; i++)
 	{

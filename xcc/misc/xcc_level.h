@@ -192,7 +192,7 @@ typedef string t_briefing_data;
 
 struct t_side_data
 {
-	dword allies;
+	int allies;
 	int credits;
 	t_edge_id edge;
 	int flag_home;
@@ -261,9 +261,9 @@ struct t_unit_data_entry
 
 typedef vector<t_unit_data_entry> t_unit_data;
 
-typedef map<int, word> t_overlay_data;
+typedef map<int, int> t_overlay_data;
 
-typedef map<int, word> t_terrain_data;
+typedef map<int, int> t_terrain_data;
 
 typedef map<int, string> t_celltrigger_data;
 
@@ -279,13 +279,13 @@ enum
 struct t_teamtype_data_entry
 {
 	t_side_id side;
-	dword flags;
+	int flags;
 	int u1;
 	int c_teams;
 	int c_objects;
 	int c_actions;
-	word object_list[16];
-	word action_list[64];
+	int object_list[16];
+	int action_list[64];
 };
 
 typedef map<string, t_teamtype_data_entry> t_teamtype_data;
@@ -306,7 +306,7 @@ typedef int t_waypoint_data[100];
 
 typedef word t_bin_data[4096];
 
-dword convert_overlay_edit(dword v);
+int convert_overlay_edit(int v);
 bool is_tiberium(t_overlay_id v);
 bool is_wall(t_overlay_id v);
 
