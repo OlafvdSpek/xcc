@@ -1648,6 +1648,15 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * (c_images >> convert_shadow), rp);
 		}
+		if (GetMainFrame()->fix_shadows() && ~c_images & 1)
+		{
+			int count = cx * cy * (c_images >> 1);
+			for (byte* w = s + count; count--; w++)
+			{
+				if (*w)
+					*w = 1;
+			}
+		}
 		fname.set_title(base_name);
 		error = shp_ts_file_write(s, cx, cy, c_images, enable_compression).export(fname);
 	}

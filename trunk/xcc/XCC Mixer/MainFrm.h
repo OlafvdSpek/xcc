@@ -138,7 +138,7 @@ public:
 	{
 		return m_use_palet_for_conversion;
 	}
-protected:  // control bar embedded members
+protected:
 	t_game m_game;
 	t_palet m_td_palet;
 	t_palet m_ra_palet;
