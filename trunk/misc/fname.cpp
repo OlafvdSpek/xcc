@@ -182,7 +182,7 @@ int move_file(string s, string d)
 	return !MoveFile(s.c_str(), d.c_str());
 }
 
-bool fname_filter(string fname, string filter)
+bool fname_filter(const string& fname, const string& filter)
 {
 	for (int i = 0; i < filter.length(); i++)
 	{

@@ -45,7 +45,7 @@ public:
 };
 
 Cfname GetModuleFileName(HMODULE hModule = 0);
-bool fname_filter(string fname, string filter);
+bool fname_filter(const string& fname, const string& filter);
 int create_dir(const string&  dir);
 void create_deep_dir(string dir, const string& name);
 int delete_file(string fname);
