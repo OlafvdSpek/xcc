@@ -15,34 +15,6 @@ static T read(const byte*& r)
 	return v;
 }
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Cxif_key_r::Cxif_key_r():
-	m_keys(*new t_key_map)
-{
-}
-
-Cxif_key_r::Cxif_key_r(const Cxif_key_r& v):
-	m_keys(*new t_key_map)
-{
-	m_keys = v.m_keys;
-	m_values = v.m_values;
-}
-
-Cxif_key_r::~Cxif_key_r()
-{
-	delete &m_keys;
-}
-
-const Cxif_key_r& Cxif_key_r::operator=(const Cxif_key_r& v)
-{
-	m_keys = v.m_keys;
-	m_values = v.m_values;
-	return *this;
-}
-
 int Cxif_key_r::import(Cvirtual_binary s)
 {
 	Cvirtual_binary d;

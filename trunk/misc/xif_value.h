@@ -38,9 +38,9 @@ public:
 
 	Cxif_value(const Cvirtual_binary v, bool fast = false)
 	{
-		m_type = vt_binary;
+		m_type = fast ? vt_external_binary : vt_binary;
 		m_data = v;
-		m_fast = fast;
+		// m_fast = fast;
 	}	
 
 	Cxif_value(const string& v)
@@ -110,11 +110,11 @@ public:
 	void load_new(const byte*& data);
 	void load_external(const byte*& data);
 	void save(byte*& data) const;
+	static int skip(const byte* s);
 	bool external_data() const;
 	void external_save(byte*& data) const;
 private:
 	Cvirtual_binary m_data;
-	bool m_fast;
 	t_vt m_type;
 	union
 	{

@@ -60,8 +60,7 @@ void Cxif_key::load_new(const byte*& data)
 		while (count--)
 		{
 			id += read_int(data);
-			Cxif_key& i = open_key_write(id);
-			i.load_new(data);
+			open_key_write(id).load_new(data);
 		}
 	}
 
@@ -72,8 +71,7 @@ void Cxif_key::load_new(const byte*& data)
 		while (count--)
 		{
 			id += read_int(data);
-			Cxif_value& i = open_value_write(id);
-			i.load_new(data);
+			open_value_write(id).load_new(data);
 		}
 	}
 }
@@ -242,8 +240,9 @@ int Cxif_key::load_key(const byte* data, int size)
 {
 	const byte* read_p = data;
 	const t_xif_header_fast& header = *reinterpret_cast<const t_xif_header_fast*>(read_p);
-	if (header.id != file_id ||
-		header.version != file_version_old && header.version != file_version_new && header.version != file_version_fast)
+	if (size < sizeof(t_xif_header_old)
+		|| header.id != file_id
+		|| header.version != file_version_old && header.version != file_version_new && header.version != file_version_fast)
 		return 1;
 	int error = 0;
 	if (header.version == file_version_old)
@@ -262,6 +261,7 @@ int Cxif_key::load_key(const byte* data, int size)
 				error = uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_old), size - sizeof(t_xif_header_old)) != Z_OK;
 			else
 				error = uncompress(d.write_start(cb_d), &cb_d, data + sizeof(t_xif_header_fast), header.size_compressed) != Z_OK;
+			// d.export("c:/temp/xif data.bin");
 			if (!error)
 			{
 				read_p = d.data();

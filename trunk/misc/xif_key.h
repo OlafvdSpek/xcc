@@ -47,20 +47,17 @@ class Cxif_key
 {
 public:
 	Cxif_key():
-		m_keys(*new t_xif_key_map),
-		m_values(*new t_xif_value_map)
+		m_keys(*new t_xif_key_map)
 	{
 	}
 
 	~Cxif_key()
 	{
-		delete &m_values;
 		delete &m_keys;
 	}
 
 	Cxif_key(const Cxif_key& v):
-		m_keys(*new t_xif_key_map),
-		m_values(*new t_xif_value_map)
+		m_keys(*new t_xif_key_map)
 	{
 		m_keys = v.m_keys;
 		m_values = v.m_values;
@@ -162,7 +159,7 @@ public:
 	const Cxif_value& get_value(int id) const
 	{
 		static Cxif_value z;
-		t_xif_value_map::iterator i = m_values.find(id);
+		t_xif_value_map::const_iterator i = m_values.find(id);
 		return i == m_values.end() ? z : i->second;
 	}
 
@@ -221,7 +218,7 @@ public:
 		return m_values.size();
 	}
 
-	int load_key(const Cvirtual_binary data)
+	int load_key(const Cvirtual_binary& data)
 	{
 		return load_key(data.data(), data.size());
 	}
@@ -248,7 +245,7 @@ public:
 	Cvirtual_binary vdata(bool fast = false) const;
 
 	t_xif_key_map& m_keys;
-	t_xif_value_map& m_values;
+	t_xif_value_map m_values;
 private:
 	int get_size() const;
 	int get_external_size() const;

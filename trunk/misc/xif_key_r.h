@@ -98,14 +98,10 @@ public:
 	t_key_map::const_iterator find_key(int id) const;
 	t_value_map::const_iterator find_value(int id) const;
 	int import(Cvirtual_binary s);
-	Cxif_key_r();
-	Cxif_key_r(const Cxif_key_r& v);
-	const Cxif_key_r& operator=(const Cxif_key_r& v);
-	~Cxif_key_r();
 private:
 	int load(const byte* s);
 
-	t_key_map& m_keys;
+	t_key_map m_keys;
 	t_value_map m_values;
 };
 
