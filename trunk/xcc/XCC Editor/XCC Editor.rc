@@ -1,0 +1,1211 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Editor.ico"
+IDR_CCLVLTYPE           ICON    DISCARDABLE     "res\\XCC EditorDoc.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDR_MAINFRAME           BITMAP  MOVEABLE PURE   "res\\Toolbar.bmp"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Toolbar
+//
+
+IDR_MAINFRAME TOOLBAR DISCARDABLE  16, 15
+BEGIN
+    BUTTON      ID_FILE_NEW
+    BUTTON      ID_FILE_OPEN
+    BUTTON      ID_FILE_SAVE
+    SEPARATOR
+    BUTTON      ID_EDIT_CUT
+    BUTTON      ID_EDIT_COPY
+    BUTTON      ID_EDIT_PASTE
+    SEPARATOR
+    BUTTON      ID_FILE_PRINT
+    BUTTON      ID_APP_ABOUT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+BEGIN
+    POPUP "&File"
+    BEGIN
+        MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
+        MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
+        MENUITEM "Open from mix...",            ID_FILE_OPEN_FROM_MIX
+        MENUITEM SEPARATOR
+        MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
+        MENUITEM "Save &as...",                 ID_FILE_SAVE_AS
+        MENUITEM "Save as image...",            ID_FILE_SAVE_AS_IMAGE
+        MENUITEM SEPARATOR
+        MENUITEM "&Print...\tCtrl+P",           ID_FILE_PRINT
+        MENUITEM "Print Pre&view",              ID_FILE_PRINT_PREVIEW
+        MENUITEM "P&rint Setup...",             ID_FILE_PRINT_SETUP
+        MENUITEM SEPARATOR
+        MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
+        MENUITEM SEPARATOR
+        MENUITEM "E&xit",                       ID_APP_EXIT
+    END
+    POPUP "&Edit"
+    BEGIN
+        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
+        MENUITEM SEPARATOR
+        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
+        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
+        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
+        MENUITEM SEPARATOR
+        MENUITEM "Edit basic...",               ID_EDIT_BASIC
+        MENUITEM "Edit map...",                 ID_EDIT_MAP
+        MENUITEM "Edit briefing...",            ID_EDIT_BRIEFING
+        POPUP "Edit side"
+        BEGIN
+            MENUITEM "Goodguy...",                  ID_EDIT_GOODGUY
+            MENUITEM "Badguy...",                   ID_EDIT_BADGUY
+            MENUITEM "Neutral...",                  ID_EDIT_NEUTRAL
+            MENUITEM "Special...",                  ID_EDIT_SPECIAL
+            MENUITEM "Multi1...",                   ID_EDIT_MULTI1
+            MENUITEM "Multi2...",                   ID_EDIT_MULTI2
+            MENUITEM "Multi3...",                   ID_EDIT_MULTI3
+            MENUITEM "Multi4...",                   ID_EDIT_MULTI4
+            MENUITEM "Multi5...",                   ID_EDIT_MULTI5
+            MENUITEM "Multi6...",                   ID_EDIT_MULTI6
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "Edit infantry...",            ID_EDIT_INFANTRY
+        MENUITEM "Edit structures...",          ID_EDIT_STRUCTURES
+        MENUITEM "Edit units...",               ID_EDIT_UNITS
+        MENUITEM SEPARATOR
+        MENUITEM "Edit teamtypes...",           ID_EDIT_TEAMTYPES
+        MENUITEM "Edit triggers..",             ID_EDIT_TRIGGERS
+        MENUITEM "Edit waypoints...",           ID_EDIT_WAYPOINTS
+        MENUITEM SEPARATOR
+        MENUITEM "Lock template layer\tCtrl+F1", ID_EDIT_LOCK_TEMPLATE_LAYER
+        MENUITEM "Lock overlay layer\tCtrl+F2", ID_EDIT_LOCK_OVERLAY_LAYER
+        MENUITEM "Lock smudge layer\tCtrl+F3",  ID_EDIT_LOCK_SMUDGE_LAYER
+        MENUITEM "Lock terrain layer\tCtrl+F4", ID_EDIT_LOCK_TERRAIN_LAYER
+        MENUITEM "Lock infantry layer\tCtrl+F5", ID_EDIT_LOCK_INFANTRY_LAYER
+        MENUITEM "Lock structure layer\tCtrl+F6", 
+                                                ID_EDIT_LOCK_STRUCTURE_LAYER
+        MENUITEM "Lock unit layer\tCtrl+F7",    ID_EDIT_LOCK_UNIT_LAYER
+    END
+    POPUP "&View"
+    BEGIN
+        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
+        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "Overview",                    ID_VIEW_OVERVIEW
+        MENUITEM SEPARATOR
+        MENUITEM "Border filter",               ID_VIEW_BORDER_FILTER
+        MENUITEM "Template blocked filter",     ID_VIEW_MOVEABLE_FILTER
+        MENUITEM SEPARATOR
+        MENUITEM "Template layer",              ID_VIEW_TEMPLATE_LAYER
+        MENUITEM "Overlay layer",               ID_VIEW_OVERLAY_LAYER
+        MENUITEM "Smudge layer",                ID_VIEW_SMUDGE_LAYER
+        MENUITEM "Terrain layer",               ID_VIEW_TERRAIN_LAYER
+        MENUITEM "Infantry layer",              ID_VIEW_INFANTRY_LAYER
+        MENUITEM "Structure layer",             ID_VIEW_STRUCTURE_LAYER
+        MENUITEM "Unit layer",                  ID_VIEW_UNIT_LAYER
+        MENUITEM "Celltrigger layer",           ID_VIEW_CELLTRIGGER_LAYER
+        MENUITEM "Waypoint layer",              ID_VIEW_WAYPOINT_LAYER
+    END
+    POPUP "&Tools"
+    BEGIN
+        MENUITEM "Energy status...",            ID_TOOLS_ENERGY_STATUS
+        MENUITEM "Set directories...",          ID_TOOLS_SET_DIRECTORIES
+        MENUITEM "Upgrade tiberium",            ID_TOOLS_UPGRADE_TIBERIUM
+    END
+    POPUP "&Help"
+    BEGIN
+        MENUITEM "&About XCC Editor...",        ID_APP_ABOUT
+    END
+END
+
+CG_IDR_POPUP_XCCEDITOR_VIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Moveable",                    ID_SWITCH_MOVEABLE
+        MENUITEM SEPARATOR
+        MENUITEM "Delete",                      ID_POPUP_DELETE
+        MENUITEM "Properties...",               ID_POPUP_PROPERTIES
+        MENUITEM SEPARATOR
+        MENUITEM "Set celltrigger...",          ID_POPUP_SET_CELLTRIGGER
+        MENUITEM "Set waypoint...",             ID_POPUP_SET_WAYPOINT
+    END
+    POPUP "_POPUP_"
+    BEGIN
+        POPUP "Clear"
+        BEGIN
+            MENUITEM "Template layer",              ID_POPUP_CLEAR_TEMPLATE_LAYER
+
+            MENUITEM SEPARATOR
+            MENUITEM "Overlay layer",               ID_POPUP_CLEAR_OVERLAY_LAYER
+
+            MENUITEM "Smudge layer",                ID_POPUP_CLEAR_SMUDGE_LAYER
+
+            MENUITEM "Terrain layer",               ID_POPUP_CLEAR_TERRAIN_LAYER
+
+            MENUITEM SEPARATOR
+            MENUITEM "Infantry layer",              ID_POPUP_CLEAR_INFANTRY_LAYER
+
+            MENUITEM "Structure layer",             ID_POPUP_CLEAR_STRUCTURE_LAYER
+
+            MENUITEM "Unit layer",                  ID_POPUP_CLEAR_UNIT_LAYER
+
+            MENUITEM SEPARATOR
+            MENUITEM "Celltrigger layer",           ID_POPUP_CLEAR_CELLTRIGGER_LAYER
+
+            MENUITEM "Waypoint layer",              ID_POPUP_CLEAR_WAYPOINT_LAYER
+
+        END
+        POPUP "Fill with"
+        BEGIN
+            MENUITEM "Celltriggers...",             ID_POPUP_FILL_WITH_CELLTRIGGERS
+
+            MENUITEM "Tiberium",                    ID_POPUP_FILL_WITH_TIBERIUM
+
+            MENUITEM "Water",                       ID_POPUP_FILL_WITH_WATER
+            MENUITEM SEPARATOR
+            MENUITEM "Sandbag Wall",                ID_POPUP_FILL_WITH_SANDBAG_WALL
+
+            MENUITEM "Chain Link Fence",            ID_POPUP_FILL_WITH_CHAIN_LINK_FENCE
+
+            MENUITEM "Concrete Wall",               ID_POPUP_FILL_WITH_CONCRETE_WALL
+
+        END
+    END
+END
+
+CG_IDR_POPUP_CTEMPLATE_SELECTION MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Templates - general",         ID_POPUP_TEMPLATES
+        MENUITEM "Templates - ridge",           ID_POPUP_TEMPLATES_RIDGE
+        MENUITEM "Templates - river",           ID_POPUP_TEMPLATES_RIVER
+        MENUITEM "Templates - road",            ID_POPUP_TEMPLATES_ROAD
+        MENUITEM "Templates - shore",           ID_POPUP_TEMPLATES_SHORE
+        MENUITEM SEPARATOR
+        MENUITEM "Overlay",                     ID_POPUP_OVERLAY
+        MENUITEM "Smudge",                      ID_POPUP_SMUDGE
+        MENUITEM "Terrain",                     ID_POPUP_TERRAIN
+        MENUITEM SEPARATOR
+        MENUITEM "Infantry",                    ID_POPUP_INFANTRY
+        MENUITEM "Structures - general",        ID_POPUP_STRUCTURES
+        MENUITEM "Structures - civilian",       ID_POPUP_STRUCTURES_CIVILIAN
+        MENUITEM "Units",                       ID_POPUP_UNITS
+        MENUITEM SEPARATOR
+        MENUITEM "Blocked",                     ID_POPUP_BLOCKED
+    END
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Accelerator
+//
+
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+BEGIN
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
+    "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "P",            ID_FILE_PRINT,          VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_FILE_SAVE,           VIRTKEY, CONTROL, NOINVERT
+    "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
+    VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
+    VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
+    VK_F1,          ID_EDIT_LOCK_TEMPLATE_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F2,          ID_EDIT_LOCK_OVERLAY_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F3,          ID_EDIT_LOCK_SMUDGE_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F4,          ID_EDIT_LOCK_TERRAIN_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F5,          ID_VIEW_UPDATE,         VIRTKEY, NOINVERT
+    VK_F5,          ID_EDIT_LOCK_INFANTRY_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_NEXT_PANE,           VIRTKEY, NOINVERT
+    VK_F6,          ID_EDIT_LOCK_STRUCTURE_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_F6,          ID_PREV_PANE,           VIRTKEY, SHIFT, NOINVERT
+    VK_F7,          ID_EDIT_LOCK_UNIT_LAYER, VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
+    "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
+    "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_XCCDIRECTORIES DIALOG DISCARDABLE  0, 0, 362, 117
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Set directories"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,244,97,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,305,97,50,14
+    LTEXT           "Primary directory:",IDC_STATIC,7,7,54,8
+    LTEXT           "Secondary directory:",IDC_STATIC,7,30,66,8
+    EDITTEXT        IDC_EDIT_PRIMARY,81,7,274,15,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SECONDARY,81,30,274,15,ES_AUTOHSCROLL
+    LTEXT           "CD directory:",IDC_STATIC,7,53,42,8
+    EDITTEXT        IDC_EDIT_CD,81,53,274,15,ES_AUTOHSCROLL
+    LTEXT           "Data directory:",IDC_STATIC,7,76,47,8
+    EDITTEXT        IDC_EDIT_DATA,81,76,274,15,ES_AUTOHSCROLL
+END
+
+IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "About XCC Editor"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
+    LTEXT           "XCC Editor 1.01",IDC_STATIC,40,10,119,8,SS_NOPREFIX
+    LTEXT           "Copyright (C) 1999",IDC_STATIC,40,25,119,8
+    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
+    LTEXT           "Author: Olaf van der Spek (Spek@EuroNet.NL)",IDC_STATIC,
+                    40,40,150,8
+END
+
+IDD_OPEN_FROM_MIX_DLG DIALOG DISCARDABLE  0, 0, 436, 300
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Open from mix"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,379,7,50,14,WS_DISABLED
+    PUSHBUTTON      "Cancel",IDCANCEL,379,24,50,14
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,366,286
+END
+
+IDD_EDIT_STRUCTURES_DLG DIALOG DISCARDABLE  0, 0, 477, 205
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit structures"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
+    CONTROL         "List2",IDC_LIST2,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,205,191
+    PUSHBUTTON      "New",IDC_NEW_BUTTON,421,28,50,14
+    EDITTEXT        IDC_EDIT_LONG_NAME,221,7,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SHORT_NAME,221,29,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_FLAGS,257,51,128,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SIZE,257,72,128,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Size:",IDC_STATIC,221,72,16,16
+    LTEXT           "Flags:",IDC_STATIC,221,51,16,16
+    CONTROL         "Icon",IDC_CHECK_ICON,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,94,30,10
+    CONTROL         "Civlian",IDC_CHECK_CIVILIAN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,107,37,10
+    CONTROL         "Bib",IDC_CHECK_BIB,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,120,26,10
+    CONTROL         "Desert",IDC_CHECK_DESERT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,133,37,10
+    CONTROL         "Temperate",IDC_CHECK_TEMPERATE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,146,50,10
+    CONTROL         "Winter",IDC_CHECK_WINTER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,159,37,10
+    CONTROL         "",IDC_CHECK_BLOCKED0,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,301,103,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,317,103,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,333,103,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,349,103,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,301,116,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,317,116,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED6,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,333,116,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED7,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,349,116,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED8,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,301,129,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED9,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,317,129,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED10,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,333,129,16,8
+    CONTROL         "",IDC_CHECK_BLOCKED11,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,349,129,16,8
+END
+
+IDD_EDIT_UNITS_DLG DIALOG DISCARDABLE  0, 0, 477, 205
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit units"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
+    CONTROL         "List2",IDC_LIST2,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,205,191
+    PUSHBUTTON      "New",IDC_NEW_BUTTON,421,28,50,14
+    EDITTEXT        IDC_EDIT_LONG_NAME,221,7,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SHORT_NAME,221,27,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_FLAGS,257,47,128,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SIZE,257,66,128,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Size:",IDC_STATIC,221,66,16,16
+    LTEXT           "Flags:",IDC_STATIC,221,47,20,8
+    CONTROL         "Icon",IDC_CHECK_ICON,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,224,169,30,10
+    LTEXT           "Base ox:",IDC_STATIC,221,85,28,8
+    LTEXT           "Base oy:",IDC_STATIC,221,104,28,8
+    EDITTEXT        IDC_EDIT_BASE_OX,257,85,128,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BASE_OY,257,104,128,12,ES_AUTOHSCROLL
+    LTEXT           "c rotations:",IDC_STATIC,221,122,36,8
+    EDITTEXT        IDC_EDIT_C_ROTATIONS,257,123,128,12,ES_AUTOHSCROLL
+    CONTROL         "Top",IDC_CHECK_TOP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,224,181,29,10
+    EDITTEXT        IDC_EDIT_C_IMAGES,257,143,128,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    LTEXT           "c images:",IDC_STATIC,220,142,31,8
+END
+
+IDD_EDIT_INFANTRY_DLG DIALOG DISCARDABLE  0, 0, 477, 205
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit infantry"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
+    CONTROL         "List2",IDC_LIST2,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,205,191
+    PUSHBUTTON      "New",IDC_NEW_BUTTON,421,28,50,14
+    EDITTEXT        IDC_EDIT_LONG_NAME,221,7,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SHORT_NAME,221,27,164,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_FLAGS,257,47,128,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_SIZE,257,66,128,12,ES_AUTOHSCROLL | ES_READONLY
+    LTEXT           "Size:",IDC_STATIC,221,66,16,8
+    LTEXT           "Flags:",IDC_STATIC,221,47,20,8
+    CONTROL         "Icon",IDC_CHECK_ICON,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,125,30,10
+    CONTROL         "Civlian",IDC_CHECK_CIVILIAN,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,221,138,37,10
+    LTEXT           "ox:",IDC_STATIC,221,85,10,8
+    LTEXT           "oy:",IDC_STATIC,221,104,10,8
+    EDITTEXT        IDC_EDIT_OX,257,85,128,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_OY,257,104,128,12,ES_AUTOHSCROLL | ES_READONLY
+END
+
+IDD_EDIT_WAYPOINTS_DLG DIALOG DISCARDABLE  0, 0, 215, 218
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit waypoints"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,144,204
+    DEFPUSHBUTTON   "Select",IDOK,158,7,50,14,WS_DISABLED
+    PUSHBUTTON      "Close",IDCANCEL,158,23,50,14
+    PUSHBUTTON      "Delete",IDC_DELETE,158,39,50,14,WS_DISABLED
+END
+
+IDD_EDIT_TRIGGERS_DLG DIALOG DISCARDABLE  0, 0, 364, 218
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Edit triggers"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,297,204
+    DEFPUSHBUTTON   "Select",IDOK,307,7,50,14,WS_DISABLED
+    PUSHBUTTON      "Close",IDCANCEL,307,23,50,14
+    PUSHBUTTON      "New...",IDC_NEW,307,39,50,14
+    PUSHBUTTON      "Edit...",IDC_EDIT,307,55,50,14,WS_DISABLED
+    PUSHBUTTON      "Delete",IDC_DELETE,307,71,50,14,WS_DISABLED
+END
+
+IDD_EDIT_TEAMTYPE_DLG DIALOG DISCARDABLE  0, 0, 319, 250
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit teamtype"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,262,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,262,24,50,14
+    LTEXT           "Name:",IDC_STATIC,7,7,23,8
+    LTEXT           "Side:",IDC_STATIC,7,21,17,8
+    EDITTEXT        IDC_EDIT_NAME,70,7,119,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_SIDE,70,23,119,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    LTEXT           "U1:",IDC_STATIC,7,39,12,8
+    EDITTEXT        IDC_EDIT_U1,70,39,119,12,ES_AUTOHSCROLL | ES_NUMBER
+    LTEXT           "Number of teams:",IDC_STATIC,7,55,56,8
+    EDITTEXT        IDC_EDIT_C_TEAMS,70,55,119,12,ES_AUTOHSCROLL | ES_NUMBER
+    CONTROL         "Link",IDC_CHECK_LINK,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,71,29,10
+    CONTROL         "Force move",IDC_CHECK_FORCE_MOVE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,87,53,10
+    CONTROL         "Autocreate",IDC_CHECK_AUTOCREATE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,103,51,10
+    CONTROL         "Replace",IDC_CHECK_REPLACE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,119,43,10
+    CONTROL         "Force creation",IDC_CHECK_FORCE_CREATION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,135,61,10
+    COMBOBOX        IDC_OBJECT_COMBO,70,71,78,160,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_OBJECT_EDIT,152,71,37,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_ACTION_COMBO,193,71,78,160,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_ACTION_EDIT,275,71,37,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Insert",IDC_OBJECT_INSERT,70,87,37,14
+    PUSHBUTTON      "Delete",IDC_OBJECT_DELETE,152,87,37,14,WS_DISABLED
+    PUSHBUTTON      "Insert",IDC_ACTION_INSERT,193,87,37,14
+    PUSHBUTTON      "Select...",IDC_ACTION_SELECT,234,87,37,14
+    PUSHBUTTON      "Delete",IDC_ACTION_DELETE,275,87,37,14,WS_DISABLED
+    LISTBOX         IDC_OBJECT_LIST,70,103,119,140,WS_VSCROLL | WS_TABSTOP
+    LISTBOX         IDC_ACTION_LIST,193,103,119,140,WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_EDIT_TEAMTYPES_DLG DIALOG DISCARDABLE  0, 0, 503, 218
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "Edit teamtypes"
+FONT 8, "MS Sans Serif"
+BEGIN
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | 
+                    WS_BORDER | WS_TABSTOP,7,7,435,204
+    DEFPUSHBUTTON   "Select",IDOK,446,7,50,14,WS_DISABLED
+    PUSHBUTTON      "Close",IDCANCEL,446,23,50,14
+    PUSHBUTTON      "New...",IDC_NEW,446,39,50,14
+    PUSHBUTTON      "Edit...",IDC_EDIT,446,55,50,14,WS_DISABLED
+    PUSHBUTTON      "Delete",IDC_DELETE,446,71,50,14,WS_DISABLED
+END
+
+IDD_EDIT_MAP_DLG DIALOG DISCARDABLE  0, 0, 186, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit map"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,24,50,14
+    LTEXT           "X:",IDC_STATIC,7,7,8,8
+    LTEXT           "Y:",IDC_STATIC,7,23,8,8
+    LTEXT           "Width:",IDC_STATIC,7,39,22,8
+    LTEXT           "Height:",IDC_STATIC,7,55,24,8
+    LTEXT           "Theater:",IDC_STATIC,7,71,28,8
+    EDITTEXT        IDC_EDIT_X,51,7,74,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_Y,51,23,74,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_CX,51,39,74,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_CY,51,55,74,12,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_THEATER,51,71,74,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_EDIT_SIDE_DLG DIALOG DISCARDABLE  0, 0, 140, 234
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit side"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,83,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,83,24,50,14
+    LTEXT           "Allies:",IDC_STATIC,7,7,19,8
+    CONTROL         "Goodguy",IDC_CHECK_GOODGUY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,23,45,10
+    CONTROL         "Badguy",IDC_CHECK_BADGUY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,39,40,10
+    CONTROL         "Neutral",IDC_CHECK_NEUTRAL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,55,39,10
+    CONTROL         "Special",IDC_CHECK_SPECIAL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,71,39,10
+    CONTROL         "Multi1",IDC_CHECK_MULTI1,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,87,35,10
+    CONTROL         "Multi2",IDC_CHECK_MULTI2,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,103,35,10
+    CONTROL         "Multi3",IDC_CHECK_MULTI3,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,119,35,10
+    CONTROL         "Multi4",IDC_CHECK_MULTI4,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,135,35,10
+    CONTROL         "Multi5",IDC_CHECK_MULTI5,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,151,35,10
+    CONTROL         "Multi6",IDC_CHECK_MULTI6,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,23,167,35,10
+    LTEXT           "Credits:",IDC_STATIC,7,199,24,8
+    LTEXT           "Edge:",IDC_STATIC,7,215,20,8
+    EDITTEXT        IDC_EDIT_CREDITS,47,199,86,12,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_EDGE,47,215,86,160,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_STRUCTURE_PROPERTIES_DLG DIALOG DISCARDABLE  0, 0, 186, 108
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Structure Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,23,50,14
+    LTEXT           "Type:",IDC_STATIC,7,7,19,8
+    LTEXT           "Side:",IDC_STATIC,7,23,17,8
+    LTEXT           "Cell:",IDC_STATIC,7,39,22,8
+    LTEXT           "Health:",IDC_STATIC,8,55,22,8
+    LTEXT           "Angle:",IDC_STATIC,7,71,22,8
+    LTEXT           "Trigger:",IDC_STATIC,8,87,25,8
+    EDITTEXT        IDC_EDIT_TYPE,44,7,77,12,ES_AUTOHSCROLL | ES_READONLY
+    COMBOBOX        IDC_COMBO_SIDE,44,23,77,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_CELL,44,39,77,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_HEALTH,44,55,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_ANGLE,44,71,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_TRIGGER,44,87,77,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Select...",IDC_SELECT,129,87,50,14
+    CONTROL         "Replace",IDC_CHECK_REPLACE,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,129,55,43,10
+    CONTROL         "Start",IDC_CHECK_START,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,129,39,31,10
+END
+
+IDD_UNIT_PROPERTIES_DLG DIALOG DISCARDABLE  0, 0, 186, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Unit Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,23,50,14
+    LTEXT           "Type:",IDC_STATIC,7,7,19,8
+    LTEXT           "Side:",IDC_STATIC,7,23,17,8
+    LTEXT           "Cell:",IDC_STATIC,7,39,22,8
+    LTEXT           "Health:",IDC_STATIC,8,55,22,8
+    LTEXT           "Angle:",IDC_STATIC,7,71,22,8
+    LTEXT           "Action:",IDC_STATIC,7,87,22,8
+    LTEXT           "Trigger:",IDC_STATIC,7,103,25,8
+    EDITTEXT        IDC_EDIT_TYPE,44,7,77,12,ES_AUTOHSCROLL | ES_READONLY
+    COMBOBOX        IDC_COMBO_SIDE,44,23,77,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_CELL,44,39,77,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_HEALTH,44,55,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_ANGLE,44,71,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_ACTION,44,87,77,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_TRIGGER,44,103,77,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Select...",IDC_SELECT,129,103,50,14
+END
+
+IDD_EDIT_BASIC_DLG DIALOG DISCARDABLE  0, 0, 252, 198
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit basic"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,195,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,195,24,50,14
+    LTEXT           "Action:",IDC_STATIC,7,7,62,17
+    LTEXT           "Brief:",IDC_STATIC,7,23,62,17
+    LTEXT           "Buid level:",IDC_STATIC,7,39,62,17
+    LTEXT           "Carry over money:",IDC_STATIC,7,55,62,17
+    LTEXT           "Intro:",IDC_STATIC,7,71,62,17
+    LTEXT           "Lose:",IDC_STATIC,7,87,62,17
+    LTEXT           "Name:",IDC_STATIC,7,103,62,17
+    LTEXT           "Percent:",IDC_STATIC,7,119,62,17
+    LTEXT           "Player:",IDC_STATIC,7,135,55,17
+    LTEXT           "Theme:",IDC_STATIC,7,151,62,17
+    LTEXT           "Win:",IDC_STATIC,7,167,62,17
+    EDITTEXT        IDC_EDIT_ACTION,70,7,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BRIEF,70,23,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_BUILDLEVEL,70,39,119,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    EDITTEXT        IDC_EDIT_CARRY_OVER_MONEY,70,55,119,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    EDITTEXT        IDC_EDIT_INTRO,70,71,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_LOSE,70,87,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_NAME,70,103,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_PERCENT,70,119,119,14,ES_AUTOHSCROLL | 
+                    ES_NUMBER
+    COMBOBOX        IDC_COMBO_PLAYER,70,135,119,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_THEME,70,151,119,14,ES_AUTOHSCROLL
+    EDITTEXT        IDC_EDIT_WIN,70,167,119,14,ES_AUTOHSCROLL
+    CONTROL         "XCC Level",IDC_CHECK_XCC_LEVEL,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,183,119,14
+END
+
+IDD_EDIT_TRIGGER_DLG DIALOG DISCARDABLE  0, 0, 231, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit trigger"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,174,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,174,24,50,14
+    PUSHBUTTON      "Select...",IDC_SELECT,174,87,50,14
+    LTEXT           "Name:",IDC_STATIC,7,7,23,8
+    LTEXT           "Cause:",IDC_STATIC,7,23,23,8
+    LTEXT           "Event:",IDC_STATIC,7,39,22,8
+    LTEXT           "Count:",IDC_STATIC,7,55,22,8
+    LTEXT           "Side:",IDC_STATIC,7,71,17,8
+    LTEXT           "TeamType:",IDC_STATIC,7,87,37,8
+    LTEXT           "Loop:",IDC_STATIC,7,103,19,8
+    EDITTEXT        IDC_EDIT_NAME,51,7,119,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_CAUSE,51,23,119,160,CBS_DROPDOWNLIST | 
+                    CBS_SORT | CBS_NOINTEGRALHEIGHT | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_EVENT,51,39,119,160,CBS_DROPDOWNLIST | 
+                    CBS_SORT | WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_COUNT,51,55,119,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_SIDE,51,71,119,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_TEAMTYPE,51,87,119,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_COMBO_LOOP,51,103,119,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_INFANTRY_PROPERTIES_DLG DIALOG DISCARDABLE  0, 0, 186, 122
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Infantry Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,23,50,14
+    LTEXT           "Type:",IDC_STATIC,7,7,19,8
+    LTEXT           "Side:",IDC_STATIC,7,23,17,8
+    LTEXT           "Cell:",IDC_STATIC,7,39,22,8
+    LTEXT           "Health:",IDC_STATIC,8,55,22,8
+    LTEXT           "Angle:",IDC_STATIC,7,71,22,8
+    LTEXT           "Action:",IDC_STATIC,7,87,22,8
+    LTEXT           "Trigger:",IDC_STATIC,7,103,25,8
+    EDITTEXT        IDC_EDIT_TYPE,44,7,77,12,ES_AUTOHSCROLL | ES_READONLY
+    COMBOBOX        IDC_COMBO_SIDE,44,23,77,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_CELL,44,39,77,12,ES_AUTOHSCROLL | ES_READONLY
+    EDITTEXT        IDC_EDIT_HEALTH,44,55,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_EDIT_ANGLE,44,71,77,12,ES_AUTOHSCROLL | ES_NUMBER
+    COMBOBOX        IDC_COMBO_ACTION,44,87,77,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_EDIT_TRIGGER,44,103,77,12,ES_AUTOHSCROLL
+    PUSHBUTTON      "Select...",IDC_SELECT,129,103,50,14
+END
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 1,0,0,1
+ PRODUCTVERSION 1,0,0,1
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x1L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904B0"
+        BEGIN
+            VALUE "CompanyName", "\0"
+            VALUE "FileDescription", "XCC Editor MFC Application\0"
+            VALUE "FileVersion", "1, 0, 0, 1\0"
+            VALUE "InternalName", "XCC Editor\0"
+            VALUE "LegalCopyright", "Copyright (C) 1999\0"
+            VALUE "LegalTrademarks", "\0"
+            VALUE "OriginalFilename", "XCC Editor.EXE\0"
+            VALUE "ProductName", "XCC Editor Application\0"
+            VALUE "ProductVersion", "1, 0, 0, 1\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ABOUTBOX, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 210
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 48
+    END
+
+    IDD_OPEN_FROM_MIX_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 429
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 293
+    END
+
+    IDD_EDIT_STRUCTURES_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 470
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 198
+    END
+
+    IDD_EDIT_UNITS_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 470
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 198
+    END
+
+    IDD_EDIT_INFANTRY_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 470
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 198
+    END
+
+    IDD_EDIT_WAYPOINTS_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 208
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_EDIT_TRIGGERS_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 357
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_EDIT_TEAMTYPE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 312
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 243
+    END
+
+    IDD_EDIT_TEAMTYPES_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 496
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 211
+    END
+
+    IDD_EDIT_MAP_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 84
+    END
+
+    IDD_EDIT_SIDE_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 133
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 227
+    END
+
+    IDD_STRUCTURE_PROPERTIES_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 101
+    END
+
+    IDD_UNIT_PROPERTIES_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 115
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif\r\n"
+    "#include ""res\\XCC Editor.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#include ""afxprint.rc""       // printing/print preview resources\r\n"
+    "#endif\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_EDIT_TRIGGER_DLG DLGINIT
+BEGIN
+    IDC_COMBO_LOOP, 0x403, 2, 0
+0x0030, 
+    IDC_COMBO_LOOP, 0x403, 2, 0
+0x0031, 
+    IDC_COMBO_LOOP, 0x403, 2, 0
+0x0032, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    IDR_MAINFRAME           "XCC Editor\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
+END
+
+STRINGTABLE PRELOAD DISCARDABLE 
+BEGIN
+    AFX_IDS_APP_TITLE       "XCC Editor"
+    AFX_IDS_IDLEMESSAGE     "Ready"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_EXT        "EXT"
+    ID_INDICATOR_CAPS       "CAP"
+    ID_INDICATOR_NUM        "NUM"
+    ID_INDICATOR_SCRL       "SCRL"
+    ID_INDICATOR_OVR        "OVR"
+    ID_INDICATOR_REC        "REC"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_NEW             "Create a new document\nNew"
+    ID_FILE_OPEN            "Open an existing document\nOpen"
+    ID_FILE_CLOSE           "Close the active document\nClose"
+    ID_FILE_SAVE            "Save the active document\nSave"
+    ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
+    ID_FILE_PAGE_SETUP      "Change the printing options\nPage Setup"
+    ID_FILE_PRINT_SETUP     "Change the printer and printing options\nPrint Setup"
+    ID_FILE_PRINT           "Print the active document\nPrint"
+    ID_FILE_PRINT_PREVIEW   "Display full pages\nPrint Preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
+    ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_FILE_MRU_FILE1       "Open this document"
+    ID_FILE_MRU_FILE2       "Open this document"
+    ID_FILE_MRU_FILE3       "Open this document"
+    ID_FILE_MRU_FILE4       "Open this document"
+    ID_FILE_MRU_FILE5       "Open this document"
+    ID_FILE_MRU_FILE6       "Open this document"
+    ID_FILE_MRU_FILE7       "Open this document"
+    ID_FILE_MRU_FILE8       "Open this document"
+    ID_FILE_MRU_FILE9       "Open this document"
+    ID_FILE_MRU_FILE10      "Open this document"
+    ID_FILE_MRU_FILE11      "Open this document"
+    ID_FILE_MRU_FILE12      "Open this document"
+    ID_FILE_MRU_FILE13      "Open this document"
+    ID_FILE_MRU_FILE14      "Open this document"
+    ID_FILE_MRU_FILE15      "Open this document"
+    ID_FILE_MRU_FILE16      "Open this document"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
+    ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_EDIT_CLEAR           "Erase the selection\nErase"
+    ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
+    ID_EDIT_COPY            "Copy the selection and put it on the Clipboard\nCopy"
+    ID_EDIT_CUT             "Cut the selection and put it on the Clipboard\nCut"
+    ID_EDIT_FIND            "Find the specified text\nFind"
+    ID_EDIT_PASTE           "Insert Clipboard contents\nPaste"
+    ID_EDIT_REPEAT          "Repeat the last action\nRepeat"
+    ID_EDIT_REPLACE         "Replace specific text with different text\nReplace"
+    ID_EDIT_SELECT_ALL      "Select the entire document\nSelect All"
+    ID_EDIT_UNDO            "Undo the last action\nUndo"
+    ID_EDIT_REDO            "Redo the previously undone action\nRedo"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
+    ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCSIZE          "Change the window size"
+    AFX_IDS_SCMOVE          "Change the window position"
+    AFX_IDS_SCMINIMIZE      "Reduce the window to an icon"
+    AFX_IDS_SCMAXIMIZE      "Enlarge the window to full size"
+    AFX_IDS_SCNEXTWINDOW    "Switch to the next document window"
+    AFX_IDS_SCPREVWINDOW    "Switch to the previous document window"
+    AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_SCRESTORE       "Restore the window to normal size"
+    AFX_IDS_SCTASKLIST      "Activate Task List"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    AFX_IDS_PREVIEW_CLOSE   "Close print preview mode\nCancel Preview"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    ID_INDICATOR_CELL       "Cell"
+    ID_INDICATOR_TEMPLATE   "Template"
+    ID_INDICATOR_STRUCTURE  "Structure"
+    CG_ID_VIEW_PROPERTYBAR  "Show or hide Property bar\nToggle Property bar"
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+CG_IDD_PROPERTYBAR DIALOG DISCARDABLE  0, 0, 257, 19
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO_SIDE,7,3,120,160,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_ACTION,131,3,120,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ENERGY_STATUS_DLG DIALOG DISCARDABLE  0, 0, 186, 189
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Energy Status"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,168,50,14
+    LTEXT           "Goodguy",IDC_STATIC,7,7,30,8
+    LTEXT           "Badguy",IDC_STATIC,7,23,25,8
+    LTEXT           "Neutral",IDC_STATIC,7,39,24,8
+    LTEXT           "Special",IDC_STATIC,7,55,24,8
+    LTEXT           "Multi1",IDC_STATIC,7,71,20,8
+    LTEXT           "Multi2",IDC_STATIC,7,87,20,8
+    LTEXT           "Multi3",IDC_STATIC,7,103,20,8
+    LTEXT           "Multi4",IDC_STATIC,7,119,20,8
+    LTEXT           "Multi5",IDC_STATIC,7,135,20,8
+    LTEXT           "Multi6",IDC_STATIC,7,151,20,8
+    EDITTEXT        IDC_EDIT_GOODGUY_IN,70,7,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_BADGUY_IN,70,23,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_NEUTRAL_IN,70,39,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_SPECIAL_IN,70,55,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI1_IN,69,71,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI2_IN,69,87,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI3_IN,69,103,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI4_IN,69,119,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI5_IN,69,135,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI6_IN,69,151,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_GOODGUY_OUT,129,7,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_BADGUY_OUT,129,23,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_NEUTRAL_OUT,129,39,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_SPECIAL_OUT,129,55,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI1_OUT,129,71,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI2_OUT,129,87,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI3_OUT,129,103,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI4_OUT,129,119,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI5_OUT,129,135,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI6_OUT,129,151,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+END
+
+IDD_EDIT_BRIEFING_DLG DIALOG DISCARDABLE  0, 0, 285, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit briefing"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,228,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,228,24,50,14
+    EDITTEXT        IDC_EDIT1,7,7,217,76,ES_MULTILINE
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    CG_IDD_PROPERTYBAR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 12
+    END
+
+    IDD_ENERGY_STATUS_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 182
+    END
+
+    IDD_EDIT_BRIEFING_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 282
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Dutch (Netherlands) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif
+#include "res\XCC Editor.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
+#endif
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
