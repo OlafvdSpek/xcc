@@ -4,3 +4,4 @@ a {text-decoration: none}
 a:hover {color: yellow}
 body {background-attachment: fixed; background-color: #c0c0c0; background-image: url(Image1.gif); font-family: arial, sans-serif}
 img {border-style: none}
+form {display: inline}
