@@ -20,6 +20,26 @@ Cfile32::~Cfile32()
     assert(!is_open());
 }
 
+HANDLE Cfile32::handle()
+{
+	assert(is_open());
+	return m_handle;
+}
+
+void Cfile32::attach(HANDLE handle)
+{
+    assert(!is_open());
+	m_handle = handle;
+	m_is_open = true;
+	m_p = 0;
+}
+
+void Cfile32::detach()
+{
+    assert(is_open());
+	m_is_open = false;
+}
+
 int Cfile32::open(const string& name, dword access)
 {
     if (access & GENERIC_WRITE)
