@@ -49,7 +49,7 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 		int cb_d = pcx_encode(s, d, cx, cy, 1);
 		Cpcx_file_write f;
 		Cfname t = name;
-		t.set_title(name.get_ftitle() + " " + nwzl(3, i));
+		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
 		error = f.open_write(t);
 		if (error)
 			break;
