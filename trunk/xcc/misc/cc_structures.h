@@ -243,6 +243,24 @@ struct t_shp_ts_image_header
 	__int32 offset;
 };
 
+struct t_tga_header
+{
+    byte	id_size;
+	byte	map_t;	
+	byte	image_t;
+	__int16	map_first;
+	__int16	map_size;
+	byte	map_entry_size;
+	__int16	x;
+	__int16	y;
+	__int16	cx;
+	__int16	cy;
+	byte	cb_pixel;	
+	byte	alpha:4;
+	byte	horizontal:1;
+	byte	vertical:1;
+};
+
 struct t_tmp_header
 {
 	__int16 cx;
