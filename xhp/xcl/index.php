@@ -158,28 +158,6 @@
 	}
 	else if (isset($_GET['stats']))
 	{
-		$results = db_query("show table status like 'xcl_stats_gsku'");
-		$result = mysql_fetch_assoc($results);
-		if (time() - strtotime($result['Update_time']) > 15 * 60)
-		{
-			db_query("delete from xcl_stats_games");
-			for ($lid = 0; $lid < 9; $lid++)
-				db_query(sprintf("insert into xcl_stats_games select p.lid, p.name, count(distinct g.gid) c from xcl_players p inner join xcl_games_players using (pid) inner join xcl_games g using (gid) where g.dura >= 180 and p.lid = %d group by p.pid order by c desc limit 10", $lid));
-			db_query("delete from xcl_stats_gsku");
-			db_query("insert into xcl_stats_gsku select gsku >> 8 gsku, trny, count(*) as count from xcl_games group by gsku, trny");
-			db_query("delete from xcl_stats_players");
-			db_query("insert into xcl_stats_players select gsku >> 8, if(cid, 2, 1) as trny, if(cid, count(distinct cid), count(distinct pid)) as count from xcl_games inner join xcl_games_players using (gid) group by gsku, trny");
-			db_query("delete from xcl_stats_countries");
-			db_query("insert into xcl_stats_countries select cty, count(*) as count from xcl_games_players group by cty");
-			db_query("delete from xcl_stats_maps");
-			db_query("insert into xcl_stats_maps select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen");
-			db_query("delete from xcl_stats_dura");
-			db_query("insert into xcl_stats_dura select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura");
-			db_query("delete from xcl_stats_afps");
-			db_query("insert into xcl_stats_afps select afps, count(*) as count from xcl_games group by afps");
-			db_query("delete from xcl_stats_time");
-			db_query("insert into xcl_stats_time select hour(mtime) as h, dayofmonth(mtime) as d, count(*) as c from xcl_games group by d, h");
-		}
 		$games = array();
 		$results = db_query("select * from xcl_stats_gsku order by count desc");
 		while ($result = mysql_fetch_assoc($results))

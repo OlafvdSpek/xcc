@@ -299,7 +299,7 @@ function tr1d(v)
 {
 	document.write('<tr><td>');
 	tr1bv(v);
-	document.write('<td colspan=4>');
+	document.write('<td colspan=6>');
 }
 
 function tr1f(cid)
@@ -406,6 +406,18 @@ function t7(v)
 	for (var i = 0; i + 4 <= v.length; i += 4)
 		tr7(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
 	document.write('</table><hr>');
+}
+
+function p6(a6, a7, a8, a18, a9, a10, a11, a12)
+{
+	t6(a6);
+	t7(a7);
+	t8(a8);
+	t18(a18);
+	t9(a9);
+	t10(a10);
+	t11(a11);
+	t12(a12);
 }
 
 function tr8(count, cty)
@@ -595,9 +607,13 @@ function t16(v)
 	document.write('</table>');
 }
 
-function tr17(rank, name, wins, losses, points, channel, gsku)
+function tr17(rank, name, wins, losses, points, cname, channel, gsku)
 {
-	document.write('<tr><td><a href="?pname=',  name, '">', name, '</a>');
+	document.write('<tr>');
+	document.write('<td><a href="?pname=',  name, '">', name, '</a>');
+	document.write('<td>');
+	if (cname)
+		document.write('<a href="?pname=',  cname, '">', cname, '</a>');
 	if (wins || losses)
 		document.write('<td align=right>', rank, '<td align=right>', wins, '<td align=right>', losses, '<td align=right>', points);
 	else
@@ -611,9 +627,19 @@ function tr17(rank, name, wins, losses, points, channel, gsku)
 function t17(v)
 {
 	document.write('<hr><table align=center>');
-	for (var i = 0; i + 7 <= v.length; i += 7)
-		tr17(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6]);
+	for (var i = 0; i + 8 <= v.length; i += 8)
+		tr17(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7]);
 	document.write('</table>');
+}
+
+function p16(games, players, date)
+{
+	page_xwis_top();
+	if (games.length > 1)
+		t16(games);
+	if (players.length > 1)
+		t17(players);
+	page_bottom(date);
 }
 
 function tr18(count, lid, name)
