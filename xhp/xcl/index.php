@@ -26,13 +26,19 @@
 		case "6":
 		case "ebfd_clan":
 			return 6;
+		case "7":
+		case "ts":
+			return 7;
+		case "8":
+		case "ts_clan":
+			return 8;
 		}
 		return 0;
 	}
 
 	function lid2a($v)
 	{
-		$names = array("", "ra2", "ra2 c", "yr", "yr c", "ebfd", "ebfd c");
+		$names = array("", "ra2", "ra2 c", "yr", "yr c", "ebfd", "ebfd c", "ts", "ts clan");
 		return $names[$v];
 	}
 
@@ -304,8 +310,8 @@
 				for (; $player_a < $plrs; $player_a++, $player_b++)
 				{
 					echo("<tr><td>");
-					echo_player($players[$player_a++]);
-					echo_player($players[$player_b++]);
+					echo_player($players[$player_a]);
+					echo_player($players[$player_b]);
 					echo("<td colspan=4>");
 				}
 			}
@@ -318,7 +324,7 @@
 
 	if (isset($_GET[update_ranks]))
 	{
-		for ($i = 1; $i < 7; $i++)
+		for ($i = 1; $i < 9; $i++)
 			update_ranks($i);
 	}
 	if (isset($_GET[hof]))
@@ -587,9 +593,9 @@
 <center>
 	<table>
 		<tr>
-			<td align=right>Emperor: Battle for Dune
-			<td><a href="?lid=ebfd">Player</a>
-			<td><a href="?lid=ebfd_clan">Clan</a>
+			<td align=right>Tiberian Sun
+			<td><a href="?lid=ts">Player</a>
+			<td><a href="?lid=ts_clan">Clan</a>
 		<tr>
 			<td align=right>Red Alert 2
 			<td><a href="?lid=ra2">Player</a>
