@@ -21,6 +21,7 @@
 #define IDC_BUTTON_OPTIONS              1010
 #define IDC_RADIO_TS                    1010
 #define IDC_CHECK_ENCRYPTED             1011
+#define IDC_BUTTON_INSERT               1011
 #define IDC_CHECK_CHECKSUM              1012
 #define IDC_GAME                        1014
 #define IDC_COMBO_GAME                  1015

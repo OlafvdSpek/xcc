@@ -41,6 +41,7 @@ void CXCCMIXEditorDlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCMIXEditorDlg)
+	DDX_Control(pDX, IDC_BUTTON_INSERT, m_button_insert);
 	DDX_Control(pDX, IDC_BUTTON_OPTIONS, m_button_options);
 	DDX_Control(pDX, IDC_BUTTON_DELETE, m_button_delete);
 	DDX_Control(pDX, IDC_BUTTON_LOAD_KEY, m_button_load_key);
@@ -70,6 +71,7 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, ETSLayoutDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_NOTIFY(LVN_DELETEITEM, IDC_LIST, OnDeleteitemList)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
+	ON_BN_CLICKED(IDC_BUTTON_INSERT, OnButtonInsert)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -93,6 +95,7 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 				<< item(IDC_BUTTON_COMPACT, NORESIZE)
 				<< item(IDC_BUTTON_CLOSE, NORESIZE)
 				<< item(IDC_BUTTON_LOAD_KEY, NORESIZE)
+				<< item(IDC_BUTTON_INSERT, NORESIZE)
 				<< item(IDC_BUTTON_DELETE, NORESIZE)
 				<< item(IDC_BUTTON_OPTIONS, NORESIZE)
 				<< item(IDC_BUTTON_XCC_HOME_PAGE, NORESIZE)
@@ -235,6 +238,8 @@ void CXCCMIXEditorDlg::update_buttons()
 	m_button_save.EnableWindow(m_open && m_changed);
 	m_button_compact.EnableWindow(m_open);
 	m_button_close.EnableWindow(m_open);
+	m_button_insert.EnableWindow(m_open);
+	m_button_delete.EnableWindow(false);
 	m_button_options.EnableWindow(m_open);
 }
 
@@ -697,3 +702,12 @@ void CXCCMIXEditorDlg::sort_list(int i, bool reverse)
 	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
 }
 
+const char* all_filter = "All files (*.*)|*.*|";
+
+void CXCCMIXEditorDlg::OnButtonInsert() 
+{
+	CFileDialog dlg(true, NULL, 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, all_filter, this);
+	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_td_primary_dir().c_str();
+	if (IDOK == dlg.DoModal())
+		add_file(static_cast<string>(dlg.GetPathName()));
+}
