@@ -109,7 +109,15 @@ SOURCE=..\misc\avi_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\big_edit.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\big_file.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\big_file_write.cpp
 # End Source File
 # Begin Source File
 
@@ -531,6 +539,14 @@ SOURCE=..\misc\audio_idx_file.h
 # Begin Source File
 
 SOURCE=..\misc\avi_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\big_edit.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\big_file_write.h
 # End Source File
 # Begin Source File
 

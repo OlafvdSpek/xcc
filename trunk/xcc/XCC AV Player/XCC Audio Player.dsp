@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /out:"Release/XCC AV Player.exe" /libpath:"..\..\misc\library"
+# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /machine:I386 /out:"Release/XCC AV Player.exe" /libpath:"..\..\misc\library"
 
 !ELSEIF  "$(CFG)" == "XCC Audio Player - Win32 Debug"
 
@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/XCC AV Player.exe" /pdbtype:sept /libpath:"..\..\misc\library"
+# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/XCC AV Player.exe" /pdbtype:sept /libpath:"..\..\misc\library"
 
 !ENDIF 
 
