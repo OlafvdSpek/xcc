@@ -14,8 +14,8 @@ Class2=CXCCAudioPlayerDlg
 Class3=CXCCAudioPlayerInfoDlg
 
 ResourceCount=3
-Resource1=IDD_XCCAUDIOPLAYER_DIALOG
-Resource2=IDD_XCCDIRECTORIES
+Resource1=IDD_XCCDIRECTORIES
+Resource2=IDD_XCCAUDIOPLAYER_DIALOG
 Resource3=IDD_INFO
 
 [CLS:CXCCAudioPlayerApp]
@@ -27,10 +27,10 @@ LastObject=CXCCAudioPlayerApp
 
 [CLS:CXCCAudioPlayerDlg]
 Type=0
-BaseClass=CDialog
+BaseClass=ETSLayoutDialog
 HeaderFile=XCC Audio PlayerDlg.h
 ImplementationFile=XCC Audio PlayerDlg.cpp
-LastObject=IDOPENVQA
+LastObject=CXCCAudioPlayerDlg
 Filter=D
 VirtualFilter=dWC
 
@@ -43,23 +43,24 @@ ImplementationFile=XCCAudioPlayerInfoDlg.cpp
 [DLG:IDD_XCCAUDIOPLAYER_DIALOG]
 Type=1
 Class=CXCCAudioPlayerDlg
-ControlCount=16
-Control1=IDOK,button,1342242816
-Control2=IDC_STATUSBAR,static,1342312576
-Control3=IDC_LIST1,SysListView32,1350664205
+ControlCount=17
+Control1=IDC_LIST1,SysListView32,1350631437
+Control2=IDOK,button,1342242816
+Control3=IDC_STATUSBAR,static,1342312576
 Control4=IDEXTRACT,button,1342242816
-Control5=IDOPENMIX,button,1342242816
-Control6=IDSETDIRECTORIES,button,1342242816
-Control7=IDSTOP,button,1342242816
-Control8=IDINFO,button,1342242816
-Control9=IDPLAY,button,1342242817
-Control10=IDC_OpenMovies,button,1342242816
-Control11=IDC_OpenScores,button,1342242816
-Control12=IDC_OpenSounds,button,1342242816
-Control13=IDSHUFFLE,button,1342242816
-Control14=IDEXTRACT_RAW,button,1342242816
+Control5=IDEXTRACT_RAW,button,1342242816
+Control6=IDOPENMIX,button,1342242816
+Control7=IDSETDIRECTORIES,button,1476460544
+Control8=IDPLAY,button,1342242817
+Control9=IDSHUFFLE,button,1342242816
+Control10=IDSTOP,button,1342242816
+Control11=IDINFO,button,1342242816
+Control12=IDC_OpenMovies,button,1342242816
+Control13=IDC_OpenScores,button,1342242816
+Control14=IDC_OpenSounds,button,1342242816
 Control15=IDOPENAUD,button,1342242816
 Control16=IDOPENVQA,button,1342242816
+Control17=IDC_OpenTheme,button,1342242816
 
 [DLG:IDD_INFO]
 Type=1

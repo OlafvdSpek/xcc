@@ -129,6 +129,10 @@ SOURCE=..\..\misc\ddpf_conversion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\file32.cpp
 # End Source File
 # Begin Source File
@@ -138,6 +142,10 @@ SOURCE=..\..\misc\fname.cpp
 # Begin Source File
 
 SOURCE=..\misc\id_log.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\ima_adpcm_wav_decode.cpp
 # End Source File
 # Begin Source File
 
@@ -291,10 +299,6 @@ SOURCE=..\misc\xcc_registry.cpp
 # Begin Source File
 
 SOURCE=.\XCCAUDIOPLAYERINFODlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\XCCSetDirectoriesDlg.cpp
 # End Source File
 # Begin Source File
 
