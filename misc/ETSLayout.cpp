@@ -1366,7 +1366,7 @@ bool ETSLayoutMgr::Pane::resizeToRelative(int& availSpace, CArray<int,int>& size
 		// come to endless looping. Save the amount of space actually distributed in this iteration
 		int relDist = 0;
 
-		for(i=0; i<m_paneItems.GetSize(); ++i) {
+		for(int i=0; i<m_paneItems.GetSize(); ++i) {
 			
 			CPaneBase pItem = m_paneItems[i];
 
@@ -1429,7 +1429,7 @@ bool ETSLayoutMgr::Pane::resizeToRelative(int& availSpace, CArray<int,int>& size
 	}
 
 	// Fixup Relative: invert all negative (limited) sized to correct value
-	for(i=0; i<m_paneItems.GetSize(); ++i) {
+	for(int i=0; i<m_paneItems.GetSize(); ++i) {
 		CPaneBase pItem = m_paneItems[i];
 		if( (m_Orientation==HORIZONTAL && (pItem->modeResize() & RELATIVE_HORZ) && sizePrimary[i] < 0)
 			||
@@ -1555,7 +1555,7 @@ bool ETSLayoutMgr::Pane::resizeToGreedy(int& availSpace, int nGreedy, CArray<int
 		// at least on not limited item present
 		bAtLeastOne = false;
 
-		for(i=0; i<m_paneItems.GetSize(); ++i) {
+		for(int i=0; i<m_paneItems.GetSize(); ++i) {
 			CPaneBase pItem = m_paneItems[i];
 
 
@@ -1633,7 +1633,7 @@ bool ETSLayoutMgr::Pane::resizeToGreedy(int& availSpace, int nGreedy, CArray<int
 		// still difference, some space left
 
 		// are there any items which are minimum-limited where we can give more space?
-		for(i=0; i<m_paneItems.GetSize() && greedyDiff!=0; ++i) {
+		for(int i=0; i<m_paneItems.GetSize() && greedyDiff!=0; ++i) {
 			CPaneBase pItem = m_paneItems[i];
 
 			if( (m_Orientation==HORIZONTAL 
@@ -1665,7 +1665,7 @@ bool ETSLayoutMgr::Pane::resizeToGreedy(int& availSpace, int nGreedy, CArray<int
 
 
 	// Fixup Greedy III: invert all negative (limited) sized to correct value
-	for(i=0; i<m_paneItems.GetSize(); ++i) {
+	for(int i=0; i<m_paneItems.GetSize(); ++i) {
 		CPaneBase pItem = m_paneItems[i];
 
 		if( (m_Orientation==HORIZONTAL 
