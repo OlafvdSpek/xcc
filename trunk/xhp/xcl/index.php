@@ -167,14 +167,14 @@
 			$games[-1][$result['trny']] += $result['count'];
 			$games[-1][-1] += $result['count'];
 		}
-		echo("t6(new Array(");
+		echo("p6(new Array(");
 		foreach ($games as $gsku => $game)
 		{
 			if ($gsku != -1)
 				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
 		}
 		$game = $games[-1];
-		printf("0,%d,%d,%d));", $game[1], $game[2], $game[-1]);
+		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
 		$games = array();
 		$results = db_query("select * from xcl_stats_players order by count desc");
 		while ($result = mysql_fetch_assoc($results))
@@ -184,44 +184,37 @@
 			$games[-1][$result['trny']] += $result['count'];
 			$games[-1][-1] += $result['count'];
 		}
-		echo("t7(new Array(");
 		foreach ($games as $gsku => $game)
 		{
 			if ($gsku != -1)
 				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
 		}
 		$game = $games[-1];
-		printf("0,%d,%d,%d));", $game[1], $game[2], $game[-1]);
+		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
 		$results = db_query("select * from xcl_stats_countries order by count desc");
-		echo("t8(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,", $result['count'], $result['cty']);
-		echo("0));");
+		echo("0),new Array(");
 		$results = db_query("select lid, name, count from xcl_stats_games order by count desc");
-		echo("t18(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,'%s',", $result['count'], $result['lid'], $result['name']);
-		echo("0));");
+		echo("0),new Array(");
 		$results = db_query("select scen, count from xcl_stats_maps order by count desc");
-		echo("t9(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,'%s',", $result['count'], js_encode($result['scen']));
-		echo("0));");
+		echo("0),new Array(");
 		$results = db_query("select * from xcl_stats_dura order by dura");
-		echo("t10(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,", $result['count'], $result['dura']);
-		echo("0));");
+		echo("0),new Array(");
 		$results = db_query("select * from xcl_stats_afps order by afps");
-		echo("t11(new Array(");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,", $result['count'], $result['afps']);
-		echo("0));");
+		echo("0),new Array(");
 		$games = array();
 		$results = db_query("select * from xcl_stats_time");
 		while ($result = mysql_fetch_assoc($results))
 			$games[$result['d']][$result['h']] = $result['c'];
-		echo("t12(new Array(");
 		foreach ($games as $d => $hours)
 		{
 			printf("%d,", $d);
