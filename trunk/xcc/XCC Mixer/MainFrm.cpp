@@ -14,6 +14,8 @@
 #include <fstream>
 #include "aud_file.h"
 #include "directoriesdlg.h"
+#include "fname.h"
+#include "html.h"
 #include "mix_sfl.h"
 #include "ogg_file.h"
 #include "searchfiledlg.h"
@@ -124,6 +126,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_RA2, OnUpdateLaunchXTW_RA2)
 	ON_COMMAND(ID_CONVERSION_COMBINE_SHADOWS, OnConversionCombineShadows)
 	ON_UPDATE_COMMAND_UI(ID_CONVERSION_COMBINE_SHADOWS, OnUpdateConversionCombineShadows)
+	ON_COMMAND(ID_VIEW_REPORT, OnViewReport)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_REPORT, OnUpdateViewReport)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -244,7 +248,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 	SetActiveView(reinterpret_cast<CView*>(m_left_mix_pane));
 
-	initialize_lists();
+	// initialize_lists();
 
 	return true;
 }
@@ -544,8 +548,9 @@ string CMainFrame::get_mix_name(int i) const
 	return m_mix_list.find(i)->second;
 }
 
-const t_paletentry* CMainFrame::get_game_palet(t_game game) const
+const t_paletentry* CMainFrame::get_game_palet(t_game game)
 {
+	initialize_lists();
 	switch (game)
 	{
 	case game_td:
@@ -557,8 +562,9 @@ const t_paletentry* CMainFrame::get_game_palet(t_game game) const
 	}
 }
 
-const t_paletentry* CMainFrame::get_pal_data() const
+const t_paletentry* CMainFrame::get_pal_data()
 {
+	initialize_lists();
 	return m_palet_i == -1 ? NULL : m_pal_list.find(m_palet_i)->second.palet;
 }
 
@@ -1381,4 +1387,55 @@ void CMainFrame::OnLaunchXTW_RA2()
 void CMainFrame::OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+}
+
+CXCCMixerView* CMainFrame::left_mix_pane()
+{
+	return m_left_mix_pane;
+}
+
+CXCCMixerView* CMainFrame::right_mix_pane()
+{
+	return m_right_mix_pane;
+}
+
+CXCCFileView* CMainFrame::file_info_pane()
+{
+	return m_file_info_pane;
+}
+
+BOOL CMainFrame::OnIdle(LONG lCount)
+{
+	if (m_left_mix_pane->OnIdle(lCount) 
+		|| m_right_mix_pane->OnIdle(lCount) 
+		|| m_file_info_pane->OnIdle(lCount))
+		return true;
+	initialize_lists();
+	return false;
+}
+
+void CMainFrame::OnViewReport() 
+{
+	Chtml page;
+	CString version;
+	if (version.LoadString(IDR_MAINFRAME))
+		page += tr(th(static_cast<string>(version.Left(version.Find('\n'))), "colspan=2"));
+	page += tr(td("Left pane") + td(m_left_mix_pane->get_dir()))
+		+ tr(td("Right pane") + td(m_right_mix_pane->get_dir()))
+		+ tr(td("Combine shadows") + td(btoa(m_combine_shadows)))
+		+ tr(td("Split shadows") + td(btoa(m_split_shadows)))
+		+ tr(td("RA dir") + td(xcc_dirs::get_ra_dir()))
+		+ tr(td("TS dir") + td(xcc_dirs::get_ts_dir()))
+		+ tr(td("RA2 dir") + td(xcc_dirs::get_ra2_dir()))
+		+ tr(td("Data dir") + td(xcc_dirs::get_data_dir()))
+		+ tr(td("EXE dir") + td(GetModuleFileName().get_path()));
+		// + tr(td() + td())
+	string fname = get_temp_path() + "XCC Mixer Report.html";
+	ofstream(fname.c_str()) << head_xcc() + body(table(tr(td(table(page, "border=1 width=100%"), "colspan=2")) + tr(td(m_left_mix_pane->report(), "valign=top") + td(m_right_mix_pane->report(), "valign=top")), "border=0 width=100%"));
+	ShellExecute(m_hWnd, "open", fname.c_str(), NULL, NULL, SW_SHOW);
+}
+
+void CMainFrame::OnUpdateViewReport(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!OnIdle(0));
 }

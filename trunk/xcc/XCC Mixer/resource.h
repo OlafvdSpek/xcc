@@ -29,6 +29,7 @@
 #define IDC_TS                          1004
 #define IDC_CAT_LIST                    1004
 #define IDC_RELATIVE_CY                 1004
+#define IDC_CX2                         1004
 #define IDC_RA                          1005
 #define IDC_NAME                        1005
 #define IDC_RA2                         1006
@@ -344,6 +345,7 @@
 #define ID_POPUP_EXPLORE                33111
 #define ID_LAUNCH_XMC                   33112
 #define ID_LAUNCH_XML                   33113
+#define ID_VIEW_REPORT                  33114
 
 // Next default values for new objects
 // 
@@ -351,7 +353,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         33114
+#define _APS_NEXT_COMMAND_VALUE         33115
 #define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

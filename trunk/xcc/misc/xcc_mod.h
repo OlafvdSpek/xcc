@@ -16,6 +16,7 @@
 class Cxcc_mod  
 {
 public:
+	bool future_version();
 	struct t_options
 	{
 		string name;
@@ -26,6 +27,8 @@ public:
 		t_game game;
 		bool csf_diff_compression;
 		bool ini_diff_compression;
+		bool shp_compression;
+		bool vxl_compression;
 		bool custom_button_text;
 		bool exit_button;
 		bool manual_button;
@@ -35,9 +38,10 @@ public:
 		bool confirm_deactivate;
 		string mod_version;
 		string mod_ucf;
+		int mf_version;
 	};
 
-	enum t_category_type {ct_cameo, ct_hva, ct_ini, ct_map, ct_mix, ct_screen, ct_shp, ct_sound, ct_speech, ct_st, ct_theme, ct_video, ct_vxl, ct_launcher, ct_manual, ct_interface, ct_unknown};
+	enum t_category_type {ct_cameo, ct_hva, ct_ini, ct_map, ct_mix, ct_screen, ct_shp, ct_sound, ct_speech, ct_st, ct_theme, ct_video, ct_vxl, ct_launcher, ct_manual, ct_interface, ct_tmp, ct_unknown};
 	typedef set<string> t_category_file_list;
 
 	t_category_file_list category_file_list(t_category_type category) const;
@@ -52,7 +56,7 @@ public:
 	int launch_game(bool wait) const;
 	static int launch_manual(const Cxif_key& key, string dir, HWND hWnd);
 	int load(const Cxif_key& key, string dir = "");
-	static int load_banner(const Cxif_key& key, Cvirtual_image& image);
+	static int load_launcher_image(const Cxif_key& key, string fname, Cvirtual_image& image);
 	t_options options() const;
 	void options(t_options options);
 	void remove(t_category_type category, string fname);

@@ -33,6 +33,7 @@ public:
 
 // Operations
 public:
+	BOOL OnIdle(LONG lCount);
 	void close_f();
 	const t_paletentry* get_default_palet();
 	void load_color_table(const t_palet palet, bool convert_palet);
@@ -82,6 +83,7 @@ private:
 	int				m_size;
 	t_text_cache	m_text_cache;
 	bool			m_text_cache_valid;
+	int				m_x;
 	int				m_y;
 	int				m_y_inc;
 };

@@ -28,12 +28,12 @@ CXCCAudioPlayerDlg::CXCCAudioPlayerDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
+	m_buffer_w = 0;
 }
 
 
 CXCCAudioPlayerDlg::~CXCCAudioPlayerDlg()
 {
-	release_memory();
 }
 
 void CXCCAudioPlayerDlg::DoDataExchange(CDataExchange* pDX)
@@ -70,15 +70,16 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDOPENAUD, OnOpenaud)
 	ON_BN_CLICKED(IDOPENVQA, OnOpenvqa)
 	ON_BN_CLICKED(IDC_OpenTheme, OnOpenTheme)
-	ON_WM_DESTROY()
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnColumnclickList)
+	ON_WM_DESTROY()
+	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST1, OnGetdispinfoList1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCAudioPlayerDlg message handlers
 
-string time2str(long v)
+string time2str(int v)
 {
 	string s;
 	s = nwzl(3, v % 1000);
@@ -129,7 +130,6 @@ BOOL CXCCAudioPlayerDlg::OnInitDialog()
 	if (m_listfont.CreateFont(-11, 0, 0, 0, FW_NORMAL, 0, 0, 0, 0, 0, 0, 0, 0, "Courier New"))
 		m_list.SetFont(&m_listfont);
 
-	mixdata = NULL;
 	m_statusbar = "Ready";
 	audio_output = video_output = true;
 	if (dd.create(m_hWnd))
@@ -207,12 +207,12 @@ const char* wav_filter = "WAV files (*.wav)|*.wav|";
 
 void CXCCAudioPlayerDlg::OnExtract() 
 {
-	if (!valid_index() || mixdata[current_index].type != ft_aud)
+	if (!valid_index() || m_index[current_id].type != ft_aud)
 		return;
 	CFileDialog dlg(false, "wav", 0, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, wav_filter, this);
 
 	char s[MAX_PATH];
-	strcpy(s, mix_database::get_description(game, mixdata[current_index].id).c_str()); 
+	strcpy(s, mix_database::get_description(game, current_id).c_str()); 
 	dlg.m_ofn.lpstrFile = s;
 	if (IDOK == dlg.DoModal())
 	{
@@ -221,7 +221,7 @@ void CXCCAudioPlayerDlg::OnExtract()
 		UpdateData(false);
 		
 		Caud_file audf;
-		audf.open(mixdata[current_index].id, mixf);
+		audf.open(current_id, mixf);
 		m_statusbar = audf.extract_as_wav(fname) ? "Extraction failed" : "Extraction succeeded";
 		UpdateData(false);
 		audf.close();		
@@ -235,7 +235,7 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 	CFileDialog dlg(false, "", 0, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, all_filter, this);
 
 	char s[MAX_PATH];
-	strcpy(s, mix_database::get_name(game, mixdata[current_index].id).c_str()); 
+	strcpy(s, mix_database::get_name(game, current_id).c_str()); 
 	dlg.m_ofn.lpstrFile = s;
 	if (IDOK == dlg.DoModal())
 	{
@@ -244,7 +244,7 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 		UpdateData(false);
 		
 		Ccc_file f(false);
-		f.open(mixdata[current_index].id, mixf);
+		f.open(current_id, mixf);
 		m_statusbar = f.extract(fname) ? "Extraction failed" : "Extraction succeeded";
 		UpdateData(false);
 		f.close();		
@@ -296,14 +296,13 @@ void CXCCAudioPlayerDlg::OnSetdirectories()
 	*/
 }
 
-long CXCCAudioPlayerDlg::OpenMix(const string &fname)
+int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 {
 	m_shufflebutton.EnableWindow(false);
 	m_c_files = 0;
 	m_shuffle = false;
 	if (mixf.is_open())
 		mixf.close();
-	release_memory();
 	m_list.SetRedraw(false);
 	m_list.DeleteAllItems();
 	valid_index();
@@ -316,23 +315,20 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	}
 	m_c_files = mixf.get_c_files();
 	game = mixf.get_game();
-	mixdata = new mixdata_entry[m_c_files];
-	int j = 0;
+	m_index.clear();
 	for (int i = 0; i < m_c_files; i++)
 	{
-		dword id = mixf.get_id(i);
+		int id = mixf.get_id(i);
 		t_file_type ft = mixf.get_type(id);
-		if (ft != ft_aud && ft != ft_vqa && ft != ft_wav && ft != ft_wsa)
+		if (ft != ft_aud && ft != ft_vqa && ft != ft_wav && ft != ft_wsa || m_index.find(id) != m_index.end())
 			continue;
-		if (add_item(nh(8, id), j, 0) ||		
-			add_item(n(j), j, 1) ||
-			add_item(n(mixf.get_size(id)), j, 2) ||
-			add_item(mix_database::get_name(game, id), j, 4) ||
-			add_item(mix_database::get_description(game, id), j, 5))
-			throw;
-		m_list.SetItemData(j, id);
-		mixdata[j].id = id;
-		mixdata[j].type = ft;
+		t_index_entry& e = m_index[id];
+		e.name = mix_database::get_name(game, id);
+		e.type = ft;
+		e.size = mixf.get_size(id);
+		e.description = mix_database::get_description(game, id);
+		int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
+		m_list.SetItemData(index, id);
 		string s = ft_name[ft];
 		switch (ft)
 		{
@@ -372,8 +368,7 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 				break;
 			}
 		}
-		add_item(s, j, 3);
-		j++;
+		e.length = s;
 	}	
 	for (i = 0; i < 10; i++)
 		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
@@ -386,7 +381,7 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	return 0;
 }
 
-long CXCCAudioPlayerDlg::add_column(const string &text, dword index, dword size, dword format, dword subindex)
+int CXCCAudioPlayerDlg::add_column(const string &text, dword index, dword size, dword format, dword subindex)
 {
 	LV_COLUMN column_data;
 	column_data.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
@@ -399,25 +394,12 @@ long CXCCAudioPlayerDlg::add_column(const string &text, dword index, dword size,
 	return m_list.InsertColumn(index, &column_data) == -1 ? 1 : 0;
 }
 
-long CXCCAudioPlayerDlg::add_item(const string &text, dword index, dword subindex, long param)
-{
-	LV_ITEM item_data;
-	item_data.mask = LVIF_TEXT | (param == -1 ? 0 : LVIF_PARAM);
-	item_data.iItem = index;
-	item_data.iSubItem = subindex;
-	char s[256];
-	strcpy(s, text.c_str()); 
-	item_data.pszText = s;
-	item_data.lParam = param;
-	return (subindex ? m_list.SetItem(&item_data) : m_list.InsertItem(&item_data)) == -1 ? 1 : 0;
-}
-
 void CXCCAudioPlayerDlg::OnPlay() 
 {
 	if (!valid_index())
 		return;
-	int id = mixdata[current_index].id;
-	switch (mixdata[current_index].type)
+	int id = current_id;
+	switch (m_index[current_id].type)
 	{
 	case ft_aud:
 		if (play_aud(id))
@@ -546,7 +528,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 	else
 	{
 		Cvqa_play vqa_play(dd.get_p(), ds.get_p());
-		long result = vqa_play.create(f);
+		int result = vqa_play.create(f);
 		if (result)
 			AfxMessageBox(("Error initializing DD or DS, error code is " + n(result)).c_str(), MB_ICONEXCLAMATION);
 		else
@@ -557,7 +539,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 				while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
 					AfxGetApp()->PumpMessage();
 				
-				long count = 0;
+				int count = 0;
 				while (AfxGetApp()->OnIdle(count++));
 			}
 		}
@@ -623,12 +605,13 @@ int CXCCAudioPlayerDlg::play_wav(Cwav_file& f)
 
 bool CXCCAudioPlayerDlg::valid_index()
 {
-	current_index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+	int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+	current_id = index == -1 ? -1 : m_list.GetItemData(index);
 	bool can_extract = false, can_extract_raw = false, can_play = false;
-	if (current_index != -1)
+	if (index != -1)
 	{
 		can_extract_raw = true;
-		switch (mixdata[current_index].type)
+		switch (m_index[current_id].type)
 		{
 		case ft_aud:
 			can_extract = can_play = true;
@@ -642,12 +625,16 @@ bool CXCCAudioPlayerDlg::valid_index()
 	m_extractbutton.EnableWindow(can_extract);
 	m_extract_raw_button.EnableWindow(can_extract_raw);
 	m_playbutton.EnableWindow(can_play);
-	return current_index != -1;
+	return index != -1;
 }
 
 void CXCCAudioPlayerDlg::OnOpenMovies() 
 {
-	OpenMix("movies.mix");
+	if (OpenMix("movies.mix"))
+	{
+		if (OpenMix("movies01.mix"))
+			OpenMix("movies02.mix");
+	}
 }
 
 void CXCCAudioPlayerDlg::OnOpenScores() 
@@ -672,29 +659,23 @@ void CXCCAudioPlayerDlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CXCCAudioPlayerDlg::release_memory()
-{
-	delete[] mixdata;
-	mixdata = 0;
-}
-
 bool CXCCAudioPlayerDlg::has_scores()
 {
-	for (int i = 0; i < m_c_files; i++)
+	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 	{
-		if (is_score(i))
+		if (is_score(i->first))
 			return true;
 	}
 	return false;
 }
 
-bool CXCCAudioPlayerDlg::is_score(int i)
+bool CXCCAudioPlayerDlg::is_score(int id)
 {
-	switch (mixdata[i].type)
+	switch (m_index[id].type)
 	{
 	case ft_aud:
 	case ft_wav:
-		return mixf.get_size(mixdata[i].id) > 128 << 10;
+		return mixf.get_size(id) > 128 << 10;
 	default:
 		return false;
 	}
@@ -706,18 +687,24 @@ void CXCCAudioPlayerDlg::shuffle_aud()
 	if (!has_scores())
 		return;
 	int i;
+	t_index::const_iterator j;
 	do
 	{
 		i = rand() % m_c_files;
+		j = m_index.begin();
+		while (i--)
+			j++;
 	}
-	while (!is_score(i));
-	switch (mixdata[i].type)
+	while (!is_score(j->first))
+		;
+	int id = j->first;
+	switch (m_index[id].type)
 	{
 	case ft_aud:
-		play_aud(mixdata[i].id);
+		play_aud(id);
 		break;
 	case ft_wav:
-		play_wav(mixdata[i].id);
+		play_wav(id);
 		break;
 	}
 }
@@ -740,6 +727,37 @@ void CXCCAudioPlayerDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
 	sort_list(column, column == m_sort_column ? !m_sort_reverse : false);
+	*pResult = 0;
+}
+
+void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	int id = pDispInfo->item.lParam;
+	m_buffer[m_buffer_w].erase();
+	const t_index_entry&  e = m_index.find(id)->second;
+	switch (pDispInfo->item.iSubItem)
+	{
+	case 0:
+		m_buffer[m_buffer_w] = nh(8, id);
+		break;
+	case 2:
+		m_buffer[m_buffer_w] = n(e.size);
+		break;
+	case 3:
+		m_buffer[m_buffer_w] = e.length;
+		break;
+	case 4:
+		m_buffer[m_buffer_w] = e.name;
+		break;
+	case 5:
+		m_buffer[m_buffer_w] = e.description;
+		break;
+	}
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
+	m_buffer_w--;
+	if (m_buffer_w < 0)
+		m_buffer_w += 4;
 	*pResult = 0;
 }
 
@@ -767,23 +785,20 @@ int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
+	const t_index_entry& a = m_index.find(id_a)->second;
+	const t_index_entry& b = m_index.find(id_b)->second;
 	switch (m_sort_column)
 	{
 	case 0:
 		return compare_int(id_a, id_b);
-		break;
 	case 1:
 		return compare_int(mixf.get_index(id_a), mixf.get_index(id_b));
-		break;
 	case 2:
-		return compare_int(mixf.get_size(id_a), mixf.get_size(id_b));
-		break;
+		return compare_int(a.size, b.size);
 	case 4:
-		return compare_string(mix_database::get_name(game, id_a), mix_database::get_name(game, id_b));
-		break;
+		return compare_string(a.name, b.name);
 	case 5:
-		return compare_string(mix_database::get_description(game, id_a), mix_database::get_description(game, id_b));
-		break;
+		return compare_string(a.description, b.description);
 	default:
 		return 0;
 	}
@@ -800,3 +815,4 @@ void CXCCAudioPlayerDlg::sort_list(int i, bool reverse)
 	m_sort_reverse = reverse;
 	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
 }
+

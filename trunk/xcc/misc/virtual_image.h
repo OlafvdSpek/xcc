@@ -22,6 +22,8 @@ public:
 	void flip();
 	int get_clipboard();
 	int set_clipboard() const;
+	int load();
+	int save() const;
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
 	int load(Cvirtual_file& f);
 	int load(string fname);

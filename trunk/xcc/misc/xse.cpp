@@ -208,3 +208,38 @@ int Cxse::insert(string fname, Cwav_file& f)
 	}
 	return error;
 }
+
+int Cxse::get_bag_size() const
+{
+	int r = 0;
+	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+		r += i->second.size;
+	return r;
+}
+
+int Cxse::compact()
+{
+	int error = 0;
+	int cb_d = get_bag_size();
+	byte* d = new byte[cb_d];
+	byte* w = d;
+	for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+	{
+		t_map_entry& e = i->second;
+		m_bag_f.seek(e.offset);
+		if (error = m_bag_f.read(w, e.size))
+			break;
+		e.offset = w - d;
+		w += e.size;
+	}
+	if (!error)
+	{
+		m_bag_f.seek(0);
+		error = m_bag_f.write(d, cb_d);
+		if (!error)
+			error = m_bag_f.set_eof();
+	}
+	delete[] d;
+	write_idx_file();
+	return error;
+}

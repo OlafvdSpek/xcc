@@ -50,6 +50,8 @@ BEGIN_MESSAGE_MAP(CLeftView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_PROPERTIES, OnUpdatePopupProperties)
 	ON_COMMAND(ID_POPUP_COPY_COMPLETE, OnPopupCopyComplete)
 	ON_COMMAND(ID_POPUP_PASTE_COMPLETE, OnPopupPasteComplete)
+	ON_COMMAND(ID_POPUP_LOAD_COMPLETE, OnPopupLoadComplete)
+	ON_COMMAND(ID_POPUP_SAVE_COMPLETE, OnPopupSaveComplete)
 	ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
 	ON_COMMAND(ID_POPUP_COPY_IMAGE, OnEditCopy)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_IMAGE, OnUpdateEditCopy)
@@ -57,8 +59,8 @@ BEGIN_MESSAGE_MAP(CLeftView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_PASTE_IMAGE, OnUpdateEditPaste)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_SAVEASPCX_IMAGE, OnUpdateEditCopy)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_SAVEASPCX_EXTRAIMAGE, OnUpdatePopupCopyExtraImage)
-	ON_COMMAND(ID_POPUP_LOAD_COMPLETE, OnPopupLoadComplete)
-	ON_COMMAND(ID_POPUP_SAVE_COMPLETE, OnPopupSaveComplete)
+	ON_COMMAND(ID_POPUP_DELETE_EXTRAIMAGE, OnPopupDeleteExtraimage)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_DELETE_EXTRAIMAGE, OnUpdatePopupDeleteExtraimage)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -146,7 +148,7 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = n(e.header.y);
 		break;
 	case 2:
-		m_buffer[m_buffer_w] = n(e.header.has_extra_data);
+		m_buffer[m_buffer_w] = n(static_cast<bool>(e.extra_data.data()));
 		break;
 	case 3:
 		m_buffer[m_buffer_w] = n(e.header.height);
@@ -170,7 +172,13 @@ void CLeftView::autosize_colums()
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < c_colums; i++)
+	{
+		lc.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+		int cx = lc.GetColumnWidth(i);
 		lc.SetColumnWidth(i, LVSCW_AUTOSIZE);
+		if (lc.GetColumnWidth(i) < cx)
+			lc.SetColumnWidth(i, cx);
+	}
 	SetRedraw(true);
 	Invalidate();
 }
@@ -330,8 +338,6 @@ void CLeftView::OnUpdatePopupPasteExtraImage(CCmdUI* pCmdUI)
 	pCmdUI->Enable(get_current_id() != -1 && IsClipboardFormatAvailable(CF_DIB));
 }
 
-const char* load_filter = "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|";
-
 void CLeftView::OnPopupLoadaspcxImage() 
 {
 	Cvirtual_image image;
@@ -381,8 +387,6 @@ void CLeftView::OnUpdatePopupLoadaspcxExtraimage(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1);
 }
-
-const char* save_filter = "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
 
 void CLeftView::OnPopupSaveaspcxImage() 
 {
@@ -538,6 +542,17 @@ void CLeftView::OnUpdatePopupDelete(CCmdUI* pCmdUI)
 	pCmdUI->Enable(get_current_id() != -1);
 }
 
+void CLeftView::OnPopupDeleteExtraimage() 
+{
+	GetDocument()->remove_extra_image(get_current_id());
+}
+
+void CLeftView::OnUpdatePopupDeleteExtraimage(CCmdUI* pCmdUI) 
+{
+	int id = get_current_id();
+	pCmdUI->Enable(id != -1 && GetDocument()->map().find(id)->second.extra_data.data());
+}
+
 void CLeftView::OnPopupInsert() 
 {
 }
@@ -550,10 +565,8 @@ void CLeftView::OnUpdatePopupInsert(CCmdUI* pCmdUI)
 void CLeftView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	/*
-	if (~pNMTreeView->itemOld.state & TVIS_SELECTED && pNMTreeView->itemNew.state & TVIS_SELECTED)
-		m_other_pane->set_category(static_cast<Cxcc_mod::t_category_type>(pNMTreeView->itemNew.lParam));	
-	*/
+	if (~pNMListView->uOldState & LVIS_SELECTED && pNMListView->uNewState & LVIS_SELECTED)
+		m_other_pane->select(pNMListView->lParam);
 	*pResult = 0;
 }
 
@@ -627,7 +640,7 @@ int CLeftView::compare(int id_a, int id_b)
 	case 1:
 		return compare_int(a.header.y, b.header.y);
 	case 2:
-		return compare_int(a.header.has_extra_data, b.header.has_extra_data);
+		return compare_int(static_cast<bool>(a.extra_data.data()), static_cast<bool>(b.extra_data.data()));
 	case 3:
 		return compare_int(a.header.height, b.header.height);
 	case 4:
@@ -672,8 +685,14 @@ void CLeftView::OnUpdatePopupProperties(CCmdUI* pCmdUI)
 
 int CLeftView::load_image(Cvirtual_image& image)
 {
+	int error = image.load();
+	if (!error && image.cb_pixel() == 3)
+		image.decrease_color_depth(GetDocument()->palet());
+	return error;
+	/*
+	const char* load_filter = "Image files (*.jpeg;*.jpg;*.pcx;*.png)|*.jpeg;*.jpg;*.pcx;*.png|JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
+
 	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
 	if (IDOK == dlg.DoModal())
 	{
 		int error = image.load(static_cast<string>(dlg.GetPathName()));
@@ -682,10 +701,15 @@ int CLeftView::load_image(Cvirtual_image& image)
 		return error;
 	}
 	return 2;
+	*/
 }
 
 int CLeftView::save_image(const Cvirtual_image& image)
 {
+	return image.save();
+	/*
+	const char* save_filter = "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
+
 	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
 	dlg.m_ofn.nFilterIndex = 2;
 	if (IDOK == dlg.DoModal())
@@ -706,4 +730,10 @@ int CLeftView::save_image(const Cvirtual_image& image)
 		return image.save(static_cast<string>(dlg.GetPathName()), ft);
 	}
 	return 2;
+	*/
+}
+
+void CLeftView::set_other_pane(CXCCTMPEditorView* other_pane)
+{
+	m_other_pane = other_pane;
 }

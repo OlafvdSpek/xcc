@@ -26,6 +26,7 @@ public:
 // Operations
 public:
 	CLeftView* GetLeftPane();
+	CXCCTMPEditorView* GetRightPane();
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CChildFrame)

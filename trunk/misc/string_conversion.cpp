@@ -6,6 +6,11 @@ bool atob(string s)
 	return s == "true" || s == "yes";
 }
 
+string btoa(bool v)
+{
+	return v ? "yes" : "no";
+}
+
 char* make_c_str(const char* s)
 {
 	char* v = new char[strlen(s) + 1];
@@ -26,6 +31,27 @@ string n(unsigned int v)
 }
 
 string n(int v)
+{
+	if (!v)
+		return "0";
+	string s;
+	bool negative = false;
+	if (v < 0)
+	{
+		negative = true;
+		v = -v;
+	}
+	while (v)
+	{
+		s = char(v % 10 + 48) + s;
+		v /= 10;
+	}
+	if (negative)
+		s = "-" + s;
+	return s;
+}
+
+string n(__int64 v)
 {
 	if (!v)
 		return "0";

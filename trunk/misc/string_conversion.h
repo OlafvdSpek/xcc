@@ -6,9 +6,11 @@
 using namespace std;
 
 bool atob(string s);
+string btoa(bool v);
 char* make_c_str(const char* s);
 string n(unsigned int v);
 string n(int v);
+string n(__int64 v);
 string swsl(int l, string s);
 string swsr(int l, string s);
 string nwp(int l, unsigned int v);

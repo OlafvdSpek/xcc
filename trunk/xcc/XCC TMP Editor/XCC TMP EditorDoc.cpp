@@ -270,6 +270,13 @@ void CXCCTMPEditorDoc::remove(int id)
 	UpdateAllViews(NULL);
 }
 
+void CXCCTMPEditorDoc::remove_extra_image(int id)
+{
+	m_map.find(id)->second.extra_data.clear();
+	SetModifiedFlag();
+	UpdateAllViews(NULL);
+}
+
 Cvirtual_image CXCCTMPEditorDoc::get_complete() const
 {
 	t_rect global = get_rect();
@@ -335,9 +342,7 @@ void CXCCTMPEditorDoc::set_extra_image(int id, const Cvirtual_image& image)
 	if (e.header.has_z_data && (!e.extra_z_data.data() || e.header.cx_extra != image.cx() || e.header.cy_extra != image.cy()))
 		e.extra_z_data.write(image.image(), image.cb_image());
 	if (!e.header.has_extra_data)
-	{
 		e.header.x_extra = e.header.y_extra = 0;
-	}
 	e.header.cx_extra = image.cx();
 	e.header.cy_extra = image.cy();
 	SetModifiedFlag();
@@ -400,7 +405,7 @@ const byte* get_p(const byte* d, int x, int y, int cx, int cy)
 	return d + x + cx * y;
 }
 
-void CXCCTMPEditorDoc::draw(byte* d) const
+void CXCCTMPEditorDoc::draw(byte* d, int outline) const
 {
 	int half_cy = m_header.cy / 2;
 	t_rect global = get_rect();
@@ -420,6 +425,11 @@ void CXCCTMPEditorDoc::draw(byte* d) const
 			cx += 4;
 			x -= 2;
 			memcpy(w_line + x, r, cx);
+			if (outline == i->first)
+			{
+				memset(w_line + x, 0xff, 2);
+				memset(w_line + x + cx - 2, 0xff, 2);
+			}
 			r += cx;
 			w_line += global_cx;
 		}
@@ -428,6 +438,11 @@ void CXCCTMPEditorDoc::draw(byte* d) const
 			cx -= 4;
 			x += 2;
 			memcpy(w_line + x, r, cx);
+			if (outline == i->first && cx)
+			{
+				memset(w_line + x, 0xff, 2);
+				memset(w_line + x + cx - 2, 0xff, 2);
+			}
 			r += cx;
 			w_line += global_cx;
 		}
@@ -507,3 +522,4 @@ void CXCCTMPEditorDoc::draw_reverse(const byte* d)
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
 }
+

@@ -395,3 +395,9 @@ bool CXCCMixerApp::is_ra2_available() const
 	return Cfname(m_ra2_exe).exists();
 }
 
+BOOL CXCCMixerApp::OnIdle(LONG lCount) 
+{
+	if (static_cast<CMainFrame*>(GetMainWnd())->OnIdle(lCount))
+		return true;	
+	return CWinApp::OnIdle(lCount);
+}

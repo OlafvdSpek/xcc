@@ -23,6 +23,7 @@ class CXCCMIXEditorDlg : public ETSLayoutDialog
 {
 // Construction
 public:
+	void autosize_colums();
 	void add_entry(int id);
 	void add_file(const string& name);
 	int compact_mix();

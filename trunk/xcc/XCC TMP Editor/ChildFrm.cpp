@@ -52,6 +52,7 @@ BOOL CChildFrame::OnCreateClient( LPCREATESTRUCT /*lpcs*/,
 		m_wndSplitter.DestroyWindow();
 		return FALSE;
 	}
+	GetLeftPane()->set_other_pane(GetRightPane());
 	return TRUE;
 }
 
@@ -71,7 +72,6 @@ void CChildFrame::ActivateFrame(int nCmdShow)
 	nCmdShow = SW_SHOWMAXIMIZED;
 	CMDIChildWnd::ActivateFrame(nCmdShow);
 }
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame diagnostics
@@ -96,6 +96,13 @@ CLeftView* CChildFrame::GetLeftPane()
 {
 	CWnd* pWnd = m_wndSplitter.GetPane(0, 0);
 	CLeftView* pView = DYNAMIC_DOWNCAST(CLeftView, pWnd);
+	return pView;
+}
+
+CXCCTMPEditorView* CChildFrame::GetRightPane()
+{
+	CWnd* pWnd = m_wndSplitter.GetPane(0, 1);
+	CXCCTMPEditorView* pView = DYNAMIC_DOWNCAST(CXCCTMPEditorView, pWnd);
 	return pView;
 }
 

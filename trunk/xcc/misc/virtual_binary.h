@@ -16,6 +16,7 @@ class Cvirtual_binary
 public:
 	int export(string fname) const;
 	int import(string fname);
+	void clear();
 	int read(void* d) const;
 	void write(const void* d, int cb_d);
 	const Cvirtual_binary& operator=(const Cvirtual_binary& v);

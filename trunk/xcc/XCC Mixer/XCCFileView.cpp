@@ -21,6 +21,7 @@
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
+#include "png_file.h"
 #include "shp_decode.h"
 #include "shp_images.h"
 #include "shp_dune2_file.h"
@@ -109,6 +110,7 @@ void CXCCFileView::draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC, int 
 	pDC->BitBlt(x_d, y_d, cx_s, cy_s, &mem_dc, 0, 0, SRCCOPY);
 	mem_dc.SelectObject(old_bitmap);
 	DeleteObject(mh_dib);
+	m_x = max(m_x, x_d + cx_s);
 }
 
 void CXCCFileView::draw_image24(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d)
@@ -146,6 +148,7 @@ void CXCCFileView::draw_image24(const byte* s, int cx_s, int cy_s, CDC* pDC, int
 	pDC->BitBlt(x_d, y_d, cx_s, cy_s, &mem_dc, 0, 0, SRCCOPY);
 	mem_dc.SelectObject(old_bitmap);
 	DeleteObject(mh_dib);
+	m_x = max(m_x, x_d + cx_s);
 }
 
 static CMainFrame* GetMainFrame()
@@ -196,7 +199,10 @@ void CXCCFileView::draw_info(const string& n, const string& d)
 			e.text_extent = CRect(CPoint(128, m_y), m_dc->GetTextExtent(n.c_str()));
 			e.t = d;
 			m_text_cache.push_back(e);
+			m_x = max(m_x, 128 + e.text_extent.right);
 		}
+		else
+			m_x = max(m_x, e.text_extent.right);
 	}
 	m_y += m_y_inc;
 }
@@ -271,6 +277,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		TEXTMETRIC tm;
 		pDC->GetTextMetrics(&tm);
 		m_dc = pDC;
+		m_x = 0;
 		m_y = 0;
 		m_y_inc = tm.tmHeight;
 		draw_info("ID:", nh(8, m_id));
@@ -339,19 +346,22 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cjpeg_file f;
 				f.load(m_data, m_cb_data);
 				Cvirtual_image image;
-				f.decode(image);
-				const int cx = image.cx();
-				const int cy = image.cy();
-				draw_info("Size:", n(cx) + " x " + n(cy));
-				m_y += m_y_inc;
-				if (image.cb_pixel() == 1)
+				if (!f.decode(image))
 				{
-					load_color_table(image.palet(), false);
-					draw_image8(image.image(), cx, cy, pDC, 0, m_y);
+					const int cx = image.cx();
+					const int cy = image.cy();
+					draw_info("Bits/pixel:", n(8 * image.cb_pixel()));
+					draw_info("Size:", n(cx) + " x " + n(cy));
+					m_y += m_y_inc;
+					if (image.cb_pixel() == 1)
+					{
+						load_color_table(image.palet(), false);
+						draw_image8(image.image(), cx, cy, pDC, 0, m_y);
+					}
+					else
+						draw_image24(image.image(), cx, cy, pDC, 0, m_y);
+					m_y += cy + m_y_inc;
 				}
-				else
-					draw_image24(image.image(), cx, cy, pDC, 0, m_y);
-				m_y += cy + m_y_inc;
 				break;
 			}
 		case ft_map_td:
@@ -454,7 +464,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cpal_file f;
 				f.load(m_data, m_cb_data);
 				m_y += m_y_inc;
-				const t_palet& palet = *f.get_palet();
+				const t_palet_entry* palet = f.get_palet();
 				for (int i = 0; i < 256; i++)
 				{
 					draw_info((nh(2, i) + " - " + nwzl(2, palet[i].r) + ' '+ nwzl(2, palet[i].g) + ' '+ nwzl(2, palet[i].b)), "");
@@ -483,6 +493,29 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					draw_image24(image, cx, cy, pDC, 0, m_y);
 				m_y += cy + m_y_inc;
 				delete[] image;
+				break;
+			}
+		case ft_png:
+			{
+				Cpng_file f;
+				f.load(m_data, m_cb_data);
+				Cvirtual_image image;
+				if (!f.decode(image))
+				{
+					const int cx = image.cx();
+					const int cy = image.cy();
+					draw_info("Bits/pixel:", n(8 * image.cb_pixel()));
+					draw_info("Size:", n(cx) + " x " + n(cy));
+					m_y += m_y_inc;
+					if (image.cb_pixel() == 1)
+					{
+						load_color_table(image.palet(), false);
+						draw_image8(image.image(), cx, cy, pDC, 0, m_y);
+					}
+					else if (image.cb_pixel() == 3)
+						draw_image24(image.image(), cx, cy, pDC, 0, m_y);
+					m_y += cy + m_y_inc;
+				}
 				break;
 			}
 		case ft_shp_dune2:
@@ -554,6 +587,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				load_color_table(get_default_palet(), true);
 				for (int i = 0; i < c_images; i++)
 				{
+#ifndef NDEBUG
+					draw_info("Unknown:", nh(8, f.get_image_header(i)->unknown));
+#endif
 					const int cx = f.get_cx(i);
 					const int cy = f.get_cy(i);
 					if (cx && cy)
@@ -1043,7 +1079,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		}
 		if (!m_text_cache_valid)
 		{
-			SetScrollSizes(MM_TEXT, CSize(0, m_y));
+			SetScrollSizes(MM_TEXT, CSize(m_x, m_y));
 			m_text_cache_valid = true;
 		}
 		for (t_text_cache::iterator i = m_text_cache.begin(); i != m_text_cache.end(); i++)
@@ -1106,7 +1142,7 @@ void CXCCFileView::post_open(Ccc_file& f)
 	{
 		m_ft = f.get_file_type();
 		m_size = f.get_size();
-		int cb_max_data = (m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa) ? m_size : 256 << 10;
+		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa) ? m_size : 256 << 10;
 		m_cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
 		m_data = new byte[m_cb_data];
 		f.read(m_data, m_cb_data);
@@ -1123,4 +1159,9 @@ void CXCCFileView::close_f()
 	m_is_open = false;
 	m_text_cache.clear();
 	delete[] m_data;
+}
+
+BOOL CXCCFileView::OnIdle(LONG lCount)
+{
+	return false;
 }

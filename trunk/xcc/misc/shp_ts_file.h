@@ -13,6 +13,7 @@
 #include <cc_structures.h>
 #include "fname.h"
 #include "palet.h"
+#include "virtual_file.h"
 #include "virtual_image.h"
 
 class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
@@ -114,8 +115,15 @@ public:
 	{
 		return get_data() + get_offset(i);
 	}
+
+	static int get_max_size(int cx, int cy, int c_images)
+	{
+		return sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images;
+	}
 };
 
+void shp_decode4(const byte* s, Cvirtual_file& d);
+int shp_encode4(const Cshp_ts_file& f, byte* d);
 void shp_split_frames(Cvirtual_image& image, int cblocks_x, int cblocks_y);
 void shp_split_shadows(Cvirtual_image& image);
 void shp_xor_decode_frames(Cvirtual_image& image, int c_frames);

@@ -18,6 +18,7 @@ void Cpcx_file::decode(Cvirtual_image& d) const
 	delete[] image;
 }
 
+#ifdef PNG_SUPPORT
 int Cpcx_file::extract_as_png(const string& name) const
 {
 	const int cx = get_cx();
@@ -29,3 +30,4 @@ int Cpcx_file::extract_as_png(const string& name) const
 	delete[] image;
 	return error;
 }
+#endif

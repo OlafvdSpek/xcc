@@ -34,6 +34,7 @@
 #define ID_PALET_URBAN                  32793
 #define ID_POPUP_LOAD_COMPLETE          32794
 #define ID_POPUP_SAVE_COMPLETE          32795
+#define ID_POPUP_DELETE_EXTRAIMAGE      32797
 
 // Next default values for new objects
 // 
@@ -41,7 +42,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        131
-#define _APS_NEXT_COMMAND_VALUE         32796
+#define _APS_NEXT_COMMAND_VALUE         32798
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

@@ -116,6 +116,9 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 		lvc.fmt = column_alignment[i];
 		m_list.InsertColumn(i, &lvc);
 	}
+	if (read_key(xcc_dirs::get_main_mix(game_ts)))
+		read_key(xcc_dirs::get_main_mix(game_ra2));
+	autosize_colums();
 	update_buttons();
 	return true;
 }
@@ -162,7 +165,7 @@ void CXCCMIXEditorDlg::OnButtonNew()
 	if (IDOK == dlg.DoModal())
 	{
 		m_game = game_ts;
-		m_encrypted = true;
+		m_encrypted = false;
 		m_checksum = false;
 		m_fname = dlg.GetPathName();
 		m_open = true;
@@ -607,8 +610,7 @@ void CXCCMIXEditorDlg::update_list()
 	m_list.DeleteAllItems();
 	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 		add_entry(i->first);
-	for (int j = 0; j < c_colums; j++)
-		m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
+	autosize_colums();
 	sort_list(0, false);
 	m_list.SetRedraw(true);
 }
@@ -710,4 +712,16 @@ void CXCCMIXEditorDlg::OnButtonInsert()
 	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_td_primary_dir().c_str();
 	if (IDOK == dlg.DoModal())
 		add_file(static_cast<string>(dlg.GetPathName()));
+}
+
+void CXCCMIXEditorDlg::autosize_colums()
+{
+	for (int i = 0; i < c_colums; i++)
+	{
+		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+		int cx = m_list.GetColumnWidth(i);
+		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
+		if (m_list.GetColumnWidth(i) < cx)
+			m_list.SetColumnWidth(i, cx);
+	}
 }

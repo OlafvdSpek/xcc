@@ -19,6 +19,7 @@
 #include "shp_ts_file.h"
 #include "shp_ts_file_write.h"
 #include "string_conversion.h"
+#include "vxl_file.h"
 #include "web_tools.h"
 #include "xcc_dirs.h"
 #include "xse.h"
@@ -32,7 +33,8 @@ static char THIS_FILE[]=__FILE__;
 
 #include "cc_file.h"
 
-const char* Cxcc_mod::ct_name[] = {"cameo", "hva", "ini", "map", "mix", "screen", "shp", "sound", "speech", "string table", "theme", "video", "vxl", "launcher", "manual", "interface", "unknown"};
+const char* Cxcc_mod::ct_name[] = {"cameo", "hva", "ini", "map", "mix", "screen", "shp", "sound", "speech", "string table", "theme", "video", "vxl", "launcher", "manual", "interface", "tmp", "unknown"};
+static const int mf_version = 1;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -45,6 +47,8 @@ Cxcc_mod::Cxcc_mod()
 	m_options.game = game_ra2;
 	m_options.csf_diff_compression = true;
 	m_options.ini_diff_compression = true;
+	m_options.shp_compression = true;
+	m_options.vxl_compression = true;
 	m_options.custom_button_text = false;
 	m_options.exit_button = true;
 	m_options.manual_button = true;
@@ -54,6 +58,7 @@ Cxcc_mod::Cxcc_mod()
 	m_options.mod_version = "1.00";
 	m_options.mod_ucf = "http://";
 	m_options.confirm_deactivate = true;
+	m_options.mf_version = 0;
 }
 
 Cxcc_mod::~Cxcc_mod()
@@ -151,7 +156,10 @@ enum
 	vi_xhp_button,
 	vi_mod_version,
 	vi_mod_ucf,
-	vi_confirm_deactivate
+	vi_confirm_deactivate,
+	vi_mf_version,
+	vi_shp_compression,
+	vi_vxl_compression
 };
 
 enum t_encoding
@@ -162,7 +170,9 @@ enum t_encoding
 	enc_mng,
 	enc_mpeg,
 	enc_ogg,
-	enc_png
+	enc_png,
+	enc_shp,
+	enc_vxl
 };
 
 int Cxcc_mod::load(const Cxif_key& key, string dir)
@@ -183,6 +193,12 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 			break;
 		case vi_ini_diff_compression:
 			m_options.ini_diff_compression = value->second.get_int();
+			break;
+		case vi_shp_compression:
+			m_options.shp_compression = value->second.get_int();
+			break;
+		case vi_vxl_compression:
+			m_options.vxl_compression = value->second.get_int();
 			break;
 		case vi_custom_button_text:
 			m_options.custom_button_text = value->second.get_int();
@@ -210,6 +226,9 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 			break;
 		case vi_confirm_deactivate:
 			m_options.confirm_deactivate = value->second.get_int();
+			break;
+		case vi_mf_version:
+			m_options.mf_version = value->second.get_int();
 			break;
 			/*
 		case vi_@:
@@ -351,28 +370,28 @@ Cxif_key Cxcc_mod::save(bool export) const
 						}
 						break;
 					default:
-						switch (ft)
+						if (ft == ft_shp_ts && m_options.shp_compression && *i == "mouse.shp")
 						{
-						/*
-						case ft_shp_ts:
-						{
-						// FIXME: palet should be removed
-						t_palet palet;
-						Cshp_ts_file g;
-						g.load(f.get_data(), f.get_size());
-						Cvirtual_image image;
-						g.extract_as_pcx(image, palet, false);
-						shp_xor_encode_frames(image, g.get_c_images());
-						l.set_value_int(vi_cx, image.cx());
-						l.set_value_int(vi_cy, image.cy());
-						l.set_value_int(vi_c_frames, g.get_c_images());
-						l.set_value_binary(vi_fdata, image.image(), image.cb_image());
-						break;
+							Cshp_ts_file g;
+							g.load(f.get_data(), f.get_size());
+							byte* d = new byte[f.get_size() << 1];
+							int cb_d = shp_encode4(g, d);
+							l.set_value_binary(vi_fdata, d, cb_d);
+							l.set_value_int(vi_encoding, enc_shp);
+							delete[] d;
 						}
-							*/
-						default:
+						else if (ft == ft_vxl && m_options.vxl_compression)
+						{
+							Cvxl_file g;
+							g.load(f.get_data(), f.get_size());
+							byte* d = new byte[f.get_size() << 1];
+							int cb_d = vxl_encode4(g, d);
+							l.set_value_binary(vi_fdata, d, cb_d);
+							l.set_value_int(vi_encoding, enc_vxl);
+							delete[] d;
+						}
+						else
 							l.set_value_binary(vi_fdata, f.get_data(), f.get_size());
-						}
 					}
 					f.close();
 				}
@@ -401,6 +420,8 @@ Cxif_key Cxcc_mod::save(bool export) const
 	key.set_value_int(vi_game, m_options.game);
 	key.set_value_int(vi_csf_diff_compression, m_options.csf_diff_compression);
 	key.set_value_int(vi_ini_diff_compression, m_options.ini_diff_compression);
+	key.set_value_int(vi_shp_compression, m_options.shp_compression);
+	key.set_value_int(vi_vxl_compression, m_options.vxl_compression);
 	key.set_value_int(vi_custom_button_text, m_options.custom_button_text);
 	key.set_value_int(vi_exit_button, m_options.exit_button);
 	key.set_value_int(vi_manual_button, m_options.manual_button);
@@ -410,6 +431,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 	key.set_value_string(vi_mod_version, m_options.mod_version);
 	key.set_value_string(vi_mod_ucf, m_options.mod_ucf);
 	key.set_value_int(vi_confirm_deactivate, m_options.confirm_deactivate);
+	key.set_value_int(vi_mf_version, mf_version);
 	return key;
 }
 
@@ -540,22 +562,6 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 							{
 								if (game == game_ts)
 								{
-									/*
-									if (audio.c_channels() == 2)
-									{
-										const __int16* r = audio.audio();
-										const __int16* r_end = r + (audio.c_samples() << 1);
-										__int16* d = new __int16[audio.c_samples()];
-										__int16* w = d;
-										while (r < r_end)
-										{
-											int v = *r++ + *r++;
-											*w++ = v / 2;
-										}
-										audio.load(d, audio.c_samples(), audio.samplerate(), audio.cb_sample(), 1);
-										delete[] d;
-									}
-									*/
 									if (audio.c_channels() != 1)
 										error = 1;
 									else
@@ -599,6 +605,34 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 							}
 						}
 						break;
+					case ft_shp_ts:
+						if (encoding == enc_shp)
+						{
+							// file32_write("d:/temp/last.bin", data, cb_data);
+							// byte* d = new byte[cb_data << 2];
+							shp_decode4(data, h);
+							h.compact();
+							// h.write(d, cb_d);
+							// h.export("d:/temp/last.shp");
+							// delete[] d;
+							data = h.data();
+							cb_data = h.size();
+						}
+						break;
+					case ft_vxl:
+						if (encoding == enc_vxl)
+						{
+							// file32_write("d:/temp/last.bin", data, cb_data);
+							// byte* d = new byte[cb_data << 2];
+							vxl_decode4(data, h);
+							h.compact();
+							// h.write(d, cb_d);
+							// h.export("d:/temp/last.vxl");
+							// delete[] d;
+							data = h.data();
+							cb_data = h.size();
+						}
+						break;
 					}
 					if (!error && !ignore)
 					{
@@ -606,6 +640,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						{
 						case ct_cameo:
 						case ct_shp:
+						case ct_tmp:
 							ecache_mix.add_file(fname, data, cb_data);
 							break;
 						case ct_ini:
@@ -688,6 +723,8 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 				case ct_sound:
 					if (game == game_ra2)
 					{
+						if (!error)
+							error = xse.compact();
 						if (!error)
 							xse.write_idx_file();
 						xse.close();
@@ -786,15 +823,14 @@ void Cxcc_mod::clear_game_dir() const
 	delete_file(dir + "ui.ini");
 }
 
-int Cxcc_mod::load_banner(const Cxif_key& key, Cvirtual_image& image)
+int Cxcc_mod::load_launcher_image(const Cxif_key& key, string fname, Cvirtual_image& image)
 {
 	if (!key.exists_key(ct_launcher))
 		return 1;
 	const Cxif_key& category = key.open_key_read(ct_launcher);
 	for (t_xif_key_map::const_iterator i = category.m_keys.begin(); i != category.m_keys.end(); i++)
 	{
-		string fname = i->second.get_value_string(vi_fname);
-		if (fname != "banner.jpeg")
+		if (i->second.get_value_string(vi_fname) != fname)
 			continue;
 		Cjpeg_file f;
 		const Cxif_value& fdata = i->second.get_value(vi_fdata);
@@ -888,6 +924,10 @@ void Cxcc_mod::report(string fname) const
 					if (ft != ft_audio)
 						error = "Wrong file type";
 					break;
+				case ct_tmp:
+					if (ft != ft_tmp_ts)
+						error = "Wrong file type";
+					break;
 				case ct_vxl:
 					fname.set_ext(".hva");
 					if (ft != ft_vxl)
@@ -908,7 +948,14 @@ void Cxcc_mod::report(string fname) const
 		+ tr(td("mod_ucf") + td(m_options.mod_ucf, "colspan=3"))
 		+ tr(td("mod_version") + td(m_options.mod_version, "colspan=3"))
 		+ tr(td("game") + td(game_name[m_options.game], "colspan=3"))
-		+ tr(td("csf_diff_compression") + td(n(m_options.csf_diff_compression), "colspan=3"))
-		+ tr(td("ini_diff_compression") + td(n(m_options.ini_diff_compression), "colspan=3"));
+		+ tr(td("csf_diff_compression") + td(btoa(m_options.csf_diff_compression), "colspan=3"))
+		+ tr(td("ini_diff_compression") + td(btoa(m_options.ini_diff_compression), "colspan=3"))
+		+ tr(td("shp_compression") + td(btoa(m_options.shp_compression), "colspan=3"))
+		+ tr(td("vxl_compression") + td(btoa(m_options.vxl_compression), "colspan=3"));
 	ofstream(fname.c_str()) << head_xcc(m_options.mod_name) + body(table(page, "border=1 width=100%"));
+}
+
+bool Cxcc_mod::future_version()
+{
+	return options().mf_version > mf_version;
 }

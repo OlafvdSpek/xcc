@@ -352,3 +352,178 @@ int vxl_file_write(const byte* s, byte* d, int cx, int cy, int cz)
 	return vxl_file_write(k, d);
 }
 #endif
+
+struct t_vxl4_header
+{
+	unsigned __int32 c_sections;
+};
+
+struct t_vxl4_section_header
+{
+	char id[16];
+	__int32 section_i;
+	float scale;
+	float x_min_scale;
+	float y_min_scale;
+	float z_min_scale;
+	float x_max_scale;
+	float y_max_scale;
+	float z_max_scale;
+	unsigned __int8 cx;
+	unsigned __int8 cy;
+	unsigned __int8 cz;
+	__int8 unknown;
+};
+
+int vxl_encode4(const Cvxl_file& f, byte* d)
+{
+	const int c_sections = f.get_c_section_headers();
+
+	byte* w = d;
+	t_vxl4_header& header = *reinterpret_cast<t_vxl4_header*>(w);
+	header.c_sections = c_sections;
+	w += sizeof(t_vxl4_header);
+
+	for (int i = 0; i < c_sections; i++)
+	{
+		const t_vxl_section_header& s_section_header = *f.get_section_header(i);
+		const t_vxl_section_tailer& section_tailer = *f.get_section_tailer(i);
+		const int cx = section_tailer.cx;
+		const int cy = section_tailer.cy;
+		const int cz = section_tailer.cz;
+
+		t_vxl4_section_header& section_header = *reinterpret_cast<t_vxl4_section_header*>(w);
+		strcpy(section_header.id, s_section_header.id);
+		section_header.section_i = s_section_header.section_i;
+		assert(s_section_header.section_i == i);
+		section_header.scale = section_tailer.scale;
+		section_header.x_min_scale = section_tailer.x_min_scale;
+		section_header.y_min_scale = section_tailer.y_min_scale;
+		section_header.z_min_scale = section_tailer.z_min_scale;
+		section_header.x_max_scale = section_tailer.x_max_scale;
+		section_header.y_max_scale = section_tailer.y_max_scale;
+		section_header.z_max_scale = section_tailer.z_max_scale;
+		section_header.cx = section_tailer.cx;
+		section_header.cy = section_tailer.cy;
+		section_header.cz = section_tailer.cz;
+		section_header.unknown = section_tailer.unknown;
+		w += sizeof(t_vxl4_section_header);
+		for (int j = 0; j < f.get_c_spans(i); j++)
+		{
+			const byte* r = f.get_span_data(i, j);
+			if (r)
+			{
+				int z = 0;
+				while (z < cz)
+				{
+					int z_inc = *w++ = *r++;
+					if (z_inc == cz)
+						break;
+					z += z_inc;
+					int c = *w++ = *r++;
+					while (c--)
+					{
+						*w++ = *r++;
+						*w++ = *r++;
+						z++;
+					}
+					r++;
+				}
+			}
+			else
+				*w++ = cz;
+		}
+	}
+	return w - d;
+}
+
+void vxl_decode4(const byte* s, Cvirtual_file& f)
+{
+	const byte* r = s;
+	const t_vxl4_header& s_header = *reinterpret_cast<const t_vxl4_header*>(r);
+	const int c_sections = s_header.c_sections;
+	r += sizeof(t_vxl4_header);
+	byte* d = new byte[1 << 20];
+	byte* w = d;
+	t_vxl_header& header = *reinterpret_cast<t_vxl_header*>(w);
+	strcpy(header.id, vxl_id);
+	header.one = 1;
+	header.c_section_headers = c_sections;
+	header.c_section_tailers = c_sections;
+	header.unknown = 0x1f10;
+	w += sizeof(t_vxl_header);
+	t_vxl_section_header* d_section_header = reinterpret_cast<t_vxl_section_header*>(w);
+	t_vxl_section_tailer* section_tailer = new t_vxl_section_tailer[c_sections];
+	w += sizeof(t_vxl_section_header) * c_sections;
+	byte* body_start = w;
+	for (int i = 0; i < c_sections; i++)
+	{
+		const t_vxl4_section_header& section_header = *reinterpret_cast<const t_vxl4_section_header*>(r);
+		const int cx = section_header.cx;
+		const int cy = section_header.cy;
+		const int cz = section_header.cz;
+		strcpy(d_section_header->id, section_header.id);
+		d_section_header->section_i = section_header.section_i;
+		d_section_header->one = 1;
+		d_section_header->zero = 0;
+		d_section_header++;
+		__int32* span_start_list = reinterpret_cast<__int32*>(w);
+		section_tailer[i].span_start_ofs = w - body_start;
+		w += 4 * cx * cy;
+		__int32* span_end_list = reinterpret_cast<__int32*>(w);
+		section_tailer[i].span_end_ofs = w - body_start;
+		w += 4 * cx * cy;
+		section_tailer[i].span_data_ofs = w - body_start;
+		section_tailer[i].scale = section_header.scale;
+		section_tailer[i].x_min_scale = section_header.x_min_scale;
+		section_tailer[i].y_min_scale = section_header.y_min_scale;
+		section_tailer[i].z_min_scale = section_header.z_min_scale;
+		section_tailer[i].x_max_scale = section_header.x_max_scale;
+		section_tailer[i].y_max_scale = section_header.y_max_scale;
+		section_tailer[i].z_max_scale = section_header.z_max_scale;
+		section_tailer[i].cx = section_header.cx;
+		section_tailer[i].cy = section_header.cy;
+		section_tailer[i].cz = section_header.cz;
+		section_tailer[i].unknown = section_header.unknown;
+		r += sizeof(t_vxl4_section_header);
+		byte* span_data_start = w;
+		for (int j = 0; j < cx * cy; j++)
+		{
+			byte* span_start = w;
+			int z = 0;
+			while (z < cz)
+			{
+				int z_inc = *r++;
+				if (z_inc == cz)
+					break;
+				z += *w++ = z_inc;
+				int count = *w++ = *r++;
+				int c = count;
+				while (c--)
+				{
+					*w++ = *r++;
+					*w++ = *r++;
+					z++;
+				}
+				*w++ = count;
+			}
+			if (span_start == w)
+			{
+				span_start_list[j] = -1;
+				span_end_list[j] = -1;
+			}
+			else
+			{
+				span_start_list[j] = span_start - span_data_start;
+				span_end_list[j] = w - span_data_start - 1;
+			}
+		}
+	}
+	header.size = w - body_start;
+	memcpy(w, section_tailer, sizeof(t_vxl_section_tailer) * c_sections);
+	delete[] section_tailer;
+	w += sizeof(t_vxl_section_tailer) * c_sections;
+	int cb_d = w - d;
+	f.write(d, cb_d);
+	delete[] d;
+}

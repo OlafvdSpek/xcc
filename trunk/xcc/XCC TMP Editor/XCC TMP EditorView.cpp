@@ -28,6 +28,7 @@ END_MESSAGE_MAP()
 
 CXCCTMPEditorView::CXCCTMPEditorView()
 {
+	m_selected = -1;
 }
 
 CXCCTMPEditorView::~CXCCTMPEditorView()
@@ -105,17 +106,16 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 	pDC->GetClipBox(&m_clip_rect);
 	TEXTMETRIC tm;
 	pDC->GetTextMetrics(&tm);
-	// m_dc = pDC;
 	int x = 0;
 	int y = 0;
 	int y_inc = tm.tmHeight;
 
+	t_rect global = pDoc->get_rect();
 	{
-		t_rect global = pDoc->get_rect();
 		int cx = global.r - global.x;
 		int cy = global.b - global.y;
 		byte* d = new byte[cx * cy];
-		pDoc->draw(d);
+		pDoc->draw(d, m_selected);
 		load_color_table(pDoc->palet());
 		draw_image8(d, cx, cy, pDC, 0, y);
 		y += cy + y_inc;
@@ -128,13 +128,17 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 	int cy = pDoc->header().cy;
 	byte* d = new byte[cx * cy];
 	t_map map = pDoc->map();
+	int selection_color = 0xffffff;
+	CBrush brush(selection_color);
 	for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
 	{		
+		const t_tmp_image_header& header = i->second.header;
 		if (i->second.extra_data.data())
 		{
-			const t_tmp_image_header& header = i->second.header;
 			load_color_table(pDoc->palet());
 			draw_image8(i->second.extra_data.data(), header.cx_extra, header.cy_extra, pDC, 0, y);
+			if (m_selected == i->first)
+				pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y), CSize(header.cx_extra, header.cy_extra)), &brush);
 			if (i->second.extra_z_data.data())
 			{
 				load_grey_table(32);
@@ -145,6 +149,23 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 		decode_tile(i->second.data.data(), d, cx);
 		load_color_table(pDoc->palet());
 		draw_image8(d, cx, cy, pDC, 0, y);
+		if (m_selected == i->first)
+		{
+			// pDC->FrameRect(CRect(CPoint(header.x - global.x, header.y - global.y), CSize(cx, cy)), &brush);
+			/*
+			int half_cx = cx >> 1;
+			int half_cy = cy >> 1;
+			CPoint tl = CPoint(header.x - global.x, header.y - global.y);
+			CPen pen(PS_SOLID, 1, selection_color);
+			CPen* old_pen = pDC->SelectObject(&pen);
+			pDC->MoveTo(tl + CPoint(half_cx, 0));
+			pDC->LineTo(tl + CPoint(cx, half_cy));
+			pDC->LineTo(tl + CPoint(half_cx, cy));
+			pDC->LineTo(tl + CPoint(0, half_cy));
+			pDC->LineTo(tl + CPoint(half_cx, 0));
+			pDC->SelectObject(old_pen);
+			*/
+		}
 		if (i->second.z_data.data())
 		{
 			decode_tile(i->second.z_data.data(), d, cx);
@@ -188,3 +209,12 @@ CXCCTMPEditorDoc* CXCCTMPEditorView::GetDocument() // non-debug version is inlin
 /////////////////////////////////////////////////////////////////////////////
 // CXCCTMPEditorView message handlers
 
+
+void CXCCTMPEditorView::select(int id)
+{
+	if (m_selected != id)
+	{
+		m_selected = id;
+		Invalidate();
+	}
+}
