@@ -173,7 +173,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.12"
+    IDR_MAINFRAME           "XCC Mod Creator 1.13"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 

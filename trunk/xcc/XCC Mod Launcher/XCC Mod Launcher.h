@@ -22,7 +22,6 @@
 class CXCCModLauncherApp : public CWinApp
 {
 public:
-	CXCCModLauncherApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

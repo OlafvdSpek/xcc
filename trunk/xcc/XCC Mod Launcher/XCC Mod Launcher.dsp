@@ -135,6 +135,10 @@ SOURCE=".\XCC Mod LauncherDlg.cpp"
 
 SOURCE=..\misc\xcc_mod.cpp
 # End Source File
+# Begin Source File
+
+SOURCE=.\XMLCommandLineInfo.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -174,6 +178,10 @@ SOURCE=".\XCC Mod LauncherDlg.h"
 # Begin Source File
 
 SOURCE=..\misc\xcc_mod.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\XMLCommandLineInfo.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"

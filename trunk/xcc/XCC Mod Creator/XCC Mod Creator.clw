@@ -16,11 +16,11 @@ Class4=CMainFrame
 Class7=CAboutDlg
 
 ResourceCount=7
-Resource1=IDR_MAINFRAME (English (U.S.))
-Resource2=IDD_OPTIONS
+Resource1=IDD_OPTIONS
+Resource2=IDR_MAINFRAME (English (U.S.))
 Resource3=IDR_XCCMODTYPE
-Resource4=CG_IDR_POPUP
-Resource5=IDR_XCCMODTYPE (English (U.S.))
+Resource4=IDR_XCCMODTYPE (English (U.S.))
+Resource5=CG_IDR_POPUP
 Class5=CChildFrame
 Class6=CLeftView
 Resource6=IDD_ABOUTBOX (English (U.S.))
@@ -284,7 +284,7 @@ VirtualFilter=dWC
 [DLG:IDD_OPTIONS]
 Type=1
 Class=Coptions_dlg
-ControlCount=31
+ControlCount=32
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
 Control3=IDC_STATIC,static,1342308352
@@ -311,11 +311,12 @@ Control23=IDC_EXIT_BUTTON,button,1342242819
 Control24=IDC_UPDATE_BUTTON,button,1342242819
 Control25=IDC_MANUAL_BUTTON,button,1342242819
 Control26=IDC_SITE_BUTTON,button,1342242819
-Control27=IDC_CONFIRM_DEACTIVATE,button,1342242819
-Control28=IDC_SHP_COMPRESSION,button,1342242819
-Control29=IDC_VXL_COMPRESSION,button,1342242819
-Control30=IDC_STATIC,static,1342308352
-Control31=IDC_MOD_MFS,edit,1350631552
+Control27=IDC_SHP_COMPRESSION,button,1342242819
+Control28=IDC_VXL_COMPRESSION,button,1342242819
+Control29=IDC_STATIC,static,1342308352
+Control30=IDC_MOD_MFS,edit,1350631552
+Control31=IDC_DEACTIVATE,combobox,1344339971
+Control32=IDC_STATIC,static,1342308352
 
 [DLG:IDD_PROPERTIES]
 Type=1
