@@ -154,7 +154,13 @@ BEGIN
             MENUITEM "&Tiberian Sun",               ID_LAUNCH_XOE_TS
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XOE_RA2
         END
-        MENUITEM "XCC &Sound Editor",           ID_LAUNCH_XSE
+        POPUP "XCC &Sound Editor"
+        BEGIN
+            MENUITEM "&Red Alert 2",                ID_LAUNCH_XSE_RA2
+            MENUITEM "Red Alert 2 &Yuri's Revenge", ID_LAUNCH_XSE_RA2_YR
+            MENUITEM SEPARATOR
+            MENUITEM "&Open...",                    ID_LAUNCH_XSE_OPEN
+        END
         POPUP "XCC &String Table Editor"
         BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XSTE_RA2
