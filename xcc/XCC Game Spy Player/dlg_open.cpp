@@ -92,16 +92,16 @@ BOOL Cdlg_open::OnInitDialog()
 		{
 			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+				t_map::iterator i;
+				for (i = m_map.begin(); i != m_map.end(); i++)
 				{
 					t_map_entry& e = i->second;
-					if (e.name == fd.cFileName)
-					{
-						e.size = fd.nFileSizeLow;
-						m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
-						insert_players(e.players, i->first);
-						break;
-					}
+					if (e.name != fd.cFileName)
+						continue;
+					e.size = fd.nFileSizeLow;
+					m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
+					insert_players(e.players, i->first);
+					break;
 				}
 				if (i == m_map.end())
 				{
