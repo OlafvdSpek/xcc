@@ -86,6 +86,35 @@ public:
 	{
 		return get_image_header(i)->x_extra;
 	}
+	
+	int get_height() const
+	{
+		int height = 0;
+		for (int i = 0; i < get_c_tiles(); i++)
+		{
+			if (get_index()[i])
+			{
+				if (get_height(i) > height)
+					height = get_height(i);
+			}
+		}
+		return height;
+	}
+
+	int get_height(int i) const
+	{
+		return get_image_header(i)->height;
+	}
+
+	int get_direction(int i) const
+	{
+		return get_image_header(i)->direction;
+	}
+
+	int get_terraintype(int i) const
+	{
+		return get_image_header(i)->terraintype;
+	}
 
 	int get_y_extra(int i) const
 	{

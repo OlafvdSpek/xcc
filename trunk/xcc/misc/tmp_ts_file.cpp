@@ -12,18 +12,21 @@ void Ctmp_ts_file::get_rect(int& x, int& y, int& cx, int& cy) const
 	x = INT_MAX;
 	y = INT_MAX;
 	cx = INT_MIN;
-	cy = INT_MIN;
+	cy = INT_MIN;	
+	int bigy = INT_MIN;
+	int bigyval = 0;
 	for (int i = 0; i < get_c_tiles(); i++)
 	{
 		if (get_index()[i])
 		{
+			int height = get_height() - get_height(i);
 			int x_t = get_x(i);
-			int y_t = get_y(i);
+			int y_t = get_y(i) + (height * (get_cy() / 2));
 			int x2_t = x_t + get_cx();
 			int y2_t = y_t + get_cy();
 			if (has_extra_graphics(i))
 			{
-				int y_t_extra = get_y_extra(i);
+				int y_t_extra = get_y_extra(i) + (height * (get_cy() / 2));
 				int y2_t_extra = y_t_extra + get_cy_extra(i);
 				if (y_t_extra < y)
 					y = y_t_extra;
@@ -38,10 +41,19 @@ void Ctmp_ts_file::get_rect(int& x, int& y, int& cx, int& cy) const
 				y = y_t;
 			if (y2_t > cy)
 				cy = y2_t;
+			if (bigy < get_y(i))
+			{
+				bigy = get_y(i);
+				bigyval = get_y(i) + get_cy() + (get_height(i) * (get_cy() / 2));
+				if (has_extra_graphics(i))
+					bigyval -= get_y_extra(i);
+			}
 		}
 	}
 	cx -= x;
 	cy -= y;
+	if (cy < bigyval)
+		cy = bigyval;
 }
 
 void Ctmp_ts_file::draw(byte* d) const
@@ -53,8 +65,9 @@ void Ctmp_ts_file::draw(byte* d) const
 	{
 		if (get_index()[i])
 		{
+			int height = get_height() - get_height(i);
 			const byte* r = get_image(i);
-			byte* w_line = d + get_x(i) - global_x + global_cx * (get_y(i) - global_y);
+			byte* w_line = d + get_x(i) - global_x + global_cx * (get_y(i) - global_y + (height * (get_cy() / 2)));
 			int x = get_cx() / 2;
 			int cx = 0;
 			for (int y = 0; y < get_cy() / 2; y++)
@@ -76,7 +89,7 @@ void Ctmp_ts_file::draw(byte* d) const
 			if (has_extra_graphics(i))
 			{
 				r += get_cx() * get_cy() / 2;
-				w_line = d + get_x_extra(i) - global_x + global_cx * (get_y_extra(i) - global_y);
+				w_line = d + get_x_extra(i) - global_x + global_cx * (get_y_extra(i) - global_y + (height * (get_cy() / 2)));
 				int cx = get_cx_extra(i);
 				int cy = get_cy_extra(i);
 				for (y = 0; y < cy; y++)
@@ -188,7 +201,10 @@ int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy)
 			image_header.cy_extra = 0;
 			*/
 			image_header.flags &= ~1;
-			image_header.unknown2[0] = 0xf00;
+			image_header.height = 0;
+			image_header.terraintype = 0xf;
+			image_header.direction = 0;
+			image_header.unknown2 = 0;
 			w += sizeof(t_tmp_image_header);
 			encode_tile(s, w);
 			w += 576;
