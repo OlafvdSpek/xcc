@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 vfw32.lib libpng.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "XCC MIX Editor - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 vfw32.lib libpng.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -92,79 +92,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\misc\art_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\avi_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\blowfish.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\crc.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\ddpf_conversion.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\ETSLayout.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\file32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\fname.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\id_log.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_ra_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_td_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_cache.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.cpp
 # End Source File
 # Begin Source File
 
@@ -176,76 +104,8 @@ SOURCE=.\MIXOptions.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\mp3_frame_header.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pak_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\palet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\png_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\riff_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\rules_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\sound_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\string_conversion.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\theme_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\virtual_tfile.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\wav_file.cpp
 # End Source File
 # Begin Source File
 
@@ -258,26 +118,6 @@ SOURCE=".\XCC MIX Editor.rc"
 # Begin Source File
 
 SOURCE=".\XCC MIX EditorDlg.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_lmd_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_lmd_file_write.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"

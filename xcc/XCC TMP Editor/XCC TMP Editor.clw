@@ -15,16 +15,18 @@ Class3=CXCCTMPEditorView
 Class4=CMainFrame
 Class7=CAboutDlg
 
-ResourceCount=6
+ResourceCount=8
 Resource1=IDR_TMPTYPE (English (U.S.))
 Resource2=CG_IDR_POPUP_LEFT_VIEW
 Resource3=IDR_TMPTYPE
 Class5=CChildFrame
 Class6=CLeftView
 Resource4=IDD_ABOUTBOX (English (U.S.))
-Resource5=IDR_MAINFRAME (English (U.S.))
+Resource5=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
 Class8=Cproperties_dlg
 Resource6=IDD_PROPERTIES
+Resource7=IDR_MAINFRAME (English (U.S.))
+Resource8=IDD_PROPERTIES (English (U.S.))
 
 [CLS:CXCCTMPEditorApp]
 Type=0
@@ -71,7 +73,7 @@ ImplementationFile=LeftView.cpp
 Filter=T
 BaseClass=CListView
 VirtualFilter=VWC
-LastObject=ID_POPUP_SAVE_COMPLETE
+LastObject=ID_POPUP_DELETE_EXTRAIMAGE
 
 [CLS:CAboutDlg]
 Type=0
@@ -288,4 +290,47 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=Cproperties_dlg
+
+[DLG:IDD_PROPERTIES (English (U.S.))]
+Type=1
+Class=?
+ControlCount=16
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_STATIC,static,1342308352
+Control4=IDC_STATIC,static,1342308352
+Control5=IDC_STATIC,static,1342308352
+Control6=IDC_STATIC,static,1342308352
+Control7=IDC_STATIC,static,1342308352
+Control8=IDC_STATIC,static,1342308352
+Control9=IDC_STATIC,static,1342308352
+Control10=IDC_X,edit,1350639744
+Control11=IDC_Y,edit,1350639744
+Control12=IDC_X_EXTRA,edit,1350639744
+Control13=IDC_Y_EXTRA,edit,1350639744
+Control14=IDC_HEIGHT,edit,1350639744
+Control15=IDC_TERRAIN_TYPE,edit,1350639744
+Control16=IDC_RAMP_TYPE,edit,1350639744
+
+[MNU:CG_IDR_POPUP_LEFT_VIEW (English (U.S.))]
+Type=1
+Class=?
+Command1=ID_EDIT_CUT
+Command2=ID_POPUP_COPY_COMPLETE
+Command3=ID_POPUP_COPY_IMAGE
+Command4=ID_POPUP_COPY_EXTRA_IMAGE
+Command5=ID_POPUP_PASTE_COMPLETE
+Command6=ID_POPUP_PASTE_IMAGE
+Command7=ID_POPUP_PASTE_EXTRA_IMAGE
+Command8=ID_POPUP_LOAD_COMPLETE
+Command9=ID_POPUP_LOADASPCX_IMAGE
+Command10=ID_POPUP_LOADASPCX_EXTRAIMAGE
+Command11=ID_POPUP_SAVE_COMPLETE
+Command12=ID_POPUP_SAVEASPCX_IMAGE
+Command13=ID_POPUP_SAVEASPCX_EXTRAIMAGE
+Command14=ID_POPUP_INSERT
+Command15=ID_POPUP_DELETE
+Command16=ID_POPUP_DELETE_EXTRAIMAGE
+Command17=ID_POPUP_PROPERTIES
+CommandCount=17
 

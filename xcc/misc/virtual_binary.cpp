@@ -67,6 +67,12 @@ int Cvirtual_binary::import(string fname)
 	return error;
 }
 
+void Cvirtual_binary::clear()
+{
+	delete[] m_data;
+	m_data = NULL;
+}
+
 int Cvirtual_binary::read(void* d) const
 {
 	if (!data())

@@ -38,6 +38,7 @@ public:
 
 // Implementation
 public:
+	void select(int id);
 	virtual ~CXCCTMPEditorView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -54,6 +55,7 @@ protected:
 private:
 	CRect m_clip_rect;
 	dword m_color_table[256];
+	int m_selected;
 };
 
 #ifndef _DEBUG  // debug version in XCC TMP EditorView.cpp

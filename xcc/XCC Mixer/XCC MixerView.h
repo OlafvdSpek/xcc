@@ -13,6 +13,7 @@
 #include <mix_file.h>
 #include <stack>
 #include "fname.h"
+#include "html.h"
 #include "virtual_image.h"
 #include "xap.h"
 
@@ -64,9 +65,7 @@ public:
 	int copy_as_xif(int i, Cfname fname) const;
 	int get_current_id() const;
 	int get_current_index() const;
-	int get_clipboard_image(Cvirtual_image& image);
-	int set_clipboard_image(Cvirtual_image& image);
-	int get_paste_fname(string& fname, t_file_type ft);
+	int get_paste_fname(string& fname, t_file_type ft, const char* filter);
 	const t_paletentry* get_default_palet() const;
 	string get_dir() const;
 	void set_reg_key(const string& v);
@@ -93,6 +92,9 @@ public:
 
 // Implementation
 public:
+	Chtml report() const;
+	void autosize_colums();
+	BOOL OnIdle(LONG lCount);
 	t_game get_game();
 	virtual ~CXCCMixerView();
 #ifdef _DEBUG
@@ -195,6 +197,7 @@ protected:
 	afx_msg void OnPopupClipboardPasteAsJpeg();
 	afx_msg void OnPopupExplore();
 	afx_msg void OnUpdatePopupExplore(CCmdUI* pCmdUI);
+	afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -209,8 +212,11 @@ private:
 	t_palet m_palet;
 	CString m_reg_key;
 	bool m_palet_loaded;
+	string m_buffer[4];
+	int m_buffer_w;
 	int m_sort_column;
 	bool m_sort_reverse;
+	bool m_reading;
 	Cxap m_xap;
 };
 

@@ -36,6 +36,9 @@ protected: // create from serialization only
 
 // Attributes
 public:
+	CXCCMixerView* left_mix_pane();
+	CXCCMixerView* right_mix_pane();
+	CXCCFileView* file_info_pane();
 
 // Operations
 public:
@@ -55,6 +58,7 @@ public:
 
 // Implementation
 public:
+	BOOL OnIdle(LONG lCount);
 	void close_dd();
 	void open_dd();
 	LPDIRECTDRAW get_dd();
@@ -63,8 +67,8 @@ public:
 	LPDIRECTSOUND get_ds();
 	t_game get_game();
 	string get_mix_name(int i) const;
-	const t_paletentry* get_game_palet(t_game game) const;
-	const t_paletentry* get_pal_data() const;
+	const t_paletentry* get_game_palet(t_game game);
+	const t_paletentry* get_pal_data();
 	int get_vxl_mode() const;
 	void set_msg(const string& s);
 	virtual ~CMainFrame();
@@ -222,6 +226,8 @@ protected:
 	afx_msg void OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI);
 	afx_msg void OnConversionCombineShadows();
 	afx_msg void OnUpdateConversionCombineShadows(CCmdUI* pCmdUI);
+	afx_msg void OnViewReport();
+	afx_msg void OnUpdateViewReport(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

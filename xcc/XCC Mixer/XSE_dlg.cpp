@@ -239,14 +239,6 @@ int CXSE_dlg::insert(int id)
 	}
 	int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
 	m_list.SetItemData(index, id);
-	/*
-	m_list.SetItemText(index, 1, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 3, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 4, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 5, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 6, LPSTR_TEXTCALLBACK);
-	m_list.SetItemText(index, 7, LPSTR_TEXTCALLBACK);
-	*/
 	return index;
 }
 

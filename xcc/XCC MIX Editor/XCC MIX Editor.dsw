@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "XCC Library"="..\XCC Library\XCC Library.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "XCC MIX Editor"=".\XCC MIX Editor.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -11,6 +23,9 @@ Package=<5>
 
 Package=<4>
 {{{
+    Begin Project Dependency
+    Project_Dep_Name XCC Library
+    End Project Dependency
 }}}
 
 ###############################################################################

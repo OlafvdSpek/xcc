@@ -32,6 +32,8 @@ public:
 	void read_idx_file(const Caudio_idx_file& f);
 	int extract(string fname, Cvirtual_file& f);
 	int insert(string fname, Cwav_file& f);
+	int compact();
+	int get_bag_size() const;
 	int write_idx_file();
 	int write();
 	void close();

@@ -74,11 +74,12 @@ public:
 
 // Implementation
 public:
+	void remove_extra_image(int id);
 	int load_urban_palet();
 	int load_temperate_palet();
 	int load_snow_palet();
 	int load_palet(string fname);
-	void draw(byte* d) const;
+	void draw(byte* d, int outline = -1) const;
 	void draw_reverse(const byte* d);
 	t_rect get_rect() const;
 	void set_complete(const Cvirtual_image& image);

@@ -3,6 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include <afx.h>
+#ifdef __AFX_H__
+#include <afxdlgs.h>
+#endif
 #include "image_file.h"
 #include "jpeg_file.h"
 #include "pcx_file.h"
@@ -69,15 +73,24 @@ int Cvirtual_image::load(string fname)
 	int error = f.open(fname);
 	if (!error)
 	{
+#ifdef JPEG_SUPPORT
 		Cjpeg_file jpeg_f;
+#endif
 		Cpcx_file pcx_f;
+#ifdef PNG_SUPPORT
 		Cpng_file png_f;
+#endif
+#ifdef JPEG_SUPPORT
 		if (jpeg_f.load(f), jpeg_f.is_valid())
 			error = jpeg_f.decode(*this);
-		else if (pcx_f.load(f), pcx_f.is_valid())
+		else 
+#endif
+		if (pcx_f.load(f), pcx_f.is_valid())
 			pcx_f.decode(*this);
+#ifdef PNG_SUPPORT
 		else if (png_f.load(f), png_f.is_valid())
-			error = 0x101; // png_f.decode(*this);
+			error = png_f.decode(*this);
+#endif
 		else
 			error = 0x100;
 		f.close();
@@ -247,14 +260,77 @@ void Cvirtual_image::increase_palet_depth()
 	}
 }
 
+#ifdef __AFX_H__
 int Cvirtual_image::get_clipboard()
 {
+	int error = 0;
+	if (!OpenClipboard(NULL))
+		error = 0x100;
+	else
+	{
+		void* h_mem = GetClipboardData(CF_DIB);
+		if (!h_mem)
+			error = 0x101;
+		else
+		{
+			byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
+			if (!mem)
+				error = 0x102;
+			else
+			{	const BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
+				int cb_pixel = header->biBitCount >> 3;
+				if (cb_pixel != 1 && cb_pixel != 3)
+					error = 0x103;
+				else
+				{
+					t_palet_entry* palet = cb_pixel == 1 ? new t_palet : NULL;
+					const RGBQUAD* r = reinterpret_cast<RGBQUAD*>(mem + header->biSize);
+					if (palet)
+					{
+						for (int i = 0; i < (header->biClrUsed ? header->biClrUsed : 256); i++)
+						{
+							palet[i].r = r->rgbRed;
+							palet[i].g = r->rgbGreen;
+							palet[i].b = r->rgbBlue;
+							r++;
+						}
+					}
+					int cx = header->biWidth;
+					int cy = header->biHeight;
+					if (cx * cb_pixel & 3)
+					{
+						int cb_line = cx * cb_pixel;
+						byte* d = new byte[cb_line * cy];
+						byte* w = d;
+						for (int y = 0; y < cy; y++)
+						{
+							memcpy(w, r, cb_line);
+							r += cb_line + 3 >> 2;
+							w += cb_line;
+						}
+						load(d, cx, cy, cb_pixel, palet);
+						delete[] d;
+					}
+					else
+						load(r, cx, cy, cb_pixel, palet);
+					flip();
+					if (cb_pixel == 3)
+						swap_rb();
+					delete palet;
+				}
+				GlobalUnlock(h_mem);
+			}
+		}
+		CloseClipboard();
+	}
+	return error;
 	return get_clipboard(*this);
 }
 
 int Cvirtual_image::get_clipboard(Cvirtual_image& image)
 {
 	int error = 0;
+#if 0
 	if (!OpenClipboard(NULL))
 		error = 0x100;
 	else
@@ -314,17 +390,87 @@ int Cvirtual_image::get_clipboard(Cvirtual_image& image)
 		}
 		CloseClipboard();
 	}
+#endif
 	return error;
 }
 
 int Cvirtual_image::set_clipboard() const
 {
+	int error = 0;
+	int cb_line = cx() * cb_pixel();
+	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * cy());
+	if (!h_mem)
+		error = 0x100;
+	else
+	{
+		byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
+		if (!mem)
+			error = 0x101;
+		else
+		{
+			BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
+			ZeroMemory(header, sizeof(BITMAPINFOHEADER));
+			header->biSize = sizeof(BITMAPINFOHEADER);
+			header->biWidth = cx();
+			header->biHeight = cy();
+			header->biPlanes = 1;
+			header->biBitCount = cb_pixel() << 3;
+			header->biCompression = BI_RGB;
+			RGBQUAD* palet = reinterpret_cast<RGBQUAD*>(mem + sizeof(BITMAPINFOHEADER));
+			if (cb_pixel() == 1)
+			{
+				for (int i = 0; i < 256; i++)
+				{
+					palet->rgbBlue = m_palet[i].b;
+					palet->rgbGreen = m_palet[i].g;
+					palet->rgbRed = m_palet[i].r;
+					palet->rgbReserved = 0;
+					palet++;
+				}
+			}
+			const byte* r = image() + cb_image();
+			byte* w = reinterpret_cast<byte*>(palet);
+			for (int y = 0; y < cy(); y++)
+			{
+				r -= cb_line;
+				if (cb_pixel() == 3)
+				{
+					for (int x = 0; x < cx(); x++)
+					{
+						const t_palet_entry* v = reinterpret_cast<const t_palet_entry*>(r) + x;
+						*w++ = v->b;
+						*w++ = v->g;
+						*w++ = v->r;
+					}
+					w -= cb_line;
+				}
+				else
+					memcpy(w, r, cb_line);
+				w += cb_line + 3 & ~3;
+			}
+			GlobalUnlock(h_mem);
+			if (!OpenClipboard(NULL))
+				error = 0x102;
+			else
+			{
+				if (EmptyClipboard() && SetClipboardData(CF_DIB, h_mem))
+					h_mem = NULL;
+				else
+					error = 0x103;
+				CloseClipboard();
+			}
+		}
+		if (h_mem)
+			GlobalFree(h_mem);
+	}
+	return error;
 	return set_clipboard(*this);
 }
 
 int Cvirtual_image::set_clipboard(const Cvirtual_image& image)
 {
 	int error = 0;
+#if 0
 	int cb_line = image.cx() * image.cb_pixel();
 	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * image.cy());
 	if (!h_mem)
@@ -397,6 +543,43 @@ int Cvirtual_image::set_clipboard(const Cvirtual_image& image)
 		if (h_mem)
 			GlobalFree(h_mem);
 	}
+#endif
 	return error;
 }
 
+int Cvirtual_image::load()
+{
+	const char* load_filter = "Image files (*.jpeg;*.jpg;*.pcx;*.png)|*.jpeg;*.jpg;*.pcx;*.png|JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
+
+	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, NULL);
+	if (IDOK == dlg.DoModal())
+		return load(static_cast<string>(dlg.GetPathName()));
+	return 2;
+}
+
+int Cvirtual_image::save() const
+{
+	const char* save_filter = "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
+
+	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
+	dlg.m_ofn.nFilterIndex = 2;
+	if (IDOK == dlg.DoModal())
+	{
+		t_file_type ft = ft_pcx;
+		switch (dlg.m_ofn.nFilterIndex)
+		{
+		case 1:
+			ft = ft_jpeg;
+			break;
+		case 2:
+			ft = ft_pcx;
+			break;
+		case 3:
+			ft = ft_png;
+			break;
+		}
+		return save(static_cast<string>(dlg.GetPathName()), ft);
+	}
+	return 2;
+}
+#endif

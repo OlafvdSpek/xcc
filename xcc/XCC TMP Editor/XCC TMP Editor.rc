@@ -132,6 +132,52 @@ BEGIN
     END
 END
 
+CG_IDR_POPUP_LEFT_VIEW MENU DISCARDABLE 
+BEGIN
+    POPUP "_POPUP_"
+    BEGIN
+        MENUITEM "Cu&t",                        ID_EDIT_CUT
+        POPUP "&Copy"
+        BEGIN
+            MENUITEM "&Complete",                   ID_POPUP_COPY_COMPLETE
+            MENUITEM "&Image\tCtrl+C",              ID_POPUP_COPY_IMAGE
+            MENUITEM "&Extra image",                ID_POPUP_COPY_EXTRA_IMAGE
+
+        END
+        POPUP "&Paste"
+        BEGIN
+            MENUITEM "&Complete",                   ID_POPUP_PASTE_COMPLETE
+            MENUITEM "&Image\tCtrl+V",              ID_POPUP_PASTE_IMAGE
+            MENUITEM "&Extra image",                ID_POPUP_PASTE_EXTRA_IMAGE
+
+        END
+        POPUP "&Load"
+        BEGIN
+            MENUITEM "&Complete",                   ID_POPUP_LOAD_COMPLETE
+            MENUITEM "&Image",                      ID_POPUP_LOADASPCX_IMAGE
+            MENUITEM "&Extra Image",                ID_POPUP_LOADASPCX_EXTRAIMAGE
+
+        END
+        POPUP "&Save"
+        BEGIN
+            MENUITEM "&Complete",                   ID_POPUP_SAVE_COMPLETE
+            MENUITEM "&Image",                      ID_POPUP_SAVEASPCX_IMAGE
+            MENUITEM "&Extra image",                ID_POPUP_SAVEASPCX_EXTRAIMAGE
+
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Insert\tIns",                ID_POPUP_INSERT
+        POPUP "&Delete"
+        BEGIN
+            MENUITEM "&Image\tDel",                 ID_POPUP_DELETE
+            MENUITEM "&Extra image",                ID_POPUP_DELETE_EXTRAIMAGE
+
+        END
+        MENUITEM SEPARATOR
+        MENUITEM "&Properties\tAlt+Enter",      ID_POPUP_PROPERTIES
+    END
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -162,12 +208,60 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
+// Dialog
+//
+
+IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 156, 165
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,42,144,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,99,144,50,14
+    LTEXT           "X:",IDC_STATIC,12,7,8,8
+    LTEXT           "Y:",IDC_STATIC,12,26,8,8
+    LTEXT           "X Extra:",IDC_STATIC,12,45,26,8
+    LTEXT           "Y Extra:",IDC_STATIC,12,64,26,8
+    LTEXT           "Terrain type:",IDC_STATIC,12,102,40,8
+    LTEXT           "Height:",IDC_STATIC,12,83,24,8
+    LTEXT           "Ramp type:",IDC_STATIC,12,121,37,8
+    EDITTEXT        IDC_X,57,7,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_Y,57,26,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_X_EXTRA,57,45,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_Y_EXTRA,57,64,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_HEIGHT,57,83,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_TERRAIN_TYPE,57,102,91,13,ES_AUTOHSCROLL | ES_NUMBER
+    EDITTEXT        IDC_RAMP_TYPE,57,121,91,13,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_PROPERTIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 149
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 158
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
 // String Table
 //
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC TMP Editor 1.00"
+    IDR_MAINFRAME           "XCC TMP Editor 1.01"
     IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.tem)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
 END
 
@@ -290,53 +384,6 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 #pragma code_page(1252)
 #endif //_WIN32
 
-/////////////////////////////////////////////////////////////////////////////
-//
-// Menu
-//
-
-CG_IDR_POPUP_LEFT_VIEW MENU DISCARDABLE 
-BEGIN
-    POPUP "_POPUP_"
-    BEGIN
-        MENUITEM "Cu&t",                        ID_EDIT_CUT
-        POPUP "&Copy"
-        BEGIN
-            MENUITEM "&Complete",                   ID_POPUP_COPY_COMPLETE
-            MENUITEM "&Image\tCtrl+C",              ID_POPUP_COPY_IMAGE
-            MENUITEM "&Extra image",                ID_POPUP_COPY_EXTRA_IMAGE
-
-        END
-        POPUP "&Paste"
-        BEGIN
-            MENUITEM "&Complete",                   ID_POPUP_PASTE_COMPLETE
-            MENUITEM "&Image\tCtrl+V",              ID_POPUP_PASTE_IMAGE
-            MENUITEM "&Extra image",                ID_POPUP_PASTE_EXTRA_IMAGE
-
-        END
-        POPUP "&Load"
-        BEGIN
-            MENUITEM "&Complete",                   ID_POPUP_LOAD_COMPLETE
-            MENUITEM "&Image",                      ID_POPUP_LOADASPCX_IMAGE
-            MENUITEM "&Extra Image",                ID_POPUP_LOADASPCX_EXTRAIMAGE
-
-        END
-        POPUP "&Save"
-        BEGIN
-            MENUITEM "&Complete",                   ID_POPUP_SAVE_COMPLETE
-            MENUITEM "&Image",                      ID_POPUP_SAVEASPCX_IMAGE
-            MENUITEM "&Extra image",                ID_POPUP_SAVEASPCX_EXTRAIMAGE
-
-        END
-        MENUITEM SEPARATOR
-        MENUITEM "&Insert\tIns",                ID_POPUP_INSERT
-        MENUITEM "&Delete\tDel",                ID_POPUP_DELETE
-        MENUITEM SEPARATOR
-        MENUITEM "&Properties\tAlt+Enter",      ID_POPUP_PROPERTIES
-    END
-END
-
-
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -371,54 +418,6 @@ BEGIN
     "\0"
 END
 
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 156, 165
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Properties"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,42,144,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,99,144,50,14
-    LTEXT           "X:",IDC_STATIC,12,7,8,8
-    LTEXT           "Y:",IDC_STATIC,12,26,8,8
-    LTEXT           "X Extra:",IDC_STATIC,12,45,26,8
-    LTEXT           "Y Extra:",IDC_STATIC,12,64,26,8
-    LTEXT           "Terrain type:",IDC_STATIC,12,102,40,8
-    LTEXT           "Height:",IDC_STATIC,12,83,24,8
-    LTEXT           "Ramp type:",IDC_STATIC,12,121,37,8
-    EDITTEXT        IDC_X,57,7,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_Y,57,26,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_X_EXTRA,57,45,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_Y_EXTRA,57,64,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_HEIGHT,57,83,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_TERRAIN_TYPE,57,102,91,13,ES_AUTOHSCROLL | ES_NUMBER
-    EDITTEXT        IDC_RAMP_TYPE,57,121,91,13,ES_AUTOHSCROLL | ES_NUMBER
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_PROPERTIES, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 149
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 158
-    END
-END
 #endif    // APSTUDIO_INVOKED
 
 #endif    // Dutch (Netherlands) resources

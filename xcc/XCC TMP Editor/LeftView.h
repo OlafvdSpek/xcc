@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include "XCC TMP EditorDoc.h"
+#include "XCC TMP EditorView.h"
 #include "virtual_image.h"	// Added by ClassView
 
 class CLeftView : public CListView
@@ -39,6 +40,8 @@ public:
 
 // Implementation
 public:
+	void set_other_pane(CXCCTMPEditorView* other_pane);
+	int load();
 	int load_image(Cvirtual_image& image);
 	int save_image(const Cvirtual_image& image);
 	int compare(int id_a, int id_b);
@@ -86,11 +89,14 @@ protected:
 	afx_msg void OnPopupPasteComplete();
 	afx_msg void OnPopupLoadComplete();
 	afx_msg void OnPopupSaveComplete();
+	afx_msg void OnPopupDeleteExtraimage();
+	afx_msg void OnUpdatePopupDeleteExtraimage(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	string m_buffer[4];
 	int m_buffer_w;
+	CXCCTMPEditorView* m_other_pane;
 	int m_sort_column;
 	bool m_sort_reverse;
 };

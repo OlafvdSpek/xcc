@@ -26,7 +26,10 @@ void xcc_log::attach_file(const string& name)
 void xcc_log::write_line(const string& s)
 {
 	if (log_f.is_open())
+	{
 		log_f << s << endl;
+		log_f.flush();
+	}
 #ifdef __AFX_H__
 	if (log_window)
 		log_window->write_line(s);

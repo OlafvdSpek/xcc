@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\misc" /I "..\..\misc\libjpeg" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /o "NUL" /win32
 # ADD BASE RSC /l 0x413 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib /nologo /subsystem:windows /machine:I386 /out:"Release/XCC AV Player.exe"
+# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /out:"Release/XCC AV Player.exe"
 
 !ELSEIF  "$(CFG)" == "XCC Audio Player - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /Zi /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\misc" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\misc" /I "..\..\misc\libjpeg" /I "..\..\misc\zlib" /I "..\..\misc\libpng" /I "..\..\xhp\cgi-bin\misc" /D "_DEBUG" /D "WIN32" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
 # SUBTRACT CPP /Fr
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /o "NUL" /win32
@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/XCC AV Player.exe" /pdbtype:sept
+# ADD LINK32 ddraw.lib dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /out:"Debug/XCC AV Player.exe" /pdbtype:sept
 
 !ENDIF 
 
@@ -93,131 +93,11 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\misc\art_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\avi_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\blowfish.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\crc.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\dd_window.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\ddpf_conversion.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\ETSLayout.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\file32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\fname.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\id_log.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ima_adpcm_wav_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_ra_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_td_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_cache.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mp3_frame_header.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pak_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\palet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\png_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\riff_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\rules_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\sound_ts_ini_reader.cpp
 # End Source File
 # Begin Source File
 
@@ -226,35 +106,11 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\string_conversion.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\theme_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\timer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\virtual_tfile.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_file.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\vqa_play.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\wav_file.cpp
 # End Source File
 # Begin Source File
 
@@ -291,10 +147,6 @@ SOURCE=..\misc\xcc_ds.cpp
 # Begin Source File
 
 SOURCE=..\misc\xcc_dsb.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_registry.cpp
 # End Source File
 # Begin Source File
 

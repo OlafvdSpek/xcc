@@ -92,63 +92,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=..\misc\art_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\aud_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\audio_idx_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\avi_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\bink_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\blowfish.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_structures.cpp
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cps_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\crc.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\csf_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\ddpf_conversion.cpp
 # End Source File
 # Begin Source File
 
@@ -160,59 +104,11 @@ SOURCE=..\..\misc\ETSLayout.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\extract_object.cpp
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\xhp\cgi-bin\misc\file31.cpp"
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\file32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\fname.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\fs_ini_file.cpp
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\hva_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\id_log.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ima_adpcm_wav_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ima_adpcm_wav_encode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\image_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\image_tools.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\jpeg_file.cpp
 # End Source File
 # Begin Source File
 
@@ -224,103 +120,7 @@ SOURCE=.\MainFrm.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\map_ra_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_td_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\map_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_cache.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_sfl.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mp3_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mp3_frame_header.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\neat_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\neat_key_list.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\ogg_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pak_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pak_file.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pal_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\palet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\png_file.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\ResizeDlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\riff_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\rules_ts_ini_reader.cpp
 # End Source File
 # Begin Source File
 
@@ -328,39 +128,7 @@ SOURCE=.\SearchFileDlg.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\shp_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_dune2_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_images.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\shp_properties_dlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_ts_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\shp_ts_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\sound_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\st_file.cpp
 # End Source File
 # Begin Source File
 
@@ -369,75 +137,11 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\string_conversion.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\theme_ts_ini_reader.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=..\..\misc\timer.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\misc\tmp_ra.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\tmp_ts_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\virtual_audio.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\virtual_binary.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\virtual_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\virtual_image.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\virtual_tfile.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\voc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vqa_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\vxl_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\wav_file.cpp
-# End Source File
-# Begin Source File
-
 SOURCE="..\..\xhp\cgi-bin\misc\web_tools.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\wsa_dune2_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\wsa_file.cpp
 # End Source File
 # Begin Source File
 
@@ -458,26 +162,6 @@ SOURCE=".\XCC MixerDoc.cpp"
 # Begin Source File
 
 SOURCE=".\XCC MixerView.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_apps.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_lmd_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_log.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_registry.cpp
 # End Source File
 # Begin Source File
 
