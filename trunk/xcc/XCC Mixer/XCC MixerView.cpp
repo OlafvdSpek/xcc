@@ -770,6 +770,8 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_pal_jasc;
 	case ft_pcx:
 		return d == ft_clipboard || d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tmp_ts || d == ft_vxl;
+	case ft_png:
+		return d == ft_clipboard;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
@@ -778,6 +780,8 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png || d == ft_tga;
 	case ft_text:
 		return d == ft_html || d == ft_hva || d == ft_vxl;
+	case ft_tga:
+		return d == ft_clipboard;
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
@@ -2816,27 +2820,18 @@ void CXCCMixerView::OnPopupClipboardCopy()
 			break;
 		}
 	case ft_jpeg:
-		{
-			Cjpeg_file f;
-			error = open_f_id(f, id);
-			if (!error)
-			{
-				Cvirtual_image image;
-				f.decode(image);
-				error = image.set_clipboard();
-				f.close();
-			}
-			break;
-		}
 	case ft_pcx:
+	case ft_png:
+	case ft_tga:
 		{
-			Cpcx_file f;
+			Ccc_file f(true);
 			error = open_f_id(f, id);
 			if (!error)
 			{
 				Cvirtual_image image;
-				f.decode(image);
-				error = image.set_clipboard();
+				error = image.load(f.get_vdata());
+				if (!error)
+					error = image.set_clipboard();
 				f.close();
 			}
 			break;
