@@ -825,15 +825,14 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
 	case ft_dds:
 	case ft_jpeg:
+	case ft_pcx:
 	case ft_png:
 	case ft_tga:
-		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
+		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pal || d == ft_pcx || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
 	case ft_hva:
 		return d == ft_csv;
 	case ft_pal:
 		return d == ft_pal_jasc;
-	case ft_pcx:
-		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
@@ -1186,14 +1185,13 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_pal(int i, Cfname fname) const
 {
-	fname.set_ext(".pal");
-	Cpcx_file f;
-	int error = open_f_index(f, i);
-	if (error)
-		return error;
+	Cvirtual_image image = get_vimage(i);
+	if (!image.palet())
+		return 1;
 	t_palet palet;
-	memcpy(palet, f.get_palet(), sizeof(t_palet));
+	memcpy(palet, image.palet(), sizeof(t_palet));
 	convert_palet_24_to_18(palet);
+	fname.set_ext(".pal");
 	return file32_write(fname, palet, sizeof(t_palet));
 }
 
@@ -1346,15 +1344,17 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	string base_name = get_base_name(fname);
 	if (get_index_from_name(base_name, fname))
 		return em_bad_fname;
-	Cpcx_file f;
-	int error = open_f_index(f, _i);
-	if (error)
-		return error;
-	memcpy(s_palet, *f.get_palet(), sizeof(t_palet));
-	int cx = f.cx();
-	int cy = f.cy();
+	Cvirtual_image image = get_vimage(_i);
+	if (image.palet())
+		memcpy(s_palet, image.palet(), sizeof(t_palet));
+	else
+	{
+		memcpy(s_palet, get_default_palet(), sizeof(t_palet));
+		convert_palet_18_to_24(s_palet);
+	}
+	int cx = image.cx();
+	int cy = image.cy();
 	int c_images = 0;
-	f.close();
 	int index[1000];
 	for (int i = 0; i < 1000; i++)
 		index[i] = -1;
@@ -1369,21 +1369,16 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 		int id = index[i];
 		if (id == -1)
 			continue;
-		if (error = open_f_id(f, id))
-			return error;
-		if (f.cx() != cx || f.cy() != cy)
+		image = get_vimage_id(id);
+		if (image.cx() != cx || image.cy() != cy)
 			return em_bad_size;
-		if (f.cb_pixel() != 1)
-			return em_bad_depth;
+		image.cb_pixel(1, s_palet);
 		if (!s)
-		{
 			c_images = i + 1;
-			s.write_start(cx * cy * c_images);
-		}
-		pcx_decode(f.get_image(), s.data_edit() + cx * cy * i, *f.get_header());
+		memcpy(s.write_start(cx * cy * c_images) + cx * cy * i, image.image(), cx * cy);
 	}
-	if (error || !s)
-		return error;
+	if (!s)
+		return 1;
 	if (GetMainFrame()->use_palet_for_conversion())
 	{
 		byte rp[256];
@@ -1406,7 +1401,6 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	int cx;
 	int cy;
 	int c_images;
-	int error = 0;
 	fname.set_ext(".shp");
 	Cvirtual_binary s;
 	t_palet s_palet;
@@ -1416,7 +1410,8 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	case ft_shp:
 		{
 			Cshp_file f;
-			if (error = open_f_index(f, i))
+			int error = open_f_index(f, i);
+			if (error)
 				return error;
 			memcpy(s_palet, GetMainFrame()->get_game_palet(convert_from_td ? game_td : game_ra), sizeof(t_palet));
 			convert_palet_18_to_24(s_palet);
@@ -1440,63 +1435,47 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		base_name = get_base_name(fname);
 		if (get_index_from_name(base_name, fname))
 			return em_bad_fname;
-		Ccc_file f(true);
-		if (error = open_f_index(f, i))
-			return error;
+		Cvirtual_image image = get_vimage(i);
+		if (image.palet())
+			memcpy(s_palet, image.palet(), sizeof(t_palet));
+		else
 		{
-			Cvirtual_image image;
-			error = image.load(f.get_vdata());
-			f.close();
-			if (!error)
+			memcpy(s_palet, get_default_palet(), sizeof(t_palet));
+			convert_palet_18_to_24(s_palet);
+		}
+		cx = image.cx();
+		cy = image.cy();
+		c_images = 0;
+		int index[10000];
+		for (int i = 0; i < 10000; i++)
+			index[i] = -1;
+		for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+		{
+			int z = get_index_from_name(base_name, j->second.name);
+			if (z != -1 && z < 10000)
+				index[z] = j->first;
+		}
+		while (i--)
+		{
+			int id = index[i];
+			if (id == -1)
+				continue;
+			image = get_vimage_id(id);
+			if (image.cx() != cx || image.cy() != cy)
+				return em_bad_size;
+			image.cb_pixel(1, s_palet);
+			if (!s)
 			{
-				if (image.palet())
-					memcpy(s_palet, image.palet(), sizeof(t_palet));
-				else
-				{
-					memcpy(s_palet, get_default_palet(), sizeof(t_palet));
-					convert_palet_18_to_24(s_palet);
-				}
-				cx = image.cx();
-				cy = image.cy();
-				c_images = 0;
-				int index[10000];
-				for (int i = 0; i < 10000; i++)
-					index[i] = -1;
-				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
-				{
-					int z = get_index_from_name(base_name, j->second.name);
-					if (z != -1 && z < 10000)
-						index[z] = j->first;
-				}
-				while (i--)
-				{
-					int id = index[i];
-					if (id == -1)
-						continue;
-					if (error = open_f_id(f, id))
-						return error;
-					if (error = image.load(f.get_vdata()))
-						return error;
-					f.close();
-					if (image.cx() != cx || image.cy() != cy)
-						return em_bad_size;
-					if (image.cb_pixel() != 1)
-						image.decrease_color_depth(1, s_palet);
-					if (!s)
-					{
-						c_images = i + 1;
-						if (convert_shadow)
-							c_images <<= 1;
-						s.write_start(cx * cy * c_images);
-					}
-					memcpy(s.data_edit() + cx * cy * i, image.image(), cx * cy);
-				}
+				c_images = i + 1;
+				if (convert_shadow)
+					c_images <<= 1;
 			}
+			memcpy(s.write_start(cx * cy * c_images) + cx * cy * i, image.image(), cx * cy);
 		}
 		break;
 	}
-	if (error || !s)
-		return error;
+	if (!s)
+		return 1;
 	if (convert_shadow)
 	{
 		int count = cx * cy * c_images >> 1;
