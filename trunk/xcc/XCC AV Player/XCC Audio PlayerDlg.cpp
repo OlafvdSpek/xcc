@@ -616,42 +616,6 @@ int CXCCAudioPlayerDlg::play_wav(Cwav_file& f)
 			else if (dsb.play(0))
 				error = 1;
 		}
-		/*
-		while (cs_remaining)
-		{	
-			m_statusbar = n(cs_remaining / format_chunk.samplerate).c_str();
-			UpdateData(false);
-			for (int channel = 0; channel < c_channels; channel++)
-			{
-				const t_ima_adpcm_chunk_header& chunk_header = *reinterpret_cast<const t_ima_adpcm_chunk_header*>(r);
-				r += sizeof(t_ima_adpcm_chunk_header);
-				int cs_chunk = min(cs_remaining, format_chunk.block_align / c_channels - sizeof(t_ima_adpcm_chunk_header) << 1);
-				decode.init(chunk_header.index, chunk_header.sample);
-				cs_remaining -= cs_chunk;
-				void* p1;
-				dword s1;
-				if (dsb.lock(writeofs, cb_sample * cs_chunk, &p1, &s1, 0, 0))
-					error = 1;
-				else
-				{
-					short* w = reinterpret_cast<short*>(p1);
-					*w++ = chunk_header.sample;
-					decode.decode_chunk(r, w, cs_chunk);
-					r += cs_chunk >> 1;
-					writeofs += cb_sample * cs_chunk;
-					if (dsb.unlock(p1, s1, 0, 0))
-						error = 1;
-					else if (!playing)
-					{
-						if (dsb.play(0))
-							error = 1;
-						else
-							playing = true;
-					}
-				}
-			}
-		}
-		*/
 		delete[] s;
 	}
 	return error;
