@@ -5,6 +5,8 @@
 #include "XCC Map Decoder.h"
 #include "XCC Map DecoderDlg.h"
 
+#include "xcc_dirs.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -45,17 +47,10 @@ BOOL CXCCMapDecoderApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
+	xcc_dirs::load_from_registry();
+
 	CXCCMapDecoderDlg dlg;
 	m_pMainWnd = &dlg;
-	int nResponse = dlg.DoModal();
-	if (nResponse == IDOK)
-	{
-	}
-	else if (nResponse == IDCANCEL)
-	{
-	}
-
-	// Since the dialog has been closed, return FALSE so that we exit the
-	//  application, rather than start the application's message pump.
-	return FALSE;
+	dlg.DoModal();
+	return false;
 }

@@ -176,7 +176,7 @@ CG_IDR_POPUP_MIX_VIEW MENU DISCARDABLE
 BEGIN
     POPUP "_POPUP_"
     BEGIN
-        MENUITEM "Open read-only",              ID_POPUP_OPEN
+        MENUITEM "Open read-only\tEnter",       ID_POPUP_OPEN
         MENUITEM "Open read-write",             ID_POPUP_OPEN_FOR_EDIT
         MENUITEM "Open with FinalSun",          ID_POPUP_OPEN_WITH_FINALSUN
         MENUITEM "Open with FinalAlert",        ID_POPUP_OPEN_WITH_FINALALERT
@@ -254,6 +254,7 @@ BEGIN
     "P",            ID_POPUP_PLAY,          VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_POPUP_DELETE,        VIRTKEY, NOINVERT
     VK_F5,          ID_POPUP_REFRESH,       VIRTKEY, NOINVERT
+    VK_RETURN,      ID_POPUP_OPEN,          VIRTKEY, NOINVERT
 END
 
 

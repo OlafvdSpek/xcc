@@ -6,9 +6,12 @@
 #include "XCC Map DecoderDlg.h"
 
 #include <fstream>
+#include <strstream>
 #include "cc_file.h"
 #include "fname.h"
 #include "map_ts_encoder.h"
+#include "mix_file_write.h"
+#include "string_conversion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -118,10 +121,29 @@ void CXCCMapDecoderDlg::convert(string _fname)
 		int error = k.load_key(f.get_data(), f.get_size());
 		if (!error)
 		{
-			fname.set_ext(".mpr");
-			ofstream g(static_cast<string>(fname).c_str());
-			Cmap_ts_encoder::write_map(g, k);
-			Cmap_ts_encoder::write_map(ofstream(static_cast<string>(fname).c_str()), k);
+			if (Cmap_ts_encoder::wrong_version(k))
+				MessageBox("Another version of XCC Map Decoder is needed to open this map.", NULL, MB_ICONERROR);
+			else if (Cmap_ts_encoder::write_mmx(k))
+			{
+				fname.set_ext(".mmx");
+				char b[MAX_PATH];
+				int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
+				if (length > 0 && length < MAX_PATH)
+					fname = to_lower(b);
+				string title = fname.get_ftitle();
+				strstream ini, pkt;
+				Cmix_file_write mmx_f;
+				Cmap_ts_encoder::write_map(ini, k);
+				Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
+				mmx_f.add_file(title + ".map", ini.str(), ini.pcount());
+				mmx_f.add_file(title + ".pkt", pkt.str(), pkt.pcount());
+				error = mmx_f.write(fname);
+			}
+			else
+			{
+				fname.set_ext(".mpr");				
+				Cmap_ts_encoder::write_map(ofstream(static_cast<string>(fname).c_str()), k);
+			}
 		}
 		f.close();
 		if (error)

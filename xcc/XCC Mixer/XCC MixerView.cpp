@@ -11,6 +11,7 @@
 #include "resource.h"
 
 #include <fstream>
+#include <strstream>
 #include <id_log.h>
 #include <pal_file.h>
 #include <string_conversion.h>
@@ -24,9 +25,12 @@
 #include "ima_adpcm_wav_encode.h"
 #include "image_tools.h"
 #include "jpeg_file.h"
+#include "map_ts_encoder.h"
+#include "map_ts_ini_reader.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
+#include "pkt_ts_ini_reader.h"
 #include "resizedlg.h"
 #include "shp_decode.h"
 #include "shp_dune2_file.h"
@@ -267,6 +271,16 @@ void CXCCMixerView::open_location_dir(const string& name)
 
 void CXCCMixerView::open_location_mix(const string& name)
 {
+	/*
+	Cfname fname = to_lower(name);
+	if (fname.get_fext() == ".mmx")
+	{
+		fname.set_ext(".map");
+		mix_database::add_name(game_ra2, fname.get_fname(), "-");
+		fname.set_ext(".pkt");
+		mix_database::add_name(game_ra2, fname.get_fname(), "-");
+	}
+	*/
 	Cmix_file* mix_f = new Cmix_file;
 	if (mix_f->open(name))
 		delete mix_f;
@@ -736,6 +750,8 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp_ts:
 		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
 	case ft_text:
+		if (d == ft_html)
+			return true;
 		return d == ft_hva;
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
@@ -744,7 +760,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_wav:
 		return d == ft_aud || d == ft_wav_ima_adpcm || d == ft_wav_pcm;
 	case ft_xif:
-		return d == ft_html || d == ft_vxl;
+		return d == ft_html || d == ft_text || d == ft_vxl;
 	}
 	return false;
 }
@@ -799,10 +815,10 @@ static void copy_succeeded(const Cfname& fname)
 
 void CXCCMixerView::copy_as(t_file_type ft) const
 {
+	int error = 1;
 	for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
 	{
 		const string fname = m_other_pane->get_dir() + m_index.find(get_id(*i))->second.name;
-		int error;
 		switch (ft)
 		{
 		case -1:
@@ -1037,18 +1053,46 @@ int CXCCMixerView::copy_as_html(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".html");
-	Cxif_file f;
+	Ccc_file f(true);
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		Cxif_key k;
-		error = k.load_key(f.get_data(), f.get_size());
-		if (!error)
+		switch (f.get_file_type(false))
 		{
-			char d[64 << 10];
-			Cextract_object::report(k, d, "");
-			ofstream g(fname.get_all().c_str());
-			g << d;
+		case ft_map_ts:
+			{
+				Cmap_ts_ini_reader ir;
+				ir.fast(true);
+				ir.process(f.get_data(), f.get_size());
+				strstream ini;
+				Cmap_ts_encoder encoder(ini, true);
+				Cmap_ts_encoder::t_header header;
+				header.cx = ir.get_map_data().size_right;
+				header.cy = ir.get_map_data().size_bottom;
+				encoder.header(header);
+				encoder.process(f.get_data(), f.get_size());
+				ir.write_report(ofstream(fname.get_all().c_str()), fname, encoder);
+			}
+			break;
+		case ft_pkt_ts:
+			{
+				Cpkt_ts_ini_reader ir;
+				ir.process(f.get_data(), f.get_size());
+				ir.write_report(ofstream(fname.get_all().c_str()));
+			}
+			break;
+		case ft_xif:
+			{
+				Cxif_key k;
+				error = k.load_key(f.get_data(), f.get_size());
+				if (!error)
+				{
+					char d[64 << 10];
+					Cextract_object::report(k, d, "");
+					ofstream(fname.get_all().c_str()) << d;
+				}
+			}
+			break;
 		}
 		f.close();
 	}
@@ -1105,7 +1149,7 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 		else
 			pcx_decode(f.get_image(), s, *f.get_header());
 		byte* d = new byte[cx * cy * 6];
-		int cb_d = encode5(s, d, cb_s);
+		int cb_d = encode5(s, d, cb_s, 5);
 		byte* e = new byte[cb_d << 1];
 		int cb_e = encode64(d, e, cb_d);
 		ofstream g(fname.get_all().c_str());
@@ -1624,12 +1668,33 @@ int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".txt");
-	Cst_file f;
-	error = open_f_index(f, i);
-	if (!error)
+	switch (m_index.find(get_id(i))->second.ft)
 	{
-		error =  f.extract_as_text(fname);
-		f.close();
+	case ft_st:
+		{
+			Cst_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error =  f.extract_as_text(fname);
+				f.close();
+			}
+			break;
+		}
+	case ft_xif:
+		{
+			Cxif_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				Cxif_key key;
+				error = f.decode(key);
+				if (!error)
+					key.dump(ofstream(static_cast<string>(fname).c_str()), true);
+				f.close();
+			}
+			break;
+		}
 	}
 	return error;
 }
@@ -2677,6 +2742,7 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 {
 	if (m_reading)
 	{
+		int count = 16;
 		for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
 		{
 			t_index_entry& e = i->second;
@@ -2690,7 +2756,7 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 				}
 				else
 				{
-					set_msg("Reading " + e.name);
+					// set_msg("Reading " + e.name);
 					e.ft = f.get_file_type();
 					e.size = f.get_size();
 					f.close();
@@ -2700,9 +2766,13 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 				lvf.flags = LVFI_PARAM;
 				lvf.lParam = i->first;
 				lc.Update(lc.FindItem(&lvf, -1));
-				return true;
+				m_sort_column = -1;
+				if (!count--)
+					return true;
 			}
 		}
+		sort_list(0, false);
+		sort_list(1, false);
 		autosize_colums();
 		m_reading = false;
 	}

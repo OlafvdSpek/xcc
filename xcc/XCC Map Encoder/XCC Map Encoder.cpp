@@ -5,6 +5,8 @@
 #include "XCC Map Encoder.h"
 #include "XCC Map EncoderDlg.h"
 
+#include "xcc_dirs.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -44,6 +46,8 @@ BOOL CXCCMapEncoderApp::InitInstance()
 #else
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
+
+	xcc_dirs::load_from_registry();
 
 	CXCCMapEncoderDlg dlg;
 	m_pMainWnd = &dlg;

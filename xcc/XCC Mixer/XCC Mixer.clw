@@ -36,15 +36,15 @@ Class14=CXSE_list
 Resource9=IDD_DIRECTORIES
 Resource10=CG_IDR_POPUP_MIX_VIEW
 Class15=Cshp_properties_dlg
-Resource11=IDD_XSTE (English (U.S.))
-Resource12=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
-Resource13=IDD_XSTE_EDIT (English (U.S.))
-Resource14=IDD_XSE (English (U.S.))
-Resource15=IDR_MAINFRAME (English (U.S.))
-Resource16=IDD_DIRECTORIES (English (U.S.))
-Resource17=IDD_RESIZE (English (U.S.))
-Resource18=IDD_SEARCH_FILE (English (U.S.))
-Resource19=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
+Resource11=IDD_XSTE_EDIT (English (U.S.))
+Resource12=IDD_XSE (English (U.S.))
+Resource13=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
+Resource14=IDR_MAINFRAME (English (U.S.))
+Resource15=IDD_DIRECTORIES (English (U.S.))
+Resource16=IDD_RESIZE (English (U.S.))
+Resource17=IDD_SEARCH_FILE (English (U.S.))
+Resource18=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
+Resource19=IDD_XSTE (English (U.S.))
 Resource20=IDD_SHP_PROPERTIES (English (U.S.))
 
 [CLS:CMainFrame]
@@ -210,7 +210,8 @@ Command5=ID_FILE_OPEN
 Command6=ID_POPUP_PLAY
 Command7=ID_POPUP_DELETE
 Command8=ID_POPUP_REFRESH
-CommandCount=8
+Command9=ID_POPUP_OPEN
+CommandCount=9
 
 [DLG:IDD_DIRECTORIES]
 Type=1
@@ -482,7 +483,7 @@ CommandCount=41
 
 [DLG:IDD_DIRECTORIES (English (U.S.))]
 Type=1
-Class=?
+Class=CDirectoriesDlg
 ControlCount=22
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
@@ -509,7 +510,7 @@ Control22=IDC_RESET_CD,button,1342242816
 
 [DLG:IDD_RESIZE (English (U.S.))]
 Type=1
-Class=?
+Class=CResizeDlg
 ControlCount=13
 Control1=IDC_MAINTAIN_ASPECT_RATIO,button,1342242819
 Control2=IDOK,button,1342242817
@@ -527,7 +528,7 @@ Control13=IDC_STATIC,button,1342177287
 
 [DLG:IDD_SEARCH_FILE (English (U.S.))]
 Type=1
-Class=?
+Class=CSearchFileDlg
 ControlCount=4
 Control1=IDC_STATIC,static,1342308352
 Control2=IDC_FILENAME,edit,1350631552
@@ -536,7 +537,7 @@ Control4=IDCANCEL,button,1342242816
 
 [DLG:IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))]
 Type=1
-Class=?
+Class=CXCCObjectExtractorDlg
 ControlCount=14
 Control1=IDOK,button,1342242816
 Control2=IDC_LIST,SysListView32,1350631435
@@ -555,7 +556,7 @@ Control14=IDC_EXTRACT_TO_BUTTON,button,1342242816
 
 [DLG:IDD_XSTE (English (U.S.))]
 Type=1
-Class=?
+Class=CXSTE_dlg
 ControlCount=7
 Control1=IDOK,button,1342242816
 Control2=IDCANCEL,button,1342242816
@@ -567,7 +568,7 @@ Control7=IDC_CAT_LIST,SysListView32,1350664223
 
 [DLG:IDD_XSTE_EDIT (English (U.S.))]
 Type=1
-Class=?
+Class=CXSTE_edit_dlg
 ControlCount=5
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
@@ -577,7 +578,7 @@ Control5=IDC_EXTRA_VALUE,edit,1350631552
 
 [DLG:IDD_XSE (English (U.S.))]
 Type=1
-Class=?
+Class=CXSE_dlg
 ControlCount=10
 Control1=IDC_LIST,SysListView32,1350631433
 Control2=IDC_PLAY,button,1342242817
@@ -592,7 +593,7 @@ Control10=IDC_EXTRACT_TO_BUTTON,button,1342242816
 
 [DLG:IDD_SHP_PROPERTIES (English (U.S.))]
 Type=1
-Class=?
+Class=Cshp_properties_dlg
 ControlCount=8
 Control1=IDOK,button,1342242817
 Control2=IDCANCEL,button,1342242816
