@@ -139,7 +139,9 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 void Cdlg_login::OnOK() 
 {
 	CWaitCursor wc;
-	m_edit.Empty();
+	m_edit = "server: ";
+	m_edit += Csocket::inet_ntoa(m_ipa).c_str();
+	m_edit += "\r\n";
 	Csocket s;
 	s.open(SOCK_STREAM, true);
 	if (s == -1)
@@ -161,9 +163,6 @@ void Cdlg_login::OnOK()
 			<< "serial " << game.serial << endl
 			<< "user UserName e e e" << endl
 			<< "quit" << endl;
-		m_edit += "server: ";
-		m_edit += Csocket::inet_ntoa(m_ipa).c_str();
-		m_edit += "\r\n";
 		m_edit += "nick: ";
 		m_edit += nick.name.c_str();
 		m_edit += "\r\n";
