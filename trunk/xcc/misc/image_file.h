@@ -30,6 +30,7 @@ public:
 };
 
 int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
+Cvirtual_file image_file_write(t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
 int image_file_write(const string& name, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
 
 #endif // !defined(AFX_IMAGE_FILE_H__0D511341_D7FA_11D4_A95D_0050042229FC__INCLUDED_)

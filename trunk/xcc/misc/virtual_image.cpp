@@ -104,6 +104,11 @@ int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
 	return image_file_write(f, ft, image(), palet(), m_cx, m_cy);
 }
 
+Cvirtual_file Cvirtual_image::save(t_file_type ft) const
+{
+	return image_file_write(ft, image(), palet(), m_cx, m_cy);
+}
+
 int Cvirtual_image::save(const string& fname, t_file_type ft) const
 {
 	return image_file_write(fname, ft, image(), palet(), m_cx, m_cy);

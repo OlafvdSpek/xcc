@@ -55,6 +55,6 @@ public:
 };
 
 Cvirtual_file tga_file_write(const byte* image, int cx, int cy, int cb_pixel);
-int tga_file_write(const string& name, const byte* image, int cx, int cy, int cb_pixel);
+Cvirtual_file tga_file_write(const byte* image, int cx, int cy, const t_palet_entry* palet);
 
 #endif // !defined(AFX_TGA_FILE_H__526D089F_903E_4043_9FA3_B271662E92AC__INCLUDED_)
