@@ -4,7 +4,6 @@
 #include "stdafx.h"
 #include "XCC Audio PlayerDlg.h"
 #include "XCCAudioPlayerInfoDlg.h"
-#include "XCCSetDirectoriesDlg.h"
 
 #include "ima_adpcm_wav_decode.h"
 #include "riff_structures.h"
@@ -56,7 +55,6 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkList1)
 	ON_BN_CLICKED(IDEXTRACT, OnExtract)
 	ON_BN_CLICKED(IDOPENMIX, OnOpenmix)
-	ON_BN_CLICKED(IDSETDIRECTORIES, OnSetdirectories)
 	ON_BN_CLICKED(IDPLAY, OnPlay)
 	ON_BN_CLICKED(IDSTOP, OnStop)
 	ON_BN_CLICKED(IDINFO, OnInfo)
@@ -71,8 +69,8 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDOPENVQA, OnOpenvqa)
 	ON_BN_CLICKED(IDC_OpenTheme, OnOpenTheme)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnColumnclickList)
-	ON_WM_DESTROY()
 	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST1, OnGetdispinfoList1)
+	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -106,7 +104,6 @@ BOOL CXCCAudioPlayerDlg::OnInitDialog()
 				<< item(IDEXTRACT, NORESIZE)
 				<< item(IDEXTRACT_RAW, NORESIZE)
 				<< item(IDOPENMIX, NORESIZE)
-				<< item(IDSETDIRECTORIES, NORESIZE)
 				<< item(IDPLAY, NORESIZE)
 				<< item(IDSHUFFLE, NORESIZE)
 				<< item(IDSTOP, NORESIZE)
@@ -286,14 +283,6 @@ void CXCCAudioPlayerDlg::OnOpenvqa()
 			f.close();
 		}
 	}	
-}
-
-void CXCCAudioPlayerDlg::OnSetdirectories() 
-{
-	/*
-	CXCCSetDirectoriesDlg dlg;
-	dlg.DoModal();
-	*/
 }
 
 int CXCCAudioPlayerDlg::OpenMix(const string &fname)

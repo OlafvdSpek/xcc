@@ -260,6 +260,7 @@
 #define ID_VIEW_PALET_SELECT            33120
 #define ID_VIEW_PALET_AUTO_SELECT       33121
 #define ID_POPUP_COMPACT                33122
+#define ID_POPUP_COPY_AS_TGA            33123
 #define ID_VIEW_PALET_PAL000            40000
 #define ID_VIEW_PALET_PAL001            40001
 #define ID_VIEW_PALET_PAL002            40002
@@ -1267,7 +1268,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        140
-#define _APS_NEXT_COMMAND_VALUE         33123
+#define _APS_NEXT_COMMAND_VALUE         33124
 #define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

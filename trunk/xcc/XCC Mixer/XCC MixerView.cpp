@@ -115,7 +115,7 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_HVA, OnUpdatePopupCopyAsHVA)
 	ON_COMMAND(ID_POPUP_COPY_AS_PAL, OnPopupCopyAsPAL)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PAL, OnUpdatePopupCopyAsPAL)
-	ON_COMMAND(ID_POPUP_COPY_AS_SHP_TS, OnPopupCopyAsShHP_TS)
+	ON_COMMAND(ID_POPUP_COPY_AS_SHP_TS, OnPopupCopyAsSHP_TS)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_SHP_TS, OnUpdatePopupCopyAsSHP_TS)
 	ON_COMMAND(ID_POPUP_COPY_AS_TMP_TS, OnPopupCopyAsTMP_TS)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TMP_TS, OnUpdatePopupCopyAsTMP_TS)
@@ -161,10 +161,12 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_EXPLORE, OnUpdatePopupExplore)
 	ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
 	ON_WM_DROPFILES()
-	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
 	ON_COMMAND(ID_POPUP_COMPACT, OnPopupCompact)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COMPACT, OnUpdatePopupCompact)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
+	ON_COMMAND(ID_POPUP_COPY_AS_TGA, OnPopupCopyAsTga)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TGA, OnUpdatePopupCopyAsTga)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -764,7 +766,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_wsa:
 		return d == ft_pcx;
 	case ft_dds:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx || d == ft_png;
+		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx || d == ft_png || ft_tga;
 	case ft_hva:
 		return d == ft_csv;
 	case ft_jpeg:
@@ -800,8 +802,6 @@ bool CXCCMixerView::can_copy()
 
 bool CXCCMixerView::can_delete()
 {
-	if (!can_edit())
-		return false;
 	m_index_selected.clear();
 	int i = GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	while (i != -1)
@@ -882,6 +882,7 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		case ft_jpeg:
 		case ft_pcx:
 		case ft_png:
+		case ft_tga:
 			error = copy_as_pcx(*i, fname, ft);
 			break;
 		case ft_map_ts_preview:
@@ -1283,6 +1284,9 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 		break;
 	case ft_pcx:
 		fname.set_ext(".pcx");
+		break;
+	case ft_tga:
+		fname.set_ext(".tga");
 		break;
 	default:
 		fname.set_ext(".png");
@@ -2225,7 +2229,7 @@ void CXCCMixerView::OnUpdatePopupCopyAsSHP(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_shp));
 }
 
-void CXCCMixerView::OnPopupCopyAsShHP_TS()
+void CXCCMixerView::OnPopupCopyAsSHP_TS()
 {
 	copy_as(ft_shp_ts);
 }
@@ -2233,6 +2237,17 @@ void CXCCMixerView::OnPopupCopyAsShHP_TS()
 void CXCCMixerView::OnUpdatePopupCopyAsSHP_TS(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(can_copy_as(ft_shp_ts));
+}
+
+
+void CXCCMixerView::OnPopupCopyAsTga() 
+{
+	copy_as(ft_tga);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsTga(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_tga));	
 }
 
 void CXCCMixerView::OnPopupCopyAsText()
@@ -2447,7 +2462,7 @@ void CXCCMixerView::OnPopupDelete()
 
 void CXCCMixerView::OnUpdatePopupDelete(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(can_delete());
+	pCmdUI->Enable(can_edit() && can_delete());
 }
 
 t_game CXCCMixerView::get_game()

@@ -163,6 +163,10 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\tga_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\timer.cpp
 # End Source File
 # Begin Source File
@@ -216,10 +220,6 @@ SOURCE=.\XSTE_dlg.cpp
 # Begin Source File
 
 SOURCE=.\XSTE_edit_dlg.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Group
 # Begin Group "Header Files"
@@ -340,6 +340,10 @@ SOURCE=..\misc\st_file.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\tga_file.h
 # End Source File
 # Begin Source File
 

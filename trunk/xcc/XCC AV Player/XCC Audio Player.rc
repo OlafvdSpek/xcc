@@ -35,7 +35,7 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Audio Player.ico"
 // Dialog
 //
 
-IDD_XCCAUDIOPLAYER_DIALOG DIALOGEX 0, 0, 512, 316
+IDD_XCCAUDIOPLAYER_DIALOG DIALOGEX 0, 0, 84, 230
 STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_APPWINDOW
@@ -44,42 +44,23 @@ FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
                     LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
-                    WS_TABSTOP,6,7,426,287
-    PUSHBUTTON      "Exit",IDOK,439,7,66,14
-    LTEXT           "Ready",IDC_STATUSBAR,6,298,500,11,SS_NOPREFIX | 
+                    WS_TABSTOP,6,7,6,6
+    LTEXT           "Ready",IDC_STATUSBAR,0,219,84,11,SS_NOPREFIX | 
                     SS_SUNKEN
-    PUSHBUTTON      "Extract...",IDEXTRACT,439,23,66,14
-    PUSHBUTTON      "Extract raw...",IDEXTRACT_RAW,439,39,66,14
-    PUSHBUTTON      "Open MIX...",IDOPENMIX,439,55,66,14
-    PUSHBUTTON      "Set directories...",IDSETDIRECTORIES,439,71,66,14,
-                    WS_DISABLED
-    DEFPUSHBUTTON   "Play",IDPLAY,439,87,66,14
-    PUSHBUTTON      "Shuffle",IDSHUFFLE,439,103,66,14
-    PUSHBUTTON      "Stop",IDSTOP,439,119,66,14
-    PUSHBUTTON      "Info...",IDINFO,439,135,66,14
-    PUSHBUTTON      "Open movies.mix",IDC_OpenMovies,439,151,66,14
-    PUSHBUTTON      "Open scores.mix",IDC_OpenScores,439,167,66,14
-    PUSHBUTTON      "Open sounds.mix",IDC_OpenSounds,439,183,66,14
-    PUSHBUTTON      "Play AUD...",IDOPENAUD,437,236,66,14
-    PUSHBUTTON      "Play VQA...",IDOPENVQA,437,252,66,14
-    PUSHBUTTON      "Open theme.mix",IDC_OpenTheme,440,205,66,14
-END
-
-IDD_XCCDIRECTORIES DIALOG DISCARDABLE  0, 0, 362, 117
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Set directories"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,244,97,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,305,97,50,14
-    LTEXT           "Primary directory:",IDC_STATIC,7,7,54,8
-    LTEXT           "Secondary directory:",IDC_STATIC,7,30,66,8
-    EDITTEXT        IDC_EDIT_PRIMARY,81,7,274,15,ES_AUTOHSCROLL
-    EDITTEXT        IDC_EDIT_SECONDARY,81,30,274,15,ES_AUTOHSCROLL
-    LTEXT           "CD directory:",IDC_STATIC,7,53,42,8
-    EDITTEXT        IDC_EDIT_CD,81,53,274,15,ES_AUTOHSCROLL
-    LTEXT           "Data directory:",IDC_STATIC,7,76,47,8
-    EDITTEXT        IDC_EDIT_DATA,81,76,274,15,ES_AUTOHSCROLL
+    PUSHBUTTON      "Exit",IDOK,18,7,66,14
+    PUSHBUTTON      "Extract...",IDEXTRACT,18,22,66,14
+    PUSHBUTTON      "Extract raw...",IDEXTRACT_RAW,18,37,66,14
+    PUSHBUTTON      "Open MIX...",IDOPENMIX,18,52,66,14
+    DEFPUSHBUTTON   "Play",IDPLAY,18,67,66,14
+    PUSHBUTTON      "Shuffle",IDSHUFFLE,18,82,66,14
+    PUSHBUTTON      "Stop",IDSTOP,18,97,66,14
+    PUSHBUTTON      "Info...",IDINFO,18,112,66,14
+    PUSHBUTTON      "Open movies.mix",IDC_OpenMovies,18,127,66,14
+    PUSHBUTTON      "Open scores.mix",IDC_OpenScores,18,142,66,14
+    PUSHBUTTON      "Open sounds.mix",IDC_OpenSounds,18,157,66,14
+    PUSHBUTTON      "Open theme.mix",IDC_OpenTheme,18,172,66,14
+    PUSHBUTTON      "Play AUD...",IDOPENAUD,18,187,66,14
+    PUSHBUTTON      "Play VQA...",IDOPENVQA,17,202,66,14
 END
 
 IDD_INFO DIALOG DISCARDABLE  0, 0, 266, 98
@@ -96,41 +77,6 @@ BEGIN
     LTEXT           "Author: Olaf van der Spek (XCC@XCC.TMFWeb.NL)",
                     IDC_STATIC,7,73,168,8
 END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_XCCAUDIOPLAYER_DIALOG, DIALOG
-    BEGIN
-        LEFTMARGIN, 6
-        RIGHTMARGIN, 506
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 309
-    END
-
-    IDD_XCCDIRECTORIES, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 355
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 111
-    END
-
-    IDD_INFO, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 259
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 92
-    END
-END
-#endif    // APSTUDIO_INVOKED
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////

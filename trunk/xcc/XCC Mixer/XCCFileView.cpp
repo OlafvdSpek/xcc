@@ -27,6 +27,7 @@
 #include "pcx_file.h"
 #include "png_file.h"
 #include "pkt_ts_ini_reader.h"
+#include "tga_file.h"
 #include "shp_decode.h"
 #include "shp_images.h"
 #include "shp_dune2_file.h"
@@ -711,6 +712,29 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				}
 				break;
 			}
+		case ft_tga:
+			{
+				Ctga_file f;
+				f.load(m_data);
+				Cvirtual_image image;
+				if (!f.decode(image))
+				{
+					const int cx = image.cx();
+					const int cy = image.cy();
+					draw_info("Bits/pixel:", n(8 * image.cb_pixel()));
+					draw_info("Size:", n(cx) + " x " + n(cy));
+					m_y += m_y_inc;
+					if (image.cb_pixel() == 1)
+					{
+						load_color_table(image.palet(), false);
+						draw_image8(image.image(), cx, cy, pDC, 0, m_y);
+					}
+					else if (image.cb_pixel() == 3)
+						draw_image24(image.image(), cx, cy, pDC, 0, m_y);
+					m_y += cy + m_y_inc;
+				}
+				break;
+			}
 		case ft_theme_ini_ts:
 			{
 				Cvirtual_tfile tf;
@@ -1296,7 +1320,7 @@ void CXCCFileView::post_open(Ccc_file& f)
 		m_cy = 0;
 		m_ft = f.get_file_type(false);
 		m_size = f.get_size();
-		int cb_max_data = (m_ft == ft_dds || m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
+		int cb_max_data = (m_ft == ft_dds || m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_tga || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
 		int cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
 		f.read(m_data.write_start(cb_data), cb_data);
 		f.close();
