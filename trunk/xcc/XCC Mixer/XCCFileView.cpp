@@ -1073,59 +1073,38 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cwsa_dune2_file f;
 				f.load(m_data);
-				const int c_frames = f.cf();
-				const int cx = f.cx();
-				const int cy = f.cy();
-				draw_info("Count frames:", n(c_frames));
-				draw_info("Size:", n(cx) + " x " + n(cy));
+				draw_info("Count frames:", n(f.cf()));
+				draw_info("Size:", n(f.cx()) + " x " + n(f.cy()));
 				m_y += m_y_inc;
-				byte* frame = new byte[cx * cy];
-				memset(frame, 0, cx * cy);
-				byte* temp = new byte[64 << 10];
 				load_color_table(get_default_palet(), true);
-				for (int i = 0; i < c_frames; i++)
+				Cvirtual_image image = f.vimage();
+				const byte* r = image.image();
+				for (int i = 0; i < f.cf(); i++)
 				{
-					if (f.get_offset(i))
-					{
-						decode80(f.get_frame(i), temp);
-						decode40(temp, frame);					
-					}
-					draw_info("Offset:", n(f.get_offset(i)));
-					draw_image8(frame, cx, cy, pDC, 0, m_y);
-					m_y += cy + m_y_inc;
+					draw_image8(r, f.cx(), f.cy(), pDC, 0, m_y);
+					r += f.cb_image();
+					m_y += f.cy() + m_y_inc;
 				}
-				delete[] temp;
-				delete[] frame;
 				break;
 			}
 		case ft_wsa:
 			{
 				Cwsa_file f;
 				f.load(m_data);
-				const int c_frames = f.cf();
-				const int cx = f.cx();
-				const int cy = f.cy();
-				draw_info("Count frames:", n(c_frames));
+				draw_info("Count frames:", n(f.cf()));
 				draw_info("Palet:", f.palet() ? "yes" : "no");
 				draw_info("Position:", n(f.get_x()) + "," + n(f.get_y()));
-				draw_info("Size:", n(cx) + " x " + n(cy));
+				draw_info("Size:", n(f.cx()) + " x " + n(f.cy()));
 				m_y += m_y_inc;
-				byte* frame = new byte[cx * cy];
-				memset(frame, 0, cx * cy);
-				byte* temp = new byte[64 << 10];
 				load_color_table(f.palet(), true);
-				for (int i = 0; i < c_frames; i++)
+				Cvirtual_image image = f.vimage();
+				const byte* r = image.image();
+				for (int i = 0; i < f.cf(); i++)
 				{
-					if (f.get_offset(i))
-					{
-						decode80(f.get_frame(i), temp);
-						decode40(temp, frame);
-					}
-					draw_image8(frame, cx, cy, pDC, 0, m_y);
-					m_y += cy + m_y_inc;
+					draw_image8(r, f.cx(), f.cy(), pDC, 0, m_y);
+					r += f.cb_image();
+					m_y += f.cy() + m_y_inc;
 				}
-				delete[] temp;
-				delete[] frame;
 				break;
 			}
 		default:
