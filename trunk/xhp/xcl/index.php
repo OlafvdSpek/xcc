@@ -92,6 +92,7 @@
 			<a href="http://xwis.net:4005/">Online</a> |
 			<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> |
 			<a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> |
+			<a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> |
 			<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>
 			<a href="?hof=" title="Hall of Fame">HoF</a> |
 			<a href="?hos=" title="Hall of Shame">HoS</a> |
@@ -257,7 +258,7 @@
 		printf("<td><a href=\"?pid=%d\" title=\"#%d %d / %d %dp\">%s</a><td>", $player[pid], $player[rank], $player[win_count], $player[loss_count], $player[points], $player[name]);
 		if ($player[cid])
 			printf("<a href=\"?cid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[cid], $player[crank], $player[cwin_count], $player[closs_count], $player[cpoints], $player[cname]);
-		printf("<td><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($player[cty]), get_country_name($player[cty]), cmp2a($player[cmp]), pc2a($player[pc]));
+		printf("<td align=center><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($player[cty]), get_country_name($player[cty]), cmp2a($player[cmp]), pc2a($player[pc]));
 	}
 
 	function echo_games($results, $pid, $cid, $unfair_games)
@@ -406,7 +407,7 @@
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		echo("<table><tr><th>Count<th>Country");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
+			printf("<tr><td align=right>%d<td align=center><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
 		echo("</table><hr>");
 		// $results = db_query("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc");
 		// $results = db_query("select ifnull(xcl_maps.name, xcl_stats_maps.scen) as scen, count from xcl_stats_maps left join xcl_maps on xcl_stats_maps.scen = xcl_maps.fname order by count desc");
