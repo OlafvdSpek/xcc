@@ -62,7 +62,7 @@ Cxcc_mod::Cxcc_mod()
 	m_options.xhp_button = true;
 	m_options.mod_version = "1.00";
 	m_options.mod_ucf = "http://";
-	m_options.confirm_deactivate = false;
+	m_options.deactivate = 2;
 	m_options.mf_version = 0;
 	m_options.mod_mfs = "98";
 
@@ -245,7 +245,7 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 			m_options.mod_ucf = value->second.get_string();
 			break;
 		case vi_confirm_deactivate:
-			m_options.confirm_deactivate = value->second.get_int();
+			m_options.deactivate = value->second.get_int();
 			break;
 		case vi_mf_version:
 			m_options.mf_version = value->second.get_int();
@@ -485,7 +485,7 @@ Cxif_key Cxcc_mod::save(bool export, int module) const
 		key.set_value_int(vi_xhp_button, m_options.xhp_button);
 		key.set_value_string(vi_mod_version, m_options.mod_version);
 		key.set_value_string(vi_mod_ucf, m_options.mod_ucf);
-		key.set_value_int(vi_confirm_deactivate, m_options.confirm_deactivate);
+		key.set_value_int(vi_confirm_deactivate, m_options.deactivate);
 		key.set_value_int(vi_mf_version, mf_version);
 		key.set_value_string(vi_mod_mfs, m_options.mod_mfs);
 		{

@@ -36,7 +36,7 @@ public:
 		bool site_button;
 		bool update_button;
 		bool xhp_button;
-		bool confirm_deactivate;
+		int deactivate;
 		string mod_version;
 		string mod_mfs;
 		string mod_ucf;
