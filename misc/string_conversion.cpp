@@ -235,3 +235,14 @@ bool string_equal_ip(const char* a, const char* b)
 		b++;
 	}
 }
+
+string time2a(time_t v)
+{
+	char b[20];
+	const tm* date = gmtime(&v);
+	if (date)
+		sprintf(b, "%04d-%02d-%02d %02d:%02d:%02d", date->tm_year + 1900, date->tm_mon + 1, date->tm_mday, date->tm_hour, date->tm_min, date->tm_sec);
+	else
+		*b = 0;
+	return b;
+}
