@@ -129,6 +129,10 @@ SOURCE=..\..\misc\blowfish.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\bmp_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\cc_file.cpp
 # End Source File
 # Begin Source File
@@ -563,6 +567,10 @@ SOURCE=..\misc\bink_file.h
 # Begin Source File
 
 SOURCE=..\..\misc\blowfish.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\bmp_file.h
 # End Source File
 # Begin Source File
 

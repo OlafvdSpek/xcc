@@ -11,6 +11,7 @@
 #include "big_file.h"
 #include "bin_file.h"
 #include "bink_file.h"
+#include "bmp_file.h"
 #include "csf_file.h"
 #include "cps_file.h"
 #include "dds_file.h"
@@ -266,6 +267,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cbin_file bin_f;
 	Cbink_file bink_f;
 	Cbig_file big_f;
+	Cbmp_file bmp_f;
 	Ccsf_file csf_f;
 	Ccps_file cps_f;
 	Cdds_file dds_f;
@@ -307,6 +309,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_bin;
 	else if (bink_f.load(data, m_size), bink_f.is_valid())
 		ft = ft_bink;
+	else if (bmp_f.load(data, m_size), bmp_f.is_valid())
+		ft = ft_bmp;
 	else if (csf_f.load(data, m_size), csf_f.is_valid())
 		ft = ft_csf;
 	else if (cps_f.load(data, m_size), cps_f.is_valid())
