@@ -168,9 +168,11 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COMPACT, OnUpdatePopupCompact)
 	ON_COMMAND(ID_POPUP_COPY_AS_TGA, OnPopupCopyAsTga)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TGA, OnUpdatePopupCopyAsTga)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
-	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
+	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_TGA, OnPopupClipboardPasteAsTga)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_TGA, OnUpdatePopupClipboardPasteAsImage)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -2862,64 +2864,51 @@ void CXCCMixerView::OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI)
 	pCmdUI->Enable(id != -1 && can_convert(m_index.find(id)->second.ft, ft_clipboard));
 }
 
-int CXCCMixerView::get_paste_fname(string& fname, t_file_type ft, const char* filter)
+int CXCCMixerView::get_paste_fname(string& fname, t_file_type ft, const char* extension, const char* filter)
 {
 	int id = get_current_id();
 	bool replace = id != -1 && m_index.find(id)->second.ft == ft;
-	CFileDialog dlg(false, NULL, replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
+	CFileDialog dlg(false, extension, replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
 	if (!replace)
 		dlg.m_ofn.lpstrInitialDir = m_dir.c_str();
-	if (IDOK == dlg.DoModal())
+	if (IDOK != dlg.DoModal())
+		return 1;
+	fname = dlg.GetPathName();
+	return 0;
+}
+
+void CXCCMixerView::paste_as_image(t_file_type ft, const char* extension, const char* filter)
+{
+	Cvirtual_image image;
+	int error = image.get_clipboard();
+	if (!error)
 	{
-		fname = dlg.GetPathName();
-		return 0;
+		string fname;
+		if (get_paste_fname(fname, ft, extension, filter))
+			return;
+		image.save(ft).export(fname);
+		update_list();
 	}
-	return 1;
 }
 
 void CXCCMixerView::OnPopupClipboardPasteAsJpeg() 
 {
-	Cvirtual_image image;
-	int error = image.get_clipboard();
-	if (!error)
-	{
-		string fname;
-		if (!get_paste_fname(fname, ft_jpeg, "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|"))
-		{
-			image.save_as_jpeg(fname);
-			update_list();
-		}
-	}
+	paste_as_image(ft_jpeg, "jpeg", "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|");
 }
 
 void CXCCMixerView::OnPopupClipboardPasteAsPcx() 
 {
-	Cvirtual_image image;
-	int error = image.get_clipboard();
-	if (!error)
-	{
-		string fname;
-		if (!get_paste_fname(fname, ft_pcx, "PCX files (*.pcx)|*.pcx|"))
-		{
-			image.save_as_pcx(fname);
-			update_list();
-		}
-	}
+	paste_as_image(ft_pcx, "pcx", "PCX files (*.pcx)|*.pcx|");
 }
 
 void CXCCMixerView::OnPopupClipboardPasteAsPng() 
 {
-	Cvirtual_image image;
-	int error = image.get_clipboard();
-	if (!error)
-	{
-		string fname;
-		if (!get_paste_fname(fname, ft_png, "PNG files (*.png)|*.png|"))
-		{
-			image.save_as_png(fname);
-			update_list();
-		}
-	}
+	paste_as_image(ft_png, "png", "PNG files (*.png)|*.png|");
+}
+
+void CXCCMixerView::OnPopupClipboardPasteAsTga() 
+{
+	paste_as_image(ft_tga, "tga", "TGA files (*.tga)|*.tga|");
 }
 
 void CXCCMixerView::OnUpdatePopupClipboardPasteAsImage(CCmdUI* pCmdUI) 
@@ -2953,7 +2942,7 @@ void CXCCMixerView::OnPopupClipboardPasteAsShpTs()
 			}
 		}
 		string fname;
-		if (!get_paste_fname(fname, ft_shp_ts, "SHP files (*.shp)|*.shp|"))
+		if (!get_paste_fname(fname, ft_shp_ts, "shp", "SHP files (*.shp)|*.shp|"))
 		{
 			Cshp_properties_dlg dlg;
 			Cshp_ts_file f;

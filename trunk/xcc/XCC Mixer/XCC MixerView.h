@@ -67,7 +67,8 @@ public:
 	int copy_as_xif(int i, Cfname fname) const;
 	int get_current_id() const;
 	int get_current_index() const;
-	int get_paste_fname(string& fname, t_file_type ft, const char* filter);
+	int get_paste_fname(string& fname, t_file_type ft, const char* extension, const char* filter);
+	void paste_as_image(t_file_type ft, const char* extension, const char* filter);
 	const t_paletentry* get_default_palet() const;
 	string get_dir() const;
 	void set_reg_key(const string& v);
@@ -200,6 +201,8 @@ protected:
 	afx_msg void OnPopupCopyAsTga();
 	afx_msg void OnUpdatePopupCopyAsTga(CCmdUI* pCmdUI);
 	afx_msg void OnEditSelectAll();
+	afx_msg void OnPopupClipboardPasteAsTga();
+	afx_msg void OnUpdatePopupClipboardPasteAsTga(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
