@@ -9,11 +9,19 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+
 #include <map>
 #include <fstream>
 #include <string>
 
 using namespace std;
+
+/*
+class SortDummy{
+public:
+	bool operator() (const string&, const string&) const;
+};
+*/
 
 class CIniFileSection
 {
@@ -22,12 +30,12 @@ public:
 	int FindValue(string sval);
 	const string* GetValueName(unsigned int Index);
 	string* GetValue(unsigned int index);
-	map<string, string> values;
+	map<string, string/*, SortDummy*/> values;
 	CIniFileSection();
 	virtual ~CIniFileSection();
 };
 
-class CIniFile
+class CIniFile  
 {
 public:
 	BOOL SaveFile(const char* Filename);
