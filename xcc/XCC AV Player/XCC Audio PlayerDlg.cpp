@@ -140,7 +140,6 @@ BOOL CXCCAudioPlayerDlg::OnInitDialog()
 		m_statusbar = "DirectSound unavailable";
 	}
 	UpdateData(false);
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
 	if (add_column("ID", 0, 80) ||
 		add_column("Index", 1, 40, LVCFMT_RIGHT) ||
 		add_column("Size", 2, 80, LVCFMT_RIGHT) ||
@@ -739,22 +738,12 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 int compare_int(unsigned int a, unsigned int b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
-int compare_string(string a, string b)
+int compare_string(const string& a, const string& b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
@@ -775,9 +764,8 @@ int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
 		return compare_string(a.name, b.name);
 	case 5:
 		return compare_string(a.description, b.description);
-	default:
-		return 0;
 	}
+	return 0;
 }
 
 static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
