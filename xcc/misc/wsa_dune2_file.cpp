@@ -18,6 +18,31 @@ bool Cwsa_dune2_file::is_valid() const
 	return get_offset(cf() + has_loop()) == size;
 }
 
+void Cwsa_dune2_file::decode(void* d) const
+{
+	memset(d, 0, cb_image());
+	Cvirtual_binary s;
+	byte* w = reinterpret_cast<byte*>(d);
+	for (int i = 0; i < cf(); i++)
+	{
+		if (i)
+			memcpy(w, w - cb_image(), cb_image());
+		if (get_offset(i))
+		{
+			decode80(get_frame(i), s.write_start(64 << 10));
+			decode40(s, w);
+		}
+		w += cb_image();
+	}
+}
+
+Cvirtual_image Cwsa_dune2_file::vimage() const
+{
+	Cvirtual_binary image;
+	decode(image.write_start(cb_video()));
+	return Cvirtual_image(image, cx(), cf() * cy(), cb_pixel(), palet(), true);
+}
+
 int Cwsa_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
@@ -30,7 +55,7 @@ int Cwsa_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_
 	{
 		if (get_offset(i))
 		{
-			decode80(get_frame(i), s.data_edit());
+			decode80(get_frame(i), s.write_start(64 << 10));
 			decode40(s, frame.data_edit());
 		}
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
