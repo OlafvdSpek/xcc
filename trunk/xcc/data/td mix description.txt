@@ -1,0 +1,2031 @@
+local mix database.dat	mix database
+120MM.SHP	120mm Cannon shot
+12GREEN.FNT	12 green
+12GRNGRD.FNT	12 green grid
+3POINT.FNT	3 point
+50CAL.SHP	50 calibre Cannon shot
+6.FNT	6
+6POINT.FNT	6 point
+80MX226M.AUD	C&C 80s mix
+8FAT.FNT	8 fat
+8POINT.FNT	8 point
+A10.SHP	A10 Warthog
+A10ICNH.DES	ICON: A10 Warthog
+A10ICNH.TEM	ICON: A10 Warthog
+A10ICNH.WIN	ICON: A10 Warthog
+A10ICON.SHP	ICON: A10 Warthog
+ACCOM1.AUD	Mission Accomplished
+ACKNO.V00	C&C #1 Achnoledged
+ACKNO.V01	C&C #2 Achnoledged
+ACKNO.V02	C&C #3 Achnoledged
+ACKNO.V03	C&C #4 Achnoledged
+AFFIRM1.V00	C&C #1 Affirmative
+AFFIRM1.V01	C&C #2 Affirmative
+AFFIRM1.V02	C&C #3 Affirmative
+AFFIRM1.V03	C&C #4 Affirmative
+AFLD.SHP	Airfield
+AFLDICNH.DES	ICON: Airfield
+AFLDICNH.TEM	ICON: Airfield
+AFLDICNH.WIN	ICON: Airfield
+AFLDICON.SHP	ICON: Airfield
+AFLDMAKE.SHP	MAKE: Airfield
+AFRICA.WSA	ANIM: African Mission selection
+AIRREDY1.AUD	Airstrike Ready
+AIRSTRIK.AUD	Air Strike
+AIRSTRK.VQA	Guys Spotting Enemy Base For Planes
+AIRSTRK.VQP	Guys Spotting Enemy Base For Planes
+AKIRA.VQA	Nod Base Being Ion Cannoned
+AKIRA.VQP	Nod Base Being Ion Cannoned
+ALL.INF	INF: Filenames and Descriptions
+ANIM0001.WSA	ANIM: Welcome To The EVA Install Program
+ANIM0002.WSA	ANIM: Mouth Moving
+ANIM0006.WSA	ANIM: Animated Window Bits
+ANIM01.WSA	ANIM: Welcome To The EVA Install Program Covert Ops
+AOI.AUD	Act On Instinct
+AOI.VAR	Act On Instinct SFX
+APC.SHP	APC
+APCICNH.DES	ICON: APC
+APCICNH.TEM	ICON: APC
+APCICNH.WIN	ICON: APC
+APCICON.SHP	ICON: APC
+APPEAR1.AUD	???
+ARCO.SHP	Arcology
+ARCOICON.SHP	ICON: Arcology
+ART-EXP1.SHP	Explosion
+ARTY.SHP	Artillery
+ARTYICNH.DES	ICON: Artillery
+ARTYICNH.TEM	ICON: Artillery
+ARTYICNH.WIN	ICON: Artillery
+ARTYICON.SHP	ICON: Artillery
+ATOMDOOR.SHP	Nuke Firing Smoke
+ATOMICDN.SHP	Nuke Landing
+ATOMICNH.DES	ICON: Nuclear Strike
+ATOMICNH.TEM	ICON: Nuclear Strike
+ATOMICNH.WIN	ICON: Nuclear Strike
+ATOMICON.SHP	ICON: Nuclear Strike
+ATOMICUP.SHP	Nuke Launching
+ATOMSFX.SHP	Nuclear Blast
+ATTRACT2.CPS	PICT: Coming Attractions
+ATWR.SHP	Advanced Guard Tower
+ATWRICNH.DES	ICON: Advanced Guard Tower
+ATWRICNH.TEM	ICON: Advanced Guard Tower
+ATWRICNH.WIN	ICON: Advanced Guard Tower
+ATWRICON.SHP	ICON: Advanced Guard Tower
+ATWRMAKE.SHP	MAKE: Advanced Guard Tower
+AWAIT1.V00	C&C #1 Waiting orders
+AWAIT1.V01	C&C #2 Waiting orders
+AWAIT1.V02	C&C #3 Waiting orders
+AWAIT1.V03	C&C #4 Waiting orders
+B1.DES	Rock
+B1.TEM	Rock
+B1.WIN	Rock
+B2.DES	Rocks
+B2.TEM	Rocks
+B2.WIN	Rocks
+B3.TEM	Large Rocks
+B3.WIN	Large Rocks
+B4.DES	Small Rocks
+B5.DES	Small Rocks
+B6.DES	Small Rocks
+BANNER.VQA	GDI Banner Unfolding
+BANNER.VQP	GDI Banner Unfolding
+BANR_NOD.VQA	NOD Banner Unfolding
+BANR_NOD.VQP	NOD Banner Unfolding
+BAR3RED.SHP	NOD Score bar
+BAR3YLW.SHP	GDI Score bar
+BARB.SHP	Razor wire
+BARBICNH.DES	ICON: Razor wire
+BARBICNH.TEM	ICON: Razor wire
+BARBICNH.WIN	ICON: Razor wire
+BARBICON.SHP	ICON: Razor Wire
+BARS3.AUD	???
+BASEATK1.AUD	Base Under Atack
+BATLCON1.AUD	Battle Controll Terminated
+BAZOOK1.AUD	Bazooka
+BAZOOK1.JUV	Bazooka
+BCANYON.VQA	Orca Flying Through Canyon
+BCANYON.VQP	Orca Flying Through Canyon
+BED2.AUD	???
+BEEPY2.AUD	Beep
+BEEPY3.AUD	Beep
+BEEPY6.AUD	Beep
+BEFEARED.AUD	Enemies To Be Feared
+BEFEARED.VAR	Enemies To Be Feared SFX
+BGGY.SHP	NOD Buggy
+BGGYICNH.DES	ICON: NOD Buggy
+BGGYICNH.TEM	ICON: NOD Buggy
+BGGYICNH.WIN	ICON: NOD Buggy
+BGGYICON.SHP	ICON: NOD Buggy
+BIB1.DES	Bib 1
+BIB1.TEM	Bib 1
+BIB1.WIN	Bib 1
+BIB2.DES	Bib 2
+BIB2.TEM	Bib 2
+BIB2.WIN	Bib 2
+BIB3.DES	Bib 3
+BIB3.TEM	Bib 3
+BIB3.WIN	Bib 3
+BIKE.SHP	Recon Bike
+BIKEICNH.DES	ICON: Recon Bike
+BIKEICNH.TEM	ICON: Recon Bike
+BIKEICNH.WIN	ICON: Recon Bike
+BIKEICON.SHP	ICON: Recon Bike
+BIO.SHP	Bio-research lab
+BIOICON.SHP	ICON: Bio-Research lab
+BIOMAKE.SHP	MAKE: Bio-Research lab
+BKGROUND.VQA	Background On The Conflict
+BKGROUND.VQP	Background On The Conflict
+BLACKOUT.VQA	Blackout Of Nod Base
+BLACKOUT.VQP	Blackout Of Nod Base
+BLDG1.AUD	Unable To Comply Building In Progress
+BLDGING1.AUD	Building
+BLEEP2.AUD	Bleep 2
+BLEEP2.JUV	Bleep 2
+BOAT.SHP	Gunboat
+BOATICNH.DES	ICON: Gunboat
+BOATICNH.TEM	ICON: Gunboat
+BOATICNH.WIN	ICON: Gunboat
+BOATICON.SHP	ICON: Gunboat
+BODYBAGS.VQA	Dead Bodies In Body Bags
+BODYBAGS.VQP	Dead Bodies In Body Bags
+BOMB.SHP	Grenade
+BOMB1.AUD	Bomb
+BOMB1.JUV	Bomb
+BOMBAWAY.VQA	Planes Airstriking Base
+BOMBAWAY.VQP	Planes Airstriking Base
+BOMBFLEE.VQA	Running Away From Bombers
+BOMBFLEE.VQP	Running Away From Bombers
+BOMBICNH.DES	ICON: Air Strike
+BOMBICNH.TEM	ICON: Air Strike
+BOMBICNH.WIN	ICON: Air Strike
+BOMBICON.SHP	ICON: Air Strike
+BOMBIT1.AUD	Commando Present For Ya
+BOMBLET.SHP	Bomblet
+BOSNIA.WSA	ANIM: Zoom on Bosnia
+BR1.DES	Bush 1
+BR10.DES	Purple Squares
+BR2.DES	Bush 2
+BR3.DES	Cactus 1
+BR4.DES	Cactus 2
+BR5.DES	Purple Square
+BR6.DES	Bushes 1
+BR7.DES	Bushes 2
+BR8.DES	Bushes 3
+BR9.DES	Bushes 4
+BRIDGE1.TEM	Bridge SW-NE
+BRIDGE1.WIN	Bridge SW-NE
+BRIDGE1D.TEM	Bridge SW-NE Destroyed
+BRIDGE1D.WIN	Bridge SW-NE Destroyed
+BRIDGE1X.TEM	Bridge SW-NE Connector
+BRIDGE2.TEM	Bridge NW-SE
+BRIDGE2.WIN	Bridge NW-SE
+BRIDGE2D.TEM	Bridge NW-SE Destroyed
+BRIDGE2D.WIN	Bridge NW-SE Destroyed
+BRIDGE2X.TEM	Bridge NW-SE Connector
+BRIDGE3.DES	Bridge SW-NE Desert
+BRIDGE3D.DES	Bridge SW-NE Destroyed Desert
+BRIDGE4.DES	Bridge NW-SE Desert
+BRIDGE4D.DES	Bridge NW-SE Destroyed Desert
+BRIEFING.AUD	???
+BRIK.SHP	Concrete wall
+BRIKICNH.DES	ICON: Concrete Wall
+BRIKICNH.TEM	ICON: Concrete Wall
+BRIKICNH.WIN	ICON: Concrete Wall
+BRIKICON.SHP	ICON: Concrete wall
+BTEXTURE.SHP	Background Textures
+BTN-DN.SHP	BUTT: Down
+BTN-PL.SHP	BUTT: Play
+BTN-PLH.SHP	BUTT: Play
+BTN-ST.SHP	BUTT: Stop
+BTN-STH.SHP	BUTT: Stop
+BTN-UP.SHP	BUTT: Up
+BUILD5.AUD	Building being placed
+BURDET1.VQA	Greg Burdette Reports 1
+BURDET1.VQP	Greg Burdette Reports 1
+BURDET2.VQA	Greg Burdette Reports 2
+BURDET2.VQP	Greg Burdette Reports 2
+BURN-L.SHP	Medium Fire For Trees
+BURN-M.SHP	Small Fire For Trees
+BURN-S.SHP	Small Fire For Trees
+BUTTON.AUD	Button
+BUTTON.JUV	Button
+C1.SHP	Civilian #1
+C10.SHP	Civilian #10
+C17.SHP	Antonov Cargo Plane
+C17ICON.SHP	ICON: Antonov Cargo Plane
+C2.SHP	Civilian #2
+C3.SHP	Civilian #3
+C4.SHP	Civilian #4
+C5.SHP	Civilian #5
+C6.SHP	Civilian #6
+C7.SHP	Civilian #7
+C8.SHP	Civilian #8
+C9.SHP	Civilian #9
+CANCEL1.AUD	Canceled
+CASHTURN.AUD	Selling
+CC.COL	PAL: Setup Program Palette
+CC2TEASE.VQA	C&C 2 Teaser
+CC2TEASE.VQP	C&C 2 Teaser
+CCELDATA.TXT	INF: Map tiles list
+CCLOCAL.INF	INF: List For CCLOCAL.MIX
+CCLOGO.VQP	???
+CCM.COL	PAL: Setup Program Palette
+CCSHAPES.SHP	CURS: Setup Mouse Cursors
+CCTHANG.AUD	C&C Thang
+CENTER.WSA	ANIM: Mouth Moving
+CENTER1.WSA	ANIM: Center Mouth Moving
+CENTER16.AUD	Center
+CHAN.SHP	Chan
+CHEM-E.SHP	Chem. Spray E
+CHEM-N.SHP	Chem. Spray N
+CHEM-NE.SHP	Chem. Spray NE
+CHEM-NW.SHP	Chem. Spray NW
+CHEM-S.SHP	Chem. Spray S
+CHEM-SE.SHP	Chem. Spray SE
+CHEM-SW.SHP	Chem. Spray SW
+CHEM-W.SHP	Chem. Spray W
+CHEMBALL.SHP	Chem Explosion
+CHOOSE.WSA	ANIM: Side Selection Animation
+CHRG226M.AUD	Charge
+CIVDEAD1.AUD	Civilian Dead
+CLEAR1.DES	Clear Terrain
+CLEAR1.TEM	Clear Terrain
+CLEAR1.WIN	Clear Terrain
+CLICK_A.CPS	PICT: African Mouse Hotspots
+CLICK_E.CPS	PICT: European Mouse Hotspots
+CLICK_EB.CPS	PICT: Bosnian Mouse Hotspots
+CLICK_SA.CPS	PICT: South African Mouse Hotspots
+CLOCK.SHP	Time Dial
+CLOCK1.AUD	???
+CLOUDS.CPS	PICT: ???
+CMON1.AUD	Commando Cmon
+CMPTLK1.AUD	???
+CMPTLK2.AUD	???
+CMPTLK3.AUD	???
+COMCNTR1.AUD	Communications Center
+COMCNTR1.JUV	Communications Center
+CONC.SHP	Concrete Tiles
+CONQUER.ENG	English Ingame Strings
+CONQUER.INF	INF: List For CONQUER.MIX
+CONSTRU1.AUD	Construction Complete
+CONSTRU2.AUD	Build Sounds
+CONSTRU2.JUV	Build Sounds
+CONSYARD.VQA	Construction Yard Unfolding
+CONSYARD.VQP	Construction Yard Unfolding
+COUNTER1.AUD	Counter
+COUNTRY1.AUD	Country Sound 1
+COUNTRY4.AUD	Country Sound 2
+COUNTRYA.SHP	Map of each African Country
+COUNTRYE.SHP	Map of each European Country
+CR1.DES	Crater 1
+CR1.TEM	Crater 1
+CR1.WIN	Crater 1
+CR2.DES	Crater 2
+CR2.TEM	Crater 2
+CR2.WIN	Crater 2
+CR3.DES	Crater 3
+CR3.TEM	Crater 3
+CR3.WIN	Crater 3
+CR4.DES	Crater 4
+CR4.TEM	Crater 4
+CR4.WIN	Crater 4
+CR5.DES	Crater 5
+CR5.TEM	Crater 5
+CR5.WIN	Crater 5
+CR6.DES	Crater 6
+CR6.TEM	Crater 6
+CR6.WIN	Crater 6
+CREDITS.AUD	End Credits
+CREDITS.TXT	Game Credits
+CREDS.SHP	Score Screen Coins
+CREP226M.AUD	Creep
+CRUMBLE.AUD	Wall Crumbling
+CRUMBLE.JUV	Wall Crumbling
+CSHAPES.SHP	???
+CTHANG.AUD	C&C Thang
+CYCL.SHP	Chain Link Fence
+CYCLICNH.DES	ICON: Chain Link Fence
+CYCLICNH.TEM	ICON: Chain Link Fence
+CYCLICNH.WIN	ICON: Chain Link Fence
+CYCLICON.SHP	ICON: Chain Link Fence
+D01.DES	Road Bottom End
+D01.TEM	Road Bottom End
+D01.WIN	Road Bottom End
+D02.DES	Road Left End
+D02.TEM	Road Left End
+D02.WIN	Road Left End
+D03.DES	Road Top End
+D03.TEM	Road Top End
+D03.WIN	Road Top End
+D04.DES	Road Right End
+D04.TEM	Road Right End
+D04.WIN	Road Right End
+D05.DES	Road S-N 1
+D05.TEM	Road S-N 1
+D05.WIN	Road S-N 1
+D06.DES	Road S-N 2
+D06.TEM	Road S-N 2
+D06.WIN	Road S-N 2
+D07.DES	Road S-N 3
+D07.TEM	Road S-N 3
+D07.WIN	Road S-N 3
+D08.DES	Road S-N 4
+D08.TEM	Road S-N 4
+D08.WIN	Road S-N 4
+D09.DES	Road W-E 1
+D09.TEM	Road W-E 1
+D09.WIN	Road W-E 1
+D10.DES	Road W-E 2
+D10.TEM	Road W-E 2
+D10.WIN	Road W-E 2
+D11.DES	Road W-E 3
+D11.TEM	Road W-E 3
+D11.WIN	Road W-E 3
+D12.DES	Road W-E 4
+D12.TEM	Road W-E 4
+D12.WIN	Road W-E 4
+D13.DES	Road WU-ED
+D13.TEM	Road WU-ED
+D13.WIN	Road WU-ED
+D14.DES	Road T N--W+E
+D14.TEM	Road T N--W+E
+D14.WIN	Road T N--W+E
+D15.DES	Road Y S--N+E 1
+D15.TEM	Road Y S--N+E 1
+D15.WIN	Road Y S--N+E 1
+D16.DES	Road Y S--N+E 2
+D16.TEM	Road Y S--N+E 2
+D16.WIN	Road Y S--N+E
+D17.DES	Road T S--W+E
+D17.TEM	Road T S--W+E
+D17.WIN	Road T S--W+E
+D18.DES	Road T W--N+S
+D18.TEM	Road T W--N+S
+D18.WIN	Road T W--N+S
+D19.DES	Road + W-N-E-S
+D19.TEM	Road + W-N-E-S
+D19.WIN	Road + W-N-E-S
+D20.DES	Road Corner N-E
+D20.TEM	Road Corner N-E
+D20.WIN	Road Corner N-E
+D21.DES	Road Corner S-E
+D21.TEM	Road Corner S-E
+D21.WIN	Road Corner S-E
+D22.DES	Road Corner W-S
+D22.TEM	Road Corner W-S
+D22.WIN	Road Corner W-S
+D23.DES	Road Corner W-N
+D23.TEM	Road Corner W-N
+D23.WIN	Road Corner W-N
+D24.DES	Road Diagonal NW-SE 1
+D24.TEM	Road Diagonal NW-SE 1
+D24.WIN	Road Diagonal NW-SE 1
+D25.DES	Road Diagonal NW-SE 2
+D25.TEM	Road Diagonal NW-SE 2
+D25.WIN	Road Diagonal NW-SE 2
+D26.DES	Road Diagonal NW-SE Connector 1
+D26.TEM	Road Diagonal NW-SE Connector 1
+D26.WIN	Road Diagonal NW-SE Connector 1
+D27.DES	Road Diagonal NW-SE Connector 2
+D27.TEM	Road Diagonal NW-SE Connector 2
+D27.WIN	Road Diagonal NW-SE Connector 2
+D28.DES	Road Corner W-SE Connector
+D28.TEM	Road Corner W-SE Connector
+D28.WIN	Road Corner W-SE Connector
+D29.DES	Road Corner N-SE Connector
+D29.TEM	Road Corner N-SE Connector
+D29.WIN	Road Corner N-SE Connector
+D30.DES	Road Y SE--N+W Connector
+D30.TEM	Road Y SE--N+W Connector
+D30.WIN	Road Y SE--N+W Connector
+D31.DES	Road Corner E-NW Connector
+D31.TEM	Road Corner E-NW Connector
+D31.WIN	Road Corner E-NW Connector
+D32.DES	Road Corner S-NW Connector
+D32.TEM	Road Corner S-NW Connector
+D32.WIN	Road Corner S-NW Connector
+D33.DES	Road Y NW--S+E Connector
+D33.TEM	Road Y NW--S+E Connector
+D33.WIN	Road Y NW--S+E Connector
+D34.DES	Road Diagonal SW-NE 1
+D34.TEM	Road Diagonal SW-NE 1
+D34.WIN	Road Diagonal SW-NE 1
+D35.DES	Road Diagonal SW-NE 2
+D35.TEM	Road Diagonal SW-NE 2
+D35.WIN	Road Diagonal SW-NE 2
+D36.DES	Road Diagonal SW-NE Connector 1
+D36.TEM	Road Diagonal SW-NE Connector 1
+D36.WIN	Road Diagonal SW-NE Connector 1
+D37.DES	Road Diagonal SW-NE Connector 2
+D37.TEM	Road Diagonal SW-NE Connector 2
+D37.WIN	Road Diagonal SW-NE Connector 2
+D38.DES	Road Corner E-SW Connector
+D38.TEM	Road Corner E-SW Connector
+D38.WIN	Road Corner E-SW Connector
+D39.DES	Road Corner N-SW Connector
+D39.TEM	Road Corner N-SW Connector
+D39.WIN	Road Corner N-SW Connector
+D40.DES	Road Y SW--N+E Connector
+D40.TEM	Road Y SW--N+E Connector
+D40.WIN	Road Y SW--N+E Connector
+D41.DES	Road Corner W-NE Connector
+D41.TEM	Road Corner W-NE Connector
+D41.WIN	Road Corner W-NE Connector
+D42.DES	Road Corner S-NE Connector
+D42.TEM	Road Corner S-NE Connector
+D42.WIN	Road Corner S-NE Connector
+D43.DES	Road Y NE--W+S Connector
+D43.TEM	Road Y NE--W+S Connector
+D43.WIN	Road Y NE--W+S Connector
+DARK_A.PAL	PAL: ???
+DARK_B.PAL	PAL: ???
+DARK_E.PAL	PAL: ???
+DARK_SA.PAL	PAL: ???
+DCLOCK.MRF	???
+DELPHI.SHP	Delphi
+DEMOPIC.CPS	PICT: Buy C&C Now
+DEPLOY1.AUD	Cannot Deploy Here
+DESEICNH.INF	INF: List For DESEICNH.MIX
+DESERT.INF	INF: List For DESERT.MIX
+DESERT.PAL	PAL: Desert
+DESFLEES.VQA	Guys Running Away From Tanks In The Desert
+DESFLEES.VQP	Guys Running Away From Tanks In The Desert
+DESKILL.VQA	Guy Killing Another Guy In The Desert
+DESKILL.VQP	Guy Killing Another Guy In The Desert
+DESOLAT.VQA	Deserted Village
+DESOLAT.VQP	Deserted Village
+DESSWEEP.VQA	Tanks Moving Into A Desert Town
+DESSWEEP.VQP	Tanks Moving Into A Desert Town
+DEVIATOR.SHP	CRAT: Air Strike
+DGREEN.MRF	???
+DIE.AUD	Die
+DINO.VQA	Dino Movie
+DINO.VQP	Dino Movie
+DINOATK1.AUD	Dino Attack
+DINODIE1.AUD	Dino Die
+DINOMOUT.AUD	Dino Move Out
+DINOYES.AUD	Dino Yes
+DLIGHT.MRF	???
+DMOUSE.MRF	???
+DOLLAR.SHP	CRAT: Money
+DRAGON.SHP	Missile
+DRED.MRF	???
+DRIL226M.AUD	Drill
+DRON226M.AUD	Drone
+DSHADE.MRF	???
+DSHADOW.MRF	???
+DTRANS.MRF	???
+DUNITS.MRF	???
+DWHITE.MRF	???
+DYELLOW.MRF	???
+E-BWTOCL.WSA	ANIM: Spinning Earth
+E1.SHP	Minigunner
+E1ICNH.DES	ICON: Minigunner
+E1ICNH.TEM	ICON: Minigunner
+E1ICNH.WIN	ICON: Minigunner
+E1ICON.SHP	ICON: Minigunner
+E1ROT.SHP	Minigunner Death
+E2.SHP	Grenadier
+E2ICNH.DES	ICON: Grenadier
+E2ICNH.TEM	ICON: Grenadier
+E2ICNH.WIN	ICON: Grenadier
+E2ICON.SHP	ICON: Grenadier
+E2ROT.SHP	Grenadier Death
+E3.SHP	Rocket Soldier
+E3ICNH.DES	ICON: Rocket Soldier
+E3ICNH.TEM	ICON: Rocket Soldier
+E3ICNH.WIN	ICON: Rocket Soldier
+E3ICON.SHP	ICON: Rocket Soldier
+E3ROT.SHP	Rocket Soldier Death
+E4.SHP	Flamer
+E4ICNH.DES	ICON: Flamer
+E4ICNH.TEM	ICON: Flamer
+E4ICNH.WIN	ICON: Flamer
+E4ICON.SHP	ICON: Flamer
+E4ROT.SHP	Flamer Death
+E5.SHP	Chem Warrior
+E5ICNH.DES	ICON: Chem Warrior
+E5ICNH.TEM	ICON: Chem Warrior
+E5ICNH.WIN	ICON: Chem Warrior
+E5ICON.SHP	ICON: Chem Warrior
+E6.SHP	Engineer
+E6ICNH.DES	ICON: Engineer
+E6ICNH.TEM	ICON: Engineer
+E6ICNH.WIN	ICON: Engineer
+E6ICON.SHP	ICON: Engineer
+EARTH.SHP	CRAT: Reveal Map
+EARTH_A.WSA	ANIM: Zoom on Africa
+EARTH_E.WSA	ANIM: Zoom on Europe
+EBTN-DN.SHP	BUTT: Down
+EBTN-UP.SHP	BUTT: Up
+EINIT1.AUD	???
+EMPULSE.SHP	CRAT: Hide Map
+ENEMYA.AUD	Enemy Planes Approaching
+ENMYAPP1.AUD	Enemy Approaching
+ENMYUNIT.AUD	Enemy Units Approching
+ESTRUCX.AUD	Enemy Structure Destroyed
+ETHANKS.AUD	Thanks
+EUROPE.WSA	ANIM: European Mission selection
+EVA.WSA	ANIM: EVA Logo
+EVA1.AUD	EVA 1
+EVA10.AUD	EVA 10
+EVA11.AUD	EVA 11
+EVA12.AUD	EVA 12
+EVA13.AUD	EVA 13
+EVA14.AUD	EVA 14
+EVA15.AUD	EVA 15
+EVA16.AUD	EVA 16
+EVA17.AUD	EVA 17
+EVA2.AUD	EVA 2
+EVA3.AUD	EVA 3
+EVA4.AUD	EVA 4
+EVA5.AUD	EVA 5
+EVA6.AUD	EVA 6
+EVA7.AUD	EVA 7
+EVA8.AUD	EVA 8
+EVA9.AUD	EVA 9
+EXIT.CPS	PICT: ???
+EXIT.WSA	ANIM: Installation Complete
+EXPAND.DAT	Empty File
+EYE.SHP	Advanced Comm. Center
+EYEICNH.DES	ICON: Advanced Comm. Center
+EYEICNH.TEM	ICON: Advanced Comm. Center
+EYEICNH.WIN	ICON: Advanced Comm. Center
+EYEICON.SHP	ICON: Advanced Comm. Center
+EYEMAKE.SHP	MAKE: Advanced Comm. Center
+FACT.SHP	Construction Yard
+FACTICON.SHP	ICON: Construction Yard
+FACTMAKE.SHP	MAKE: MCV => Construction Yard
+FAIL1.AUD	Mission Failed
+FALLS1.DES	Waterfall East-West
+FALLS1.TEM	Waterfall East-West
+FALLS1.WIN	Waterfall East-West
+FALLS2.DES	Waterfall North-South
+FALLS2.TEM	Waterfall North-South
+FALLS2.WIN	Waterfall North-South
+FBALL1.SHP	Large Explosion
+FIRE1.SHP	Large Fire
+FIRE2.SHP	Medium Fire
+FIRE3.SHP	Small Fire
+FIRE4.SHP	Very Small Fire
+FIST226M.AUD	Fist
+FIX.SHP	Service Depot
+FIXICNH.DES	ICON: Service Depot
+FIXICNH.TEM	ICON: Service Depot
+FIXICNH.WIN	ICON: Service Depot
+FIXICON.SHP	ICON: Service Depot
+FIXMAKE.SHP	MAKE: Service Depot
+FLAG.VQA	Flag Being Raised
+FLAG.VQP	Flag Being Raised
+FLAGFLY.SHP	Flag
+FLAME-E.SHP	Single Flame E
+FLAME-N.SHP	Single Flame N
+FLAME-NE.SHP	Single Flame NE
+FLAME-NW.SHP	Single Flame NW
+FLAME-S.SHP	Single Flame S
+FLAME-SE.SHP	Single Flame SE
+FLAME-SW.SHP	Single Flame SW
+FLAME-W.SHP	Single Flame W
+FLAMER2.AUD	Flame Sound
+FLAMER2.JUV	Flame Sound
+FLMSPT.SHP	Oil Pump explosion
+FLYY.VQA	Apachie Shooting APC
+FLYY.VQP	Apachie Shooting APC
+FONT6.FNT	Font 6
+FORD1.DES	Fjord W-E
+FORD1.TEM	Fjord W-E
+FORD1.WIN	Fjord W-E
+FORD2.DES	Fjord N-S
+FORD2.TEM	Fjord N-S
+FORD2.WIN	Fjord N-S
+FORESTKL.VQA	Guy Killing Another Guy In The Forest
+FORESTKL.VQP	Guy Killing Another Guy In The Forest
+FPLS.SHP	Circles For Flag
+FRAG1.SHP	Medium explosion
+FRAG3.SHP	Medium explosion
+FTNK.SHP	Flame tank
+FTNKICNH.DES	ICON: Flame Tank
+FTNKICNH.TEM	ICON: Flame Tank
+FTNKICNH.WIN	ICON: Flame Tank
+FTNKICON.SHP	ICON: Flame Tank
+FWP.AUD	Fight Win Prevail
+GAMEOVER.VQA	Tanks Going Onto Plane Tank Store Being Locked Up
+GAMEOVER.VQP	Tanks Going Onto Plane Tank Store Being Locked Up
+GDI1.VQA	Capture The Beachead
+GDI1.VQP	Capture The Beachead
+GDI10.VQA	Play With The Orcas
+GDI10.VQP	Play With The Orcas
+GDI11.VQA	Find Delphi
+GDI11.VQP	Find Delphi
+GDI12.VQA	Get Mobius
+GDI12.VQP	Get Mobius
+GDI13.VQA	Destroy Bio Lab
+GDI13.VQP	Destroy Bio Lab
+GDI14.VQA	Destroy Nod Forces
+GDI14.VQP	Destroy Nod Forces
+GDI15.VQA	Destroy Nod Base
+GDI15.VQP	Destroy Nod Base
+GDI2.VQA	Destroy Nod Refinery
+GDI2.VQP	Destroy Nod Refinery
+GDI3.VQA	Destroy Sam Sites
+GDI3.VQP	Destroy Sam Sites
+GDI3LOSE.VQA	Apachie Blowing Up Tank
+GDI3LOSE.VQP	Apachie Blowing Up Tank
+GDI4A.VQA	Capture The Village
+GDI4A.VQP	Capture The Village
+GDI4B.VQA	Recapture The Convoy
+GDI4B.VQP	Recapture The Convoy
+GDI5.VQA	Repair GDI Base
+GDI5.VQP	Repair GDI Base
+GDI6.VQA	Destroy Nod Base
+GDI6.VQP	Destroy Nod Base
+GDI7.VQA	Finish Nod Base
+GDI7.VQP	Finish Nod Base
+GDI8A.VQA	Repair GDI Equipment
+GDI8A.VQP	Repair GDI Equipment
+GDI8B.VQA	Protect Mobieus
+GDI8B.VQP	Protect Mobieus
+GDI9.VQA	Destroy Bunkers
+GDI9.VQP	Destroy Bunkers
+GDICAPT1.AUD	GDI Building Captured
+GDIDEAD1.AUD	GDI Unit Destroyed
+GDIEND1.VQA	GDI End No Ion Cannon
+GDIEND1.VQP	GDI End No Ion Cannon
+GDIEND2.VQA	GDI End With Ion Cannon
+GDIEND2.VQP	GDI End With Ion Cannon
+GDIFINA.VQA	Missiles Shoot Temple
+GDIFINA.VQP	Missiles Shoot Temple
+GDIFINB.VQA	Temple Is Ion Cannoned
+GDIFINB.VQP	Temple Is Ion Cannoned
+GDIGEN.INF	INF: List For GDI GENERAL.MIX
+GDILOSE.VQA	GDI Logo Being Turned Into Nod Logo
+GDILOSE.VQP	GDI Logo Being Turned Into Nod Logo
+GDIMOV.INF	INF: List For GDI MOVIES.MIX
+GDI_SLCT.AUD	G. D. I. selected
+GENERIC.VQA	Kane Ordering Nod To Look For Dinos
+GENERIC.VQP	Kane Ordering Nod To Look For Dinos
+GIRLOKAY.AUD	Girl Ok
+GIRLYEAH.AUD	Girl Ya?
+GOTIT1.AUD	Commando You Got It
+GRAD12FN.FNT	Grad 12 Font
+GRAD6FNT.FNT	Grad 6 Font
+GREYERTH.WSA	ANIM: Spinning Earth
+GSTRUC1.AUD	GDI Structure Destroyed
+GTWR.SHP	Guard Tower
+GTWRICNH.DES	ICON: Guard Tower
+GTWRICNH.TEM	ICON: Guard Tower
+GTWRICNH.WIN	ICON: Guard Tower
+GTWRICON.SHP	ICON: Guard Tower
+GTWRMAKE.SHP	MAKE: Guard Tower
+GUN.SHP	Turret
+GUN18.AUD	Gunshot
+GUN18.JUV	Gunshot
+GUN19.AUD	Gunshot
+GUN19.JUV	Gunshot
+GUN20.AUD	Gunshot
+GUN20.JUV	Gunshot
+GUN5.AUD	Pistol 2
+GUN5.JUV	Pistol 2
+GUN8.AUD	Gunshot
+GUN8.JUV	Gunshot
+GUNBOAT.VQA	Gunboat Blowing Up Turret
+GUNBOAT.VQP	Gunboat Blowing Up Turret
+GUNCLIP1.AUD	Gun Clip
+GUNCLIP1.JUV	Gun Clip
+GUNFIRE.SHP	Gunfire
+GUNICNH.DES	ICON: Turret
+GUNICNH.TEM	ICON: Turret
+GUNICNH.WIN	ICON: Turret
+GUNICON.SHP	ICON: Turret
+GUNMAKE.SHP	MAKE: Turret
+GUYOKAY1.AUD	Guy Ok
+GUYYEAH1.AUD	Guy Ya?
+HAND.SHP	Hand of Nod
+HANDICNH.DES	ICON: Hand of Nod
+HANDICNH.TEM	ICON: Hand of Nod
+HANDICNH.WIN	ICON: Hand of Nod
+HANDICON.SHP	ICON: Hand of Nod
+HANDMAKE.SHP	MAKE: Hand of Nod
+HARV.SHP	Harvester
+HARVICNH.DES	ICON: Harvester
+HARVICNH.TEM	ICON: Harvester
+HARVICNH.WIN	ICON: Harvester
+HARVICON.SHP	ICON: Harvester
+HBOSNIA.WSA	ANIM: Zoom on Bosnia
+HBTN-DN.SHP	BUTT: Down
+HBTN-DN2.SHP	BUTT: Down
+HBTN-UP.SHP	BUTT: Up
+HBTN-UP2.SHP	BUTT: Up
+HCLOCK.SHP	Time Dial
+HEART.VAR	Heartbreak SFX
+HEARTH_A.WSA	ANIM: Zoom on Africa
+HEARTH_E.WSA	ANIM: Zoom on Europe
+HEAVYG.AUD	Demolition
+HELI.SHP	Apachie Helicopter
+HELIICNH.DES	ICON: Apachie Helicopter
+HELIICNH.TEM	ICON: Apachie Helicopter
+HELIICNH.WIN	ICON: Apachie Helicopter
+HELIICON.SHP	ICON: Apachie Helicopter
+HELLVALY.VQA	Valley Filled With Tiberium
+HELLVALY.VQP	Valley Filled With Tiberium
+HFNT-D.FNT	???
+HISCORE1.SHP	Score Screen Corner piece
+HISCORE2.SHP	Score Screen Bar Across Top
+HMAP.SHP	BUTT: Map
+HOSP.SHP	Hospital
+HOSPICON.SHP	ICON: Hospital
+HOSPMAKE.SHP	MAKE: Hospital
+HPAD.SHP	Helipad
+HPADICNH.DES	ICON: Helipad
+HPADICNH.TEM	ICON: Helipad
+HPADICNH.WIN	ICON: Helipad
+HPADICON.SHP	ICON: Helipad
+HPADMAKE.SHP	MAKE: Helipad
+HPIPS.SHP	Building Messages
+HPOWER.SHP	Power Requirement Indicator
+HPWRBAR.SHP	Powerbar
+HQ.SHP	Comm. Center
+HQICNH.DES	ICON: Comm. Center
+HQICNH.TEM	ICON: Comm. Center
+HQICNH.WIN	ICON: Comm. Center
+HQICON.SHP	ICON: Comm. Center
+HQMAKE.SHP	MAKE: Comm. Center
+HRADAR.GDI	GDI Radar And Logo
+HRADAR.JP	JP Radar And Logo
+HRADAR.NOD	NOD Radar And Logo
+HREPAIR.SHP	BUTT: Repair
+HSAFRICA.WSA	ANIM: Zoom on South Africa
+HSELL.SHP	BUTT: Sell
+HSIDE1.SHP	Sidebar 1
+HSIDE2.SHP	Sidebar 2
+HSTRIP.SHP	Sidebar Background
+HSTRIPDN.SHP	BUTT: Scroll Down
+HSTRIPUP.SHP	BUTT: Scroll Up
+HTABS.SHP	Tabs
+HTITLE.PCX	PICT: Title Screen
+HTNK.SHP	Mammoth Tank
+HTNKICNH.DES	ICON: Mammoth Tank
+HTNKICNH.TEM	ICON: Mammoth Tank
+HTNKICNH.WIN	ICON: Mammoth Tank
+HTNKICON.SHP	ICON: Mammoth Tank
+HVYDOOR1.AUD	Heavy Door
+HVYDOOR1.JUV	Heavy Door
+HVYGUN10.AUD	Heavy Gun
+HVYGUN10.JUV	Heavy Gun
+INCOME1.AUD	Incoming Missile
+IND.AUD	Industrial
+IND2.AUD	Canyon Chase
+INFERNO.VQA	Flame Tank Torching Village
+INFERNO.VQP	Flame Tank Torching Village
+INSITES.VQA	Sam Site Shooting Plane
+INSITES.VQP	Sam Site Shooting Plane
+INTRO2.VQA	C&C Intro Movie
+INTRO2.VQP	C&C Intro Movie
+INVUN.SHP	CRAT: Heal All Units
+ION1.AUD	Ion Cannon
+ION1.JUV	Ion Cannon
+IONCHRG1.AUD	Ion Cannon Charging
+IONICNH.DES	ICON: Ion Cannon
+IONICNH.TEM	ICON: Ion Cannon
+IONICNH.WIN	ICON: Ion Cannon
+IONICON.SHP	ICON: Ion Cannon
+IONREDY1.AUD	Ion Cannon Ready
+IONSFX.SHP	Ion Cannon Discharge
+IONTEST.VQA	Ion Cannon Test
+IONTEST.VQP	Ion Cannon Test
+I_AM.AUD	I Am
+J1.AUD	Untamed Land
+JDI_V2.AUD	Take Em' Out
+JEEP.SHP	Hummvee
+JEEPICNH.DES	ICON: Hummvee
+JEEPICNH.TEM	ICON: Hummvee
+JEEPICNH.WIN	ICON: Hummvee
+JEEPICON.SHP	ICON: Hummvee
+JUSTDOIT.AUD	Just Do It!
+KABOOM12.AUD	Explosion
+KABOOM15.AUD	Explosion
+KANEFINL.AUD	Kane's Speech
+KANEPRE.VQA	Kane's Intro To Tiberium
+KANEPRE.VQP	Kane's Intro To Tiberium
+KEEPEM1.AUD	Commando Keep Em Comming
+KEYSTROK.AUD	Keystroke
+LANDING.VQA	Hovercrafts Landing
+LANDING.VQP	Hovercrafts Landing
+LASTSCNB.PAL	PAL: ???
+LASTSCNG.PAL	PAL: ???
+LAUGH1.AUD	Commando Laugh
+LED.FNT	Led
+LEFT1.WSA	ANIM: Left Mouth Moving
+LEFT16.AUD	Left
+LEFTY1.AUD	Commando That Was Left Handed
+LINEFIRE.AUD	In The Line Of Fire
+LOCAL.INF	INF: List For LOCAL.MIX
+LOGO.VQA	Westwood Logo
+LOGO.VQP	Westwood Logo
+LOGOS.SHP	Score Screen GDI/NOD Logo
+LOOPIE6M.AUD	Satellite sounds
+LOPOWER1.AUD	Low Power
+LROTOR.SHP	Rotor Shadows
+LST.SHP	Hovercraft
+LSTICNH.DES	ICON: Hovercraft
+LSTICNH.TEM	ICON: Hovercraft
+LSTICNH.WIN	ICON: Hovercraft
+LSTICON.SHP	ICON: Hovercraft
+LTNK.SHP	Light Tank
+LTNKICNH.DES	ICON: Light Tank
+LTNKICNH.TEM	ICON: Light Tank
+LTNKICNH.WIN	ICON: Light Tank
+LTNKICON.SHP	ICON: Light Tank
+MAP.PAL	PAL: Map
+MAP.SHP	BUTT: Earth
+MAP1.AUD	Map Theme
+MAP1.PAL	PAL: ???
+MAP_GRY2.PAL	PAL: ???
+MAP_LOC2.PAL	PAL: ???
+MAP_LOC3.PAL	PAL: ???
+MAP_LOCL.PAL	PAL: ???
+MAP_PROG.PAL	PAL: ???
+MARCH.AUD	March To Doom
+MCOMND1.AUD	Commander
+MCOURSE1.AUD	Of Course
+MCV.SHP	MCV
+MCVICNH.DES	ICON: MCV
+MCVICNH.TEM	ICON: MCV
+MCVICNH.WIN	ICON: MCV
+MCVICON.SHP	ICON: MCV
+MGUN11.AUD	Gunshot
+MGUN11.JUV	Gunshot
+MGUN2.AUD	Gunshot
+MGUN2.JUV	Gunshot
+MHELLO1.AUD	Hello
+MHMMM1.AUD	Hmmm
+MHQ.SHP	Mobile HQ
+MHQICON.SHP	ICON: Mobile HQ
+MINE.SHP	CRAT: Mine
+MINIGUN.SHP	Muzzle Flash
+MISS.SHP	Tech Center
+MISSILE.SHP	Small Rocket
+MISSILE2.SHP	CRAT: Nuclear Strike
+MISSION.INI	INIF: Mission Briefings
+MLRS.SHP	SSM Launcher
+MLRSICNH.DES	ICON: SSM Launcher
+MLRSICNH.TEM	ICON: SSM Launcher
+MLRSICNH.WIN	ICON: SSM Launcher
+MLRSICON.SHP	ICON: SSM Launcher
+MLTIPLYR.WSA	ANIM: Multiplayer Score Screen
+MMDAT.INF	INF: List For MM.DAT
+MMGDAT.INF	INF: List For MMGOLD.DAT
+MOCASH1.AUD	Need More Funds
+MOEBIUS.SHP	Doctor Mobieus
+MOUSE.SHP	CURS: Mouse Cursors
+MOUTHS.WSA	ANIM: Mouths Moving
+MOVEFLSH.SHP	Movement Circles
+MOVOUT1.V00	Move Out #1
+MOVOUT1.V01	Move Out #2
+MOVOUT1.V02	Move Out #3
+MOVOUT1.V03	Move Out #4
+MPLAN3.AUD	A wonderfull plan
+MSAM.SHP	Rocket Launcher
+MSAMICNH.DES	ICON: Rocket Launcher
+MSAMICNH.TEM	ICON: Rocket Launcher
+MSAMICNH.WIN	ICON: Rocket Launcher
+MSAMICON.SHP	ICON: Rocket Launcher
+MTHANKS1.AUD	Thanks
+MTIBER1.AUD	Mind The Tiberium
+MTNK.SHP	Medium Tank
+MTNKICNH.DES	ICON: Medium Tank
+MTNKICNH.TEM	ICON: Medium Tank
+MTNKICNH.WIN	ICON: Medium Tank
+MTNKICON.SHP	ICON: Medium Tank
+MULTSCOR.PAL	PAL: ???
+MYES1.AUD	Yes
+MYESYES1.AUD	Yes Yes Yes
+NAPALM.VQA	Planes Blowing Up Mobile HQ
+NAPALM.VQP	Planes Blowing Up Mobile HQ
+NAPALM1.SHP	Small Fire
+NAPALM2.SHP	Medium Fire
+NAPALM3.SHP	Large Fire
+NAYLOOK.VQP	???
+NEEDHARV.AUD	Need Harvester
+NEWOPT1.AUD	New Construction Options
+NEWTARG1.AUD	New Target
+NITEJUMP.VQA	Soldiers Infiltrating Base
+NITEJUMP.VQP	Soldiers Infiltrating Base
+NOBUILD1.AUD	Unable To Build More
+NOCASH1.AUD	Insufficient Funds
+NOD1.VQA	Kill Village Chief
+NOD1.VQP	Kill Village Chief
+NOD10A.VQA	Kill Scientist
+NOD10A.VQP	Kill Scientist
+NOD10B.VQA	Destroy Mammoth Tank
+NOD10B.VQP	Destroy Mammoth Tank
+NOD11.VQA	Recapture Stealth Tank
+NOD11.VQP	Recapture Stealth Tank
+NOD12.VQA	Capture Communications Center
+NOD12.VQP	Capture Communications Center
+NOD13.VQA	Remove GDI Bases
+NOD13.VQP	Remove GDI Bases
+NOD1PRE.VQA	Static To Nod Logo
+NOD1PRE.VQP	Static To Nod Logo
+NOD2.VQA	Setup A Base
+NOD2.VQP	Setup A Base
+NOD3.VQA	Free The Prisoners
+NOD3.VQP	Free The Prisoners
+NOD4A.VQA	Destroy Village
+NOD4A.VQP	Destroy Village
+NOD4B.VQA	Eliminate The GDI
+NOD4B.VQP	Eliminate The GDI
+NOD5.VQA	Destroy The Airbase
+NOD5.VQP	Destroy The Airbase
+NOD6.VQA	Get Detonator
+NOD6.VQP	Get Detonator
+NOD7A.VQA	Destroy Village
+NOD7A.VQP	Destroy Village
+NOD7B.VQA	Capture Orca
+NOD7B.VQP	Capture Orca
+NOD8.VQA	Capture GDI Base
+NOD8.VQP	Capture GDI Base
+NOD9.VQA	Reinforce Base
+NOD9.VQP	Reinforce Base
+NODCAPT1.AUD	Nod Building Captured
+NODDEAD1.AUD	Nod Unit Destroyed
+NODEND1.VQA	Destroying The Effiel Tower
+NODEND1.VQP	Destroying The Effiel Tower
+NODEND2.VQA	Destroying The White House
+NODEND2.VQP	Destroying The White House
+NODEND3.VQA	Destroying Big Ben
+NODEND3.VQP	Destroying Big Ben
+NODEND4.VQA	Destroying The Gate
+NODEND4.VQP	Destroying The Gate
+NODFINAL.VQA	Nod Getting The Ion Cannon
+NODFINAL.VQP	Nod Getting The Ion Cannon
+NODFLEES.VQA	Nod Soldiers Runnning Away
+NODFLEES.VQP	Nod Soldiers Runnning Away
+NODGEN.INF	INF: List For NOD GENERAL.MIX
+NODLOSE.VQA	Nod Logo Turning Into GDI Logo
+NODLOSE.VQP	Nod Logo Turning Into GDI Logo
+NODMOV.INF	INF: List For NOD MOVIES.MIX
+NODSWEEP.VQA	Nod Forces Assaulting Village
+NODSWEEP.VQP	Nod Forces Assaulting Village
+NOD_SLCT.AUD	Brotherhood of Nod selected
+NOMERCY.AUD	No Mercy
+NOPOWER1.AUD	No Power
+NOPRBLM1.AUD	No Problem
+NOPROB.V01	C&C #2 No Problem
+NOPROB.V03	C&C #4 No Problem
+NOREDY1.AUD	Not Ready
+NSTRUC1.AUD	Nod Structure Destroyed
+NUK2.SHP	Advanced Power Plant
+NUK2ICNH.DES	ICON: Advanced Power Plant
+NUK2ICNH.TEM	ICON: Advanced Power Plant
+NUK2ICNH.WIN	ICON: Advanced Power Plant
+NUK2ICON.SHP	ICON: Advanced Power Plant
+NUK2MAKE.SHP	MAKE: Advanced Power Plant
+NUKAVAIL.AUD	Nuclear Missile Available
+NUKE.SHP	Power Plant
+NUKE.VQA	Nuclear Expolsion
+NUKE.VQP	Nuclear Expolsion
+NUKE1.AUD	Nuclear Warhead Approaching
+NUKEICNH.DES	ICON: Power Plant
+NUKEICNH.TEM	ICON: Power Plant
+NUKEICNH.WIN	ICON: Power Plant
+NUKEICON.SHP	ICON: Power Plant
+NUKEMAKE.SHP	MAKE: Power Plant
+NUKEMISL.AUD	Nuclear Missile
+NUKEMISL.JUV	Nuclear Missile
+NUKEXPLO.AUD	Nuke Explosion
+NUKEXPLO.JUV	Nuke Explosion
+NUKLNCH1.AUD	Nuclear Missile Lauched
+NUYELL1.AUD	Death Scream 1
+NUYELL10.AUD	Death Scream 10
+NUYELL11.AUD	Death Scream 11
+NUYELL12.AUD	Death Scream 12
+NUYELL3.AUD	Death Scream 3
+NUYELL4.AUD	Death Scream 4
+NUYELL5.AUD	Death Scream 5
+NUYELL6.AUD	Death Scream 6
+NUYELL7.AUD	Death Scream 7
+OBEL.VQA	Obelisk Of Light
+OBEL.VQP	Obelisk Of Light
+OBELPOWR.AUD	Obelisk Of Light Powering Up
+OBELRAY1.AUD	Obelisk Of Light Sound
+OBELRAY1.JUV	Obelisk Of Light Sound
+OBLI.SHP	Obelisk of Light
+OBLIICNH.DES	ICON: Obelisk of Light
+OBLIICNH.TEM	ICON: Obelisk of Light
+OBLIICNH.WIN	ICON: Obelisk of Light
+OBLIICON.SHP	ICON: Obelisk of Light
+OBLIMAKE.SHP	MAKE: Obelisk of Light
+ONHOLD1.AUD	On Hold
+ONIT1.AUD	Commando Im On It
+OPTIONS.SHP	Window Bits
+ORCA.SHP	Orca
+ORCAICNH.DES	ICON: Orca
+ORCAICNH.TEM	ICON: Orca
+ORCAICNH.WIN	ICON: Orca
+ORCAICON.SHP	ICON: Orca
+OTP.AUD	On The Prowl
+OVEROUT.V01	C&C #1 Over And Out
+OVEROUT.V03	C&C #3 Over And Out
+P01.DES	Debris
+P01.TEM	Debris
+P02.DES	Debris
+P02.TEM	Debris
+P03.DES	Debris
+P03.TEM	Debris
+P04.DES	Debris
+P04.TEM	Debris
+P05.DES	Gray Sand
+P06.DES	Gray Sand
+P07.DES	Debris
+P07.TEM	Debris
+P07.WIN	Debris
+P08.TEM	Debris
+P08.WIN	Debris
+P13.TEM	Debris
+P13.WIN	Debris
+P14.TEM	Debris
+P14.WIN	Debris
+P15.WIN	Snow
+P16.WIN	Snow
+P17.WIN	Snow
+P18.WIN	Snow
+P19.WIN	Snow
+P20.WIN	Snow
+PAGE0001.CPS	PICT: ???
+PAGE0002.CPS	PICT: Sound Card Selection
+PAGE0003.CPS	PICT: Sound Card Selection
+PAGE0004.CPS	PICT: Mouths
+PAGE0005.CPS	PICT: Bars
+PAGE0006.CPS	PICT: Port IRQ Dma Window
+PAGE00A4.CPS	PICT: Mouth
+PAGE01.CPS	PICT: ???
+PAGE0203.CPS	PICT: Sound Card Selection
+PAGE0204.CPS	PICT: Sound Card Selection
+PAGE0205.CPS	PICT: Sound Card Selection
+PAGE0206.CPS	PICT: Sound Card Selection
+PAGE02A4.CPS	PICT: Sound Card Selection
+PAGE0305.CPS	PICT: Sound Card Selection
+PAGE0402.CPS	PICT: Mouths
+PAGE0403.CPS	PICT: Mouths
+PAGE04A2.CPS	PICT: Mouth
+PAGE04A3.CPS	PICT: Mouth
+PAGE05.CPS	PICT: Single Bar
+PAGE0602.CPS	PICT: Port IRQ Dma Window
+PAGE0604.CPS	PICT: Port IRQ Dma Window
+PAGE06A4.CPS	PICT: Port IRQ Dma Window
+PARATROP.VQA	Paratroopers
+PARATROP.VQP	Paratroopers
+PATRIOT.SHP	Patriot Missile
+PIFF.SHP	Smoke
+PIFFPIFF.SHP	Smoke
+PINTLE.VQA	Helicopter Being Shot Down
+PINTLE.VQP	Helicopter Being Shot Down
+PIPS.SHP	Building messages
+PLANECRA.VQA	Transport Plane Crashing
+PLANECRA.VQP	Transport Plane Crashing
+PODIUM.VQA	GDI Person At Press Confrence
+PODIUM.VQP	GDI Person At Press Confrence
+POWER.SHP	Power Requirement Indicator
+POWRDN1.AUD	Power Down
+POWRDN1.JUV	Power Down
+PREPICK.CPS	PICT: C&C Demo Info
+PRIBLDG1.AUD	Primary Building Selected
+PROC.SHP	Refinery
+PROCICNH.DES	ICON: Refinery
+PROCICNH.TEM	ICON: Refinery
+PROCICNH.WIN	ICON: Refinery
+PROCICON.SHP	ICON: Refinery
+PROCMAKE.SHP	MAKE: Refinery
+PRP.AUD	Prepare For Battle
+PUMPICON.SHP	ICON: Blank Tile
+PUMPMAKE.SHP	MAKE: MCV To Construction Yard Left Cut
+PYLE.SHP	GDI Barracks
+PYLEICNH.DES	ICON: GDI Barracks
+PYLEICNH.TEM	ICON: GDI Barracks
+PYLEICNH.WIN	ICON: GDI Barracks
+PYLEICON.SHP	ICON: GDI Barracks
+PYLEMAKE.SHP	MAKE: GDI Barracks
+RA.PAL	PAL: Red Alert
+RADAR.GDI	GDI Radar And Logo
+RADAR.JP	JP Radar And Logo
+RADAR.NOD	NOD Radar And Logo
+RADIO.AUD	Radio
+RAIN.AUD	Rain In The Night
+RAMGUN2.AUD	Commando Gun Sound
+RAMGUN2.JUV	Commando Gun Sound
+RAMYELL1.AUD	Commando Yell
+RAPID.SHP	CRAT: Red skull
+RAPT.SHP	Velociraptor
+READY.V01	C&C #2 Ready & Waiting
+READY.V03	C&C #4 Ready & Waiting
+RECN226M.AUD	Recon
+RECORD.BIN	Info For Map Screens (Population ETC)
+REFINERY.VQA	Info On Tiberium Refinery
+REFINERY.VQP	Info On Tiberium Refinery
+REFINT.VQA	Interior Of Tiberium Refinery
+REFINT.VQP	Interior Of Tiberium Refinery
+REINFOR1.AUD	Reinforcements have arrived
+REPAIR.SHP	BUTT: Repair
+REPAIR1.AUD	Repairing
+REPORT1.V00	C&C #1 Reporting
+REPORT1.V01	C&C #2 Reporting
+REPORT1.V02	C&C #3 Reporting
+REPORT1.V03	C&C #4 Reporting
+RETRO.VQA	Rescue Mission
+RETRO.VQP	Rescue Mission
+RIGHT1.WSA	ANIM: Right Mouth Moving
+RIGHT16.AUD	Right
+RITAWAY.V01	C&C #2 Right Away Sir
+RITAWAY.V03	C&C #4 Right Away Sir
+RMBO.SHP	Commando
+RMBOICNH.DES	ICON: Commando
+RMBOICNH.TEM	ICON: Commando
+RMBOICNH.WIN	ICON: Commando
+RMBOICON.SHP	ICON: Commando
+ROAD.SHP	ICON: Blank Tile Checkerboard
+ROADICON.SHP	ICON: Blank Tile
+ROCK1.DES	Rock 1
+ROCK2.DES	Rock 2
+ROCK3.DES	Rock 3
+ROCK4.DES	Rock 4
+ROCK5.DES	Rock 5
+ROCK6.DES	Rock 6
+ROCK7.DES	Rock 7
+ROCKET1.AUD	Rocket 1
+ROCKET1.JUV	Rocket 1
+ROCKET2.AUD	Rocket 2
+ROCKET2.JUV	Rocket 2
+ROGER.V01	C&C #2 Roger
+ROGER.V03	C&C #2 Roger
+ROKROLL1.AUD	Commando Time To Rock And Roll
+ROUT.VAR	Reaching Out SFX
+RROTOR.SHP	Rotor shadows
+RV01.TEM	River W-E 1
+RV01.WIN	River W-E 1
+RV02.TEM	River W-E 2
+RV02.WIN	River W-E 2
+RV03.TEM	River Wu-Ed
+RV03.WIN	River Wu-Ed
+RV04.TEM	River Wd-Eu
+RV04.WIN	River Wd-Eu
+RV05.TEM	River N-S 1
+RV05.WIN	River N-S 1
+RV06.TEM	River N-S 2
+RV06.WIN	River N-S 2
+RV07.TEM	River N-S 3
+RV07.WIN	River N-S 3
+RV08.TEM	River Corner S-E
+RV08.WIN	River Corner S-E
+RV09.TEM	River Corner W-S
+RV09.WIN	River Corner W-S
+RV10.TEM	River Corner N-E
+RV10.WIN	River Corner N-E
+RV11.TEM	River Corner W-N
+RV11.WIN	River Corner W-N
+RV12.TEM	River Y N--W+S
+RV12.WIN	River Y N--W+S
+RV13.TEM	River Y Eu--W+S
+RV13.WIN	River Y Eu--W+S
+RV14.DES	River W-E 3
+RV15.DES	River W-E 4
+RV16.DES	River Wd-Eu 2
+RV17.DES	River Wu-Ed 2
+RV18.DES	River N-S 4
+RV19.DES	River N-S 4
+RV20.DES	River Nr-Sl
+RV21.DES	River Nl-Sr
+RV22.DES	River Corner E-S 2
+RV23.DES	River Corner W-S 2
+RV24.DES	River Corner N-E 2
+RV25.DES	River Corner N-W 2
+S-GDIIN2.WSA	ANIM: GDI Score Screen
+S01.DES	Cliff Left Edge South
+S01.TEM	Cliff Left Edge South
+S01.WIN	Cliff Left Edge South
+S02.DES	Cliff Wu-Wd South
+S02.TEM	Cliff Wu-Wd South
+S02.WIN	Cliff Wu-Wd South
+S03.DES	Cliff W-E 1 South
+S03.TEM	Cliff W-E 1 South
+S03.WIN	Cliff W-E 1 South
+S04.DES	Cliff W-E 2 South
+S04.TEM	Cliff W-E 2 South
+S04.WIN	Cliff W-E 2 South
+S05.DES	Cliff W-E 3 South
+S05.TEM	Cliff W-E 3 South
+S05.WIN	Cliff W-E 3 South
+S06.DES	Cliff Wd-Eu South
+S06.TEM	Cliff Wd-Eu South
+S06.WIN	Cliff Wd-Eu South
+S07.DES	Cliff Right Edge South
+S07.TEM	Cliff Right Edge South
+S07.WIN	Cliff Right Edge South
+S08.DES	Cliff Top Edge West
+S08.TEM	Cliff Top Edge West
+S08.WIN	Cliff Top Edge West
+S09.DES	Cliff Nl-Sr West
+S09.TEM	Cliff Nl-Sr West
+S09.WIN	Cliff Nl-Sr West
+S10.DES	Cliff N-S 1 West
+S10.TEM	Cliff N-S 1 West
+S10.WIN	Cliff N-S 1 West
+S11.DES	Cliff N-S 2 West
+S11.TEM	Cliff N-S 2 West
+S11.WIN	Cliff N-S 2 West
+S12.DES	Cliff N-S 3 West
+S12.TEM	Cliff N-S 3 West
+S12.WIN	Cliff N-S 3 West
+S13.DES	Cliff Sl-Nr West
+S13.TEM	Cliff Sl-Nr West
+S13.WIN	Cliff Sl-Nr West
+S14.DES	Cliff Bottom Edge West
+S14.TEM	Cliff Bottom Edge West
+S14.WIN	Cliff Bottom Edge West
+S15.DES	Cliff Left Edge North
+S15.TEM	Cliff Left Edge North
+S15.WIN	Cliff Left Edge North
+S16.DES	Cliff Wu-Ed North
+S16.TEM	Cliff Wu-Ed North
+S16.WIN	Cliff Wu-Ed North
+S17.DES	Cliff W-E 1 North
+S17.TEM	Cliff W-E 1 North
+S17.WIN	Cliff W-E 1 North
+S18.DES	Cliff W-E 2 North
+S18.TEM	Cliff W-E 2 North
+S18.WIN	Cliff W-E 2 North
+S19.DES	Cliff W-E 3 North
+S19.TEM	Cliff W-E 3 North
+S19.WIN	Cliff W-E 3 North
+S20.DES	Cliff Wu-Ed North
+S20.TEM	Cliff Wu-Ed North
+S20.WIN	Cliff Wu-Ed North
+S21.DES	Cliff Right Edge North
+S21.TEM	Cliff Right Edge North
+S21.WIN	Cliff Right Edge North
+S22.DES	Cliff Top Edge East
+S22.TEM	Cliff Top Edge East
+S22.WIN	Cliff Top Edge East
+S23.DES	Cliff Sl-Nr East
+S23.TEM	Cliff Sl-Nr East
+S23.WIN	Cliff Sl-Nr East
+S24.DES	Cliff N-S 1 East
+S24.TEM	Cliff N-S 1 East
+S24.WIN	Cliff N-S 1 East
+S25.DES	Cliff N-S 2 East
+S25.TEM	Cliff N-S 2 East
+S25.WIN	Cliff N-S 2 East
+S26.DES	Cliff N-S 3 East
+S26.TEM	Cliff N-S 3 East
+S26.WIN	Cliff N-S 3 East
+S27.DES	Cliff Nl-Sr East
+S27.TEM	Cliff Nl-Sr East
+S27.WIN	Cliff Nl-Sr East
+S28.DES	Cliff Bottom Edge East
+S28.TEM	Cliff Bottom Edge East
+S28.WIN	Cliff Bottom Edge East
+S29.DES	Cliff Corner N-E External
+S29.TEM	Cliff Corner N-E External
+S29.WIN	Cliff Corner N-E External
+S30.DES	Cliff Corner S-E External
+S30.TEM	Cliff Corner S-E External
+S30.WIN	Cliff Corner S-E External
+S31.DES	Cliff Corner W-S External
+S31.TEM	Cliff Corner W-S External
+S31.WIN	Cliff Corner W-S External
+S32.DES	Cliff Corner N-W External
+S32.TEM	Cliff Corner N-W External
+S32.WIN	Cliff Corner N-W External
+S33.DES	Cliff Corner N-E Internal
+S33.TEM	Cliff Corner N-E Internal
+S33.WIN	Cliff Corner N-E Internal
+S34.DES	Cliff Corner S-E Internal
+S34.TEM	Cliff Corner S-E Internal
+S34.WIN	Cliff Corner S-E Internal
+S35.DES	Cliff Corner W-S Internal
+S35.TEM	Cliff Corner W-S Internal
+S35.WIN	Cliff Corner W-S Internal
+S36.DES	Cliff Corner W-N Internal
+S36.TEM	Cliff Corner W-N Internal
+S36.WIN	Cliff Corner W-N Internal
+S37.DES	Cliff Junction NW-SE
+S37.TEM	Cliff Junction NW-SE
+S37.WIN	Cliff Junction NW-SE
+S38.DES	Cliff Junction SW-NE
+S38.TEM	Cliff Junction SW-NE
+S38.WIN	Cliff Junction SW-NE
+SABOTAGE.VQA	Sabotage
+SABOTAGE.VQP	Sabotage
+SAM.SHP	Sam Site
+SAMDIE.VQA	Sam Site Being Blown Up
+SAMDIE.VQP	Sam Site Being Blown Up
+SAMFIRE.SHP	Sam Site Smoke
+SAMICNH.DES	ICON: Sam Site
+SAMICNH.TEM	ICON: Sam Site
+SAMICNH.WIN	ICON: Sam Site
+SAMICON.SHP	ICON: Sam Site
+SAMMAKE.SHP	MAKE: Sam Site
+SAMMOTR2.AUD	Sam Site Motor
+SAMMOTR2.JUV	Sam Site Motor
+SAMSITE.VQA	Sam Site Firing
+SAMSITE.VQP	Sam Site Firing
+SATSEL.CPS	PICT: Satellite Selection Screen
+SATSEL.PAL	PAL: ???
+SATSELIN.PAL	PAL: ???
+SBAG.SHP	Sandbags
+SBAGICNH.DES	ICON: Sandbags
+SBAGICNH.TEM	ICON: Sandbags
+SBAGICNH.WIN	ICON: Sandbags
+SBAGICON.SHP	ICON: Sandbags
+SC-000.INF	INF: List For SC-000.MIX
+SC-001.INF	INF: List For SC-001.MIX
+SC1.DES	Scorch Mark 1
+SC1.TEM	Scorch Mark 1
+SC1.WIN	Scorch Mark 1
+SC2.DES	Scorch Mark 2
+SC2.TEM	Scorch Mark 2
+SC2.WIN	Scorch Mark 2
+SC3.DES	Scorch Mark 3
+SC3.TEM	Scorch Mark 3
+SC3.WIN	Scorch Mark 3
+SC4.DES	Scorch Mark 4
+SC4.TEM	Scorch Mark 4
+SC4.WIN	Scorch Mark 4
+SC5.DES	Scorch Mark 5
+SC5.TEM	Scorch Mark 5
+SC5.WIN	Scorch Mark 5
+SC6.DES	Scorch Mark 6
+SC6.TEM	Scorch Mark 6
+SC6.WIN	Scorch Mark 6
+SCB01EA.BIN	BIN: Nod Mission 1
+SCB01EA.INI	INIF: Nod Mission 1
+SCB02EA.BIN	BIN: Nod Mission 2
+SCB02EA.INI	INIF: Nod Mission 2
+SCB02EB.BIN	BIN: Nod Mission 2b
+SCB02EB.INI	INIF: Nod Mission 2b
+SCB03EA.BIN	BIN: Nod Mission 3
+SCB03EA.INI	INIF: Nod Mission 3
+SCB03EB.BIN	BIN: Nod Mission 3b
+SCB03EB.INI	INIF: Nod Mission 3b
+SCB04EA.BIN	BIN: Nod Mission 4
+SCB04EA.INI	INIF: Nod Mission 4
+SCB04EB.BIN	BIN: Nod Mission 4b
+SCB04EB.INI	INIF: Nod Mission 4b
+SCB05EA.BIN	BIN: Nod Mission 5
+SCB05EA.INI	INIF: Nod Mission 5
+SCB06EA.BIN	BIN: Nod Mission 6
+SCB06EA.INI	INIF: Nod Mission 6
+SCB06EB.BIN	BIN: Nod Mission 6b
+SCB06EB.INI	INIF: Nod Mission 6b
+SCB06EC.BIN	BIN: Nod Mission 6c
+SCB06EC.INI	INIF: Nod Mission 6c
+SCB07EA.BIN	BIN: Nod Mission 7
+SCB07EA.INI	INIF: Nod Mission 7
+SCB07EB.BIN	BIN: Nod Mission 7b
+SCB07EB.INI	INIF: Nod Mission 7b
+SCB07EC.BIN	BIN: Nod Mission 7c
+SCB07EC.INI	INIF: Nod Mission 7c
+SCB08EA.BIN	BIN: Nod Mission 8
+SCB08EA.INI	INIF: Nod Mission 8
+SCB08EB.BIN	BIN: Nod Mission 8b
+SCB08EB.INI	INIF: Nod Mission 8b
+SCB09EA.BIN	BIN: Nod Mission 9
+SCB09EA.INI	INIF: Nod Mission 9
+SCB10EA.BIN	BIN: Nod Mission 10
+SCB10EA.INI	INIF: Nod Mission 10
+SCB10EB.BIN	BIN: Nod Mission 10b
+SCB10EB.INI	INIF: Nod Mission 10b
+SCB11EA.BIN	BIN: Nod Mission 11
+SCB11EA.INI	INIF: Nod Mission 11
+SCB11EB.BIN	BIN: Nod Mission 11b
+SCB11EB.INI	INIF: Nod Mission 11b
+SCB12EA.BIN	BIN: Nod Mission 12
+SCB12EA.INI	INIF: Nod Mission 12
+SCB13EA.BIN	BIN: Nod Mission 13
+SCB13EA.INI	INIF: Nod Mission 13
+SCB13EB.BIN	BIN: Nod Mission 13b
+SCB13EB.INI	INIF: Nod Mission 13b
+SCB13EC.BIN	BIN: Nod Mission 13c
+SCB13EC.INI	INIF: Nod Mission 13c
+SCB20EA.BIN	BIN: Bad Neighbourhood
+SCB20EA.INI	INIF: Bad Neighbourhood
+SCB21EA.BIN	BIN: Decit
+SCB21EA.INI	INIF: Decit
+SCB30EA.BIN	BIN: Eviction Notice
+SCB30EA.INI	INIF: Eviction Notice
+SCB31EA.BIN	BIN: The Tiberium Strain
+SCB31EA.INI	INIF: The Tiberium Strain
+SCB32EA.BIN	BIN: Cloak And Dagger
+SCB32EA.INI	INIF: Cloak And Dagger
+SCB33EA.BIN	BIN: Hostile Takeover
+SCB33EA.INI	INIF: Hostile Takeover
+SCB35EA.BIN	BIN: Under Siege
+SCB35EA.INI	INIF: Under Siege
+SCB37EA.BIN	BIN: Nod Death Squad
+SCB37EA.INI	INIF: Nod Death Squad
+SCG01EA.BIN	BIN: GDI Mission 1
+SCG01EA.INI	INIF: GDI Mission 1
+SCG02EA.BIN	BIN: GDI Mission 2
+SCG02EA.INI	INIF: GDI Mission 2
+SCG03EA.BIN	BIN: GDI Mission 3
+SCG03EA.INI	INIF: GDI Mission 3
+SCG04EA.BIN	BIN: GDI Mission 4
+SCG04EA.INI	INIF: GDI Mission 4
+SCG04WA.BIN	BIN: GDI Mission 4wa
+SCG04WA.INI	INIF: GDI Mission 4wa
+SCG04WB.BIN	BIN: GDI Mission 4wb
+SCG04WB.INI	INIF: GDI Mission 4wb
+SCG05EA.BIN	BIN: GDI Mission 5
+SCG05EA.INI	INIF: GDI Mission 5
+SCG05EB.BIN	BIN: GDI Mission 5b
+SCG05EB.INI	INIF: GDI Mission 5b
+SCG05WA.BIN	BIN: GDI Mission 5wa
+SCG05WA.INI	INIF: GDI Mission 5wa
+SCG05WB.BIN	BIN: GDI Mission 5wb
+SCG05WB.INI	INIF: GDI Mission 5wb
+SCG06EA.BIN	BIN: GDI Mission 6
+SCG06EA.INI	INIF: GDI Mission 6
+SCG07EA.BIN	BIN: GDI Mission 7
+SCG07EA.INI	INIF: GDI Mission 7
+SCG08EA.BIN	BIN: GDI Mission 8
+SCG08EA.INI	INIF: GDI Mission 8
+SCG08EB.BIN	BIN: GDI Mission 8b
+SCG08EB.INI	INIF: GDI Mission 8b
+SCG09EA.BIN	BIN: GDI Mission 9
+SCG09EA.INI	INIF: GDI Mission 9
+SCG10EA.BIN	BIN: GDI Mission 10
+SCG10EA.INI	INIF: GDI Mission 10
+SCG10EB.BIN	BIN: GDI Mission 10b
+SCG10EB.INI	INIF: GDI Mission 10b
+SCG11EA.BIN	BIN: GDI Mission 11
+SCG11EA.INI	INIF: GDI Mission 11
+SCG12EA.BIN	BIN: GDI Mission 12
+SCG12EA.INI	INIF: GDI Mission 12
+SCG12EB.BIN	BIN: GDI Mission 12b
+SCG12EB.INI	INIF: GDI Mission 12b
+SCG13EA.BIN	BIN: GDI Mission 13
+SCG13EA.INI	INIF: GDI Mission 13
+SCG13EB.BIN	BIN: GDI Mission 13b
+SCG13EB.INI	INIF: GDI Mission 13b
+SCG14EA.BIN	BIN: GDI Mission 14
+SCG14EA.INI	INIF: GDI Mission 14
+SCG15EA.BIN	BIN: GDI Mission 15
+SCG15EA.INI	INIF: GDI Mission 15
+SCG15EB.BIN	BIN: GDI Mission 15b
+SCG15EB.INI	INIF: GDI Mission 15b
+SCG15EC.BIN	BIN: GDI Mission 15c
+SCG15EC.INI	INIF: GDI Mission 15c
+SCG22EA.BIN	BIN: Blackout
+SCG22EA.INI	INIF: Blackout
+SCG23EA.BIN	BIN: Hells Fury
+SCG23EA.INI	INIF: Hells Fury
+SCG36EA.BIN	BIN: Infiltrated
+SCG36EA.INI	INIF: Infiltrated
+SCG38EA.BIN	BIN: Elemental Imperitive
+SCG38EA.INI	INIF: Elemental Imperitive
+SCG40EA.BIN	BIN: Ground Zero
+SCG40EA.INI	INIF: Ground Zero
+SCG41EA.BIN	BIN: Twist Of Fate
+SCG41EA.INI	INIF: Twist Of Fate
+SCG50EA.BIN	BIN: Blindsided
+SCG50EA.INI	INIF: Blindsided
+SCJ01EA.BIN	BIN: Jurassic Mission 1
+SCJ01EA.INI	INIF: Jurassic Mission 1
+SCJ02EA.BIN	BIN: Jurassic Mission 2
+SCJ02EA.INI	INIF: Jurassic Mission 2
+SCJ03EA.BIN	BIN: Jurassic Mission 3
+SCJ03EA.INI	INIF: Jurassic Mission 3
+SCJ04EA.BIN	BIN: Jurassic Mission 4
+SCJ04EA.INI	INIF: Jurassic Mission 4
+SCJ05EA.BIN	BIN: Jurassic Mission 5
+SCJ05EA.INI	INIF: Jurassic Mission 5
+SCM01EA.BIN	BIN: Green Acres
+SCM01EA.INI	INIF: Green Acres
+SCM02EA.BIN	BIN: Sand Trap
+SCM02EA.INI	INIF: Sand Trap
+SCM03EA.BIN	BIN: Lost Arena
+SCM03EA.INI	INIF: Lost Arena
+SCM04EA.BIN	BIN: River Raid
+SCM04EA.INI	INIF: River Raid
+SCM05EA.BIN	BIN: Eye Of The Storm
+SCM05EA.INI	INIF: Eye Of The Storm
+SCM06EA.BIN	BIN: Lakefront Clash
+SCM06EA.INI	INIF: Lakefront Clash
+SCM07EA.BIN	BIN: Desert Madness
+SCM07EA.INI	INIF: Desert Madness
+SCM08EA.BIN	BIN: Pitfall
+SCM08EA.INI	INIF: Pitfall
+SCM09EA.BIN	BIN: Moosehead Barrons
+SCM09EA.INI	INIF: Moosehead Barrons
+SCM10EA.BIN	BIN: Red Sands
+SCM10EA.INI	INIF: Red Sands
+SCM50EA.BIN	BIN: Emerald Highlands
+SCM50EA.INI	INIF: Emerald Highlands
+SCM51EA.BIN	BIN: Four Corners
+SCM51EA.INI	INIF: Four Corners
+SCM52EA.BIN	BIN: Cactus Valley
+SCM52EA.INI	INIF: Cactus Valley
+SCM60EA.BIN	BIN: Monkey In The Middle
+SCM60EA.INI	INIF: Monkey In The Middle
+SCM61EA.BIN	BIN: King Of The Mountain
+SCM61EA.INI	INIF: King Of The Mountain
+SCM62EA.BIN	BIN: Surgical Incision
+SCM62EA.INI	INIF: Surgical Incision
+SCM70EA.BIN	BIN: Winter Waterland
+SCM70EA.INI	INIF: Winter Waterland
+SCM71EA.BIN	BIN: One Pass Fits All
+SCM71EA.INI	INIF: One Pass Fits All
+SCM72EA.BIN	BIN: Straight And Narrow
+SCM72EA.INI	INIF: Straight And Narrow
+SCM73EA.BIN	BIN: King Takes Pawn
+SCM73EA.INI	INIF: King Takes Pawn
+SCM74EA.BIN	BIN: Nowhere To Hide
+SCM74EA.INI	INIF: Nowhere To Hide
+SCM75EA.BIN	BIN: Vilage Of The Unfortunate
+SCM75EA.INI	INIF: Vilage Of The Unfortunate
+SCM77EA.BIN	BIN: Marooned
+SCM77EA.INI	INIF: Marooned
+SCM90EA.BIN	BIN: A Long Way From Home
+SCM90EA.INI	INIF: A Long Way From Home
+SCM96EA.BIN	BIN: Tiberium Garden
+SCM96EA.INI	INIF: Tiberium Garden
+SCM97EA.BIN	BIN: Northern Explosion
+SCM97EA.INI	INIF: Northern Explosion
+SCM98EA.BIN	BIN: Diverse Reigon
+SCM98EA.INI	INIF: Diverse Reigon
+SCOLD1.AUD	???
+SCOLD2.AUD	???
+SCOLD2.JUV	???
+SCORE.PAL	PAL: Score
+SCOREFNT.FNT	Score
+SCORES.INF	INF: List For SCORES.MIX
+SCORPAL1.PAL	PAL: ???
+SCRATE.SHP	Steel Crate
+SCRSCN1.WSA	ANIM: Nod Score screen
+SEIGE.VQA	Siege On Base
+SEIGE.VQP	Siege On Base
+SELECT.SHP	Repairing
+SELECT1.AUD	Selection
+SELL.SHP	BUTT: Sell
+SETHPRE.VQA	Background On The Brotherhood
+SETHPRE.VQP	Background On The Brotherhood
+SETUP.DIP	Setup Program Strings
+SETUP.PAL	PAL: Setup
+SFX1.AUD	Sound Effects 1
+SFX2.AUD	Sound Effects 2
+SFX3.AUD	Sound Effects 3
+SFX4.AUD	Sound Effects 4
+SH1.TEM	Coast WD
+SH1.WIN	Coast WD
+SH10.TEM	Coast Corner N-E Ext
+SH10.WIN	Coast Corner N-E Ext
+SH11.TEM	Fjord WD
+SH11.WIN	Fjord WD
+SH12.TEM	Coast WU
+SH12.WIN	Coast WU
+SH13.TEM	Coast WU
+SH13.WIN	Coast WU
+SH14.TEM	Coast WU
+SH14.WIN	Coast WU
+SH15.TEM	Coast WU
+SH15.WIN	Coast WU
+SH16.TEM	Coast WU
+SH16.WIN	Fjord WU
+SH17.DES	Water
+SH17.TEM	Water
+SH17.WIN	Water
+SH18.DES	Water
+SH18.TEM	Water
+SH18.WIN	Water
+SH19.DES	Coast WD
+SH2.TEM	Coast WD
+SH2.WIN	Coast WD
+SH20.DES	Coast WD
+SH21.DES	Coast WD
+SH22.DES	Coast WD
+SH23.DES	Coast WD
+SH24.DES	Fjord WD
+SH25.DES	Coast WU
+SH26.DES	Coast WU
+SH27.DES	Coast WU
+SH28.DES	Coast WU
+SH29.DES	Coast WU
+SH3.TEM	Rock in water
+SH3.WIN	Rock in water
+SH30.DES	Coast WU
+SH31.DES	Fjord WU
+SH32.TEM	Coast Corner N-W Int
+SH32.WIN	Coast Corner N-W Int
+SH33.TEM	Coast Corner N-E Int
+SH33.WIN	Coast Corner N-E Int
+SH34.TEM	Coast WR
+SH34.WIN	Coast WR
+SH35.TEM	Coast WL
+SH35.WIN	Coast WL
+SH36.DES	Coast Corner S-E Int
+SH37.DES	Coast Corner W-S Int
+SH38.DES	Coast Corner N-E Int
+SH39.DES	Coast Corner N-W Int
+SH4.TEM	Rock in water
+SH4.WIN	Rock in water
+SH40.DES	Coast Corner S-E Int
+SH41.DES	Coast Corner N-W Int
+SH42.DES	Coast WL
+SH43.DES	Coast WL
+SH44.DES	Coast WR
+SH45.DES	Coast WR
+SH46.DES	Coast Corner S-E Int
+SH47.DES	Coast Corner S-E Int
+SH48.DES	Coast Corner N-E Int
+SH49.DES	Coast Corner N-W Int
+SH5.TEM	Coast WD
+SH5.WIN	Coast WD
+SH50.DES	Coast Corner S-E Ext
+SH51.DES	Coast Corner W-S Ext
+SH52.DES	Coast Corner N-E Ext
+SH53.DES	Coast Corner N-W Ext
+SH54.DES	Coast WD
+SH55.DES	Coast WD
+SH56.DES	Coast WU
+SH57.DES	Coast WU
+SH58.DES	Coast WR
+SH59.DES	Coast WR
+SH6.TEM	Coast WD
+SH6.WIN	Coast WD
+SH60.DES	Coast WL
+SH61.DES	Coast WL
+SH62.DES	Coast WD
+SH63.DES	Coast WD
+SH7.TEM	Coast Corner W-N External
+SH7.WIN	Coast Corner W-N External
+SH8.TEM	Coast Corner S-E Ext
+SH8.WIN	Coast Corner S-E Ext
+SH9.TEM	Coast Corner W-S Ext
+SH9.WIN	Coast Corner W-S Ext
+SHADOW.SHP	Map Shadows
+SIDBAR1C.AUD	Sidebar 1
+SIDBAR1C.JUV	Sidebar 1
+SIDBAR2C.AUD	Sidebar 2
+SIDBAR2C.JUV	Sidebar 2
+SIDES.PAL	PAL: ???
+SILO.SHP	Silo
+SILOICNH.DES	ICON: Silo
+SILOICNH.TEM	ICON: Silo
+SILOICNH.WIN	ICON: Silo
+SILOICON.SHP	ICON: Silo
+SILOMAKE.SHP	MAKE: Silo
+SILOS1.AUD	Silos Needed
+SMOKEY.SHP	Smoke Cloud
+SMOKE_M.SHP	Smoke
+SMOKLAND.SHP	Flare
+SNODPAL1.PAL	PAL: ???
+SOUNDS.INF	INF: List For SOUNDS.MIX
+SPEECH.INF	INF: List For SPEECH.MIX
+SPLIT2.TEM	Blossom Tree
+SPLIT2.WIN	Blossom Tree
+SPLIT3.DES	Blossom Tree
+SPLIT3.TEM	Blossom Tree
+SPLIT3.WIN	Blossom Tree
+SPYCRASH.VQA	Spyplane Crash
+SPYCRASH.VQP	Spyplane Crash
+SQUISH.SHP	Squished Body
+SQUISH2.AUD	Squish
+SQUISH2.JUV	Squish
+SR1.TEM	Dirt
+SR1.WIN	Dirt
+SR2.TEM	Dirt
+SR2.WIN	Dirt
+STEALTH.VQA	Stealth Tank
+STEALTH.VQP	Stealth Tank
+STEALTH2.SHP	CRAT: Stealth
+STEG.SHP	Stegosaurus
+STNK.SHP	Stealth Tank
+STNKICNH.DES	ICON: Stealth Tank
+STNKICNH.TEM	ICON: Stealth Tank
+STNKICNH.WIN	ICON: Stealth Tank
+STNKICON.SHP	ICON: Stealth Tank
+STOPTHEM.AUD	Deception
+STRCLOST.AUD	Structure Lost
+STRIP.SHP	ICON: Blank tile
+STRIPDN.SHP	BUTT: Scroll Down
+STRIPUP.SHP	BUTT: Scroll Up
+STRUGGLE.AUD	Static Sounds
+SUNDIAL.VQA	Sundial Being Blown Up
+SUNDIAL.VQP	Sundial Being Blown Up
+SYLOOK.VQP	???
+S_AFRICA.WSA	ANIM: Zoom on South Africa
+T01.TEM	Tree #1
+T01.WIN	Tree #1
+T02.TEM	Tree #2
+T02.WIN	Tree #2
+T03.TEM	Tree #3
+T03.WIN	Tree #3
+T04.DES	Tree #4
+T05.TEM	Tree #5
+T05.WIN	Tree #5
+T06.TEM	Tree #6
+T06.WIN	Tree #6
+T07.TEM	Tree #7
+T07.WIN	Tree #7
+T08.DES	Tree #8
+T08.TEM	Tree #8
+T08.WIN	Tree #8
+T09.DES	Tree #9
+T10.TEM	Tree #10
+T10.WIN	Tree #10
+T11.TEM	Tree #11
+T11.WIN	Tree #11
+T12.TEM	Tree #12
+T12.WIN	Tree #12
+T13.TEM	Tree #13
+T13.WIN	Tree #13
+T14.TEM	Tree #14
+T14.WIN	Tree #14
+T15.TEM	Tree #15
+T15.WIN	Tree #15
+T16.TEM	Tree #16
+T16.WIN	Tree #16
+T17.TEM	Tree #17
+T17.WIN	Tree #17
+T18.DES	Tree #18
+TABS.SHP	Options Bar
+TANKGO.VQA	Tanks Rolling Through The Desert
+TANKGO.VQP	Tanks Rolling Through The Desert
+TANKKILL.VQA	Tank Being Blown Up
+TANKKILL.VQP	Tank Being Blown Up
+TARGET.AUD	Mechanical Man
+TARGET1.AUD	Target 1
+TARGET2.AUD	Target 2
+TARGET3.AUD	Target 3
+TBRINFO1.VQA	Tiberium Info 1
+TBRINFO1.VQP	Tiberium Info 1
+TBRINFO2.VQA	Tiberium Info 2
+TBRINFO2.VQP	Tiberium Info 2
+TBRINFO3.VQA	Tiberium Info 3
+TBRINFO3.VQP	Tiberium Info 3
+TC01.TEM	Trees #1
+TC01.WIN	Trees #1
+TC02.TEM	Trees #2
+TC02.WIN	Trees #2
+TC03.TEM	Trees #3
+TC03.WIN	Trees #3
+TC04.TEM	Trees #4
+TC04.WIN	Trees #4
+TC05.TEM	Trees #5
+TC05.WIN	Trees #5
+TCLOCK.MRF	???
+TEMPERAT.INF	INF: List For TEMPERAT.MIX
+TEMPERAT.PAL	PAL: Temperate
+TEMPICNH.INF	INF: List For TEMPICNH.MIX
+TEXT1.AUD	Text
+TEXT2.AUD	Text
+TGREEN.MRF	???
+TI1.DES	Tiberium 1
+TI1.TEM	Tiberium 1
+TI1.WIN	Tiberium 1
+TI10.DES	Tiberium 10
+TI10.TEM	Tiberium 10
+TI10.WIN	Tiberium 10
+TI11.DES	Tiberium 11
+TI11.TEM	Tiberium 11
+TI11.WIN	Tiberium 11
+TI12.DES	Tiberium 12
+TI12.TEM	Tiberium 12
+TI12.WIN	Tiberium 12
+TI2.DES	Tiberium 2
+TI2.TEM	Tiberium 2
+TI2.WIN	Tiberium 2
+TI3.DES	Tiberium 3
+TI3.TEM	Tiberium 3
+TI3.WIN	Tiberium 3
+TI4.DES	Tiberium 4
+TI4.TEM	Tiberium 4
+TI4.WIN	Tiberium 4
+TI5.DES	Tiberium 5
+TI5.TEM	Tiberium 5
+TI5.WIN	Tiberium 5
+TI6.DES	Tiberium 6
+TI6.TEM	Tiberium 6
+TI6.WIN	Tiberium 6
+TI7.DES	Tiberium 7
+TI7.TEM	Tiberium 7
+TI7.WIN	Tiberium 7
+TI8.DES	Tiberium 8
+TI8.TEM	Tiberium 8
+TI8.WIN	Tiberium 8
+TI9.DES	Tiberium 9
+TI9.TEM	Tiberium 9
+TI9.WIN	Tiberium 9
+TIBERFX.VQA	The Effects Of Tiberium
+TIBERFX.VQP	The Effects Of Tiberium
+TIME.SHP	Score Screen Clock
+TITLE.CPS	PICT: Title screen
+TLIGHT.MRF	???
+TMOUSE.MRF	???
+TMPL.SHP	Temple Of Nod
+TMPLICNH.DES	ICON: Temple Of Nod
+TMPLICNH.TEM	ICON: Temple Of Nod
+TMPLICNH.WIN	ICON: Temple Of Nod
+TMPLICON.SHP	ICON: Temple Of Nod
+TMPLMAKE.SHP	MAKE: Temple Of Nod
+TNKFIRE2.AUD	Tank Fire
+TNKFIRE2.JUV	Tank Fire
+TNKFIRE3.AUD	Tank Fire
+TNKFIRE3.JUV	Tank Fire
+TNKFIRE4.AUD	Tank Fire
+TNKFIRE4.JUV	Tank Fire
+TNKFIRE6.AUD	Tank Fire
+TNKFIRE6.JUV	Tank Fire
+TONE15.AUD	Tone
+TONE15.JUV	Tone
+TONE16.AUD	Tone
+TONE16.JUV	Tone
+TONE2.AUD	Tone
+TONE2.JUV	Tone
+TONE5.AUD	Tone
+TONE5.JUV	Tone
+TONEY10.AUD	Tone
+TONEY4.AUD	Tone
+TONEY7.AUD	Tone
+TOSS1.AUD	???
+TOSS1.JUV	???
+TRAILER.VQA	Red Alert Preview
+TRAILER.VQP	Red Alert Preview
+TRAN.SHP	Chinook
+TRAN0203.WSA	ANIM: Sound Card Selection
+TRAN0204.WSA	ANIM: Sound Card Selection To Mouths
+TRAN0205.WSA	ANIM: Sound Card Selection To Bars
+TRAN0206.WSA	ANIM: Sound Card Selection To Port IRQ Dma Window
+TRAN02A4.WSA	ANIM: Sound Card Selection To Mouths
+TRAN0305.WSA	ANIM: Mouth To Bars
+TRAN0402.WSA	ANIM: Mouths To Sound Card Selection
+TRAN0403.WSA	ANIM: Mouths To Sound Card Selection
+TRAN04A2.WSA	ANIM: Mouth To Sound Card Selection
+TRAN04A3.WSA	ANIM: Mouth To Sound Card Selection
+TRAN0602.WSA	ANIM: Port IRQ Dma Window To Sound Card Selection
+TRAN0604.WSA	ANIM: Port IRQ Dma Window To Mouths
+TRAN06A4.WSA	ANIM: Port IRQ Dma Window To Mouth
+TRANICNH.DES	ICON: Chinook
+TRANICNH.TEM	ICON: Chinook
+TRANICNH.WIN	ICON: Chinook
+TRANICON.SHP	ICON: Chinook
+TRANS.ICN	Bulding Placement Tiles
+TRANS1.AUD	???
+TRANS1.JUV	???
+TRANSIT.INF	INF: List For TRANSIT.MIX
+TRED.MRF	???
+TREEBRN1.AUD	Tree Burn
+TREEBRN1.JUV	Tree Burn
+TREX.SHP	Tyrannosaurus Rex
+TREXIT.CPS	PICT: Bars
+TREXIT.WSA	ANIM: Installation Complete
+TRIC.SHP	Triceratops
+TROUBLE.AUD	Looks Like Trouble
+TROUBLE.VAR	Looks Like Trouble SFX
+TRTKIL_D.VQA	Turret Being Blown Up In The Desert
+TRTKIL_D.VQP	Turret Being Blown Up In The Desert
+TR_EXIT.CPS	PICT: Large Bar
+TR_EXIT.WSA	ANIM: Installation Complete
+TSHADE.MRF	???
+TSHADOW.MRF	???
+TTRANS.MRF	???
+TUFFGUY1.AUD	Commando Real Tough Guy
+TUNITS.MRF	???
+TURRFIR5.AUD	Turret Fire
+TURRFIR5.JUV	Turret Fire
+TURTKILL.VQA	Turret Being Blown Up In The Forest
+TURTKILL.VQP	Turret Being Blown Up In The Forest
+TWHITE.MRF	???
+TYELLOW.MRF	???
+TYPE.FNT	Type
+UGOTIT.V01	C&C #2 You Got It
+UGOTIT.V03	C&C #2 You Got It
+UNIT1.V00	C&C #1 Unit Reporting
+UNIT1.V02	C&C #3 Unit Reporting
+UNITLOST.AUD	Unit Lost
+UNITREDY.AUD	Unit Ready
+UPDATE.INF	INF: List For UPDATE.MIX
+V01.TEM	Church
+V01.WIN	Church
+V02.TEM	Civilian Building #1
+V02.WIN	Civilian Building #1
+V03.TEM	Civilian Building #2
+V03.WIN	Civilian Building #2
+V04.TEM	Civilian Building #3
+V04.WIN	Civilian Building #3
+V05.TEM	Civilian Building #4
+V05.WIN	Civilian Building #4
+V06.TEM	Civilian Building #5
+V06.WIN	Civilian Building #5
+V07.TEM	Civilian Building #6
+V07.WIN	Civilian Building #6
+V08.TEM	Civilian Building #7
+V08.WIN	Civilian Building #7
+V09.TEM	Civilian Building #8
+V09.WIN	Civilian Building #8
+V10.TEM	Civilian Building #9
+V10.WIN	Civilian Building #9
+V11.TEM	Civilian Building #10
+V11.WIN	Civilian Building #10
+V12.TEM	Civilian Building #11
+V12.WIN	Civilian Building #11
+V13.TEM	Civilian Building #12
+V13.WIN	Civilian Building #12
+V14.TEM	Field
+V14.WIN	Field
+V15.TEM	Field
+V15.WIN	Field
+V16.TEM	Field
+V16.WIN	Field
+V17.TEM	Field
+V17.WIN	Field
+V18.TEM	Field
+V18.WIN	Field
+V19.SHP	Oil Pump
+V20.DES	Civilian Building #13
+V21.DES	Civilian Building #14
+V22.DES	Civilian Building #15
+V23.DES	Civilian Building #16
+V24.DES	Civilian Building #17
+V25.DES	Civilian Building #18
+V26.DES	Civilian Building #19
+V27.DES	Civilian Building #20
+V28.DES	Civilian Building #21
+V29.DES	Civilian Building #22
+V30.DES	Civilian Building #23
+V31.DES	Civilian Building #24
+V32.DES	Civilian Building #25
+V33.DES	Civilian Building #26
+V34.DES	Civilian Building #27
+V35.DES	Civilian Building #28
+V36.DES	Civilian Building #29
+V37.DES	Civilian Building #30
+VALKYRIE.AUD	Valkyrie
+VCR.FNT	Vcr
+VEH-HIT1.SHP	Small Explosion
+VEH-HIT2.SHP	Explosion
+VEH-HIT3.SHP	Very Small Explosion
+VEHIC1.V00	C&C #1 Veicle Reporting
+VEHIC1.V02	C&C #3 Veicle Reporting
+VICE.SHP	Visceroid
+VISOR.VQA	Change Of Plan
+VISOR.VQP	Change Of Plan
+VOIC226M.AUD	Voices
+W1.DES	Water
+W1.TEM	Water
+W1.WIN	Water
+W2.TEM	Water
+W2.WIN	Water
+WAKE.SHP	Gunboat Wakes
+WARFARE.AUD	Warfare
+WCLOCK.MRF	???
+WCRATE.SHP	Wood Crate
+WEAP.SHP	War Factory
+WEAP2.SHP	War Factory Base
+WEAPICNH.DES	ICON: War Factory
+WEAPICNH.TEM	ICON: War Factory
+WEAPICNH.WIN	ICON: War Factory
+WEAPICON.SHP	ICON: War Factory
+WEAPMAKE.SHP	MAKE: War Factory
+WGREEN.MRF	???
+WIN1.AUD	Great Shot!
+WIN1.VAR	Great Shot! SFX
+WINTER.INF	INF: List For WINTER.MIX
+WINTER.PAL	PAL: Winter
+WINTICNH.INF	INF: List For WINTICNH.MIX
+WLIGHT.MRF	???
+WMOUSE.MRF	???
+WOOD.SHP	Wood Fence
+WOODICNH.DES	ICON: Wood Fence
+WOODICNH.TEM	ICON: Wood Fence
+WOODICNH.WIN	ICON: Wood Fence
+WOODICON.SHP	ICON: Wood Fence
+WORLD2.AUD	World
+WRED.MRF	???
+WSHADE.MRF	???
+WSHADOW.MRF	???
+WTRANS.MRF	???
+WUNITS.MRF	???
+WWHITE.MRF	???
+WYELLOW.MRF	???
+XPLOBIG4.AUD	Explosion
+XPLOBIG4.JUV	Explosion
+XPLOBIG6.AUD	Explosion
+XPLOBIG6.JUV	Explosion
+XPLOBIG7.AUD	Explosion
+XPLOBIG7.JUV	Explosion
+XPLODE.AUD	Explosion
+XPLODE.JUV	Explosion
+XPLOS.AUD	Explosion
+XPLOS.JUV	Explosion
+XPLOSML2.AUD	Explosion
+XPLOSML2.JUV	Explosion
+YEAH1.AUD	Commando Yeah
+YELL1.AUD	Yell
+YES1.AUD	Commando Yes Sir!
+YESSIR1.V00	C&C #1 Yes Sir!
+YESSIR1.V01	C&C #2 Yes Sir!
+YESSIR1.V02	C&C #3 Yes Sir!
+YESSIR1.V03	C&C #4 Yes Sir!
+YO1.AUD	Commando Yo
+ZOUNDS.INF	INF: List For ZOUNDS.MIX
