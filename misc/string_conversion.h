@@ -32,6 +32,8 @@ bool string_equal_i(const char* a, const char* b);
 bool string_equal_ip(const char* a, const char* b);
 string tabs2spaces(const string& v);
 string time2a(time_t v);
+string trim_field(const string&);
+string trim_text(const string&);
 
 inline string n(__int32 v)
 {
