@@ -651,25 +651,22 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cshp_file f;
 				f.load(m_data);
-				const int c_images = f.get_c_images();
-				int cx = f.get_cx();
-				int cy = f.get_cy();
-				draw_info("Count images:", n(c_images));
-				draw_info("Size:", n(cx) + " x " + n(cy));
+				draw_info("Count images:", n(f.cf()));
+				draw_info("Size:", n(f.cx()) + " x " + n(f.cy()));
+#ifndef NDEBUG
 				draw_info("Unknown1:", n(f.get_header()->unknown1));
 				draw_info("Unknown2:", n(f.get_header()->unknown2));
 				draw_info("Unknown3:", n(f.get_header()->unknown3));
+#endif
 				m_y += m_y_inc;
-				void* p;
-				if (cx && cy && !shp_images::load_shp(f, p))
+				load_color_table(get_default_palet(), true);
+				Cvirtual_image image = f.vimage();
+				const byte* r = image.image();
+				for (int i = 0; i < f.cf(); i++)
 				{
-					load_color_table(get_default_palet(), true);
-					for (int i = 0; i < c_images; i++)
-					{
-						draw_image8(shp_images::get_shp(p, i), cx, cy, pDC, 0, m_y);
-						m_y += cy + m_y_inc;
-					}
-					shp_images::destroy_shp(p);
+					draw_image8(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
+					r += f.cb_image();
+					m_y += f.cy() + m_y_inc;
 				}
 				break;
 			}
