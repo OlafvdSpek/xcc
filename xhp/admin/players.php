@@ -1,12 +1,6 @@
 <?php
 	require_once('common.php');
 
-	echo_links();
-?>
-<hr>
-<table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
-<hr>
-<?php
 	function select_players($where)
 	{
 		return db_query(sprintf("select p.sid, p.pid, p.pass, p.name as pname, p.flags, c.name as cname, motd, unix_timestamp(p.mtime) as mtime, unix_timestamp(p.ctime) as ctime from xwi_serials s inner join xwi_players p using (sid) left join xwi_clans c using (cid)%s order by p.name", $where));
@@ -38,15 +32,32 @@
 			echo_warning($result);
 	}
 
-	if ($_GET[a] == "motd" || $_GET[a] == "motd_submit")
+	require('templates/links.php');
+	echo('<hr>');
+	require('templates/search.php');
+	echo('<hr>');
+	$pname = trim($_GET[pname]);
+	switch ($_REQUEST['a'])
 	{
+	case 'chat':
+		$results = db_query(sprintf("select * from xwi_chat where `from` like '%s' or `to` like '%s' order by time limit 10000", addslashes($pname), addslashes($pname)));
+		echo('<table>');
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr><td nowrap>%s<td><a href="?a=chat&amp;pname=%s">%s<td>%s<td><a href="?a=chat&amp;pname=%s">%s',
+				gmdate("H:i d-m-Y", $result['time']), urlencode($result['from']), htmlspecialchars($result['from']), htmlspecialchars($result['msg']), urlencode($result['to']), htmlspecialchars($result['to']));
+		}
+		echo('</table>');
+		break;
+	case 'motd':
+	case 'motd_submit':
 		$pid = $_GET[pid];
 		$results = db_query(sprintf("select p.*, s.motd from xwi_players p inner join xwi_serials s using (sid) where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
 		$name = $result[name];
 		$sid = $result['sid'];
 
-		if ($_GET[a] == "motd_submit" && name)
+		if ($_GET['a'] == "motd_submit" && name)
 		{
 			$motd = $_GET[motd];
 			db_query(sprintf("update xwi_logins l inner join xwi_serials s using (sid) set s.motd = '%s' where l.pid = %d", addslashes($motd), $pid));
@@ -55,20 +66,10 @@
 		}
 		else
 			$motd = $result[motd];
-?>
-<table>
-	<form method=get>
-		<input type=hidden name=a value="motd_submit">
-		<input type=hidden name=pid value="<?php printf("%d", $pid) ?>">
-		<tr><td align=right>Name:<td><a href="?pid=<?php echo $pid ?>"><?php echo $name ?></a>
-		<tr><td align=right>Message:<td><textarea name=motd cols=80 rows=10><?php echo htmlspecialchars($motd) ?></textarea>
-		<tr><td><td><input type=submit></tr>
-	</form>
-</table>
-<?php
-	}
-	else if ($_GET[a] == "bl_insert" || $_GET[a] == "bl_insert_submit")
-	{
+		require('templates/motd_insert.php');
+		break;
+	case 'bl_insert':
+	case 'bl_insert_submit':
 		$pid = $_GET[pid];
 		$results = db_query(sprintf("select * from xwi_players where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
@@ -77,7 +78,7 @@
 		$link = $_GET[link];
 		$reason = $_GET[reason];
 		$dura = $_GET[dura] ? $_GET[dura] : 4;
-		if ($_GET[a] == "bl_insert_submit" && $name && $reason)
+		if ($_GET['a'] == "bl_insert_submit" && $name && $reason)
 		{
 			db_query(sprintf("insert into xbl (admin, sid, name, link, reason) values ('%s', %d, '%s', '%s', '%s')", AddSlashes($_SERVER[REMOTE_USER]), $sid, $name, AddSlashes($link), AddSlashes($reason)));
 			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
@@ -86,42 +87,37 @@
 				$sids[] = $result[sid];
 			db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid in (%s)", $dura, addslashes(implode(",", $sids))));
 		}
-		?>
-<table>
-	<form method=get>
-		<input type=hidden name=a value="bl_insert_submit">
-		<input type=hidden name=pid value="<?php printf("%d", $pid) ?>">
-		<tr><td align=right>Name:<td><?php echo $name ?>
-		<tr><td align=right>Reason:<td><input type=text name=reason size=60 value="<?php echo htmlspecialchars($reason) ?>">
-		<tr><td align=right>Link:<td><input type=text name=link size=60 value="<?php echo htmlspecialchars($link) ?>">
-		<tr><td align=right>Duration:<td><input type=text name=dura size=60 value="<?php printf("%d", $dura) ?>"> days
-		<tr><td><td><input type=submit>
-	</form>
-</table>
-<hr>
-		<?php
-			echo('<table>');
-			echo_players(select_players(sprintf(" where p.sid = %d", $sid)));
-			echo('</table>');
-	}
-	else if ($_GET[a] == "rb_insert")
-	{
+		require('templates/bl_insert.php');
+		echo('<hr>');
+		echo('<table>');
+		echo_players(select_players(sprintf(" where p.sid = %d", $sid)));
+		echo('</table>');
+		break;
+	case 'rb_insert':
 		$pid = $_GET[pid];
 		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
 		echo('<table>');
 		echo_players(select_players(sprintf(" where pid = %d", $pid)));
 		echo('</table>');
-	}
-	else if ($_GET[a] == "bad_passes")
-	{
+		break;
+	case 'bad_passes':
 		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) where ~flags & 2 order by name");
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
 		echo('</table>');
-	}
-	else if ($_GET[a] == "invalid_serials")
-	{
+		break;
+	case 'games':
+		$results = db_query(sprintf("select gid, ipa, sid from xcl_games_players gp inner join xcl_players p using (pid) where p.name like '%s' order by gid desc", $pname));
+		echo('<table>');
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr><td align=right><a href="/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a>',
+				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid']);
+		}
+		echo('</table>');
+		break;
+	case 'invalid_serials':
 		$results = db_query("select valid, count(*) c from xwi_serials group by valid");
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
@@ -133,34 +129,30 @@
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
 		echo('</table>');
-	}
-	else if ($_GET[a] == "xbl")
-	{
+		break;
+	case 'xbl':
 		$results = db_query("select *, unix_timestamp(xbl.mtime) as mtime from xbl order by wid desc");
 		echo('<table>');
 		echo_warnings($results);
 		echo('</table>');
-	}
-	else if ($_GET[a] == "xwsvs")
-	{
+		break;
+	case 'xwsvs':
 		$results = db_query("select * from xwsvs_log order by time desc");
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
 		echo('</table>');
-	}
-	else
-	{
+		break;
+	default:
 		$cname = trim($_GET[cname]);
 		$pid = $_GET[pid];
-		$pname = trim($_GET[pname]);
 		$sid = $_GET[sid];
 		if (is_numeric($pname))
 		{
 			$sid = $pname;
 			unset($pname);
 		}
-		if ($_GET[a] == "motds")
+		if ($_GET['a'] == "motds")
 			$where = " where motd != ''";
 		else if ($cname)
 			$where = sprintf(" where c.name like '%s'", AddSlashes($cname));
@@ -202,5 +194,5 @@
 		}
 	}
 	echo('<hr>');
-	echo_links();
+	require('templates/links.php');
 ?>
