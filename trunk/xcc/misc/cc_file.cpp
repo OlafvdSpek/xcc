@@ -13,6 +13,7 @@
 #include "cps_file.h"
 #include "fnt_file.h"
 #include "hva_file.h"
+#include "id_log.h"
 #include "jpeg_file.h"
 #include "map_td_ini_reader.h"
 #include "map_ra_ini_reader.h"
@@ -25,12 +26,14 @@
 #include "pal_file.h"
 #include "pcx_file.h"
 #include "png_file.h"
+#include "pkt_ts_ini_reader.h"
 #include "rules_ts_ini_reader.h"
 #include "shp_dune2_file.h"
 #include "shp_file.h"
 #include "shp_ts_file.h"
 #include "sound_ts_ini_reader.h"
 #include "st_file.h"
+#include "string_conversion.h"
 #include "text_file.h"
 #include "theme_ts_ini_reader.h"
 #include "tmp_file.h"
@@ -55,7 +58,7 @@
 
 const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dir", "drive", "fnt", "html", "hva", 
 	"ini", "jpeg", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
-	"mix", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
+	"mix", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "pkt (ts)", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
 	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
 	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 
@@ -118,6 +121,16 @@ int Ccc_file::open(const string& name)
         test_fail(read(m_data, m_size));
         m_f.close();
     }
+#ifndef NO_FT_SUPPORT
+	Cfname fname = to_lower(name);
+	if (fname.get_fext() == ".mmx")
+	{
+		fname.set_ext(".map");
+		mix_database::add_name(game_ra2, fname.get_fname(), "-");
+		fname.set_ext(".pkt");
+		mix_database::add_name(game_ra2, fname.get_fname(), "-");
+	}
+#endif
     test_fail(post_open())
     return 0;
 }
@@ -172,7 +185,7 @@ void Ccc_file::load(const Ccc_file& f)
 
 #ifndef NO_MIX_SUPPORT
 #ifndef NO_FT_SUPPORT
-t_file_type Ccc_file::get_file_type()
+t_file_type Ccc_file::get_file_type(bool fast)
 {
 	byte* data;
 	int size;
@@ -306,81 +319,90 @@ t_file_type Ccc_file::get_file_type()
 		ft = ft_st;
 	else if (text_f.is_valid())
 	{
-		/*
-		Cvirtual_tfile tf;
-		tf.load_data(data, size);
-		Cnull_ini_reader ir;
-		int error = 0;
-		while (!error && !tf.eof())
+		if (fast)
+			ft = ft_text;
+		else
 		{
-			error = ir.process_line(tf.read_line());
-			if (tf.eof())
-				error = 0;
-		}
-		if (!error && ir.is_valid())
-		{
-			if (!m_read_on_open && m_size != size)
+			Cvirtual_tfile tf;
+			tf.load_data(data, size);
+			Cnull_ini_reader ir;
+			int error = 0;
+			while (!error && !tf.eof())
 			{
-				delete[] data;
-				size = m_size;
-				data = new byte[size];
-				if (read(data, size))
+				error = ir.process_line(tf.read_line());
+				if (tf.eof())
+					error = 0;
+			}
+			if (!error && ir.is_valid())
+			{
+				if (!m_read_on_open && m_size != size)
 				{
 					delete[] data;
-					return ft_unknown;
+					size = m_size;
+					data = new byte[size];
+					if (read(data, size))
+					{
+						delete[] data;
+						return ft_unknown;
+					}
+					seek(0);
 				}
-				seek(0);
-			}
-			Cart_ts_ini_reader ir;
-			ir.fast(true);
-			if (!ir.process(data, size) && ir.is_valid())
-				ft = ft_art_ini_ts;
-			else
-			{
-				Cmap_td_ini_reader ir;
+				Cart_ts_ini_reader ir;
+				ir.fast(true);
 				if (!ir.process(data, size) && ir.is_valid())
-					ft = ft_map_td;
+					ft = ft_art_ini_ts;
 				else
 				{
-					Cmap_ra_ini_reader ir;
+					Cmap_td_ini_reader ir;
 					if (!ir.process(data, size) && ir.is_valid())
-						ft = ft_map_ra;
+						ft = ft_map_td;
 					else
 					{
-						Cmap_ts_ini_reader ir;
-						ir.fast(true);
+						Cmap_ra_ini_reader ir;
 						if (!ir.process(data, size) && ir.is_valid())
-							ft = ft_map_ts;
+							ft = ft_map_ra;
 						else
 						{
-							Crules_ts_ini_reader ir;
+							Cmap_ts_ini_reader ir;
 							ir.fast(true);
 							if (!ir.process(data, size) && ir.is_valid())
-								ft = ft_rules_ini_ts;
+								ft = ft_map_ts;
 							else
 							{
-								Csound_ts_ini_reader ir;
+								Cpkt_ts_ini_reader ir;
 								ir.fast(true);
 								if (!ir.process(data, size) && ir.is_valid())
-									ft = ft_sound_ini_ts;
+									ft = ft_pkt_ts;
 								else
 								{
-									Ctheme_ts_ini_reader ir;
+									Crules_ts_ini_reader ir;
+									ir.fast(true);
 									if (!ir.process(data, size) && ir.is_valid())
-										ft = ft_theme_ini_ts;
+										ft = ft_rules_ini_ts;
 									else
-										ft = ft_ini;
+									{
+										Csound_ts_ini_reader ir;
+										ir.fast(true);
+										if (!ir.process(data, size) && ir.is_valid())
+											ft = ft_sound_ini_ts;
+										else
+										{
+											Ctheme_ts_ini_reader ir;
+											if (!ir.process(data, size) && ir.is_valid())
+												ft = ft_theme_ini_ts;
+											else
+												ft = ft_ini;
+										}
+									}
 								}
 							}
 						}
 					}
 				}
 			}
+			else
+				ft = ft_text;
 		}
-		else
-			ft = ft_text;
-		*/
-		ft = ft_text;
 	}
 	else if (tmp_f.is_valid())
 		ft = ft_tmp;
@@ -461,6 +483,7 @@ int Ccc_file::read(void* data, int size)
 int Ccc_file::extract(const string& name)
 {
 	assert(is_open());
+	seek(0);
 	int error = 0;
 	Cfile32 f;
 	error = f.open_write(name);

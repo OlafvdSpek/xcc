@@ -1,11 +1,13 @@
 #include "stdafx.h"
 #include <assert.h>
 // #include <fstream>
+#include <minilzo.h>
 #include <memory>
 #include <minmax.h>
 #include "cc_structures.h"
 #include "shp_decode.h"
 #include "string_conversion.h"
+#include "virtual_binary.h"
 #include "xcc_log.h"
 
 static const char* encode64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -1054,57 +1056,13 @@ inline static void flush_c0(byte*& w, const byte* r, const byte*& copy_from, byt
 
 int encode5s(const byte* s, byte* d, int cb_s)
 {
-	const byte* r = s;
-	const byte* r_end = s + cb_s;
-	byte* w = d;
-	const byte* copy_from = NULL;
-	byte* small_copy = NULL;
-	while (r < r_end)
-	{
-		byte* p;
-		int cb_p;
-		int t = get_run_length(r, r_end);
-		/*
-		get_same(r - s < 0x8000 ? s : r - 0x7fff, r, r_end, p, cb_p);
-		if (cb_p > 2 && r - s > 3)
-		{
-			if (copy_from)
-				xcc_log::write_line(nh(8, w - d) + " C0: " + n(r - copy_from));
-			flush_c0(w, r, copy_from, small_copy, w == d);
-			if (cb_p <= 6 && r - p <= 0x800)
-			{
-				xcc_log::write_line(nh(8, w - d) + " C3: " + n(cb_p) + " from " + n(r - p));
-				write5_c3(w, cb_p, r - p);
-			}
-			else if (r - p <= 0x4000)
-			{
-				xcc_log::write_line(nh(8, w - d) + " C2: " + n(cb_p) + " from " + n(r - p));
-				write5_c2(w, cb_p, r - p);
-			}
-			else 
-			{
-				xcc_log::write_line(nh(8, w - d) + " C1: " + n(cb_p) + " from " + n(r - p));
-				write5_c1(w, cb_p, r - p);
-			}
-			r += cb_p;
-			small_copy = w - 2;
-		}
-		else
-		*/
-		{
-			if (!copy_from)
-				copy_from = r;
-			r += t;
-		}
-	}
-	flush_c0(w, r, copy_from, small_copy, w == d);
-	/*
-	if (copy_from)
-		xcc_log::write_line(nh(8, w - d) + " C0: " + n(r - copy_from));
-	*/
-	write5_c1(w, 3, 0);
-	assert(cb_s == r - s);
-	return w - d;
+	lzo_init();
+	static Cvirtual_binary t;
+	// static byte* t = new byte[LZO1X_1_MEM_COMPRESS];
+	unsigned int cb_d;
+	if (LZO_E_OK != lzo1x_1_compress(s, cb_s, d, &cb_d, t.write_start(LZO1X_1_MEM_COMPRESS)))
+		cb_d = 0;
+	return cb_d;
 }
 
 int encode5s_z(const byte* s, byte* d, int cb_s)
@@ -1122,6 +1080,11 @@ int encode5s_z(const byte* s, byte* d, int cb_s)
 
 int decode5s(const byte* s, byte* d, int cb_s)
 {
+	lzo_init();
+	unsigned int cb_d;
+	if (LZO_E_OK != lzo1x_decompress(s, cb_s, d, &cb_d, NULL))
+		return 0;
+	return cb_d;
 	/*
 	0 copy 0000cccc
 	1 copy 0001pccc ppppppzz p
@@ -1205,7 +1168,7 @@ int decode5s(const byte* s, byte* d, int cb_s)
 	return w - d;
 }
 
-int encode5(const byte* s, byte* d, int cb_s)
+int encode5(const byte* s, byte* d, int cb_s, int format)
 {
 	const byte* r = s;
 	const byte* r_end = s + cb_s;
@@ -1215,13 +1178,13 @@ int encode5(const byte* s, byte* d, int cb_s)
 		int cb_section = min(r_end - r, 8192);
 		t_pack_section_header& header = *reinterpret_cast<t_pack_section_header*>(w);
 		w += sizeof(t_pack_section_header);
-		w += header.size_in = encode5s(r, w, cb_section);
+		w += header.size_in = format == 80 ? encode80(r, w, cb_section) : encode5s(r, w, cb_section);
 		r += header.size_out = cb_section;
 	}
 	return w - d;
 }
 
-int decode5(const byte* s, byte* d, int cb_s)
+int decode5(const byte* s, byte* d, int cb_s, int format)
 {
 	const byte* r = s;
 	const byte* r_end = s + cb_s;
@@ -1230,7 +1193,10 @@ int decode5(const byte* s, byte* d, int cb_s)
 	{
 		const t_pack_section_header& header = *reinterpret_cast<const t_pack_section_header*>(r);
 		r += sizeof(t_pack_section_header);
-		decode5s(r, w, header.size_in);
+		if (format == 80)
+			decode80(r, w);
+		else
+			decode5s(r, w, header.size_in);
 		r += header.size_in;
 		w += header.size_out;
 	}

@@ -40,19 +40,21 @@ public:
 	int save_as_png(Cvirtual_file& f) const;
 	int save_as_png(string fname) const;
 	void swap_rb();
+	/*
 	const Cvirtual_image& operator=(const Cvirtual_image& v);
 	Cvirtual_image();
 	Cvirtual_image(const Cvirtual_image& v);
 	~Cvirtual_image();
+	*/
 
 	const byte* image() const
 	{
-		return m_image;
+		return m_image.data();
 	}
 
 	byte* image_edit()
 	{
-		return m_image;
+		return m_image.data_edit();
 	}
 
 	int cx() const
@@ -72,22 +74,42 @@ public:
 
 	const t_palet_entry* palet() const
 	{
-		return m_palet;
+		return reinterpret_cast<const t_palet_entry*>(m_palet.data());
 	}
 
 	int cb_image() const
 	{
 		return m_cx * m_cy * mcb_pixel;
 	}
+
+	int ofs8(int x, int y) const
+	{
+		return x + m_cx * y;
+	}
+
+	int ofs24(int x, int y) const
+	{
+		return ofs8(x, y) * 3;
+	}
+
+	int pixel8(int x, int y) const
+	{
+		return m_image.data()[ofs8(x, y)];
+	}
+
+	void pixel8(int x, int y, int v)
+	{
+		m_image.data_edit()[ofs8(x, y)] = v;
+	}
 private:
 	static int get_clipboard(Cvirtual_image& image);
 	static int set_clipboard(const Cvirtual_image& image);
 
-	byte* m_image;
+	Cvirtual_binary m_image;
+	Cvirtual_binary m_palet;
 	int m_cx;
 	int m_cy;
 	int mcb_pixel;
-	t_palet_entry* m_palet;
 };
 
 #endif // !defined(AFX_VIRTUAL_IMAGE_H__6FC64BA7_CF65_11D4_A95D_0050042229FC__INCLUDED_)

@@ -5,8 +5,8 @@
 #include "stdafx.h"
 #include "ogg_file.h"
 
-#include "vorbis/codec.h"
-#include "vorbis/vorbisfile.h"
+#include "codec.h"
+#include "vorbisfile.h"
 #include "wav_file.h"
 
 //////////////////////////////////////////////////////////////////////

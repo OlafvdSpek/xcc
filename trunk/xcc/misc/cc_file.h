@@ -15,7 +15,7 @@ enum t_file_type
 {
 	ft_ai_ini_ts, ft_ai_ini_ra2, ft_art_ini_ts, ft_art_ini_ra2, ft_aud, ft_avi, ft_bin, ft_bink, ft_bmp, ft_clipboard, ft_cps, ft_csv, ft_dir, ft_drive, ft_fnt, ft_html, ft_hva, ft_ini,
 	ft_jpeg, ft_map_dune2, ft_map_td, ft_map_ra, ft_map_ts, ft_map_ts_preview, ft_map_ra2, ft_mix, ft_mng, ft_mp3, ft_mrf, 
-	ft_ogg, ft_pak, ft_pal, ft_pal_jasc, ft_pcx_single, ft_pcx, ft_png_single, ft_png, ft_riff, ft_rules_ini_ts, ft_rules_ini_ra2, ft_shp_dune2, ft_shp, ft_shp_ts, 
+	ft_ogg, ft_pak, ft_pal, ft_pal_jasc, ft_pcx_single, ft_pcx, ft_png_single, ft_png, ft_pkt_ts, ft_riff, ft_rules_ini_ts, ft_rules_ini_ra2, ft_shp_dune2, ft_shp, ft_shp_ts, 
 	ft_sound_ini_ts, ft_sound_ini_ra2, ft_st, ft_text, ft_theme_ini_ts, ft_theme_ini_ra2, ft_tmp, ft_tmp_ra, ft_tmp_ts, ft_voc, ft_vpl, ft_vqa, ft_vqp, ft_vxl, ft_wav, 
 	ft_wav_ima_adpcm, ft_wav_pcm, ft_wsa_dune2, ft_wsa, ft_xcc_lmd, ft_xcc_unknown, ft_xif, ft_zip, ft_unknown, ft_count
 };
@@ -35,7 +35,7 @@ public:
     int open(const string& name);
 	void load(const byte* data, int size);
 	void load(const Ccc_file& f);
-	t_file_type get_file_type();
+	t_file_type get_file_type(bool fast = true);
 	int read();
     int read(void* data, int size);
 	int extract(const string& name);

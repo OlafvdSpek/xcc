@@ -9,8 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <cc_file_small.h>
-#include <palet.h>
+#include "cc_file_small.h"
 
 class Ctext_file: public Ccc_file_small
 {

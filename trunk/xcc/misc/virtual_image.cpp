@@ -18,47 +18,19 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-Cvirtual_image::Cvirtual_image()
-{
-	m_image = NULL;
-	m_palet = NULL;
-}
-
-Cvirtual_image::Cvirtual_image(const Cvirtual_image& v)
-{
-	m_image = NULL;
-	m_palet = NULL;
-	*this = v;
-}
-
-Cvirtual_image::~Cvirtual_image()
-{
-	delete m_palet;
-	delete[] m_image;
-}
-
-const Cvirtual_image& Cvirtual_image::operator=(const Cvirtual_image& v)
-{
-	load(v.image(), v.cx(), v.cy(), v.cb_pixel(), v.palet());
-	return *this;
-}
-
 void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet)
 {
-	delete m_palet;
-	delete[] m_image;
+	assert(cb_pixel < 4);
 	m_cx = cx;
 	m_cy = cy;
 	mcb_pixel = cb_pixel;
-	m_image = new byte[cb_image()];
-	memcpy(m_image, image, cb_image());
+	m_image.write_start(cb_image());
+	if (image)
+		memcpy(m_image.data_edit(), image, cb_image());
 	if (palet)
-	{
-		m_palet = new t_palet;
-		memcpy(m_palet, palet, sizeof(t_palet));
-	}
+		memcpy(m_palet.write_start(sizeof(t_palet)), palet, sizeof(t_palet));
 	else
-		m_palet = NULL;
+		m_palet.clear();
 }
 
 /*
@@ -138,52 +110,52 @@ int Cvirtual_image::load_as_pcx(string fname)
 
 int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
 {
-	return image_file_write(f, ft, m_image, m_palet, m_cx, m_cy);
+	return image_file_write(f, ft, image(), palet(), m_cx, m_cy);
 }
 
 int Cvirtual_image::save(string fname, t_file_type ft) const
 {
-	return image_file_write(fname, ft, m_image, m_palet, m_cx, m_cy);
+	return image_file_write(fname, ft, image(), palet(), m_cx, m_cy);
 }
 
 #ifdef JPEG_SUPPORT
 int Cvirtual_image::save_as_jpeg(Cvirtual_file& f) const
 {
-	return 1; // jpeg_file_write(f, m_image, m_palet, m_cx, m_cy);
+	return 1; // jpeg_file_write(f, image(), palet(), m_cx, m_cy);
 }
 
 int Cvirtual_image::save_as_jpeg(string fname) const
 {
-	return jpeg_file_write(fname, m_image, m_palet, m_cx, m_cy);
+	return jpeg_file_write(fname, image(), palet(), m_cx, m_cy);
 }
 #endif
 
 void Cvirtual_image::save_as_pcx(Cvirtual_file& f) const
 {
-	pcx_file_write(f, m_image, m_palet, m_cx, m_cy);
+	pcx_file_write(f, image(), palet(), m_cx, m_cy);
 }
 
 int Cvirtual_image::save_as_pcx(string fname) const
 {
-	return pcx_file_write(fname, m_image, m_palet, m_cx, m_cy);
+	return pcx_file_write(fname, image(), palet(), m_cx, m_cy);
 }
 
 #ifdef PNG_SUPPORT
 int Cvirtual_image::save_as_png(Cvirtual_file& f) const
 {
-	return 1; // png_file_write(f, m_image, m_palet, m_cx, m_cy);
+	return 1; // png_file_write(f, image(), palet(), m_cx, m_cy);
 }
 
 int Cvirtual_image::save_as_png(string fname) const
 {
-	return png_file_write(fname, m_image, m_palet, m_cx, m_cy);
+	return png_file_write(fname, image(), palet(), m_cx, m_cy);
 }
 #endif
 
 void Cvirtual_image::swap_rb()
 {
 	int count = m_cx * m_cy;
-	t_palet_entry* r = reinterpret_cast<t_palet_entry*>(m_image);
+	t_palet_entry* r = reinterpret_cast<t_palet_entry*>(m_image.data_edit());
 	while (count--)
 	{
 		swap(r->r, r->b);
@@ -206,28 +178,23 @@ static void flip_frame(const byte* s, byte* d, int cx, int cy, int cb_pixel)
 
 void Cvirtual_image::flip()
 {
-	byte* image = new byte[cb_image()];
-	flip_frame(m_image, image, cx(), cy(), cb_pixel());
-	delete[] m_image;
-	m_image = image;
+	Cvirtual_binary t = m_image;
+	flip_frame(t.data(), image_edit(), cx(), cy(), cb_pixel());
 }
 
 void Cvirtual_image::decrease_color_depth(const t_palet_entry* palet)
 {
 	assert(mcb_pixel == 3);
-	m_palet = new t_palet;
-	memcpy(m_palet, palet, sizeof(t_palet));
+	memcpy(m_palet.write_start(sizeof(t_palet)), palet, sizeof(t_palet));
 	int count = m_cx * m_cy;
-	byte* image = new byte[count];
-	const t_palet_entry* r = reinterpret_cast<t_palet_entry*>(m_image);
-	byte* w = image;
+	Cvirtual_binary t = m_image;
+	const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(t.data());
+	byte* w = m_image.write_start(count);
 	while (count--)
 	{
 		*w++ = find_color(r->r, r->g, r->b, palet);
 		r++;
 	}
-	delete[] m_image;
-	m_image = image;
 	mcb_pixel = 1;
 }
 
@@ -235,28 +202,26 @@ void Cvirtual_image::increase_color_depth()
 {
 	assert(mcb_pixel == 1);
 	int count = m_cx * m_cy;
-	t_palet_entry* image = new t_palet_entry[count];
-	const byte* r = m_image;
-	t_palet_entry* w = image;
+	Cvirtual_binary t = m_image;
+	const byte* r = t.data();
+	load(NULL, cx(), cy(), 3, NULL);
+	t_palet_entry* w = reinterpret_cast<t_palet_entry*>(image_edit());
 	while (count--)
 	{
-		*w++ = m_palet[*r++];
+		*w++ = palet()[*r++];
 	}
-	delete[] m_palet;
-	m_palet = NULL;
-	delete[] m_image;
-	m_image = reinterpret_cast<byte*>(image);
-	mcb_pixel = 3;
 }
 
 void Cvirtual_image::increase_palet_depth()
 {
-	assert(m_palet);
+	Cvirtual_binary t = m_palet;
+	const t_palet_entry* s = reinterpret_cast<const t_palet_entry*>(t.data());
+	t_palet_entry* d = reinterpret_cast<t_palet_entry*>(t.data_edit());
 	for (int i = 0; i < 256; i++)
 	{
-		m_palet[i].r = (m_palet[i].r & 63) * 255 / 63;
-		m_palet[i].g = (m_palet[i].g & 63) * 255 / 63;
-		m_palet[i].b = (m_palet[i].b & 63) * 255 / 63;
+		d[i].r = (s[i].r & 63) * 255 / 63;
+		d[i].g = (s[i].g & 63) * 255 / 63;
+		d[i].b = (s[i].b & 63) * 255 / 63;
 	}
 }
 
@@ -421,9 +386,9 @@ int Cvirtual_image::set_clipboard() const
 			{
 				for (int i = 0; i < 256; i++)
 				{
-					palet->rgbBlue = m_palet[i].b;
-					palet->rgbGreen = m_palet[i].g;
-					palet->rgbRed = m_palet[i].r;
+					palet->rgbBlue = this->palet()[i].b;
+					palet->rgbGreen = this->palet()[i].g;
+					palet->rgbRed = this->palet()[i].r;
 					palet->rgbReserved = 0;
 					palet++;
 				}

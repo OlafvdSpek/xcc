@@ -11,14 +11,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-Cvirtual_file::Cvirtual_file()
-{
-}
-
-Cvirtual_file::~Cvirtual_file()
-{
-}
-
 void Cvirtual_file::clear()
 {
 	m_data.clear();
@@ -28,17 +20,10 @@ void Cvirtual_file::compact()
 {
 	if (m_data.size() == 1)
 		return;
-	int cb_d = size();
-	byte* d = new byte[cb_d];
-	read(d);
-	/*
-	byte* w = d;
-	for (t_data::const_iterator i = m_data.begin(); i != m_data.end(); i++)
-		w += i->read(w);
-	*/
+	Cvirtual_binary t;
+	read(t.write_start(size()));
 	clear();
-	write(Cvirtual_binary(d, cb_d));
-	delete[] d;
+	write(t);
 }
 
 const byte* Cvirtual_file::data() const
@@ -75,21 +60,11 @@ int Cvirtual_file::export(string fname) const
 
 int Cvirtual_file::import(string fname)
 {
-	Cfile32 f;
-	int error = f.open_read(fname);
+	clear();
+	Cvirtual_binary t;
+	int error = t.import(fname);
 	if (!error)
-	{
-		int cb_d = f.get_size();
-		byte* d = new byte[cb_d];
-		error = f.read(d, cb_d);
-		if (!error)
-		{
-			clear();
-			write(Cvirtual_binary(d, cb_d));
-		}
-		delete[] d;
-		f.close();
-	}
+		write(t);
 	return error;
 }
 
@@ -97,11 +72,8 @@ Cvirtual_binary Cvirtual_file::read() const
 {
 	if (m_data.size() == 1)
 		return *m_data.begin();
-	int cb_d = size();
-	byte* d = new byte[cb_d];
-	read(d);
-	Cvirtual_binary r(d, cb_d);
-	delete[] d;
+	Cvirtual_binary r;
+	read(r.write_start(size()));
 	return r;
 }
 

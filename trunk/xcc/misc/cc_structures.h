@@ -134,12 +134,12 @@ struct t_iso_map_pack_entry
 {
 	unsigned __int16 x;
 	unsigned __int16 y;
-	unsigned __int16 ground;
-	unsigned __int8 unknown1;
-	unsigned __int8 unknown2;
-	unsigned __int8 unknown3;
-	unsigned __int8 height;
-	unsigned __int8 unknown4;
+	__int16 tile;
+	unsigned __int8 zero1;
+	unsigned __int8 zero2;
+	unsigned __int8 sub_tile;
+	unsigned __int8 z;
+	unsigned __int8 zero3;
 };
 
 struct t_ogg_header
