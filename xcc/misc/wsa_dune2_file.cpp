@@ -9,6 +9,64 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
+int Cwsa_dune2_file::cb_pixel() const
+{
+	return 1;
+}
+
+int Cwsa_dune2_file::cf() const
+{
+	return get_header()->c_frames;
+}
+
+int Cwsa_dune2_file::cx() const
+{
+	return get_header()->cx;
+}
+
+int Cwsa_dune2_file::cy() const
+{
+	return get_header()->cy;
+}
+
+/*
+int Cwsa_dune2_file::get_delta() const
+{
+	return get_header()->delta;
+}
+*/
+
+const byte* Cwsa_dune2_file::get_frame(int i) const
+{
+	return get_data() + get_offset(i);
+}
+
+int Cwsa_dune2_file::get_cb_ofs() const
+{
+	return get_index16()[get_index16()[cf() + 1] ? cf() + 1 : cf()] == get_size() ? 2 : 4;
+}
+
+int Cwsa_dune2_file::get_offset(int i) const
+{
+	return get_cb_ofs() == 2 ? get_index16()[i] : get_index32()[i];
+}
+
+const __int16* Cwsa_dune2_file::get_index16() const
+{
+	return reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header));
+}
+
+const __int32* Cwsa_dune2_file::get_index32() const
+{
+	return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header) + 2);
+}
+
+bool Cwsa_dune2_file::has_loop() const
+{
+	return get_offset(cf() + 1);
+}
+
+
 bool Cwsa_dune2_file::is_valid() const
 {
 	const t_wsa_dune2_header& header = *get_header();
