@@ -22,32 +22,47 @@ int Cxcl_database::pid(const string& name)
 	return mysql_insert_id(&handle());
 }
 
-int Cxcl_database::update_player(int pid, int cmp, int cty, const Cxcl_player& a, const Cxcl_player& b)
+int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b)
 {
+	int ladder;
+	switch (gsku)
+	{
+	case 0x2100:
+		ladder = 1;
+		break;
+	case 0x2900:
+		ladder = 2;
+		break;
+	default:
+		ladder = 0;
+	}
 	int points_win = 64 * (1 - 1 / (powf(10, static_cast<float>(b.points - a.points) / 400) + 1));
 	int points_loss = min(64 - points_win, a.points / 10);
 	Csql_query q(*this);
 	switch (cmp)
 	{
 	case 0x100:
-		q.write("update xcl_players set win_count = win_count + 1, points = points + %s, countries = countries | %s where pid = %s");
+		q.write("update xcl_players set win_count = win_count + 1, points = points + %s, points_max = greatest(points_max, points), countries = countries | %s, ladders = ladders | %s where pid = %s");
 		q.p(points_win);
 		q.p(1 << cty);
+		q.p(ladder);
 		q.p(pid);
 		q.execute();
 		return points_win;
 	case 0x200:
 	case 0x210:
-		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s where pid = %s");
+		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s, ladders = ladders | %s where pid = %s");
 		q.p(points_loss);
 		q.p(1 << cty);
+		q.p(ladder);
 		q.p(pid);
 		q.execute();
 		return -points_loss;
 	}
-	q.write("update xcl_players set countries = countries | %s where pid = %s");
+	q.write("update xcl_players set countries = countries | %s, ladders = ladders | %s where pid = %s");
 	q.p(points_win);
 	q.p(1 << cty);
+	q.p(ladder);
 	q.p(pid);
 	q.execute();
 	return 0;
@@ -83,7 +98,7 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	for (i = 0; i < 2; i++)
 		players[i] = player(pids[i]);
 	for (i = 0; i < 2; i++)
-		pc[i] = update_player(pids[i], gr.get_int("cmp", i), gr.get_int("cty", i), players[i], players[1 - i]);
+		pc[i] = update_player(pids[i], gr.get_int("cmp", i), gr.get_int("cty", i), gr.get_int("gsku"), players[i], players[1 - i]);
 	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 	q.p(gr.get_int("afps"));
 	q.p(gr.get_int("dura"));
