@@ -680,6 +680,8 @@
 			<td align=right>Yuri's Revenge
 			<td><a href="?lid=ra2_yr">Player</a>
 			<td><a href="?lid=ra2_yr_clan">Clan</a>
+		<tr>
+			<td align=center colspan=3><a href="ra2">Westwood Studios Style Ladder</a>
 	</table>
 </center>
 <?php
