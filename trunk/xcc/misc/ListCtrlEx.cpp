@@ -24,6 +24,8 @@ void CListCtrlEx::auto_size()
 
 void CListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
+	if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT)
+		return;
 	NMLVCUSTOMDRAW* pCustomDraw = reinterpret_cast<NMLVCUSTOMDRAW*>(pNMHDR);
 	switch (pCustomDraw->nmcd.dwDrawStage)
 	{
@@ -57,6 +59,8 @@ BOOL CListCtrlEx::PreTranslateMessage(MSG* pMsg)
 			switch (pMsg->wParam)
 			{
 			case 'A':
+				if (GetStyle() & LVS_SINGLESEL)
+					break;
 				{
 					for (int i = 0; i < GetItemCount(); i++)
 						SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
