@@ -765,13 +765,13 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_hva:
 		return d == ft_csv;
 	case ft_jpeg:
-		return d == ft_clipboard;
+		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_pal:
 		return d == ft_pal_jasc;
 	case ft_pcx:
 		return d == ft_clipboard || d == ft_cps || d == ft_map_ts_preview || d == ft_pal || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tmp_ts || d == ft_vxl;
 	case ft_png:
-		return d == ft_clipboard;
+		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_st:
 		return d == ft_text;
 	case ft_shp:
@@ -781,7 +781,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_text:
 		return d == ft_html || d == ft_hva || d == ft_vxl;
 	case ft_tga:
-		return d == ft_clipboard;
+		return d == ft_clipboard || d == ft_shp_ts;
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
@@ -1536,62 +1536,6 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	string base_name = fname.get_ftitle();
 	switch (m_index.find(get_id(i))->second.ft)
 	{
-	case ft_pcx:
-		{
-			base_name = get_base_name(fname);
-			if (get_index_from_name(base_name, fname))
-				return em_bad_fname;
-			Cpcx_file f;
-			error = open_f_index(f, i);
-			if (!error)
-			{
-				memcpy(s_palet, *f.get_palet(), sizeof(t_palet));
-				cx = f.cx();
-				cy = f.cy();
-				c_images = 0;
-				f.close();
-				int index[10000];
-				for (int i = 0; i < 10000; i++)
-					index[i] = -1;
-				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
-				{
-					int z = get_index_from_name(base_name, j->second.name);
-					if (z != -1 && z < 10000)
-						index[z] = j->first;
-				}
-				while (i--)
-				{
-					int id = index[i];
-					if (id == -1)
-						continue;
-					if (open_f_id(f, id))
-					{
-						error = 1;
-						break;
-					}
-					else
-					{
-						if (f.cx() != cx || f.cy() != cy)
-							error = em_bad_size;
-						else if (f.get_c_planes() != 1)
-							error = em_bad_depth;
-						else if (!error)
-						{
-							if (!s)
-							{
-								c_images = i + 1;
-								if (convert_shadow)
-									c_images <<= 1;
-								s = new byte[cx * cy * c_images];
-							}
-							pcx_decode(f.get_image(), s + cx * cy * i, *f.get_header());
-						}
-						f.close();
-					}
-				}
-			}
-			break;
-		}
 	case ft_shp:
 		{
 			Cshp_file f;
@@ -1619,6 +1563,72 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 			}
 			break;
 		}
+	default:
+		base_name = get_base_name(fname);
+		if (get_index_from_name(base_name, fname))
+			return em_bad_fname;
+		Ccc_file f(true);
+		error = open_f_index(f, i);
+		if (!error)
+		{
+			Cvirtual_image image;
+			error = image.load(f.get_vdata());
+			if (!error)
+			{
+				f.close();
+				if (image.palet())
+					memcpy(s_palet, image.palet(), sizeof(t_palet));
+				else
+				{
+					memcpy(s_palet, get_default_palet(), sizeof(t_palet));
+					convert_palet_18_to_24(s_palet);
+				}
+				cx = image.cx();
+				cy = image.cy();
+				c_images = 0;
+				int index[10000];
+				for (int i = 0; i < 10000; i++)
+					index[i] = -1;
+				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+				{
+					int z = get_index_from_name(base_name, j->second.name);
+					if (z != -1 && z < 10000)
+						index[z] = j->first;
+				}
+				while (i--)
+				{
+					int id = index[i];
+					if (id == -1)
+						continue;
+					if (error = open_f_id(f, id))
+						break;
+					if (error = image.load(f.get_vdata()))
+						break;
+					f.close();
+					if (image.cx() != cx || image.cy() != cy)
+						error = em_bad_size;
+					else if (image.cb_pixel() != 1)
+					{
+						t_palet p;
+						memcpy(p, get_default_palet(), sizeof(t_palet));
+						convert_palet_18_to_24(p);
+						image.decrease_color_depth(1, p);
+					}
+					if (!error)
+					{
+						if (!s)
+						{
+							c_images = i + 1;
+							if (convert_shadow)
+								c_images <<= 1;
+							s = new byte[cx * cy * c_images];
+						}
+						memcpy(s + cx * cy * i, image.image(), cx * cy);;
+					}
+				}
+			}
+		}
+		break;
 	}
 	if (!error && s)
 	{
