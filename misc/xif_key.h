@@ -17,14 +17,6 @@
 
 using namespace std;
 
-class Cxif_key_not_found
-{
-};
-
-class Cxif_value_not_found
-{
-};
-
 const static __int32 file_id = *reinterpret_cast<const __int32*>("XIF\x1a");
 const static int file_version_old = 0;
 const static int file_version_new = 1;
@@ -120,10 +112,17 @@ public:
 		m_values[id] = Cxif_value(vt_bin32, v);
 	}
 
+	void set_value_binary(int id, const Cvirtual_binary v)
+	{
+		m_values[id] = Cxif_value(v);
+	}
+
+	/*
 	void set_value_binary(int id, const void* v, int size)
 	{
 		m_values[id] = Cxif_value(v, size);
 	}
+	*/
 
 	void set_value_int(int id, int v)
 	{
@@ -137,22 +136,26 @@ public:
 
 	void set_value(int id, __int64 v)
 	{
-		m_values[id] = Cxif_value(&v, 8);
+		set_value_binary(id, Cvirtual_binary(&v, 8));
 	}
 
 	const Cxif_key& get_key(int id) const
 	{
 		t_xif_key_map::iterator i = m_keys.find(id);
+		/*
 		if (i == m_keys.end())
 			throw Cxif_key_not_found();
+		*/
 		return i->second;
 	}
 
 	const Cxif_value& get_value(int id) const
 	{
 		t_xif_value_map::iterator i = m_values.find(id);
+		/*
 		if (i == m_values.end())
 			throw Cxif_value_not_found();
+		*/
 		return i->second;
 	}
 
@@ -163,7 +166,7 @@ public:
 
 	__int64 get_value_int64(int id) const
 	{
-		return *reinterpret_cast<__int64*>(get_value(id).get_data());
+		return *reinterpret_cast<const __int64*>(get_value(id).get_data());
 	}
 
 	string get_value_string(int id) const
@@ -221,6 +224,12 @@ public:
 		return error;
 	}
 
+	int load_key(const Cvirtual_binary data)
+	{
+		return load_key(data.data(), data.size());
+	}
+
+	/*
 	int save_start()
 	{
 		int cb_s = get_size();
@@ -255,6 +264,7 @@ public:
 	{
 		delete[] m_data_c;
 	}
+	*/
 
 	void delete_key(int id)
 	{
@@ -266,19 +276,17 @@ public:
 		m_values.erase(id);
 	}
 
-	void delete_all_keys()
+	void clear()
 	{
 		m_keys.clear();
-	}
-
-	void delete_all_values()
-	{
 		m_values.clear();
 	}
 
 	void dump(ostream& os, bool show_ratio, int depth = 0, Cvirtual_binary* t = NULL) const;
 	void dump_ratio(ostream& os, Cvirtual_binary* t) const;
-	int save(string fname);
+	// int save(string fname);
+	Cvirtual_binary vdata() const;
+
 	t_xif_key_map& m_keys;
 	t_xif_value_map& m_values;
 private:

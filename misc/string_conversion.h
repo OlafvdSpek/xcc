@@ -23,6 +23,7 @@ string to_lower(const string& s);
 string to_normal(string s);
 string to_upper(const string& s);
 void split_key(const string& key, string& name, string& value);
+bool string_equal_i(const char* a, const char* b);
 string tabs2spaces(const string& v);
 
 inline char* make_c_str(const string& s)
@@ -40,8 +41,14 @@ inline string n(unsigned __int32 v)
 	return n(static_cast<unsigned int>(v));
 }
 
+inline bool string_equal_i(const string& a, const string& b)
+{
+	return string_equal_i(a.c_str(), b.c_str());
+}
+
 inline void trim(string& s)
 {
 	ltrim(s);
 	rtrim(s);
 }
+
