@@ -73,6 +73,7 @@ BOOL Cdlg_login::OnInitDialog()
 	add_game("Software\\Westwood\\Tiberian Sun", game_ts, 0x12);
 	add_game("Software\\Westwood\\Emperor", game_ebfd, 0x1f);
 	add_game("Software\\Westwood\\Red Alert 2", game_ra2, 0x21);
+	add_game("Software\\Westwood\\Nox", game_nox, 0x25);
 	add_game("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, 0x29);
 	for (int i = 1; i < 26; i++)
 	{
