@@ -13,13 +13,14 @@
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 #include "fname.h"
+#include "image_file.h"
 #include "palet.h"
 
 class Ctmp_ts_file: public Ccc_file_sh<t_tmp_ts_header>
 {
 public:
 	void draw(byte* d) const;
-	int extract_as_pcx(const string& name, const t_palet _palet) const;
+	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
 	void get_rect(int& x, int& y, int& cx, int& cy) const;
 
 	bool is_valid() const

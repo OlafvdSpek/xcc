@@ -17,7 +17,7 @@
 class Cwsa_file: public Ccc_file_sh<t_wsa_header>
 {
 public:
-	int extract_as_pcx(const Cfname& name) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft) const;
 
 	bool is_valid() const
 	{

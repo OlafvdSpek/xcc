@@ -3,50 +3,34 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "pcx_decode.h"
-#include "pcx_file_write.h"
-#include "shp_decode.h"
 #include "shp_dune2_file.h"
+
+#include "image_file.h"
+#include "shp_decode.h"
 #include "string_conversion.h"
 
-int Cshp_dune2_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
+int Cshp_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	convert_palet_18_to_24(_palet, palet);
-	int error = 0;
-	const int c_images = get_c_images();
-	for (int i = 0; i < c_images; i++)
+	for (int i = 0; i < get_c_images(); i++)
 	{
 		const int cx = get_cx(i);
 		const int cy = get_cy(i);
-		byte* d = new byte[cx * cy * 2];
-		byte* image = new byte[cx * cy];
+		Cvirtual_binary image;
 		if (is_compressed(i))
 		{
 			byte* d = new byte[get_image_header(i)->size_out];
-			decode2(d, image, decode80(get_image(i), d), get_reference_palet(i));
+			decode2(d, image.write_start(cx * cy), decode80(get_image(i), d), get_reference_palet(i));
 			delete[] d;
 		}
 		else
-			decode2(get_image(i), image, get_image_header(i)->size_out, get_reference_palet(i));
-		int cb_d = pcx_encode(image, d, cx, cy, 1);
-		delete[] image;
-		Cpcx_file_write f;
+			decode2(get_image(i), image.write_start(cx * cy), get_image_header(i)->size_out, get_reference_palet(i));
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		error = f.open_write(t);
+		int error = image_file_write(ft, image, palet, cx, cy).export(t);
 		if (error)
-			break;
-		f.set_size(cx, cy, 1);
-		error = f.write_header();
-		if (!error)
-			error = f.write_image(d, cb_d);
-		if (!error)
-			error = f.write_palet(palet);
-		f.close();
-		delete[] d;
-		if (error)
-			break;
+			return error;
 	}
-	return error;
+	return 0;
 }

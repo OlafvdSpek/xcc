@@ -1,13 +1,12 @@
 #include "stdafx.h"
 #include "shp_file.h"
 
-#include "pcx_decode.h"
-#include "pcx_file_write.h"
+#include "image_file.h"
 #include "shp_decode.h"
 #include "shp_images.h"
 #include "string_conversion.h"
 
-int Cshp_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
+int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
@@ -16,33 +15,19 @@ int Cshp_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 	const int cx = get_cx();
 	const int cy = get_cy();
 	const int c_images = get_c_images();
-	byte* d = new byte[cx * cy * 2];
 	void* p;
 	if (!shp_images::load_shp(*this, p))
 	{
+		Cfname t = name;
 		for (int i = 0; i < c_images; i++)
 		{
 			// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=td_icons/" + name.get_fname() + "></td></tr>");
-			int cb_d = pcx_encode(shp_images::get_shp(p, i), d, cx, cy, 1);
-			Cpcx_file_write f;
-			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(3, i));
-			error = f.open_write(t);
-			if (error)
-				break;
-			f.set_size(cx, cy, 1);
-			error = f.write_header();
-			if (!error)
-				error = f.write_image(d, cb_d);
-			if (!error)
-				error = f.write_palet(palet);
-			f.close();
-			if (error)
+			if (error = image_file_write(ft, shp_images::get_shp(p, i), palet, cx, cy).export(t))
 				break;
 		}
 		shp_images::destroy_shp(p);
 	}
-	delete[] d;
 	return error;
 }
 

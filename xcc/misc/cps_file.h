@@ -17,7 +17,7 @@ class Ccps_file: public Cimage_file<t_cps_header>
 {
 public:
 	void decode(void*) const;
-	int extract_as_pcx(const string& name, const t_palet _palet) const;
+	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
 
 	bool is_valid() const
 	{
