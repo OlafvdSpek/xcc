@@ -267,7 +267,7 @@ void CLeftView::OnEditPaste()
 	if (image.get_clipboard())
 		return;
 	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
+		image.decrease_color_depth(1, GetDocument()->palet());
 	GetDocument()->set_image(get_current_id(), image);
 }
 
@@ -282,7 +282,7 @@ void CLeftView::OnPopupPasteExtraImage()
 	if (image.get_clipboard())
 		return;
 	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
+		image.decrease_color_depth(1, GetDocument()->palet());
 	GetDocument()->set_extra_image(get_current_id(), image);
 }
 
@@ -336,7 +336,7 @@ void CLeftView::OnPopupPasteComplete()
 	if (image.get_clipboard())
 		return;
 	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
+		image.decrease_color_depth(1, GetDocument()->palet());
 	GetDocument()->set_complete(image);
 }
 
@@ -515,7 +515,7 @@ int CLeftView::load_image(Cvirtual_image& image)
 {
 	int error = image.load();
 	if (!error && image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
+		image.decrease_color_depth(1, GetDocument()->palet());
 	return error;
 }
 
