@@ -26,6 +26,8 @@ void recv(Csocket& s)
 		{
 			HWND hWnd = FindWindow(NULL, "Red Alert 2");
 			if (!hWnd)
+				hWnd = FindWindow(NULL, "Yuri's Revenge");
+			if (!hWnd)
 				break;
 			ShowWindow(hWnd, SW_SHOWMAXIMIZED);
 			SetForegroundWindow(hWnd);
@@ -38,7 +40,7 @@ void recv(Csocket& s)
 			string sender = read_string(s, s_end);
 			string message = read_string(s, s_end);
 			if (!sender.empty() && !message.empty())
-				cout << sender << ": " << message;
+				cout << sender << ": " << message << endl;
 		}
 		break;
 	}
@@ -53,7 +55,7 @@ int main(int argc, char* argv[])
 #endif
 	Csocket s;
 	s.open(SOCK_DGRAM);
-	s.connect(Csocket::get_host("localhost"), htons(4005));
+	s.connect(Csocket::get_host("xwis.net"), htons(4005));
 	fd_set fd_read_set;
 	int stime = 0;
 	while (1)
