@@ -71,7 +71,7 @@ public:
 		m_f.seek(sizeof(t_vqa_header));
 		m_f.read_chunk_header();
 		m_vqa_d.start_decode(*m_f.get_header());
-		for (m_frame_i = 0; m_frame_i < f - 1 && !decode(NULL); )
+		for (m_frame_i = 0; m_frame_i < f && !decode(NULL); )
 			;
 		return 0;
 	}

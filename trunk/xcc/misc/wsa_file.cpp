@@ -56,7 +56,7 @@ public:
 	{
 		if (f == m_frame_i)
 			return 0;
-		for (m_frame_i = 0; m_frame_i < f - 1 && !decode(NULL); )
+		for (m_frame_i = 0; m_frame_i < f && !decode(NULL); )
 			;
 		return 0;
 	}
