@@ -25,6 +25,7 @@ enum t_file_type
 	ft_bink,
 	ft_bmp,
 	ft_clipboard,
+	ft_csf,
 	ft_cps,
 	ft_csv,
 	ft_dds,

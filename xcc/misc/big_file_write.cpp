@@ -39,14 +39,14 @@ Cvirtual_binary Cbig_file_write::write()
 	header.id = big_id;
 	header.size = d.size();
 	header.mc_files = reverse(m_index.size());
-	header.mcb_header = cb_header;
+	header.mcb_header = reverse(cb_header);
 	byte* w2 = w + cb_header;
 	w += sizeof(t_big_header);
 	for (i = m_index.begin(); i != m_index.end(); i++)
 	{
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
-		e.offset = w2 - d;
-		e.size = i->second.size();
+		e.offset = reverse(w2 - d);
+		e.size = reverse(i->second.size());
 		w += sizeof(t_big_index_entry);		
 		memcpy(w, i->first.c_str(), i->first.length() + 1);
 		w += i->first.length() + 1;
