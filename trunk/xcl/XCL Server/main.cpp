@@ -27,7 +27,7 @@ void process(const Cvirtual_binary& s)
 	{
 		Cxcl_database database;
 		Cxcc_error error;
-		if (error = database.open("localhost", "xccu", "Zo30zr6", "xccu"))
+		if (error = database.open(mysql_host, mysql_user, mysql_pass, mysql_db))
 			throw error;
 		{
 			Csql_query q(database);
