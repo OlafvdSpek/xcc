@@ -35,7 +35,6 @@ END_MESSAGE_MAP()
 
 void CMIXList::OnDropFiles(HDROP hDropInfo) 
 {
-
 	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
 	char fname[MAX_PATH];
 	for (int i = 0; i < c_files; i++)

@@ -26,7 +26,7 @@ static char THIS_FILE[] = __FILE__;
 // CXCCMIXEditorDlg dialog
 
 CXCCMIXEditorDlg::CXCCMIXEditorDlg(CWnd* pParent /*=NULL*/):
-	CDialog(CXCCMIXEditorDlg::IDD, pParent)
+	ETSLayoutDialog(CXCCMIXEditorDlg::IDD, pParent, "XCCMIXEditorDlg")
 {
 	//{{AFX_DATA_INIT(CXCCMIXEditorDlg)
 	m_edit_status = _T("Author: Olaf van der Spek <XCC@XCC.TMFWeb.NL>");
@@ -39,7 +39,7 @@ CXCCMIXEditorDlg::CXCCMIXEditorDlg(CWnd* pParent /*=NULL*/):
 
 void CXCCMIXEditorDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCMIXEditorDlg)
 	DDX_Control(pDX, IDC_BUTTON_OPTIONS, m_button_options);
 	DDX_Control(pDX, IDC_BUTTON_DELETE, m_button_delete);
@@ -54,7 +54,7 @@ void CXCCMIXEditorDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, CDialog)
+BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CXCCMIXEditorDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -69,6 +69,7 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, CDialog)
 	ON_BN_CLICKED(IDC_BUTTON_OPTIONS, OnButtonOptions)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_NOTIFY(LVN_DELETEITEM, IDC_LIST, OnDeleteitemList)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -81,8 +82,24 @@ int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LV
 
 BOOL CXCCMIXEditorDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
-
+	ETSLayoutDialog::OnInitDialog();
+	CreateRoot(VERTICAL)
+		<< (pane(HORIZONTAL, GREEDY)
+			<< item(IDC_LIST, GREEDY)
+			<< (pane(VERTICAL, ABSOLUTE_HORZ)
+				<< item(IDC_BUTTON_NEW, NORESIZE)
+				<< item(IDC_BUTTON_OPEN, NORESIZE)
+				<< item(IDC_BUTTON_SAVE, NORESIZE)
+				<< item(IDC_BUTTON_COMPACT, NORESIZE)
+				<< item(IDC_BUTTON_CLOSE, NORESIZE)
+				<< item(IDC_BUTTON_LOAD_KEY, NORESIZE)
+				<< item(IDC_BUTTON_DELETE, NORESIZE)
+				<< item(IDC_BUTTON_OPTIONS, NORESIZE)
+				<< item(IDC_BUTTON_XCC_HOME_PAGE, NORESIZE)
+				)
+			)
+		<< item(IDC_EDIT_STATUS, ABSOLUTE_VERT);
+	UpdateLayout();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
@@ -125,7 +142,7 @@ void CXCCMIXEditorDlg::OnPaint()
 	}
 	else
 	{
-		CDialog::OnPaint();
+		ETSLayoutDialog::OnPaint();
 	}
 }
 
@@ -587,6 +604,7 @@ void CXCCMIXEditorDlg::update_list()
 		add_entry(i->first);
 	for (int j = 0; j < c_colums; j++)
 		m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
+	sort_list(0, false);
 	m_list.SetRedraw(true);
 }
 
@@ -611,3 +629,71 @@ void CXCCMIXEditorDlg::OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult)
 	m_button_delete.EnableWindow(m_current_id);
 	*pResult = 0;
 }
+
+void CXCCMIXEditorDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
+	sort_list(column, column == m_sort_column ? !m_sort_reverse : false);
+	*pResult = 0;
+}
+
+int compare_int(unsigned int a, unsigned int b)
+{
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
+int compare_string(string a, string b)
+{
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
+int CXCCMIXEditorDlg::compare(int id_a, int id_b) const
+{
+	if (m_sort_reverse)
+		swap(id_a, id_b);
+	const t_index_entry& a = m_index.find(id_a)->second;
+	const t_index_entry& b = m_index.find(id_b)->second;
+	switch (m_sort_column)
+	{
+	case 0:
+		return compare_string(a.fname, b.fname);
+		break;
+	case 1:
+		return compare_int(a.ft, b.ft);
+		break;
+	case 3:
+		return compare_int(id_a, id_b);
+		break;
+	case 4:
+		return compare_int(a.offset, b.offset);
+		break;
+	case 5:
+		return compare_int(a.size, b.size);
+		break;
+	default:
+		return 0;
+	}
+}
+
+static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+	return reinterpret_cast<CXCCMIXEditorDlg*>(lParamSort)->compare(lParam1, lParam2);
+}
+
+void CXCCMIXEditorDlg::sort_list(int i, bool reverse)
+{
+	m_sort_column = i;
+	m_sort_reverse = reverse;
+	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
+}
+

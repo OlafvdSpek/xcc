@@ -124,6 +124,10 @@ SOURCE=..\..\misc\ddpf_conversion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\file32.cpp
 # End Source File
 # Begin Source File

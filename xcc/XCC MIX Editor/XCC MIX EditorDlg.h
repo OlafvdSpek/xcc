@@ -19,13 +19,14 @@ using namespace std;
 /////////////////////////////////////////////////////////////////////////////
 // CXCCMIXEditorDlg dialog
 
-class CXCCMIXEditorDlg : public CDialog
+class CXCCMIXEditorDlg : public ETSLayoutDialog
 {
 // Construction
 public:
 	void add_entry(int id);
 	void add_file(const string& name);
 	int compact_mix();
+	int compare(int id_a, int id_b) const;
 	int get_header_size() const;
 	int get_max_offset() const;
 	int read_key(const string& name);
@@ -33,6 +34,7 @@ public:
 	int save_mix();
 	void set_changed(bool changed);
 	void set_status(const string& msg, bool error);
+	void sort_list(int i, bool reverse);
 	void update_buttons();
 	void update_list();
 	CXCCMIXEditorDlg(CWnd* pParent = NULL);	// standard constructor
@@ -78,6 +80,7 @@ protected:
 	afx_msg void OnButtonOptions();
 	afx_msg void OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) ;
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -101,6 +104,8 @@ private:
 	byte	m_key[cb_mix_key_source];
 	bool	m_key_loaded;
 	bool	m_open;
+	int		m_sort_column;
+	bool	m_sort_reverse;
 };
 
 //{{AFX_INSERT_LOCATION}}
