@@ -149,10 +149,6 @@ BEGIN
         MENUITEM "Energy status...",            ID_TOOLS_ENERGY_STATUS
         MENUITEM "Upgrade tiberium",            ID_TOOLS_UPGRADE_TIBERIUM
     END
-    POPUP "&Help"
-    BEGIN
-        MENUITEM "&About XCC Editor...",        ID_APP_ABOUT
-    END
 END
 
 CG_IDR_POPUP_XCCEDITOR_VIEW MENU DISCARDABLE 
@@ -287,19 +283,6 @@ BEGIN
     EDITTEXT        IDC_EDIT_CD,81,53,274,15,ES_AUTOHSCROLL
     LTEXT           "Data directory:",IDC_STATIC,7,76,47,8
     EDITTEXT        IDC_EDIT_DATA,81,76,274,15,ES_AUTOHSCROLL
-END
-
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 217, 55
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About XCC Editor"
-FONT 8, "MS Sans Serif"
-BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "XCC Editor 1.01",IDC_STATIC,40,10,119,8,SS_NOPREFIX
-    LTEXT           "Copyright (C) 1999",IDC_STATIC,40,25,119,8
-    DEFPUSHBUTTON   "OK",IDOK,178,7,32,14,WS_GROUP
-    LTEXT           "Author: Olaf van der Spek (Spek@EuroNet.NL)",IDC_STATIC,
-                    40,40,150,8
 END
 
 IDD_OPEN_FROM_MIX_DLG DIALOG DISCARDABLE  0, 0, 436, 300
@@ -718,14 +701,6 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
-    IDD_ABOUTBOX, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 210
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 48
-    END
-
     IDD_OPEN_FROM_MIX_DLG, DIALOG
     BEGIN
         LEFTMARGIN, 7
@@ -887,7 +862,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Editor 1.01\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
+    IDR_MAINFRAME           "XCC Editor 1.02\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
