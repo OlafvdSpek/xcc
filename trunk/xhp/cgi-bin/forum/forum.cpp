@@ -1,6 +1,7 @@
 #pragma warning(disable: 4786)
 #pragma warning(disable: 4800)
 
+#include <cassert>
 #include <cstdio>
 #include <fstream>
 #include <iostream>
