@@ -48,7 +48,7 @@ int Cbig_file::post_open()
 	int error = read(&header, sizeof(t_big_header));
 	Cvirtual_binary index;
 	if (!error)
-		error = read(index.write_start(header.cb_header()), header.cb_header());
+		error = read(index.write_start(header.cb_header() - sizeof(t_big_header)), header.cb_header() - sizeof(t_big_header));
 	if (!error)
 	{
 		int size = header.c_files();
