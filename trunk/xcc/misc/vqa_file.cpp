@@ -79,6 +79,7 @@ public:
 	Cvqa_decoder(const Cvqa_file& f)
 	{
 		m_f.load(f);
+		m_frame_i = -1;
 		seek(0);
 	}
 private:
