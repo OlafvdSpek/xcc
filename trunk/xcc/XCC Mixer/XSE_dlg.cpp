@@ -2,6 +2,7 @@
 //
 
 #include "stdafx.h"
+#include "MainFrm.h"
 #include "xcc mixer.h"
 #include "XSE_dlg.h"
 
@@ -24,6 +25,11 @@ static char THIS_FILE[] = __FILE__;
 // CXSE_dlg dialog
 
 
+static CMainFrame* GetMainFrame()
+{
+	return static_cast<CMainFrame*>(AfxGetMainWnd());
+}
+
 CXSE_dlg::CXSE_dlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSE_dlg::IDD, pParent, "XSE_dlg")
 {
@@ -31,6 +37,8 @@ CXSE_dlg::CXSE_dlg(CWnd* pParent /*=NULL*/)
 	m_extract_to_edit = _T("");
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
+	m_ds = GetMainFrame()->get_ds();
+	m_xap.ds(m_ds);
 }
 
 
@@ -38,6 +46,7 @@ void CXSE_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXSE_dlg)
+	DDX_Control(pDX, IDC_COMPACT, m_compact);
 	DDX_Control(pDX, IDC_LIST, m_list);
 	DDX_Control(pDX, IDC_PLAY, m_play);
 	DDX_Control(pDX, IDC_EXTRACT, m_extract);
@@ -55,8 +64,10 @@ BEGIN_MESSAGE_MAP(CXSE_dlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_COMPACT, OnCompact)
 	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST, OnGetdispinfoList)
 	ON_BN_CLICKED(IDC_EXTRACT_TO_BUTTON, OnExtractToButton)
-	ON_WM_DROPFILES()
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
+	ON_WM_DESTROY()
+	ON_WM_DROPFILES()
+	ON_BN_CLICKED(IDC_PLAY, OnPlay)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -119,8 +130,9 @@ BOOL CXSE_dlg::OnInitDialog()
 			m_reverse_csf_map[j->second.extra_value] = j;
 		}
 	}
-	m_bag_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.bag");
-	m_idx_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.idx");
+	if (m_bag_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.bag")
+		|| m_idx_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.idx"))
+		throw;
 	if (m_bag_f.get_size() && m_idx_f.get_size())
 	{
 		int cb_s = m_idx_f.get_size();
@@ -181,21 +193,18 @@ BOOL CXSE_dlg::OnInitDialog()
 	return false;
 }
 
+void CXSE_dlg::OnDestroy() 
+{
+	ETSLayoutDialog::OnDestroy();	
+	m_idx_f.close();
+	m_csf_f.close();
+	m_bag_f.close();
+}
+
 void CXSE_dlg::OnOK()
 {
 	write_idx_file();
-	m_idx_f.close();
-	m_csf_f.close();
-	m_bag_f.close();
 	ETSLayoutDialog::OnOK();
-}
-
-void CXSE_dlg::OnCancel()
-{
-	m_idx_f.close();
-	m_csf_f.close();
-	m_bag_f.close();
-	ETSLayoutDialog::OnCancel();
 }
 
 void CXSE_dlg::read_idx_file(const Caudio_idx_file& f)
@@ -249,9 +258,10 @@ int CXSE_dlg::get_current_index()
 void CXSE_dlg::check_selection()
 {
 	int index = get_current_index();
-	m_play.EnableWindow(false);
+	m_play.EnableWindow(index != -1 && m_ds);
 	m_extract.EnableWindow(index != -1);
 	m_delete.EnableWindow(index != -1);
+	m_compact.EnableWindow(get_bag_size() != m_bag_f.get_size());
 }
 
 void CXSE_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
@@ -260,6 +270,53 @@ void CXSE_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMListView->uNewState & LVIS_FOCUSED)
 		check_selection();
 	*pResult = 0;
+}
+
+void CXSE_dlg::OnPlay() 
+{
+	int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+	if (index == -1)
+		return;
+
+	int id = m_list.GetItemData(index);
+	const t_map_entry& e = m_map.find(id)->second;
+	int c_channels = e.flags & 1 ? 2 : 1;
+	if (e.flags & 2)
+	{
+		assert(!e.chunk_size);
+		int cb_d = sizeof(t_wav_header) + e.size;
+		byte* d = new byte[cb_d];
+		byte* w = d;
+		int c_channels = e.flags & 1 ? 2 : 1;
+		int c_samples = e.size / c_channels >> 1;
+		w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
+		m_bag_f.seek(e.offset);
+		if (!m_bag_f.read(w, e.size) && !m_xap.load(d, cb_d))
+			m_xap.play();
+		delete[] d;
+	}
+	else 
+	{
+		assert(e.flags & 8);
+		int cb_s = e.size;
+		byte* s = new byte[cb_s];
+		m_bag_f.seek(e.offset);
+		if (!m_bag_f.read(s, e.size))
+		{
+			Cima_adpcm_wav_decode decode;
+			decode.load(s, cb_s, c_channels, e.chunk_size);
+			int c_samples = decode.c_samples() / c_channels;
+			int cb_d = sizeof(t_wav_header) + (c_channels * c_samples << 1);
+			byte* d = new byte[cb_d];
+			byte* w = d;
+			w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
+			memcpy(w, decode.data(), c_channels * c_samples << 1);
+			if (!m_xap.load(d, cb_d))
+				m_xap.play();			
+			delete[] d;
+		}
+		delete[] s;
+	}
 }
 
 void CXSE_dlg::OnExtract()
@@ -273,6 +330,7 @@ void CXSE_dlg::OnExtract()
 		int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 		while (index != -1)
 		{
+			int error = 0;
 			int id = m_list.GetItemData(index);
 			const t_map_entry& e = m_map.find(id)->second;
 			int c_channels = e.flags & 1 ? 2 : 1;
@@ -287,7 +345,7 @@ void CXSE_dlg::OnExtract()
 				w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 				m_bag_f.seek(e.offset);
 				if (!m_bag_f.read(w, e.size))
-					file32_write(path + e.extra_value + ".wav", d, cb_d);
+					error = file32_write(path + e.extra_value + ".wav", d, cb_d);
 				delete[] d;
 			}
 			else 
@@ -306,11 +364,13 @@ void CXSE_dlg::OnExtract()
 					byte* w = d;
 					w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 					memcpy(w, decode.data(), c_channels * c_samples << 1);
-					file32_write(path + e.extra_value + ".wav", d, cb_d);
+					error = file32_write(path + e.extra_value + ".wav", d, cb_d);
 					delete[] d;
 				}
 				delete[] s;
 			}
+			if (error)
+				MessageBox("Error writing file.", NULL, MB_ICONERROR);
 			index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 		}
 	}
@@ -348,8 +408,37 @@ void CXSE_dlg::write_idx_file()
 	delete[] d;
 }
 
+int CXSE_dlg::get_bag_size() const
+{
+	int r = 0;
+	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+		r += i->second.size;
+	return r;
+}
+
 void CXSE_dlg::OnCompact()
 {
+	int error = 0;
+	int cb_d = get_bag_size();
+	byte* d = new byte[cb_d];
+	byte* w = d;
+	for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+	{
+		t_map_entry& e = i->second;
+		m_bag_f.seek(e.offset);
+		if (error = m_bag_f.read(w, e.size))
+			break;
+		e.offset = w - d;
+		w += e.size;
+	}
+	if (!error)
+	{
+		m_bag_f.seek(0);
+		error = m_bag_f.write(d, cb_d);
+		if (!error)
+			error = m_bag_f.set_eof();
+	}
+	delete[] d;
 	write_idx_file();
 	check_selection();
 }
@@ -370,8 +459,8 @@ void CXSE_dlg::add_file(const string& name)
 		if (f.is_valid() && !f.process())
 		{
 			const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
-			if (format_chunk.tag == 1 || format_chunk.tag == 0x11
-				&& format_chunk.c_channels == 1 || format_chunk.c_channels == 2
+			if ((format_chunk.tag == 1 || format_chunk.tag == 0x11)
+				&& (format_chunk.c_channels == 1 || format_chunk.c_channels == 2)
 				&& format_chunk.cbits_sample == (format_chunk.tag == 1 ? 16 : 4))
 			{
 				int cb_s = f.get_data_header().size;
@@ -516,7 +605,7 @@ void CXSE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-int compare_int(unsigned int a, unsigned int b)
+static int compare_int(unsigned int a, unsigned int b)
 {
 	if (a < b)
 		return -1;
@@ -526,7 +615,7 @@ int compare_int(unsigned int a, unsigned int b)
 		return 1;
 }
 
-int compare_string(string a, string b)
+static int compare_string(string a, string b)
 {
 	if (a < b)
 		return -1;
@@ -546,28 +635,20 @@ int CXSE_dlg::compare(int id_a, int id_b) const
 	{
 	case 0:
 		return compare_string(a.name, b.name);
-		break;
 	case 1:
 		return compare_string(a.extra_value, b.extra_value);
-		break;
 	case 2:
 		return compare_string(a.value, b.value);
-		break;
 	case 4:
 		return compare_int(a.offset, b.offset);
-		break;
 	case 5:
 		return compare_int(a.size, b.size);
-		break;
 	case 6:
 		return compare_int(a.samplerate, b.samplerate);
-		break;
 	case 7:
 		return compare_int(a.flags, b.flags);
-		break;
 	case 8:
 		return compare_int(a.chunk_size, b.chunk_size);
-		break;
 	default:
 		return 0;
 	}
@@ -584,4 +665,3 @@ void CXSE_dlg::sort_list(int i, bool reverse)
 	m_sort_reverse = reverse;
 	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
 }
-

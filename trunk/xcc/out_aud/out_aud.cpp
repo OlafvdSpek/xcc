@@ -21,7 +21,7 @@ int last_pause = 0;
 int cb_written;
 int cs_written;
 int start_time;
-int cb_audio;
+const int cb_audio = 16 << 10;
 __int16* audio;
 __int16* audio_w;
 
@@ -156,7 +156,6 @@ int open(int _samplerate, int _c_channels, int _cbits_sample, int bufferlenms, i
 	cb_written = 0;
 	cs_written = 0;
 	start_time = 0;
-	cb_audio = 16 << 10;
 	audio = new __int16[cb_audio];
 	audio_w = audio;
 	return 0;
@@ -219,7 +218,7 @@ int write(const __int16* s, int cb_s)
 
 int can_write()
 {
-	return last_pause ? 0: 16 << 10;
+	return last_pause ? 0: cb_audio;
 }
 
 int is_playing()

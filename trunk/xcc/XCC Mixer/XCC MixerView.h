@@ -13,6 +13,7 @@
 #include <mix_file.h>
 #include <stack>
 #include "fname.h"
+#include "xap.h"
 
 struct t_index_entry
 {
@@ -23,9 +24,7 @@ struct t_index_entry
 };
 
 typedef map<int, t_index_entry, less<int> > t_index;
-
 typedef vector<int> t_index_selected;
-
 typedef stack<Cmix_file*> t_location;
 
 class CXCCMixerView : public CListView
@@ -58,12 +57,14 @@ public:
 	int copy_as_text(int i, Cfname fname) const;
 	int copy_as_tmp_ts(int i, Cfname fname) const;
 	int copy_as_vxl(int i, Cfname fname) const;
-	int copy_as_wav(int i, Cfname fname) const;
+	int copy_as_wav_ima_adpcm(int i, Cfname fname) const;
+	int copy_as_wav_pcm(int i, Cfname fname) const;
 	int copy_as_xif(int i, Cfname fname) const;
 	int get_current_id() const;
 	int get_current_index() const;
 	const t_paletentry* get_default_palet() const;
 	string get_dir() const;
+	void set_reg_key(const string& v);
 	int get_id(int i) const;
 	int compare(int a, int b) const;
 	int open_f_id(Ccc_file& f, int id) const;
@@ -123,8 +124,8 @@ protected:
 	afx_msg void OnUpdatePopupCopyAsPCX(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsSHP();
 	afx_msg void OnUpdatePopupCopyAsSHP(CCmdUI* pCmdUI);
-	afx_msg void OnPopupCopyAsWAV();
-	afx_msg void OnUpdatePopupCopyAsWAV(CCmdUI* pCmdUI);
+	// afx_msg void OnPopupCopyAsWAV();
+	// afx_msg void OnUpdatePopupCopyAsWAV(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsWSA();
 	afx_msg void OnUpdatePopupCopyAsWSA(CCmdUI* pCmdUI);
 	afx_msg void OnPopupDelete();
@@ -169,6 +170,10 @@ protected:
 	afx_msg void OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsPNG();
 	afx_msg void OnUpdatePopupCopyAsPNG(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsWavImaAdpcm();
+	afx_msg void OnUpdatePopupCopyAsWavImaAdpcm(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsWavPcm();
+	afx_msg void OnUpdatePopupCopyAsWavPcm(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -181,9 +186,11 @@ private:
 	CXCCMixerView* m_other_pane;
 	t_game m_game;
 	t_palet m_palet;
+	CString m_reg_key;
 	bool m_palet_loaded;
 	int m_sort_column;
 	bool m_sort_reverse;
+	Cxap m_xap;
 };
 
 /////////////////////////////////////////////////////////////////////////////
