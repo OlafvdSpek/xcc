@@ -298,15 +298,13 @@ void CXIFList::OnPopupLoadValuePcx()
 		Cpcx_file f;
 		if (!f.open(static_cast<const char*>(dlg.GetPathName())))
 		{
-			if (f.is_valid() || f.get_c_planes() == 1)
+			if (f.is_valid() && f.cb_pixel() == 1)
 			{
 				CListCtrl& lc = GetListCtrl();
 				int i = get_current_index();
 				int id = lc.GetItemData(i);
-				const int cx = f.get_cx();
-				const int cy = f.get_cy();
 				Cvirtual_binary image;
-				pcx_decode(f.get_image(), image.write_start(cx * cy), *f.get_header());
+				pcx_decode(f.get_image(), image.write_start(f.cb_image()), *f.get_header());
 				m_key->set_value_binary(id, image);
 				update_value(i, id);
 			}

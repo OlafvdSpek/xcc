@@ -854,7 +854,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Editor 1.02\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
+    IDR_MAINFRAME           "XCC Editor 1.03\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
@@ -1023,6 +1023,7 @@ LANGUAGE 9, 1
 #endif
 #include "res\XCC Editor.rc2"  // non-Microsoft Visual C++ edited resources
 #include "afxres.rc"         // Standard components
+#include "afxprint.rc"       // printing/print preview resources
 #endif
 /////////////////////////////////////////////////////////////////////////////
 #endif    // not APSTUDIO_INVOKED
