@@ -23,25 +23,4 @@ BEGIN_MESSAGE_MAP(CXCCMixerDoc, CDocument)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCMixerDoc construction/destruction
-
-CXCCMixerDoc::CXCCMixerDoc()
-{
-}
-
-CXCCMixerDoc::~CXCCMixerDoc()
-{
-}
-
-BOOL CXCCMixerDoc::OnNewDocument()
-{
-	if (!CDocument::OnNewDocument())
-		return FALSE;
-
-	return TRUE;
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCMixerDoc commands
