@@ -163,6 +163,13 @@
 				"images/ordos.png",
 			);
 			break;
+		case 0x200:
+			$country_flag_urls = array
+			(
+				"images/gdi.png",
+				"images/nod.png",
+			);
+			break;
 		default:
 			$country_flag_urls = array
 			(
@@ -631,10 +638,19 @@
 						{
 							if ($result[countries] & 1 << $i)
 							{
-								if ($result[lid] == 5 || $result[lid] == 6)
+								switch ($result[lid])
+								{
+								case 5:
+								case 6:
 									printf("<td><img src=\"%s\" alt=\"%s\"> ", get_country_flag_url(0x100 | $i), get_country_name(0x100 | $i));
-								else
+									break;
+								case 7:
+								case 8:
+									printf("<td><img src=\"%s\" alt=\"%s\"> ", get_country_flag_url(0x200 | $i), get_country_name(0x200 | $i));
+									break;
+								default:
 									printf("<td><img src=\"%s\" alt=\"%s\"> ", get_country_flag_url($i), get_country_name($i));
+								}
 							}
 							else
 								echo("<td>");
