@@ -1,0 +1,5156 @@
+key.ini	
+se2kmix.inf	sun edit 2000 mix information
+explolrg.shp	big explosion
+chamspy.shp	unit: chameleon spy
+local mix database.dat	mix database
+00-i008.aud	gdi structure destroyed
+00-i012.aud	battle controll offline
+00-i014.aud	building infiltrated
+00-i016.aud	cannot deploy here
+00-i018.aud	construction complete
+00-i020.aud	incomming transmission
+00-i022.aud	insufficant funds
+00-i024.aud	low power
+00-i026.aud	mission accomplished
+00-i028.aud	mission failed
+00-i032.aud	new construction options
+00-i034.aud	primary building set
+00-i038.aud	reinforcements have arrived
+00-i040.aud	repairing
+00-i042.aud	select target
+00-i044.aud	silos needed
+00-i056.aud	building captured
+00-i058.aud	timer started
+00-i060.aud	timer stopped
+00-i062.aud	training
+00-i064.aud	unable to comply, building in progress
+00-i068.aud	unit armour upgraded
+00-i070.aud	unit firepower upgraded
+00-i074.aud	unit lost
+00-i076.aud	unit ready
+00-i078.aud	unit repaired
+00-i080.aud	unit speed upgraded
+00-i082.aud	base under attack
+00-i090.aud	harvester under attack
+00-i100.aud	primary objective achieved
+00-i102.aud	secondary objective achieved
+00-i104.aud	tertiary objective achieved
+00-i106.aud	quaternery objective achieved
+00-i118.aud	bridge repaired
+00-i122.aud	twenty minutes remaining
+00-i124.aud	ten minutes remaining
+00-i126.aud	five minutes remaining
+00-i128.aud	four minutes remaining
+00-i130.aud	three minutes remaining
+00-i132.aud	two minutes remaining
+00-i134.aud	one minute remaining
+00-i150.aud	missile launch detected
+00-i152.aud	chemical missile ready
+00-i154.aud	cluster missile ready
+00-i156.aud	ion cannon ready
+00-i158.aud	em pulse cannon ready
+00-i162.aud	fire storm defense ready
+00-i170.aud	fire storm defense offline
+00-i172.aud	cloaked unit detected
+00-i174.aud	subterrainian unit detected
+00-i176.aud	ion storm approaching
+00-i178.aud	metior storm approaching
+00-i180.aud	base defenses offline
+00-i194.aud	critical unit lost
+00-i196.aud	critical structure lost
+00-i198.aud	new terrain discovered
+00-i200.aud	establishing battlefield controll, stand by
+00-i208.aud	mutant supplies found
+00-i210.aud	commandos en route
+00-i216.aud	building
+00-i218.aud	on hold
+00-i220.aud	canceled
+00-i226.aud	unit sold
+00-i228.aud	structure sold
+00-i230.aud	building offline
+00-i232.aud	building online
+00-i252.aud	player has resigned
+00-i268.aud	player was defeated
+00-i284.aud	you are victorious
+00-i286.aud	you have lost
+00-i288.aud	you have resigned
+00-i290.aud	mutant commandos available
+00-i304.aud	alliance formed
+00-i306.aud	alliance broken
+00-i308.aud	our ally is under attack
+00-i310.aud	build more power plants to restore full power
+00-i312.aud	build barracks to train additional troops
+00-i314.aud	build hand of nod to train additional troops
+00-i316.aud	build a tiberium refinery to harvest tiberium
+00-i318.aud	build silos to store excess tiberium
+00-i344.aud	inferior tactics detected
+00-i346.aud	retreat is your only logical option
+00-i348.aud	surrender is your only logical option
+00-i352.aud	your defeat is at hand
+00-i356.aud	you have been marked for termination
+00-i360.aud	time to erase the human factor from this equasion
+00-i370.aud	your probobility of sucess is dropping
+00-i372.aud	surrender is preferable against the odds you are facing
+00-i374.aud	data recieved indicates that you are a threat
+00-i376.aud	defeat of enemy predicted
+00-i500.aud	objective complete
+00-i502.aud	final objective complete
+00-i504.aud	unable to comply, fist of nod deployed
+00-i506.aud	drop pods available
+00-n000.aud	build a refinery to harvest tiberium
+00-n002.aud	harvester will begin harvesting
+00-n004.aud	build a barracks
+00-n006.aud	destroy all nod forces in the area
+00-n018.aud	civillian killed
+00-n020.aud	nod sam sites destroyed
+00-n022.aud	gdi transports en route
+00-n024.aud	civillians evacuated, objective complete
+00-n032.aud	site secure, objective complete
+00-n034.aud	technology centre captured, objective complete
+00-n040.aud	base destroyed, objective complete
+00-n042.aud	it would be advantages to destroy bridges
+00-n044.aud	bridges destroyed, objective complete
+00-n052.aud	ufo under attack
+00-n054.aud	ufo destroyed, mission failed
+00-n055.aud	array destroyed, objective complete
+00-n056.aud	incomming transmission
+00-n058.aud	tratos evacuated, primary objective complete
+00-n059.aud	transport destroyed, mission failed
+00-n068.aud	ion storm approaching, eta 5 minutes
+00-n070.aud	ion storm abating
+00-n072.aud	air power innefective during ion storms
+00-n074.aud	dam destroyed, mission complete
+00-n075.aud	dam sighted, target confirmed
+00-n084.aud	enemy sam sites detected
+00-n086.aud	all sam sites must be destroyed before dropships can be deployed
+00-n088.aud	sam sites destroyed, dropships inbound
+00-n096.aud	command centre destroyed, mission complete
+00-n098.aud	warning, inbound tactical nuke detected
+00-n112.aud	perimeter deactivated
+00-n114.aud	reinforcements inbound
+00-n128.aud	bridge repaired
+00-n130.aud	train returning to nod base
+00-n132.aud	reinforcements en route
+00-n134.aud	capture nod tech center to recover the crystals
+00-n136.aud	train disabled, carryall inbound
+00-n138.aud	crystals destroyed, mission failed
+00-n140.aud	ion storm forming over this sector, pilot return to base
+00-n142.aud	pilot return to base
+00-n156.aud	force detected, enemy units en route
+00-n158.aud	mutants lost, mission failed
+00-n160.aud	airstrike ready
+00-n162.aud	transports inbound
+00-n166.aud	supply base destroyed, mission complete
+00-n168.aud	mutants en route to power grid
+00-n180.aud	c4 planted, mission complete
+00-n182.aud	ghost stalker terminated, mission failed
+00-n188.aud	missile complex destroyed, mission complete
+00-n190.aud	tiberium missile inbound
+00-n192.aud	ion storn will disable fighters
+00-n206.aud	mutants detected, enemy forces en route
+00-n208.aud	fighter production facillity located, dropships en route
+00-n210.aud	fighter production facillity destroyed, mission complete
+00-n236.aud	kodiak under attack
+00-n238.aud	storm abating, commence attack on nod forces
+00-n239.aud	kodiak in critical condition
+00-n240.aud	kodiak destroyed, mission failed
+00-n241.aud	eye of the storm has been entered, equpiment at maximum efficency
+00-n243.aud	tiberium life form detected
+00-n245.aud	re-entering ion storm, caution is advised
+00-n247.aud	clear the zone for mcv dropship deployment
+00-n248.aud	philladelphia in range, icbm launch detected, mission failed
+00-n249.aud	tiberium life form detected
+00-n250.aud	tiberium missile launched, mission failed
+00-n251.aud	icbms destroyed, philadelphia is out of danger
+00-n252.aud	nod has installed several icbms to take out the philladelphia
+00-n254.aud	to stop them, take out the other 3 launchers
+00-n255.aud	civillian city is under attack
+00-n400.aud	kodiak located
+00-n402.aud	tascitus aquired, proced to beacon for extraction
+00-n404.aud	tascitus lost
+00-n406.aud	tascitus found
+00-n408.aud	nod has captured the tascitus, recover it at all costs
+00-n410.aud	find & evacuate any civillians in the area
+00-n412.aud	maintain all factories untill reinforcements arrive
+00-n414.aud	escort the civillians to the orca transport for immediate airlift
+00-n416.aud	human leader neutralized
+00-n418.aud	mutant leader neutralized
+00-n420.aud	food centre under attack
+00-n422.aud	food centre destroyed
+00-n424.aud	water purifiers under attack
+00-n426.aud	water purifiers destroyed
+00-n428.aud	the riots were incited by 2 members of each side
+00-n430.aud	neutralize the leaders to end hostillities
+00-n432.aud	riot leader neutralized
+00-n434.aud	first riot leader neutralized
+00-n436.aud	second riot leader neutralized
+00-n438.aud	third riot leader neutralized
+00-n440.aud	forth riot leader neutralized
+00-n442.aud	all riot leaders have been neutralized
+00-n444.aud	enemy reinforcements have arrived
+00-n446.aud	destroy the two bridges in the area
+00-n448.aud	disable cabals defences
+00-n450.aud	use an engineer to capture cabals core
+00-n452.aud	outpost located
+00-n454.aud	destroy all cabal forces
+00-n456.aud	return to the outpost & evacuate doctor budro
+00-n458.aud	gdi base is located due east of your position
+00-n460.aud	procede with caution
+00-n462.aud	inform the villages
+00-n464.aud	village sucessfully warned
+00-n466.aud	all villages sucessfully warned
+00-n468.aud	we have lost contatc with the gdi base in this sector
+00-n470.aud	we have lost contact with the gdi base in this reigon
+00-n472.aud	gdi base in this sector under siege
+00-n474.aud	3 small civillian enclaves in this area must be warned
+00-n478.aud	two more outposts to warn
+00-n479.aud	one final village must be warned
+00-n480.aud	the city of trondheim must be warned
+00-n482.aud	destroy cabals base & forces
+00-n484.aud	infected cyborg introduced into factory
+00-n486.aud	deliver the infected cyborg into the communications network
+00-n488.aud	destroy the cyborg production plant
+00-n490.aud	deliver the infected cyborg into cabals base
+00-n492.aud	there is another communications array in cabals main base
+00-n494.aud	deliver a second cyborg to the new array
+00-n496.aud	multiple missile launches detected
+00-n498.aud	destroy cabals harvesters
+00-n500.aud	controll station captured
+00-n502.aud	there are 3 controll stations in this area
+00-n504.aud	capture these stations & retrieve the codes
+00-n506.aud	destroy the bridges
+00-n508.aud	locating the civillians might help in disabling the laser fencing
+00-n510.aud	proboble location within civillian outpost to the north
+01-i342.aud	inferior tactics detected
+01-i350.aud	observe superior tactics while you still have human eyes
+01-i352.aud	your defeat is at hand
+01-i356.aud	you have been marked for termination
+01-i360.aud	time to erase the human factor from this equasion
+01-i362.aud	prepair for decimation
+01-i364.aud	you make this easy, fleshbag
+01-i366.aud	we tire of your insignificant defience
+01-i368.aud	the sacrifice of the many is the pleasure of the few
+01-i378.aud	terminator protocols initiated
+01-n000.aud	harvest the tiberium to the north
+01-n002.aud	destroy hassans elite guard
+01-n004.aud	to get production on line, build a tiberium refinery
+01-n005.aud	base perimiter has been breached
+01-n006.aud	establishing battle controlls, stand by
+01-n007.aud	to build or train...
+01-n008.aud	battle controlls established
+01-n009.aud	tiberium is hazzardus to unprotected infantry
+01-n010.aud	power levels are low, construct more power plants
+01-n011.aud	to repair a structure...
+01-n020.aud	capture the tv station to the east
+01-n022.aud	to repair a bridge...
+01-n024.aud	destroy hassans remaining guard
+01-n026.aud	to capture a building...
+01-n027.aud	to deploy a vechile...
+01-n032.aud	move to an open area and build your base
+01-n034.aud	destroy hassans pyramid
+01-n036.aud	when hassan flees like a dog, capture him
+01-n038.aud	capturing the local radar towers
+01-n040.aud	mcv has arrived to the south east
+01-n054.aud	it seams that cretain structures attract lighting
+01-n055.aud	use them to your advantage
+01-n064.aud	gdi base operational
+01-n066.aud	tascitus has been aquired
+01-n068.aud	tiberium life form detected
+01-n070.aud	mutant vermin detected
+01-n072.aud	gdi dropship detected
+01-n074.aud	bullet train departing
+01-n076.aud	prevent that train from leaving
+01-n086.aud	protect your engineers
+01-n088.aud	congratulations on your sucess
+01-n090.aud	I will send an apc now to the gdi base
+01-n100.aud	your forces have been detected
+01-n102.aud	prevent gdis evacuation at all costs
+01-n114.aud	incoming transport detected
+01-n116.aud	mutant life form detected on board
+01-n128.aud	mutants located
+01-n130.aud	mcv en route
+01-n132.aud	research facillity located
+01-n134.aud	research facillity destroyed
+01-n136.aud	biotoxin convoy approaching
+01-n144.aud	biotoxin tankers located
+01-n156.aud	gdi bullet train arriving at outpost
+01-n158.aud	gdi bullet train arriving at prison
+01-n160.aud	transport has arrived
+01-n162.aud	transport lost
+01-n164.aud	transport has been detected
+01-n174.aud	the creature is the tiberium substance we seek, use it
+01-n176.aud	tiberium missile ready
+01-n178.aud	do not allow the construction yard to be destroyed
+01-n180.aud	you must build a tiberium waste facility
+01-n192.aud	convoy truck lost
+01-n194.aud	tiberium missile ready
+01-n196.aud	convoy inbound
+01-n208.aud	stealth is key
+01-n210.aud	spy lost, mission failed
+01-n212.aud	com centre infiltrated, location detected
+01-n227.aud	if he detects the trap, capture him before he can flee
+01-n228.aud	convoy sighted
+01-n229.aud	do not let mcneal escape
+01-n230.aud	mcneal killed, mission failed
+01-n231.aud	all toxin soldiers killed, mission failed
+01-n232.aud	mcneal captured, mission complete
+01-n233.aud	production facillity destroyed
+01-n234.aud	mcneal escaped, mission failed
+01-n256.aud	orbit 1 complete
+01-n258.aud	orbit 2 complete
+01-n260.aud	orbit 3 complete, mission failed
+01-n262.aud	perimiter deactivated, commence attack
+01-n264.aud	icbm launcher lost, mission failed
+01-n266.aud	icbm launcher under attack
+01-n268.aud	ion cannon firing, resending controll codes
+01-n270.aud	the ion cannon is ours
+01-n284.aud	spy killed, mission failed
+01-n286.aud	proceed to evac location, transport en route
+01-n320.aud	intruders detected
+01-n322.aud	proboble objective is rescue of mutant prisoners
+01-n324.aud	kill all prisoners
+01-n326.aud	all forces converge
+01-n328.aud	main power offline
+01-n330.aud	main power restored
+01-n400.aud	cabal online
+01-n402.aud	perhaps you should attempt to kill their leader
+01-n404.aud	ghost stalker killed
+01-n406.aud	juggernaut destroyed
+01-n408.aud	find the temple & recover the tascitus
+01-n410.aud	cyborg replication error, reset system
+01-n412.aud	system reset, normal parameters restored
+01-n414.aud	gdi patroll near
+01-n416.aud	tiberium life form detected
+01-n418.aud	gdi has detected you
+01-n420.aud	remain hidden from the gdi forces
+01-n422.aud	destroy all civillian structures without being detected
+01-n424.aud	eliminate all gdi & civillians
+01-n426.aud	use the toxin soldiers to capture civillians
+01-n428.aud	bait the tiberium life forms by using the drugged civillians
+01-n430.aud	lead the tiberium life forms to the gdi & civillian areas
+01-n432.aud	once the tiberium life form has devoured the civillians
+01-n434.aud	use this location as a staging point for your operation
+01-n436.aud	gdi cannot reach you here
+01-n438.aud	outpost located
+01-n440.aud	tascitus found
+01-n442.aud	the tascitus is safetly in our hands
+01-n444.aud	exterminate the mutant vermin
+01-n446.aud	locate the mutant outpost
+01-n448.aud	find the truck containing the tascitus & return it to the beacon
+01-n450.aud	emininate all mutant forces
+01-n452.aud	run humans
+01-n462.aud	activating defence protocol, firestorm, now
+01-n468.aud	you amuse me
+01-n470.aud	sam sites destroyed, air power incoming
+01-n472.aud	you have been detected, tratos is escaping by air transport
+01-n474.aud	you have failed, tratos has escaped
+01-n476.aud	the arrays have been destroyed, sensors are now down
+01-n478.aud	capturing 6 power plants will shut down the firestorm generator
+01-n900.aud	warning, regulators offline
+01-n901.aud	dam integrity failing
+09-i000.aud	yes
+09-i002.aud	ok
+09-i004.aud	ooh
+09-i006.aud	aah
+10-i000.aud	give me an order
+10-i002.aud	what do you want
+10-i004.aud	you talking to me
+10-i006.aud	what
+10-i016.aud	stay low
+10-i020.aud	ok
+10-i022.aud	already there
+10-i024.aud	right between the eyes
+10-i026.aud	i only need 1 shot
+10-i028.aud	this is too easy
+10-i030.aud	good as done
+10-n032.aud	the medical facillity is located to the east
+10-n034.aud	the medical facillity is located to the west
+10-n036.aud	we must get tratos out of that facillity
+10-n038.aud	so much for sutlty
+10-n040.aud	tratos, no
+10-n042.aud	we must get tratos to the transport
+10-n044.aud	our work here is done, were out of here
+10-n046.aud	they've seen us, fall back
+11-i000.aud	yes
+11-i002.aud	direct me
+11-i004.aud	awaiting orders
+11-i006.aud	i'm ready
+11-i008.aud	of course
+11-i010.aud	immediatly
+11-i012.aud	yes
+11-i014.aud	for kane
+11-i016.aud	they will pay for this
+11-i018.aud	for the brotherhood
+120mmf.aud	artillery sound
+120mmx9.aud	artillery sound two-shooter
+12-i000.aud	yes cabal
+12-i002.aud	where to
+12-i004.aud	yes
+12-i006.aud	yes
+12-i008.aud	for kane
+12-i010.aud	i will
+12-i012.aud	we must find oxanna
+12-i014.aud	leave no enemy standing
+12-i016.aud	kill them
+13-i000.aud	huh
+13-i002.aud	what
+13-i004.aud	ah
+13-i006.aud	lead me
+13-i008.aud	arrows from the sky
+13-i010.aud	green becomes brown
+13-i012.aud	tah
+13-i014.aud	yes
+13-i016.aud	be careful
+13-i018.aud	nod is everywhere
+13-i020.aud	where is the tascitus
+14-i000.aud	yes
+14-i002.aud	over here
+14-i004.aud	give me a target
+14-i008.aud	it will be done
+14-i010.aud	very well
+14-i012.aud	any time
+14-i014.aud	you got it
+14-i016.aud	there could be trouble
+15-i000.aud	infantry reporting
+15-i002.aud	unit ready
+15-i004.aud	awaiting order
+15-i006.aud	sir
+15-i008.aud	sir yes sir
+15-i010.aud	ready
+15-i012.aud	yes sir
+15-i014.aud	yes sir
+15-i016.aud	orders received
+15-i018.aud	moving out
+15-i020.aud	advancing
+15-i022.aud	on my way
+15-i024.aud	you got it
+15-i026.aud	no problem
+15-i032.aud	ready for action
+15-i038.aud	standing by
+15-i040.aud	yeah
+15-i042.aud	orders
+15-i044.aud	loud & clear
+15-i046.aud	i'm on it
+15-i048.aud	sir
+15-i050.aud	good as done
+15-i058.aud	i'm taking heavy fire
+15-i060.aud	move move move
+15-i064.aud	medic
+19-i000.aud	engineer
+19-i002.aud	yes sir
+19-i006.aud	awaiting orders
+19-i010.aud	affirmative
+19-i016.aud	no problem
+19-i018.aud	i can fix that
+19-n100.aud	looks like the kodiak is a loss
+19-n102.aud	ive got the eva unit, lets get out of here
+20-i000.aud	medic reporting
+20-i004.aud	yes sir
+20-i006.aud	awaiting orders
+20-i008.aud	affirmative
+20-i010.aud	acknowledged
+20-i012.aud	moving out
+20-i016.aud	stat
+20-i018.aud	clear
+20-i020.aud	give me some room
+21-i000.aud	hehehe
+21-i002.aud	over here
+21-i004.aud	shh
+21-i010.aud	yes
+21-i012.aud	excellent
+21-i016.aud	moving
+21-i022.aud	its yours
+22-i000.aud	input directive
+22-i002.aud	comlink open
+22-i006.aud	unit ready
+22-i008.aud	affirmative
+22-i010.aud	by your command
+22-i012.aud	target aquired
+22-i014.aud	scan initiated
+22-i016.aud	proceding
+22-i018.aud	unit engaged
+22-i020.aud	processing
+22-n100.aud	terminate all biological lifeforms
+22-n102.aud	the will of cabal must be enforced
+22-n104.aud	error
+22-n106.aud	system failure
+22-n108.aud	malfunction
+22-n110.aud	hit him
+22-n112.aud	intruder alert
+22-n114.aud	you are not one of us
+22-n116.aud	fire in the hole
+22-n118.aud	proceding to target
+22-n120.aud	sequence engaged
+23-i000.aud	your command
+23-i002.aud	standing by
+23-i004.aud	directive
+23-i006.aud	status
+23-i008.aud	i obay
+23-i010.aud	affirmative
+23-i012.aud	executing
+23-i014.aud	terminated
+23-i016.aud	stand clear
+23-i018.aud	they will know fear
+23-i020.aud	for the brotherhood
+23-i022.aud	i can smell their fear
+24-i000.aud	need a ride
+24-i002.aud	sir
+24-i004.aud	yeah
+24-i006.aud	what
+24-i008.aud	hot wired
+24-i010.aud	hit it
+24-i012.aud	four on the floor
+24-i014.aud	cool
+24-i016.aud	where do you want it
+24-i018.aud	going my way
+24-i020.aud	no keys, no problem
+24-i022.aud	jacking them up
+24-i024.aud	i always wanted one of these
+25-i000.aud	unit reporting
+25-i002.aud	unit ready
+25-i004.aud	awaiting orders
+25-i006.aud	sir
+25-i012.aud	yes sir
+25-i014.aud	yes sir
+25-i016.aud	orders recieved
+25-i018.aud	moving out
+25-i022.aud	on my way
+25-i024.aud	you got it
+25-i026.aud	no problem
+27-i002.aud	unit deploy response
+30-i000.aud	pilot reporting
+30-i002.aud	ready
+30-i004.aud	awaiting orders
+30-i006.aud	sir
+30-i014.aud	yes sir
+30-i016.aud	orders recieved
+30-i018.aud	over and out
+30-i022.aud	on my way
+30-i030.aud	death from above
+30-i034.aud	form up
+30-i036.aud	away we go
+32-i000.aud	affirmative
+32-i002.aud	target sighted
+32-i004.aud	orders recieved
+32-i006.aud	engaging
+32-i008.aud	woops
+33-n000.aud	where the hell are those reinforcements
+33-n002.aud	its nod sir, they came out of nowhere
+33-n004.aud	looks like they tore this place appart already
+33-n008.aud	here they come
+33-n010.aud	is there any tech left at the nod base
+33-n012.aud	these critters don't look too friendly
+33-n014.aud	the cavelry has arrived
+33-n020.aud	i believe there is an old gdi base near
+33-n022.aud	here comes kanes welcoming comittee
+33-n024.aud	whats the eta on that mcv
+35-n000.aud	get tratos over here, ASAP
+35-n002.aud	with all due respect, move your ass
+35-n004.aud	eta for airstrike is 5 minutes
+35-n008.aud	pickup service
+35-n010.aud	negative, i can make it
+35-n012.aud	i said, i can make it
+35-n014.aud	i can aaah
+36-n000.aud	that train goes to the power grid we told you about, get us on board
+36-n002.aud	thanks, well enjoy this
+36-n004.aud	somethings wrong, we should have been there by now
+36-n008.aud	we have been betrayed, gdi kidnapped tratos
+37-n000.aud	thanks for your help
+37-n002.aud	they may be on to us
+38-n000.aud	get back to the base
+38-n002.aud	tiberiam is lethal to unprotected infantry
+38-n004.aud	we need more men, train them from the hand of nod
+38-n006.aud	laser turrets, run for it
+38-n008.aud	the traitors are comming, blow the bridge
+38-n010.aud	hassan is escaping
+38-n012.aud	hassan has been captured
+38-n014.aud	we got an old stock pile here sir
+38-n016.aud	the mutants have turned on us
+38-n018.aud	there everywhere
+38-n020.aud	lets get him to the convoy point
+38-n022.aud	take point, soldier
+38-n024.aud	glad to see you free, sir
+38-n026.aud	being held in an outpost to the east
+38-n028.aud	the ice wont support the weight of multiple vechicles crossing
+38-n100.aud	something crashed near here, spread out & report
+38-n102.aud	sir weve found something, I think it is the tascitus
+38-n104.aud	well fall back to the old airfield & wait out the storm
+38-n106.aud	we have recovered a piece of cabals core
+38-n108.aud	i think we have been spotted
+38-n110.aud	gdi forces are nearby
+38-n112.aud	we have recovered another piece of the core
+38-n114.aud	third piece recovered, lets get out of here
+38-n116.aud	recon reports a heavy concentration of tiberium poisining
+38-n118.aud	we have to find that airfield or were finished
+38-n120.aud	message transmitted, montauk is en route
+38-n122.aud	this is the montauk, we are standing by for your evac
+38-n124.aud	we need to create a distraction to clear the gdi base of air support
+38-n126.aud	i bet if we attack these civillians, gdi will come to the rescue
+38-n128.aud	gdi planes are away from the base, now's our chance
+38-n130.aud	the core is undefended
+38-n132.aud	the core isn't here, we have been tricked
+38-n134.aud	looks like this was just a remotly operated substation
+38-n136.aud	reinforcements can be brought in if we repair the bridge
+38-n138.aud	gdi has requested that we help the civillians first
+38-n140.aud	once they're safe, we can concentrate on cabals harvesters
+38-n142.aud	gdi is sending us additional funding for aiding the civillians
+38-n144.aud	forget the civillians, there dead
+38-n146.aud	this should be easy enough
+38-n148.aud	lets get those harvesters
+38-n150.aud	gdi is uploading the final pieces of the code now, stand by
+38-n152.aud	fire storm coming down
+38-n154.aud	fire storm is offline
+38-n156.aud	code fragment retrieved
+39-n000.aud	i am free, now its paback time, hassan
+40-n000.aud	we have been touched by the spirit hand of kane
+41-n000.aud	stand and identify yourself in the name of kane
+41-n002.aud	sound the alarm
+41-n004.aud	base command, this is post tk421, we have got
+41-n006.aud	we just got word from general hassan, hes moving up north to cairo
+42-i000.aud	toxin soldier
+42-i002.aud	yes
+42-i004.aud	im all ears
+42-i006.aud	of course
+42-i008.aud	i think i can be pursuaded
+42-i010.aud	on it
+42-i012.aud	knockout
+42-i266.aud	-
+43-n000.aud	I have the codes
+44-n000.aud	we are here & waiting for your arrival
+47-n000.aud	dont shoot, i can tell you gdis evac locations
+52-n000.aud	welcome stranger
+52-n002.aud	can i offer you a cool beverage
+52-n004.aud	what do you think you are doing
+53-i000.aud	what
+53-i002.aud	ready to go
+53-i004.aud	shall we go
+53-i006.aud	yes
+53-i008.aud	on my way
+53-i010.aud	that seems logical
+53-i012.aud	oooh
+53-i102.aud	-
+53-i104.aud	-
+53-i106.aud	-
+53-i108.aud	on my way
+53-i110.aud	-
+53-i112.aud	-
+54-n000.aud	no tascitus piece in here
+54-n002.aud	nothing in this one either, you sure were in the right place
+54-n004.aud	got it, lets get out of here
+54-n006.aud	nothing in there
+54-n008.aud	the hieroglyphics on this temple read
+54-n010.aud	temple of time
+54-n012.aud	temple of thunder
+54-n014.aud	temple of the tascitus
+54-n016.aud	i got the tascitus
+54-n018.aud	the blue tiberium is highly explosive, maybe
+54-n020.aud	maybe we can blast a path through there
+54-n022.aud	understood
+54-n024.aud	going in
+54-n026.aud	yes sir
+54-n028.aud	moving out
+54-n030.aud	on my way
+55-n000.aud	help
+55-n002.aud	save us
+55-n004.aud	its coming right at us
+55-n006.aud	get us out, please
+55-n008.aud	its after us
+55-n010.aud	look out
+55-n012.aud	what is gdi doing. nothing
+55-n014.aud	why are we in this god forsaken place
+55-n016.aud	are we going to let those shiners take our food & water
+55-n018.aud	cant we all just get allong
+55-n020.aud	riot troops, run
+55-n022.aud	thanks for the warning, here is a reward for your help
+55-n024.aud	here commander, please take these 2 disruptors
+55-n026.aud	please take this mcv
+55-n028.aud	ill never turn
+55-n030.aud	piece through power
+55-n032.aud	for the technology of piece
+55-n034.aud	we got one
+55-n036.aud	fish is on the hook
+55-n038.aud	here creature creature
+55-n040.aud	we are under siege
+55-n042.aud	thanks for the help
+55-n044.aud	we can shut that fencing down for you
+56-n000.aud	lets show gdi were not going to take this
+56-n002.aud	kill the shiners
+56-n004.aud	down with gdi
+56-n006.aud	thanks for the warning, take these units
+56-n008.aud	take this for your troubles
+56-n010.aud	help us
+56-n012.aud	save us
+56-n014.aud	there comming
+56-n016.aud	get us out
+56-n018.aud	dont leave us
+56-n020.aud	wait
+57-n100.aud	you picked the wrong place to surface, nod scum
+57-n102.aud	gdi promised us piece & now tratos is dead
+57-n104.aud	gdi lied to us
+57-n106.aud	destroy them
+57-n108.aud	show them this is our land
+57-n110.aud	make them remember us
+57-n112.aud	they poisened our food & water
+57-n114.aud	they're trying to kill us
+57-n116.aud	take this harvester for your troubles
+57-n118.aud	release the hounds
+57-n120.aud	halt & prepare for vehicle inspection
+57-n122.aud	ok, looks good, head on in
+57-n124.aud	its bugged, destroy it now
+58-n100.aud	no civillian or mutant casualties
+58-n102.aud	the riot should end quickly, but stay vigilent
+58-n104.aud	copy that valdes, transport is dusting off now
+58-n106.aud	you get the juggernaut
+58-n108.aud	get your people to the evac point
+58-n110.aud	get your poeple to the transport
+58-n112.aud	valdez, we recommend you take out their leader
+58-n114.aud	protect doctor budro with your life, commander
+58-n116.aud	our base is under attack
+58-n118.aud	what in the world
+58-n120.aud	i should go warn the civillians in this area
+58-n122.aud	cabal is one sick bastard
+58-n124.aud	cabal is taking prisoners, this cant be good
+58-n126.aud	cabal is conscripting humans
+58-n128.aud	cabal intends to turn you all into cyborgs
+58-n130.aud	cabal is harvesting biological components
+58-n132.aud	you must evacuate the city immediatly
+58-n134.aud	civillians to arms, defend your town
+58-n136.aud	this must be their base
+58-n138.aud	what the
+58-n140.aud	i must warn the citicens of tronhime
+58-n142.aud	people of tronhime, get out now
+59-n100.aud	we can ill afford to loose more civillians to cabal
+59-n102.aud	get in there & protect those civillians
+59-n104.aud	well done commander, reinforcements en route
+60-n100.aud	system ready
+60-n102.aud	instructions
+60-n104.aud	awaiting navcom
+60-n106.aud	moving
+60-n108.aud	recieving course
+60-n110.aud	as ordered
+60-n112.aud	exterminate
+60-n114.aud	target locked
+60-n116.aud	weapons armed
+61-n000.aud	dare you defile sacred ground
+61-n002.aud	kill the mutant
+61-n004.aud	stop thief
+61-n006.aud	kill the heretics
+61-n008.aud	do not let them escape
+61-n010.aud	what, they killed the leader
+61-n012.aud	we join you in the hereafter
+62-n000.aud	welcome traveler
+62-n002.aud	join us
+62-n004.aud	join me
+62-n006.aud	existance is futile
+62-n008.aud	im coming to join you
+62-n010.aud	i am a messenger
+62-n012.aud	come to me
+64-i965.aud	-
+67-n100.aud	you talking to me
+67-n102.aud	can I help you
+67-n104.aud	whatever
+67-n106.aud	im going
+67-n108.aud	out of my way
+68-n100.aud	yeah
+68-n102.aud	huh
+68-n104.aud	what
+68-n106.aud	shur
+68-n108.aud	alright
+68-n110.aud	here I go
+69-n100.aud	not me
+69-n102.aud	oooh
+69-n104.aud	yeah
+69-n106.aud	do i gotta
+69-n108.aud	i gotta walk
+69-n110.aud	are you sure
+70-n000.aud	yes sir
+70-n002.aud	need assistance
+70-n004.aud	im your man
+70-n006.aud	be glad to
+70-n008.aud	on the job
+70-n010.aud	ok
+70-n012.aud	looks like overtime
+70-n014.aud	looks like overtime
+70-n016.aud	take that
+70-n018.aud	hope I'm covered
+71-n000.aud	open fire, open fire
+71-n100.aud	what, the civillians are shooting at us
+71-n102.aud	so are the shiners, retreat to the factory
+71-n104.aud	command station has been captured, defences offline
+71-n106.aud	we need reinforcements now
+71-n108.aud	what was that
+71-n110.aud	lets check that out
+71-n112.aud	did you hear something
+71-n114.aud	she ant going anywhere
+71-n116.aud	ill head back to base & get help
+71-n118.aud	shoot it
+71-n120.aud	lets get these civillians out of here now
+71-n122.aud	were under attack
+71-n124.aud	what the hell are those things
+71-n126.aud	where are those things comming from
+71-n128.aud	nod is uploading the final pieces of the code now, stand by
+71-n130.aud	code recieved, firestorm wall coming down
+71-n132.aud	firestorm is offline
+71-n134.aud	code fragment retrieved
+71-n136.aud	these laser posts are stronger than normal
+92-i269.aud	-
+99-n454.aud	you dare to attack me
+99-n456.aud	cybernetic intellegence will allways be superior
+99-n458.aud	by the way, missile launch detected
+99-n460.aud	cabal laugh
+99-n464.aud	activating defence protocol, defender, now
+99-n466.aud	miscalculation in enemy ability, compensation initiated
+approach.aud	approach
+bargraph.aud	-
+bestbox.aud	-
+bigggun1.aud	railgun
+bleep1.aud	generic beep
+boop.aud	stub sound used for all unsigned sound trigers
+cashturn.aud	sell sound
+chaingn1.aud	buggy fires gun/apache fires guns
+choice1.aud	menu choice
+clicky1.aud	generic click
+cloak5.aud	cloaking sound
+commup1.aud	communications center goes online
+corefir1.aud	core defender fire
+coreup1.aud	core defender up
+creddwn1.aud	credit negative
+credup1.aud	credit positive
+crmble2.aud	building crumbling
+cygun1.aud	cyborg fires gun
+dedgirl1.aud	dead girl 1
+dedgirl2.aud	dead girl 2
+dedgirl3.aud	dead girl 3
+dedgirl4.aud	dead girl 4
+dedman1.aud	dead man 1
+dedman2.aud	dead man 2
+dedman3.aud	dead man 3
+dedman4.aud	dead man 4
+dedman5.aud	dead man 5
+dedman6.aud	dead man 6
+defense.aud	defense
+dmachine.aud	-
+dropdwn1.aud	dropship lands
+dropup1.aud	dropship takes off
+dsaping1.aud	deployable sensor array ping
+duskhour.aud	dusk hour
+efficien.aud	-
+electro1.aud	electrocution
+elusive.aud	-
+emblem.aud	emblem
+expdirt1.aud	dirt explosion
+expnew01.aud	big building explosion with glass
+expnew02.aud	big building explosion with glass
+expnew03.aud	big building explosion with glass
+expnew04.aud	big building explosion with glass
+expnew05.aud	medium explosion for vehicle or structure
+expnew06.aud	medium explosion good for all & land destruction
+expnew07.aud	medium explosion with glass
+expnew08.aud	lg/md explosion with glass
+expnew09.aud	medium explosion general
+expnew10.aud	medium explosion general and vehicle
+expnew11.aud	medium explosion with glass
+expnew12.aud	small explosion general
+expnew13.aud	small explosion general
+expnew14.aud	small explosion general
+expnew15.aud	small explosion general
+expnew16.aud	explosion
+expnew17.aud	explosion
+expnew18.aud	explosion
+expnew19.aud	explosion
+facbld1.aud	factory goes online
+fiend1.aud	tiberium fiend
+fiend2.aud	tiberium fiend
+fireweb1.aud	web firing sound
+firstrm1.aud	firestorm defense burning
+flamtnk1.aud	flame tank fire
+floatk1.aud	tiberium floater attack
+floatmov.aud	tiberium floater move
+flotmov2.aud	tiberium floater move
+flotmov3.aud	tiberium floater move
+flotmov4.aud	tiberium floater move
+flurry.aud	flurry
+fsmap.aud	firestorm map screen
+fsmenu.aud	firestorm main menu
+gamefrm1.aud	game forming
+gatedwn1.aud	gate going down
+gateup1.aud	gate going up
+gdi-02.aud	-
+gdi-03a.aud	-
+gdi-03b.aud	-
+gdi-04.aud	-
+gdi-05a.aud	-
+gdi-05b.aud	-
+gdi-06a.aud	-
+gdi-06b.aud	-
+gdi-07.aud	-
+gdi-08.aud	-
+gdi-09a.aud	-
+gdi-09b.aud	-
+gdi-09c.aud	-
+gdi-09d.aud	-
+gdi-10a.aud	-
+gdi-10b.aud	-
+gdi-11.aud	-
+gdi-12.aud	-
+glnch4.aud	rpg launch
+gloom.aud	gloom
+gostgun1.aud	ghost talker
+gsweep.aud	-
+gun18.aud	civilian gun
+hacker.aud	-
+healer1.aud	healing units
+heroism.aud	heroism
+hovrmis1.aud	hovermlrs rocket fire
+hunter2.aud	hunter seeker droid
+icbm1.aud	big huge icbm rocket
+icecrak1.aud	ice crack
+icecrak2.aud	ice crack
+icecrak3.aud	ice crack
+infgun3.aud	infantry gun
+infiltra.aud	-
+infrared.aud	infrared
+intro.aud	-
+ion1.aud	ion cannon strike
+ionstorm.aud	ion storm ambient (no music track but ion storm sound)
+jugger1.aud	juggernaut firing sound
+jumpjet1.aud	jump jet fires gun
+klax1.aud	klaxon
+kmachine.aud	-
+lastur1.aud	laser turret
+limpbom1.aud	limpet drone attatch
+limpc3.aud	limpet drone move
+limpc4.aud	limpet drone move
+limpq3.aud	limpet drone move
+limpq4.aud	limpet drone move
+linkup.aud	-
+lonetrop.aud	lone troop
+madrap.aud	mad rap
+maps.aud	-
+message1.aud	incomming message
+meteor1.aud	large meteor
+meteor2.aud	small meteor
+methit1.aud	meteor hits ground
+misl1.aud	bike missile
+mobemp1.aud	mobile emp
+msg1.aud	message
+mutants.aud	mutants
+nod-02.aud	-
+nod-03a.aud	-
+nod-03b.aud	-
+nod-04a.aud	-
+nod-04b.aud	-
+nod-05.aud	-
+nod-06a.aud	-
+nod-06b.aud	-
+nod-06c.aud	-
+nod-07.aud	-
+nod-07.aud	-
+nod-08.aud	-
+nod-09a.aud	-
+nod-09b.aud	-
+nod-10.aud	-
+nod-11.aud	-
+nod-12a.aud	-
+nod-12b.aud	-
+nodcrush.aud	nod crush
+notify.aud	notification
+nsweep.aud	-
+obelcor3.aud	cabals obelisk firing
+obelmod1.aud	cabals obelisk firing
+obelpowr.aud	obelisk powering up
+obelray1.aud	obelisk firing laser
+orcadwn1.aud	orca lands
+orcamis1.aud	orca fighter attack
+orcaup1.aud	orca takes off
+pharotek.aud	pharotek
+place2.aud	place a building down
+plsecan2.aud	pulse cannon fires
+radardn1.aud	communication failure
+railuse5.aud	heavy mech railgun
+rainnite.aud	-
+redsky.aud	red sky
+repair11.aud	repair vehicle
+rketinf1.aud	rocket infantry fire
+samshot1.aud	sam site missile
+sandbag1.aud	sandbag being run over
+scold8.aud	cant push button sound
+score.aud	score screen
+scout.aud	scout
+scrin5b.aud	banshee fires
+silencer.aud	sniper gun
+slavesys.aud	-
+slvkgun1.aud	slavik gun
+sonic4.aud	sonic weapon fire
+spiddie1.aud	reaper death
+squish6.aud	guy squish
+squishy2.aud	guy squish
+ssplash1.aud	small water splash
+ssplash2.aud	small water splash
+ssplash3.aud	small water splash
+storm.aud	ion storm
+subdril1.aud	subterrian drill
+text1.aud	-
+text2.aud	-
+text3.aud	-
+timebomb.aud	time bomb
+tsgun4.aud	wolverene gun
+type.aud	-
+valves1b.aud	valves
+vicer1.aud	two viceroids combine
+whatlurk.aud	what lurks
+wipe.aud	-
+wrong1.aud	build queue full
+12metfnt.fnt	-
+6point.fnt	-
+8point.fnt	-
+editfnt.fnt	-
+grad6fnt.fnt	-
+kia6pt.fnt	-
+utnk.hva	-
+misl.hva	-
+mtrt.hva	-
+m113.hva	-
+m113tur.hva	-
+h18tur.hva	-
+hvrbarl.hva	-
+axle.hva	-
+axle.vxl	-
+87v3barl.hva	-
+1tnk.hva	-
+1tnkbarl.hva	-
+1tnktur.hva	-
+2tnk.hva	-
+2tnkbarl.hva	-
+2tnktur.hva	-
+3tnk.hva	-
+3tnkbarl.hva	-
+3tnktur.hva	-
+4tnk.hva	-
+4tnkbarl.hva	-
+4tnktur.hva	-
+apache.hva	-
+apachebarl.hva	-
+apachetur.hva	-
+apc.hva	-
+apcw.hva	-
+art2.hva	-
+art2barl.hva	-
+art2tur.hva	-
+arty.hva	-
+artybarl.hva	-
+bggy.hva	-
+bike.hva	-
+bus.hva	-
+car.hva	-
+cargocar.hva	-
+djuggbar.hva	-
+dpod.hva	-
+dpodbarl.hva	-
+dpodtur.hva	-
+dshp.hva	-
+dshpbarl.hva	-
+dshptur.hva	-
+ftnk.hva	-
+gastank.hva	-
+harv.hva	-
+heli.hva	-
+hind.hva	-
+hmec.hva	-
+horv.hva	-
+hvr.hva	-
+hvrtur.hva	-
+icbm.hva	-
+jeep.hva	-
+jeeptur.hva	-
+laser.hva	-
+lpst.hva	-
+m_emp.hva	-
+mcv.hva	-
+mislchem.hva	-
+mislmlti.hva	-
+mlrs.hva	-
+mlrstur.hva	-
+mmchbarl.hva	-
+mmchtur.hva	-
+mnly.hva	-
+monocar.hva	-
+monoeng.hva	-
+mrj.hva	-
+mrjtur.hva	-
+mtrb.hva	-
+mtrs.hva	-
+mwar_nod.hva	-
+orca.hva	-
+orcab.hva	-
+orcatran.hva	-
+pick.hva	-
+piece.hva	-
+pulscan.hva	-
+repair.hva	-
+sapc.hva	-
+scrin.hva	-
+sgen.hva	-
+sonic.hva	-
+sonicbarl.hva	-
+sonictur.hva	-
+stnk.hva	-
+subtank.hva	-
+tire.hva	-
+tran.hva	-
+trnsport.hva	-
+trucka.hva	-
+truckb.hva	-
+truk.hva	-
+ttnk.hva	-
+ttnkbarl.hva	-
+ttnktur.hva	-
+weed.hva	-
+wini.hva	-
+ai.ini	TS ai settings
+aifs.ini	FS ai settings
+art.ini	TS graphic settings
+artfs.ini	FS graphic settings
+battle.ini	TS campaign settings
+battlefs.ini	FS campaign settings
+day.ini	-
+dusk.ini	-
+firestrm.ini	FS main settings
+ion.ini	-
+keyboard.ini	TS keyboard settings
+mapsel.ini	TS map selection settings
+mapsel01.ini	FS map selection settings
+mission.ini	TS mission briefings
+mission1.ini	FS mission briefings
+morning.ini	-
+newmenu.ini	new menu settings file
+night.ini	-
+rules.ini	TS main settings
+rules1.ini	TS main settings
+rule1.ini	TS main settings
+rule01.ini	TS main settings
+rules01.ini	TS main settings
+snow.ini	TS snow theater settings
+sound.ini	TS sound settings
+sound01.ini	FS sound settings
+temperat.ini	TS temperate theater settings
+theme.ini	TS music theme settings
+theme01.ini	FS music theme settings
+tmcj4f.ini	-
+tutorial.ini	TS ingame strings
+wdtchoice.ini	-
+wdthist.ini	-
+wdtmap.ini	-
+1ice6.map	-
+1lworld7.map	-
+2temp7.map	-
+3tweak10.map	-
+access.map	-
+arivruns.map	-
+caseycan.map	-
+cityscap.map	-
+cliffsin.map	-
+desolar.map	-
+drawbrid.map	-
+duel.map	-
+float.map	-
+forestfr.map	-
+fsgdi01.map	-
+fsgdi02.map	-
+fsgdi03.map	-
+fsgdi04.map	-
+fsgdi05.map	-
+fsgdi06.map	-
+fsgdi07.map	-
+fsgdi08.map	-
+fsgdi09.map	-
+fsnod01.map	-
+fsnod02.map	-
+fsnod03.map	-
+fsnod04.map	-
+fsnod05.map	-
+fsnod06.map	-
+fsnod07.map	-
+fsnod08.map	-
+fsnod09.map	-
+g_canyon.map	-
+g_knoll.map	-
+gdi10a.map	-
+gdi10b.map	-
+gdi11a.map	-
+gdi12a.map	-
+gdi1a.map	-
+gdi2a.map	-
+gdi3a.map	-
+gdi3b.map	-
+gdi4a.map	-
+gdi5a.map	-
+gdi5b.map	-
+gdi5c.map	-
+gdi6a.map	-
+gdi6b.map	-
+gdi7a.map	-
+gdi8a.map	-
+gdi9a.map	-
+gdi9b.map	-
+gdi9c.map	-
+gdi9d.map	-
+hextreme.map	-
+icecliff.map	-
+icemust.map	-
+mutants.map	-
+narrow.map	-
+nod10a.map	-
+nod11a.map	-
+nod12a.map	-
+nod12b.map	-
+nod1a.map	-
+nod2a.map	-
+nod3a.map	-
+nod3b.map	-
+nod4a.map	-
+nod4b.map	-
+nod5a.map	-
+nod6a.map	-
+nod6b.map	-
+nod6c.map	-
+nod7a.map	-
+nod7b.map	-
+nod8a.map	-
+nod9a.map	-
+nod9b.map	-
+pentagrm.map	-
+permfrst.map	-
+pitplats.map	-
+pockets.map	-
+rivrrad4.map	-
+seismic.map	-
+sinkhole.map	-
+springs.map	-
+storms.map	-
+strmyvly.map	-
+sup_bh_r.map	-
+t_garden.map	-
+tactical.map	-
+terrace.map	-
+tiers.map	-
+tread_l.map	-
+tunnel.map	-
+xcapades.map	-
+cache.mix	-
+conquer.mix	-
+e01sc01.mix	-
+e01sc02.mix	-
+e01vox01.mix	-
+e01vox02.mix	-
+ecache01.mix	-
+gmenu.mix	-
+isosnow.mix	-
+isotemp.mix	-
+local.mix	-
+sidec01.mix	-
+sidec02.mix	-
+sidenc01.mix	-
+sidenc02.mix	-
+sno.mix	-
+snow.mix	-
+sounds.mix	-
+sounds01.mix	-
+speech01.mix	-
+speech02.mix	-
+tem.mix	-
+temperat.mix	-
+anim.pal	animations palette
+cameo.pal	icons palette
+dropship.pal	dropship palette
+fullfnt3.pal	-
+gditarget.pal	-
+isosno.pal	snow theater palette
+isotem.pal	temperate theater paltette
+mapsel.pal	map selection screen palette
+mousepal.pal	mouse cursors palette
+msovrly.pal	map selection overlay palette
+nodtarget.pal	-
+palette.pal	-
+sidebar.pal	sidebar palette
+sidefnt3.pal	-
+snow.pal	snow palette
+temperat.pal	temperate palette
+unitsno.pal	snow unit palette
+unittem.pal	temperate unit palette
+waypoint.pal	waypoint palette
+amerclick1.pcx	-
+arrow_dd.pcx	-
+arrow_du.pcx	-
+arrow_ud.pcx	-
+arrow_uu.pcx	-
+b01nc.pcx	-
+b01nc-h.pcx	-
+b02lm.pcx	-
+b02lm-g.pcx	-
+b02lm-h.pcx	-
+b03l.pcx	-
+b03l-h.pcx	-
+b04i.pcx	-
+b04i-h.pcx	-
+b05sm.pcx	-
+b05sm-h.pcx	-
+b06s.pcx	-
+b06s-h.pcx	-
+b07wdt.pcx	-
+b07wdt-h.pcx	-
+b08o.pcx	-
+b08o-h.pcx	-
+b09b.pcx	-
+b09b-h.pcx	-
+b10e.pcx	-
+b10e-h.pcx	-
+b12e.pcx	-
+b12e-h.pcx	-
+bar_ll.pcx	-
+bar_lr.pcx	-
+bar_ul.pcx	-
+bar_ur.pcx	-
+bde_li24.pcx	-
+bde_li30.pcx	-
+bde_mi24.pcx	-
+bde_mi30.pcx	-
+bde_ri24.pcx	-
+bde_ri30.pcx	-
+bits_a.pcx	-
+bits_i.pcx	-
+bud_li24.pcx	-
+bud_li30.pcx	-
+bud_mi24.pcx	-
+bud_mi30.pcx	-
+bud_ri24.pcx	-
+bud_ri30.pcx	-
+bue_li24.pcx	-
+bue_li30.pcx	-
+bue_mi24.pcx	-
+bue_mi30.pcx	-
+bue_ri24.pcx	-
+bue_ri30.pcx	-
+bwdt.pcx	-
+bwdth.pcx	-
+cback.pcx	-
+cback.vqa	-
+ccd_i.pcx	-
+cce_i.pcx	-
+cfirstr.pcx	-
+cfirstrh.pcx	-
+choice1.pcx	-
+ctibsun.pcx	-
+ctibsunh.pcx	-
+cue_i.pcx	-
+cud_i.pcx	-
+dbak6440.pcx	-
+dlgsysa.pcx	-
+dlgsysi.pcx	-
+dnarrowp.pcx	-
+dnarrowr.pcx	-
+euroclick1.pcx	-
+fstback.pcx	-
+fstback.vqa	-
+gdic.pcx	-
+gdich.pcx	-
+gdiclk01.pcx	-
+gdiclk02.pcx	-
+gdiclk03.pcx	-
+gdiclk04.pcx	-
+gdiclk05.pcx	-
+gdii.pcx	-
+gdimap01.pcx	-
+gdimap02.pcx	-
+gdimap03.pcx	-
+gdimap04.pcx	-
+gdimap05.pcx	-
+leftbar.pcx	-
+load400a.pcx	-
+load400b.pcx	-
+load400c.pcx	-
+load400d.pcx	-
+load480a.pcx	-
+load480b.pcx	-
+load480c.pcx	-
+load480d.pcx	-
+load600a.pcx	-
+load600b.pcx	-
+load600c.pcx	-
+load600d.pcx	-
+loading.pcx	-
+mpscore.pcx	-
+nodc.pcx	-
+nodch.pcx	-
+nodclk01.pcx	-
+nodclk02.pcx	-
+nodclk03.pcx	-
+nodclk04.pcx	-
+nodclk05.pcx	-
+nodi.pcx	-
+nodmap01.pcx	-
+nodmap02.pcx	-
+nodmap03.pcx	-
+nodmap04.pcx	-
+nodmap05.pcx	-
+rightbar.pcx	-
+sbgripb.pcx	-
+sbgripm.pcx	-
+sbgript.pcx	-
+score.pcx	-
+tab_fbl.pcx	-
+tab_fbm.pcx	-
+tab_fbr.pcx	-
+tab_fml.pcx	-
+tab_fmr.pcx	-
+tab_ftl.pcx	-
+tab_ftm.pcx	-
+tab_ftr.pcx	-
+tab_tld.pcx	-
+tab_tlu.pcx	-
+tab_tmd.pcx	-
+tab_tmu.pcx	-
+tab_trd.pcx	-
+tab_tru.pcx	-
+tb01nc.pcx	-
+tb01nc-h.pcx	-
+tb02lm.pcx	-
+tb02lm-g.pcx	-
+tb02lm-h.pcx	-
+tb03l.pcx	-
+tb03l-h.pcx	-
+tb04i.pcx	-
+tb04i-h.pcx	-
+tb05sm.pcx	-
+tb05sm-h.pcx	-
+tb06s.pcx	-
+tb06s-h.pcx	-
+tb07o.pcx	-
+tb07o-h.pcx	-
+tb08b.pcx	-
+tb08b-h.pcx	-
+tb09e.pcx	-
+tb09e-h.pcx	-
+tb10isp.pcx	-
+tb10isp-h.pcx	-
+title.pcx	-
+trakgrip.pcx	-
+trofl.pcx	-
+trofm.pcx	-
+trofr.pcx	-
+tstback.pcx	-
+uparrowp.pcx	-
+uparrowr.pcx	-
+wdtfc.pcx	-
+wodact.pcx	-
+wodban.pcx	-
+wodclan.pcx	-
+woddcon.pcx	-
+wodfgame.pcx	-
+wodfind.pcx	-
+wodhelp.pcx	-
+wodkick.pcx	-
+wodleave.pcx	-
+wodopt.pcx	-
+wodref.pcx	-
+wodsqlch.pcx	-
+wodtrny.pcx	-
+wolacpt.pcx	-
+wolclan.pcx	-
+wolhost.pcx	-
+woloper.pcx	-
+wolpriv.pcx	-
+wolsqlch.pcx	-
+woltrny.pcx	-
+woluser.pcx	-
+wolvoice.pcx	-
+wouact.pcx	-
+wouban.pcx	-
+wouclan.pcx	-
+woudcon.pcx	-
+woufgame.pcx	-
+woufind.pcx	-
+wouhelp.pcx	-
+woukick.pcx	-
+wouleave.pcx	-
+wouopt.pcx	-
+wouref.pcx	-
+wousqlch.pcx	-
+woutrny.pcx	-
+missions.pkt	-
+multi01.pkt	-
+120mm.shp	tank shell
+aban01.shp	-
+aban02.shp	-
+aban03.shp	-
+aban04.shp	-
+aban05.shp	-
+aban06.shp	-
+aban07.shp	-
+aban08.shp	-
+aban09.shp	-
+aban10.shp	-
+aban11.shp	-
+aban12.shp	-
+aban13.shp	-
+aban14.shp	-
+aban15.shp	-
+aban16.shp	-
+aban17.shp	-
+aban18.shp	-
+addon.shp	-
+ammo01.shp	-
+apchicon.shp	icon: harpy
+apcicon.shp	icon: amphibious apc
+apwricon.shp	icon: advanced power plant
+armor.shp	crate: armor upgrade
+artyicon.shp	icon: artillery
+batricon.shp	icon: battery
+bboard01.shp	-
+bboard02.shp	-
+bboard03.shp	-
+bboard04.shp	-
+bboard05.shp	-
+bboard06.shp	-
+bboard07.shp	-
+bboard08.shp	-
+bboard09.shp	-
+bboard10.shp	-
+bboard11.shp	-
+bboard12.shp	-
+bboard13.shp	-
+bboard14.shp	-
+bboard15.shp	-
+bboard16.shp	-
+beacon.shp	beacon
+best01.shp	-
+best02.shp	-
+bggyicon.shp	icon: attack buggy
+bigfont.shp	-
+brrkicon.shp	icon: gdi barracks
+btn-mins.shp	-
+btn-plus.shp	-
+buildngz.shp	-
+burn-l.shp	large fire (on tree)
+burn-m.shp	medium fire (on tree)
+burn-s.shp	small fire (on tree)
+c_kodiak.shp	-
+c_shadow.shp	-
+ca0001.shp	-
+ca0002.shp	-
+ca0003.shp	-
+ca0004.shp	-
+ca0005.shp	-
+ca0006.shp	-
+ca0007.shp	-
+ca0008.shp	-
+ca0009.shp	-
+ca0010.shp	-
+ca0011.shp	-
+ca0012.shp	-
+ca0013.shp	-
+ca0014.shp	-
+ca0015.shp	-
+ca0016.shp	-
+ca0017.shp	-
+ca0018.shp	-
+ca0019.shp	-
+ca0020.shp	-
+ca0021.shp	-
+ct0001.shp	-
+ct0002.shp	-
+ct0003.shp	-
+ct0004.shp	-
+ct0005.shp	-
+ct0006.shp	-
+ct0007.shp	-
+ct0008.shp	-
+ct0009.shp	-
+ct0010.shp	-
+ct0011.shp	-
+ct0012.shp	-
+ct0013.shp	-
+ct0014.shp	-
+ct0015.shp	-
+ct0016.shp	-
+ct0017.shp	-
+ct0018.shp	-
+ct0019.shp	-
+ct0020.shp	-
+ct0021.shp	-
+caaray.shp	-
+caaray_a.shp	-
+caaray_b.shp	-
+caaray_c.shp	-
+caaray_d.shp	-
+ctaray.shp	-
+ctaray_a.shp	-
+ctaray_b.shp	-
+ctaray_c.shp	-
+ctaray_d.shp	-
+caarmr.shp	-
+caarmr_a.shp	-
+ctarmr.shp	-
+ctarmr_a.shp	-
+cabhut.shp	-
+ctbhut.shp	-
+cacrsh01.shp	-
+cacrsh02.shp	-
+cacrsh03.shp	-
+cacrsh04.shp	-
+cacrsh05.shp	-
+ctcrsh01.shp	-
+ctcrsh02.shp	-
+ctcrsh03.shp	-
+ctcrsh04.shp	-
+ctcrsh05.shp	-
+cahosp.shp	-
+cahosp_a.shp	-
+cthosp.shp	-
+cthosp_a.shp	-
+canister.shp	rpg projectile
+capyr01.shp	-
+capyr02.shp	-
+capyr03.shp	-
+ctpyr01.shp	-
+ctpyr02.shp	-
+ctpyr03.shp	-
+casu01.shp	-
+casu02.shp	-
+chamicon.shp	icon: mutant hijacker
+chemicon.shp	icon: chemical missile
+chemisle.shp	crate: chemical missile
+city01.shp	-
+city02.shp	-
+city03.shp	-
+city04.shp	-
+city05.shp	-
+city06.shp	-
+city07.shp	-
+city08.shp	-
+city09.shp	-
+city10.shp	-
+city11.shp	-
+city12.shp	-
+city13.shp	-
+city14.shp	-
+city15.shp	-
+city16.shp	-
+city17.shp	-
+city18.shp	-
+city19.shp	-
+city20.shp	-
+city21.shp	-
+city22.shp	-
+civ1.shp	unit: civilian
+ctech.shp	-
+civ2.shp	unit: civilian
+civ3.shp	unit: civilian
+clckicon.shp	icon: stealth generator
+cldrngl1.shp	-
+cldrngl2.shp	-
+cldrngmd.shp	-
+cldrngsm.shp	-
+cloak.shp	crate: stealth
+cloud1.shp	poison gas cloud (large)
+cloud1d.shp	poison gas cloud disappearing
+cloud2.shp	poison gas cloud (small)
+cloud2d.shp	poison gas cloud desappearing
+compass.shp	-
+core.shp	-
+core_a.shp	-
+core_b.shp	-
+core_c.shp	-
+coremk.shp	-
+crryicon.shp	icon: orca transport
+ctdam.shp	-
+ctdam_a.shp	-
+ctdam_b.shp	-
+ctvega.shp	-
+cadam.shp	-
+cadam_a.shp	-
+cadam_b.shp	-
+cavega.shp	-
+curr01.shp	-
+cybcicon.shp	icon: cyborg commando
+cybiicon.shp	icon: cyborg
+cyborg.shp	-
+cyc2.shp	unit: cyborg commando
+cyclicon.shp	icon: attack cycle
+darken.shp	-
+dbris10lg.shp	-
+dbris10sm.shp	-
+dbris1lg.shp	-
+dbris1sm.shp	-
+dbris2lg.shp	-
+dbris2sm.shp	-
+dbris3lg.shp	-
+dbris3sm.shp	-
+dbris4lg.shp	-
+dbris4sm.shp	-
+dbris5lg.shp	-
+dbris5sm.shp	-
+dbris6lg.shp	-
+dbris6sm.shp	-
+dbris7lg.shp	-
+dbris7sm.shp	-
+dbris8lg.shp	-
+dbris8sm.shp	-
+dbris9lg.shp	-
+dbris9sm.shp	-
+death_a.shp	-
+death_b.shp	-
+death_c.shp	-
+death_d.shp	-
+death_e.shp	-
+death_f.shp	-
+defd.shp	-
+defd_exp.shp	-
+defdmk.shp	-
+defender.shp	-
+detnicon.shp	icon: hunter-seeker
+dgreen1.shp	-
+dgreen2.shp	-
+dgreen3.shp	-
+dgreen4.shp	-
+dig.shp	digging animation
+dirtexpl.shp	dirt explosion
+discus.shp	disk thrower's disk
+djugg.shp	-
+djugg_a.shp	-
+djuggmk.shp	-
+dlimp_a.shp	-
+dlimpet.shp	-
+dlimpmk.shp	-
+doggie.shp	-
+dragon.shp	missile image
+drop0001.shp	-
+drop0002.shp	-
+drop0003.shp	-
+dropdown.shp	-
+dropexp.shp	-
+droppod.shp	unit: droppod (dropping from right)
+droppod2.shp	unit: droppod (dropping from left)
+droppody.shp	-
+droppody2.shp	-
+dropup.shp	-
+e1.shp	unit: light infantry
+e1icon.shp	icon: light infantry
+e2.shp	unit: disk thrower
+e2icon.shp	icon: disk thrower
+e3.shp	-
+e4.shp	unit: rocket infantry
+e4icon.shp	icon: rocket infantry
+e5.shp	-
+efic01.shp	-
+elcad.shp	-
+electro.shp	infantry being electricuted
+emp_fx01.shp	emp effect displayed on units
+empicon.shp	-
+engineer.shp	unit: engineer
+engnicon.shp	-
+explomed.shp	medium explosion
+explosml.shp	small explosion
+facticon.shp	icon: construction yard
+fire1.shp	large fire (on ground)
+fire2.shp	medium fire (on ground)
+fire3.shp	small fire (on ground)
+fire4.shp	tiny fire (on ground)
+firepowr.shp	crate: firepower upgrade
+fixicon.shp	-
+flagfly.shp	-
+flameall.shp	devil's tongue flame stream
+flameguy.shp	infantry caught on fire
+floater.shp	-
+fog.shp	-
+fsair.shp	firestorm animation (with aerial proj/units)
+fsdicon.shp	icon: firestrom generator
+fsgrnd.shp	firestorm animation (with ground proj/units)
+fsidle.shp	firestorm animation (blue idle anim)
+fspicon.shp	icon: firestorm wall section
+fstdicon.shp	icon: firestorm defence
+fullfnt3.shp	-
+gaarty.shp	-
+gaartymk.shp	-
+gacnst.shp	-
+gacnst_a.shp	-
+gacnst_b.shp	-
+gacnst_c.shp	-
+gacnst_d.shp	-
+gacnstmk.shp	-
+gactwr.shp	-
+gactwr_a.shp	-
+gactwr_b.shp	-
+gactwr_c.shp	-
+gactwr_d.shp	-
+gactwrmk.shp	-
+gadept.shp	-
+gadept_a.shp	-
+gadept_b.shp	-
+gadept_c.shp	-
+gadept_d.shp	-
+gadeptbb.shp	-
+gadeptmk.shp	-
+gadpsa.shp	-
+gadpsa_a.shp	-
+gadpsamk.shp	-
+gadrop.shp	-
+gadrop_a.shp	-
+gadrop_b.shp	-
+gadropmk.shp	-
+gafdsf.shp	-
+gafire.shp	-
+gafire_a.shp	-
+gafire_b.shp	-
+gafire_c.shp	-
+gafiremk.shp	-
+gafsdf.shp	-
+gafsdf_a.shp	-
+gagate_a.shp	-
+gagate_b.shp	-
+gagateza.shp	-
+gagatezb.shp	-
+gagreen.shp	-
+gahpad.shp	-
+gahpad_a.shp	-
+gahpadbb.shp	-
+gahpadmk.shp	-
+gaicbm.shp	-
+gaicbm_a.shp	-
+gaicbmmk.shp	-
+gakodk.shp	-
+gakodk_a.shp	-
+gakodk_b.shp	-
+gakodk_c.shp	-
+galite.shp	-
+gaoldcc1.shp	Ruined Old C&C Construction Yard
+gaoldcc2.shp	Ruined Old C&C Temple
+gaoldcc3.shp	Ruined Old C&C Weapons Factory
+gaoldcc4.shp	Ruined Old C&C Refinery
+gaoldcc5.shp	Ruined Old C&C Advanced Power
+gaoldcc6.shp	Ruined Old C&C Silos
+gapave.shp	-
+gap.shp	-
+gapmake.shp	-
+gap.sno	-
+gapmake.sno	-
+gaplug.shp	-
+gaplug_a.shp	-
+gaplug_b.shp	-
+gaplug_c.shp	-
+gaplug_d.shp	-
+gaplug_e.shp	-
+gaplug_f.shp	-
+gaplugmk.shp	-
+gapowr.shp	-
+gapowr_a.shp	-
+gapowr_b.shp	-
+gapowrmk.shp	-
+gapile.shp	-
+gapile_a.shp	-
+gapile_b.shp	-
+gapile_c.shp	-
+gapilemk.shp	-
+garadr.shp	-
+garadr_a.shp	-
+garadrmk.shp	-
+gasand.shp	-
+gasilo.shp	-
+gasilo_a.shp	-
+gasilo_b.shp	-
+gasilomk.shp	-
+gaslrgmk.shp	veinhole creating gas animation
+gaspot.shp	-
+gaspot_a.shp	-
+gaspotmk.shp	-
+gat2icon.shp	icon: gdi gate
+gatech.shp	-
+gatech_a.shp	-
+gatechmk.shp	-
+gateicon.shp	icon: gdi gate
+gatick.shp	-
+gatickmk.shp	-
+gawall.shp	-
+gaweap.shp	-
+gaweap_1.shp	-
+gaweap_2.shp	-
+gaweap_a.shp	-
+gaweap_b.shp	-
+gaweap_c.shp	-
+gaweap_d.shp	-
+gaweapbb.shp	-
+gaweapmk.shp	-
+gtarty.shp	-
+gtartymk.shp	-
+gtcnst.shp	-
+gtcnst_a.shp	-
+gtcnst_b.shp	-
+gtcnst_c.shp	-
+gtcnst_d.shp	-
+gtcnstmk.shp	-
+gtctwr.shp	-
+gtctwr_a.shp	-
+gtctwr_b.shp	-
+gtctwr_c.shp	-
+gtctwr_d.shp	-
+gtctwrmk.shp	-
+gtdept.shp	-
+gtdept_a.shp	-
+gtdept_b.shp	-
+gtdept_c.shp	-
+gtdept_d.shp	-
+gtdeptbb.shp	-
+gtdeptmk.shp	-
+gtdpsa.shp	-
+gtdpsa_a.shp	-
+gtdpsamk.shp	-
+gtdrop.shp	-
+gtdrop_a.shp	-
+gtdrop_b.shp	-
+gtdropmk.shp	-
+gtfsdf.shp	-
+gtfsdf_a.shp	-
+gtfire.shp	-
+gtfire_a.shp	-
+gtfire_b.shp	-
+gtfire_c.shp	-
+gtfiremk.shp	-
+gtgate_a.shp	-
+gtgate_b.shp	-
+gtgateza.shp	-
+gtgatezb.shp	-
+gtgreen.shp	-
+gthpad.shp	-
+gthpad_a.shp	-
+gthpadbb.shp	-
+gthpadmk.shp	-
+gticbm.shp	-
+gticbm_a.shp	-
+gticbmmk.shp	-
+gtkodk.shp	-
+gtkodk_a.shp	-
+gtkodk_b.shp	-
+gtkodk_c.shp	-
+gtlite.shp	-
+gtoldcc1.shp	Ruined Old C&C Construction Yard
+gtoldcc2.shp	Ruined Old C&C Temple
+gtoldcc3.shp	Ruined Old C&C Weapons Factory
+gtoldcc4.shp	Ruined Old C&C Refinery
+gtoldcc5.shp	Ruined Old C&C Advanced Power
+gtoldcc6.shp	Ruined Old C&C Silos
+gtpave.shp	-
+gtplug.shp	-
+gtplug_a.shp	-
+gtplug_b.shp	-
+gtplug_c.shp	-
+gtplug_d.shp	-
+gtplug_e.shp	-
+gtplug_f.shp	-
+gtplugmk.shp	-
+gtpowr.shp	-
+gtpowr_a.shp	-
+gtpowr_b.shp	-
+gtpowrmk.shp	-
+gtpile.shp	-
+gtpile_a.shp	-
+gtpile_b.shp	-
+gtpile_c.shp	-
+gtpilemk.shp	-
+gtradr.shp	-
+gtradr_a.shp	-
+gtradrmk.shp	-
+gtsand.shp	-
+gtsilo.shp	-
+gtsilo_a.shp	-
+gtsilo_b.shp	-
+gtsilomk.shp	-
+gtslrgmk.shp	-
+gtspot.shp	-
+gtspot_a.shp	-
+gtspotmk.shp	-
+gtt2icon.shp	-
+gttech.shp	-
+gttech_a.shp	-
+gttechmk.shp	-
+gtteicon.shp	-
+gttick.shp	-
+gttickmk.shp	-
+gtwall.shp	-
+gtweap.shp	-
+gtweap_1.shp	-
+gtweap_2.shp	-
+gtweap_a.shp	-
+gtweap_b.shp	-
+gtweap_c.shp	-
+gtweap_d.shp	-
+gtweapbb.shp	-
+gtweapmk.shp	-
+gbayicon.shp	icon: dropship bay
+gclock2.shp	-
+gditarget2.shp	-
+gghunt.shp	unit: hunter seeker
+ghost.shp	unit: ghost stalker
+globe.shp	-
+gosticon.shp	icon: ghost stalker
+gunfire.shp	-
+h2o_exp1.shp	-
+h2o_exp2.shp	-
+h2o_exp3.shp	-
+handicon.shp	icon: hand of nod
+harvestr.shp	-
+harvicon.shp	-
+healone.shp	crate: heal unit
+healall.shp	crate: heal everything
+heliicon.shp	icon: gdi helipad
+hmecicon.shp	icon: mammoth mk 2
+hovricon.shp	icon: hover mlrs
+infdie.shp	-
+inviso.shp	-
+ionbeam.shp	ion cannon beam
+ioncicon.shp	icon: ion cannon
+jjeticon.shp	icon: jumpjet infantry
+jugger.shp	-
+juggicon.shp	-
+jumpjet.shp	unit: jumpjet infantry
+k_light1.shp	-
+k_light2.shp	-
+lasricon.shp	icon: laser fence post
+lgrysmk1.shp	-
+limped.shp	-
+limpicon.shp	-
+liteicon.shp	icon: light
+loadout.shp	-
+logo01.shp	-
+lpsticon.shp	-
+lrotor.shp	-
+matt.shp	-
+mcvicon.shp	-
+medic.shp	unit: medic
+mediicon.shp	icon: medic
+mempfx.shp	-
+mempicon.shp	-
+metdebri.shp	-
+metlarge.shp	large meteor
+metltral.shp	-
+metricon.shp	icon: meteor shower
+metsmall.shp	small meteor
+metstral.shp	-
+mgun-e.shp	machine gun fire (east)
+mgun-n.shp	machine gun fire (north)
+mgun-ne.shp	machine gun fire (northeast)
+mgun-nw.shp	machine gun fire (northwest)
+mgun-s.shp	machine gun fire (south)
+mgun-se.shp	machine gun fire (southeast)
+mgun-sw.shp	machine gun fire (southwest)
+mgun-w.shp	machine gun fire (west)
+mhijack.shp	unit: mutant hijacker
+mltiicon.shp	icon: multi-missile
+mltimisl.shp	multi-missile projectile
+mmch.shp	unit: titan
+mmchicon.shp	icon: titan
+money.shp	crate: money
+mouse.shp	mouse cursors
+msslicon.shp	icon: missile silo
+mstl.shp	-
+mstl_a.shp	-
+mstlicon.shp	-
+mstlmk.shp	-
+mutant.shp	unit: mutant
+mutant2.shp	-
+mutant3.shp	unit: mutant sergent
+mutcicon.shp	icon: umagon, tratos, ghost stalker (group photo)
+mwar.shp	-
+mwar_1.shp	-
+mwar_2.shp	-
+mwar_a.shp	-
+mwar_b.shp	-
+mwar_c.shp	-
+mwar_d.shp	-
+mwarbb.shp	-
+mwaricon.shp	-
+mwarmk.shp	-
+mwmn.shp	unit: mutant soldier/woman
+naapwr.shp	-
+naapwr_a.shp	-
+naapwrmk.shp	-
+nafnce.shp	-
+nagate_a.shp	-
+nagate_b.shp	-
+nagateza.shp	-
+nagatezb.shp	-
+nahand.shp	-
+nahand_a.shp	-
+nahand_b.shp	-
+nahandmk.shp	-
+nahpad.shp	-
+nahpad_a.shp	-
+nahpadbb.shp	-
+nahpadmk.shp	-
+nalasr.shp	-
+nalasrmk.shp	-
+namisl.shp	-
+namisl_a.shp	-
+namisl_b.shp	-
+namislmk.shp	-
+namntk.shp	-
+namtnk_a.shp	-
+naobel.shp	-
+naobel_a.shp	-
+naobel_b.shp	-
+naobelmk.shp	-
+napost.shp	-
+napost_a.shp	-
+napost_b.shp	-
+napost_d.shp	-
+napostmk.shp	-
+napowr.shp	-
+napowr_a.shp	-
+napowrmk.shp	-
+napuls.shp	-
+napuls_a.shp	-
+napulsmk.shp	-
+naradr.shp	-
+naradr_a.shp	-
+naradrmk.shp	-
+narefn.shp	-
+narefn_a.shp	-
+narefn_ar.shp	-
+narefn_b.shp	-
+narefn_C.shp	-
+narefnbb.shp	-
+narefnmk.shp	-
+nasam.shp	-
+nasammk.shp	-
+nastlh.shp	-
+nastlh_a.shp	-
+nastlhmk.shp	-
+natech.shp	-
+natech_a.shp	-
+natechmk.shp	-
+natmpl.shp	-
+natmpl_a.shp	-
+natmplmk.shp	-
+nawall.shp	-
+nawast.shp	-
+nawast_a.shp	-
+nawast_b.shp	-
+nawastbb.shp	-
+nawastmk.shp	-
+naweap.shp	-
+naweap_1.shp	-
+naweap_2.shp	-
+naweap_a.shp	-
+naweap_b.shp	-
+naweapbb.shp	-
+naweapmk.shp	-
+ntapwr.shp	-
+ntapwr_a.shp	-
+ntapwrmk.shp	-
+ntfnce.shp	-
+ntgate_a.shp	-
+ntgate_b.shp	-
+ntgateza.shp	-
+ntgatezb.shp	-
+nthand.shp	-
+nthand_a.shp	-
+nthand_b.shp	-
+nthandmk.shp	-
+nthpad.shp	-
+nthpad_a.shp	-
+nthpadbb.shp	-
+nthpadmk.shp	-
+ntlasr.shp	-
+ntlasrmk.shp	-
+ntmisl.shp	-
+ntmisl_a.shp	-
+ntmisl_b.shp	-
+ntmislmk.shp	-
+ntmntk.shp	-
+ntmtnk_a.shp	-
+ntobel.shp	-
+ntobel_a.shp	-
+ntobel_b.shp	-
+ntobelmk.shp	-
+ntpost.shp	-
+ntpost_a.shp	-
+ntpost_b.shp	-
+ntpost_d.shp	-
+ntpostmk.shp	-
+ntpowr.shp	-
+ntpowr_a.shp	-
+ntpowrmk.shp	-
+ntpuls.shp	-
+ntpuls_a.shp	-
+ntpulsmk.shp	-
+ntradr.shp	-
+ntradr_a.shp	-
+ntradrmk.shp	-
+ntrefn.shp	-
+ntrefn_a.shp	-
+ntrefn_ar.shp	-
+ntrefn_b.shp	-
+ntrefn_C.shp	-
+ntrefnbb.shp	-
+ntrefnmk.shp	-
+ntsam.shp	-
+ntsammk.shp	-
+ntstlh.shp	-
+ntstlh_a.shp	-
+ntstlhmk.shp	-
+nttech.shp	-
+nttech_a.shp	-
+nttechmk.shp	-
+nttmpl.shp	-
+nttmpl_a.shp	-
+nttmplmk.shp	-
+ntwall.shp	-
+ntwast.shp	-
+ntwast_a.shp	-
+ntwast_b.shp	-
+ntwastbb.shp	-
+ntwastmk.shp	-
+ntweap.shp	-
+ntweap_1.shp	-
+ntweap_2.shp	-
+ntweap_a.shp	-
+ntweap_b.shp	-
+ntweapbb.shp	-
+ntweapmk.shp	-
+nga2icon.shp	icon: nod gate
+ngaticon.shp	icon: nod gate
+nhpdicon.shp	icon: nod helipad
+nodtarget2.shp	-
+npwricon.shp	icon: nod power plant
+nradicon.shp	icon: nod radar
+ntchicon.shp	icon: nod tech center
+ntpyra.shp	-
+ntpyra_a.shp	-
+napyra.shp	-
+napyra_a.shp	-
+nwalicon.shp	icon: nod wall
+nwepicon.shp	icon: nod war factory
+obl1.shp	-
+obl1_a.shp	-
+obl1_b.shp	-
+obl1_c.shp	-
+obl2.shp	-
+obl2_a.shp	-
+obl2_b.shp	-
+obl2_c.shp	-
+obliicon.shp	icon: obliesk of light
+obmbicon.shp	icon: orca bomber
+orcaicon.shp	icon: orca fighter
+otrnicon.shp	icon: carryall
+oxanna.shp	unit: oxanna
+parabomb.shp	parabombs
+parach.shp	-
+paveicon.shp	icon: pavement
+piff.shp	single bullet hits ground (hollow point)
+piffpiff.shp	multiple bullets hit ground (small arms fire)
+pilotlit.shp	-
+pips.shp	signs that appear at bottom of a unit
+pips2.shp	more pips
+place.shp	-
+plticon.shp	icon: laser turret
+plugicon.shp	-
+pod.shp	unit: droppod
+podring.shp	droppod landing ring
+podsicon.shp	-
+power.shp	-
+poweroff.shp	-
+powerp.shp	-
+powricon.shp	icon: gdi power plant
+progbar.shp	-
+progbar2.shp	-
+progbarm.shp	-
+proicon.shp	icon: banshee
+pulsball.shp	emp ball
+pulsefx1.shp	emp hits
+pulsefx2.shp	emp hits
+pulsicon.shp	icon: em pulse
+rad1icon.shp	icon: threat rating node
+rad2icon.shp	icon: seeker control
+rad3icon.shp	icon: ion cannon uplink
+radar.shp	-
+radricon.shp	icon: gdi radar
+rboticon.shp	icon: mobile repair vehicle
+rclock2.shp	-
+r-dn.shp	-
+reaper.shp	-
+reapicon.shp	-
+reficon.shp	-
+repair.shp	-
+reveal.shp	crate: reveal whole map
+rg02a.shp	-
+rg03a.shp	-
+rg03ab.shp	-
+rg04a1.shp	-
+rg04a2.shp	-
+rg05ab2.shp	-
+rg05b2.shp	-
+rg06ab3.shp	-
+rg06ab4.shp	-
+rg06b4.shp	-
+rg07a.shp	-
+rg08a.shp	-
+rg09abd.shp	-
+rg09bd.shp	-
+rg10ab1.shp	-
+rg11a1.shp	-
+rg12a1.shp	-
+ring.shp	-
+ring1.shp	ion cannon blast ring
+rn02a.shp	-
+rn03a.shp	-
+rn03ab.shp	-
+rn04a1.shp	-
+rn04a2.shp	-
+rn05ab2.shp	-
+rn05b2.shp	-
+rn06ab3.shp	-
+rn06ab4.shp	-
+rn06b4.shp	-
+rn07a.shp	-
+rn08a.shp	-
+rn09abd.shp	-
+rn09bd.shp	-
+rn10ab1.shp	-
+rn11a1.shp	-
+rn12a1.shp	-
+rrotor.shp	-
+r-up.shp	-
+s_bang16.shp	small explosion (bang/pop type)
+s_bang24.shp	medium explosion (bang/pop type)
+s_bang34.shp	large explosion (bang/pop type)
+s_bang38.shp	-
+s_brnl20.shp	small explosion (burning type)
+s_brnl30.shp	medium explosion (burning type)
+s_brnl40.shp	large explosion (burning type)
+s_brnl58.shp	x-large explosion (burning type)
+s_clsn16.shp	tiny explosion (cannon/missile impact)
+s_clsn22.shp	small explosion (cannon/missile impact)
+s_clsn30.shp	medium explosion (cannon/missile impact)
+s_clsn42.shp	large explosion (cannon/missile impact)
+s_clsn58.shp	x-large explosion (cannon/missile impact)
+s_tumu22.shp	small explosion (vehicle blows up)
+s_tumu30.shp	medium explosion (vehicle blows up)
+s_tumu42.shp	large explosion (vehicle blows up)
+s_tumu60.shp	x-large explosion (vehicle blows up)
+sam-e.shp	-
+samicon.shp	icon: nod sam
+sam-n.shp	-
+sam-ne.shp	-
+sam-nw.shp	-
+sam-s.shp	-
+sam-se.shp	-
+sam-sw.shp	-
+sam-w.shp	-
+sapcicon.shp	icon: subterrainean apc
+sbagicon.shp	
+seekicon.shp	icon: hunter seeker
+select.shp	select unit mouse cursor
+sell.shp	-
+sgrysmk1.shp	-
+sgrysmk1.shp	-
+shadow.shp	-
+shroud.shp	-
+shroudx.shp	crate: shroud whole map
+side1.shp	-
+side2.shp	-
+side3.shp	-
+sidegdi1.shp	-
+sidegdi2.shp	-
+sidegdi3.shp	-
+siloicon.shp	-
+slav.shp	unit: slavick
+smchicon.shp	icon: wolverine
+smech.shp	unit: wolverine
+smlogo.shp	-
+smokey.shp	-
+smokey2.shp	-
+smokland.shp	-
+soniicon.shp	icon: disruptor
+spoticon.shp	icon: spotlight tower
+static.shp	-
+steampuf.shp	-
+stnkicon.shp	icon: stealth tank
+subticon.shp	icon: devil's tongue flame tank
+tabs.shp	-
+talkbubl.shp	-
+target1.shp	-
+target2.shp	-
+techicon.shp	icon: gdi tech center
+tg02a.shp	-
+tg03a.shp	-
+tg03ab.shp	-
+tg04a2.shp	-
+tg04ab1.shp	-
+tg04ab2.shp	-
+tg05a.shp	-
+tg06a1.shp	-
+tg06a2.shp	-
+tg06bc.shp	-
+tg07a1.shp	-
+tg07ab1.shp	-
+tg08a.shp	-
+tg09ab.shp	-
+tg10a1.shp	-
+tg10a2.shp	-
+tg11a2.shp	-
+tg12a2.shp	-
+tg12ab2.shp	-
+tickicon.shp	icon: tick tank
+time01.shp	-
+tmplicon.shp	icon: temple of nod
+tn02a.shp	-
+tn03a.shp	-
+tn03ab.shp	-
+tn04a2.shp	-
+tn04ab1.shp	-
+tn04ab2.shp	-
+tn05a.shp	-
+tn05a.shp	-
+tn06a1.shp	-
+tn06a2.shp	-
+tn06bc.shp	-
+tn07a1.shp	-
+tn07ab1.shp	-
+tn08a.shp	-
+tn08a.shp	-
+tn09ab.shp	-
+tn10a1.shp	-
+tn10a2.shp	-
+tn11a2.shp	-
+tn12a2.shp	-
+tn12ab2.shp	-
+towricon.shp	icon: component tower
+tratos.shp	unit: tratos
+treesprd.shp	blossom tree spreading spores
+torpedo.shp	proton torpedo
+turbicon.shp	icon: power turbine
+twinkle1.shp	-
+twinkle2.shp	-
+twinkle3.shp	-
+twlt026.shp	small explosion (white)
+twlt036.shp	medium explosion (white)
+twlt050.shp	large explosion (white)
+twlt070.shp	x-large explosion (white)
+twlt070t.shp	-
+twlt100.shp	biggest explosion in the game
+twlt100i.shp	-
+twr1icon.shp	icon: vulcan cannon add-on
+twr2icon.shp	icon: rpg add-on
+twr3icon.shp	icon: sam add-on
+umagicon.shp	icon: umagon
+umagon.shp	unit: umagon
+veteran.shp	crate: veteran upgrade
+visc_lrg.shp	-
+visc_sml.shp	-
+vislrg.shp	unit: adult visroid
+vislgatk.shp	adult visroid attack animation
+vissml.shp	unit: baby visroid
+wallicon.shp	icon: concrete wall
+wasticon.shp	icon: tiberium waste facility
+wayp.shp	-
+weapicon.shp	icon: gdi war factory
+weaticon.shp	icon: ?
+webguy.shp	-
+weed.shp	unit: ?
+weedicon.shp	icon: weed eater
+wrench.shp	-
+xgrymed1.shp	medium explosion (high explosives)
+xgrymed2.shp	medium explosion (high explosives)
+xgrysml1.shp	small explosion (high explosives)
+xgrysml2.shp	small explosion (high explosives)
+xplolrg.shp	-
+xxicon.shp	icon: blank
+bigblue.tem	-
+bigblue3.tem	-
+blank01.tem	-
+bld01.tem	-
+bld02.tem	-
+bld03.tem	-
+bridge.tem	-
+burnt01.tem	-
+burnt02.tem	-
+burnt03.tem	-
+burnt04.tem	-
+burnt05.tem	-
+burnt06.tem	-
+burnt07.tem	-
+burnt08.tem	-
+burnt09.tem	-
+burnt10.tem	-
+burnt11.tem	-
+burnt12.tem	-
+civ01.tem	-
+civ02.tem	-
+civ03.tem	-
+civ04.tem	-
+civ05.tem	-
+civ06.tem	-
+civ07.tem	-
+civ08.tem	-
+clat01.tem	-
+clat01a.tem	-
+clat02.tem	-
+clat02a.tem	-
+clat03.tem	-
+clat03a.tem	-
+clat04.tem	-
+clat04a.tem	-
+clat05.tem	-
+clat05a.tem	-
+clat06.tem	-
+clat06a.tem	-
+clat07.tem	-
+clat07a.tem	-
+clat08.tem	-
+clat08a.tem	-
+clat09.tem	-
+clat09a.tem	-
+clat10.tem	-
+clat10a.tem	-
+clat11.tem	-
+clat11a.tem	-
+clat12.tem	-
+clat12a.tem	-
+clat13.tem	-
+clat13a.tem	-
+clat14.tem	-
+clat14a.tem	-
+clat15.tem	-
+clat15a.tem	-
+clat16.tem	-
+clat16a.tem	-
+clear01.tem	-
+clear01a.tem	-
+clear01b.tem	-
+clear01c.tem	-
+clear01d.tem	-
+clear01e.tem	-
+clear01f.tem	-
+clear01g.tem	-
+clif01.tem	-
+clif02.tem	-
+cliff01.tem	-
+cliff02.tem	-
+cliff03.tem	-
+cliff04.tem	-
+cliff05.tem	-
+cliff06.tem	-
+cliff07.tem	-
+cliff08.tem	-
+cliff09.tem	-
+cliff10.tem	-
+cliff11.tem	-
+cliff12.tem	-
+cliff13.tem	-
+cliff14.tem	-
+cliff15.tem	-
+cliff16.tem	-
+cliff17.tem	-
+cliff18.tem	-
+cliff19.tem	-
+cliff20.tem	-
+cliff21.tem	-
+cliff22.tem	-
+cliff23.tem	-
+cliff24.tem	-
+cliff25.tem	-
+cliff26.tem	-
+cliff27.tem	-
+cliff28.tem	-
+cliff29.tem	-
+cliff30.tem	-
+cliff31.tem	-
+cliff32.tem	-
+cliff32a.tem	-
+cliff33.tem	-
+cliff33a.tem	-
+cliff34.tem	-
+cliff34a.tem	-
+cliff35.tem	-
+cliff36.tem	-
+cliff37.tem	-
+cliff38.tem	-
+cliff39.tem	-
+cliff40.tem	-
+crate.tem	-
+crater01.tem	-
+crater02.tem	-
+crater03.tem	-
+crater04.tem	-
+crater05.tem	-
+crater06.tem	-
+crater07.tem	-
+crater08.tem	-
+crater09.tem	-
+crater10.tem	-
+crater11.tem	-
+crater12.tem	-
+crystal1.tem	-
+crystal2.tem	-
+crystal3.tem	-
+crystal4.tem	-
+crys01.tem	-
+crys01a.tem	-
+crys01b.tem	-
+crys01c.tem	-
+crys01d.tem	-
+crys01e.tem	-
+crys01f.tem	-
+crys01g.tem	-
+cylat01.tem	-
+cylat02.tem	-
+cylat03.tem	-
+cylat04.tem	-
+cylat05.tem	-
+cylat06.tem	-
+cylat07.tem	-
+cylat08.tem	-
+cylat09.tem	-
+cylat10.tem	-
+cylat11.tem	-
+cylat12.tem	-
+cylat13.tem	-
+cylat14.tem	-
+cylat15.tem	-
+cylat16.tem	-
+cylat01a.tem	-
+cylat02a.tem	-
+cylat03a.tem	-
+cylat04a.tem	-
+cylat05a.tem	-
+cylat06a.tem	-
+cylat07a.tem	-
+cylat08a.tem	-
+cylat09a.tem	-
+cylat10a.tem	-
+cylat11a.tem	-
+cylat12a.tem	-
+cylat13a.tem	-
+cylat14a.tem	-
+cylat15a.tem	-
+cylat16a.tem	-
+swamp01.tem	-
+swamp01a.tem	-
+swamp01b.tem	-
+swamp01c.tem	-
+swamp01d.tem	-
+swamp01e.tem	-
+swamp01f.tem	-
+swamp01g.tem	-
+swamp02.tem	-
+swamp03.tem	-
+swamp04.tem	-
+swamp05.tem	-
+swamp06.tem	-
+swamp07.tem	-
+swamp08.tem	-
+swamp09.tem	-
+slat01.tem	-
+slat02.tem	-
+slat03.tem	-
+slat04.tem	-
+slat05.tem	-
+slat06.tem	-
+slat07.tem	-
+slat08.tem	-
+slat09.tem	-
+slat10.tem	-
+slat11.tem	-
+slat12.tem	-
+slat13.tem	-
+slat14.tem	-
+slat15.tem	-
+slat16.tem	-
+slat01a.tem	-
+slat02a.tem	-
+slat03a.tem	-
+slat04a.tem	-
+slat05a.tem	-
+slat06a.tem	-
+slat07a.tem	-
+slat08a.tem	-
+slat09a.tem	-
+slat10a.tem	-
+slat11a.tem	-
+slat12a.tem	-
+slat13a.tem	-
+slat14a.tem	-
+slat15a.tem	-
+slat16a.tem	-
+blue01.tem	-
+blue01a.tem	-
+blue01b.tem	-
+blue01c.tem	-
+blue01d.tem	-
+blue01e.tem	-
+blue01f.tem	-
+blue01g.tem	-
+blat01.tem	-
+blat01a.tem	-
+blat02.tem	-
+blat02a.tem	-
+blat03.tem	-
+blat03a.tem	-
+blat04.tem	-
+blat04a.tem	-
+blat05.tem	-
+blat05a.tem	-
+blat06.tem	-
+blat06a.tem	-
+blat07.tem	-
+blat07a.tem	-
+blat08.tem	-
+blat08a.tem	-
+blat09.tem	-
+blat09a.tem	-
+blat10.tem	-
+blat10a.tem	-
+blat11.tem	-
+blat11a.tem	-
+blat12.tem	-
+blat12a.tem	-
+blat13.tem	-
+blat13a.tem	-
+blat14.tem	-
+blat14a.tem	-
+blat15.tem	-
+blat15a.tem	-
+blat16.tem	-
+blat16a.tem	-
+ccliff01.tem	-
+ccliff02.tem	-
+ccliff03.tem	-
+ccliff04.tem	-
+ccliff05.tem	-
+ccliff06.tem	-
+crash01.tem	-
+crash02.tem	-
+crash03.tem	-
+crash04.tem	-
+crash05.tem	-
+crash06.tem	-
+crash07.tem	-
+dcliff01.tem	-
+dcliff02.tem	-
+des0101.tem	-
+des0102.tem	-
+des0103.tem	-
+des0104.tem	-
+des0105.tem	-
+des0106.tem	-
+des0107.tem	-
+des0108.tem	-
+des0109.tem	-
+des0110.tem	-
+des0111.tem	-
+des0112.tem	-
+des0113.tem	-
+des0114.tem	-
+des0115.tem	-
+des0116.tem	-
+des0117.tem	-
+des0118.tem	-
+des0119.tem	-
+des0120.tem	-
+des0121.tem	-
+des0122.tem	-
+des0123.tem	-
+des0124.tem	-
+des0125.tem	-
+des0126.tem	-
+des0127.tem	-
+des0128.tem	-
+des0129.tem	-
+des0130.tem	-
+des0131.tem	-
+des0132.tem	-
+des0133.tem	-
+des0134.tem	-
+des0135.tem	-
+des0136.tem	-
+des0137.tem	-
+des0138.tem	-
+des0139.tem	-
+des0140.tem	-
+des0141.tem	-
+des0142.tem	-
+des0143.tem	-
+des0144.tem	-
+des0145.tem	-
+des0146.tem	-
+des0147.tem	-
+des0148.tem	-
+des0201.tem	-
+des0202.tem	-
+des0203.tem	-
+des0204.tem	-
+des0205.tem	-
+des0206.tem	-
+des0207.tem	-
+des0209.tem	-
+des0210.tem	-
+des0211.tem	-
+des0212.tem	-
+des0213.tem	-
+des0214.tem	-
+des0215.tem	-
+des0216.tem	-
+des0217.tem	-
+des0218.tem	-
+des0219.tem	-
+des0220.tem	-
+des0221.tem	-
+des0222.tem	-
+des0223.tem	-
+des0224.tem	-
+des0225.tem	-
+des0226.tem	-
+des0227.tem	-
+des0228.tem	-
+des0229.tem	-
+des0230.tem	-
+des0231.tem	-
+des0232.tem	-
+des0233.tem	-
+des0234.tem	-
+des0235.tem	-
+des0236.tem	-
+des0237.tem	-
+des0238.tem	-
+des0239.tem	-
+des0240.tem	-
+des0241.tem	-
+des0242.tem	-
+des0243.tem	-
+des0244.tem	-
+des0245.tem	-
+des0246.tem	-
+des0247.tem	-
+des0248.tem	-
+dlat01.tem	-
+dlat01a.tem	-
+dlat02.tem	-
+dlat02a.tem	-
+dlat03.tem	-
+dlat03a.tem	-
+dlat04.tem	-
+dlat04a.tem	-
+dlat05.tem	-
+dlat05a.tem	-
+dlat06.tem	-
+dlat06a.tem	-
+dlat07.tem	-
+dlat07a.tem	-
+dlat08.tem	-
+dlat08a.tem	-
+dlat09.tem	-
+dlat09a.tem	-
+dlat10.tem	-
+dlat10a.tem	-
+dlat11.tem	-
+dlat11a.tem	-
+dlat12.tem	-
+dlat12a.tem	-
+dlat13.tem	-
+dlat13a.tem	-
+dlat14.tem	-
+dlat14a.tem	-
+dlat15.tem	-
+dlat15a.tem	-
+dlat16.tem	-
+dlat16a.tem	-
+droadc01.tem	-
+droadc02.tem	-
+droadc03.tem	-
+droadc04.tem	-
+droadc05.tem	-
+droadc06.tem	-
+droadc07.tem	-
+droadc08.tem	-
+droadc09.tem	-
+droadc10.tem	-
+droadc11.tem	-
+droadc12.tem	-
+droadc13.tem	-
+droadc14.tem	-
+droadc15.tem	-
+droadc16.tem	-
+droadc17.tem	-
+droadc18.tem	-
+droadc19.tem	-
+droadc20.tem	-
+droadc21.tem	-
+droadc22.tem	-
+droadc23.tem	-
+droadc24.tem	-
+droadj01.tem	-
+droadj02.tem	-
+droadj03.tem	-
+droadj04.tem	-
+droadj05.tem	-
+droadj06.tem	-
+droadj07.tem	-
+droadj08.tem	-
+droadj09.tem	-
+droadj10.tem	-
+droadj11.tem	-
+droads01.tem	-
+droads02.tem	-
+droads03.tem	-
+droads04.tem	-
+droads05.tem	-
+droads06.tem	-
+droads07.tem	-
+droads08.tem	-
+droads09.tem	-
+droads10.tem	-
+droads11.tem	-
+droads12.tem	-
+droads13.tem	-
+droads13.tem	-
+droads14.tem	-
+droads15.tem	-
+droads16.tem	-
+droads17.tem	-
+droads18.tem	-
+droads19.tem	-
+droads20.tem	-
+droads21.tem	-
+droads22.tem	-
+droads23.tem	-
+droads23.tem	-
+droads24.tem	-
+droads25.tem	-
+droads26.tem	-
+droads27.tem	-
+droads28.tem	-
+droads29.tem	-
+droads30.tem	-
+droads31.tem	-
+droads32.tem	-
+droads33.tem	-
+droads34.tem	-
+droads35.tem	-
+droads36.tem	-
+droads37.tem	-
+droads38.tem	-
+droads39.tem	-
+droads40.tem	-
+droads41.tem	-
+droads42.tem	-
+droads42.tem	-
+droads43.tem	-
+droads43.tem	-
+droads44.tem	-
+droads45.tem	-
+droads46.tem	-
+droads47.tem	-
+droads48.tem	-
+droads49.tem	-
+droads50.tem	-
+droads51.tem	-
+droads52.tem	-
+droads53.tem	-
+droads54.tem	-
+droads55.tem	-
+droads56.tem	-
+droads57.tem	-
+droads58.tem	-
+droads59.tem	-
+droads60.tem	-
+droads61.tem	-
+droads62.tem	-
+droads63.tem	-
+droads64.tem	-
+droads65.tem	-
+droads66.tem	-
+drslpe01.tem	-
+drslpe02.tem	-
+drslpe03.tem	-
+drslpe04.tem	-
+drslpe05.tem	-
+drslpe06.tem	-
+drslpe07.tem	-
+drslpe08.tem	-
+dtunn01.tem	-
+dtunn02.tem	-
+dtunn03.tem	-
+dtunn04.tem	-
+dtunnt01.tem	-
+dtunnt02.tem	-
+dtunnt03.tem	-
+dtunnt04.tem	-
+flow01.tem	-
+fona01.tem	-
+fona02.tem	-
+fona03.tem	-
+fona04.tem	-
+fona05.tem	-
+fona06.tem	-
+fona07.tem	-
+fona08.tem	-
+fona09.tem	-
+fona10.tem	-
+fona11.tem	-
+fona12.tem	-
+fona13.tem	-
+fona14.tem	-
+fona15.tem	-
+glat01.tem	-
+glat01a.tem	-
+glat02.tem	-
+glat02a.tem	-
+glat03.tem	-
+glat03a.tem	-
+glat04.tem	-
+glat04a.tem	-
+glat05.tem	-
+glat05a.tem	-
+glat06.tem	-
+glat06a.tem	-
+glat07.tem	-
+glat07a.tem	-
+glat08.tem	-
+glat08a.tem	-
+glat09.tem	-
+glat09a.tem	-
+glat10.tem	-
+glat10a.tem	-
+glat11.tem	-
+glat11a.tem	-
+glat12.tem	-
+glat12a.tem	-
+glat13.tem	-
+glat13a.tem	-
+glat14.tem	-
+glat14a.tem	-
+glat15.tem	-
+glat15a.tem	-
+glat16.tem	-
+glat16a.tem	-
+green01.tem	-
+green01a.tem	-
+green01b.tem	-
+green01c.tem	-
+green01d.tem	-
+green01e.tem	-
+green01f.tem	-
+green01g.tem	-
+house01.tem	-
+ishore01.tem	-
+ishore02.tem	-
+ishore03.tem	-
+ishore04.tem	-
+ishore05.tem	-
+ishore06.tem	-
+ishore07.tem	-
+ishore08.tem	-
+ishore09.tem	-
+ishore10.tem	-
+ishore11.tem	-
+ishore12.tem	-
+ishore13.tem	-
+ishore14.tem	-
+ishore15.tem	-
+ishore16.tem	-
+ishore17.tem	-
+ishore18.tem	-
+ishore19.tem	-
+ishore20.tem	-
+ishore21.tem	-
+ishore22.tem	-
+ishore23.tem	-
+ishore24.tem	-
+ishore25.tem	-
+ishore26.tem	-
+ishore27.tem	-
+ishore28.tem	-
+ishore29.tem	-
+ishore30.tem	-
+ishore31.tem	-
+ishore32.tem	-
+ishore33.tem	-
+ishore34.tem	-
+ishore35.tem	-
+ishore36.tem	-
+ishore37.tem	-
+ishore38.tem	-
+ishore39.tem	-
+ishore40.tem	-
+ishore41.tem	-
+ishore42.tem	-
+ishore43.tem	-
+ishore44.tem	-
+ishore45.tem	-
+ishore46.tem	-
+ishore47.tem	-
+ishore48.tem	-
+lobrdge1.tem	-
+lobrdge2.tem	-
+lobrdge3.tem	-
+lobrdge4.tem	-
+lobrdge1.sno	-
+lobrdge2.sno	-
+lobrdge3.sno	-
+lobrdge4.sno	-
+lobrdg01.tem	-
+lobrdg02.tem	-
+lobrdg03.tem	-
+lobrdg04.tem	-
+lobrdg05.tem	-
+lobrdg06.tem	-
+lobrdg07.tem	-
+lobrdg08.tem	-
+lobrdg09.tem	-
+lobrdg10.tem	-
+lobrdg11.tem	-
+lobrdg12.tem	-
+lobrdg13.tem	-
+lobrdg14.tem	-
+lobrdg15.tem	-
+lobrdg16.tem	-
+lobrdg17.tem	-
+lobrdg18.tem	-
+lobrdg19.tem	-
+lobrdg20.tem	-
+lobrdg21.tem	-
+lobrdg22.tem	-
+lobrdg23.tem	-
+lobrdg24.tem	-
+lobrdg25.tem	-
+lobrdg26.tem	-
+lobrdg27.tem	-
+lobrdg28.tem	-
+ovrps01.tem	-
+ovrps01a.tem	-
+ovrps02.tem	-
+ovrps02a.tem	-
+ovrps03.tem	-
+ovrps03a.tem	-
+ovrps04.tem	-
+ovrps04a.tem	-
+ovrps05.tem	-
+ovrps05a.tem	-
+ovrps06.tem	-
+ovrps06a.tem	-
+ovrps07.tem	-
+ovrps08.tem	-
+ovrps09.tem	-
+ovrps10.tem	-
+ovrps11.tem	-
+ovrps12.tem	-
+ovrps13.tem	-
+ovrps14.tem	-
+ovrps15.tem	-
+ovrps16.tem	-
+p_end01.tem	-
+p_end02.tem	-
+p_end03.tem	-
+p_end04.tem	-
+pave01.tem	-
+pave02.tem	-
+pave03.tem	-
+pave04.tem	-
+pave05.tem	-
+pave06.tem	-
+pave07.tem	-
+pave08.tem	-
+pave09.tem	-
+pave10.tem	-
+pave11.tem	-
+pave12.tem	-
+pave13.tem	-
+pave14.tem	-
+plat01.tem	-
+plat01a.tem	-
+plat02.tem	-
+plat02a.tem	-
+plat03.tem	-
+plat03a.tem	-
+plat04.tem	-
+plat04a.tem	-
+plat05.tem	-
+plat05a.tem	-
+plat06.tem	-
+plat06a.tem	-
+plat07.tem	-
+plat07a.tem	-
+plat08.tem	-
+plat08a.tem	-
+plat09.tem	-
+plat09a.tem	-
+plat10.tem	-
+plat10a.tem	-
+plat11.tem	-
+plat11a.tem	-
+plat12.tem	-
+plat12a.tem	-
+plat13.tem	-
+plat13a.tem	-
+plat14.tem	-
+plat14a.tem	-
+plat15.tem	-
+plat15a.tem	-
+plat16.tem	-
+plat16a.tem	-
+proad01.tem	-
+proad01a.tem	-
+proad01b.tem	-
+proad01c.tem	-
+proad02.tem	-
+proad02a.tem	-
+proad02b.tem	-
+proad02c.tem	-
+proad03.tem	-
+proad04.tem	-
+proad05.tem	-
+proad06.tem	-
+proad07.tem	-
+proad08.tem	-
+proad09.tem	-
+proad10.tem	-
+proad11.tem	-
+proad12.tem	-
+proad13.tem	-
+proad14.tem	-
+proad15.tem	-
+proad16.tem	-
+proad17.tem	-
+proad18.tem	-
+proad19.tem	-
+proad20.tem	-
+proad21.tem	-
+proadc01.tem	-
+proadc02.tem	-
+proadc03.tem	-
+proadc04.tem	-
+proadc05.tem	-
+proadc06.tem	-
+proadc07.tem	-
+proadc08.tem	-
+proadc09.tem	-
+proadc10.tem	-
+proadc11.tem	-
+proadc12.tem	-
+proadc13.tem	-
+proadc14.tem	-
+prslpe01.tem	-
+prslpe02.tem	-
+prslpe03.tem	-
+prslpe04.tem	-
+pvclr01.tem	-
+pvclr01a.tem	-
+pvclr01b.tem	-
+pvclr01c.tem	-
+pvclr01d.tem	-
+pvclr01e.tem	-
+pvclr01f.tem	-
+pvclr01g.tem	-
+railbrdg.tem	-
+ramp01.tem	-
+ramp02.tem	-
+ramp03.tem	-
+ramp04.tem	-
+ramp05.tem	-
+ramp06.tem	-
+ramp07.tem	-
+ramp08.tem	-
+ramp09.tem	-
+ramp10.tem	-
+rmpfx01.tem	-
+rmpfx01a.tem	-
+rmpfx01b.tem	-
+rmpfx01c.tem	-
+rmpfx02.tem	-
+rmpfx02a.tem	-
+rmpfx02b.tem	-
+rmpfx02c.tem	-
+rmpfx03.tem	-
+rmpfx03.tem	-
+rmpfx03a.tem	-
+rmpfx03b.tem	-
+rmpfx03c.tem	-
+rmpfx04.tem	-
+rmpfx04a.tem	-
+rmpfx04b.tem	-
+rmpfx04c.tem	-
+rmpfx05.tem	-
+rmpfx05a.tem	-
+rmpfx05b.tem	-
+rmpfx05c.tem	-
+rmpfx06.tem	-
+rmpfx06a.tem	-
+rmpfx06b.tem	-
+rmpfx06c.tem	-
+rmpfx07.tem	-
+rmpfx07a.tem	-
+rmpfx07b.tem	-
+rmpfx07c.tem	-
+rmpfx08.tem	-
+rmpfx08a.tem	-
+rmpfx08b.tem	-
+rmpfx08c.tem	-
+rmpfx09.tem	-
+rmpfx09a.tem	-
+rmpfx09b.tem	-
+rmpfx09c.tem	-
+rmpfx10.tem	-
+rmpfx10a.tem	-
+rmpfx10b.tem	-
+rmpfx10c.tem	-
+rmpfx11.tem	-
+rmpfx11a.tem	-
+rmpfx11b.tem	-
+rmpfx11c.tem	-
+rmpfx12.tem	-
+rmpfx12a.tem	-
+rmpfx12b.tem	-
+rmpfx12c.tem	-
+rough01.tem	-
+rough02.tem	-
+rough03.tem	-
+rough04.tem	-
+rough05.tem	-
+rough06.tem	-
+rough07.tem	-
+rough08.tem	-
+rough09.tem	-
+rough10.tem	-
+ruff01.tem	-
+ruff01a.tem	-
+ruff01b.tem	-
+ruff01c.tem	-
+ruff01d.tem	-
+ruff01e.tem	-
+ruff01f.tem	-
+ruff01g.tem	-
+ruin01.tem	-
+sandy01.tem	-
+sandy01a.tem	-
+sandy01b.tem	-
+sandy01c.tem	-
+sandy01d.tem	-
+sandy01e.tem	-
+sandy01f.tem	-
+sandy01g.tem	-
+scrin01.tem	-
+scrin02.tem	-
+scrin03.tem	-
+scrin04.tem	-
+scrin05.tem	-
+scrin06.tem	-
+shore01.tem	-
+shore02.tem	-
+shore03.tem	-
+shore04.tem	-
+shore05.tem	-
+shore06.tem	-
+shore07.tem	-
+shore08.tem	-
+shore09.tem	-
+shore10.tem	-
+shore11.tem	-
+shore12.tem	-
+shore13.tem	-
+shore14.tem	-
+shore15.tem	-
+shore16.tem	-
+shore17.tem	-
+shore18.tem	-
+shore19.tem	-
+shore20.tem	-
+shore21.tem	-
+shore22.tem	-
+shore23.tem	-
+shore24.tem	-
+shore25.tem	-
+shore26.tem	-
+shore27.tem	-
+shore28.tem	-
+shore29.tem	-
+shore30.tem	-
+shore31.tem	-
+shore32.tem	-
+shore33.tem	-
+shore34.tem	-
+shore35.tem	-
+shore36.tem	-
+shore37.tem	-
+shore38.tem	-
+shore39.tem	-
+shore40.tem	-
+shore41.tem	-
+shore42.tem	-
+slop01z.tem	-
+slop02z.tem	-
+slop03z.tem	-
+slop04z.tem	-
+slope01.tem	-
+slope01a.tem	-
+slope01b.tem	-
+slope01c.tem	-
+slope02.tem	-
+slope02a.tem	-
+slope02b.tem	-
+slope02c.tem	-
+slope03.tem	-
+slope03a.tem	-
+slope03b.tem	-
+slope03c.tem	-
+slope04.tem	-
+slope04a.tem	-
+slope04b.tem	-
+slope04c.tem	-
+slope05.tem	-
+slope05a.tem	-
+slope05b.tem	-
+slope05c.tem	-
+slope06.tem	-
+slope06a.tem	-
+slope06b.tem	-
+slope06c.tem	-
+slope07.tem	-
+slope07a.tem	-
+slope07b.tem	-
+slope07c.tem	-
+slope08.tem	-
+slope08a.tem	-
+slope08b.tem	-
+slope08c.tem	-
+slope09.tem	-
+slope09a.tem	-
+slope09b.tem	-
+slope09c.tem	-
+slope10.tem	-
+slope10a.tem	-
+slope10b.tem	-
+slope10c.tem	-
+slope11.tem	-
+slope11a.tem	-
+slope11b.tem	-
+slope11c.tem	-
+slope12.tem	-
+slope12a.tem	-
+slope12b.tem	-
+slope12c.tem	-
+slope13.tem	-
+slope13a.tem	-
+slope13b.tem	-
+slope13c.tem	-
+slope14.tem	-
+slope14a.tem	-
+slope14b.tem	-
+slope14c.tem	-
+slope15.tem	-
+slope15a.tem	-
+slope15b.tem	-
+slope15c.tem	-
+slope16.tem	-
+slope16a.tem	-
+slope16b.tem	-
+slope16c.tem	-
+slope17.tem	-
+slope18.tem	-
+slope19.tem	-
+slope20.tem	-
+snow01.tem	-
+snow01a.tem	-
+snow01b.tem	-
+snow01c.tem	-
+snow02.tem	-
+snow03.tem	-
+snow04.tem	-
+srock01.tem	-
+srock02.tem	-
+srock03.tem	-
+srock04.tem	-
+srock05.tem	-
+tanker01.tem	-
+tib01.tem	-
+tib02.tem	-
+tib03.tem	-
+tib04.tem	-
+tib05.tem	-
+tib06.tem	-
+tib07.tem	-
+tib08.tem	-
+tib09.tem	-
+tib10.tem	-
+tib11.tem	-
+tib12.tem	-
+tib13.tem	-
+tib14.tem	-
+tib15.tem	-
+tib16.tem	-
+tib17.tem	-
+tib18.tem	-
+tib19.tem	-
+tib20.tem	-
+tibtre01.tem	-
+tibtre02.tem	-
+tibtre03.tem	-
+tovrps01.tem	-
+tovrps01a.tem	-
+tovrps02.tem	-
+tovrps02a.tem	-
+tovrps03.tem	-
+tovrps03a.tem	-
+tovrps04.tem	-
+tovrps04a.tem	-
+tovrps05.tem	-
+tovrps05a.tem	-
+tovrps06.tem	-
+tovrps06a.tem	-
+tovrps07.tem	-
+tovrps08.tem	-
+tovrps09.tem	-
+tovrps10.tem	-
+tovrps11.tem	-
+tovrps12.tem	-
+tovrps13.tem	-
+tovrps14.tem	-
+tovrps15.tem	-
+tovrps16.tem	-
+tracks01.tem	-
+tracks02.tem	-
+tracks03.tem	-
+tracks04.tem	-
+tracks05.tem	-
+tracks06.tem	-
+tracks07.tem	-
+tracks08.tem	-
+tracks09.tem	-
+tracks10.tem	-
+tracks11.tem	-
+tracks12.tem	-
+tracks13.tem	-
+tracks14.tem	-
+tracks15.tem	-
+tracks16.tem	-
+tree01.tem	-
+tree02.tem	-
+tree03.tem	-
+tree04.tem	-
+tree05.tem	-
+tree06.tem	-
+tree07.tem	-
+tree08.tem	-
+tree09.tem	-
+tree10.tem	-
+tree11.tem	-
+tree12.tem	-
+tree13.tem	-
+tree14.tem	-
+tree15.tem	-
+tree16.tem	-
+tree17.tem	-
+tree18.tem	-
+tree19.tem	-
+tree20.tem	-
+tree21.tem	-
+tree22.tem	-
+tree23.tem	-
+tree24.tem	-
+tree25.tem	-
+trock01.tem	-
+trock02.tem	-
+trock03.tem	-
+trock04.tem	-
+trock05.tem	-
+trtunn01.tem	-
+trtunn02.tem	-
+trtunn03.tem	-
+trtunn04.tem	-
+tslope01.tem	-
+tslope02.tem	-
+tslope03.tem	-
+tslope04.tem	-
+tunnel01.tem	-
+tunnel02.tem	-
+tunnel03.tem	-
+tunnel04.tem	-
+tunnet01.tem	-
+tunnet02.tem	-
+tunnet03.tem	-
+tunnet04.tem	-
+tunnex01.tem	-
+tunnex02.tem	-
+tuntop01.tem	-
+tuntop02.tem	-
+tuntop03.tem	-
+tuntop04.tem	-
+ufo.tem	-
+veinatac.tem	-
+veinhole.tem	-
+veins.tem	-
+w-a-01.tem	-
+wa01x.tem	-
+w-a-02.tem	-
+wa02x.tem	-
+w-a-03.tem	-
+wa03x.tem	-
+w-a-04.tem	-
+wa04x.tem	-
+water01.tem	-
+water02.tem	-
+water03.tem	-
+water04.tem	-
+water05.tem	-
+water06.tem	-
+water07.tem	-
+water08.tem	-
+water09.tem	-
+water10.tem	-
+water11.tem	-
+water12.tem	-
+water13.tem	-
+water14.tem	-
+w-b-01.tem	-
+wb01x.tem	-
+w-b-02.tem	-
+wb02x.tem	-
+w-b-03.tem	-
+wb03x.tem	-
+w-b-04.tem	-
+wb04x.tem	-
+w-c-01.tem	-
+wc01x.tem	-
+w-c-02.tem	-
+wc02x.tem	-
+w-c-03.tem	-
+wc03x.tem	-
+w-c-04.tem	-
+wc04x.tem	-
+wcave01.tem	-
+wcave02.tem	-
+wcave03.tem	-
+wcave04.tem	-
+wcave05.tem	-
+wcave06.tem	-
+wcave07.tem	-
+wcave08.tem	-
+wcliff01.tem	-
+wcliff02.tem	-
+wcliff03.tem	-
+wcliff04.tem	-
+wcliff05.tem	-
+wcliff06.tem	-
+wcliff07.tem	-
+wcliff08.tem	-
+wcliff09.tem	-
+wcliff10.tem	-
+wcliff11.tem	-
+wcliff12.tem	-
+wcliff13.tem	-
+wcliff14.tem	-
+wcliff15.tem	-
+wcliff16.tem	-
+wcliff17.tem	-
+wcliff18.tem	-
+wcliff19.tem	-
+wcliff20.tem	-
+wcliff21.tem	-
+wcliff22.tem	-
+wcliff23.tem	-
+wcliff24.tem	-
+wcliff25.tem	-
+wcliff26.tem	-
+wcliff27.tem	-
+wcliff28.tem	-
+w-d-01.tem	-
+wd01x.tem	-
+w-d-02.tem	-
+wd02x.tem	-
+w-d-03.tem	-
+wd03x.tem	-
+w-d-04.tem	-
+wd04x.tem	-
+wslope01.tem	-
+wslope02.tem	-
+wslope03.tem	-
+wslope04.tem	-
+bigblue.sno	-
+blank01.sno	-
+bld01.sno	-
+bld02.sno	-
+bld03.sno	-
+bridge.sno	-
+burnt01.sno	-
+burnt02.sno	-
+burnt03.sno	-
+burnt04.sno	-
+burnt05.sno	-
+burnt06.sno	-
+burnt07.sno	-
+burnt08.sno	-
+burnt09.sno	-
+burnt10.sno	-
+burnt11.sno	-
+burnt12.sno	-
+civ01.sno	-
+civ02.sno	-
+civ03.sno	-
+civ04.sno	-
+civ05.sno	-
+civ06.sno	-
+civ07.sno	-
+civ08.sno	-
+clat01.sno	-
+clat01a.sno	-
+clat02.sno	-
+clat02a.sno	-
+clat03.sno	-
+clat03a.sno	-
+clat04.sno	-
+clat04a.sno	-
+clat05.sno	-
+clat05a.sno	-
+clat06.sno	-
+clat06a.sno	-
+clat07.sno	-
+clat07a.sno	-
+clat08.sno	-
+clat08a.sno	-
+clat09.sno	-
+clat09a.sno	-
+clat10.sno	-
+clat10a.sno	-
+clat11.sno	-
+clat11a.sno	-
+clat12.sno	-
+clat12a.sno	-
+clat13.sno	-
+clat13a.sno	-
+clat14.sno	-
+clat14a.sno	-
+clat15.sno	-
+clat15a.sno	-
+clat16.sno	-
+clat16a.sno	-
+clear01.sno	-
+clear01a.sno	-
+clear01b.sno	-
+clear01c.sno	-
+clear01d.sno	-
+clear01e.sno	-
+clear01f.sno	-
+clear01g.sno	-
+clif01.sno	-
+clif02.sno	-
+cliff01.sno	-
+cliff02.sno	-
+cliff03.sno	-
+cliff04.sno	-
+cliff05.sno	-
+cliff06.sno	-
+cliff07.sno	-
+cliff08.sno	-
+cliff09.sno	-
+cliff10.sno	-
+cliff11.sno	-
+cliff12.sno	-
+cliff13.sno	-
+cliff14.sno	-
+cliff15.sno	-
+cliff16.sno	-
+cliff17.sno	-
+cliff18.sno	-
+cliff19.sno	-
+cliff20.sno	-
+cliff21.sno	-
+cliff22.sno	-
+cliff23.sno	-
+cliff24.sno	-
+cliff25.sno	-
+cliff26.sno	-
+cliff27.sno	-
+cliff28.sno	-
+cliff29.sno	-
+cliff30.sno	-
+cliff31.sno	-
+cliff32.sno	-
+cliff33.sno	-
+cliff33a.sno	-
+cliff34.sno	-
+cliff34a.sno	-
+cliff35.sno	-
+cliff36.sno	-
+cliff37.sno	-
+cliff38.sno	-
+cliff39.sno	-
+cliff40.sno	-
+crate.sno	-
+crater01.sno	-
+crater02.sno	-
+crater03.sno	-
+crater04.sno	-
+crater05.sno	-
+crater06.sno	-
+crater07.sno	-
+crater08.sno	-
+crater09.sno	-
+crater10.sno	-
+crater11.sno	-
+crater12.sno	-
+crystal1.sno	-
+crystal2.sno	-
+crystal3.sno	-
+crystal4.sno	-
+dcliff01.sno	-
+dcliff02.sno	-
+droadc01.sno	-
+droadc02.sno	-
+droadc03.sno	-
+droadc04.sno	-
+droadc05.sno	-
+droadc06.sno	-
+droadc07.sno	-
+droadc08.sno	-
+droadc09.sno	-
+droadc10.sno	-
+droadc11.sno	-
+droadc12.sno	-
+droadc13.sno	-
+droadc14.sno	-
+droadc15.sno	-
+droadc16.sno	-
+droadc17.sno	-
+droadc18.sno	-
+droadc19.sno	-
+droadc20.sno	-
+droadc21.sno	-
+droadc22.sno	-
+droadc23.sno	-
+droadc24.sno	-
+droadj01.sno	-
+droadj02.sno	-
+droadj03.sno	-
+droadj04.sno	-
+droadj05.sno	-
+droadj06.sno	-
+droadj07.sno	-
+droadj08.sno	-
+droadj09.sno	-
+droadj10.sno	-
+droadj11.sno	-
+droads01.sno	-
+droads02.sno	-
+droads03.sno	-
+droads04.sno	-
+droads05.sno	-
+droads06.sno	-
+droads07.sno	-
+droads08.sno	-
+droads09.sno	-
+droads10.sno	-
+droads11.sno	-
+droads12.sno	-
+droads13.sno	-
+droads13.sno	-
+droads14.sno	-
+droads15.sno	-
+droads16.sno	-
+droads17.sno	-
+droads18.sno	-
+droads19.sno	-
+droads20.sno	-
+droads21.sno	-
+droads22.sno	-
+droads23.sno	-
+droads23.sno	-
+droads24.sno	-
+droads25.sno	-
+droads26.sno	-
+droads27.sno	-
+droads28.sno	-
+droads29.sno	-
+droads30.sno	-
+droads31.sno	-
+droads32.sno	-
+droads33.sno	-
+droads34.sno	-
+droads35.sno	-
+droads36.sno	-
+droads37.sno	-
+droads38.sno	-
+droads39.sno	-
+droads40.sno	-
+droads41.sno	-
+droads42.sno	-
+droads42.sno	-
+droads43.sno	-
+droads43.sno	-
+droads44.sno	-
+droads45.sno	-
+droads46.sno	-
+droads47.sno	-
+droads48.sno	-
+droads49.sno	-
+droads50.sno	-
+droads51.sno	-
+droads52.sno	-
+droads53.sno	-
+droads54.sno	-
+droads55.sno	-
+droads56.sno	-
+droads57.sno	-
+droads58.sno	-
+droads59.sno	-
+droads60.sno	-
+droads61.sno	-
+droads62.sno	-
+droads63.sno	-
+droads64.sno	-
+droads65.sno	-
+droads66.sno	-
+drslpe01.sno	-
+drslpe02.sno	-
+drslpe03.sno	-
+drslpe04.sno	-
+drslpe05.sno	-
+drslpe06.sno	-
+drslpe07.sno	-
+drslpe08.sno	-
+dtunn01.sno	-
+dtunn02.sno	-
+dtunn03.sno	-
+dtunn04.sno	-
+dtunnt01.sno	-
+dtunnt02.sno	-
+dtunnt03.sno	-
+dtunnt04.sno	-
+flow01.sno	-
+glat01.sno	-
+glat01a.sno	-
+glat02.sno	-
+glat02a.sno	-
+glat03.sno	-
+glat03a.sno	-
+glat04.sno	-
+glat04a.sno	-
+glat05.sno	-
+glat05a.sno	-
+glat06.sno	-
+glat06a.sno	-
+glat07.sno	-
+glat07a.sno	-
+glat08.sno	-
+glat08a.sno	-
+glat09.sno	-
+glat09a.sno	-
+glat10.sno	-
+glat10a.sno	-
+glat11.sno	-
+glat11a.sno	-
+glat12.sno	-
+glat12a.sno	-
+glat13.sno	-
+glat13a.sno	-
+glat14.sno	-
+glat14a.sno	-
+glat15.sno	-
+glat15a.sno	-
+glat16.sno	-
+glat16a.sno	-
+grey01.sno	-
+grey01a.sno	-
+grey01b.sno	-
+grey01c.sno	-
+grey01d.sno	-
+grey01e.sno	-
+grey01f.sno	-
+grey01g.sno	-
+house01.sno	-
+ice0101.sno	-
+ice0102.sno	-
+ice0103.sno	-
+ice0104.sno	-
+ice0105.sno	-
+ice0106.sno	-
+ice0107.sno	-
+ice0108.sno	-
+ice0109.sno	-
+ice0110.sno	-
+ice0111.sno	-
+ice0112.sno	-
+ice0113.sno	-
+ice0114.sno	-
+ice0115.sno	-
+ice0116.sno	-
+ice0117.sno	-
+ice0118.sno	-
+ice0119.sno	-
+ice0120.sno	-
+ice0121.sno	-
+ice0122.sno	-
+ice0123.sno	-
+ice0124.sno	-
+ice0125.sno	-
+ice0126.sno	-
+ice0127.sno	-
+ice0128.sno	-
+ice0129.sno	-
+ice0130.sno	-
+ice0131.sno	-
+ice0132.sno	-
+ice0133.sno	-
+ice0134.sno	-
+ice0135.sno	-
+ice0136.sno	-
+ice0137.sno	-
+ice0138.sno	-
+ice0139.sno	-
+ice0140.sno	-
+ice0141.sno	-
+ice0142.sno	-
+ice0143.sno	-
+ice0144.sno	-
+ice0145.sno	-
+ice0146.sno	-
+ice0147.sno	-
+ice0148.sno	-
+ice0149.sno	-
+ice0150.sno	-
+ice0151.sno	-
+ice0152.sno	-
+ice0153.sno	-
+ice0154.sno	-
+ice0155.sno	-
+ice0156.sno	-
+ice0157.sno	-
+ice0158.sno	-
+ice0159.sno	-
+ice0160.sno	-
+ice0161.sno	-
+ice0162.sno	-
+ice0163.sno	-
+ice0164.sno	-
+ice0201.sno	-
+ice0203.sno	-
+ice0204.sno	-
+ice0205.sno	-
+ice0206.sno	-
+ice0207.sno	-
+ice0208.sno	-
+ice0209.sno	-
+ice0210.sno	-
+ice0211.sno	-
+ice0212.sno	-
+ice0213.sno	-
+ice0214.sno	-
+ice0215.sno	-
+ice0216.sno	-
+ice0217.sno	-
+ice0218.sno	-
+ice0219.sno	-
+ice0220.sno	-
+ice0221.sno	-
+ice0222.sno	-
+ice0223.sno	-
+ice0224.sno	-
+ice0225.sno	-
+ice0226.sno	-
+ice0227.sno	-
+ice0228.sno	-
+ice0229.sno	-
+ice0230.sno	-
+ice0231.sno	-
+ice0232.sno	-
+ice0233.sno	-
+ice0234.sno	-
+ice0235.sno	-
+ice0236.sno	-
+ice0237.sno	-
+ice0238.sno	-
+ice0239.sno	-
+ice0240.sno	-
+ice0241.sno	-
+ice0242.sno	-
+ice0243.sno	-
+ice0244.sno	-
+ice0245.sno	-
+ice0246.sno	-
+ice0247.sno	-
+ice0248.sno	-
+ice0249.sno	-
+ice0250.sno	-
+ice0251.sno	-
+ice0252.sno	-
+ice0253.sno	-
+ice0254.sno	-
+ice0255.sno	-
+ice0256.sno	-
+ice0257.sno	-
+ice0258.sno	-
+ice0259.sno	-
+ice0260.sno	-
+ice0261.sno	-
+ice0262.sno	-
+ice0263.sno	-
+ice0264.sno	-
+ice0301.sno	-
+ice0302.sno	-
+ice0303.sno	-
+ice0304.sno	-
+ice0305.sno	-
+ice0306.sno	-
+ice0307.sno	-
+ice0308.sno	-
+ice0309.sno	-
+ice0310.sno	-
+ice0311.sno	-
+ice0312.sno	-
+ice0313.sno	-
+ice0314.sno	-
+ice0315.sno	-
+ice0316.sno	-
+ice0317.sno	-
+ice0318.sno	-
+ice0319.sno	-
+ice0320.sno	-
+ice0321.sno	-
+ice0322.sno	-
+ice0323.sno	-
+ice0324.sno	-
+ice0325.sno	-
+ice0326.sno	-
+ice0327.sno	-
+ice0328.sno	-
+ice0329.sno	-
+ice0330.sno	-
+ice0331.sno	-
+ice0332.sno	-
+ice0333.sno	-
+ice0334.sno	-
+ice0335.sno	-
+ice0336.sno	-
+ice0337.sno	-
+ice0338.sno	-
+ice0339.sno	-
+ice0340.sno	-
+ice0341.sno	-
+ice0342.sno	-
+ice0343.sno	-
+ice0344.sno	-
+ice0345.sno	-
+ice0346.sno	-
+ice0347.sno	-
+ice0348.sno	-
+ice0349.sno	-
+ice0350.sno	-
+ice0351.sno	-
+ice0352.sno	-
+ice0353.sno	-
+ice0354.sno	-
+ice0355.sno	-
+ice0356.sno	-
+ice0357.sno	-
+ice0358.sno	-
+ice0359.sno	-
+ice0360.sno	-
+ice0361.sno	-
+ice0362.sno	-
+ice0363.sno	-
+ice0364.sno	-
+ishore01.sno	-
+ishore02.sno	-
+ishore03.sno	-
+ishore04.sno	-
+ishore05.sno	-
+ishore06.sno	-
+ishore07.sno	-
+ishore08.sno	-
+ishore09.sno	-
+ishore10.sno	-
+ishore11.sno	-
+ishore12.sno	-
+ishore13.sno	-
+ishore14.sno	-
+ishore15.sno	-
+ishore16.sno	-
+ishore17.sno	-
+ishore18.sno	-
+ishore19.sno	-
+ishore20.sno	-
+ishore21.sno	-
+ishore22.sno	-
+ishore23.sno	-
+ishore24.sno	-
+ishore25.sno	-
+ishore26.sno	-
+ishore27.sno	-
+ishore28.sno	-
+ishore29.sno	-
+ishore30.sno	-
+ishore31.sno	-
+ishore32.sno	-
+ishore33.sno	-
+ishore34.sno	-
+ishore35.sno	-
+ishore36.sno	-
+ishore37.sno	-
+ishore38.sno	-
+ishore39.sno	-
+ishore40.sno	-
+ishore41.sno	-
+ishore42.sno	-
+ishore43.sno	-
+ishore44.sno	-
+ishore45.sno	-
+ishore46.sno	-
+ishore47.sno	-
+ishore48.sno	-
+lobrdg01.sno	-
+lobrdg02.sno	-
+lobrdg03.sno	-
+lobrdg04.sno	-
+lobrdg05.sno	-
+lobrdg06.sno	-
+lobrdg07.sno	-
+lobrdg08.sno	-
+lobrdg09.sno	-
+lobrdg10.sno	-
+lobrdg11.sno	-
+lobrdg12.sno	-
+lobrdg13.sno	-
+lobrdg14.sno	-
+lobrdg15.sno	-
+lobrdg16.sno	-
+lobrdg17.sno	-
+lobrdg18.sno	-
+lobrdg19.sno	-
+lobrdg20.sno	-
+lobrdg21.sno	-
+lobrdg22.sno	-
+lobrdg23.sno	-
+lobrdg24.sno	-
+lobrdg25.sno	-
+lobrdg26.sno	-
+lobrdg27.sno	-
+lobrdg28.sno	-
+mine.sno	-
+mine.tem	-
+gold01.tem	-
+gold02.tem	-
+gold03.tem	-
+gold04.tem	-
+gold01.sno	-
+gold02.sno	-
+gold03.sno	-
+gold04.sno	-
+gem01.sno	-
+gem02.sno	-
+gem03.sno	-
+gem04.sno	-
+gem01.tem	-
+gem02.tem	-
+gem03.tem	-
+gem04.tem	-
+hbox.tem	-
+hboxmake.tem	-
+hboxmake.sno	-
+hbox.sno	-
+mslo.sno	-
+mslo.tem	-
+mslomake.tem	-
+mslomake.sno	-
+ovrps01.sno	-
+ovrps01a.sno	-
+ovrps02.sno	-
+ovrps02a.sno	-
+ovrps03.sno	-
+ovrps03a.sno	-
+ovrps04.sno	-
+ovrps04a.sno	-
+ovrps05.sno	-
+ovrps05a.sno	-
+ovrps06.sno	-
+ovrps06a.sno	-
+ovrps07.sno	-
+ovrps08.sno	-
+ovrps09.sno	-
+ovrps10.sno	-
+ovrps11.sno	-
+ovrps12.sno	-
+ovrps13.sno	-
+ovrps14.sno	-
+ovrps15.sno	-
+ovrps16.sno	-
+p_end01.sno	-
+p_end02.sno	-
+p_end03.sno	-
+p_end04.sno	-
+pave01.sno	-
+pave02.sno	-
+pave03.sno	-
+pave04.sno	-
+pave05.sno	-
+pave06.sno	-
+pave07.sno	-
+pave08.sno	-
+pave09.sno	-
+pave10.sno	-
+pave11.sno	-
+pave12.sno	-
+pave13.sno	-
+pave14.sno	-
+plat01.sno	-
+plat01a.sno	-
+plat02.sno	-
+plat02a.sno	-
+plat03.sno	-
+plat03a.sno	-
+plat04.sno	-
+plat04a.sno	-
+plat05.sno	-
+plat05a.sno	-
+plat06.sno	-
+plat06a.sno	-
+plat07.sno	-
+plat07a.sno	-
+plat08.sno	-
+plat08a.sno	-
+plat09.sno	-
+plat09a.sno	-
+plat10.sno	-
+plat10a.sno	-
+plat11.sno	-
+plat11a.sno	-
+plat12.sno	-
+plat12a.sno	-
+plat13.sno	-
+plat13a.sno	-
+plat14.sno	-
+plat14a.sno	-
+plat15.sno	-
+plat15a.sno	-
+plat16.sno	-
+plat16a.sno	-
+proad01.sno	-
+proad01a.sno	-
+proad01b.sno	-
+proad01c.sno	-
+proad02.sno	-
+proad02a.sno	-
+proad02b.sno	-
+proad02c.sno	-
+proad03.sno	-
+proad04.sno	-
+proad05.sno	-
+proad06.sno	-
+proad07.sno	-
+proad08.sno	-
+proad09.sno	-
+proad10.sno	-
+proad11.sno	-
+proad12.sno	-
+proad13.sno	-
+proad14.sno	-
+proad15.sno	-
+proad16.sno	-
+proad17.sno	-
+proad18.sno	-
+proad19.sno	-
+proad20.sno	-
+proad21.sno	-
+prslpe01.sno	-
+prslpe02.sno	-
+prslpe03.sno	-
+prslpe04.sno	-
+pvclr01.sno	-
+pvclr01a.sno	-
+pvclr01b.sno	-
+pvclr01c.sno	-
+pvclr01d.sno	-
+pvclr01e.sno	-
+pvclr01f.sno	-
+pvclr01g.sno	-
+railbrdg.sno	-
+ramp01.sno	-
+ramp02.sno	-
+ramp03.sno	-
+ramp04.sno	-
+ramp05.sno	-
+ramp06.sno	-
+ramp07.sno	-
+ramp08.sno	-
+ramp09.sno	-
+ramp10.sno	-
+rlat01.sno	-
+rlat01a.sno	-
+rlat02.sno	-
+rlat02a.sno	-
+rlat03.sno	-
+rlat03a.sno	-
+rlat04.sno	-
+rlat04a.sno	-
+rlat05.sno	-
+rlat05a.sno	-
+rlat06.sno	-
+rlat06a.sno	-
+rlat07.sno	-
+rlat07a.sno	-
+rlat08.sno	-
+rlat08a.sno	-
+rlat09.sno	-
+rlat09a.sno	-
+rlat10.sno	-
+rlat10a.sno	-
+rlat11.sno	-
+rlat11a.sno	-
+rlat12.sno	-
+rlat12a.sno	-
+rlat13.sno	-
+rlat13a.sno	-
+rlat14.sno	-
+rlat14a.sno	-
+rlat15.sno	-
+rlat15a.sno	-
+rlat16.sno	-
+rlat16a.sno	-
+rmpfx01.sno	-
+rmpfx01a.sno	-
+rmpfx01b.sno	-
+rmpfx01c.sno	-
+rmpfx02.sno	-
+rmpfx02a.sno	-
+rmpfx02b.sno	-
+rmpfx02c.sno	-
+rmpfx03.sno	-
+rmpfx03a.sno	-
+rmpfx03b.sno	-
+rmpfx03c.sno	-
+rmpfx04.sno	-
+rmpfx04a.sno	-
+rmpfx04b.sno	-
+rmpfx04c.sno	-
+rmpfx05.sno	-
+rmpfx05a.sno	-
+rmpfx05b.sno	-
+rmpfx05c.sno	-
+rmpfx06.sno	-
+rmpfx06a.sno	-
+rmpfx06b.sno	-
+rmpfx06c.sno	-
+rmpfx07.sno	-
+rmpfx07a.sno	-
+rmpfx07b.sno	-
+rmpfx07c.sno	-
+rmpfx08.sno	-
+rmpfx08a.sno	-
+rmpfx08b.sno	-
+rmpfx08c.sno	-
+rmpfx09.sno	-
+rmpfx09a.sno	-
+rmpfx09b.sno	-
+rmpfx09c.sno	-
+rmpfx10.sno	-
+rmpfx10a.sno	-
+rmpfx10b.sno	-
+rmpfx10c.sno	-
+rmpfx11.sno	-
+rmpfx11a.sno	-
+rmpfx11b.sno	-
+rmpfx11c.sno	-
+rmpfx12.sno	-
+rmpfx12a.sno	-
+rmpfx12b.sno	-
+rmpfx12c.sno	-
+rock01.sno	-
+rock01a.sno	-
+rock01b.sno	-
+rock01c.sno	-
+rock01d.sno	-
+rock01e.sno	-
+rock01f.sno	-
+rock01g.sno	-
+rough01.sno	-
+rough02.sno	-
+rough03.sno	-
+rough04.sno	-
+rough05.sno	-
+rough06.sno	-
+rough07.sno	-
+rough08.sno	-
+rough09.sno	-
+rough10.sno	-
+ruff01.sno	-
+ruff01a.sno	-
+ruff01b.sno	-
+ruff01c.sno	-
+ruff01d.sno	-
+ruff01e.sno	-
+ruff01f.sno	-
+ruff01g.sno	-
+ruin01.sno	-
+shore01.sno	-
+shore02.sno	-
+shore03.sno	-
+shore04.sno	-
+shore05.sno	-
+shore06.sno	-
+shore07.sno	-
+shore08.sno	-
+shore09.sno	-
+shore10.sno	-
+shore11.sno	-
+shore12.sno	-
+shore13.sno	-
+shore14.sno	-
+shore15.sno	-
+shore16.sno	-
+shore17.sno	-
+shore18.sno	-
+shore19.sno	-
+shore20.sno	-
+shore21.sno	-
+shore22.sno	-
+shore23.sno	-
+shore24.sno	-
+shore25.sno	-
+shore26.sno	-
+shore27.sno	-
+shore28.sno	-
+shore29.sno	-
+shore30.sno	-
+shore31.sno	-
+shore32.sno	-
+shore33.sno	-
+shore34.sno	-
+shore35.sno	-
+shore36.sno	-
+shore37.sno	-
+shore38.sno	-
+shore39.sno	-
+shore40.sno	-
+shore41.sno	-
+shore42.sno	-
+slop01z.sno	-
+slop02z.sno	-
+slop03z.sno	-
+slop04z.sno	-
+slope01.sno	-
+slope01a.sno	-
+slope01b.sno	-
+slope01c.sno	-
+slope02.sno	-
+slope02a.sno	-
+slope02b.sno	-
+slope02c.sno	-
+slope03.sno	-
+slope03a.sno	-
+slope03b.sno	-
+slope03c.sno	-
+slope04.sno	-
+slope04a.sno	-
+slope04b.sno	-
+slope04c.sno	-
+slope05.sno	-
+slope05a.sno	-
+slope05b.sno	-
+slope05c.sno	-
+slope06.sno	-
+slope06a.sno	-
+slope06b.sno	-
+slope06c.sno	-
+slope07.sno	-
+slope07a.sno	-
+slope07b.sno	-
+slope07c.sno	-
+slope08.sno	-
+slope08a.sno	-
+slope08b.sno	-
+slope08c.sno	-
+slope09.sno	-
+slope09a.sno	-
+slope09b.sno	-
+slope09c.sno	-
+slope10.sno	-
+slope10a.sno	-
+slope10b.sno	-
+slope10c.sno	-
+slope11.sno	-
+slope11a.sno	-
+slope11b.sno	-
+slope11c.sno	-
+slope12.sno	-
+slope12a.sno	-
+slope12b.sno	-
+slope12c.sno	-
+slope13.sno	-
+slope13a.sno	-
+slope13b.sno	-
+slope13c.sno	-
+slope14.sno	-
+slope14a.sno	-
+slope14b.sno	-
+slope14c.sno	-
+slope15.sno	-
+slope15a.sno	-
+slope15b.sno	-
+slope15c.sno	-
+slope16.sno	-
+slope16a.sno	-
+slope16b.sno	-
+slope16c.sno	-
+slope17.sno	-
+slope18.sno	-
+slope19.sno	-
+slope20.sno	-
+snow01.sno	-
+snow01a.sno	-
+snow01b.sno	-
+snow01c.sno	-
+snow02.sno	-
+snow03.sno	-
+snow04.sno	-
+srock01.sno	-
+srock02.sno	-
+srock03.sno	-
+srock04.sno	-
+srock05.sno	-
+tanker01.sno	-
+tib01.sno	-
+tib02.sno	-
+tib03.sno	-
+tib04.sno	-
+tib05.sno	-
+tib06.sno	-
+tib07.sno	-
+tib08.sno	-
+tib09.sno	-
+tib10.sno	-
+tib11.sno	-
+tib12.sno	-
+tib13.sno	-
+tib14.sno	-
+tib15.sno	-
+tib16.sno	-
+tib17.sno	-
+tib18.sno	-
+tib19.sno	-
+tib20.sno	-
+tibtre01.sno	-
+tibtre02.sno	-
+tibtre03.sno	-
+tovrps01.sno	-
+tovrps01a.sno	-
+tovrps02.sno	-
+tovrps02a.sno	-
+tovrps03.sno	-
+tovrps03a.sno	-
+tovrps04.sno	-
+tovrps04a.sno	-
+tovrps05.sno	-
+tovrps05a.sno	-
+tovrps06.sno	-
+tovrps06a.sno	-
+tovrps07.sno	-
+tovrps08.sno	-
+tovrps09.sno	-
+tovrps10.sno	-
+tovrps11.sno	-
+tovrps12.sno	-
+tovrps13.sno	-
+tovrps14.sno	-
+tovrps15.sno	-
+tovrps16.sno	-
+tracks01.sno	-
+tracks02.sno	-
+tracks03.sno	-
+tracks04.sno	-
+tracks05.sno	-
+tracks06.sno	-
+tracks07.sno	-
+tracks08.sno	-
+tracks09.sno	-
+tracks10.sno	-
+tracks11.sno	-
+tracks12.sno	-
+tracks13.sno	-
+tracks14.sno	-
+tracks15.sno	-
+tracks16.sno	-
+tree01.sno	-
+tree02.sno	-
+tree03.sno	-
+tree04.sno	-
+tree05.sno	-
+tree06.sno	-
+tree07.sno	-
+tree08.sno	-
+tree09.sno	-
+tree10.sno	-
+tree11.sno	-
+tree12.sno	-
+tree13.sno	-
+tree14.sno	-
+tree15.sno	-
+tree16.sno	-
+tree17.sno	-
+tree18.sno	-
+tree19.sno	-
+tree20.sno	-
+tree21.sno	-
+tree22.sno	-
+tree23.sno	-
+tree24.sno	-
+tree25.sno	-
+trock01.sno	-
+trock02.sno	-
+trock03.sno	-
+trock04.sno	-
+trock05.sno	-
+trtunn01.sno	-
+trtunn02.sno	-
+trtunn03.sno	-
+trtunn04.sno	-
+tslope01.sno	-
+tslope02.sno	-
+tslope03.sno	-
+tslope04.sno	-
+tunnel01.sno	-
+tunnel02.sno	-
+tunnel03.sno	-
+tunnel04.sno	-
+tunnet01.sno	-
+tunnet02.sno	-
+tunnet03.sno	-
+tunnet04.sno	-
+tunnex01.sno	-
+tunnex02.sno	-
+tuntop01.sno	-
+tuntop02.sno	-
+tuntop03.sno	-
+tuntop04.sno	-
+veinatac.sno	-
+veinhole.sno	-
+veins.sno	-
+w-a-01.sno	-
+wa01x.sno	-
+w-a-02.sno	-
+wa02x.sno	-
+w-a-03.sno	-
+wa03x.sno	-
+w-a-04.sno	-
+wa04x.sno	-
+water01.sno	-
+water02.sno	-
+water03.sno	-
+water04.sno	-
+water05.sno	-
+water06.sno	-
+water07.sno	-
+water08.sno	-
+water09.sno	-
+water10.sno	-
+water11.sno	-
+water12.sno	-
+water13.sno	-
+water14.sno	-
+w-b-01.sno	-
+wb01x.sno	-
+w-b-02.sno	-
+wb02x.sno	-
+w-b-03.sno	-
+wb03x.sno	-
+w-b-04.sno	-
+wb04x.sno	-
+w-c-01.sno	-
+wc01x.sno	-
+w-c-02.sno	-
+wc02x.sno	-
+w-c-03.sno	-
+wc03x.sno	-
+w-c-04.sno	-
+wc04x.sno	-
+wcliff01.sno	-
+wcliff02.sno	-
+wcliff03.sno	-
+wcliff04.sno	-
+wcliff05.sno	-
+wcliff06.sno	-
+wcliff07.sno	-
+wcliff08.sno	-
+wcliff09.sno	-
+wcliff10.sno	-
+wcliff11.sno	-
+wcliff12.sno	-
+wcliff13.sno	-
+wcliff14.sno	-
+wcliff15.sno	-
+wcliff16.sno	-
+wcliff17.sno	-
+wcliff18.sno	-
+wcliff19.sno	-
+wcliff20.sno	-
+wcliff21.sno	-
+wcliff22.sno	-
+wcliff23.sno	-
+wcliff24.sno	-
+wcliff25.sno	-
+wcliff26.sno	-
+wcliff27.sno	-
+wcliff28.sno	-
+w-d-01.sno	-
+wd01x.sno	-
+w-d-02.sno	-
+wd02x.sno	-
+w-d-03.sno	-
+wd03x.sno	-
+w-d-04.sno	-
+wd04x.sno	-
+wslope01.sno	-
+wslope02.sno	-
+wslope03.sno	-
+wslope04.sno	-
+tscredit.txt	Tiberian Sun Credits
+voxels.vpl	-
+beachead.vqa	-
+cap_trat.vqa	-
+coup.vqa	-
+dambreak.vqa	-
+icbmlnch.vqa	-
+vegawin.vqa	-
+diskdest.vqa	-
+empulse.vqa	-
+eva.vqa	-
+fs_sb01.vqa	-
+fs_title.vqa	-
+fsgdifnl.vqa	-
+fsgdiint.vqa	-
+fsgdim01.vqa	-
+fsgdim02.vqa	-
+fsgdim03.vqa	-
+fsgdim04.vqa	-
+fsgdim05.vqa	-
+fsgdim06.vqa	-
+fsgdim07.vqa	-
+fsgdim08.vqa	-
+fsgdim09.vqa	-
+fsnodfnl.vqa	-
+fsnodm01.vqa	-
+fsnodm02.vqa	-
+fsnodm03.vqa	-
+fsnodm04.vqa	-
+fsnodm05.vqa	-
+fsnodm06.vqa	-
+fsnodm07.vqa	-
+fsnodm08.vqa	-
+fsnodm09.vqa	-
+gdi_finl.vqa	-
+gdi_flag.vqa	-
+gdi_logo.vqa	-
+gdi_m02.vqa	-
+gdi_m03.vqa	-
+gdi_m04.vqa	-
+gdi_m05.vqa	-
+gdi_m06.vqa	-
+gdi_m07.vqa	-
+gdi_m08.vqa	-
+gdi_m09a.vqa	-
+gdi_m09b.vqa	-
+gdi_m09c.vqa	-
+gdi_m10a.vqa	-
+gdi_m11.vqa	-
+gdi_m12a.vqa	-
+gdi01_sb.vqa	-
+gdi02_sb.vqa	-
+gdi03_sb.vqa	-
+gdim09cw.vqa	-
+gdim09d1.vqa	-
+gdimap01.vqa	-
+gdimap02.vqa	-
+gdimap03.vqa	-
+gdimap04.vqa	-
+gdimap05.vqa	-
+gennodl1.vqa	-
+genwin01.vqa	-
+hideseek.vqa	-
+iceskate.vqa	-
+intro.vqa	-
+kill_gdi.vqa	-
+killmech.vqa	-
+mechatak.vqa	-
+mekatk2.vqa	-
+n_logo_l.vqa	-
+n_logo_w.vqa	-
+nod_finl.vqa	-
+nod_flag.vqa	-
+nod_m02.vqa	-
+nod01_sb.vqa	-
+nod02_sb.vqa	-
+nod_m03.vqa	-
+nod_m04.vqa	-
+nod_m05.vqa	-
+nod_m06.vqa	-
+nod_m07.vqa	-
+nod_m08.vqa	-
+nod_m09.vqa	-
+nod_m10.vqa	-
+nod_m11.vqa	-
+nod_m12.vqa	-
+nod06abw.vqa	-
+nodmap01.vqa	-
+nodmap02.vqa	-
+nodmap03.vqa	-
+nodmap04.vqa	-
+nodmap05.vqa	-
+nowcnot.vqa	-
+orcastrk.vqa	-
+podasslt.vqa	-
+retrbtn.vqa	-
+score.vqa	-
+sizzle1.vqa	-
+startup.vqa	-
+tenevict.vqa	-
+trainrob.vqa	-
+ts_title.vqa	-
+ufoguard.vqa	-
+unstpble.vqa	-
+wwlogo.vqa	-
+1tnk.vxl	light tank
+1tnkbarl.vxl	light tank barrel
+1tnktur.vxl	light tank turret
+2tnk.vxl	medium tank
+2tnkbarl.vxl	medium tank barrel
+2tnktur.vxl	medium tank turret
+3tnk.vxl	heavy tank
+3tnkbarl.vxl	heavy tank barrel
+3tnktur.vxl	heavy tank turret
+4tnk.vxl	mammoth tank
+4tnkbarl.vxl	mammoth tank barrel
+4tnktur.vxl	mammoth tank turret
+apache.vxl	harpy
+apc.vxl	amphibious apc
+apcw.vxl	amphibious apc in water
+art2.vxl	deployable artillery
+art2barl.vxl	deployable artillery barrel
+art2tur.vxl	deployable artillery turret
+arty.vxl	artillery
+artybarl.vxl	artillery
+bggy.vxl	attack buggy
+bike.vxl	attack cycle
+bus.vxl	school bus
+car.vxl	car
+cargocar.vxl	train cargo car
+djuggbar.vxl	deployed juggernaut barrel
+dpod.vxl	droppod
+dshp.vxl	dropship
+ftnk.vxl	flame tank
+gastank.vxl	debris
+harv.vxl	harvester
+heli.vxl	longbow
+hind.vxl	hind
+hmec.vxl	mammoth mk 2
+horv.vxl	harvester with back removed
+hvr.vxl	hover mlrs
+hvrtur.vxl	hover mlrs
+icbm.vxl	ICBM
+jeep.vxl	-
+jeeptur.vxl	-
+laser.vxl	laser turret turret
+lpst.vxl	deployable sensor array
+m_emp.vxl	mobile EMP
+m113.vxl	apc
+m113tur.vxl	apc
+mcv.vxl	mobile construction vechicle
+misl.vxl	-
+mislchem.vxl	chemical missile
+mislmlti.vxl	multi missile
+mlrs.vxl	mlrs
+mlrstur.vxl	mlrs
+mmchbarl.vxl	titan turret
+mnly.vxl	mine layer
+monocar.vxl	train engine
+monoeng.vxl	train passenger car
+mrj.vxl	mobile radar jammer
+mrjtur.vxl	mobile radar jammer turret
+mtrb.vxl	metior
+mtrs.vxl	metior
+mtrt.vxl	metior
+mwar_nod.vxl	mobile war factory/fist of nod
+orca.vxl	orca fighter
+orcab.vxl	orca bomber
+orcatran.vxl	orca transport
+pick.vxl	pickup truck
+piece.vxl	debris
+pulscan.vxl	em pulse cannon turret
+repair.vxl	mobile repair tank
+sapc.vxl	subterranian apc
+scrin.vxl	banshee fighter
+sgen.vxl	mobile stealth generator
+sonic.vxl	sonic tank
+sonictur.vxl	sonic tank turret
+stnk.vxl	stealth tank
+subtank.vxl	devils tongue flame tank
+tire.vxl	debris
+tran.vxl	chinnook
+trnsport.vxl	carryall
+trucka.vxl	truck
+truckb.vxl	loaded truck
+truk.vxl	convoy truck
+ttnk.vxl	tick tank
+ttnkbarl.vxl	tick tank barrel
+ttnktur.vxl	tick tank turret
+utnk.vxl	another version of the devils tongue
+weed.vxl	weedeater
+wini.vxl	RV
+50cal.shp	bullet
+arrow.shp	-
+bomb.shp	-
+bst_chkd.pcx	-
+bst_chkg.pcx	-
+bst_uchk.pcx	-
+bst_uckg.pcx	-
+diskdest.vqa	-
+flak.shp	-
+null.shp	-
+sb_psh_d.pcx	-
+sb_psh_u.pcx	-
+sb_rel_d.pcx	-
+sb_rel_u.pcx	-
+ship.shp	-
+wake1.shp	-
+wake2.shp	-
+crat01.shp	-
+crat02.shp	-
+crat03.shp	-
+crat04.shp	-
+crat0a.shp	-
+crat0b.shp	-
+crat0c.shp	-
+drum01.shp	oil container
+drum02.shp	oil container
+palet01.shp	-
+palet02.shp	-
+palet03.shp	-
+palet04.shp	-
+screen02.bmp	-
+screen01.bmp	-
+screen03.bmp	-
+screen05.bmp	-
+screen04.bmp	-
+screen06.bmp	-
+screen09.bmp	-
+hdline01.bmp	-
+hdline10.bmp	-
+hdline09.bmp	-
+hdline08.bmp	-
+hdline07.bmp	-
+hdline06.bmp	-
+hdline05.bmp	-
+hdline04.bmp	-
+hdline03.bmp	-
+hdline02.bmp	-
+cursor.bmp	-
+turning.shp	-
+whitlite.shp	-
+redlite.shp	-
+movelite.shp	-
+extndl01.shp	-
+extndl02.shp	-
+exitopen.shp	-
+downbtn2.shp	-
+downbtn.shp	-
+extendb.shp	-
+brwsopen.shp	-
+brwflash.shp	-
+focus.shp	-
+6pres.shp	-
+4pres.shp	-
+3pres.shp	-
+2pres.shp	-
+1pres.shp	-
+mouse.shp	-
+button.shp	-
+shapes2.shp	-
+shapes1.shp	-
+light.pal	-
+shapes.pal	-
+font.pal	-
+palette.pal	-
+gauge.aud	-
+gaugeend.aud	-
+slideout.aud	-
+circuit.aud	-
+gdiclose.aud	-
+gdiopen.aud	-
+nod.aud	-
+blip.aud	-
+gauge.aud	-
+usertype.aud	-
+options.aud	-
+button.aud	-
+scoldsfx.aud	-
+gtcommmk.shp	-
+d.shp	-
+caryland.shp	-
+dropland.shp	-
+cycl.shp	-
+barb.shp	-
+wood.shp	-
+v16.shp	-
+v17.shp	-
+fenc.shp	-
+v18.shp	-
+canister.shp	-
+patriot.shp	patriot missile
+00-W029.V00	-
+00-W031.V00	-
+01-W030.V01	-
+01-W032.V01	-
+00-W020.V00	-
+00-W018.V00	-
+00-W017.V00	-
+00-W026.V00	-
+00-W024.V00	-
+00-W022.V00	-
+01-W022.V01	-
+01-W020.V01	-
+01-W018.V01	-
+01-W028.V01	-
+01-W026.V01	-
+01-W024.V01	-
+dnarrow.pcx	-
+uparrow.pcx	-
+01-W044.V01	-
+00-W042.V00	-
+00-W010.V00	-
+01-W016.V01	-
+00-W034.V00	-
+01-W002.V01	-
+00-W004.V00	-
+00-W040.V00	-
+01-W046.V01	-
+01-W014.V01	-
+00-W036.V00	-
+00-W012.V00	-
+00-W008.V00	-
+00-W006.V00	-
+01-W000.V01	-
+00-W022.V00	-
+00-W038.V00	-
+00-W030.V00	-
+01-W012.V01	-
+01-W008.V01	-
+00-W014.V00	-
+01-W036.V01	-
+01-W031.V01	-
+01-W040.V01	-
+00-W000.V00	-
+01-W038.V01	-
+01-W006.V01	-
+00-W016.V00	-
+01-W034.V01	-
+00-W028.V00	-
+00-W032.V00	-
+01-W010.V01	-
+01-W042.V01	-
+00-W044.V00	-
+01-W004.V01	-
+00-W002.V00	-
