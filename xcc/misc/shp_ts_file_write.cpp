@@ -15,7 +15,7 @@ static void copy_image(const byte* s, byte* d, int s_x, int s_y, int s_cx, int d
 	}
 }
 
-int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int c_images)
+int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int c_images, bool enable_compression)
 {
 	const byte* r = s;
 	byte* w = d;
@@ -88,7 +88,7 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 		if (cy)
 		{
 			copy_image(r, t, x, y, global_cx, cx, cy);
-			int cb_u = encode3(t, u, cx, cy);
+			int cb_u = enable_compression ? encode3(t, u, cx, cy) : INT_MAX;
 			if (cb_u < cx * cy)
 			{
 				image_header.compression = 3;
