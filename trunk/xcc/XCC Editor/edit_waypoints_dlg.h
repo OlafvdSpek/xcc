@@ -17,7 +17,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_waypoints_dlg dialog
 
-class Cedit_waypoints_dlg : public CDialog
+class Cedit_waypoints_dlg: public ETSLayoutDialog
 {
 // Construction
 public:

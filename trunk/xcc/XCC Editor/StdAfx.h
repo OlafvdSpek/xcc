@@ -25,6 +25,7 @@
 
 #include <cassert>
 #include <map>
+#include "ETSLayout.h"
 #include "id_log.h"
 #include "mix_file.h"
 #include "xcc_dirs.h"
