@@ -25,6 +25,7 @@ Csql_result Csql_query::execute() const
 string Csql_query::read() const
 {
 	string r;
+	r.reserve(m_data.length());
 	t_list::const_iterator l = m_list.begin();
 	for (int i = 0; i < m_data.length(); i++)
 	{
