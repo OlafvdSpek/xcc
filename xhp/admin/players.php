@@ -150,7 +150,7 @@
 		$results = db_query("select * from xwsvs_log order by time desc");
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
-			printf('<tr><td align=right>%d<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
+			printf('<tr><td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
 		echo('</table>');
 	}
 	else
