@@ -1,0 +1,238 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (U.S.) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_XCCCHEATREPORTER_DIALOG DIALOGEX 0, 0, 229, 76
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
+    WS_SYSMENU
+EXSTYLE WS_EX_ACCEPTFILES | WS_EX_APPWINDOW
+CAPTION "XCC Cheat Reporter 1.00 by Olaf van der Spek"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "&Create",IDC_CREATE,164,23,58,14
+    PUSHBUTTON      "&Decode",IDC_DECODE,164,39,58,14
+    PUSHBUTTON      "&XCC Home Page",IDC_XHP,164,55,58,14
+    PUSHBUTTON      "Save &clipboard",IDC_PASTE,164,7,58,14
+    COMBOBOX        IDC_GAME,7,7,95,50,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_XCCCHEATREPORTER_DIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 222
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 69
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_XCCCHEATREPORTER_DIALOG DLGINIT
+BEGIN
+    IDC_GAME, 0x403, 13, 0
+0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
+    IDC_GAME, 0x403, 12, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDP_SOCKETS_INIT_FAILED "Windows sockets initialization failed."
+END
+
+#endif    // English (U.S.) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// Dutch (Netherlands) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
+#ifdef _WIN32
+LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_CCR DIALOG DISCARDABLE  0, 0, 272, 146
+STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | 
+    WS_THICKFRAME
+CAPTION "Create Cheat Report"
+FONT 8, "MS Sans Serif"
+BEGIN
+    EDITTEXT        IDC_DESCRIPTION,7,36,120,24,ES_MULTILINE | 
+                    ES_AUTOHSCROLL | ES_WANTRETURN | WS_VSCROLL | WS_HSCROLL
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,66,120,24
+    CONTROL         "Disconnect",IDC_DISCONNECT,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,7,52,10
+    CONTROL         "Reconnection error",IDC_RECONNECTION_ERROR,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,135,21,77,10
+    CONTROL         "Game speed",IDC_GAME_SPEED,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,35,56,10
+    CONTROL         "Connection speed",IDC_CONNECTION_SPEED,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,135,49,73,10
+    CONTROL         "Map revealer",IDC_MAP_REVEALER,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,135,60,57,10
+    CONTROL         "Mod map",IDC_MOD_MAP,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,134,75,45,10
+    CONTROL         "Build anywhere",IDC_BUILD_ANYWHERE,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,133,87,64,10
+    CONTROL         "Money",IDC_MONEY,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    202,62,37,10
+    CONTROL         "Tech",IDC_TECH,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,
+                    203,79,33,10
+    DEFPUSHBUTTON   "OK",IDOK,215,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,215,24,50,14
+    EDITTEXT        IDC_NAME,7,108,120,12,ES_AUTOHSCROLL
+    COMBOBOX        IDC_NICKNAME,201,100,64,361,CBS_DROPDOWNLIST | CBS_SORT | 
+                    WS_VSCROLL | WS_TABSTOP
+    EDITTEXT        IDC_MAIL,7,127,120,12,ES_AUTOHSCROLL
+    EDITTEXT        IDC_STATS,7,7,120,24,ES_MULTILINE | ES_AUTOHSCROLL | 
+                    ES_READONLY | WS_VSCROLL | WS_HSCROLL
+    EDITTEXT        IDC_GAME_ID,201,126,64,13,ES_AUTOHSCROLL | ES_NUMBER
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_CCR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 265
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 139
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
+    "#define _AFX_NO_OLE_RESOURCES\r\n"
+    "#define _AFX_NO_TRACKER_RESOURCES\r\n"
+    "#define _AFX_NO_PROPERTY_RESOURCES\r\n"
+    "\r\n"
+    "#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)\r\n"
+    "#ifdef _WIN32\r\n"
+    "LANGUAGE 9, 1\r\n"
+    "#pragma code_page(1252)\r\n"
+    "#endif //_WIN32\r\n"
+    "#include ""res\\XCC Cheat Reporter.rc2""  // non-Microsoft Visual C++ edited resources\r\n"
+    "#include ""afxres.rc""         // Standard components\r\n"
+    "#endif\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Cheat Reporter.ico"
+#endif    // Dutch (Netherlands) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+#define _AFX_NO_SPLITTER_RESOURCES
+#define _AFX_NO_OLE_RESOURCES
+#define _AFX_NO_TRACKER_RESOURCES
+#define _AFX_NO_PROPERTY_RESOURCES
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE 9, 1
+#pragma code_page(1252)
+#endif //_WIN32
+#include "res\XCC Cheat Reporter.rc2"  // non-Microsoft Visual C++ edited resources
+#include "afxres.rc"         // Standard components
+#endif
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+
