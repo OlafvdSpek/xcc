@@ -20,14 +20,14 @@ Class8=CXIFTree
 
 ResourceCount=7
 Resource1=IDD_EDIT_BIN32
-Resource2=IDR_MAINFRAME (English (U.S.))
+Resource2=IDD_EDIT_STRING
 Resource3=CG_IDR_POPUP_XIFTREE
 Resource4=IDR_XIFTYPE (English (U.S.))
 Resource5=IDD_EDIT_INT32
 Class9=Cdlg_edit_int32
 Resource6=CG_IDR_POPUP_XIFLIST
 Class10=Cdlg_edit_string
-Resource7=IDD_EDIT_STRING
+Resource7=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CChildFrame]
 Type=0
