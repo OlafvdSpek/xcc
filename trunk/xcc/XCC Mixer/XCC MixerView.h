@@ -111,7 +111,6 @@ protected:
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileClose();
 	afx_msg void OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnUpdateFileClose(CCmdUI* pCmdUI);
 	afx_msg void OnFileNew();
 	afx_msg void OnDblclk(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDestroy();
