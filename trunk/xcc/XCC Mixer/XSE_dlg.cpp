@@ -174,7 +174,7 @@ BOOL CXSE_dlg::OnInitDialog()
 		for (int j = 0; j < c_colums; j++)
 			m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
 	}
-	set_extract_to_dir(xcc_dirs::get_ra2_dir());
+	set_extract_to_dir(static_cast<string>(AfxGetApp()->GetProfileString("XSE_dlg", "extract_to_dir", xcc_dirs::get_ra2_dir().c_str())));
 	check_selection();
 	SetRedraw(true);
 	Invalidate();
@@ -269,6 +269,7 @@ void CXSE_dlg::OnExtract()
 		CWaitCursor wait;
 		set_extract_to_dir(static_cast<string>(m_extract_to_edit));
 		string path = m_extract_to_edit;
+		AfxGetApp()->WriteProfileString("XSE_dlg", "extract_to_dir", m_extract_to_edit);
 		int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 		while (index != -1)
 		{

@@ -705,6 +705,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				f.draw(d);
 				draw_image8(d, cx, cy, pDC, 0, m_y);
 				m_y += cy + m_y_inc;
+#ifndef NDEBUG
 				for (int i = 0; i < f.get_c_tiles(); i++)
 				{
 					if (!f.get_index()[i])
@@ -722,7 +723,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					draw_info("cy_extra:", n(header.cy_extra));
 					*/
 					draw_info("flags:", n(header.flags & 7));
-					draw_info("unknown2[0]:", nh(6, header.unknown2[0] & 0xffffff));
+					draw_info("height:", n(header.height));
+					draw_info("terrain type:", n(header.terraintype));
+					draw_info("direction:", n(header.direction));
+					// draw_info("unknown2[0]:", nh(6, header.unknown2[0] & 0xffffff));
 					/*
 					for (j = 0; j < 3; j++)
 						draw_info("unknown2[" + n(j) +"]:", nh(8, header.unknown2[j]));
@@ -734,6 +738,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					*/
 					m_y += m_y_inc;
 				}
+#endif
 				delete[] d;
 				break;
 			}
