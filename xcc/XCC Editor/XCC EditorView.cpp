@@ -260,46 +260,6 @@ void CXCCEditorView::OnInitialUpdate()
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView printing
-
-BOOL CXCCEditorView::OnPreparePrinting(CPrintInfo* pInfo)
-{
-	// default preparation
-	return DoPreparePrinting(pInfo);
-}
-
-void CXCCEditorView::OnBeginPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: add extra initialization before printing
-}
-
-void CXCCEditorView::OnEndPrinting(CDC* /*pDC*/, CPrintInfo* /*pInfo*/)
-{
-	// TODO: add cleanup after printing
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView diagnostics
-
-#ifdef _DEBUG
-void CXCCEditorView::AssertValid() const
-{
-	CScrollView::AssertValid();
-}
-
-void CXCCEditorView::Dump(CDumpContext& dc) const
-{
-	CScrollView::Dump(dc);
-}
-
-CXCCEditorDoc* CXCCEditorView::GetDocument() const // non-debug version is inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CXCCEditorDoc)));
-	return (CXCCEditorDoc*)m_pDocument;
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCEditorView message handlers
 
 void CXCCEditorView::draw_image(const byte* s, const byte* rp, dword* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy, dword dpitch)
