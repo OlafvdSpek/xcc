@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
+# ADD LINK32 dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
 
 !ELSEIF  "$(CFG)" == "XCC Mod Launcher - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
+# ADD LINK32 dsound.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
 
 !ENDIF 
 
@@ -101,6 +101,10 @@ SOURCE=.\download_dlg.cpp
 # Begin Source File
 
 SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE=.\mode_dlg.cpp
 # End Source File
 # Begin Source File
 
@@ -142,6 +146,10 @@ SOURCE=.\download_dlg.h
 # Begin Source File
 
 SOURCE=..\misc\mix_file_write.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\mode_dlg.h
 # End Source File
 # Begin Source File
 

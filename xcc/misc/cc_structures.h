@@ -11,6 +11,19 @@ enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, gam
 
 const char* game_name[];
 
+inline __int32 reverse(__int32 v)
+{
+	_asm
+	{
+		mov		eax, v
+		xchg	al, ah
+		rol		eax, 16
+		xchg	al, ah
+		mov		v, eax
+	}
+	return v;
+}
+
 #pragma pack(push, 1)
 
 struct t_aud_header
@@ -49,6 +62,32 @@ struct t_audio_idx_entry
 };
 
 const __int32 audio_idx_id = *(__int32*)"GABA";
+
+struct t_big_header
+{
+	__int32 id;
+	__int32 size;
+	__int32 mc_files;
+	__int32 mcb_header;
+
+	int c_files() const
+	{
+		return reverse(mc_files);
+	}
+
+	int cb_header() const
+	{
+		return reverse(mcb_header);
+	}
+};
+
+struct t_big_index_entry
+{
+	__int32 offset;
+	__int32 size;
+};
+
+const int big_id = 'FGIB';
 
 struct t_cps_header
 {
@@ -483,18 +522,5 @@ struct t_xcc_lmd_header
 };
 
 #pragma pack(pop)
-
-inline __int32 reverse(__int32 v)
-{
-	_asm
-	{
-		mov		eax, v
-		xchg	al, ah
-		rol		eax, 16
-		xchg	al, ah
-		mov		v, eax
-	}
-	return v;
-}
 
 #endif // !defined(AFX_CC_STRUCTURES_H__D7232160_169C_11D4_A955_0050042229FC__INCLUDED_)

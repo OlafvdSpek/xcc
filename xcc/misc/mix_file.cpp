@@ -3,16 +3,16 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <stdafx.h>
-#include <assert.h>
+#include "big_file.h"
 #include "blowfish.h"
 #include "crc.h"
 #include "id_log.h"
 #include "mix_cache.h"
-#include <mix_decode.h>
+#include "mix_decode.h"
 #include "mix_file.h"
 #include "mix_rg_file.h"
 #include "pak_file.h"
-#include <string_conversion.h>
+#include "string_conversion.h"
 #include "xcc_lmd_file.h"
 
 using namespace std;
@@ -98,6 +98,33 @@ int Cmix_file::post_open()
 			index_read = true;
 			if (f.is_attached())
 				f.detach();
+		}
+		else
+		{
+			Cbig_file f;
+			if (get_data())
+				f.load(get_vdata());
+			else
+				f.attach(h());
+			if (f.is_open() && f.is_valid())
+			{
+				m_game = game_gr;
+				m_is_encrypted = m_has_checksum = false;
+				m_c_files = f.get_c_files();
+				int cb_index = m_c_files * sizeof(t_mix_index_entry);
+				m_index = new t_mix_index_entry[m_c_files];
+				for (int i = 0; i < m_c_files; i++)
+				{
+					string name = f.get_name(i);
+					mix_database::add_name(m_game, name, "-");
+					m_index[i].id = get_id(get_game(), name);
+					m_index[i].offset = f.get_offset(name);
+					m_index[i].size = f.get_size(name);
+				}
+				index_read = true;
+				if (f.is_attached())
+					f.detach();
+			}
 		}
 	}
 	if (!index_read)
@@ -374,18 +401,11 @@ int Cmix_file::get_id(t_game game, string name)
 				while (i--)
 					name += name[a << 2];
 			}
-			Ccrc crc;
-			crc.init();
-			crc.do_block(name.c_str(), name.length());
-			return crc.get_crc();
+			return compute_crc(name.c_str(), name.length());
 		}
 	case game_rg:
-		{
-			Ccrc crc;
-			crc.init();
-			crc.do_block(name.c_str(), name.length());
-			return crc.get_crc();
-		}
+	case game_gr:
+			return compute_crc(name.c_str(), name.length());
 	default:
 		int i = 0;
 		unsigned int id = 0;

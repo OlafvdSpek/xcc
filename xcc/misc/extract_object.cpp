@@ -792,8 +792,8 @@ int Cextract_object::insert(const Cxif_key& k)
 		error = read_ini("sound.ini", sir);
 	if (!error)
 	{
-		Cmix_file_write expand_mix;
-		Cmix_file_write ecache_mix;
+		Cmix_file_write expand_mix(m_game);
+		Cmix_file_write ecache_mix(m_game);
 		t_xif_key_map::const_iterator ki;
 		for (ki = k.m_keys.begin(); ki != k.m_keys.end(); ki++)
 		{

@@ -6,6 +6,7 @@
 #include "XCC Mod LauncherDlg.h"
 
 #include "xcc_dirs.h"
+#include "xcc_log.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -48,6 +49,7 @@ BOOL CXCCModLauncherApp::InitInstance()
 #endif
 
 	xcc_dirs::load_from_registry();
+	xcc_log::attach_file("XCC Mod Launcher log.txt");
 
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
@@ -56,33 +58,23 @@ BOOL CXCCModLauncherApp::InitInstance()
 	if (fname.empty())
 	{
 		Cfname exe_fname = GetModuleFileName();
-		Cfile32 f;
-		int error = f.open_read(exe_fname);
-		if (!error)
+		Cvirtual_binary s(GetModuleFileName());
+		if (s && s.size() > 8)
 		{
-			int size = f.get_size();
-			if (size >= 4)
+			int cb_mod = reinterpret_cast<const int*>(s.data_end())[-1];
+			if (cb_mod > 4 && cb_mod + 4 < s.size())
 			{
-				f.seek(size - 4);
-				int cb_mod;
-				error = f.read(&cb_mod, 4);
-				if (!error && cb_mod >= 4 && size >= 4 + cb_mod)
+				Cvirtual_binary mod = s.sub_bin(s.size() - 4 - cb_mod, cb_mod);
+				if (!memcmp(mod, "XIF\x1a", 4))
 				{
-					f.seek(size - 4 - cb_mod);
-					Cvirtual_binary mod;
-					error = f.read(mod.write_start(cb_mod), cb_mod);
-					if (!memcmp(mod.data(), "XIF\x1a", 4))
-					{
-						CXCCModLauncherDlg dlg;
-						dlg.set_mod(mod);
-						dlg.set_mod_fname(exe_fname);
-						m_pMainWnd = &dlg;
-						dlg.DoModal();
-						return false;
-					}
+					CXCCModLauncherDlg dlg;
+					dlg.set_mod(mod);
+					dlg.set_mod_fname(exe_fname);
+					m_pMainWnd = &dlg;
+					dlg.DoModal();
+					return false;
 				}
 			}
-			f.close();
 		}
 		exe_fname.set_ext(".xmlf");
 		if (exe_fname.exists())

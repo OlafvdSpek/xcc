@@ -11,11 +11,12 @@ ClassCount=3
 Class1=CXCCModLauncherApp
 Class2=CXCCModLauncherDlg
 
-ResourceCount=3
+ResourceCount=4
 Resource2=IDD_XCCMODLAUNCHER_DIALOG (English (U.S.))
 Resource1=IDR_MAINFRAME
 Class3=Cdownload_dlg
 Resource3=IDD_DOWNLOAD_UPDATE
+Resource4=IDD_MODE
 
 [CLS:CXCCModLauncherApp]
 Type=0
@@ -67,4 +68,12 @@ BaseClass=CDialog
 Filter=D
 VirtualFilter=dWC
 LastObject=Cdownload_dlg
+
+[DLG:IDD_MODE]
+Type=1
+Class=?
+ControlCount=3
+Control1=IDC_MODE,combobox,1344339971
+Control2=IDOK,button,1342242817
+Control3=IDCANCEL,button,1342242816
 

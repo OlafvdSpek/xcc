@@ -6,7 +6,6 @@
 #include "mix_edit.h"
 
 #include "id_log.h"
-#include "mix_file.h"
 #include "xcc_lmd_file_write.h"
 
 static int copy_block(Cfile32& s, int s_p, Cfile32& d, int d_p, int size)
