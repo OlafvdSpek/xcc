@@ -37,10 +37,6 @@ public:
 // Implementation
 public:
 	virtual ~CChildFrame();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 	CXCCModCreatorView* GetRightPane();
