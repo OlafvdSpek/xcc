@@ -20,7 +20,7 @@
 			printf("<a href=\"?a=bl_insert&pid=%d\">-&gt;BL</a>", $result[pid]);
 			printf("<td><a href=\"?a=rb_insert&pid=%d\">-&gt;RB</a>", $result[pid]);
 			printf("<td>%s<td>%s", gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
-			printf("<td><a href=\"?a=motd&pid=%d\">%s</a>", $result[pid], $result[motd] ? htmlspecialchars($result[motd]) : "motd");
+			printf("<td><a href=\"?a=motd&pid=%d\">%s</a>", $result[pid], $result[motd] ? nl2br(htmlspecialchars($result[motd])) : "motd");
 		}
 	}
 
@@ -50,14 +50,16 @@
 	if ($_GET[a] == "motd" || $_GET[a] == "motd_submit")
 	{
 		$pid = $_GET[pid];
-		$results = db_query(sprintf("select * from xwi_players where pid = %d", $pid));
+		$results = db_query(sprintf("select p.*, s.motd from xwi_players p inner join xwi_serials s using (sid) where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
 		$name = $result[name];
+		$sid = $result['sid'];
 
 		if ($_GET[a] == "motd_submit" && name)
 		{
 			$motd = $_GET[motd];
-			db_query(sprintf("update xwi_players set motd = \"%s\" where pid = %d", addslashes($motd), $pid));
+			db_query(sprintf("update xwi_logins l inner join xwi_serials s using (sid) set s.motd = '%s' where l.pid = %d", addslashes($motd), $pid));
+			db_query(sprintf("update xwi_serials set motd = '%s' where sid = %d", addslashes($motd), $sid));
 			echo("<b>Updated!</b><hr>");
 		}
 		else
@@ -68,7 +70,7 @@
 		<input type=hidden name=a value="motd_submit">
 		<input type=hidden name=pid value="<?php printf("%d", $pid) ?>">
 		<tr><td align=right>Name:<td><a href="?pid=<?php echo $pid ?>"><?php echo $name ?></a>
-		<tr><td align=right>Message:<td><input type=text name=motd size=60 value="<?php printf("%s", htmlspecialchars($motd)) ?>">
+		<tr><td align=right>Message:<td><textarea name=motd cols=80 rows=10><?php echo htmlspecialchars($motd) ?></textarea>
 		<tr><td><td><input type=submit></tr>
 	</form>
 </table>
@@ -165,7 +167,7 @@
 			unset($pname);
 		}
 		if ($_GET[a] == "motds")
-			$where = " where motd != \"\"";
+			$where = " where motd != ''";
 		else if ($cname)
 			$where = sprintf(" where c.name like \"%s\"", AddSlashes($cname));
 		else if ($pid)
