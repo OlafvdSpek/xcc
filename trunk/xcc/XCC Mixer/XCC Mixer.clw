@@ -36,15 +36,15 @@ Class14=CXSE_list
 Resource9=IDD_DIRECTORIES
 Resource10=CG_IDR_POPUP_MIX_VIEW
 Class15=Cshp_properties_dlg
-Resource11=IDD_XSTE_EDIT (English (U.S.))
-Resource12=IDD_XSE (English (U.S.))
+Resource11=IDD_XSTE (English (U.S.))
+Resource12=IDD_XSTE_EDIT (English (U.S.))
 Resource13=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
-Resource14=IDR_MAINFRAME (English (U.S.))
-Resource15=IDD_DIRECTORIES (English (U.S.))
-Resource16=IDD_RESIZE (English (U.S.))
-Resource17=IDD_SEARCH_FILE (English (U.S.))
-Resource18=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
-Resource19=IDD_XSTE (English (U.S.))
+Resource14=IDD_XSE (English (U.S.))
+Resource15=IDR_MAINFRAME (English (U.S.))
+Resource16=IDD_DIRECTORIES (English (U.S.))
+Resource17=IDD_RESIZE (English (U.S.))
+Resource18=IDD_SEARCH_FILE (English (U.S.))
+Resource19=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
 Resource20=IDD_SHP_PROPERTIES (English (U.S.))
 
 [CLS:CMainFrame]

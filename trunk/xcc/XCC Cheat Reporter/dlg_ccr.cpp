@@ -395,14 +395,19 @@ void Cdlg_ccr::OnOK()
 				Cvirtual_image image;
 				if (!image.load(e.fname))
 				{
+					Cvirtual_file f;
+					if (!image.save_as_jpeg(f))
+						screenshots_key.set_value_binary(index, f.read());
+					/*
 					string temp_fname = get_temp_fname();
 					if (!image.save_as_jpeg(temp_fname))
 					{
 						Cvirtual_binary s;
 						if (!s.import(temp_fname))
-							screenshots_key.set_value_binary(index, s.data(), s.size());
+							screenshots_key.set_value_binary(index, s);
 						delete_file(temp_fname);
 					}
+					*/
 				}
 				index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 			}
@@ -434,17 +439,29 @@ void Cdlg_ccr::OnOK()
 				fileDesc.nPosition = (ULONG)-1;
 				fileDesc.lpszPathName = const_cast<char*>(fname.c_str());
 
-				MapiRecipDesc recipDesc;
-				memset(&recipDesc, 0, sizeof(MapiRecipDesc));
-				recipDesc.ulRecipClass = MAPI_TO;
-				recipDesc.lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
+				MapiRecipDesc recipDesc[2];
+				MapiRecipDesc* w = recipDesc;
+				if (m_send_ws)
+				{
+					memset(w, 0, sizeof(MapiRecipDesc));
+					w->ulRecipClass = MAPI_TO;
+					w->lpszAddress = "SMTP:Contests@Westwood.Com";
+					w++;
+				}
+				if (m_send_xhp)
+				{
+					memset(w, 0, sizeof(MapiRecipDesc));
+					w->ulRecipClass = MAPI_TO;
+					w->lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
+					w++;
+				}
 
 				// prepare the message (empty with 1 attachment)
 				MapiMessage message;
 				memset(&message, 0, sizeof(message));
 				message.lpszSubject = const_cast<char*>(title.c_str());
-				message.nRecipCount = 1;
-				message.lpRecips = &recipDesc;
+				message.nRecipCount = m_send_ws + m_send_xhp;
+				message.lpRecips = recipDesc;
 				message.nFileCount = 1;
 				message.lpFiles = &fileDesc;
 

@@ -66,17 +66,17 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	int				m_cb_data;
+	// int				m_cb_data;
 	CRect			m_clip_rect;
 	dword			m_color_table[256];
 	int				m_cx_dib;
+	Cvirtual_binary	m_data;
 	CDC*			m_dc;
 	t_game			m_game;
 	HBITMAP			mh_dib;
 	dword*			mp_dib;
 	CFont			m_font;
 	t_file_type		m_ft;
-	byte*			m_data;
 	int				m_id;
 	bool			m_is_open;
 	t_paletentry*	m_palet;

@@ -8,6 +8,9 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "cc_file.h"
+#include "virtual_binary.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // CXCCMapEncoderDlg dialog
 
@@ -15,6 +18,7 @@ class CXCCMapEncoderDlg : public CDialog
 {
 // Construction
 public:
+	void convert(string _fname, Ccc_file& f);
 	void convert(string fname);
 	CXCCMapEncoderDlg(CWnd* pParent = NULL);	// standard constructor
 
@@ -50,6 +54,8 @@ protected:
 	afx_msg void OnCreateMmx();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	Cvirtual_binary m_palet;
 };
 
 //{{AFX_INSERT_LOCATION}}

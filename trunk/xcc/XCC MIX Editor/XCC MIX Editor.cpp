@@ -50,6 +50,8 @@ BOOL CXCCMIXEditorApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
+	SetRegistryKey("XCC");
+
 	CXCCMIXEditorDlg dlg;
 	m_pMainWnd = &dlg;
 

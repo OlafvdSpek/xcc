@@ -46,7 +46,7 @@ Chtml head(const Chtml& v);
 Chtml head_xcc();
 Chtml head_xcc(const string& t);
 Chtml html(const Chtml& v);
-Chtml body(const Chtml& v, const string& elements = "");
+Chtml body(const Chtml& v);
 Chtml hr();
 Chtml p(const Chtml& v, const string& elements = "");
 Chtml php(const Chtml& v);

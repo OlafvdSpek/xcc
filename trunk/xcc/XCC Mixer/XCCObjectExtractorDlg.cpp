@@ -135,12 +135,8 @@ void CXCCObjectExtractorDlg::OnExtract()
 			credits.link_title = m_link_title;
 			credits.link = m_link;
 			Cextract_object::set_credits(k, credits);
-			if (!k.save_start())
-			{
-				if (file32_write(path + name + ".xif", k.key_data(), k.key_size()))
-					MessageBox("Error writing file.", NULL, MB_ICONERROR);
-				k.save_finish();
-			}
+			if (k.vdata().export(path + name + ".xif"))
+				MessageBox("Error writing file.", NULL, MB_ICONERROR);
 			index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 		}
 	}

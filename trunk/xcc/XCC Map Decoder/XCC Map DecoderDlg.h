@@ -8,6 +8,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "virtual_binary.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // CXCCMapDecoderDlg dialog
 
@@ -44,6 +46,8 @@ protected:
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	Cvirtual_binary m_palet;
 };
 
 //{{AFX_INSERT_LOCATION}}

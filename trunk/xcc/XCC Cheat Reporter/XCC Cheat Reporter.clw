@@ -13,10 +13,10 @@ Class2=CXCCCheatReporterDlg
 
 ResourceCount=4
 Resource2=IDD_XCCCHEATREPORTER_DIALOG
-Resource3=IDD_CCR
+Resource3=IDD_XCCCHEATREPORTER_DIALOG (English (U.S.))
 Resource1=IDR_MAINFRAME
 Class3=Cdlg_ccr
-Resource4=IDD_XCCCHEATREPORTER_DIALOG (English (U.S.))
+Resource4=IDD_CCR
 
 [CLS:CXCCCheatReporterApp]
 Type=0
@@ -75,7 +75,7 @@ Control15=IDC_NICKNAME,combobox,1344340227
 Control16=IDC_MAIL,edit,1350631552
 Control17=IDC_STATS,edit,1353779332
 Control18=IDC_GAME_ID,edit,1350639744
-Control19=IDC_SEND_WS,button,1476460547
+Control19=IDC_SEND_WS,button,1342242819
 Control20=IDC_SEND_XHP,button,1342242819
 
 [CLS:Cdlg_ccr]

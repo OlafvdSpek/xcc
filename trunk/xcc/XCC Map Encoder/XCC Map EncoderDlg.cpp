@@ -11,7 +11,9 @@
 #include "fname.h"
 #include "map_ts_encoder.h"
 #include "map_ts_ini_reader.h"
+#include "mix_file.h"
 #include "mix_file_write.h"
+#include "pkt_ts_ini_reader.h"
 #include "shp_decode.h"
 #include "string_conversion.h"
 #include "virtual_image.h"
@@ -71,6 +73,16 @@ BOOL CXCCMapEncoderDlg::OnInitDialog()
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
+
+	/*
+	HINSTANCE hin = AfxGetInstanceHandle();
+	HRSRC rc = FindResource(hin, MAKEINTRESOURCE(IDR_PALET), "Binary");
+	HGLOBAL hgl = LoadResource(NULL, rc);
+	int cb_data = SizeofResource(NULL, rc);	
+	const byte* data = static_cast<const byte*>(LockResource(hgl));	
+	m_palet.write(data, cb_data);
+	FreeResource(hgl);
+	*/
 	
 	return true;
 }
@@ -156,63 +168,93 @@ static string get_pkt(string fname, bool export, string title, string descriptio
 	}
 }
 
+void CXCCMapEncoderDlg::convert(string _fname, Ccc_file& f)
+{
+	Cfname fname = _fname;
+	strstream s;
+	Cmap_ts_ini_reader ir;
+	ir.fast(true);
+	ir.process(f.get_data(), f.get_size());
+	Cmap_ts_encoder encoder(s, m_create_xmmf);
+	string description = ir.get_basic_data().name;
+	if (description.empty())
+		description = fname.get_ftitle();
+	Cmap_ts_encoder::t_header header;
+	header.description = description;
+	header.gamemode = m_create_mmx ? static_cast<string>(m_gamemode) : "";
+	header.cx = ir.get_map_data().size_right;
+	header.cy = ir.get_map_data().size_bottom;
+	header.cmax_players = ir.max_players();
+	encoder.header(header);
+	encoder.process(f.get_data(), f.get_size());
+	if (m_create_xmmf)
+		encoder.encode(m_palet);
+	f.close();
+	UpdateWindow();
+	int error = 0;
+	if (m_create_mmx)
+	{
+		char b[MAX_PATH];
+		int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
+		if (length > 0 && length < MAX_PATH)
+			fname = to_lower(b);
+	}
+	string title = fname.get_ftitle();
+	if (m_create_xmmf)
+	{
+		fname.set_ext(".xmmf");
+		error = encoder.write_map(fname, string(s.str(), s.pcount()));
+	}
+	else if (m_create_mmx)
+	{
+		fname.set_ext(".pkt");
+		string pkt = get_pkt(fname, false, title, description, ir.max_players(), static_cast<string>(m_gamemode));
+		Cmix_file_write mmx_f;
+		mmx_f.add_file(title + ".map", Cvirtual_binary(s.str(), s.pcount()));
+		mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.c_str(), pkt.length()));
+		fname.set_ext(".mmx");
+		error = mmx_f.write().export(fname);
+	}
+	else
+		error = file32_write(_fname, s.str(), s.pcount());			
+	if (error)
+		MessageBox("Error writing map.", NULL, MB_ICONERROR);
+}
+
 void CXCCMapEncoderDlg::convert(string _fname)
 {
 	Ccc_file f(true);
 	if (UpdateData(true) && !f.open(_fname))
 	{
 		CWaitCursor wait;
-		Cfname fname = _fname;
-		strstream s;
-		Cmap_ts_ini_reader ir;
-		ir.fast(true);
-		ir.process(f.get_data(), f.get_size());
-		Cmap_ts_encoder encoder(s, m_create_xmmf);
-		string description = ir.get_basic_data().name;
-		if (description.empty())
-			description = fname.get_ftitle();
-		Cmap_ts_encoder::t_header header;
-		header.description = description;
-		header.gamemode = m_create_mmx ? static_cast<string>(m_gamemode) : "";
-		header.cx = ir.get_map_data().size_right;
-		header.cy = ir.get_map_data().size_bottom;
-		header.cmax_players = ir.max_players();
-		encoder.header(header);
-		encoder.process(f.get_data(), f.get_size());
-		f.close();
-		UpdateWindow();
-		int error = 0;
-		if (m_create_mmx)
+		if (f.get_file_type() == ft_mix)
 		{
-			char b[MAX_PATH];
-			int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
-			if (length > 0 && length < MAX_PATH)
-				fname = to_lower(b);
-		}
-		string title = fname.get_ftitle();
-		string pkt;
-		if (m_create_mmx)
-		{
-			fname.set_ext(".pkt");
-			pkt = get_pkt(fname, false, title, description, ir.max_players(), static_cast<string>(m_gamemode));
-		}
-		if (m_create_xmmf)
-		{
-			fname.set_ext(".xmmf");
-			error = encoder.write_map(fname, string(s.str(), s.pcount()));
-		}
-		else if (m_create_mmx)
-		{
-			Cmix_file_write mmx_f;
-			mmx_f.add_file(title + ".map", s.str(), s.pcount());
-			mmx_f.add_file(title + ".pkt", pkt.c_str(), pkt.length());
-			fname.set_ext(".mmx");
-			error = mmx_f.write(fname);
+			Cmix_file mix_f;
+			mix_f.load(f);
+			Cfname fname = _fname;
+			fname.set_ext(".map");
+			Ccc_file pkt_f(true);
+			if (!pkt_f.open(fname.get_ftitle() + ".pkt", mix_f))
+			{
+				Cpkt_ts_ini_reader ir;
+				ir.process(pkt_f.get_data(), pkt_f.get_size());
+				typedef Cpkt_ts_ini_reader::t_map_list t_map_list;
+				const t_map_list& map_list = ir.get_map_list();
+				// ir.write_report(ofstream("d:/temp/packs.html", ios::out | ios::app));
+				for (t_map_list::const_iterator i = map_list.begin(); i != map_list.end(); i++)
+				{
+					Ccc_file ini_f(true);
+					fname.set_title(i->first);
+					if (!ini_f.open(fname.get_fname(), mix_f))
+						convert(fname, ini_f);
+				}
+				pkt_f.close();
+			}
+			mix_f.close();
+			f.close();
 		}
 		else
-			error = file32_write(_fname, s.str(), s.pcount());			
-		if (error)
-			MessageBox("Error writing map.", NULL, MB_ICONERROR);
+			convert(_fname, f);
 	}
 }
 
