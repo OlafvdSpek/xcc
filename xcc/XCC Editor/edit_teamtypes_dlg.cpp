@@ -16,7 +16,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wanted):
-	ETSLayoutDialog(Cedit_teamtypes_dlg::IDD, 0),
+	ETSLayoutDialog(Cedit_teamtypes_dlg::IDD, 0, "edit_teamtypes_dlg"),
 	m_level(level),
 	m_teamtype_data(level.teamtype_data),
 	m_selection_wanted(selection_wanted)

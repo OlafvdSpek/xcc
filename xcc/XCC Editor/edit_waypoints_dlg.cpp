@@ -15,7 +15,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wanted):
-	ETSLayoutDialog(Cedit_waypoints_dlg::IDD, 0),
+	ETSLayoutDialog(Cedit_waypoints_dlg::IDD, 0, "edit_waypoints_dlg"),
 	m_waypoint_data(level.waypoint_data),	
 	m_selection_wanted(selection_wanted)
 {
