@@ -467,7 +467,7 @@
 							if ($result[rank] == 1)
 								echo(" <img src=\"http://xcl.the-outsiders.net/badges/comchief.png\">");
 						}
-						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $lid & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", date("H:i d-m-Y", $result[mtime]));
+						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", date("H:i d-m-Y", $result[mtime]));
 						for ($i = 0; $i < 10; $i++)
 						{
 							if ($result[countries] & 1 << $i)
