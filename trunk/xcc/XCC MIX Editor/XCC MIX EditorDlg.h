@@ -42,6 +42,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CXCCMIXEditorDlg)
 	enum { IDD = IDD_XCCMIXEDITOR_DIALOG };
+	CButton	m_button_insert;
 	CButton	m_button_options;
 	CButton	m_button_delete;
 	CButton	m_button_load_key;
@@ -81,6 +82,7 @@ protected:
 	afx_msg void OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) ;
+	afx_msg void OnButtonInsert();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
