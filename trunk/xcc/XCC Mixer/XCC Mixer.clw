@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CMainFrame
+LastClass=Cdlg_new_container
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "xcc mixer.h"
@@ -10,14 +10,14 @@ LastPage=0
 
 ClassCount=17
 Class1=CDirectoriesDlg
-Class2=Cdlg_shp_viewer
-Class3=CMainFrame
-Class4=CResizeDlg
-Class5=CSearchFileDlg
-Class6=CSelectPaletDlg
-Class7=Cshp_properties_dlg
-Class8=CXCCMixerApp
-Class9=CAboutDlg
+Class2=Cdlg_new_container
+Class3=Cdlg_shp_viewer
+Class4=CMainFrame
+Class5=CResizeDlg
+Class6=CSearchFileDlg
+Class7=CSelectPaletDlg
+Class8=Cshp_properties_dlg
+Class9=CXCCMixerApp
 Class10=CXCCMixerDoc
 Class11=CXCCMixerView
 Class12=CXCCFileView
@@ -27,43 +27,47 @@ Class15=CXSE_list
 Class16=CXSTE_dlg
 Class17=CXSTE_edit_dlg
 
-ResourceCount=12
-Resource1=IDD_XSTE (English (U.S.))
+ResourceCount=13
+Resource1=IDD_SELECT_PALET
 Resource2=CG_IDR_POPUP_MIX_VIEW (English (U.S.))
-Resource3=IDD_XSTE_EDIT (English (U.S.))
-Resource4=IDD_SHP_PROPERTIES (English (U.S.))
-Resource5=IDD_XSE (English (U.S.))
-Resource6=IDR_MAINFRAME (English (U.S.))
-Resource7=IDD_SHP_VIEWER (English (U.S.))
-Resource8=IDD_RESIZE (English (U.S.))
-Resource9=IDD_DIRECTORIES (English (U.S.))
-Resource10=IDD_SEARCH_FILE (English (U.S.))
-Resource11=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
-Resource12=IDD_SELECT_PALET
+Resource3=IDR_MAINFRAME (English (U.S.))
+Resource4=IDD_DIRECTORIES (English (U.S.))
+Resource5=IDD_RESIZE (English (U.S.))
+Resource6=IDD_SEARCH_FILE (English (U.S.))
+Resource7=IDD_XCC_OBJECT_EXTRACTOR (English (U.S.))
+Resource8=IDD_XSTE (English (U.S.))
+Resource9=IDD_XSTE_EDIT (English (U.S.))
+Resource10=IDD_XSE (English (U.S.))
+Resource11=IDD_SHP_PROPERTIES (English (U.S.))
+Resource12=IDD_SHP_VIEWER (English (U.S.))
+Resource13=IDD_NEW_CONTAINER (English (U.S.))
 
 [CLS:CDirectoriesDlg]
 Type=0
 BaseClass=CDialog
 HeaderFile=DirectoriesDlg.h
 ImplementationFile=DirectoriesDlg.cpp
+LastObject=CDirectoriesDlg
+
+[CLS:Cdlg_new_container]
+Type=0
+BaseClass=CDialog
+HeaderFile=dlg_new_container.h
+ImplementationFile=dlg_new_container.cpp
+Filter=D
+VirtualFilter=dWC
 
 [CLS:Cdlg_shp_viewer]
 Type=0
 BaseClass=ETSLayoutDialog
 HeaderFile=dlg_shp_viewer.h
 ImplementationFile=dlg_shp_viewer.cpp
-Filter=D
-VirtualFilter=dWC
-LastObject=Cdlg_shp_viewer
 
 [CLS:CMainFrame]
 Type=0
 BaseClass=CFrameWnd
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
-LastObject=ID_LAUNCH_XSTE_GR
-Filter=T
-VirtualFilter=fWC
 
 [CLS:CResizeDlg]
 Type=0
@@ -94,13 +98,6 @@ Type=0
 BaseClass=CWinApp
 HeaderFile=XCC Mixer.h
 ImplementationFile=XCC Mixer.cpp
-
-[CLS:CAboutDlg]
-Type=0
-BaseClass=CDialog
-HeaderFile=XCC Mixer.cpp
-ImplementationFile=XCC Mixer.cpp
-LastObject=CAboutDlg
 
 [CLS:CXCCMixerDoc]
 Type=0
@@ -154,6 +151,10 @@ ImplementationFile=XSTE_edit_dlg.cpp
 Type=1
 Class=CDirectoriesDlg
 
+[DLG:IDD_NEW_CONTAINER]
+Type=1
+Class=Cdlg_new_container
+
 [DLG:IDD_SHP_VIEWER]
 Type=1
 Class=Cdlg_shp_viewer
@@ -178,10 +179,6 @@ Control4=IDC_TREE,SysTreeView32,1350636583
 [DLG:IDD_SHP_PROPERTIES]
 Type=1
 Class=Cshp_properties_dlg
-
-[DLG:IDD_ABOUTBOX]
-Type=1
-Class=CAboutDlg
 
 [DLG:IDD_XCC_OBJECT_EXTRACTOR]
 Type=1
@@ -456,4 +453,12 @@ Control1=IDOK,button,1342242817
 Control2=IDC_IMAGE,static,1342177806
 Control3=IDC_SLIDER,msctls_trackbar32,1342242840
 Control4=IDC_FRAME,edit,1350641794
+
+[DLG:IDD_NEW_CONTAINER (English (U.S.))]
+Type=1
+Class=?
+ControlCount=3
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_COMBO,combobox,1344339971
 
