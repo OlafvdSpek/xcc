@@ -1,7 +1,8 @@
 #include "stdafx.h"
-#include "cc_structures.h"
-#include "shp_decode.h"
 #include "shp_ts_file_write.h"
+
+#include "shp_decode.h"
+#include "shp_ts_file.h"
 
 static void copy_image(const byte* s, byte* d, int s_x, int s_y, int s_cx, int d_cx, int d_cy)
 {
@@ -15,22 +16,23 @@ static void copy_image(const byte* s, byte* d, int s_x, int s_y, int s_cx, int d
 	}
 }
 
-int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int c_images, bool enable_compression)
+Cvirtual_binary shp_ts_file_write(const byte* s, int global_cx, int global_cy, int c_images, bool enable_compression)
 {
+	Cvirtual_binary d;
 	const byte* r = s;
-	byte* w = d;
+	byte* w = d.write_start(Cshp_ts_file::get_max_size(global_cx, global_cy, c_images));
 	t_shp_ts_header& header = *reinterpret_cast<t_shp_ts_header*>(w);
 	header.zero = 0;
 	header.cx = global_cx;
 	header.cy = global_cy;
 	header.c_images = c_images;
 	w += sizeof(t_shp_ts_header);
-	byte* w1 = d + sizeof(t_shp_ts_header) + c_images * sizeof(t_shp_ts_image_header);
+	byte* w1 = w + c_images * sizeof(t_shp_ts_image_header);
 	byte* t = new byte[global_cx * global_cy];
 	byte* u = new byte[(global_cx + 1) * global_cy * 2];
 	for (int i = 0; i < c_images; i++)
 	{
-		w1 = d + (w1 - d + 7 & ~7);
+		w1 += d - w1 & 7;
 		int x = 0;
 		int y = 0;
 		int cx = 0;
@@ -108,15 +110,6 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 	}
 	delete[] u;
 	delete[] t;
-	return w1 - d;
-}
-
-void shp_ts_file_write(const Cvirtual_image& image, Cvirtual_file& f, int c_images, bool enable_compression)
-{
-	int cx = image.cx();
-	int cy = image.cy() / c_images;
-	byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images];
-	const int cb_d = shp_ts_file_write(image.image(), d, cx, cy, c_images, enable_compression);
-	f.write(d, cb_d);
-	delete[] d;
+	d.size(w1 - d);
+	return d;
 }
