@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CINILeftView
+LastClass=CINIView
 LastTemplate=CTreeView
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "xcc ini editor.h"
@@ -85,6 +85,7 @@ HeaderFile=INIView.h
 ImplementationFile=INIView.cpp
 Filter=C
 VirtualFilter=VWC
+LastObject=ID_VIEW_SELECTION_MARGIN
 
 [CLS:CXIEApp]
 Type=0
@@ -150,15 +151,21 @@ Command12=ID_EDIT_PASTE
 Command13=ID_EDIT_DELETE
 Command14=ID_EDIT_SELECT_ALL
 Command15=ID_EDIT_FIND
-Command16=ID_EDIT_REPEAT
-Command17=ID_EDIT_FIND_PREVIOUS
+Command16=ID_EDIT_FIND_PREVIOUS
+Command17=ID_EDIT_REPEAT
 Command18=ID_EDIT_REPLACE
-Command19=ID_WINDOW_NEW
-Command20=ID_WINDOW_CASCADE
-Command21=ID_WINDOW_TILE_HORZ
-Command22=ID_WINDOW_ARRANGE
-Command23=ID_WINDOW_SPLIT
-CommandCount=23
+Command19=ID_EDIT_CLEAR_ALL_BOOKMARKS
+Command20=ID_EDIT_GOTO_PREV_BOOKMARK
+Command21=ID_EDIT_GOTO_NEXT_BOOKMARK
+Command22=ID_EDIT_TOGGLE_BOOKMARK
+Command23=ID_VIEW_SELECTION_MARGIN
+Command24=ID_VIEW_SYNTAX_HIGHLIGHTING
+Command25=ID_WINDOW_NEW
+Command26=ID_WINDOW_CASCADE
+Command27=ID_WINDOW_TILE_HORZ
+Command28=ID_WINDOW_ARRANGE
+Command29=ID_WINDOW_SPLIT
+CommandCount=29
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1

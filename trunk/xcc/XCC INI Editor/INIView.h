@@ -51,8 +51,14 @@ protected:
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CINIView)
+	afx_msg void OnViewSyntaxHighlighting();
+	afx_msg void OnUpdateViewSyntaxHighlighting(CCmdUI* pCmdUI);
+	afx_msg void OnViewSelectionMargin();
+	afx_msg void OnUpdateViewSelectionMargin(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	bool m_syntax_highlighting;
 };
 
 #ifndef _DEBUG  // debug version in INIView.cpp

@@ -111,12 +111,14 @@ public:
 
 		SLineInfo()
 		{
+			m_dwFlags = 0;
 			parse();
 			post_parse();
 		}
 
 		SLineInfo(string v) 
 		{ 
+			m_dwFlags = 0;
 			m_line = v;
 			parse();
 			post_parse();
@@ -129,7 +131,7 @@ public:
 
 		int flags() const
 		{
-			return 0;
+			return m_dwFlags;
 		}
 
 		int length() const
@@ -166,6 +168,8 @@ public:
 		{
 			return text().substr(c_index(te), cc_index(te));
 		}
+
+		DWORD m_dwFlags;
 	private:
 		void parse();
 		void post_parse();
