@@ -30,7 +30,8 @@ Csql_row::Csql_row(const Csql_row& v)
 
 Csql_row::~Csql_row()
 {
-	m_source->detach();
+	if (m_source)
+		m_source->detach();
 }
 
 const Csql_row& Csql_row::operator=(const Csql_row& v)
