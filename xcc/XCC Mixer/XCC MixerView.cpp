@@ -1405,21 +1405,16 @@ static string get_base_name(const string& fname)
 		if (!isdigit(t[i]))
 			p = i;
 	}
-	return t.substr(0, p);
+	return t.substr(0, p + 1);
 }
 
 static int get_index_from_name(const string& base_name, const string& fname)
 {
 	string t = Cfname(fname).get_ftitle();
-	if (t.substr(0, base_name.length()) != base_name)
-		return -1;
-	int p = -1;
-	for (int i = 0; i < t.length(); i++)
-	{
-		if (!isdigit(t[i]))
-			p = i;
-	}
-	return p == base_name.length() && p < t.length() ? atoi(t.substr(p).c_str()) : -1;
+	return t.substr(0, base_name.length()) != base_name
+		|| base_name.find_first_not_of("0123456789", base_name.length()) != string::npos
+		? -1
+		: atoi(t.substr(base_name.length()).c_str());
 }
 
 static void create_rp(const t_palet s1, const t_palet s2, byte* d, t_game game)
@@ -1458,7 +1453,7 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 	t_palet s_palet;
 	string base_name = get_base_name(fname);
 	if (get_index_from_name(base_name, fname))
-		return 0x102;
+		return em_bad_fname;
 	Cpcx_file f;
 	error = open_f_index(f, i);
 	if (!error)
@@ -1517,6 +1512,7 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * c_images, rp);
 		}
+		trim(base_name);
 		fname.set_title(base_name);
 		error = shp_file_write(s, cx, cy, c_images).export(fname);
 	}
@@ -1534,7 +1530,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	int c_images;
 	int error = 0;
 	fname.set_ext(".shp");
-	byte* s = NULL;
+	Cvirtual_binary s;
 	t_palet s_palet;
 	string base_name = fname.get_ftitle();
 	switch (m_index.find(get_id(i))->second.ft)
@@ -1551,8 +1547,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				cy = f.get_cy();
 				c_images = f.get_c_images() << 1;
 				void* p;
-				s = new byte[cx * cy * c_images];
-				byte* w = s;
+				byte* w = s.write_start(cx * cy * c_images);
 				if (cx && cy && !shp_images::load_shp(f, p))
 				{
 					for (int i = 0; i < c_images >> 1; i++)
@@ -1619,9 +1614,9 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 							c_images = i + 1;
 							if (convert_shadow)
 								c_images <<= 1;
-							s = new byte[cx * cy * c_images];
+							s.write_start(cx * cy * c_images);
 						}
-						memcpy(s + cx * cy * i, image.image(), cx * cy);;
+						memcpy(s.data_edit() + cx * cy * i, image.image(), cx * cy);;
 					}
 				}
 			}
@@ -1633,8 +1628,8 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		if (convert_shadow)
 		{
 			int count = cx * cy * c_images >> 1;
-			byte* r = s;
-			byte* w = s + count;
+			byte* r = s.data_edit();
+			byte* w = s.data_edit() + count;
 			while (count--)
 			{
 				byte& v = *r++;
@@ -1659,21 +1654,21 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				create_rp(s_palet, p, rp, game_ra);
 			else
 				create_rp(s_palet, p, rp);
-			apply_rp(s, cx * cy * (c_images >> convert_shadow), rp);
+			apply_rp(s.data_edit(), cx * cy * c_images >> convert_shadow, rp);
 		}
 		if (GetMainFrame()->fix_shadows() && ~c_images & 1)
 		{
 			int count = cx * cy * c_images >> 1;
-			for (byte* w = s + count; count--; w++)
+			for (byte* w = s.data_edit() + count; count--; w++)
 			{
 				if (*w)
 					*w = 1;
 			}
 		}
+		trim(base_name);
 		fname.set_title(base_name);
 		error = shp_ts_file_write(s, cx, cy, c_images, GetMainFrame()->enable_compression()).export(fname);
 	}
-	delete[] s;
 	return error;
 }
 
