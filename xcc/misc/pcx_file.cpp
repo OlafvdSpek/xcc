@@ -4,18 +4,15 @@
 
 #include "stdafx.h"
 #include "pcx_file.h"
-#include "png_file.h"
 
 void Cpcx_file::decode(void* d) const
 {
 	pcx_decode(get_image(), reinterpret_cast<byte*>(d), *get_header());
 }
 
-void Cpcx_file::decode(Cvirtual_image& d) const
+Cvirtual_image Cpcx_file::vimage() const
 {
-	const int c_planes = get_c_planes();
-	byte* image = new byte[cx() * cy() * c_planes];
-	pcx_decode(get_image(), image, *get_header());
-	d.load(image, cx(), cy(), c_planes, c_planes == 1 ? *get_palet() : NULL);
-	delete[] image;
+	Cvirtual_binary image;
+	pcx_decode(get_image(), image.write_start(cb_image()), *get_header());
+	return Cvirtual_image(image, cx(), cy(), cb_pixel(), cb_pixel() == 1 ? *get_palet() : NULL);
 }
