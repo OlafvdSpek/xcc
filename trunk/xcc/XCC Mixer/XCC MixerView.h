@@ -61,7 +61,6 @@ public:
 	int copy_as_shp(int i, Cfname fname) const;
 	int copy_as_shp_ts(int i, Cfname fname) const;
 	int copy_as_text(int i, Cfname fname) const;
-	int copy_as_tmp_ts(int i, Cfname fname) const;
 	int copy_as_vxl(int i, Cfname fname) const;
 	int copy_as_wav_ima_adpcm(int i, Cfname fname) const;
 	int copy_as_wav_pcm(int i, Cfname fname) const;
