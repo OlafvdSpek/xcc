@@ -1,17 +1,13 @@
 <?php
+	require_once('common.php');
+
 	header("refresh: 60");
-	ob_start('ob_gzhandler');
+	echo_links();
 ?>
-<link rel=stylesheet href="/xcc.css">
-<a href="?">Home</a> | <a href="players.php">Players</a>
 <hr>
 <table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
 <hr>
 <?php
-	require("../xcc_common.php");
-
-	db_connect();
-
 	$ipa = $_GET[ipa];
 	$pid = $_GET[pid];
 	$pname = trim($_GET[pname]);
@@ -51,6 +47,6 @@
 			printf("<tr><td align=right>%d<td align=right><a href=\"?sid=%d\">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s", $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
 		echo("</table>");
 	}
+	echo('<hr>');
+	echo_links();
 ?>
-<hr>
-<a href="?">Home</a>

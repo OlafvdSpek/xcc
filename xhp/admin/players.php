@@ -1,16 +1,12 @@
 <?php
-	ob_start('ob_gzhandler');
+	require_once('common.php');
+
+	echo_links();
 ?>
-<link rel=stylesheet href="/xcc.css">
-<a href="?">Home</a> | <a href="logins.php">Logins</a> | <a href="?a=bad_passes">Bad passes</a> | <a href="?a=invalid_serials">Invalid serials</a> | <a href="?a=xbl">Show BL</a> | <a href="?a=motds">Show MOTDs</a> | <a href="?a=xwsvs">XWSVS</a>
 <hr>
 <table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
 <hr>
 <?php
-	require("../xcc_common.php");
-
-	db_connect();
-
 	function select_players($where)
 	{
 		return db_query(sprintf("select p.sid, p.pid, p.pass, p.name as pname, p.flags, c.name as cname, motd, unix_timestamp(p.mtime) as mtime, unix_timestamp(p.ctime) as ctime from xwi_serials s inner join xwi_players p using (sid) left join xwi_clans c using (cid)%s order by p.name", $where));
@@ -175,7 +171,7 @@
 		else if ($sid)
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
-			$where = " where wtime > now()";
+			$where = " where ~flags & 2 and wtime > now()";
 		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th><th><th align=right>SID<th><th><th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
 		echo('</table>');
@@ -205,6 +201,6 @@
 			}
 		}
 	}
+	echo('<hr>');
+	echo_links();
 ?>
-<hr>
-<a href="?">Home</a>
