@@ -759,9 +759,9 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 		if (game == game_ts)
 			expand_mix.add_file("ecache98.mix", ecache_mix.write());
 		else
-			error = ecache_mix.write().export(dir + "ecache98.mix");
+			error = ecache_mix.write().export(dir + (game == game_ra2_yr ? "ecachemd" : "ecache") + "98.mix");
 		if (!error)
-			error = expand_mix.write().export(dir + "expand98.mix");
+			error = expand_mix.write().export(dir + (game == game_ra2_yr ? "expandmd" : "expand") + "98.mix");
 	}
 	return error;
 }
@@ -799,7 +799,9 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 	// delete_file(dir + "audio.bag");
 	// delete_file(dir + "audio.idx");
 	delete_file(dir + "ecache98.mix");
+	delete_file(dir + "ecache98md.mix");
 	delete_file(dir + "expand98.mix");
+	delete_file(dir + "expand98md.mix");
 	return 0;
 }
 
@@ -828,16 +830,22 @@ void Cxcc_mod::clear_game_dir() const
 {
 	string dir = xcc_dirs::get_dir(m_options.game);
 	delete_file(dir + "ai.ini");
+	delete_file(dir + "aimd.ini");
 	delete_file(dir + "art.ini");
+	delete_file(dir + "artmd.ini");
 	delete_file(dir + "audio.bag");
 	delete_file(dir + "audio.idx");
 	delete_files(dir + "ecache*.mix");
 	delete_files(dir + "elocal*.mix");
 	delete_files(dir + "expand*.mix");
 	delete_file(dir + "ra2.csf");
+	delete_file(dir + "ra2md.csf");
 	delete_file(dir + "rules.ini");
+	delete_file(dir + "rulesmd.ini");
 	delete_file(dir + "sound.ini");
+	delete_file(dir + "soundmd.ini");
 	delete_file(dir + "ui.ini");
+	delete_file(dir + "uimd.ini");
 }
 
 int Cxcc_mod::load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_audio& audio)
