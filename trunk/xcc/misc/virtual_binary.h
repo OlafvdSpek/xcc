@@ -15,6 +15,7 @@ class Cvirtual_binary_source
 {
 public:
 	Cvirtual_binary_source(const void* d, int cb_d);
+	void detach();
 	Cvirtual_binary_source* pre_edit();
 
 	Cvirtual_binary_source* attach()
@@ -23,16 +24,14 @@ public:
 		return this;
 	}
 
-	void detach()
-	{
-		mc_references--;
-		if (!mc_references)
-			delete this;
-	}
-
 	const byte* data() const
 	{
 		return m_data;
+	}
+
+	const byte* data_end() const
+	{
+		return data() + size();
 	}
 
 	byte* data_edit()
@@ -75,6 +74,11 @@ public:
 	const byte* data() const
 	{
 		return m_source ? m_source->data() : NULL;
+	}
+
+	const byte* data_end() const
+	{
+		return m_source ? m_source->data_end() : NULL;
 	}
 
 	byte* data_edit()

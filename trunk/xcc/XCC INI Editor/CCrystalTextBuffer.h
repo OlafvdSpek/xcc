@@ -171,6 +171,7 @@ public:
 
 		DWORD m_dwFlags;
 	private:
+		void analyse();
 		void parse();
 		void post_parse();
 

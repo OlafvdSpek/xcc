@@ -9,9 +9,12 @@
 #include <mapi.h>
 #include <windows.h>
 #include "cgi.h"
+#include "database.h"
 #include "file32.h"
 #include "html.h"
+#include "multi_line.h"
 #include "string_conversion.h"
+#include "virtual_file.h"
 #include "virtual_image.h"
 #include "web_tools.h"
 #include "xcc_dirs.h"
@@ -45,7 +48,7 @@ Cdlg_ccr::Cdlg_ccr(CWnd* pParent /*=NULL*/)
 	m_mail = _T("Mail");
 	m_name = _T("Name");
 	m_game_id = 0;
-	m_send_ws = FALSE;
+	m_send_ws = TRUE;
 	m_send_xhp = TRUE;
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
@@ -57,6 +60,7 @@ void Cdlg_ccr::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Cdlg_ccr)
+	DDX_Control(pDX, IDC_CHEATER, m_cheater);
 	DDX_Control(pDX, IDC_NICKNAME, m_nickname);
 	DDX_Control(pDX, IDC_LIST, m_list);
 	DDX_Text(pDX, IDC_STATS, m_stats);
@@ -95,7 +99,7 @@ void Cdlg_ccr::game(t_game game)
 	m_game = game;
 }
 
-static int c_colums = 2;
+static int c_colums = 3;
 
 BOOL Cdlg_ccr::OnInitDialog()
 {
@@ -107,6 +111,10 @@ BOOL Cdlg_ccr::OnInitDialog()
 			<< (pane(HORIZONTAL, GREEDY)
 				<< item(IDC_NAME, ABSOLUTE_VERT)
 				<< item(IDC_NICKNAME, ABSOLUTE_VERT)
+				)
+			<< (pane(HORIZONTAL, GREEDY)
+				<< itemGrowing(HORIZONTAL)
+				<< item(IDC_CHEATER, ABSOLUTE_VERT)
 				)
 			<< (pane(HORIZONTAL, GREEDY)
 				<< item(IDC_MAIL, ABSOLUTE_VERT)
@@ -139,12 +147,20 @@ BOOL Cdlg_ccr::OnInitDialog()
 
 	ETSLayoutDialog::OnInitDialog();
 
-	const char* column_label[] = {"Name", "Size", "Date"};
-	const int column_alignment[] = {LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT};
+	const char* column_label[] = {"Name", "Size (JPEG)", "Size (PCX)"};
+	const int column_alignment[] = {LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT};
 
 	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
 	for (int i = 0; i < c_colums; i++)
 		m_list.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
+
+	
+	{
+		m_cheater.DeleteString(0);
+		for (t_cheaters::const_iterator i = m_cheaters.begin(); i != m_cheaters.end(); i++)
+			m_cheater.AddString(i->c_str());
+		m_cheater.SetCurSel(0);
+	}
 
 	load_nicknames();
 	load_screenshots();
@@ -156,6 +172,7 @@ BOOL Cdlg_ccr::OnInitDialog()
 		m_tooltip.Activate(TRUE);
 		m_tooltip.AddTool(GetDlgItem(IDC_NAME), "Name");
 		m_tooltip.AddTool(GetDlgItem(IDC_NICKNAME), "Nickname");
+		m_tooltip.AddTool(GetDlgItem(IDC_CHEATER), "Cheater");
 		m_tooltip.AddTool(GetDlgItem(IDC_MAIL), "Mail");
 		m_tooltip.AddTool(GetDlgItem(IDC_GAME_ID), "Game ID");
 		m_tooltip.AddTool(GetDlgItem(IDC_STATS), "Statistics");
@@ -168,6 +185,7 @@ BOOL Cdlg_ccr::OnInitDialog()
 
 void Cdlg_ccr::load_nicknames()
 {
+	m_nickname.DeleteString(0);
 	HKEY key;
 	for (int i = 1; i < 11; i++)
 	{
@@ -177,22 +195,26 @@ void Cdlg_ccr::load_nicknames()
 			DWORD cb_b = 16;
 			if (ERROR_SUCCESS == RegQueryValueEx(key, NULL, NULL, NULL, reinterpret_cast<byte*>(b), &cb_b))
 			{
-				m_nickname.AddString(b);
-				m_nickname.SelectString(-1, b);
+				if (*b)
+					m_nickname.AddString(b);
 			}
 			RegCloseKey(key);
 		}
 	}
-	m_nickname.DeleteString(0);
+	m_nickname.SetCurSel(0);
 }
 
 int Cdlg_ccr::load_stats()
 {
+	m_cheaters.clear();
 	m_stats.Empty();
 	ifstream f((xcc_dirs::get_dir(m_game) + "mpstats.txt").c_str());
 	string s;
 	while (getline(f, s))
 	{
+		Cmulti_line l = s;
+		if (string_equal_i(l.get_next_line(':'), "Name"))
+			m_cheaters.insert(l.get_next_line());
 		m_stats += (s + "\r\n").c_str();
 	}
 	return !f.eof() && f.fail();
@@ -221,7 +243,10 @@ int Cdlg_ccr::load_screenshots()
 					int id = get_free_id();
 					t_map_entry& e = m_map[id];
 					e.fname = to_lower(dir + fd.cFileName);
-					e.size = f.get_size();;
+					Cvirtual_image image;
+					Cvirtual_file g;
+					e.jpeg_size = -1; // image.load(e.fname) || image.save_as_jpeg(g) ? -1 : g.size();
+					e.pcx_size = f.get_size();;
 					m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK), id);
 					f.close();
 				}
@@ -263,8 +288,12 @@ void Cdlg_ccr::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 		m_buffer[m_buffer_w] = e.fname;
 		break;
 	case 1:
-		if (e.size != -1)
-			m_buffer[m_buffer_w] = n(e.size);
+		if (e.jpeg_size != -1)
+			m_buffer[m_buffer_w] = n(e.jpeg_size);
+		break;
+	case 2:
+		if (e.pcx_size != -1)
+			m_buffer[m_buffer_w] = n(e.pcx_size);
 		break;
 	}
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
@@ -313,7 +342,9 @@ int Cdlg_ccr::compare(int id_a, int id_b) const
 	case 0:
 		return compare_string(a.fname, b.fname);
 	case 1:
-		return compare_int(a.size, b.size);
+		return compare_int(a.jpeg_size, b.jpeg_size);
+	case 2:
+		return compare_int(a.pcx_size, b.pcx_size);
 	default:
 		return 0;
 	}
@@ -350,16 +381,22 @@ enum
 	vi_name,
 	vi_mail,
 	vi_nickname,
-	vi_game_id
+	vi_game_id,
+	vi_cheater
 };
 
 void Cdlg_ccr::OnOK()
 {
 	if (UpdateData(true))
 	{
+		if (m_list.GetSelectedCount() < 2 && MessageBox("You've selected less then two screenshots. Multiple screenshots can be selected by using control. Would you like to select more screenshots?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES)
+			return;
+
 		const char* save_filter = "XCRF files (*.xcrf)|*.xcrf|";
 
-		CFileDialog dlg(false, ".xcrf", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
+		CString cheater;
+		m_cheater.GetLBText(m_cheater.GetCurSel(), cheater);
+		CFileDialog dlg(false, ".xcrf", cheater + "_" + n(m_game_id).c_str(), OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
 		if (IDOK == dlg.DoModal())
 		{
 			CWaitCursor wait;
@@ -384,6 +421,7 @@ void Cdlg_ccr::OnOK()
 			CString nickname;
 			m_nickname.GetLBText(m_nickname.GetCurSel(), nickname);
 			key.set_value_string(vi_nickname, static_cast<string>(nickname));
+			key.set_value_string(vi_cheater, static_cast<string>(cheater));
 			key.set_value_string(vi_mail, static_cast<string>(m_mail));
 			key.set_value_int(vi_game_id, m_game_id);
 			Cxif_key& screenshots_key = key.open_key_write(ki_screenshots);
@@ -398,16 +436,6 @@ void Cdlg_ccr::OnOK()
 					Cvirtual_file f;
 					if (!image.save_as_jpeg(f))
 						screenshots_key.set_value_binary(index, f.read());
-					/*
-					string temp_fname = get_temp_fname();
-					if (!image.save_as_jpeg(temp_fname))
-					{
-						Cvirtual_binary s;
-						if (!s.import(temp_fname))
-							screenshots_key.set_value_binary(index, s);
-						delete_file(temp_fname);
-					}
-					*/
 				}
 				index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 			}
@@ -430,8 +458,6 @@ void Cdlg_ccr::OnOK()
 					AfxMessageBox(AFX_IDP_INVALID_MAPI_DLL);
 					return;
 				}
-
-				string title = static_cast<string>(game_name[key.get_value_int(vi_game)]) + " XCRF";
 
 				// prepare the file description (for the attachment)
 				MapiFileDesc fileDesc;
@@ -456,10 +482,13 @@ void Cdlg_ccr::OnOK()
 					w++;
 				}
 
+				string title = static_cast<CString>(game_name[key.get_value_int(vi_game)]) + " XCRF: " + nickname + " (r) vs " + cheater + " (c) in game " + n(m_game_id).c_str();
+
 				// prepare the message (empty with 1 attachment)
 				MapiMessage message;
 				memset(&message, 0, sizeof(message));
 				message.lpszSubject = const_cast<char*>(title.c_str());
+				// message.lpszNoteText = const_cast<char*>(static_cast<const char*>(m_description));
 				message.nRecipCount = m_send_ws + m_send_xhp;
 				message.lpRecips = recipDesc;
 				message.nFileCount = 1;
@@ -573,7 +602,7 @@ static Chtml report_screenshots(const Cxif_key& key, string path)
 	return page;
 }
 
-static string get_gid(t_game game)
+static string get_lid(t_game game)
 {
 	switch (game)
 	{
@@ -585,12 +614,22 @@ static string get_gid(t_game game)
 
 static string a_gamelist(t_game game, string nickname)
 {
-	return a(web_encode(nickname), "href=\"http://xcc.tiberian.com/xla/gamelist.php?gid=" + get_gid(game) + "&pid=" + uri_encode(nickname) + "\"");
+	return a(web_encode(nickname), "href=\"http://xcc.tiberian.com/xla/gamelist.php?lid=" + get_lid(game) + "&pid=" + uri_encode(nickname) + "\"");
 }
 
 static string a_gamelog(t_game game, int game_id)
 {
-	return game_id ? a(web_encode(n(game_id)), "href=\"http://xcc.tiberian.com/xla/gamelog.php?gid=" + get_gid(game) + "&gid=" + n(game_id) + "\"") : "Unknown";
+	return game_id ? a(web_encode(n(game_id)), "href=\"http://xcc.tiberian.com/xla/gamelog.php?lid=" + get_lid(game) + "&gid=" + n(game_id) + "\"") : "Unknown";
+}
+
+void create_tables(Cdatabase& database)
+{
+	Cxcc_error error = database.query("create table if not exists xcr_index (name varchar(255), reporter varchar(16), cheater varchar(16) not null, cheats varchar(255), lid varchar(16) not null, gid int not null, fname varchar(255), last_modified timestamp, primary key (cheater, lid, gid))");
+}
+
+void drop_tables(Cdatabase& database)
+{
+	Cxcc_error error = database.query("drop table if exists xcr_index");
 }
 
 int xcrf_decode(Cvirtual_binary s, string fname)
@@ -602,7 +641,8 @@ int xcrf_decode(Cvirtual_binary s, string fname)
 		t_game game = static_cast<t_game>(key.get_value_int(vi_game));
 		int game_id = key.exists_value(vi_game_id) ? key.get_value_int(vi_game_id) : 0;
 		Chtml page;
-		page += tr(td("Name") + td(web_name(key.get_value_string(vi_name), key.get_value_string(vi_mail))) + td(a_gamelist(game, key.get_value_string(vi_nickname))));
+		page += tr(td("Reporter") + td(web_name(key.get_value_string(vi_name), key.get_value_string(vi_mail))) + td(a_gamelist(game, key.get_value_string(vi_nickname))));
+		page += tr(td("Cheater") + td("&nbsp;") + td(a_gamelist(game, key.get_value_string(vi_cheater, ""))));
 		page += tr(td("Game") + td(game_name[key.get_value_int(vi_game)]) + td(a_gamelog(game, game_id)));
 		page += tr(td("Stats") + td(web_encode(key.get_value_string(vi_stats)), "colspan=2"));
 		if (key.exists_value(vi_sync))
@@ -610,6 +650,28 @@ int xcrf_decode(Cvirtual_binary s, string fname)
 		page += tr(td("Description") + td(web_encode(key.get_value_string(vi_description)), "colspan=2"));
 		page += tr(td("Cheats") + td(report_cheats(key), "colspan=2"));
 		ofstream((fname + "index.html").c_str()) << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1") + report_screenshots(key.open_key_read(ki_screenshots), fname)));
+#ifndef NDEBUG
+		static ofstream index_f("c:/temp/index.html"); // xhp/xcrf/index.txt");
+		string name = Cfname(fname).get_path();
+		name.erase(name.length() - 1);
+		name.erase(0, name.rfind('\\') + 1);
+		index_f << tr(td(key.get_value_string(vi_name)) + td(key.get_value_string(vi_nickname)) + td(key.get_value_string(vi_cheater, "")) + td(report_cheats(key)) + td(a("HTML", "href=\"" + name + "/\"")) + td(a("XCRF", "href=\"" + name + ".xcrf\""))) << endl;
+		Cdatabase database;
+		database.open();
+		create_tables(database);
+		Csql_query sql_query(database);
+		sql_query.write("insert into xcr_index (name, reporter, cheater, cheats, lid, gid, fname) values (%s, %s, %s, %s, %s, %s, %s)");
+		sql_query.pe(key.get_value_string(vi_name));
+		sql_query.pe(key.get_value_string(vi_nickname));
+		sql_query.pe(key.get_value_string(vi_cheater, ""));
+		sql_query.pe(report_cheats(key));
+		sql_query.pe(get_lid(static_cast<t_game>(key.get_value_int(vi_game))));
+		sql_query.p(key.get_value_int(vi_game_id));
+		sql_query.pe(name);
+		database.query(sql_query.read().c_str());
+		// drop_tables(database);
+		database.close();
+#endif
 	}
 	return error;
 }

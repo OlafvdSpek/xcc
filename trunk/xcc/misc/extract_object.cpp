@@ -255,7 +255,7 @@ void Cextract_object::store_file(string name, Cxif_key& k, int& n)
 	{
 		Cxif_key& l = k.open_key_edit(ki_files).open_key_write(n++);
 		l.set_value_string(vi_name, to_lower(name));
-		l.set_value_binary(vi_value, f.get_data(), f.get_size());
+		l.set_value_binary(vi_value, f.get_vdata());
 		f.close();
 	}
 	if (name.length() >= 2 && tolower(name[1]) == 'a')
@@ -656,7 +656,7 @@ static Chtml report_file_list(const Cxif_key& k, const string& files_url)
 		else if (name.get_fext() == ".shp" && cb_f == 3104)
 		{
 			Cshp_ts_file f;
-			f.load(i->second.get_value(vi_value).get_data(), cb_f);
+			f.load(i->second.get_value(vi_value).get_vdata(), cb_f);
 			if (f.get_cx() == 64 && f.get_cx() == 48 && f.get_c_images() == 1)
 			{
 				name.set_ext(".png");
@@ -864,11 +864,11 @@ int Cextract_object::insert(const Cxif_key& k)
 							Cfname fname = o.get_value_string(vi_name);
 							const Cxif_value& f = o.open_value_read(vi_value);
 							if (fname.get_fext() == ".aud")
-								ecache_mix.add_file(fname, f.get_data(), f.get_size());
+								ecache_mix.add_file(fname, Cvirtual_binary(f.get_data(), f.get_size()));
 							else if (fname.get_fext() == ".shp")
-								ecache_mix.add_file(fname, f.get_data(), f.get_size());
+								ecache_mix.add_file(fname, Cvirtual_binary(f.get_data(), f.get_size()));
 							else
-								expand_mix.add_file(fname, f.get_data(), f.get_size());
+								expand_mix.add_file(fname, Cvirtual_binary(f.get_data(), f.get_size()));
 						}
 					}
 					
@@ -917,19 +917,11 @@ int Cextract_object::insert(const Cxif_key& k)
 			error = sir.write(xcc_dirs::get_ts_dir() + "sound.ini");
 		if (!error)
 		{
-			int cb_ecm = ecache_mix.write_start();
-			byte* ecm = new byte[cb_ecm];
-			ecache_mix.write(ecm);
-			expand_mix.add_file("ecache99.mix", ecm, cb_ecm);
-			delete[] ecm;
+			expand_mix.add_file("ecache99.mix", ecache_mix.write());
 			if (!error)
 			{
 				close_all();
-				int cb_exm = expand_mix.write_start();
-				byte* exm = new byte[cb_exm];
-				expand_mix.write(exm);
-				error = file32_write(xcc_dirs::get_dir(m_game) + "expand99.mix", exm, cb_exm);
-				delete[] exm;
+				error = expand_mix.write().export(xcc_dirs::get_dir(m_game) + "expand99.mix");
 			}
 		}
 	}
@@ -947,7 +939,7 @@ static void extract_files(const Cxif_key& k, Cfile31& out_f)
 		if (name.get_fext() == ".aud")
 		{
 			Caud_file f;
-			f.load(i->second.get_value(vi_value).get_data(), cb_f);
+			f.load(i->second.get_value(vi_value).get_vdata(), cb_f);
 			name.set_ext(".wav");
 			name.set_path("c:/temp/");
 			f.extract_as_wav(name);

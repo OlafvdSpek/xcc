@@ -25,13 +25,21 @@ int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const 
 {
 	switch (ft)
 	{
+#ifdef JPEG_SUPPORT
 	case ft_jpeg:
+		return jpeg_file_write(f, image, palet, cx, cy);;
+#else
 		return 1;
+#endif
 	case ft_pcx:
 		pcx_file_write(f, image, palet, cx, cy);
 		return 0;
 	default:
+#ifdef PNG_SUPPORT
+		return png_file_write(f, image, palet, cx, cy);;
+#else
 		return 1;
+#endif
 	}
 }
 

@@ -43,7 +43,7 @@ RSC=rc.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /c
-# ADD CPP /nologo /MD /W3 /GX /O2 /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /c
+# ADD CPP /nologo /MD /W3 /GX /O2 /I "H:\PWS\MySQL\include" /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /c
 # ADD BASE MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "NDEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x413 /d "NDEBUG" /d "_AFXDLL"
@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
+# ADD LINK32 libmysql.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"H:\PWS\MySQL\lib\opt" /libpath:"..\..\misc\library"
 
 !ELSEIF  "$(CFG)" == "XCC Cheat Reporter - Win32 Debug"
 
@@ -69,7 +69,7 @@ LINK32=link.exe
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /I "H:\PWS\MySQL\include" /I "..\..\misc" /I "..\..\misc\include" /I "..\misc" /I "..\..\xhp\cgi-bin\misc" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x413 /d "_DEBUG" /d "_AFXDLL"
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
+# ADD LINK32 libmysql.lib libjpeg.lib libpng.lib vfw32.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"H:\PWS\MySQL\lib\opt" /libpath:"..\..\misc\library"
 
 !ENDIF 
 
@@ -96,11 +96,43 @@ SOURCE="..\..\xhp\cgi-bin\misc\cgi.cpp"
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\database.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\database.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\dlg_ccr.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_query.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_query.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_result.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_result.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_row.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\sql_row.h
 # End Source File
 # Begin Source File
 
@@ -122,6 +154,14 @@ SOURCE=".\XCC Cheat Reporter.rc"
 # Begin Source File
 
 SOURCE=".\XCC Cheat ReporterDlg.cpp"
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_error.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_error.h
 # End Source File
 # End Group
 # Begin Group "Header Files"

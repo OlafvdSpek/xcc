@@ -11,6 +11,7 @@
 #include "csf_file.h"
 #include "jpeg_file.h"
 #include "html.h"
+#include "map_ts_encoder.h"
 #include "mix_file.h"
 #include "mix_file_write.h"
 #include "neat_ini_reader.h"
@@ -307,7 +308,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 					switch (category)
 					{
 					case ct_ini:
-						l.set_value_binary(vi_fdata, f.get_data(), f.get_size());
+						l.set_value_binary(vi_fdata, f.get_vdata());
 						if (m_options.ini_diff_compression && local_mix.is_open())
 						{
 							Ccc_file g(true);
@@ -338,13 +339,13 @@ Cxif_key Cxcc_mod::save(bool export) const
 								strstream s;
 								ir1.write(s);
 								// ir1.write("c:/temp/" + fname);
-								l.set_value_binary(vi_fdata, s.str(), s.pcount());
+								l.set_value_binary(vi_fdata, Cvirtual_binary(s.str(), s.pcount()));
 								l.set_value_int(vi_encoding, enc_diff);						
 							}
 						}
 						break;
 					case ct_st:
-						l.set_value_binary(vi_fdata, f.get_data(), f.get_size());
+						l.set_value_binary(vi_fdata, f.get_vdata());
 						if (m_options.csf_diff_compression && language_mix.is_open())
 						{
 							Ccsf_file e, g, h;
@@ -360,38 +361,34 @@ Cxif_key Cxcc_mod::save(bool export) const
 										e.set_value(i->first, i->second.value, i->second.extra_value);
 								}
 								g.close();
-								int cb_d = e.get_write_size();
-								byte* d = new byte[cb_d];
-								e.write(d);
-								l.set_value_binary(vi_fdata, d, cb_d);
+								Cvirtual_binary d;
+								e.write(d.write_start(e.get_write_size()));
+								l.set_value_binary(vi_fdata, d);
 								l.set_value_int(vi_encoding, enc_diff);
-								delete[] d;
 							}
 						}
 						break;
 					default:
-						if (ft == ft_shp_ts && m_options.shp_compression && *i == "mouse.shp")
+						if (ft == ft_shp_ts && m_options.shp_compression && *i != "mouse.shp")
 						{
 							Cshp_ts_file g;
-							g.load(f.get_data(), f.get_size());
-							byte* d = new byte[f.get_size() << 1];
-							int cb_d = shp_encode4(g, d);
-							l.set_value_binary(vi_fdata, d, cb_d);
+							g.load(f);
+							Cvirtual_binary d;
+							int cb_d = shp_encode4(g, d.write_start(f.get_size() << 1));
+							l.set_value_binary(vi_fdata, d);
 							l.set_value_int(vi_encoding, enc_shp);
-							delete[] d;
 						}
 						else if (ft == ft_vxl && m_options.vxl_compression)
 						{
 							Cvxl_file g;
-							g.load(f.get_data(), f.get_size());
-							byte* d = new byte[f.get_size() << 1];
-							int cb_d = vxl_encode4(g, d);
-							l.set_value_binary(vi_fdata, d, cb_d);
+							g.load(f);
+							Cvirtual_binary d;
+							int cb_d = vxl_encode4(g, d.write_start(f.get_size() << 1));
+							l.set_value_binary(vi_fdata, d);
 							l.set_value_int(vi_encoding, enc_vxl);
-							delete[] d;
 						}
 						else
-							l.set_value_binary(vi_fdata, f.get_data(), f.get_size());
+							l.set_value_binary(vi_fdata, f.get_vdata());
 					}
 					f.close();
 				}
@@ -494,19 +491,19 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						break;
 					const Cfname external_fname = i->second.get_value_string(vi_fname);
 					Cfname fname = Cfname(external_fname).get_fname();
-					Ccc_file f(true);
 					t_file_type ft;
-					const byte* data;
-					int cb_data;
+					Cvirtual_binary data;
 					t_encoding encoding;
 					__int64 last_write_time;
 					if (external_data)
 					{
-						if (f.open(external_fname))
+						Ccc_file f(true);
+						error = f.open(external_fname);
+						if (error)
 							break;
 						ft = f.get_file_type();
-						data = f.get_data();
-						cb_data = f.get_size();
+						data = Cvirtual_binary(f.get_data(), f.get_size());
+						f.close();
 						encoding = enc_none;
 						last_write_time = get_last_write_time(external_fname);
 					}
@@ -514,8 +511,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 					{
 						const Cxif_value& fdata = i->second.get_value(vi_fdata);
 						ft = static_cast<t_file_type>(i->second.get_value_int(vi_ft));
-						data = fdata.get_data();
-						cb_data = fdata.get_size();
+						data = fdata.get_vdata();
 						encoding = i->second.exists_value(vi_encoding) ? static_cast<t_encoding>(i->second.get_value_int(vi_encoding)) : enc_none;
 						last_write_time = 0;
 					}
@@ -528,7 +524,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
 						{
 							Cjpeg_file g;
-							g.load(data, cb_data);
+							g.load(data);
 							Cvirtual_image image;
 							if (!g.decode(image))
 							{
@@ -539,14 +535,12 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 									h.export(temp_fname);
 								}
 								h.compact();
-								data = h.data();
-								cb_data = h.size();
+								data = h.read();
 							}
 						}
 						else
 						{
-							data = h.data();
-							cb_data = h.size();
+							data = h.read();
 						}
 						break;
 					case ft_ogg:
@@ -556,7 +550,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						else if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
 						{
 							Cogg_file g;
-							g.load(data, cb_data);
+							g.load(data);
 							Cvirtual_audio audio;
 							if (!g.decode(audio))
 							{
@@ -577,22 +571,20 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 										h.export(temp_fname);
 									}
 									h.compact();
-									data = h.data();
-									cb_data = h.size();
+								data = h.read();
 								}
 							}
 						}
 						else
 						{
-							data = h.data();
-							cb_data = h.size();
+							data = h.read();
 						}
 						break;
 					case ft_pcx:
 						if ((category->first == ct_cameo || (category->first == ct_screen && game == game_ra2)))
 						{
 							Cpcx_file g;
-							g.load(data, cb_data);
+							g.load(data);
 							if (g.get_c_planes() == 1)
 							{
 								fname.set_ext(".shp");
@@ -600,37 +592,56 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								g.decode(image);							
 								shp_ts_file_write(image, h, 1, true);
 								h.compact();
-								data = h.data();
-								cb_data = h.size();
+								data = h.read();
 							}
 						}
 						break;
 					case ft_shp_ts:
 						if (encoding == enc_shp)
 						{
-							// file32_write("d:/temp/last.bin", data, cb_data);
-							// byte* d = new byte[cb_data << 2];
-							shp_decode4(data, h);
+							shp_decode4(data.data(), h);
 							h.compact();
-							// h.write(d, cb_d);
-							// h.export("d:/temp/last.shp");
-							// delete[] d;
-							data = h.data();
-							cb_data = h.size();
+							data = h.read();
 						}
 						break;
 					case ft_vxl:
 						if (encoding == enc_vxl)
 						{
-							// file32_write("d:/temp/last.bin", data, cb_data);
-							// byte* d = new byte[cb_data << 2];
-							vxl_decode4(data, h);
+							vxl_decode4(data.data(), h);
 							h.compact();
-							// h.write(d, cb_d);
-							// h.export("d:/temp/last.vxl");
-							// delete[] d;
-							data = h.data();
-							cb_data = h.size();
+							data = h.read();
+						}
+						break;
+					case ft_xif:
+						if (category->first == ct_map)
+						{
+							Cxif_key k;
+							int error = k.load_key(data.data(), data.size());
+							if (!error)
+							{
+								if (Cmap_ts_encoder::wrong_version(k))
+									error = 1;
+								else if (Cmap_ts_encoder::write_mmx(k))
+								{
+									fname.set_ext(".mmx");
+									string title = fname.get_ftitle();
+									strstream ini, pkt;
+									Cmix_file_write mmx_f;
+									Cmap_ts_encoder::write_map(ini, k, Cvirtual_binary());
+									Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
+									mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
+									mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
+									error = mmx_f.write().export(dir + fname);
+									ignore = true;
+								}
+								else
+								{
+									if (!string_equal_i(fname.get_fext(), ".map"))
+										fname.set_ext(".mpr");				
+									Cmap_ts_encoder::write_map(ofstream(static_cast<string>(dir + fname).c_str()), k, Cvirtual_binary());
+									ignore = true;
+								}
+							}
 						}
 						break;
 					}
@@ -641,7 +652,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 						case ct_cameo:
 						case ct_shp:
 						case ct_tmp:
-							ecache_mix.add_file(fname, data, cb_data);
+							ecache_mix.add_file(fname, data);
 							break;
 						case ct_ini:
 							if (encoding == enc_diff)
@@ -653,32 +664,32 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								{
 									Cneat_ini_reader ir;
 									ir.process(g.get_data(), g.get_size());
-									ir.process(data, cb_data);
+									ir.process(data.data(), data.size());
 									g.close();
 									strstream s;
 									ir.write(s);
-									expand_mix.add_file(fname, s.str(), s.pcount());
+									expand_mix.add_file(fname, Cvirtual_binary(s.str(), s.pcount()));
 								}
 							}
 							else
-								expand_mix.add_file(fname, data, cb_data);
+								expand_mix.add_file(fname, data);
 							break;
 						case ct_interface:
 						case ct_screen:
-							expand_mix.add_file(fname, data, cb_data);
+							expand_mix.add_file(fname, data);
 							break;
 						case ct_sound:
 							if (game == game_ts)
-								ecache_mix.add_file(fname, data, cb_data);
+								ecache_mix.add_file(fname, data);
 							else
 							{
 								Cwav_file f;
-								f.load(data, cb_data);
+								f.load(data);
 								xse.insert(fname.get_ftitle(), f);
 							}
 							break;
 						case ct_speech:
-							ecache_mix.add_file(fname, data, cb_data);
+							ecache_mix.add_file(fname, data);
 							break;
 						case ct_st:
 							if (encoding == enc_diff)
@@ -690,7 +701,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								{
 									Ccsf_file e, h;
 									e.load(g);
-									h.load(data, cb_data);
+									h.load(data);
 									const Ccsf_file::t_map& map = h.get_map();
 									for (Ccsf_file::t_map::const_iterator i = map.begin(); i != map.end(); i++)
 									{
@@ -705,18 +716,16 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 								}
 							}
 							else
-								error = file32_write(dir + fname, data, cb_data);
+								error = data.export(dir + fname);
 							break;
 						case ct_theme:
 						case ct_video:
-							error = file32_write(dir + fname, data, cb_data);
+							error = data.export(dir + fname);
 							break;
 						default:
-							expand_mix.add_file(fname, data, cb_data);
+							expand_mix.add_file(fname, data);
 						}
 					}
-					if (external_data)
-						f.close();
 				}
 				switch (category->first)
 				{
@@ -741,11 +750,11 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 	if (!error)
 	{
 		if (game == game_ts)
-			expand_mix.add_file("ecache98.mix", ecache_mix);
+			expand_mix.add_file("ecache98.mix", ecache_mix.write());
 		else
-			error = ecache_mix.write(dir + "ecache98.mix");
+			error = ecache_mix.write().export(dir + "ecache98.mix");
 		if (!error)
-			error = expand_mix.write(dir + "expand98.mix");
+			error = expand_mix.write().export(dir + "expand98.mix");
 	}
 	return error;
 }
@@ -771,6 +780,7 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 				fname.set_ext(game == game_ts ? ".aud" : ".wav");
 			switch (category->first)
 			{
+			case ct_map:
 			case ct_st:
 			case ct_theme:
 			case ct_video:
@@ -833,8 +843,7 @@ int Cxcc_mod::load_launcher_image(const Cxif_key& key, string fname, Cvirtual_im
 		if (i->second.get_value_string(vi_fname) != fname)
 			continue;
 		Cjpeg_file f;
-		const Cxif_value& fdata = i->second.get_value(vi_fdata);
-		f.load(fdata.get_data(), fdata.get_size());
+		f.load(i->second.get_value(vi_fdata).get_vdata());
 		if (!f.is_valid() || f.decode(image))
 			break;
 		return 0;

@@ -66,7 +66,7 @@ Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
 {
 	m_attached = false;
-    m_data = NULL;
+    // m_data = NULL;
     m_data_loaded = m_is_open = false;
 }
 
@@ -90,8 +90,7 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
     m_is_open = true;
     if (m_read_on_open)
     { 
-        m_data = new byte[m_size];
-        test_fail(read(m_data, m_size));
+        test_fail(read(m_data.write_start(m_size), m_size));
     }
     test_fail(post_open())
     return 0;
@@ -117,8 +116,7 @@ int Ccc_file::open(const string& name)
     m_is_open = true;
     if (m_read_on_open)
     { 
-        m_data = new byte[m_size];
-        test_fail(read(m_data, m_size));
+        test_fail(read(m_data.write_start(m_size), m_size));
         m_f.close();
     }
 #ifndef NO_FT_SUPPORT
@@ -152,8 +150,7 @@ int Ccc_file::attach(HANDLE handle)
     m_is_open = true;
     if (m_read_on_open)
     { 
-        m_data = new byte[m_size];
-        test_fail(read(m_data, m_size));
+		test_fail(read(m_data.write_start(m_size), m_size));
     }
     test_fail(post_open())
 	return 0;
@@ -167,9 +164,10 @@ void Ccc_file::detach()
 	m_f.detach();
 }
 
+/*
 void Ccc_file::load(const byte* data, int size)
 {
-	m_data = const_cast<byte*>(data);
+	m_data = Cvirtual_binary(data, size);
 	m_data_loaded = true;
 	m_mix_f = NULL;
 	m_is_open = true;
@@ -177,17 +175,29 @@ void Ccc_file::load(const byte* data, int size)
 	m_size = size;
 	post_open();
 }
+*/
+
+void Ccc_file::load(const Cvirtual_binary d, int size)
+{
+	m_data = d;
+	m_data_loaded = true;
+	m_mix_f = NULL;
+	m_is_open = true;
+	m_p = 0;
+	m_size = size == -1 ? d.size() : size;
+	post_open();
+}
 
 void Ccc_file::load(const Ccc_file& f)
 {
-	load(f.get_data(), f.get_size());
+	load(f.get_vdata());
 }
 
 #ifndef NO_MIX_SUPPORT
 #ifndef NO_FT_SUPPORT
 t_file_type Ccc_file::get_file_type(bool fast)
 {
-	byte* data;
+	Cvirtual_binary data;
 	int size;
 	if (m_read_on_open)
 	{
@@ -197,10 +207,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	else
 	{
 		size = min(m_size, 64 << 10);
-		data = new byte[size];
-		if (read(data, size))
+		if (read(data.write_start(size), size))
 		{
-			delete[] data;
 			return ft_unknown;
 		}
 		seek(0);
@@ -237,66 +245,31 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cwsa_file wsa_f;
 	Cxcc_file xcc_f;
 	Cxif_file xif_f;
-	aud_f.load(data, m_size);
-	bin_f.load(data, m_size);
-	bink_f.load(data, m_size);
-	cps_f.load(data, m_size);
-	fnt_f.load(data, m_size);
-	hva_f.load(data, m_size);
-	mix_f.load(data, m_size);
-	jpeg_f.load(data, m_size);
-	mp3_f.load(data, m_size);
-	ogg_f.load(data, m_size);
-	pak_f.load(data, m_size);
-	pal_f.load(data, m_size);
-	pcx_f.load(data, m_size);
-	png_f.load(data, m_size);
-	riff_f.load(data, m_size);
-	shp_dune2_f.load(data, m_size);
-	shp_f.load(data, m_size);
-	shp_ts_f.load(data, m_size);
-	st_f.load(data, m_size);
-	text_f.load(data, m_size);
-	tmp_f.load(data, m_size);
-	tmp_ra_f.load(data, m_size);
-	tmp_ts_f.load(data, m_size);
-	voc_f.load(data, m_size);
-	vqa_f.load(data, m_size);
-	vqp_f.load(data, m_size);
-	vxl_f.load(data, m_size);
-	wsa_dune2_f.load(data, m_size);
-	wsa_f.load(data, m_size);
-	xcc_f.load(data, m_size);
-	xif_f.load(data, m_size);
-	if (aud_f.is_valid())
+	if (aud_f.load(data, m_size), aud_f.is_valid())
 		ft = ft_aud;
-	else if (bin_f.is_valid())
+	else if (bin_f.load(data, m_size), bin_f.is_valid())
 		ft = ft_bin;
-	else if (bink_f.is_valid())
+	else if (bink_f.load(data, m_size), bink_f.is_valid())
 		ft = ft_bink;
-	else if (cps_f.is_valid())
+	else if (cps_f.load(data, m_size), cps_f.is_valid())
 		ft = ft_cps;
-	else if (fnt_f.is_valid())
+	else if (fnt_f.load(data, m_size), fnt_f.is_valid())
 		ft = ft_fnt;
-	else if (hva_f.is_valid())
+	else if (hva_f.load(data, m_size), hva_f.is_valid())
 		ft = ft_hva;
-	else if (mix_f.is_valid())
-		ft = ft_mix;
-	else if (mp3_f.is_valid())
+	else if (mp3_f.load(data, m_size), mp3_f.is_valid())
 		ft = ft_mp3;
-	else if (jpeg_f.is_valid())
+	else if (jpeg_f.load(data, m_size), jpeg_f.is_valid())
 		ft = ft_jpeg;
-	else if (ogg_f.is_valid())
+	else if (ogg_f.load(data, m_size), ogg_f.is_valid())
 		ft = ft_ogg;
-	else if (pak_f.is_valid())
-		ft = ft_pak;
-	else if (pal_f.is_valid())
+	else if (pal_f.load(data, m_size), pal_f.is_valid())
 		ft = ft_pal;
-	else if (pcx_f.is_valid())
+	else if (pcx_f.load(data, m_size), pcx_f.is_valid())
 		ft = ft_pcx;
-	else if (png_f.is_valid())
+	else if (png_f.load(data, m_size), png_f.is_valid())
 		ft = ft_png;
-	else if (riff_f.is_valid())
+	else if (riff_f.load(data, m_size), riff_f.is_valid())
 	{
 		Cavi_file avi_f;
 		Cwav_file wav_f;
@@ -309,22 +282,22 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		else
 			ft = ft_riff;
 	}
-	else if (shp_dune2_f.is_valid())
+	else if (shp_dune2_f.load(data, m_size), shp_dune2_f.is_valid())
 		ft = ft_shp_dune2;
-	else if (shp_f.is_valid())
+	else if (shp_f.load(data, m_size), shp_f.is_valid())
 		ft = ft_shp;
-	else if (shp_ts_f.is_valid())
+	else if (shp_ts_f.load(data, m_size), shp_ts_f.is_valid())
 		ft = ft_shp_ts;
-	else if (st_f.is_valid())
+	else if (st_f.load(data, m_size), st_f.is_valid())
 		ft = ft_st;
-	else if (text_f.is_valid())
+	else if (text_f.load(data, m_size), text_f.is_valid())
 	{
 		if (fast)
 			ft = ft_text;
 		else
 		{
 			Cvirtual_tfile tf;
-			tf.load_data(data, size);
+			tf.load_data(data);
 			Cnull_ini_reader ir;
 			int error = 0;
 			while (!error && !tf.eof())
@@ -337,58 +310,55 @@ t_file_type Ccc_file::get_file_type(bool fast)
 			{
 				if (!m_read_on_open && m_size != size)
 				{
-					delete[] data;
 					size = m_size;
-					data = new byte[size];
-					if (read(data, size))
+					if (read(data.write_start(size), size))
 					{
-						delete[] data;
 						return ft_unknown;
 					}
 					seek(0);
 				}
 				Cart_ts_ini_reader ir;
 				ir.fast(true);
-				if (!ir.process(data, size) && ir.is_valid())
+				if (!ir.process(data) && ir.is_valid())
 					ft = ft_art_ini_ts;
 				else
 				{
 					Cmap_td_ini_reader ir;
-					if (!ir.process(data, size) && ir.is_valid())
+					if (!ir.process(data) && ir.is_valid())
 						ft = ft_map_td;
 					else
 					{
 						Cmap_ra_ini_reader ir;
-						if (!ir.process(data, size) && ir.is_valid())
+						if (!ir.process(data) && ir.is_valid())
 							ft = ft_map_ra;
 						else
 						{
 							Cmap_ts_ini_reader ir;
 							ir.fast(true);
-							if (!ir.process(data, size) && ir.is_valid())
+							if (!ir.process(data) && ir.is_valid())
 								ft = ft_map_ts;
 							else
 							{
 								Cpkt_ts_ini_reader ir;
 								ir.fast(true);
-								if (!ir.process(data, size) && ir.is_valid())
+								if (!ir.process(data) && ir.is_valid())
 									ft = ft_pkt_ts;
 								else
 								{
 									Crules_ts_ini_reader ir;
 									ir.fast(true);
-									if (!ir.process(data, size) && ir.is_valid())
+									if (!ir.process(data) && ir.is_valid())
 										ft = ft_rules_ini_ts;
 									else
 									{
 										Csound_ts_ini_reader ir;
 										ir.fast(true);
-										if (!ir.process(data, size) && ir.is_valid())
+										if (!ir.process(data) && ir.is_valid())
 											ft = ft_sound_ini_ts;
 										else
 										{
 											Ctheme_ts_ini_reader ir;
-											if (!ir.process(data, size) && ir.is_valid())
+											if (!ir.process(data) && ir.is_valid())
 												ft = ft_theme_ini_ts;
 											else
 												ft = ft_ini;
@@ -404,25 +374,25 @@ t_file_type Ccc_file::get_file_type(bool fast)
 				ft = ft_text;
 		}
 	}
-	else if (tmp_f.is_valid())
+	else if (tmp_f.load(data, m_size), tmp_f.is_valid())
 		ft = ft_tmp;
-	else if (tmp_ra_f.is_valid())
+	else if (tmp_ra_f.load(data, m_size), tmp_ra_f.is_valid())
 		ft = ft_tmp_ra;
-	else if (tmp_ts_f.is_valid())
+	else if (tmp_ts_f.load(data, m_size), tmp_ts_f.is_valid())
 		ft = ft_tmp_ts;
-	else if (voc_f.is_valid())
+	else if (voc_f.load(data, m_size), voc_f.is_valid())
 		ft = ft_voc;
-	else if (vqa_f.is_valid())
+	else if (vqa_f.load(data, m_size), vqa_f.is_valid())
 		ft = ft_vqa;
-	else if (vqp_f.is_valid())
+	else if (vqp_f.load(data, m_size), vqp_f.is_valid())
 		ft = ft_vqp;
-	else if (vxl_f.is_valid())
+	else if (vxl_f.load(data, m_size), vxl_f.is_valid())
 		ft = ft_vxl;
-	else if (wsa_dune2_f.is_valid())
+	else if (wsa_dune2_f.load(data, m_size), wsa_dune2_f.is_valid())
 		ft = ft_wsa_dune2;
-	else if (wsa_f.is_valid())
+	else if (wsa_f.load(data, m_size), wsa_f.is_valid())
 		ft = ft_wsa;
-	else if (xcc_f.is_valid())
+	else if (xcc_f.load(data, m_size), xcc_f.is_valid())
 	{
 		switch (xcc_f.get_ft())
 		{
@@ -433,13 +403,12 @@ t_file_type Ccc_file::get_file_type(bool fast)
 			ft = ft_xcc_unknown;
 		}
 	}
-	else if (xif_f.is_valid())
+	else if (xif_f.load(data, m_size), xif_f.is_valid())
 		ft = ft_xif;
-	if (!m_read_on_open)
-	{
-		delete[] data;
-		data = NULL;
-	}
+	else if (mix_f.load(data, m_size), mix_f.is_valid())
+		ft = ft_mix;
+	else if (pak_f.load(data, m_size), pak_f.is_valid())
+		ft = ft_pak;
 	return ft;
 }
 #endif
@@ -447,10 +416,9 @@ t_file_type Ccc_file::get_file_type(bool fast)
 
 int Ccc_file::read()
 {
-    assert(is_open() && !m_data);
-    m_data = new byte[m_size];
+    assert(is_open());
 	seek(0);
-	int error = read(m_data, m_size);
+	int error = read(m_data.write_start(m_size), m_size);
 	m_data_loaded = true;
 	return error;
 }
@@ -459,7 +427,7 @@ int Ccc_file::read(void* data, int size)
 {
 	if (m_data_loaded)
 	{
-		memcpy(data, m_data + m_p, size);
+		memcpy(data, m_data.data() + m_p, size);
 		m_p += size;
 		return 0;
 	}
@@ -519,8 +487,7 @@ void Ccc_file::close()
     assert(is_open());
     if (!m_data_loaded)
 	{
-        delete[] m_data;
-		m_data = NULL;
+        m_data.clear();
 	}
 	if (m_f.is_open())
 		assert(!m_mix_f);
@@ -531,8 +498,7 @@ void Ccc_file::close()
 
 void Ccc_file::clean_up()
 {
-    delete[] m_data;
-    m_data = NULL;
+    m_data.clear();
     if (is_open())
         close();
 }

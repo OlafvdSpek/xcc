@@ -13,6 +13,8 @@
 
 class CINIView: public CCrystalEditView
 {
+private:
+	typedef CCrystalEditView super;
 protected: // create from serialization only
 	CINIView();
 	DECLARE_DYNCREATE(CINIView)
@@ -25,10 +27,14 @@ public:
 	{
 		return &GetDocument()->m_xTextBuffer;
 	}
+protected:
+	virtual COLORREF GetColor(int nColorIndex);
+
 // Operations
 protected:
 	virtual void DrawSingleLine(CDC *pdc, const CRect &rect, int nLineIndex);
 public:
+	void find_section(int l);
 
 // Overrides
 	// ClassWizard generated virtual function overrides
@@ -40,6 +46,7 @@ public:
 
 // Implementation
 public:
+	void analyse();
 	virtual ~CINIView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -55,6 +62,7 @@ protected:
 	afx_msg void OnUpdateViewSyntaxHighlighting(CCmdUI* pCmdUI);
 	afx_msg void OnViewSelectionMargin();
 	afx_msg void OnUpdateViewSelectionMargin(CCmdUI* pCmdUI);
+	afx_msg void OnViewReport();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

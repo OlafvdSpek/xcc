@@ -5,6 +5,8 @@
 #include "stdafx.h"
 #include "jpeg_file.h"
 
+#include "fname.h"
+
 extern "C" 
 {
 #include "jpeglib.h"
@@ -102,6 +104,19 @@ int Cjpeg_file::decode(Cvirtual_image& d) const
 	jpeg_destroy_decompress(&cinfo);
 	
 	return 0;
+}
+
+int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy)
+{
+	string temp_fname = get_temp_fname();
+	int error = jpeg_file_write(temp_fname, image, palet, cx, cy);
+	if (!error)
+	{
+		Cvirtual_binary s;
+		error = f.import(temp_fname);
+	}
+	delete_file(temp_fname);
+	return error;
 }
 
 int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)

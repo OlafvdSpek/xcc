@@ -136,6 +136,10 @@ SOURCE=.\INIView.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\lazy_ini_reader.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
@@ -170,6 +174,22 @@ SOURCE=.\INIMainFrm.h
 # Begin Source File
 
 SOURCE=.\INIView.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\lazy_ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\lazy_key_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\neat_ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\neat_key_list.h
 # End Source File
 # Begin Source File
 

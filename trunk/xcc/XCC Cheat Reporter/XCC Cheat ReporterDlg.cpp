@@ -104,7 +104,6 @@ void CXCCCheatReporterDlg::OnPaste()
 		MessageBox("Unable to open clipboard.", NULL, MB_ICONERROR);		
 	else
 	{
-		// error = image.save(xcc_dirs::get_dir(game()) + "clipboard" + image_ext(), image_format());
 		CWaitCursor wait;
 		image.save();
 		if (error)
@@ -167,6 +166,7 @@ string CXCCCheatReporterDlg::image_ext()
 
 void CXCCCheatReporterDlg::decode(string _fname)
 {
+	CWaitCursor wait;	
 	Cvirtual_binary s;
 	if (!s.import(_fname))
 	{

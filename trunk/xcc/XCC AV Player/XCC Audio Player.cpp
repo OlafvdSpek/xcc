@@ -55,6 +55,8 @@ BOOL CXCCAudioPlayerApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
+	SetRegistryKey("XCC");
+
 	CXCCAudioPlayerDlg dlg;
 	m_pMainWnd = &dlg;
 	xcc_dirs::load_from_registry();

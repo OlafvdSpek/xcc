@@ -16,6 +16,16 @@ Cvirtual_binary_source::Cvirtual_binary_source(const void* d, int cb_d)
 	mc_references = 1;
 }
 
+void Cvirtual_binary_source::detach()
+{
+	mc_references--;
+	if (!mc_references)
+	{
+		delete m_data;
+		delete this;
+	}
+}
+
 Cvirtual_binary_source* Cvirtual_binary_source::pre_edit()
 {
 	if (mc_references == 1)
@@ -51,9 +61,12 @@ Cvirtual_binary::~Cvirtual_binary()
 
 const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 {
-	if (m_source)
-		m_source->detach();
-	m_source = v.m_source ? v.m_source->attach() : NULL;
+	if (this != &v)
+	{
+		if (m_source)
+			m_source->detach();
+		m_source = v.m_source ? v.m_source->attach() : NULL;
+	}
 	return *this;
 }
 

@@ -43,8 +43,13 @@ static int split_key_now(const string& key, string& name, string& value)
 
 int Cini_reader::process(const byte* s, int cb_s)
 {
+	return process(Cvirtual_binary(s, cb_s));
+}
+
+int Cini_reader::process(const Cvirtual_binary s)
+{
 	Cvirtual_tfile tf;
-	tf.load_data(s, cb_s);
+	tf.load_data(s);
 	int error = 0;
 	int line = 0;
 	m_section_open = false;

@@ -98,7 +98,6 @@ enum
 
 int Cvxl_file::extract_as_xif(const string& name) const
 {
-	int error = 0;
 	Cxif_key k;
 	Cxif_key& header = k.open_key_write(vi_header);
 	Cxif_key& palet = header.open_key_write(vi_palet);
@@ -160,19 +159,7 @@ int Cvxl_file::extract_as_xif(const string& name) const
 		tailer.set_value_int(vi_cy, cy);
 		tailer.set_value_int(vi_cz, cz);
 	}
-	error = k.save_start();
-	if (!error)
-	{
-		Cfile32 f;
-		error = f.open_write(name);
-		if (!error)
-		{
-			error = f.write(k.key_data(), k.key_size());
-			f.close();
-		}
-		k.save_finish();
-	}		
-	return error;
+	return k.vdata().export(name);
 }
 
 int vxl_file_write(const Cxif_key& s, byte* d)

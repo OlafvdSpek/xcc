@@ -30,6 +30,7 @@ public:
 	}
 };
 
+int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy);
 int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy);
 
 #endif // !defined(AFX_JPEG_FILE_H__8F62B5C0_D730_11D4_A95D_0050042229FC__INCLUDED_)

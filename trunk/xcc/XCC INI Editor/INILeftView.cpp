@@ -20,6 +20,7 @@ IMPLEMENT_DYNCREATE(CINILeftView, CTreeView)
 
 CINILeftView::CINILeftView()
 {
+	m_bounce_focus = false;
 }
 
 CINILeftView::~CINILeftView()
@@ -30,6 +31,7 @@ CINILeftView::~CINILeftView()
 BEGIN_MESSAGE_MAP(CINILeftView, CTreeView)
 	//{{AFX_MSG_MAP(CINILeftView)
 	ON_NOTIFY_REFLECT(NM_DBLCLK, OnDblclk)
+	ON_WM_SETFOCUS()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -77,9 +79,19 @@ void CINILeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 	CTreeCtrl& tc = GetTreeCtrl();
 	CPoint pt(0, tc.GetItemData(tc.GetSelectedItem()));
 	CINIView* wnd = reinterpret_cast<CINIChildFrame*>(GetParentFrame())->GetRightPane();
-	wnd->SetCursorPos(pt);	
-	wnd->ScrollToLine(pt.y);
-	// reinterpret_cast<CINIChildFrame*>(GetParentFrame())->SetActivePane(0, 1);
-	// wnd->SetFocus();
+	wnd->find_section(pt.y);
+	wnd->SetFocus();
+	m_bounce_focus = true;
 	*pResult = 0;
+}
+
+void CINILeftView::OnSetFocus(CWnd* pOldWnd) 
+{
+	CTreeView::OnSetFocus(pOldWnd);
+	
+	if (m_bounce_focus)
+	{
+		pOldWnd->SetFocus();
+		m_bounce_focus = false;
+	}
 }

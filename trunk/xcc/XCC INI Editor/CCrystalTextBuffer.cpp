@@ -36,6 +36,7 @@
 #include "editcmd.h"
 #include "CCrystalTextBuffer.h"
 #include "CCrystalTextView.h"
+#include "string_conversion.h"
 
 #ifndef __AFXPRIV_H__
 #pragma message("Include <afxpriv.h> in your stdafx.h to avoid this message")
@@ -179,6 +180,18 @@ void CCrystalTextBuffer::SLineInfo::parse()
 	}
 }
 
+void CCrystalTextBuffer::SLineInfo::analyse()
+{
+	/*
+	int cc = cc_index(te_key_value);
+	if (!cc)
+		return;
+	int c = c_index(te_key_value);
+	string value = text().substr(c, cc);
+	t_vt vt = get_vt(value);
+	*/
+}
+
 void CCrystalTextBuffer::SLineInfo::post_parse()
 {
 	int i = line().length();
@@ -190,6 +203,7 @@ void CCrystalTextBuffer::SLineInfo::post_parse()
 		else
 			m_index[te] = i;
 	};
+	analyse();
 }
 
 /////////////////////////////////////////////////////////////////////////////

@@ -36,15 +36,16 @@ public:
 	void header(t_header v);
 	int write_map(string fname, const string& ini);
 	static bool wrong_version(const Cxif_key& k);
-	static void write_map(ostream& os, const Cxif_key& k);
+	static void write_map(ostream& os, const Cxif_key& k, const Cvirtual_binary palet);
 	static bool write_mmx(const Cxif_key& k);
 	static void write_pkt(ostream& os, const Cxif_key& k, string title);
-	// void write_pack(const byte* s, int cb_s);
 	int process_section_start(const string& line);
 	bool process_section() const;
 	int process_key(const string& name, const string& value);
 	void process_section_end();
+	void encode(const Cvirtual_binary palet);
 	Cvirtual_image create_heightmap() const;
+	Cvirtual_image create_preview() const;
 	Cmap_ts_encoder(ostream& f, bool encode4);
 
 	Cvirtual_binary iso_map_pack() const

@@ -25,11 +25,10 @@ public:
 	int load();
 	int save() const;
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
-	int load(Cvirtual_file& f);
+	int load(const Cvirtual_binary s);
+	int load(const Cvirtual_file& f);
 	int load(string fname);
-	int load_as_jpeg(Cvirtual_file& f);
 	int load_as_jpeg(string fname);
-	int load_as_pcx(Cvirtual_file& f);
 	int load_as_pcx(string fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
 	int save(string fname, t_file_type ft) const;
@@ -100,6 +99,16 @@ public:
 	void pixel8(int x, int y, int v)
 	{
 		m_image.data_edit()[ofs8(x, y)] = v;
+	}
+
+	t_palet_entry pixel24(int x, int y) const
+	{
+		return reinterpret_cast<const t_palet_entry*>(m_image.data())[ofs8(x, y)];
+	}
+	
+	void pixel24(int x, int y, t_palet_entry v)
+	{
+		reinterpret_cast<t_palet_entry*>(m_image.data_edit())[ofs8(x, y)] = v;
 	}
 private:
 	static int get_clipboard(Cvirtual_image& image);

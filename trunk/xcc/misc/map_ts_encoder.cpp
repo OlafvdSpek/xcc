@@ -6,6 +6,8 @@
 #include "map_ts_encoder.h"
 
 #include <fstream>
+#include <map>
+#include <vector>
 #include <zlib.h>
 #include "file32.h"
 #include "cc_structures.h"
@@ -13,11 +15,23 @@
 #include "virtual_image.h"
 #include "xste.h"
 
-static const int format_version = 1;
+static const int format_version = 2;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
+
+static int get_x_inc(const Cmap_ts_encoder::t_header& header, int y)
+{
+	return y < header.cx ? -1 : 1;
+}
+
+static int get_r_inc(const Cmap_ts_encoder::t_header& header, int y)
+{
+	if (y < header.cy)
+		return 1;
+	return y > header.cy ? -1 : 0;
+}
 
 #ifndef NO_INI_SUPPORT
 Cmap_ts_encoder::Cmap_ts_encoder(ostream& f, bool encode4):
@@ -67,6 +81,42 @@ int Cmap_ts_encoder::process_key(const string& name, const string& value)
 
 void Cmap_ts_encoder::map_encode4(const void* s, void* d, int count)
 {
+#if 1
+	const int l = m_header.cx + m_header.cy;
+	t_iso_map_pack_entry4* t = new t_iso_map_pack_entry4[l * l];
+	memset(t, 0, l * l * sizeof(t_iso_map_pack_entry4));
+	const t_iso_map_pack_entry* r = reinterpret_cast<const t_iso_map_pack_entry*>(s);
+	while (count--)
+	{
+		t_iso_map_pack_entry4* e = t + r->x + l * r->y;
+		e->tile = r->tile;
+		e->sub_tile = r->sub_tile;
+		e->z = r->z;
+		r++;
+	}
+	t_iso_map_pack_entry4* w = reinterpret_cast<t_iso_map_pack_entry4*>(d);
+	int x_line = m_header.cx;
+	int r_line = m_header.cx + 1;
+	int y = 1;
+	int z = 0;
+	while (x_line < r_line)
+	{
+		for (int x = x_line; x < r_line; x++)
+		{
+			t_iso_map_pack_entry4* r = t + x + l * y;
+			int z_inc = r->z - z;
+			z += z_inc;
+			w->tile = r->tile;
+			w->sub_tile = r->sub_tile;
+			w->z = z_inc;
+			w++;
+		}
+		x_line += get_x_inc(m_header, y);
+		r_line += get_r_inc(m_header, y);
+		y++;
+	}
+	delete[] t;
+#else
 	const t_iso_map_pack_entry* r = reinterpret_cast<const t_iso_map_pack_entry*>(s);
 	t_iso_map_pack_entry4* w = reinterpret_cast<t_iso_map_pack_entry4*>(d);
 	int x = 0;
@@ -74,11 +124,11 @@ void Cmap_ts_encoder::map_encode4(const void* s, void* d, int count)
 	int z = 0;
 	while (count--)
 	{
-		int x_inc = r->x - x;
-		int y_inc = r->y - y;
+		// int x_inc = r->x - x;
+		// int y_inc = r->y - y;
 		int z_inc = r->z - z;
-		x += x_inc;
-		y += y_inc;
+		// x += x_inc;
+		// y += y_inc;
 		z += z_inc;
 		w->tile = r->tile;
 		w->sub_tile = r->sub_tile;
@@ -86,6 +136,7 @@ void Cmap_ts_encoder::map_encode4(const void* s, void* d, int count)
 		r++;
 		w++;
 	}
+#endif
 }
 
 int Cmap_ts_encoder::overlay_encode4(const byte* s, byte* d) const
@@ -123,18 +174,6 @@ int overlay_data_encode4(const byte* r, byte* d, int cb_s, const byte* overlay)
 	return w - d;
 }
 #endif
-
-static int get_x_inc(const Cmap_ts_encoder::t_header& header, int y)
-{
-	return y < header.cx ? -1 : 1;
-}
-
-static int get_r_inc(const Cmap_ts_encoder::t_header& header, int y)
-{
-	if (y < header.cy)
-		return 1;
-	return y > header.cy ? -1 : 0;
-}
 
 void Cmap_ts_encoder::map_decode4(const void* s, void* d, int count, const t_header& size)
 {
@@ -210,6 +249,47 @@ int Cmap_ts_encoder::overlay_data_decode4(const byte* s, byte* d, const byte* ov
 	return cb_d;
 }
 
+static Cvirtual_binary preview_decode4(Cvirtual_binary s, const Cvirtual_binary palet)
+{
+	typedef vector<__int64> t_vector;
+
+	t_vector default_vector;
+	{
+		const byte* r = palet.data();
+		const byte* r_end = palet.data() + palet.size();
+		while (r < r_end)
+		{
+			__int64 v = 0;
+			memcpy(&v, r, 6);
+			r += 6;
+			default_vector.push_back(v);
+		}
+	}
+	const __int16* r = reinterpret_cast<const __int16*>(s.data());
+	const __int16* r_end = reinterpret_cast<const __int16*>(s.data() + s.size());
+	int c_colors = *r++;
+	while (c_colors--)
+	{
+		__int64 v = 0;
+		memcpy(&v, r, 6);
+		r += 3;
+		default_vector.push_back(v);
+	}
+	Cvirtual_binary d;
+	byte* w = d.write_start((r_end - r) * 6);
+	while (r < r_end)
+	{
+		__int64 v = default_vector[*r++];
+		*w++ = v >> 40 & 0xff;
+		*w++ = v >> 32 & 0xff;
+		*w++ = v >> 24 & 0xff;
+		*w++ = v >> 16 & 0xff;
+		*w++ = v >> 8 & 0xff;
+		*w++ = v & 0xff;
+	}
+	return d;
+}
+
 #if 0
 static void log_iso_map_pack(const void* e, int count, const Cmap_ts_encoder::t_header& size)
 {
@@ -270,10 +350,10 @@ static void log_overlay_pack(const byte* s, const Cmap_ts_encoder::t_header& siz
 
 static void write_pack(ostream& os, const byte* s, int cb_s)
 {
-	byte* d = new byte[cb_s << 1];
-	int cb_d = encode64(s, d, cb_s);
-	const byte* r = d;
-	const byte* r_end = d + cb_d;
+	Cvirtual_binary d;
+	d.size(encode64(s, d.write_start(cb_s << 1), cb_s));
+	const byte* r = d.data();
+	const byte* r_end = d.data_end();
 	int line_i = 1;
 	while (r < r_end)
 	{
@@ -285,7 +365,6 @@ static void write_pack(ostream& os, const byte* s, int cb_s)
 		os << line_i++ << '=' << line << endl;
 	}
 	os << endl;
-	delete[] d;
 }
 
 #ifndef NO_INI_SUPPORT
@@ -322,22 +401,30 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayPack")
 			{
+				m_overlay_pack.size(decode5(d, m_overlay_pack.write_start(256 << 10), cb_d, 80));
+				/*
 				decode5(d, m_d, cb_d, 80);
 				// log_overlay_pack(m_d, m_header);
 				m_overlay_pack.size(overlay_encode4(m_d, m_overlay_pack.write_start(256 << 10)));
+				*/
 			}
 			else if (m_section_name == "OverlayDataPack")
 			{
-				decode5(d, m_d, cb_d, 80);
+				m_overlay_data_pack.size(decode5(d, m_overlay_data_pack.write_start(256 << 10), cb_d, 80));
+				/*
 				Cvirtual_binary t;
 				t.size(overlay_encode4(m_d, t.write_start(256 << 10)));
 				assert(m_overlay_pack.data());
 				m_overlay_data_pack.size(overlay_data_encode4(t.data(), m_overlay_data_pack.write_start(256 << 10), t.size(), m_overlay_pack.data()));
 				// m_overlay_data_pack.size(overlay_encode4(m_d, m_overlay_data_pack.write_start(256 << 10)));
+				*/
 			}
 			else if (m_section_name == "PreviewPack")
 			{
-				m_preview_pack.write(m_d, decode5(d, m_d, cb_d, 5));
+				if (strcmp(reinterpret_cast<char*>(m_d), "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA"))
+					m_preview_pack.write(m_d, decode5(d, m_d, cb_d, 5));
+				else
+					m_preview_pack.clear();
 			}
 		}
 		else
@@ -345,14 +432,110 @@ void Cmap_ts_encoder::process_section_end()
 			byte* e = m_d;
 			int cb_e = decode5(d, e, cb_d, 5);
 			cb_d = encode5(e, d, cb_e, 5);
-			cb_e = encode64(d, e, cb_d);
-			write_pack(m_f, e, cb_e);
+			// cb_e = encode64(d, e, cb_d);
+			write_pack(m_f, d, cb_d);
 		}
 		delete[] d;
 		delete[] m_d;
 	}
 	else
 		m_f << endl;
+}
+
+static void analyse_preview(Cvirtual_binary& s)
+{
+	typedef map<__int64, int> t_map;
+
+	const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(s.data());
+	int count = s.size() / 6;
+	t_map map;
+	while (count--)
+	{
+		__int64 v0 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v1 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v = v0 << 24 | v1;
+		map[v]++;
+	}
+	static int cmax_colors = 0;
+	int c_colors = map.size();
+	cmax_colors = max(cmax_colors, c_colors);
+}
+
+static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary palet)
+{
+	typedef map<__int64, int> t_map;
+
+	t_map default_map;
+	int j = 0;
+	{
+		const byte* r = palet.data();
+		const byte* r_end = palet.data() + palet.size();
+		while (r < r_end)
+		{
+			__int64 v = 0;
+			memcpy(&v, r, 6);
+			r += 6;
+			default_map[v] = j++;
+		}
+	}
+	Cvirtual_binary d;
+	t_map map;
+	int count = s.size() / 6;
+	const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(s.data());
+	__int16* w = reinterpret_cast<__int16*>(d.write_start(256 << 10));
+	while (count--)
+	{
+		__int64 v0 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v1 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v = v0 << 24 | v1;
+		t_map::const_iterator i = default_map.find(v);
+		if (i == default_map.end())
+			map[v] = -1;
+	}
+	*w++ = map.size();
+	for (t_map::iterator i = map.begin(); i != map.end(); i++)
+	{
+		memcpy(w, &i->first, 6);
+		w += 3;
+		i->second = j++;
+	}
+	count = s.size() / 6;
+	r = reinterpret_cast<const t_palet_entry*>(s.data());
+	while (count--)
+	{
+		__int64 v0 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v1 = r->r << 16 | r->g << 8 | r->b;
+		r++;
+		__int64 v = v0 << 24 | v1;
+		t_map::const_iterator i = default_map.find(v);
+		if (i == default_map.end())
+			*w++ = map.find(v)->second;
+		else
+			*w++ = i->second;
+	}
+	d.size(reinterpret_cast<byte*>(w) - d.data());
+	return d;
+}
+
+void Cmap_ts_encoder::encode(const Cvirtual_binary palet)
+{
+	Cvirtual_binary t;
+
+	t.size(overlay_encode4(overlay_pack().data(), t.write_start(256 << 10)));
+	m_overlay_pack = t;
+
+	t.size(overlay_encode4(overlay_data_pack().data(), t.write_start(256 << 10)));
+	m_overlay_data_pack.size(overlay_data_encode4(t.data(), m_overlay_data_pack.write_start(256 << 10), t.size(), m_overlay_pack.data()));
+
+	// create_heightmap().save_as_png("d:/temp/hm.png");
+	// create_preview().save_as_png("d:/temp/pv.png");
+	// analyse_preview(preview_pack());
+	m_preview_pack = preview_encode4(preview_pack(), palet);
 }
 #endif
 
@@ -392,7 +575,6 @@ void Cmap_ts_encoder::write_pkt(ostream& os, const Cxif_key& k, string title)
 			description = "XMM:" + title;
 		xste.close();			
 	}
-	// os << k.get_value_string(vi_pkt);
 	os << "[MultiMaps]" << endl
 		<< "1=" << title << endl
 		<< endl
@@ -404,7 +586,7 @@ void Cmap_ts_encoder::write_pkt(ostream& os, const Cxif_key& k, string title)
 		<< "GameMode=" << k.get_value_string(vi_gamemode) << endl;
 }
 
-void Cmap_ts_encoder::write_map(ostream& os, const Cxif_key& k)
+void Cmap_ts_encoder::write_map(ostream& os, const Cxif_key& k, const Cvirtual_binary palet)
 {
 	t_header header;
 	header.cx = k.get_value_int(vi_cx);
@@ -425,20 +607,20 @@ void Cmap_ts_encoder::write_map(ostream& os, const Cxif_key& k)
 		int cb_e = encode5(d, e, 1 << 18, 80);
 		os << "[OverlayPack]" << endl;
 		write_pack(os, e, cb_e);
-		// write_pack(os, k.get_value(vi_overlay_pack).get_data(), k.get_value(vi_overlay_pack).get_size());
 		if (k.exists_value(vi_overlay_data_pack))
 		{
 			byte* e = d + overlay_data_decode4(k.get_value(vi_overlay_data_pack).get_data(), d, k.get_value(vi_overlay_pack).get_data(), header);
 			int cb_e = encode5(d, e, 1 << 18, 80);
 			os << "[OverlayDataPack]" << endl;
 			write_pack(os, e, cb_e);
-			// write_pack(os, k.get_value(vi_overlay_data_pack).get_data(), k.get_value(vi_overlay_data_pack).get_size());
 		}
 	}
 	if (k.exists_value(vi_preview_pack))
 	{
 		os << "[PreviewPack]" << endl;
-		write_pack(os, d, encode5(k.get_value(vi_preview_pack).get_data(), d, k.get_value(vi_preview_pack).get_size(), 5));
+		Cvirtual_binary t = preview_decode4(Cvirtual_binary(k.get_value(vi_preview_pack).get_data(), k.get_value(vi_preview_pack).get_size()), palet);
+		write_pack(os, d, encode5(t.data(), d, t.size(), 5));
+		// write_pack(os, d, encode5(k.get_value(vi_preview_pack).get_data(), d, k.get_value(vi_preview_pack).get_size(), 5));
 	}
 	os << k.get_value_string(vi_ini);
 	delete[] d;
@@ -456,25 +638,32 @@ int Cmap_ts_encoder::write_map(string fname, const string& ini)
 		k.set_value_string(vi_gamemode, m_header.gamemode);
 		k.set_value_int(vi_cmax_players, m_header.cmax_players);
 	}
-	k.set_value_binary(vi_iso_map_pack, iso_map_pack().data(), iso_map_pack().size());
-	k.set_value_binary(vi_overlay_pack, overlay_pack().data(), overlay_pack().size());
-	k.set_value_binary(vi_overlay_data_pack, overlay_data_pack().data(), overlay_data_pack().size());
-	k.set_value_binary(vi_preview_pack, preview_pack().data(), preview_pack().size());
+	k.set_value_binary(vi_iso_map_pack, iso_map_pack());
+	k.set_value_binary(vi_overlay_pack, overlay_pack());
+	k.set_value_binary(vi_overlay_data_pack, overlay_data_pack());
+	k.set_value_binary(vi_preview_pack, preview_pack());
 	k.set_value_int(vi_cx, m_header.cx);
 	k.set_value_int(vi_cy, m_header.cy);
-	int error = k.save_start();
-	if (!error)
-	{
-		error = file32_write(fname, k.key_data(), k.key_size());
-		k.save_finish();
-	}
-	return error;
+	return k.vdata().export(fname);
+}
+
+static int get_y(int a, int b, int cx)
+{
+	return a + b - cx - 1 >> 1;
+}
+
+static int get_x(int a, int b, int cx)
+{
+	return a - get_y(a, b, cx) - 1;
 }
 
 Cvirtual_image Cmap_ts_encoder::create_heightmap() const
 {
-	Cvirtual_image b, image;
-	b.load(NULL, m_header.cx + m_header.cy, m_header.cx + m_header.cy, 1, NULL);
+	Cvirtual_image image;
+	t_palet palet;
+	for (int i = 0; i < 16; i++)
+		palet[i].r = palet[i].g = palet[i].b = i * 255 / 15;
+	image.load(NULL, m_header.cx << 1, m_header.cy, 1, palet);
 	const t_iso_map_pack_entry4* r = reinterpret_cast<const t_iso_map_pack_entry4*>(m_iso_map_pack.data());
 	int x_line = m_header.cx;
 	int r_line = m_header.cx + 1;
@@ -485,26 +674,65 @@ Cvirtual_image Cmap_ts_encoder::create_heightmap() const
 		for (int x = x_line; x < r_line; x++)
 		{
 			z += r->z;
-			b.pixel8(x, y, z);
+			if (x + y & 1)
+			{
+				int a = get_x(x, y, m_header.cx) << 1;
+				int b = get_y(x, y, m_header.cx);
+				image.pixel8(a, b, z);
+				image.pixel8(a + 1, b, z);
+			}
 			r++;
 		}
 		x_line += get_x_inc(m_header, y);
 		r_line += get_r_inc(m_header, y);
 		y++;
 	}
-	t_palet palet;
-	for (int i = 0; i < 16; i++)
-		palet[i].r = palet[i].g = palet[i].b = i * 255 / 15;
-	image.load(NULL, m_header.cx - 1 << 1, m_header.cy - 1, 1, palet);
-	byte* w = image.image_edit();
-	for (y = 1; y < m_header.cy; y++)
+	return image;
+}
+
+static const t_palet_entry* get_radar_colors(Cvirtual_binary& s, int tile, int sub_tile)
+{
+	const byte* r = s.data();
+	if (tile != -1)
 	{
-		for (int x = 1; x < m_header.cx; x++)
+		while (tile--)
 		{
-			int c = b.pixel8(x + y, m_header.cx - x + y);
-			*w++ = c;
-			*w++ = c;
+			int count = *r++;
+			r += 6 * count;
 		}
+	}
+	int count = *r++;
+	r += 6 * sub_tile;
+	return reinterpret_cast<const t_palet_entry*>(r);
+}
+
+Cvirtual_image Cmap_ts_encoder::create_preview() const
+{
+	Cvirtual_binary s;
+	s.import("d:/temp/snow_colormap.bin");
+	Cvirtual_image image;
+	image.load(NULL, m_header.cx << 1, m_header.cy, 3, NULL);
+	const t_iso_map_pack_entry4* r = reinterpret_cast<const t_iso_map_pack_entry4*>(m_iso_map_pack.data());
+	int x_line = m_header.cx;
+	int r_line = m_header.cx + 1;
+	int y = 1;
+	while (x_line < r_line)
+	{
+		for (int x = x_line; x < r_line; x++)
+		{
+			if (x + y & 1)
+			{
+				const t_palet_entry* c = get_radar_colors(s, r->tile, r->sub_tile);;
+				int a = get_x(x, y, m_header.cx) << 1;
+				int b = get_y(x, y, m_header.cx);	
+				image.pixel24(a, b, c[0]);
+				image.pixel24(a + 1, b, c[1]);
+			}
+			r++;
+		}
+		x_line += get_x_inc(m_header, y);
+		r_line += get_r_inc(m_header, y);
+		y++;
 	}
 	return image;
 }

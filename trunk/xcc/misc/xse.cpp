@@ -20,15 +20,14 @@ int Cxse::open()
 			if (m_bag_f.get_size() && m_idx_f.get_size())
 			{
 				int cb_s = m_idx_f.get_size();
-				byte* s = new byte[cb_s];
-				error = m_idx_f.read(s, cb_s);
+				Cvirtual_binary s;
+				error = m_idx_f.read(s.write_start(cb_s), cb_s);
 				if (!error)
 				{
 					Caudio_idx_file g;
 					g.load(s, cb_s);
 					read_idx_file(g);
 				}
-				delete[] s;		
 			}
 			else
 			{

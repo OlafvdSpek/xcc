@@ -77,14 +77,14 @@ int Cmix_file::post_open()
 	if (get_data())
 	{
 		data = NULL;
-		f.load(get_data(), get_size());
+		f.load(get_vdata());
 	}
 	else
 	{
 		int size = min(get_size(), 64 << 10);
 		data = new byte[size];
 		test_fail(read(data, size));
-		f.load(data, get_size());
+		f.load(Cvirtual_binary(data, size), get_size());
 	}
 	if (f.is_valid())
 	{

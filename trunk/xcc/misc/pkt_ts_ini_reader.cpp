@@ -113,6 +113,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 		page += tr(td(a(i->first, "href=" + i->first + ".html")) + td(description) + td(i->second.m_gamemode) + td("<img src=" + i->first + "_pv.png>"));
 	}
 	os << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1")));
+	// os << page;
 	if (xste_available)
 		xste.close();
 }
