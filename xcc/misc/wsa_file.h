@@ -9,12 +9,13 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include <cc_file_sh.h>
-#include <cc_structures.h>
-#include <palet.h>
+#include "cc_file_sh.h"
+#include "cc_structures.h"
 #include "fname.h"
+#include "palet.h"
+#include "video_file.h"
 
-class Cwsa_file: public Ccc_file_sh<t_wsa_header>
+class Cwsa_file: public Cvideo_file<t_wsa_header>
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft) const;
@@ -25,20 +26,29 @@ public:
 		int size = get_size();
 		if (sizeof(t_wsa_header) > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_header) + get_cb_index() > size)
 			return false;
-		int c_frames = get_c_frames();
-		if (has_loop())
-		{ 
-			if (get_offset(c_frames + 1) != size)
-				return false;
-		}
-		else if (get_offset(c_frames) != size)
+		if (get_offset(cf() + has_loop()) != size)
 			return false;
 		return true;
 	}
 
-	int get_c_frames() const
+	int cb_pixel() const
+	{
+		return 1;
+	}
+
+	int cf() const
 	{
 		return get_header()->c_frames;
+	}
+
+	int cx() const
+	{
+		return get_header()->cx;
+	}
+
+	int cy() const
+	{
+		return get_header()->cy;
 	}
 
 	int get_x() const
@@ -49,16 +59,6 @@ public:
 	int get_y() const
 	{
 		return get_header()->y;
-	}
-
-	int get_cx() const
-	{
-		return get_header()->cx;
-	}
-
-	int get_cy() const
-	{
-		return get_header()->cy;
 	}
 
 	int get_delta() const
@@ -98,12 +98,12 @@ public:
 
 	bool has_loop() const
 	{
-		return get_index()[get_c_frames() + 1];
+		return get_index()[cf() + 1];
 	}
 
 	bool has_palet() const
 	{
-		return get_index()[get_c_frames() + has_loop()] != get_size();
+		return get_index()[cf() + has_loop()] != get_size();
 	}
 };
 

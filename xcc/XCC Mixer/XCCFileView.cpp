@@ -1088,9 +1088,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cwsa_dune2_file f;
 				f.load(m_data);
-				const int c_frames = f.get_c_frames();
-				const int cx = f.get_cx();
-				const int cy = f.get_cy();
+				const int c_frames = f.cf();
+				const int cx = f.cx();
+				const int cy = f.cy();
 				draw_info("Count frames:", n(c_frames));
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;
@@ -1117,9 +1117,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cwsa_file f;
 				f.load(m_data);
-				const int c_frames = f.get_c_frames();
-				const int cx = f.get_cx();
-				const int cy = f.get_cy();
+				const int c_frames = f.cf();
+				const int cx = f.cx();
+				const int cy = f.cy();
 				draw_info("Count frames:", n(c_frames));
 				draw_info("Palet:", f.has_palet() ? "yes" : "no");
 				draw_info("Position:", n(f.get_x()) + "," + n(f.get_y()));
