@@ -563,18 +563,12 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 		switch (m_current_object_type)
 		{
 		case oi_overlay:
-			{
-				Cxcc_cell obj_cell;
-				obj_cell.set_xcc(m_current_object);
-				object_name = overlay_code[level().overlay_data[obj_cell.get_xcc()] >> 8];
-			}
+			if (level().overlay_data.find(m_current_object) != level().overlay_data.end())
+				object_name = overlay_code[level().overlay_data.find(m_current_object)->second >> 8];
 			break;
-		case oi_terrain:
-			{
-				Cxcc_cell obj_cell;
-				obj_cell.set_xcc(m_current_object);
-				object_name = terrain_code[level().terrain_data[obj_cell.get_xcc()] >> 8];
-			}
+		case oi_terrain:			
+			if (level().terrain_data.find(m_current_object) != level().terrain_data.end())
+				object_name = terrain_code[level().terrain_data.find(m_current_object)->second >> 8];
 			break;
 		case oi_infantry:
 			object_name = xcc_infantry::infantry_data[level().infantry_data[m_current_object].t].long_name;
