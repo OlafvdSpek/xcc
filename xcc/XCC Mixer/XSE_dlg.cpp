@@ -112,7 +112,7 @@ BOOL CXSE_dlg::OnInitDialog()
 	string audio_mix_fname = xcc_dirs::get_audio_mix(m_game);
 	string csf_fname = xcc_dirs::get_csf_fname(m_game);
 	string language_fname = xcc_dirs::get_language_mix(m_game);
-	int error = m_csf_f.open(xcc_dirs::get_ra2_dir() + csf_fname);
+	int error = m_csf_f.open(xcc_dirs::get_dir(game_ra2) + csf_fname);
 	if (error)
 	{
 		Cmix_file language;
@@ -132,8 +132,8 @@ BOOL CXSE_dlg::OnInitDialog()
 			m_reverse_csf_map[j->second.extra_value] = j;
 		}
 	}
-	if (m_bag_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.bag")
-		|| m_idx_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.idx"))
+	if (m_bag_f.open_edit(xcc_dirs::get_dir(game_ra2) + "audio.bag")
+		|| m_idx_f.open_edit(xcc_dirs::get_dir(game_ra2) + "audio.idx"))
 		throw;
 	if (m_bag_f.get_size() && m_idx_f.get_size())
 	{
@@ -187,7 +187,7 @@ BOOL CXSE_dlg::OnInitDialog()
 		for (int j = 0; j < c_colums; j++)
 			m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
 	}
-	set_extract_to_dir(static_cast<string>(AfxGetApp()->GetProfileString("XSE_dlg", "extract_to_dir", xcc_dirs::get_ra2_dir().c_str())));
+	set_extract_to_dir(static_cast<string>(AfxGetApp()->GetProfileString("XSE_dlg", "extract_to_dir", xcc_dirs::get_dir(game_ra2).c_str())));
 	check_selection();
 	SetRedraw(true);
 	Invalidate();
