@@ -7,7 +7,7 @@
 <title>XCC Clans</title>
 <table width="100%"><tr><td valign=bottom><p class=page_title>XCC Clans<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="/xcl/?hof=" title="Hall of Fame">HoF</a> | <a href="/xcl/?hos=" title="Hall of Shame">HoS</a> | <a href="/xcl/?">Home</a> | <a href="/xcl/?stats=">Stats</a></table>
 <hr>
-<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=retrieve_pass">Retrieve pass</a> | <a href="?a=delete_nick">Delete nick</a>
+<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=reset_pass">Reset pass</a> | <a href="?a=delete_nick">Delete nick</a>
 <hr>
 <?php
 	function apgar_encode($v)
@@ -280,15 +280,39 @@
 			require('templates/clans_kick.php');
 		}
 		break;
-	case 'retrieve_pass':
+	case 'reset_pass':
 		$cname = trim($_POST['cname']);
 		$mail = trim($_POST['mail']);
-		if ($cname && $mail)
+		$pass = trim($_REQUEST['pass']);
+		if ($pass)
 		{
-			if ($clan = mysql_fetch_array(db_query(sprintf("select mail, pass from xwi_clans where name = '%s' and mail = '%s'", addslashes($cname), addslashes($mail)))))
+			$results = db_query(sprintf("select * from xwi_clan_reset_pass_requests where pass = md5('%s')", addslashes($pass)));
+			if ($result = mysql_fetch_assoc($results))
 			{
-				printf("The clan admin pass has been emailed to %s", htmlspecialchars($clan['mail']));
-				mail($clan['mail'], sprintf("XWI Clan Manager: Pass for clan %s", $clan['name']), sprintf("The admin pass for clan %s is %s. The request has been send from IP address %s", $clan['name'], $clan['pass'], $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
+				$cpass = new_security_code();
+				db_query(sprintf("update xwi_clans set pass = md5('%s') where cid = %d", $cpass, $result['cid']));
+				db_query(sprintf("delete from xwi_clan_reset_pass_requests where id = %d", $result['id']));
+				printf("The new clan admin pass is %s", $cpass);
+
+			}
+			else
+				echo("Wrong reset pass request");
+			echo("<hr>");
+		}
+		else if ($cname && $mail)
+		{
+			if ($clan = mysql_fetch_array(db_query(sprintf("select cid, name, mail from xwi_clans where name = '%s' and mail = '%s'", addslashes($cname), addslashes($mail)))))
+			{
+				do
+				{
+					$cpass = new_security_code();
+					$results = db_query(sprintf("select count(*) from xwi_clan_reset_pass_requests where pass = md5('%s')", $cpass));
+					$result = mysql_fetch_array($results);
+				}
+				while ($result['0']);
+				db_query(sprintf("insert into xwi_clan_reset_pass_requests (cid, pass, ctime) values (%d, md5('%s'), unix_timestamp())", $clan['cid'], $cpass));
+				printf("A link to reset the clan admin pass has been emailed to %s", htmlspecialchars($clan['mail']));
+				mail($clan['mail'], sprintf("XWI Clan Manager: Reset pass link for clan %s", $clan['name']), sprintf("To reset the clan admin pass for clan %s, click on http://xwis.net/xwi/?a=reset_pass&pass=%s. The request has been send from IP address %s", $clan['name'], $cpass, $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
 			}
 			else
 			{
@@ -296,7 +320,7 @@
 			}
 			echo("<hr>");
 		}
-		require('templates/clans_retrieve_pass.php');
+		require('templates/clans_reset_pass.php');
 		break;
 	case "leave":
 		{
@@ -376,7 +400,7 @@
 	}
 ?>
 <hr>
-<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=retrieve_pass">Retrieve pass</a> | <a href="?a=delete_nick">Delete nick</a>
+<a href="?a=create">Create</a> | <a href="?">Home</a> | <a href="?a=invite">Invite</a> | <a href="?a=join">Join</a> | <a href="?a=kick">Kick</a> | <a href="?a=leave">Leave</a> | <a href="?a=reset_pass">Reset pass</a> | <a href="?a=delete_nick">Delete nick</a>
 <?php
 	echo('<script type="text/javascript">');
 	printf("page_bottom(%d);", time());
