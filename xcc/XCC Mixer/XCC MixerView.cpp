@@ -773,7 +773,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp:
 		return d == ft_pcx || d == ft_shp_ts;
 	case ft_shp_ts:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
+		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png || d == ft_tga;
 	case ft_text:
 		return d == ft_html || d == ft_hva || d == ft_vxl;
 	case ft_vqa:
