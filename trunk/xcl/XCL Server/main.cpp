@@ -6,11 +6,7 @@
 #endif
 #include <iostream>
 #include <string>
-#include "wol/game_result.h"
-#include "wol/ra2_names.h"
 #include "db_config.h"
-#include "string_conversion.h"
-#include "virtual_binary.h"
 #include "xcl_database.h"
 
 using namespace std;
