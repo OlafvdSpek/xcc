@@ -174,11 +174,7 @@ BOOL CXSE_dlg::OnInitDialog()
 			language.close();
 		}
 	}
-	if (!error)
-	{
-		for (int j = 0; j < c_colums; j++)
-			m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
-	}
+	m_list.auto_size();
 	set_extract_to_dir(static_cast<string>(AfxGetApp()->GetProfileString("XSE_dlg", "extract_to_dir", xcc_dirs::get_dir(game_ra2).c_str())));
 	check_selection();
 	SetRedraw(true);

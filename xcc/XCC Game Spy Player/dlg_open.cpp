@@ -26,7 +26,6 @@ Cdlg_open::Cdlg_open(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(Cdlg_open)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_buffer_w = 0;
 }
 
 
@@ -143,51 +142,51 @@ BOOL Cdlg_open::OnInitDialog()
 void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	m_buffer[++m_buffer_w &= 3].erase();
+	string& buffer = m_replays.get_buffer();
 	int id = pDispInfo->item.lParam;
 	const t_map_entry& e = m_map.find(id)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
-		m_buffer[m_buffer_w] = n(e.gid);
+		buffer = n(e.gid);
 		break;
 	case 1:
-		m_buffer[m_buffer_w] = n(e.size);
+		buffer = n(e.size);
 		break;
 	case 2:
 		{
-			m_buffer[m_buffer_w].erase();
+			buffer.erase();
 			for (t_player_set::const_iterator i = e.players.begin(); i != e.players.end(); i++)
 			{
-				if (!m_buffer[m_buffer_w].empty())
-					m_buffer[m_buffer_w] += ", ";
-				m_buffer[m_buffer_w] += *i;
+				if (!buffer.empty())
+					buffer += ", ";
+				buffer += *i;
 			}
 		}
 		break;
 	case 3:
-		m_buffer[m_buffer_w] = get_map_name(e.scenario);
+		buffer = get_map_name(e.scenario);
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
 
 void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	m_buffer[++m_buffer_w &= 3].erase();
+	string& buffer = m_players.get_buffer();
 	const t_player_map_entry& e = m_player_map.find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
-		m_buffer[m_buffer_w] = e.player;
+		buffer = e.player;
 		break;
 	case 1:
-		m_buffer[m_buffer_w] = n(e.replays.size());
+		buffer = n(e.replays.size());
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
 
