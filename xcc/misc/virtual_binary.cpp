@@ -42,9 +42,9 @@ Cvirtual_binary_source* Cvirtual_binary_source::pre_edit()
 {
 	if (mc_references == 1 && !m_source)
 		return this;
-	Cvirtual_binary_source t = *this;
+	Cvirtual_binary_source* t = new Cvirtual_binary_source(m_data, m_size, NULL);
 	detach();
-	return new Cvirtual_binary_source(t.data(), t.size(), NULL);
+	return t;
 }	
 
 //////////////////////////////////////////////////////////////////////
