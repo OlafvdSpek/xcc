@@ -47,11 +47,6 @@ public:
 			m_header.id != vqa_form_id);
 	}
 
-	bool can_be_decoded() const
-	{
-		return true;
-	}
-
 	int get_c_channels() const
 	{
 		return m_header.c_channels;

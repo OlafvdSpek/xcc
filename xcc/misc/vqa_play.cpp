@@ -185,11 +185,8 @@ bool Cvqa_play::run()
 	{
 		if (f->get_chunk_id() == vqa_vqfl_id)
 		{
-			int cb_data = f->get_chunk_size();
-			byte* data = new byte[cb_data];
-			f->read_chunk(data);
-			vqa_d.decode_vqfl_chunk(data, cb_data);
-			delete[] data;
+			Cvirtual_binary data = f->read_chunk();
+			vqa_d.decode_vqfl_chunk(data, data.size());
 		}
 		else if (f->is_audio_chunk())
 		{
@@ -204,10 +201,7 @@ bool Cvqa_play::run()
 			else
 			{
 				aud_out = new short[2 * size];
-				byte* aud_in = new byte[size];
-				f->read_chunk(aud_in);
-				vqa_d.decode_snd2_chunk(aud_in, size, aud_out);
-				delete[] aud_in;
+				vqa_d.decode_snd2_chunk(f->read_chunk(), size, aud_out);
 			}			
 			void* p1;
 			void* p2;
@@ -233,11 +227,7 @@ bool Cvqa_play::run()
 		else			
 			f->skip_chunk();
 	}
-	int size = f->get_chunk_size();
-	byte* vqa_in = new byte[size];
-	f->read_chunk(vqa_in);
-	vqa_d.decode_vqfr_chunk(vqa_in, vqa_out, palet);
-	delete[] vqa_in;
+	vqa_d.decode_vqfr_chunk(f->read_chunk(), vqa_out, palet);
 	DDSURFACEDESC ddsdesc;
 	ddsdesc.dwSize = sizeof(DDSURFACEDESC);
 	if (DD_OK != ts->Lock(0, &ddsdesc, DDLOCK_SURFACEMEMORYPTR | DDLOCK_WAIT, 0))

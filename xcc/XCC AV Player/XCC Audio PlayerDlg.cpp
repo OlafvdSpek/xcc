@@ -325,10 +325,7 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 			{
 				Caud_file f;
 				f.open(id, mixf);
-				if(!f.can_be_decoded())
-					s = "aud: compression unsupported";
-				else
-					s = time2str(f.get_c_samples() / (f.get_samplerate() / 1000));
+				s = time2str(f.get_c_samples() / (f.get_samplerate() / 1000));
 				f.close();
 				break;
 			}
@@ -336,10 +333,7 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 			{
 				Cvqa_file f;
 				f.open(id, mixf);
-				if(!f.can_be_decoded())
-					s = "vqa: compression unsupported";
-				else
-					s = time2str(f.get_c_frames() * 1000 / 15);
+				s = time2str(f.get_c_frames() * 1000 / 15);
 				f.close();
 				break;
 			}
@@ -450,9 +444,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 	int cb_sample = audf.get_cb_sample();
 	if (dsb.is_available())
 		dsb.destroy();
-	if (!audf.can_be_decoded())
-		error = 1;
-	else if (dsb.create(ds, cb_sample * audf.get_c_samples(), 1, audf.get_samplerate(), cb_sample << 3, DSBCAPS_GLOBALFOCUS))
+	if (dsb.create(ds, cb_sample * audf.get_c_samples(), 1, audf.get_samplerate(), cb_sample << 3, DSBCAPS_GLOBALFOCUS))
 		error = 1;
 	else
 	{			
@@ -478,7 +470,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 				if (cb_sample == 2)
 					decode.decode_chunk(audio_in, reinterpret_cast<short*>(p1), cs_audio);
 				else if (header.size_in < header.size_out)
-					aud_decode_ws_chunk(audio_in, reinterpret_cast<char*>(p1), cs_audio);
+					aud_decode_ws_chunk(audio_in, reinterpret_cast<char*>(p1), header.size_in, header.size_out);
 				else
 					memcpy(p1, audio_in, cs_audio);
 				writeofs += cb_sample * cs_audio;
@@ -512,28 +504,23 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 	int error = 0;
 	if (!(audio_output && video_output))
 		return 1;
-	if (!f.can_be_decoded())
-		error = 1;
+	Cvqa_play vqa_play(dd.get_p(), ds.get_p());
+	int result = vqa_play.create(f);
+	if (result)
+		AfxMessageBox(("Error initializing DD or DS, error code is " + n(result)).c_str(), MB_ICONEXCLAMATION);
 	else
 	{
-		Cvqa_play vqa_play(dd.get_p(), ds.get_p());
-		int result = vqa_play.create(f);
-		if (result)
-			AfxMessageBox(("Error initializing DD or DS, error code is " + n(result)).c_str(), MB_ICONEXCLAMATION);
-		else
+		while (vqa_play.run())
 		{
-			while (vqa_play.run())
-			{
-				MSG msg;		
-				while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
-					AfxGetApp()->PumpMessage();
-				
-				int count = 0;
-				while (AfxGetApp()->OnIdle(count++));
-			}
+			MSG msg;		
+			while (PeekMessage(&msg, 0, 0, 0, PM_NOREMOVE))
+				AfxGetApp()->PumpMessage();
+			
+			int count = 0;
+			while (AfxGetApp()->OnIdle(count++));
 		}
-		vqa_play.destroy();
 	}
+	vqa_play.destroy();
 	return error;
 }
 
