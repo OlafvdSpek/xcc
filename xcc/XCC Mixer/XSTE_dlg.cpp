@@ -62,9 +62,6 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // CXSTE_dlg message handlers
 
-static int c_colums = 3;
-static char* column_label[] = {"Name", "Value", "Extra value"};
-
 BOOL CXSTE_dlg::OnInitDialog() 
 {
 	CreateRoot(VERTICAL)
@@ -83,17 +80,10 @@ BOOL CXSTE_dlg::OnInitDialog()
 			);
 	ETSLayoutDialog::OnInitDialog();
 	SetRedraw(false);
-	m_cat_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_cat_list.InsertColumn(0, "");
-	LV_COLUMN lvc;
-	lvc.mask = LVCF_TEXT | LVCF_SUBITEM;
-	for (int i = 0; i < c_colums; i++)
-	{
-		lvc.iSubItem = i;
-		lvc.pszText = column_label[i];
-		m_list.InsertColumn(i, &lvc);
-	}
+	m_list.InsertColumn(0, "Name");
+	m_list.InsertColumn(1, "Value");
+	m_list.InsertColumn(2, "Extra value");
 	if (m_fname.empty())
 		m_fname = xcc_dirs::get_dir(m_game) + xcc_dirs::get_csf_fname(m_game);
 	int error = m_f.open(m_fname);
@@ -138,7 +128,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 			m_cat_list.SetItemData(m_cat_list.InsertItem(m_cat_list.GetItemCount(), i->second.c_str()), i->first);
 		m_f.close();
 	}	
-	m_cat_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
+	m_cat_list.auto_size();
 	check_selection();
 	sort_list(0, false);
 	SetRedraw(true);
@@ -375,28 +365,24 @@ void CXSTE_dlg::OnItemchangedCatList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	SetRedraw(false);
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	if (pNMListView->uNewState & LVIS_SELECTED)
+	if (pNMListView->uNewState & LVIS_SELECTED && ~pNMListView->uOldState & LVIS_SELECTED)
 	{
-		if (~pNMListView->uOldState & LVIS_SELECTED)
+		m_list.DeleteAllItems();
+		int cat_id = m_cat_list.GetItemData(pNMListView->iItem);
+		for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
 		{
-			m_list.DeleteAllItems();
-			int cat_id = m_cat_list.GetItemData(pNMListView->iItem);
-			for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+			if (i->second.cat_id == cat_id)
 			{
-				if (i->second.cat_id == cat_id)
-				{
-					LVFINDINFO lvf;
-					lvf.flags = LVFI_PARAM;
-					lvf.lParam = i->first;
-					int index = m_list.FindItem(&lvf, -1);
-					if (index == -1)
-						insert(i->first);
-				}
+				LVFINDINFO lvf;
+				lvf.flags = LVFI_PARAM;
+				lvf.lParam = i->first;
+				int index = m_list.FindItem(&lvf, -1);
+				if (index == -1)
+					insert(i->first);
 			}
-			m_sort_column = -1;
-			for (int j = 0; j < c_colums; j++)
-				m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
 		}
+		m_sort_column = -1;
+		m_list.auto_size();
 	}
 	SetRedraw(true);
 	Invalidate();

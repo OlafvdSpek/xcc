@@ -8,13 +8,14 @@
 // XSTE_dlg.h : header file
 //
 
+#include "ListCtrlEx.h"
 #include "csf_file.h"
 #include "resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CXSTE_dlg dialog
 
-class CXSTE_dlg : public ETSLayoutDialog
+class CXSTE_dlg: public ETSLayoutDialog
 {
 // Construction
 public:
@@ -33,11 +34,11 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CXSTE_dlg)
 	enum { IDD = IDD_XSTE };
-	CListCtrl	m_cat_list;
+	CListCtrlEx	m_cat_list;
 	CButton	m_insert;
 	CButton	m_edit;
 	CButton	m_delete;
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	//}}AFX_DATA
 
 
