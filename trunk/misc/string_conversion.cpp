@@ -265,3 +265,52 @@ string js_encode(const string& v)
 	}
 	return r;
 }
+
+string trim_field(const string& v)
+{
+	string r;
+	bool copy_white = false;
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (isspace(v[i]))
+			copy_white = true;
+		else 
+		{
+			if (copy_white)
+			{
+				if (!r.empty())
+					r += ' ';				
+				copy_white = false;
+			}
+			r += v[i];
+		}
+	}
+	return r;
+}
+
+string trim_text(const string& v)
+{
+	string r;
+	bool copy_white = false;
+	for (int i = 0; i < v.length(); )
+	{
+		int p = v.find('\n', i);
+		if (p == string::npos)
+			p = v.length();
+		string line = trim_field(v.substr(i, p - i));
+		if (line.empty())
+			copy_white = true;
+		else
+		{
+			if (copy_white)
+			{
+				if (!r.empty())
+					r += '\n';
+				copy_white = false;
+			}
+			r += line + '\n';
+		}
+		i = p + 1;
+	}
+	return r;
+}
