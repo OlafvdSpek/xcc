@@ -75,7 +75,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	int lid = gsku2lid(gr.get_int("gsku"));
 	int trny = gr.get_int("trny");
 	if (gr.get_int("dura") < 90
-		|| gr.get_int("afps") < 10 && lid & ~1 != 5
+		|| gr.get_int("afps") < 10 && lid != 5 && lid != 6
 		|| !lid
 		|| gr.plrs() < 2 || gr.plrs() > (trny == 1 ? 2 : 8)
 		|| trny < 1 || trny > 2)
