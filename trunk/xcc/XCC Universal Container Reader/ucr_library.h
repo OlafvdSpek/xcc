@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "ucr_formats.h"
+
 class Cucr_library  
 {
 public:

@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc universal container reader.h"
 #include "format_edit_dlg.h"
 
 #include "string_conversion.h"
@@ -65,7 +64,6 @@ BOOL Cformat_edit_dlg::OnInitDialog()
 		const char* column_label[] = {"I", "Add object", "Update object", "Count", "Offset", "Size"};
 
 		m_blocks.SetRedraw(false);
-		m_blocks.SetExtendedStyle(m_blocks.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 		for (int i = 0; i < c_colums_blocks; i++)
 			m_blocks.InsertColumn(i, column_label[i], LVCFMT_LEFT, -1, i);
 		{
@@ -73,19 +71,14 @@ BOOL Cformat_edit_dlg::OnInitDialog()
 			for (Cucr_format::t_blocks::const_iterator i = m_format.blocks().begin(); i != m_format.blocks().end(); i++)
 				m_blocks.SetItemData(m_blocks.InsertItem(m_blocks.GetItemCount(), LPSTR_TEXTCALLBACK), j++);
 		}
-		{
-			for (int i = 0; i < c_colums_blocks; i++)
-				m_blocks.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-		}
+		m_blocks.auto_size();
 		m_blocks.SetRedraw(true);
 	}
 	{
 		const char* column_label[] = {"I", "Big endian", "Block", "Var", "ID", "Name", "Offset", "Size", "Type", "Value"}; 
 
 		m_vars.SetRedraw(false);
-		m_vars.SetExtendedStyle(m_vars.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-		for (int i = 0; i < c_colums_vars; i++)
-			m_vars.InsertColumn(i, column_label[i], LVCFMT_LEFT, -1, i);
+		m_vars.auto_size();
 		m_vars.SetRedraw(true);
 	}
 
@@ -107,22 +100,6 @@ BOOL Cformat_edit_dlg::OnInitDialog()
 	m_blocks.SetItemState(0, LVNI_FOCUSED | LVNI_SELECTED, LVNI_FOCUSED | LVNI_SELECTED);
 	
 	return true;
-}
-
-void Cformat_edit_dlg::OnSize(UINT nType, int cx, int cy) 
-{
-	ETSLayoutDialog::OnSize(nType, cx, cy);
-	
-	if (m_blocks.GetSafeHwnd())
-	{
-		for (int i = 0; i < c_colums_blocks; i++)
-			m_blocks.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
-	if (m_vars.GetSafeHwnd())
-	{
-		for (int i = 0; i < c_colums_vars; i++)
-			m_vars.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
 }
 
 const Cucr_format& Cformat_edit_dlg::get() const
@@ -235,10 +212,7 @@ void Cformat_edit_dlg::update_vars()
 	int j = 0;
 	for (Cucr_format::t_vars::const_iterator i = m_block->vars.begin(); i != m_block->vars.end(); i++)
 		m_vars.SetItemData(m_vars.InsertItem(m_vars.GetItemCount(), LPSTR_TEXTCALLBACK), j++);
-	{
-		for (int i = 0; i < c_colums_vars; i++)
-			m_vars.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	}
+	m_vars.auto_size();
 }
 
 void Cformat_edit_dlg::OnItemchangedBlocks(NMHDR* pNMHDR, LRESULT* pResult) 

@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "xcc universal container reader.h"
 #include "library_dlg.h"
 
 #include "directories_dlg.h"

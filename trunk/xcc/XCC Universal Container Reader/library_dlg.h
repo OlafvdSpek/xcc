@@ -4,11 +4,9 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-// library_dlg.h : header file
-//
 
-/////////////////////////////////////////////////////////////////////////////
-// Clibrary_dlg dialog
+#include "resource.h"
+#include "ucr_library.h"
 
 class Clibrary_dlg : public ETSLayoutDialog
 {

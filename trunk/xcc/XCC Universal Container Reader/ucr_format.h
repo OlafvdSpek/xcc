@@ -178,7 +178,6 @@ public:
 	Cucr_format();
 	Cucr_format(const string& name, const string& extensions, const string& registry_keys, t_new_container_f new_container_f = NULL);
 	Cucr_format(const Cxif_key& key);
-	// virtual ~Cucr_format();
 
 	const t_blocks& blocks() const
 	{

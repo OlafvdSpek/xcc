@@ -8,6 +8,9 @@
 // directories_dlg.h : header file
 //
 
+#include "resource.h"
+#include "ucr_library.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // Cdirectories_dlg dialog
 
