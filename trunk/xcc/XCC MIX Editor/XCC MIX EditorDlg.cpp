@@ -106,15 +106,8 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
 	ListView_SetExtendedListViewStyle(m_list, ListView_GetExtendedListViewStyle(m_list) | LVS_EX_FULLROWSELECT);
-	LV_COLUMN lvc;
-	lvc.mask = LVCF_FMT | LVCF_TEXT | LVCF_SUBITEM;
 	for (int i = 0; i < c_colums; i++)
-	{
-		lvc.iSubItem = i;
-		lvc.pszText = column_label[i];
-		lvc.fmt = column_alignment[i];
-		m_list.InsertColumn(i, &lvc);
-	}
+		m_list.InsertColumn(i, column_label[i], column_alignment[i]);
 	if (read_key(xcc_dirs::get_main_mix(game_ts)))
 		read_key(xcc_dirs::get_main_mix(game_ra2));
 	autosize_colums();
@@ -704,11 +697,4 @@ void CXCCMIXEditorDlg::autosize_colums()
 	for (int i = 0; i < c_colums; i++)
 		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
 	return;
-	{
-		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-		int cx = m_list.GetColumnWidth(i);
-		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
-		if (m_list.GetColumnWidth(i) < cx)
-			m_list.SetColumnWidth(i, cx);
-	}
 }
