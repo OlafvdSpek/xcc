@@ -45,7 +45,6 @@ void process(const Cvirtual_binary& s)
 
 int main()
 {
-	process(Cvirtual_binary());
 	cout << "Content-type: text/html" << endl
 		<< endl;
 	int cb_s = atoi(get_env("CONTENT_LENGTH").c_str());
