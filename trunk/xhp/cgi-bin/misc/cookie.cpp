@@ -30,6 +30,10 @@ Ccookie::operator=(Cmulti_line v)
 		split_key(v.get_next_line(';'), name, value);
 		trim(name);
 		trim(value);
+		if (value.size() && value[0] == '"')
+			value.erase(0, 1);
+		if (value.size() && value[value.length() - 1] == '"')
+			value.erase(value.length() - 1, 1);
 		m_read_keys[uri_decode(name)] = uri_decode(value);
 	}
 }
@@ -74,9 +78,11 @@ void Ccookie::set_session_value(const string& name, const string& value)
 ostream& operator<<(ostream& os, const Ccookie& v)
 {
 	Ccookie::t_keys::const_iterator i;
-	for (i = v.m_write_keys.begin(); i != v.m_write_keys.end(); i++)
-		os << "Set-cookie: " << uri_encode(i->first) + '=' + uri_encode(i->second) + "; expires=Sunday, 31-Dec-2000 12:00:00 GMT; path=/" << endl;
+	for (i = v.m_write_keys.begin(); i != v.m_write_keys.end(); i++)		
+		os << "Set-cookie: " << uri_encode(i->first) + '=' + uri_encode(i->second) + "; expires=Friday, 31-Dec-2010 12:00:00 GMT; path=/" << endl;
+	// os << "Set-cookie: " << uri_encode(i->first) + '=' + uri_encode(i->second) + "; expires=31-Dec-2010; path=/" << endl;
+	// os << "Set-cookie: " << uri_encode(i->first) + "=\"" + uri_encode(i->second) + "\"; max-age=\"1814400\"; path=\"/\"; version=\"1\"" << endl;
 	for (i = v.m_write_session_keys.begin(); i != v.m_write_session_keys.end(); i++)
-		os << "Set-cookie: " << uri_encode(i->first) + '=' + uri_encode(i->second) << endl;
+		os << "Set-cookie: " << uri_encode(i->first) + "=" + uri_encode(i->second) << endl;		
 	return os;
 }
