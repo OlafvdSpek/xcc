@@ -10,6 +10,7 @@
 #endif // _MSC_VER >= 1000
 
 #include <string>
+#include "cc_structures.h"
 #include "fname.h"
 
 using namespace std;
@@ -31,6 +32,7 @@ public:
 	static string get_dune2_dir();
 	static string get_dune2000_dir();
 	static string get_ra2_dir();
+	static string get_dir(t_game game);
 	static void set_dune2_dir(const string &s);
 	static void set_td_primary_dir(const string &s);
 	static void set_td_secondary_dir(const string &s);
@@ -40,6 +42,7 @@ public:
 	static void set_ra2_dir(const string &s);
 	static void set_cd_dir(const string &s);
 	static void set_data_dir(const string &s);
+	static void set_dir(t_game game, const string &s);
 
 	static void reset_cd_dir();
 	static void reset_data_dir();

@@ -38,12 +38,58 @@ string xcc_dirs::get_ra2_dir()
 	return ra2_dir;
 }
 
+string xcc_dirs::get_dir(t_game game)
+{
+	switch (game)
+	{
+	case game_td:
+		return td_primary_dir;
+	case game_ra:
+		return ra_dir;
+	case game_ts:
+		return ts_dir;
+	case game_dune2:
+		return dune2_dir;
+	case game_dune2000:
+		return dune2000_dir;
+	case game_ra2:
+		return ra2_dir;
+	default:
+		return td_primary_dir;
+	}
+}
+
 static void set_path(string s, string& path)
 {
 	s = to_lower(s);
 	if (!s.empty() && s[s.length() - 1] != '\\')
 		s += '\\';	
 	path = s;
+}
+
+void xcc_dirs::set_dir(t_game game, const string &s)
+{
+	switch (game)
+	{
+	case game_td:
+		set_path(s, td_primary_dir);
+		break;
+	case game_ra:
+		set_path(s, ra_dir);
+		break;
+	case game_ts:
+		set_path(s, ts_dir);
+		break;
+	case game_dune2:
+		set_path(s, dune2_dir);
+		break;
+	case game_dune2000:
+		set_path(s, dune2000_dir);
+		break;
+	case game_ra2:
+		set_path(s, ra2_dir);
+		break;
+	}
 }
 
 void xcc_dirs::set_dune2_dir(const string& s)

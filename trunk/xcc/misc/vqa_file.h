@@ -17,7 +17,7 @@ class Cvqa_file: public Ccc_file
 {
 public:
     int post_open();
-	int extract_as_avi(const string& name);
+	int extract_as_avi(const string& name, HWND hwnd);
 	int extract_as_pcx(const Cfname& name, t_file_type ft);
 	int extract_as_wav(const string& name);
 	int read_chunk_header();
