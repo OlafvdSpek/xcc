@@ -17,7 +17,7 @@
 class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
 {
 public:
-	int extract_as_pcx(const Cfname& name, const t_palet palet) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet) const;
 
 	bool is_valid() const
 	{
@@ -28,7 +28,7 @@ public:
 			header.c_images < 1 || header.c_images > 10000 || 
 			sizeof(t_shp_ts_header) + get_cb_index() > size)
 			return false;
-		for (int i = 0; i < get_c_images(); i++)
+		for (int i = 0; i < min(get_c_images(), 1000); i++)
 		{
 			const t_shp_ts_image_header& image_header = *get_image_header(i);
 			if (!image_header.cx && !image_header.cy && !image_header.offset)
