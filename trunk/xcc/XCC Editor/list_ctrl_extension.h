@@ -31,19 +31,17 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(Clist_ctrl_extension)
 	protected:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	long get_focused_item() const;
+	int get_focused_item() const;
 	void set_full_row_selection();
-	void add_column(const string& text, long index, dword format = LVCFMT_LEFT);
-	void add_item(const string& text, dword index, dword user_parameter = 0);
-	void set_item(const string& text, dword index, dword subindex);
+	void add_column(const string& text, int index, int format = LVCFMT_LEFT);
+	void add_item(const string& text, int index, int user_parameter = 0);
+	void set_item(const string& text, int index, int subindex);
 	void autosize_columns();
 	void set_fixed_width_font();
-	virtual ~Clist_ctrl_extension();
 
 	// Generated message map functions
 protected:
@@ -53,7 +51,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CFont m_font;
-	long m_max_column_i;
 };
 
 /////////////////////////////////////////////////////////////////////////////
