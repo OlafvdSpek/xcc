@@ -116,10 +116,8 @@ BEGIN_MESSAGE_MAP(CXCCEditorView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_TOOLS_UPGRADE_TIBERIUM, OnUpdatePopupFillWithTiberium)
 	ON_WM_LBUTTONDBLCLK()
 	//}}AFX_MSG_MAP
-	// Standard printing commands
-	ON_COMMAND(ID_FILE_PRINT, CScrollView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_DIRECT, CScrollView::OnFilePrint)
-	ON_COMMAND(ID_FILE_PRINT_PREVIEW, CScrollView::OnFilePrintPreview)
+	ON_COMMAND_RANGE(ID_POPUP_CLEAR_TEMPLATE_LAYER, ID_POPUP_CLEAR_WAYPOINT_LAYER, OnPopupClearLayer)
+	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_CLEAR_TEMPLATE_LAYER, ID_POPUP_CLEAR_WAYPOINT_LAYER, OnUpdatePopupClearLayer)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
