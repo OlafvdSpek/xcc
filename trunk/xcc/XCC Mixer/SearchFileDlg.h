@@ -20,7 +20,7 @@ class CSearchFileDlg : public ETSLayoutDialog
 // Construction
 public:
 	void open_mix(int id);
-	void add(string name, string fname, int mix_id, int file_id);
+	void add(string name, int mix_id, int file_id);
 	void find(Cmix_file& f, string file_name, string mix_name, int mix_id);
 	void set(CMainFrame* main_frame);
 	CSearchFileDlg(CWnd* pParent = NULL);   // standard constructor
@@ -55,18 +55,21 @@ protected:
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnDestroy();
+	afx_msg void OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	struct t_map_entry
 	{
-		// string name;
+		string name;
 		int id;
 		int parent;
 	};
 
 	typedef map<int, t_map_entry> t_map;
 
+	string m_buffer[4];
+	int m_buffer_w;
 	CMainFrame* m_main_frame;
 	t_map m_map;
 	CString m_reg_key;

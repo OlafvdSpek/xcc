@@ -17,6 +17,7 @@
 #define IDD_XSE                         136
 #define IDD_SHP_PROPERTIES              137
 #define IDD_SELECT_PALET                138
+#define IDD_SHP_VIEWER                  139
 #define IDC_DUNE2                       1000
 #define IDC_TD_PRIMARY                  1001
 #define IDC_CY                          1001
@@ -57,7 +58,8 @@
 #define IDC_MAINTAIN_ASPECT_RATIO       1024
 #define IDC_TREE                        1028
 #define IDC_FILENAME_STATIC             1030
-#define IDC_OPEN                        1031
+#define IDC_IMAGE                       1031
+#define IDC_SLIDER                      1032
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -256,6 +258,7 @@
 #define ID_LAUNCH_XSTE_RA2_YR           33118
 #define ID_LAUNCH_XTW_RA2_YR            33119
 #define ID_VIEW_PALET_SELECT            33120
+#define ID_VIEW_PALET_AUTO_SELECT       33121
 #define ID_VIEW_PALET_PAL000            40000
 #define ID_VIEW_PALET_PAL001            40001
 #define ID_VIEW_PALET_PAL002            40002
@@ -1262,9 +1265,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        139
-#define _APS_NEXT_COMMAND_VALUE         33121
-#define _APS_NEXT_CONTROL_VALUE         1032
+#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_COMMAND_VALUE         33122
+#define _APS_NEXT_CONTROL_VALUE         1033
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

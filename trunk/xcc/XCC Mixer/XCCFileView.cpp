@@ -605,8 +605,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cshp_ts_file f;
 				f.load(m_data);
 				const int c_images = f.get_c_images();
-				const int cx = f.get_cx();
-				const int cy = f.get_cy();
+				const int cx = m_cx = f.get_cx();
+				const int cy = m_cy = f.get_cy();
 				draw_info("Count images:", n(c_images));
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;
@@ -732,6 +732,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Ctmp_ts_file f;
 				f.load(m_data);
 				const int c_tiles = f.get_c_tiles();
+				m_cx = f.get_cx();
+				m_cy = f.get_cy();
 				draw_info("Count tiles:", n(c_tiles));
 				draw_info("Size:", n(f.get_cblocks_x()) + " x " + n(f.get_cblocks_y()));
 				m_y += m_y_inc;
@@ -1185,6 +1187,7 @@ void CXCCFileView::open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet)
 	Ccc_file f(false);
 	if (!f.open(id, mix_f))
 	{
+		m_fname = mix_f.get_name(id);
 		m_game = game;
 		m_id = id;
 		m_palet = palet;
@@ -1199,6 +1202,7 @@ void CXCCFileView::open_f(const string& name)
 	Ccc_file f(false);
 	if (!f.open(name))
 	{
+		m_fname = Cfname(name).get_fname();
 		m_game = GetMainFrame()->get_game();
 		m_id = Cmix_file::get_id(m_game, Cfname(name).get_ftitle());
 		m_palet = NULL;
@@ -1210,6 +1214,9 @@ void CXCCFileView::post_open(Ccc_file& f)
 {
 	if (f.is_open())
 	{
+		m_can_pick = false;
+		m_cx = 0;
+		m_cy = 0;
 		m_ft = f.get_file_type(false);
 		m_size = f.get_size();
 		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
@@ -1232,4 +1239,26 @@ void CXCCFileView::close_f()
 BOOL CXCCFileView::OnIdle(LONG lCount)
 {
 	return false;
+}
+
+void CXCCFileView::auto_select()
+{
+	if (!m_can_pick)
+	{
+		m_palet_filter.select(m_ft, m_cx, m_cy, m_fname);
+		m_can_pick = true;
+	}
+	t_game game;
+	int i = 4;
+	while (i--)
+	{
+		string palet = m_palet_filter.pick(game);
+		if (!palet.empty() && GetMainFrame()->auto_select(game, palet))
+			break;
+	}
+}
+
+bool CXCCFileView::can_auto_select()
+{
+	return m_is_open;
 }

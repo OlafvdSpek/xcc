@@ -13,6 +13,7 @@
 #include <mix_file.h>
 #include <palet.h>
 #include <vector>
+#include "palet_filter.h"
 
 struct t_text_cache_entry
 {
@@ -33,6 +34,8 @@ public:
 
 // Operations
 public:
+	bool can_auto_select();
+	void auto_select();
 	BOOL OnIdle(LONG lCount);
 	void close_f();
 	const t_paletentry* get_default_palet();
@@ -66,12 +69,15 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	// int				m_cb_data;
+	bool			m_can_pick;
 	CRect			m_clip_rect;
 	dword			m_color_table[256];
+	int				m_cx;
+	int				m_cy;
 	int				m_cx_dib;
 	Cvirtual_binary	m_data;
 	CDC*			m_dc;
+	string			m_fname;
 	t_game			m_game;
 	HBITMAP			mh_dib;
 	dword*			mp_dib;
@@ -80,6 +86,7 @@ private:
 	int				m_id;
 	bool			m_is_open;
 	t_paletentry*	m_palet;
+	Cpalet_filter m_palet_filter;
 	int				m_size;
 	t_text_cache	m_text_cache;
 	bool			m_text_cache_valid;

@@ -110,6 +110,8 @@ BEGIN
         BEGIN
             MENUITEM "Update",                      ID_VIEW_PALET_UPDATE
             MENUITEM "Auto",                        ID_VIEW_PALET_AUTO
+            MENUITEM "Auto select\tCtrl+Q",         ID_VIEW_PALET_AUTO_SELECT
+
             MENUITEM "&Select...\tCtrl+P",          ID_VIEW_PALET_SELECT
             MENUITEM "Previous\tCtrl+[",            ID_VIEW_PALET_PREV
             MENUITEM "Next\tCtrl+]",                ID_VIEW_PALET_NEXT
@@ -258,6 +260,7 @@ BEGIN
     "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "P",            ID_VIEW_PALET_SELECT,   VIRTKEY, CONTROL, NOINVERT
+    "Q",            ID_VIEW_PALET_AUTO_SELECT, VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_POPUP_DELETE,        VIRTKEY, NOINVERT
     VK_F5,          ID_POPUP_REFRESH,       VIRTKEY, NOINVERT
     VK_RETURN,      ID_POPUP_OPEN,          VIRTKEY, NOINVERT
@@ -420,6 +423,18 @@ BEGIN
     EDITTEXT        IDC_C_FRAMES,64,30,57,13,ES_AUTOHSCROLL | ES_NUMBER
 END
 
+IDD_SHP_VIEWER DIALOG DISCARDABLE  0, 0, 186, 122
+STYLE DS_MODALFRAME | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "SHP viewer"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "Close",IDOK,129,101,50,14
+    CONTROL         "",IDC_IMAGE,"Static",SS_BITMAP | SS_CENTERIMAGE,7,7,172,
+                    88
+    CONTROL         "Slider1",IDC_SLIDER,"msctls_trackbar32",TBS_BOTH | 
+                    TBS_NOTICKS | WS_TABSTOP,7,100,100,15
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -429,17 +444,12 @@ END
 #ifdef APSTUDIO_INVOKED
 GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
-    IDD_RESIZE, DIALOG
-    BEGIN
-        BOTTOMMARGIN, 114
-    END
-
-    IDD_SHP_PROPERTIES, DIALOG
+    IDD_SHP_VIEWER, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 179
         TOPMARGIN, 7
-        BOTTOMMARGIN, 88
+        BOTTOMMARGIN, 115
     END
 END
 #endif    // APSTUDIO_INVOKED
@@ -452,7 +462,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.18\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.19\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
