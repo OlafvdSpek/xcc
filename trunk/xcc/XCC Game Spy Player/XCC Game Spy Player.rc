@@ -46,10 +46,6 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-    END
 END
 
 IDR_XCCGAMTYPE MENU PRELOAD DISCARDABLE 
@@ -63,18 +59,10 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
-    POPUP "&Edit"
-    BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
-        MENUITEM SEPARATOR
-        MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
-        MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
-        MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
-    END
     POPUP "&View"
     BEGIN
-        MENUITEM "Non-human objects",           ID_VIEW_NON_HUMAN_OBJECTS
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "Non-human objects\tC",        ID_VIEW_NON_HUMAN_OBJECTS
+        MENUITEM "&Object &summary\tS",         ID_VIEW_OBJECT_SUMMARY
     END
     POPUP "&Window"
     BEGIN
@@ -93,8 +81,10 @@ END
 
 IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
 BEGIN
+    "C",            ID_VIEW_NON_HUMAN_OBJECTS, VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
+    "S",            ID_VIEW_OBJECT_SUMMARY, VIRTKEY, NOINVERT
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
     VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT
@@ -119,7 +109,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Game Spy Player 1.04"
+    IDR_MAINFRAME           "XCC Game Spy Player 1.05"
     IDR_XCCGAMTYPE          "\nXCCGam\nXCCGam\n\n\nXCCGameSpyPlayer.Document\nXCCGam Document"
 END
 

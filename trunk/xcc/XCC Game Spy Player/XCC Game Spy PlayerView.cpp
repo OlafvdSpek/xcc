@@ -35,6 +35,8 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerView, CView)
 	ON_WM_ERASEBKGND()
 	ON_COMMAND(ID_VIEW_NON_HUMAN_OBJECTS, OnViewNonHumanObjects)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_NON_HUMAN_OBJECTS, OnUpdateViewNonHumanObjects)
+	ON_COMMAND(ID_VIEW_OBJECT_SUMMARY, OnViewObjectSummary)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_OBJECT_SUMMARY, OnUpdateViewObjectSummary)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -216,9 +218,13 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		}
 		else
 			FillRect(m_mem_dc, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
+		typedef map<int, int> t_object_counts;
+		typedef map<int, t_object_counts> t_objects_counts;
+		
 		int cx = rect.Width();
 		int cy = rect.Height();
 		const Cgame_state& game_state = live ? m_game_state : get_game_state(m_shot_time);
+		t_objects_counts objects_counts;
 		{
 			if (!m_shot_time)
 				clear_history_map();
@@ -286,14 +292,14 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 						i = m_object_types.object_types.find(object.infantry_type);
 					if (i != m_object_types.object_types.end())
 						object_type = i->second;
+					if (player.human && m_view_object_summary)
+						objects_counts[i->first][object.owner]++;
 				}
 				string type_name = object_type.name;
 				if (object.building_type == -1)
 					type_name += object.mission >= 0 && object.mission < 33 ? string(": ") + mission_names[object.mission] : "";
 				if (type_name.empty())
 					continue;
-				// int x, y;
-				// transform(object.x, object.y, x, y);
 				{
 					CPen pen;
 					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0x7f));
@@ -314,16 +320,18 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				m_mem_dc.SetTextColor(old_color);
 				// m_mem_dc.SelectObject(old_brush);
 			}
+			{
+				int y = 144;
+			}
 		}
 		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.gid) + " " + get_map_name(game_state.scenario)).c_str());
-		int y = 0;
+		int y = 16;
 		COLORREF old_color = m_mem_dc.GetTextColor();
 		for (Cgame_state::t_players::const_iterator i = game_state.players.begin(); i != game_state.players.end(); i++)
 		{
 			const Cplayer& player = i->second;
 			if (player.color == 5)
 				continue;
-			y += 16;
 			m_mem_dc.SetTextColor(player_color(i->second.id, 0xff));
 			string text = swsr(10, player.name);
 			if (player.color != -1)
@@ -331,8 +339,33 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 			if (player.country != -1)
 				text += swsr(14, get_country_name(player.country));
 			m_mem_dc.TextOut(0, y, (text + n(player.credits) + " " + n(player.power_in) + " / " + n(player.power_out)).c_str());
+			y += 16;
 		}
 		m_mem_dc.SetTextColor(old_color);
+		if (m_view_object_summary)
+		{
+			for (t_objects_counts::const_iterator i = objects_counts.begin(); i != objects_counts.end(); i++)
+			{
+				int x = -32;
+				y += 16;
+				for (Cgame_state::t_players::const_iterator j = game_state.players.begin(); j != game_state.players.end(); j++)
+				{
+					if (!j->second.human)
+						continue;
+					x += 32;
+					t_object_counts::const_iterator k = i->second.find(j->first);
+					if (k == i->second.end())
+						continue;
+					COLORREF old_color = m_mem_dc.SetTextColor(player_color(j->second.id, 0xff));
+					char b[12];
+					sprintf(b, "%3d", k->second);
+					m_mem_dc.TextOut(x, y, b);
+					m_mem_dc.SetTextColor(old_color);
+				}
+				string text = m_object_types.object_types.find(i->first)->second.name;
+				m_mem_dc.TextOut(x + 32, y, text.c_str());
+			}
+		}
 		m_mem_dc_valid = true;
 	}
 	pDC->BitBlt(0, 0, rect.Width(), rect.Height(), &m_mem_dc, 0, 0, SRCCOPY);
@@ -402,6 +435,7 @@ void CXCCGameSpyPlayerView::OnInitialUpdate()
 	m_show_names = true;
 	m_show_terrain = false;
 	m_view_non_human_objects = true;
+	m_view_object_summary = true;
 
 	if (live)
 	{
@@ -605,4 +639,16 @@ void CXCCGameSpyPlayerView::OnViewNonHumanObjects()
 void CXCCGameSpyPlayerView::OnUpdateViewNonHumanObjects(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_view_non_human_objects);	
+}
+
+void CXCCGameSpyPlayerView::OnViewObjectSummary() 
+{
+	m_view_object_summary = !m_view_object_summary;
+	m_mem_dc_valid = false;
+	Invalidate();
+}
+
+void CXCCGameSpyPlayerView::OnUpdateViewObjectSummary(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_view_object_summary);	
 }

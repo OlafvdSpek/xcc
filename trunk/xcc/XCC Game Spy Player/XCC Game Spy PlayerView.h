@@ -58,6 +58,8 @@ protected:
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnViewNonHumanObjects();
 	afx_msg void OnUpdateViewNonHumanObjects(CCmdUI* pCmdUI);
+	afx_msg void OnViewObjectSummary();
+	afx_msg void OnUpdateViewObjectSummary(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -82,6 +84,7 @@ private:
 	bool m_show_names;
 	bool m_show_terrain;
 	bool m_view_non_human_objects;
+	bool m_view_object_summary;
 	int m_min_z;
 	int m_max_z;
 
