@@ -86,12 +86,24 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 	}
 }
 
+static Cvirtual_binary compress(const Cxif_key& v, int compression)
+{
+	switch (compression)
+	{
+	case 0:
+		return v.vdata(true);
+	case 2:
+		return v.vdata();
+	}
+	return v.export_bz();
+}
+
 int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe, int compression)
 {
 	int error;
 	if (exe.data())
 	{
-		Cvirtual_binary mod = compression ? m_mod.save(true, -1).vdata() : m_mod.save(true, -1).export_bz();
+		Cvirtual_binary mod = compress(m_mod.save(true, -1), compression);
 		Cfile32 f;
 		error = f.open_write(fname);
 		if (!error)
@@ -103,7 +115,7 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe, int compression
 		f.close();
 	}
 	else
-		error = (compression ? m_mod.save(true, -1).vdata() : m_mod.save(true, -1).export_bz()).export(fname);
+		error = compress(m_mod.save(true, -1), compression).export(fname);
 	if (!error)
 		error = m_mod.save_modules(fname);
 	return error;
