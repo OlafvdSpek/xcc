@@ -1,0 +1,27 @@
+// xcc_map.cpp: implementation of the Cxcc_map class.
+//
+//////////////////////////////////////////////////////////////////////
+
+#include "stdafx.h"
+#include "XCC Map Encoder.h"
+#include "xcc_map.h"
+
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+Cxcc_map::Cxcc_map()
+{
+
+}
+
+Cxcc_map::~Cxcc_map()
+{
+
+}
