@@ -4,6 +4,7 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
 // directories_dlg.h : header file
 //
 
@@ -25,7 +26,7 @@ public:
 	//{{AFX_DATA(Cdirectories_dlg)
 	enum { IDD = IDD_DIRECTORIES };
 	CButton	m_delete_button;
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	//}}AFX_DATA
 
 
