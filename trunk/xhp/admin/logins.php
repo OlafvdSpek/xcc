@@ -2,12 +2,10 @@
 	require_once('common.php');
 
 	header("refresh: 60");
-	echo_links();
-?>
-<hr>
-<table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
-<hr>
-<?php
+	require('templates/links.php');
+	echo('<hr>');
+	require('templates/search.php');
+	echo('<hr>');
 	$ipa = $_GET[ipa];
 	$pid = $_GET[pid];
 	$pname = trim($_GET[pname]);
@@ -15,7 +13,18 @@
 	if (strlen($pname) && ip2long($pname) != -1)
 		$ipa = ip2long($pname);
 	if ($ipa)
-		$where = sprintf(" where l.ipa = %d", $ipa);
+	{
+		$ipa2 = $ipa;
+		if (!($ipa & 0xffffff))
+			$ipa2 |= 0xffffff;
+		else if (!($ipa & 0xffff))
+			$ipa2 |= 0xffff;
+		else if (!($ipa & 0xff))
+			$ipa2 |= 0xff;
+		$where = $ipa == $ipa2
+			? sprintf(" where l.ipa = %d", $ipa)
+			: sprintf(" where l.ipa >= %d and l.ipa <= %d", $ipa, $ipa2);
+	}
 	else if ($pid)
 		$where = sprintf(" where l.pid = %d", $pid);
 	else if ($pname)
@@ -27,7 +36,10 @@
 	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials using (sid)%s order by time desc%s", $where, $where ? "" : " limit 250"));
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
-		printf("<tr><td><a href=\"?pname=%s\">%s<td><a href=\"?ipa=%d\">%s</a><td>%d<td align=right>%x<td align=right><a href=\"?sid=%d\">%d</a><td>%s", $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
+	{
+		printf("<tr><td><a href=\"?pname=%s\">%s<td><a href=\"players.php?pname=%s\">P<td><a href=\"?ipa=%d\">%s</a><td>%d<td align=right>%x<td align=right><a href=\"?sid=%d\">%d</a><td>%s",
+			$result[name], $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
+	}
 	echo("</table>");
 	if ($where)
 	{
@@ -48,5 +60,5 @@
 		echo("</table>");
 	}
 	echo('<hr>');
-	echo_links();
+	require('templates/links.php');
 ?>
