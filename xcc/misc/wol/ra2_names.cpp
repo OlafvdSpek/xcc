@@ -253,9 +253,11 @@ string get_map_name(const string& v)
 		"xyuriplot.map", "Yuri's Plot (2-3)",
 		NULL
 	};
-	t_key* i = map_names;
-	while (i->name && stricmp(i->name, v.c_str()))
-		i++;
-	return i->name ? i->value : v;
+	for (t_key* i = map_names; i->name; i++)
+	{
+		if (!stricmp(i->name, v.c_str()))
+			return i->name;
+	}
+	return v;
 }
 
