@@ -187,7 +187,7 @@ void Cvqa_decode::decode_cbf_chunk(byte* s,  int cb_s)
 		}
 	case 3:
 		{
-			byte* w = reinterpret_cast<byte*>(cbf);;
+			byte* w = reinterpret_cast<byte*>(cbf);
 			while (count--)
 			{
 				int v = *r++;

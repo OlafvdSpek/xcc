@@ -403,7 +403,7 @@ Cvirtual_binary DecompressDXT1(const DDSURFACEDESC2& ddsd, const byte* s)
 	int i,j;
 
 	byte* m_pCompBytes = const_cast<byte*>(s);
-	byte* m_pDecompBytes = d.data_edit();;
+	byte* m_pDecompBytes = d.data_edit();
 
 	DWORD * pBase  = (DWORD*)  m_pDecompBytes;
 	DWORD * pImPos = (DWORD*)  pBase;			// pos in decompressed data
@@ -468,7 +468,7 @@ Cvirtual_binary DecompressDXT3(const DDSURFACEDESC2& ddsd, const byte* s)
 	int i,j;
 
 	byte* m_pCompBytes = const_cast<byte*>(s);
-	byte* m_pDecompBytes = d.data_edit();;
+	byte* m_pDecompBytes = d.data_edit();
 
 	DWORD * pBase  = (DWORD*)  m_pDecompBytes;
 	DWORD * pImPos = (DWORD*)  pBase;			// pos in decompressed data
@@ -552,7 +552,7 @@ Cvirtual_binary DecompressDXT5(const DDSURFACEDESC2& ddsd, const byte* s)
 	int i,j;
 
 	byte* m_pCompBytes = const_cast<byte*>(s);
-	byte* m_pDecompBytes = d.data_edit();;
+	byte* m_pDecompBytes = d.data_edit();
 	
 	DWORD * pBase  = (DWORD*)  m_pDecompBytes;
 	DWORD * pImPos = (DWORD*)  pBase;			// pos in decompressed data

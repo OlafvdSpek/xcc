@@ -446,7 +446,7 @@ t_overlay_id get_overlay_id(const string& s, bool allow_unknown = false)
 
 t_side_id get_side_id(const string &s, bool allow_unknown = false)
 {
-	return static_cast<t_side_id>(find_id(s, side_code, c_side_id, allow_unknown));;	
+	return static_cast<t_side_id>(find_id(s, side_code, c_side_id, allow_unknown));
 }
 
 t_terrain_id get_terrain_id(const string& s)
@@ -592,7 +592,7 @@ static void handle_map_section_entry(const string &a, const string &b, t_map_dat
 	switch (i)
 	{
 	case mdt_theater:
-		map_data.theater = get_theater_id(b);;
+		map_data.theater = get_theater_id(b);
 		break;
 	case mdt_x:
 		map_data.x = get_value(b, 1, 62);
@@ -1194,7 +1194,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		{
 			t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
 			if (is_tiberium(v))
-				v = static_cast<t_overlay_id>((i->second & 0xff) + o_ti1);;
+				v = static_cast<t_overlay_id>((i->second & 0xff) + o_ti1);
 			Cxcc_cell cell;
 			cell.set_xcc(i->first);
 			f.write_line(n(cell.get_cc()) + '=' + overlay_code[v]);
@@ -1298,7 +1298,7 @@ void Cxcc_level::process()
 			if (j == structure_data.end())
 			{
 				t_structure_data_entry d;
-				d.side = basic_data.player != s_goodguy ? s_goodguy : s_badguy;;
+				d.side = basic_data.player != s_goodguy ? s_goodguy : s_badguy;
 				d.t = i->second;
 				d.health = 256;
 				d.cell.set_xcc(i->first);
@@ -1332,7 +1332,7 @@ void Cxcc_level::clear()
 	basic_data.lose.erase();
 	basic_data.name.erase();
 	basic_data.percent = 100;
-	basic_data.player = s_goodguy;;
+	basic_data.player = s_goodguy;
 	basic_data.theme.erase();
 	basic_data.win.erase();
 
