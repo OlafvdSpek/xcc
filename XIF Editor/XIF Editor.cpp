@@ -28,15 +28,6 @@ BEGIN_MESSAGE_MAP(CXIFEditorApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXIFEditorApp construction
-
-CXIFEditorApp::CXIFEditorApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CXIFEditorApp object
 
 CXIFEditorApp theApp;

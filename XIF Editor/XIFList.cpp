@@ -50,30 +50,6 @@ BEGIN_MESSAGE_MAP(CXIFList, CListView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXIFList drawing
-
-void CXIFList::OnDraw(CDC* pDC)
-{
-	CDocument* pDoc = GetDocument();
-	// TODO: add draw code here
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFList diagnostics
-
-#ifdef _DEBUG
-void CXIFList::AssertValid() const
-{
-	CListView::AssertValid();
-}
-
-void CXIFList::Dump(CDumpContext& dc) const
-{
-	CListView::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXIFList message handlers
 
 BOOL CXIFList::PreCreateWindow(CREATESTRUCT& cs) 

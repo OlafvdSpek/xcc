@@ -44,21 +44,6 @@ BEGIN_MESSAGE_MAP(CXIFTree, CTreeView)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXIFTree diagnostics
-
-#ifdef _DEBUG
-void CXIFTree::AssertValid() const
-{
-	CTreeView::AssertValid();
-}
-
-void CXIFTree::Dump(CDumpContext& dc) const
-{
-	CTreeView::Dump(dc);
-}
-#endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
 // CXIFTree message handlers
 
 void CXIFTree::OnInitialUpdate() 

@@ -43,17 +43,12 @@ public:
 	public:
 	virtual void OnInitialUpdate();
 	protected:
-	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
 // Implementation
 protected:
 	virtual ~CXIFList();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 	// Generated message map functions
 protected:

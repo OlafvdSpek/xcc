@@ -39,8 +39,6 @@ public:
 
 protected:  // control bar embedded members
 	CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
-	CReBar      m_wndReBar;
 
 // Generated message map functions
 protected:

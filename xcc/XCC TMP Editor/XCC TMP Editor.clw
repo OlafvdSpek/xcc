@@ -94,19 +94,6 @@ Command7=ID_APP_ABOUT
 CommandCount=7
 Command3=ID_FILE_MRU_FILE1
 
-[TB:IDR_MAINFRAME]
-Type=1
-Class=CMainFrame
-Command1=ID_FILE_NEW
-Command2=ID_FILE_OPEN
-Command3=ID_FILE_SAVE
-Command4=ID_EDIT_CUT
-Command5=ID_EDIT_COPY
-Command6=ID_EDIT_PASTE
-Command7=ID_FILE_PRINT
-CommandCount=8
-Command8=ID_APP_ABOUT
-
 [MNU:IDR_TMPTYPE]
 Type=1
 Class=CXCCTMPEditorView
@@ -304,7 +291,7 @@ Control6=IDC_STATIC,static,1342308352
 Control7=IDC_STATIC,static,1342308352
 Control8=IDC_STATIC,static,1342308352
 Control9=IDC_STATIC,static,1342308352
-Control10=IDC_X,edit,1350639744
+Control10=IDC_X,edit,1350631552
 Control11=IDC_Y,edit,1350639744
 Control12=IDC_X_EXTRA,edit,1350631552
 Control13=IDC_Y_EXTRA,edit,1350639744

@@ -33,7 +33,6 @@ public:
 
 // Implementation
 	//{{AFX_MSG(CXCCTMPEditorApp)
-	afx_msg void OnAppAbout();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

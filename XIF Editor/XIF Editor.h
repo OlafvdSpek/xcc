@@ -22,7 +22,6 @@
 class CXIFEditorApp : public CWinApp
 {
 public:
-	CXIFEditorApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
