@@ -79,9 +79,9 @@ public:
 	int load_temperate_palet();
 	int load_snow_palet();
 	int load_palet(string fname);
-	void draw(byte* d, int outline = -1) const;
+	void draw(byte* d, int outline = -1, bool view_true_height = false) const;
 	void draw_reverse(const byte* d);
-	t_rect get_rect() const;
+	t_rect get_rect(bool view_true_height = false) const;
 	void set_complete(const Cvirtual_image& image);
 	void set_image_header(int id, const t_tmp_image_header& header);
 	void set_extra_image(int id, const Cvirtual_image& image);

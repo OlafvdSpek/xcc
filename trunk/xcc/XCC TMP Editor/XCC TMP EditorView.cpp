@@ -29,6 +29,7 @@ END_MESSAGE_MAP()
 CXCCTMPEditorView::CXCCTMPEditorView()
 {
 	m_selected = -1;
+	m_view_true_height = false;
 }
 
 CXCCTMPEditorView::~CXCCTMPEditorView()
@@ -110,12 +111,12 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 	int y = 0;
 	int y_inc = tm.tmHeight;
 
-	t_rect global = pDoc->get_rect();
+	t_rect global = pDoc->get_rect(view_true_height());
 	{
 		int cx = global.r - global.x;
 		int cy = global.b - global.y;
 		byte* d = new byte[cx * cy];
-		pDoc->draw(d, m_selected);
+		pDoc->draw(d, m_selected, view_true_height());
 		load_color_table(pDoc->palet());
 		draw_image8(d, cx, cy, pDC, 0, y);
 		y += cy + y_inc;
@@ -217,4 +218,17 @@ void CXCCTMPEditorView::select(int id)
 		m_selected = id;
 		Invalidate();
 	}
+}
+
+bool CXCCTMPEditorView::view_true_height() const
+{
+	return m_view_true_height;
+}
+
+void CXCCTMPEditorView::view_true_height(bool v)
+{
+	if (m_view_true_height == v)
+		return;
+	m_view_true_height = v;
+	Invalidate();
 }

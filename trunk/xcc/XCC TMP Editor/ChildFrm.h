@@ -53,6 +53,8 @@ protected:
 	afx_msg void OnPaletTemperate();
 	afx_msg void OnPaletUrban();
 	afx_msg void OnPaletLoad();
+	afx_msg void OnViewTrueHeight();
+	afx_msg void OnUpdateViewTrueHeight(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

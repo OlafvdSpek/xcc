@@ -20,6 +20,8 @@ protected: // create from serialization only
 // Attributes
 public:
 	CXCCTMPEditorDoc* GetDocument();
+	bool view_true_height() const;
+	void view_true_height(bool v);
 
 // Operations
 public:
@@ -56,6 +58,7 @@ private:
 	CRect m_clip_rect;
 	dword m_color_table[256];
 	int m_selected;
+	bool m_view_true_height;
 };
 
 #ifndef _DEBUG  // debug version in XCC TMP EditorView.cpp

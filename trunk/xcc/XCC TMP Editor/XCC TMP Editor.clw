@@ -2,7 +2,7 @@
 
 [General Info]
 Version=1
-LastClass=CLeftView
+LastClass=CChildFrame
 LastTemplate=CDialog
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "XCC TMP Editor.h"
@@ -16,16 +16,16 @@ Class4=CMainFrame
 Class7=CAboutDlg
 
 ResourceCount=8
-Resource1=IDR_TMPTYPE (English (U.S.))
+Resource1=IDR_MAINFRAME (English (U.S.))
 Resource2=CG_IDR_POPUP_LEFT_VIEW
 Resource3=IDR_TMPTYPE
 Class5=CChildFrame
 Class6=CLeftView
 Resource4=IDD_ABOUTBOX (English (U.S.))
-Resource5=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
+Resource5=IDR_TMPTYPE (English (U.S.))
 Class8=Cproperties_dlg
 Resource6=IDD_PROPERTIES
-Resource7=IDR_MAINFRAME (English (U.S.))
+Resource7=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
 Resource8=IDD_PROPERTIES (English (U.S.))
 
 [CLS:CXCCTMPEditorApp]
@@ -64,7 +64,7 @@ ImplementationFile=ChildFrm.cpp
 Filter=M
 BaseClass=CMDIChildWnd
 VirtualFilter=mfWC
-LastObject=ID_PALET_LOAD
+LastObject=ID_VIEW_TRUE_HEIGHT
 
 [CLS:CLeftView]
 Type=0
@@ -168,10 +168,7 @@ Command1=ID_FILE_NEW
 Command2=ID_FILE_OPEN
 Command3=ID_FILE_MRU_FILE1
 Command4=ID_APP_EXIT
-Command5=ID_VIEW_TOOLBAR
-Command6=ID_VIEW_STATUS_BAR
-Command7=ID_WINDOW_SPLIT
-CommandCount=7
+CommandCount=4
 
 [MNU:IDR_TMPTYPE (English (U.S.))]
 Type=1
@@ -195,13 +192,12 @@ Command16=ID_PALET_LOAD
 Command17=ID_PALET_SNOW
 Command18=ID_PALET_TEMPERATE
 Command19=ID_PALET_URBAN
-Command20=ID_VIEW_TOOLBAR
-Command21=ID_VIEW_STATUS_BAR
-Command22=ID_WINDOW_NEW
-Command23=ID_WINDOW_CASCADE
-Command24=ID_WINDOW_TILE_HORZ
-Command25=ID_WINDOW_ARRANGE
-CommandCount=25
+Command20=ID_VIEW_TRUE_HEIGHT
+Command21=ID_WINDOW_NEW
+Command22=ID_WINDOW_CASCADE
+Command23=ID_WINDOW_TILE_HORZ
+Command24=ID_WINDOW_ARRANGE
+CommandCount=24
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1

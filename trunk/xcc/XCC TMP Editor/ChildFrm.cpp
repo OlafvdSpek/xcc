@@ -27,6 +27,8 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 	ON_COMMAND(ID_PALET_TEMPERATE, OnPaletTemperate)
 	ON_COMMAND(ID_PALET_URBAN, OnPaletUrban)
 	ON_COMMAND(ID_PALET_LOAD, OnPaletLoad)
+	ON_COMMAND(ID_VIEW_TRUE_HEIGHT, OnViewTrueHeight)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_TRUE_HEIGHT, OnUpdateViewTrueHeight)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -138,4 +140,14 @@ void CChildFrame::OnPaletLoad()
 	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, pal_filter, this);
 	if (IDOK == dlg.DoModal())
 		GetLeftPane()->GetDocument()->load_palet(static_cast<string>(dlg.GetPathName()));
+}
+
+void CChildFrame::OnViewTrueHeight() 
+{
+	GetRightPane()->view_true_height(!GetRightPane()->view_true_height());
+}
+
+void CChildFrame::OnUpdateViewTrueHeight(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(GetRightPane()->view_true_height());
 }

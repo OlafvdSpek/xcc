@@ -30,6 +30,7 @@ public:
 
 // Implementation
 public:
+	bool view_true_height();
 	virtual ~CMainFrame();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
