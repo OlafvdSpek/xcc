@@ -22,8 +22,6 @@ private:
 	Cvirtual_binary m_data;
 	bool force_upper_case;
 	int pos;
-	// int reserved;
-	// int size;
 
 	const char* data() const
 	{

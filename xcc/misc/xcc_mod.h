@@ -16,7 +16,6 @@
 class Cxcc_mod  
 {
 public:
-	bool future_version();
 	struct t_options
 	{
 		string name;
@@ -49,6 +48,7 @@ public:
 	void clear_game_dir() const;
 	bool contains(t_category_type category) const;
 	bool contains(t_category_type category, string fname, bool strip_path = false) const;
+	bool future_version();
 	int insert(t_category_type category, string fname);
 	static int activate(const Cxif_key& key, bool external_data);
 	int activate() const;

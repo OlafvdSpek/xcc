@@ -20,15 +20,24 @@ Cvirtual_audio::~Cvirtual_audio()
 {
 }
 
-void Cvirtual_audio::load(const void* audio, int c_samples, int samplerate, int cb_sample, int c_channels)
+void Cvirtual_audio::load(Cvirtual_file f, int c_samples, int samplerate, int cb_sample, int c_channels)
 {
 	mc_samples = c_samples;
 	m_samplerate = samplerate;
 	mcb_sample = cb_sample;
 	mc_channels = c_channels;
-	m_f.clear();
-	m_f.write(audio, cb_audio());
+	m_f = f;
+	m_f.compact();
 }
+
+/*
+void Cvirtual_audio::load(const void* audio, int c_samples, int samplerate, int cb_sample, int c_channels)
+{
+	Cvirtual_file f;
+	f.write(audio, cb_audio());
+	load(f, c_samples, samplerate, cb_sample, c_channels);
+}
+*/
 
 void Cvirtual_audio::save_as_aud(Cvirtual_file& f) const
 {

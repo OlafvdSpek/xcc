@@ -9,7 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <string>
 #include "vartypes.h"
+
+using namespace std;
 
 class Cvirtual_binary_source
 {
@@ -62,6 +65,7 @@ public:
 	int export(string fname) const;
 	int import(string fname);
 	void clear();
+	void memset(int v);
 	int read(void* d) const;
 	byte* write_start(int cb_d);
 	void write(const void* d, int cb_d);

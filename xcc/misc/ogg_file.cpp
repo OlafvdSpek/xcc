@@ -5,8 +5,8 @@
 #include "stdafx.h"
 #include "ogg_file.h"
 
-#include "codec.h"
-#include "vorbisfile.h"
+#include "vorbis/codec.h"
+#include "vorbis/vorbisfile.h"
 #include "wav_file.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -23,7 +23,7 @@ Cogg_file::~Cogg_file()
 
 #ifdef OGG_SUPPORT
 
-size_t null_read(void *ptr, size_t size, size_t nmemb, void* datasource)
+size_t null_read(void* ptr , size_t size, size_t nmemb, void* datasource)
 {
 	return 0;
 }
@@ -121,11 +121,11 @@ int Cogg_file::decode(Cvirtual_audio& audio)
 			error = 0x100;
 		else
 		{		
-			vorbis_info* vi = ov_info(&vf, -1);
-			
-			int cb_d = 4 << 20;
-			byte* d = new byte[cb_d];
-			byte* w = d;
+			vorbis_info* vi = ov_info(&vf, -1);			
+			Cvirtual_file f;
+			// int cb_d = 4 << 20;
+			// byte* d = new byte[cb_d];
+			// byte* w = d;
 			
 			const int cb_b = 16 << 10;
 			char b[cb_b];
@@ -133,12 +133,14 @@ int Cogg_file::decode(Cvirtual_audio& audio)
 			{
 				int current_section;
 				int cb_read = ov_read(&vf, b, cb_b, 0, 2, 1, &current_section);
+				// int c_samples = ov_pcm_total(&vf, current_section);
 				if (!cb_read) 
 					break;
 				else if (cb_read < 0) 
 					error = 1;
 				else 
 				{
+					/*
 					if (w - d + cb_read > cb_d)
 					{
 						cb_d <<= 1;
@@ -150,14 +152,16 @@ int Cogg_file::decode(Cvirtual_audio& audio)
 					}
 					memcpy(w, b, cb_read);
 					w += cb_read;
+					*/
+					f.write(b, cb_read);
 				}
 			}
 			if (!error)
 			{
-				cb_d = w - d;
-				audio.load(d, cb_d / (vi->channels << 1), vi->rate, 2, vi->channels);
+				// cb_d = w - d;
+				audio.load(f, f.size() / (vi->channels << 1), vi->rate, 2, vi->channels);
 			}
-			delete[] d;
+			// delete[] d;
 			ov_clear(&vf);
 		}
 	}

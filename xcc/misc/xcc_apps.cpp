@@ -89,11 +89,14 @@ void Cxcc_apps::init()
 {
 	string xcc_path = GetModuleFileName().get_path();
 	set_exe(app_xap, xcc_path + "XCC AV Player.exe");
+	set_exe(app_xcr, xcc_path + "XCC Cheat Reporter.exe");
 	set_exe(app_xed, xcc_path + "XCC Editor.exe");
 	set_exe(app_xmr, xcc_path + "XCC Mixer.exe");
 	set_exe(app_xme, xcc_path + "XCC Mix Editor.exe");
 	set_exe(app_xmc, xcc_path + "XCC Mod Creator.exe");
 	set_exe(app_xml, xcc_path + "XCC Mod Launcher.exe");
+	set_exe(app_xrc, xcc_path + "XCC Radar Customizer.exe");	
+	set_exe(app_xrmu, xcc_path + "XCC RA2 Map Updater.exe");	
 	set_exe(app_fs, find_fs_exe());
 	set_exe(app_fa, find_fa_exe());
 	string se_exe, semm_exe;

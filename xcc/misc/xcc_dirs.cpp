@@ -82,7 +82,37 @@ string xcc_dirs::get_exe(t_game game)
 	}
 }
 
-string xcc_dirs::get_main_mix(t_game game)
+string xcc_dirs::get_audio_mix(t_game game, bool expansion)
+{
+	switch (game)
+	{
+	case game_ra2:
+		return expansion ? "audiomd.mix" : "audio.mix";
+	}
+	return "";
+}
+
+string xcc_dirs::get_csf_fname(t_game game, bool expansion)
+{
+	switch (game)
+	{
+	case game_ra2:
+		return expansion ? "ra2md.csf" : "ra2.csf";
+	}
+	return "";
+}
+
+string xcc_dirs::get_language_mix(t_game game, bool expansion)
+{
+	switch (game)
+	{
+	case game_ra2:
+		return ra2_dir + (expansion ? "langmd.mix" : "language.mix");
+	}
+	return "";
+}
+
+string xcc_dirs::get_main_mix(t_game game, bool expansion)
 {
 	switch (game)
 	{
@@ -91,11 +121,10 @@ string xcc_dirs::get_main_mix(t_game game)
 	case game_ts:
 		return ts_dir + "tibsun.mix";
 	case game_ra2:
-		return ra2_dir + "ra2.mix";
-	default:
-		assert(false);
-		return "";
+		return ra2_dir + (expansion ? "ra2md.mix" : "ra2.mix");
 	}
+	assert(false);
+	return "";
 }
 
 static void set_path(string s, string& path)
