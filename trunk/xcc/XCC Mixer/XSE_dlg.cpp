@@ -124,8 +124,11 @@ BOOL CXSE_dlg::OnInitDialog()
 			m_reverse_csf_map[j->second.extra_value] = j;
 		}
 	}
-	if (m_bag_f.open_edit(xcc_dirs::get_dir(m_game) + "audio.bag")
-		|| m_idx_f.open_edit(xcc_dirs::get_dir(m_game) + "audio.idx"))
+	if (m_bag_fname.empty())
+		m_bag_fname = xcc_dirs::get_dir(m_game) + "audio.bag";
+	if (m_idx_fname.empty())
+		m_idx_fname = xcc_dirs::get_dir(m_game) + "audio.idx";
+	if (m_bag_f.open_edit(m_bag_fname) || m_idx_f.open_edit(m_idx_fname))
 		throw;
 	if (m_bag_f.get_size() && m_idx_f.get_size())
 	{
@@ -645,4 +648,14 @@ void CXSE_dlg::OnDropFiles(HDROP hDropInfo)
 void CXSE_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	OnPlay();
+}
+
+void CXSE_dlg::bag_file(const string& v)
+{
+	m_bag_fname = v;
+}
+
+void CXSE_dlg::idx_file(const string& v)
+{
+	m_idx_fname = v;
 }

@@ -1161,12 +1161,11 @@ void CMainFrame::OnUpdateLaunchXSTE_GR_ZH(CCmdUI* pCmdUI)
 void CMainFrame::OnLaunchXSTE_Open() 
 {
 	CFileDialog dlg(true, "csf", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "CSF files (*.csf)|*.csf|", this);
-	if (IDOK == dlg.DoModal())
-	{
-		CXSTE_dlg dlg2(game_unknown);
-		dlg2.open(static_cast<string>(dlg.GetPathName()));
-		dlg2.DoModal();
-	}
+	if (IDOK != dlg.DoModal())
+		return;
+	CXSTE_dlg dlg2(game_unknown);
+	dlg2.open(static_cast<string>(dlg.GetPathName()));
+	dlg2.DoModal();
 }
 
 void CMainFrame::OnLaunchXSE_RA2() 
@@ -1193,6 +1192,16 @@ void CMainFrame::OnUpdateLaunchXSE_RA2_YR(CCmdUI* pCmdUI)
 
 void CMainFrame::OnLaunchXSE_Open() 
 {
+	CFileDialog dlg0(true, "bag", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "BAG files (*.bag)|*.bag|", this);
+	if (IDOK != dlg0.DoModal())
+		return;
+	CFileDialog dlg1(true, "idx", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "IDX files (*.idx)|*.idx|", this);
+	if (IDOK != dlg1.DoModal())
+		return;
+	CXSE_dlg dlg2(game_ra2_yr);
+	dlg2.bag_file(string(dlg0.GetPathName()));
+	dlg2.idx_file(string(dlg1.GetPathName()));
+	dlg2.DoModal();
 }
 
 void CMainFrame::OnDestroy() 

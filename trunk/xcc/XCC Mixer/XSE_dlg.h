@@ -24,6 +24,8 @@ class CXSE_dlg : public ETSLayoutDialog
 {
 // Construction
 public:
+	void bag_file(const string&);
+	void idx_file(const string&);
 	void sort_list(int i, bool reverse);
 	void set_extract_to_dir(const string& v);
 	void add_file(const string& name);
@@ -95,8 +97,10 @@ private:
 	bool m_expansion;
 	t_game m_game;
 	Cfile32 m_bag_f;
+	string m_bag_fname;
 	Ccsf_file m_csf_f;
 	Cfile32 m_idx_f;
+	string m_idx_fname;
 	t_map m_map;
 	t_reverse_csf_map m_reverse_csf_map;
 	int m_sort_column;
