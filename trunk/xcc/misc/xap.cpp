@@ -169,7 +169,6 @@ int Cxap::play(bool start_thread)
 								w += cb_sample * cs_chunk;
 								cs_remaining -= cs_chunk;
 							}
-							Cvirtual_binary(p1, w - reinterpret_cast<byte*>(p1)).export("/temp/aud_ws.bin");
 						}
 						break;
 					case 0x63:
