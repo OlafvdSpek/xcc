@@ -29,17 +29,17 @@ public:
 	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
 	int load(const Cvirtual_binary s);
 	int load(const Cvirtual_file& f);
-	int load(string fname);
-	int load_as_jpeg(string fname);
-	int load_as_pcx(string fname);
+	int load(const string& fname);
+	int load_as_jpeg(const string& fname);
+	int load_as_pcx(const string& fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
-	int save(string fname, t_file_type ft) const;
+	int save(const string& fname, t_file_type ft) const;
 	int save_as_jpeg(Cvirtual_file& f, int q = -1) const;
-	int save_as_jpeg(string fname, int q = -1) const;
+	int save_as_jpeg(const string& fname, int q = -1) const;
 	void save_as_pcx(Cvirtual_file& f) const;
-	int save_as_pcx(string fname) const;
+	int save_as_pcx(const string& fname) const;
 	int save_as_png(Cvirtual_file& f) const;
-	int save_as_png(string fname) const;
+	int save_as_png(const string& fname) const;
 	void swap_rb();
 
 	const byte* image() const
