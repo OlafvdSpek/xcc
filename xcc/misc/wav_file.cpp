@@ -116,23 +116,33 @@ int wav_ima_adpcm_file_write_header(void* w, int cb_audio, int c_samples, int sa
 	return sizeof(t_wav_ima_adpcm_header);
 }
 
-void wav_ima_adpcm_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
+Cvirtual_file wav_ima_adpcm_file_write(const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
 	Cima_adpcm_wav_encode encode;
 	encode.load(reinterpret_cast<const short*>(s), cb_s, c_channels);
 	int cb_audio = encode.cb_data();
-	int cb_d = sizeof(t_wav_ima_adpcm_header) + cb_audio;
-	byte* d = new byte[cb_d];
-	byte* w = d;
+	Cvirtual_binary d;
+	byte* w = d.write_start(sizeof(t_wav_ima_adpcm_header) + cb_audio);
 	w += wav_ima_adpcm_file_write_header(w, cb_audio, c_samples, samplerate, c_channels);
 	memcpy(w, encode.data(), cb_audio);
-	f.write(d, cb_d);
-	delete[] d;
+	return d;
 }
 
 int wav_ima_adpcm_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
-	Cvirtual_file f;
-	wav_ima_adpcm_file_write(f, s, cb_s, c_samples, samplerate, c_channels);
-	return f.export(fname);
+	return wav_ima_adpcm_file_write(s, cb_s, c_samples, samplerate, c_channels).export(fname);
+}
+
+Cvirtual_file wav_pcm_file_write(const void* s, int cb_s, int samplerate, int cb_sample, int c_channels)
+{
+	Cvirtual_binary d;
+	byte* w = d.write_start(sizeof(t_wav_header) + cb_s);
+	w += wav_file_write_header(w, cb_s / (cb_sample * c_channels), samplerate, cb_sample, c_channels);
+	memcpy(w, s, cb_s);
+	return d;
+}
+
+int wav_pcm_file_write(string fname, const void* s, int cb_s, int samplerate, int cb_sample, int c_channels)
+{
+	return wav_pcm_file_write(s, cb_s, samplerate, cb_sample, c_channels).export(fname);
 }

@@ -12,19 +12,19 @@ Ccsf_file& CXSTE::csf_f()
 	return m_csf_f;
 }
 
-int CXSTE::open()
+int CXSTE::open(t_game game)
 {
-	int error = m_f.open_edit(xcc_dirs::get_ra2_dir() + "ra2.csf");
+	int error = m_f.open_edit(xcc_dirs::get_ra2_dir() + xcc_dirs::get_csf_fname(game));
 	if (!error)
 	{
 		if (!m_f.get_size())
 		{
 			Cmix_file language;
-			error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
+			error = language.open(xcc_dirs::get_language_mix(game));
 			if (!error)
 			{
 				Ccsf_file f;
-				error = f.open("ra2.csf", language);
+				error = f.open(xcc_dirs::get_csf_fname(game), language);
 				if (!error)
 				{
 					error = m_f.write(f.get_data(), f.get_size());

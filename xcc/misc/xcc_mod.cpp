@@ -43,6 +43,7 @@ static const int mf_version = 2;
 
 Cxcc_mod::Cxcc_mod()
 {
+	m_options.name = "Anonymous";
 	m_options.link = "http://";
 	m_options.mod_name = "XCC Mod";
 	m_options.game = game_ra2;
@@ -58,7 +59,7 @@ Cxcc_mod::Cxcc_mod()
 	m_options.xhp_button = true;
 	m_options.mod_version = "1.00";
 	m_options.mod_ucf = "http://";
-	m_options.confirm_deactivate = true;
+	m_options.confirm_deactivate = false;
 	m_options.mf_version = 0;
 }
 
@@ -283,9 +284,9 @@ Cxif_key Cxcc_mod::save(bool export) const
 	{
 		const t_game game = m_options.game;
 		const string dir = xcc_dirs::get_dir(game);
-		language_mix.open(dir + "language.mix");
+		language_mix.open(xcc_dirs::get_language_mix(game));
 		if (!main_mix.open(xcc_dirs::get_main_mix(game)))
-			local_mix.open("local.mix", main_mix);
+			local_mix.open(xcc_dirs::get_local_mix(game), main_mix);
 	}
 	for (int category = 0; category < ct_unknown; category++)
 	{
@@ -461,109 +462,75 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 	int error = main_mix.open(xcc_dirs::get_main_mix(game));
 	if (!error)
 	{
-		language_mix.open(dir + "language.mix");
-		error = local_mix.open("local.mix", main_mix);
+		error = language_mix.open(xcc_dirs::get_language_mix(game));
 		if (!error)
 		{
-			for (t_xif_key_map::const_iterator category = key.m_keys.begin(); category != key.m_keys.end(); category++)
+			error = local_mix.open(xcc_dirs::get_local_mix(game), main_mix);
+			if (!error)
 			{
-				if (error)
-					break;
-				if (category->second.m_keys.empty())
-					continue;
-				Cxse xse;
-				switch (category->first)
-				{
-				case ct_launcher:
-				case ct_manual:
-					continue;
-				case ct_sound:
-					if (game == game_ra2 && xse.open())
-					{
-						error = 1;
-						continue;
-					}
-					break;
-				}
-				for (t_xif_key_map::const_iterator i = category->second.m_keys.begin(); i != category->second.m_keys.end(); i++)
+				for (t_xif_key_map::const_iterator category = key.m_keys.begin(); category != key.m_keys.end(); category++)
 				{
 					if (error)
 						break;
-					const Cfname external_fname = i->second.get_value_string(vi_fname);
-					Cfname fname = Cfname(external_fname).get_fname();
-					t_file_type ft;
-					Cvirtual_binary data;
-					t_encoding encoding;
-					__int64 last_write_time;
-					if (external_data)
+					if (category->second.m_keys.empty())
+						continue;
+					Cxse xse;
+					switch (category->first)
 					{
-						error = data.import(external_fname);
-						if (!error)
+					case ct_launcher:
+					case ct_manual:
+						continue;
+					case ct_sound:
+						if (game != game_ts && xse.open())
 						{
-							Ccc_file f(true);
-							f.load(data);
-							ft = f.get_file_type();
+							error = 1;
+							continue;
 						}
-						encoding = enc_none;
-						last_write_time = get_last_write_time(external_fname);
+						break;
 					}
-					else
+					for (t_xif_key_map::const_iterator i = category->second.m_keys.begin(); i != category->second.m_keys.end(); i++)
 					{
-						ft = static_cast<t_file_type>(i->second.get_value_int(vi_ft));
-						data = i->second.get_value(vi_fdata).get_vdata();
-						// encoding = i->second.exists_value(vi_encoding) ? static_cast<t_encoding>(i->second.get_value_int(vi_encoding, enc_none)) : enc_none;
-						encoding = static_cast<t_encoding>(i->second.get_value_int(vi_encoding, enc_none));
-						last_write_time = 0;
-					}
-					Cvirtual_file h;
-					bool ignore = false;
-					switch (ft)
-					{
-					case ft_jpeg:
-						fname.set_ext(".pcx");
-						if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
+						if (error)
+							break;
+						const Cfname external_fname = i->second.get_value_string(vi_fname);
+						Cfname fname = Cfname(external_fname).get_fname();
+						t_file_type ft;
+						Cvirtual_binary data;
+						t_encoding encoding;
+						__int64 last_write_time;
+						if (external_data)
 						{
-							Cjpeg_file g;
-							g.load(data);
-							Cvirtual_image image;
-							if (!g.decode(image))
+							error = data.import(external_fname);
+							if (!error)
 							{
-								image.save_as_pcx(h);
-								if (external_data)
-								{
-									string temp_fname = temp_dir + fname;
-									h.export(temp_fname);
-								}
-								data = h.read();
+								Ccc_file f(true);
+								f.load(data);
+								ft = f.get_file_type();
 							}
+							encoding = enc_none;
+							last_write_time = get_last_write_time(external_fname);
 						}
 						else
 						{
-							data = h.read();
+							ft = static_cast<t_file_type>(i->second.get_value_int(vi_ft));
+							data = i->second.get_value(vi_fdata).get_vdata();
+							encoding = static_cast<t_encoding>(i->second.get_value_int(vi_encoding, enc_none));
+							last_write_time = 0;
 						}
-						break;
-					case ft_ogg:
-						fname.set_ext(game == game_ts ? ".aud" : ".wav");
-						if (Cfname(dir + fname).exists())
-							ignore = true;
-						else if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
+						Cvirtual_file h;
+						bool ignore = false;
+						switch (ft)
 						{
-							Cogg_file g;
-							g.load(data);
-							Cvirtual_audio audio;
-							if (!g.decode(audio))
+						case ft_jpeg:
+							fname.set_ext(".pcx");
+							if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
 							{
-								if (game == game_ts)
+								Cjpeg_file g;
+								g.load(data);
+								Cvirtual_image image;
+								if (!g.decode(image))
 								{
-									if (audio.c_channels() != 1)
-										error = 1;
-									else
-										audio.save_as_aud(h);
-								}
-								else
-									audio.save_as_wav_ima_adpcm(h);
-								if (!error)
-								{
+									image.save_as_pcx(h);
 									if (external_data)
 									{
 										string temp_fname = temp_dir + fname;
@@ -572,75 +539,110 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 									data = h.read();
 								}
 							}
-						}
-						else
-						{
-							data = h.read();
-						}
-						break;
-					case ft_pcx:
-						if ((category->first == ct_cameo || (category->first == ct_screen && game == game_ra2)))
-						{
-							Cpcx_file g;
-							g.load(data);
-							if (g.get_c_planes() == 1)
+							else
 							{
-								fname.set_ext(".shp");
-								Cvirtual_image image;
-								g.decode(image);							
-								shp_ts_file_write(image, h, 1, true);
 								data = h.read();
 							}
-						}
-						break;
-					case ft_shp_ts:
-						if (encoding == enc_shp)
-						{
-							shp_decode4(data.data(), h);
-							data = h.read();
-						}
-						break;
-					case ft_vxl:
-						if (encoding == enc_vxl)
-						{
-							vxl_decode4(data.data(), h);
-							data = h.read();
-						}
-						break;
-					case ft_xif:
-						if (category->first == ct_map)
-						{
-							Cxif_key k;
-							int error = k.load_key(data.data(), data.size());
-							if (!error)
+							break;
+						case ft_ogg:
+							fname.set_ext(game == game_ts ? ".aud" : ".wav");
+							if (Cfname(dir + fname).exists())
+								ignore = true;
+							else if (get_last_write_time(temp_dir + fname) < last_write_time || h.import(temp_dir + fname))
 							{
-								if (Cmap_ts_encoder::wrong_version(k))
-									error = 1;
-								/*
-								else if (Cmap_ts_encoder::write_mmx(k))
+								Cogg_file g;
+								g.load(data);
+								Cvirtual_audio audio;
+								if (!g.decode(audio))
 								{
-									fname.set_ext(".mmx");
-									string title = fname.get_ftitle();
-									strstream ini, pkt;
-									Cmix_file_write mmx_f;
-									Cmap_ts_encoder::write_map(ini, k, Cvirtual_binary());
-									Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
-									mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
-									mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
-									error = mmx_f.write().export(dir + fname);
-									ignore = true;
-								}
-								*/
-								else
-								{
-									fname.set_ext(".map");
-									strstream s;
-									Cmap_ts_encoder::write_map(s, k, Cvirtual_binary());
-									data = Cvirtual_binary(s.str(), s.pcount());
+									if (game == game_ts)
+									{
+										if (audio.c_channels() != 1)
+											error = 1;
+										else
+											h = audio.save_as_aud();
+									}
+									else
+										h = audio.save_as_wav_ima_adpcm();
+									if (!error)
+									{
+										if (external_data)
+										{
+											string temp_fname = temp_dir + fname;
+											h.export(temp_fname);
+										}
+										data = h.read();
+									}
 								}
 							}
-						}
-						break;
+							else
+							{
+								data = h.read();
+							}
+							break;
+						case ft_pcx:
+							if ((category->first == ct_cameo || (category->first == ct_screen && game == game_ra2)))
+							{
+								Cpcx_file g;
+								g.load(data);
+								if (g.get_c_planes() == 1)
+								{
+									fname.set_ext(".shp");
+									Cvirtual_image image;
+									g.decode(image);							
+									shp_ts_file_write(image, h, 1, true);
+									data = h.read();
+								}
+							}
+							break;
+						case ft_shp_ts:
+							if (encoding == enc_shp)
+							{
+								shp_decode4(data.data(), h);
+								data = h.read();
+							}
+							break;
+						case ft_vxl:
+							if (encoding == enc_vxl)
+							{
+								vxl_decode4(data.data(), h);
+								data = h.read();
+							}
+							break;
+						case ft_xif:
+							if (category->first == ct_map)
+							{
+								Cxif_key k;
+								int error = k.load_key(data.data(), data.size());
+								if (!error)
+								{
+									if (Cmap_ts_encoder::wrong_version(k))
+										error = 1;
+										/*
+										else if (Cmap_ts_encoder::write_mmx(k))
+										{
+										fname.set_ext(".mmx");
+										string title = fname.get_ftitle();
+										strstream ini, pkt;
+										Cmix_file_write mmx_f;
+										Cmap_ts_encoder::write_map(ini, k, Cvirtual_binary());
+										Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
+										mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
+										mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
+										error = mmx_f.write().export(dir + fname);
+										ignore = true;
+										}
+									*/
+									else
+									{
+										fname.set_ext(".map");
+										strstream s;
+										Cmap_ts_encoder::write_map(s, k, Cvirtual_binary());
+										data = Cvirtual_binary(s.str(), s.pcount());
+									}
+								}
+							}
+							break;
 					}
 					if (!error && !ignore)
 					{
@@ -727,7 +729,7 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 				switch (category->first)
 				{
 				case ct_sound:
-					if (game == game_ra2)
+					if (game != game_ts)
 					{
 						if (!error)
 							error = xse.compact();
@@ -739,8 +741,8 @@ int Cxcc_mod::activate(const Cxif_key& key, bool external_data)
 				}
 			}
 			local_mix.close();
-			if (language_mix.is_open())
-				language_mix.close();
+		}
+		language_mix.close();
 		}
 		main_mix.close();
 	}
@@ -828,6 +830,24 @@ void Cxcc_mod::clear_game_dir() const
 	delete_file(dir + "rules.ini");
 	delete_file(dir + "sound.ini");
 	delete_file(dir + "ui.ini");
+}
+
+int Cxcc_mod::load_launcher_audio(const Cxif_key& key, string fname, Cvirtual_audio& audio)
+{
+	if (!key.exists_key(ct_launcher))
+		return 1;
+	const Cxif_key& category = key.open_key_read(ct_launcher);
+	for (t_xif_key_map::const_iterator i = category.m_keys.begin(); i != category.m_keys.end(); i++)
+	{
+		if (i->second.get_value_string(vi_fname) != fname)
+			continue;
+		Cogg_file f;
+		f.load(i->second.get_value(vi_fdata).get_vdata());
+		if (!f.is_valid() || f.decode(audio))
+			break;
+		return 0;
+	}
+	return 1;
 }
 
 int Cxcc_mod::load_launcher_image(const Cxif_key& key, string fname, Cvirtual_image& image)

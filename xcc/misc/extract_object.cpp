@@ -37,7 +37,7 @@ void Cextract_object::open_default(t_game game)
 	else
 	{
 		add_mix(xcc_dirs::get_ra2_dir() + "language.mix");
-		m_xste.open();
+		m_xste.open(game);
 	}
 	for (int j = 0; j < 100; j++)
 	{

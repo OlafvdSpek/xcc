@@ -568,7 +568,7 @@ void Cmap_ts_encoder::write_pkt(ostream& os, const Cxif_key& k, string title)
 {
 	string description = k.get_value_string(vi_description);
 	CXSTE xste;
-	if (!xste.open())
+	if (!xste.open(game_ra2))
 	{
 		xste.csf_f().set_value("XMM:" + title, Ccsf_file::convert2wstring(description), "");
 		if (!xste.write())

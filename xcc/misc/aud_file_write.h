@@ -26,7 +26,7 @@ private:
 	int m_samplerate;
 };
 
-void aud_file_write(Cvirtual_file& f, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
+Cvirtual_file aud_file_write(const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 void audio_combine_channels(__int16* data, int c_samples);
 

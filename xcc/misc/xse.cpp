@@ -11,6 +11,7 @@
 
 int Cxse::open()
 {
+	t_game game = Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists() ? game_ra2_yr : game_ra2;
 	int error = m_bag_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.bag");
 	if (!error)
 	{
@@ -32,12 +33,12 @@ int Cxse::open()
 			else
 			{
 				Cmix_file language;
-				error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
+				error = language.open(xcc_dirs::get_language_mix(game));
 				if (!error)
 				{
 					language.set_game(game_ra2);
 					Cmix_file audio;
-					error = audio.open("audio.mix", language);
+					error = audio.open(xcc_dirs::get_audio_mix(game), language);
 					if (!error)
 					{
 						audio.set_game(game_ra2);
