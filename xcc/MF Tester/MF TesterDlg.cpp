@@ -174,19 +174,11 @@ void CMFTesterDlg::test_serverlist_server(const char* ipa, int gid)
 			{
 				const int cb_d = 4 << 10;
 				char d[cb_d];				
-				while (1)
-				{
-					int e = recv(s, d, cb_d, 0);
-					if (e == SOCKET_ERROR)
-					{
-						m_edit += "unable to receive" + n(WSAGetLastError());
-						break;
-					}
-					else if (e)
-						m_edit += string(d, e).c_str();
-					else
-						break;
-				}
+				int e;
+				while ((e = recv(s, d, cb_d, 0)) && e != SOCKET_ERROR)
+					m_edit += CString(d, e);
+				if (e == SOCKET_ERROR)
+					m_edit += "unable to receive: " + n(WSAGetLastError());
 			}
 		}
 		closesocket(s);
