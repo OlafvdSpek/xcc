@@ -80,7 +80,7 @@ void config(HWND hwnd)
 	bi.pidlRoot = NULL;
 	bi.pszDisplayName = name;
 	bi.lpszTitle = "Select a directory for WAV file output:";
-	bi.ulFlags = BIF_RETURNONLYFSDIRS;
+	bi.ulFlags = BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
 	bi.lpfn = BrowseCallbackProc;
 	bi.lParam = 0;
 	idlist = SHBrowseForFolder(&bi);
