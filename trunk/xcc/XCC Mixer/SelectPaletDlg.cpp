@@ -115,7 +115,7 @@ void CSelectPaletDlg::update_list(int parent_id, int current_palet)
 			continue;
 		string name = i->second.name;
 		{	
-			int i = name.rfind(' ');;
+			int i = name.rfind(' ');
 			if (i != string::npos)
 				name = name.substr(i + 1);
 		}
