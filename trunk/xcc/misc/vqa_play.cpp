@@ -184,10 +184,7 @@ bool Cvqa_play::run()
 	while (1)
 	{
 		if (f->get_chunk_id() == vqa_vqfl_id)
-		{
-			Cvirtual_binary data = f->read_chunk();
-			vqa_d.decode_vqfl_chunk(data, data.size());
-		}
+			vqa_d.decode_vqfl_chunk(f->read_chunk());
 		else if (f->is_audio_chunk())
 		{
 			short* aud_out;
