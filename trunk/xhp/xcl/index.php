@@ -76,7 +76,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<link rel=stylesheet href="/xcl.css">
 	<meta http-equiv=content-type content="text/html; charset=us-ascii">
-	<title>XCC Community Ladder</title>
+	<title>XCC Community Ladder<?php if (gmdate("d") == 1) echo (" (frozen)") ?></title>
 <!--
 <table width="100%">
 	<tr>
@@ -324,7 +324,7 @@
 				echo_player($players[$player_a++]);
 				echo_player($players[$player_b++]);
 				printf("<td align=right>%s<td>%s<td align=right>%s<td>%d<td>%d<td>%d",
-					dura2a($result[dura]), $result[scen], date("H:i d-m", $result[mtime]), $result[afps], $result[oosy], $result[trny]);
+					dura2a($result[dura]), $result[scen], gmdate("H:i d-m", $result[mtime]), $result[afps], $result[oosy], $result[trny]);
 				if ($unfair_games)
 					printf("<td><a href=\"/xla/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
 				for (; $player_a < $plrs; $player_a++, $player_b++)
@@ -358,6 +358,7 @@
 		echo("<td><td>");
 		echo_hof(4, "Clan");
 		echo("</table></center>");
+		echo("<hr><center><table><tr><th colspan=8>August<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>unstop4bl<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>canminzz<tr><td align=right>4<td>lnstopabl<tr><td align=right>5<td>klr0v<tr><td align=right>6<td>d1sc1pl1n<tr><td align=right>7<td>intagrand<tr><td align=right>8<td>xown4no1x<tr><td align=right>9<td>xclispo0p<tr><td align=right>10<td>xclyoni</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>g@work<tr><td align=right>2<td>g@w0rk<tr><td align=right>3<td>image*<tr><td align=right>4<td>penl$<tr><td align=right>5<td>forum-<tr><td align=right>6<td>farmz<tr><td align=right>7<td>masiv<tr><td align=right>8<td>@s-s@<tr><td align=right>9<td>gamovr<tr><td align=right>10<td>tribe*</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>dron3t4nk<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>dr0n3t4nk<tr><td align=right>4<td>tanyab0mb<tr><td align=right>5<td>klr0v<tr><td align=right>6<td>syocikelx<tr><td align=right>7<td>prizes4me<tr><td align=right>8<td>iwin4prep<tr><td align=right>9<td>k3tchup<tr><td align=right>10<td>perottti</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>@dps@<tr><td align=right>2<td>-auf-<tr><td align=right>3<td>myrulz<tr><td align=right>4<td>-svt*p<tr><td align=right>5<td>@dpsb@<tr><td align=right>6<td>oktron<tr><td align=right>7<td>*-gd-*<tr><td align=right>8<td>om3rta<tr><td align=right>9<td>dps*e<tr><td align=right>10<td>penl$</table></table></center>");
 		echo("<hr><center><table><tr><th colspan=8>July<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>th3rush3r<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>rapyst<tr><td align=right>4<td>xclkong<tr><td align=right>5<td>xclmael<tr><td align=right>6<td>rush4awaz<tr><td align=right>7<td>kirov8234<tr><td align=right>8<td>bigchen11<tr><td align=right>9<td>a1xcl4ra2<tr><td align=right>10<td>xclchen</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-g3r-<tr><td align=right>2<td>.strm.<tr><td align=right>3<td>wouf<tr><td align=right>4<td>-4some<tr><td align=right>5<td>adida$<tr><td align=right>6<td>jonrim<tr><td align=right>7<td>-1rank<tr><td align=right>8<td>@nrg@<tr><td align=right>9<td>*evo*<tr><td align=right>10<td>*-now-</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>xclxclxcl<tr><td align=right>2<td>why2g00d<tr><td align=right>3<td>xclearthy<tr><td align=right>4<td>nojkovoi<tr><td align=right>5<td>libyapowr<tr><td align=right>6<td>mybush<tr><td align=right>7<td>lutz99999<tr><td align=right>8<td>jokujak<tr><td align=right>9<td>bombnbomb<tr><td align=right>10<td>xcltr00pa</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>*-gd-*<tr><td align=right>2<td>om3rta<tr><td align=right>3<td>-mef-<tr><td align=right>4<td>@dream<tr><td align=right>5<td>oktron<tr><td align=right>6<td>-m@nz-<tr><td align=right>7<td>@tde@<tr><td align=right>8<td>**21**<tr><td align=right>9<td>-dteam<tr><td align=right>10<td>#ud*e#</table></table></center>");
 		echo("<hr><center><table><tr><th colspan=8>June<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>xclkane<tr><td align=right>2<td>isovz<tr><td align=right>3<td>ul2ukhai<tr><td align=right>4<td>dimins1on<tr><td align=right>5<td>xclchen<tr><td align=right>6<td>micnbenny<tr><td align=right>7<td>lordofxcl<tr><td align=right>8<td>xclstyle<tr><td align=right>9<td>visyvisy<tr><td align=right>10<td>camelflre</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>*evo*<tr><td align=right>2<td>n0blet<tr><td align=right>3<td>workin<tr><td align=right>4<td>scandi<tr><td align=right>5<td>i*e*f<tr><td align=right>6<td>dash<tr><td align=right>7<td>@nrg@<tr><td align=right>8<td>_dub*<tr><td align=right>9<td>-cope-<tr><td align=right>10<td>tribe*</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>lordofxcl<tr><td align=right>2<td>xcltommi<tr><td align=right>3<td>xclhenl<tr><td align=right>4<td>riplea<tr><td align=right>5<td>lkillyuri<tr><td align=right>6<td>ukdinger<tr><td align=right>7<td>threemwin<tr><td align=right>8<td>wahooooma<tr><td align=right>9<td>me12inch<tr><td align=right>10<td>realmgap</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-m4e-<tr><td align=right>2<td>-auf-<tr><td align=right>3<td>*temo*<tr><td align=right>4<td>@tde2@<tr><td align=right>5<td>g-dogz<tr><td align=right>6<td>w*4*g<tr><td align=right>7<td>-bbw.r<tr><td align=right>8<td>jud²<tr><td align=right>9<td>oktron<tr><td align=right>10<td>tr1ade</table></table></center>");
 		echo("<hr><center><table><tr><th colspan=8>May<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>xclhenl<tr><td align=right>2<td>israelck<tr><td align=right>3<td>camelsun<tr><td align=right>4<td>urptsrmin<tr><td align=right>5<td>dad0m1n8r<tr><td align=right>6<td>xclmael<tr><td align=right>7<td>samnpete<tr><td align=right>8<td>xclblimp<tr><td align=right>9<td>xtf<tr><td align=right>10<td>xclnova</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>i*e*f<tr><td align=right>2<td>bo-om<tr><td align=right>3<td>dgnf<tr><td align=right>4<td>tanx..<tr><td align=right>5<td>.tc.<tr><td align=right>6<td>cnc.b<tr><td align=right>7<td>@59@<tr><td align=right>8<td>etf.!.<tr><td align=right>9<td>@k.o@<tr><td align=right>10<td>@soad-</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>xclvolkov<tr><td align=right>2<td>imgodsson<tr><td align=right>3<td>xclhenl<tr><td align=right>4<td>me12inch<tr><td align=right>5<td>iraqnoob<tr><td align=right>6<td>wahooooma<tr><td align=right>7<td>tanksh0ck<tr><td align=right>8<td>xclearthy<tr><td align=right>9<td>xcltecboy<tr><td align=right>10<td>xcliraq</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-.h.-<tr><td align=right>2<td>om3rta<tr><td align=right>3<td>o*t*s<tr><td align=right>4<td>runnwb<tr><td align=right>5<td>r@ptor<tr><td align=right>6<td>*eite*<tr><td align=right>7<td>kapoks<tr><td align=right>8<td>--ba--<tr><td align=right>9<td>adeath<tr><td align=right>10<td>*bbw.r</table></table></center>");
@@ -474,7 +475,7 @@
 					echo("<table><tr><th>Rank<th>Name<th colspan=2>Stats<th>Points<th><th><th>Date");
 					do
 					{
-						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[rank], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", date("H:i d-m-Y", $result[mtime]));
+						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[rank], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", gmdate("H:i d-m-Y", $result[mtime]));
 					}
 					while ($result = mysql_fetch_array($results));
 					echo("</table><hr>");
@@ -588,7 +589,7 @@
 							else if ($result[rank] && $result[rank] < 26)
 								echo(" <img src=\"http://xcl.the-outsiders.net/badges/colonel.png\" alt=\"< #26\">");
 						}
-						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", date("H:i d-m-Y", $result[mtime]));
+						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", gmdate("H:i d-m-Y", $result[mtime]));
 						for ($i = 0; $i < 10; $i++)
 						{
 							if ($result[countries] & 1 << $i)
@@ -636,13 +637,13 @@
 <table width="100%">
 	<tr>
 		<td valign=top>
-			<a href="http://striketeam.net/">Strike Team</a> | <a href="/">XCC Home Page</a>
+			<a href="http://strike-team.net/">Strike Team</a> | <a href="/">XCC Home Page</a>
 		<td align=center valign=top>
-			<a href="http://www.striketeam.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=14"><img src="https://www.paypal.com/images/x-click-but04.gif"></a>
+			<a href="http://www.strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=14"><img src="https://www.paypal.com/images/x-click-but04.gif"></a>
 
 			<script language="JavaScript" type="text/javascript" src="http://m1.nedstatbasic.net/basic.js">
 			</script>
-			<script language="JavaScript" type="text/javascript" >
+			<script language="JavaScript" type="text/javascript">
 			<!--
 				nedstatbasic("ACYaRA5mKkSNw9DcBlC+vYnGi83A", 0);
 			// -->
@@ -651,5 +652,8 @@
 				<a target="_blank" href="http://v1.nedstatbasic.net/stats?ACYaRA5mKkSNw9DcBlC+vYnGi83A"><img src="http://m1.nedstatbasic.net/n?id=ACYTXwDHntQULdYZIrOjZRmDVgjQ"	border="0" nosave width="18" height="18"></a>
 			</noscript>
 		<td align=right valign=top>
-			<?php echo(date("H:i d-m-Y", time())); ?>
+			<?php echo(gmdate("H:i d-m-Y")) ?>
 </table>
+<?php
+	@include("bottom.php");
+?>
