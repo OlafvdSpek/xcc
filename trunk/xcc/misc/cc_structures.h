@@ -7,7 +7,21 @@
 
 #include "palet.h"
 
-enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, game_ra2_yr, game_rg, game_gr, game_gr_zh, game_unknown};
+enum t_game 
+{
+	game_td, 
+	game_ra, 
+	game_ts, 
+	game_dune2, 
+	game_dune2000, 
+	game_ra2, 
+	game_ra2_yr, 
+	game_rg, 
+	game_gr, 
+	game_gr_zh, 
+	game_ebfd,
+	game_unknown
+};
 
 const char* game_name[];
 
