@@ -24,7 +24,7 @@
 		$sort_column = 3;
 	$results = db_query(isset($HTTP_GET_VARS[sid])
 		? sprintf("select *, unix_timestamp(last_modified) as mtime from xtr_index where sid = %d order by " . $column_names[$sort_column], $HTTP_GET_VARS[sid])
-		: "select *, unix_timestamp(last_modified) as last_modified from xtr_index order by " . $column_names[$sort_column]);
+		: "select *, unix_timestamp(last_modified) as mtime from xtr_index order by " . $column_names[$sort_column]);
 	while ($result = mysql_fetch_array($results))
 		printf("<tr><td><a href=\"?sid=%d\">%s</a><td><a href=\"/xla/hal_index.php?name=%s\">AL</a> <a target=_top href=\"/xla/gamelist.php?lid=ra2&amp;pid=%s\">GL</a><td>%x<td align=right>%d<td>%s",
 			$result[sid], htmlspecialchars($result[name]), urlencode($result[name]), urlencode($result[name]), $result[sid], $result[count], date("H:i d-m-Y", $result[mtime]));
