@@ -140,5 +140,29 @@ SOURCE=".\res\XCC RA2 Radar Customizer.ico"
 SOURCE=".\res\XCC RA2 Radar Customizer.rc2"
 # End Source File
 # End Group
+# Begin Source File
+
+SOURCE=.\res\snow_preview.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\snow_preview_mask.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\temperate_preview.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\temperate_preview_mask.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\urban_preview.png
+# End Source File
+# Begin Source File
+
+SOURCE=.\res\urban_preview_mask.png
+# End Source File
 # End Target
 # End Project

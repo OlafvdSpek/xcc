@@ -16,13 +16,13 @@ Class4=CMainFrame
 Class7=CAboutDlg
 
 ResourceCount=8
-Resource1=IDR_MAINFRAME (English (U.S.))
+Resource1=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
 Resource2=CG_IDR_POPUP_LEFT_VIEW
 Resource3=IDR_TMPTYPE
 Class5=CChildFrame
 Class6=CLeftView
 Resource4=IDD_ABOUTBOX (English (U.S.))
-Resource5=CG_IDR_POPUP_LEFT_VIEW (English (U.S.))
+Resource5=IDR_MAINFRAME (English (U.S.))
 Class8=Cproperties_dlg
 Resource6=IDD_PROPERTIES
 Resource7=IDR_TMPTYPE (English (U.S.))
@@ -39,6 +39,7 @@ Type=0
 HeaderFile=XCC TMP EditorDoc.h
 ImplementationFile=XCC TMP EditorDoc.cpp
 Filter=N
+LastObject=ID_PALET_LUNAR
 
 [CLS:CXCCTMPEditorView]
 Type=0
@@ -64,7 +65,7 @@ ImplementationFile=ChildFrm.cpp
 Filter=M
 BaseClass=CMDIChildWnd
 VirtualFilter=mfWC
-LastObject=ID_VIEW_TRUE_HEIGHT
+LastObject=ID_PALET_URBAN2
 
 [CLS:CLeftView]
 Type=0
@@ -189,15 +190,18 @@ Command13=ID_POPUP_DELETE
 Command14=ID_EDIT_SELECT_ALL
 Command15=ID_EDIT_INVERT_SELECTION
 Command16=ID_PALET_LOAD
-Command17=ID_PALET_SNOW
-Command18=ID_PALET_TEMPERATE
-Command19=ID_PALET_URBAN
-Command20=ID_VIEW_TRUE_HEIGHT
-Command21=ID_WINDOW_NEW
-Command22=ID_WINDOW_CASCADE
-Command23=ID_WINDOW_TILE_HORZ
-Command24=ID_WINDOW_ARRANGE
-CommandCount=24
+Command17=ID_PALET_DESERT
+Command18=ID_PALET_LUNAR
+Command19=ID_PALET_URBAN2
+Command20=ID_PALET_SNOW
+Command21=ID_PALET_TEMPERATE
+Command22=ID_PALET_URBAN
+Command23=ID_VIEW_TRUE_HEIGHT
+Command24=ID_WINDOW_NEW
+Command25=ID_WINDOW_CASCADE
+Command26=ID_WINDOW_TILE_HORZ
+Command27=ID_WINDOW_ARRANGE
+CommandCount=27
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1

@@ -75,10 +75,13 @@ public:
 // Implementation
 public:
 	void remove_extra_image(int id);
-	int load_urban_palet();
-	int load_temperate_palet();
-	int load_snow_palet();
-	int load_palet(string fname);
+	int load_desert_palet(bool probe);
+	int load_lunar_palet(bool probe);
+	int load_urban_palet(bool probe);
+	int load_urban2_palet(bool probe);
+	int load_temperate_palet(bool probe);
+	int load_snow_palet(bool probe);
+	int load_palet(string fname, bool probe);
 	void draw(byte* d, int outline = -1, bool view_true_height = false) const;
 	void draw_reverse(const byte* d);
 	t_rect get_rect(bool view_true_height = false) const;
