@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "pcx_decode.h"
 #include "pcx_file_write.h"
+#include "png_file.h"
 #include "shp_decode.h"
 #include "shp_ts_file.h"
 #include "string_conversion.h"
 #include "xcc_log.h"
 
-int Cshp_ts_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
+int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
@@ -43,10 +44,19 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 			w += global_cx;
 		}
 		// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=" + name.get_fname() + "></td></tr>");
-		int cb_d = pcx_encode(s, d, global_cx, global_cy, 1);
-		Cpcx_file_write f;
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
+		if (ft == ft_png)
+		{
+			error = png_file_write(t, s, palet, cx, cy);
+		}
+		else
+		{
+			error = pcx_file_write(t, s, palet, cx, cy);
+		}
+		/*
+		int cb_d = pcx_encode(s, d, global_cx, global_cy, 1);
+		Cpcx_file_write f;
 		error = f.open_write(t);
 		if (error)
 			break;
@@ -57,6 +67,7 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 		if (!error)
 			error = f.write_palet(palet);
 		f.close();
+		*/
 		if (error)
 			break;
 	}
