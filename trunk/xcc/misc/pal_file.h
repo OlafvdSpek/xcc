@@ -21,7 +21,7 @@ public:
 	{
 		if (get_size() != sizeof(t_palet))
 			return false;
-		const t_palet& p = *get_palet();
+		const t_palet_entry* p = get_palet();
 		for (int i = 0; i < 256; i++)
 		{
 			if ((p[i].r | p[i].g | p[i].b) & 0xc0)
@@ -30,9 +30,14 @@ public:
 		return true;
 	}
 
-    const t_palet* get_palet() const
+	void decode(t_palet& palet) const
+	{
+		convert_palet_18_to_24(get_palet(), palet);
+	}
+
+    const t_palet_entry* get_palet() const
     {
-        return reinterpret_cast<const t_palet*>(get_data());
+        return reinterpret_cast<const t_palet_entry*>(get_data());
     }
 };
 

@@ -45,5 +45,12 @@ public:
 };
 
 Cfname GetModuleFileName(HMODULE hModule = 0);
+int create_directory(string dir);
+int delete_file(string fname);
+int move_file(string s, string d);
+string get_temp_fname(string path);
+string get_temp_path();
+string get_temp_fname();
+string operator+(const string& a, const Cfname& b);
 
 #endif // !defined(AFX_FNAME_H__1987B1E4_E4E6_11D2_B750_444553540000__INCLUDED_)

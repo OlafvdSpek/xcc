@@ -19,7 +19,7 @@ Cvirtual_tfile::~Cvirtual_tfile()
 	release_memory();
 }
 
-void Cvirtual_tfile::load_data(const byte* _data, dword _size)
+void Cvirtual_tfile::load_data(const void* _data, dword _size)
 {
 	release_memory();
 	data = new char[_size];

@@ -29,6 +29,11 @@ public:
 		return m_data;
 	}
 
+	byte* data_edit()
+	{
+		return m_data;
+	}
+
 	int size() const
 	{
 		return m_size;

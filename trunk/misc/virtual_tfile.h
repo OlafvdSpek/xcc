@@ -28,7 +28,7 @@ public:
 	void write(const string& s);
 	void write_line(const string& s);
 	void release_memory();
-	void load_data(const byte* _data, dword _size);
+	void load_data(const void* _data, dword _size);
 	void save_data(byte*& _data, dword& _size) const;
 	Cvirtual_tfile();
 	~Cvirtual_tfile();

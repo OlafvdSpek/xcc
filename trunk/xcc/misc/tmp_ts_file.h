@@ -106,15 +106,17 @@ public:
 		return get_image_header(i)->height;
 	}
 
-	int get_direction(int i) const
+	/*
+	int get_ramp_type(int i) const
 	{
-		return get_image_header(i)->direction;
+		return get_image_header(i)->ramp_type;
 	}
 
-	int get_terraintype(int i) const
+	int get_terrain_type(int i) const
 	{
-		return get_image_header(i)->terraintype;
+		return get_image_header(i)->terrain_type;
 	}
+	*/
 
 	int get_y_extra(int i) const
 	{
@@ -133,20 +135,50 @@ public:
 
 	bool has_extra_graphics(int i) const
 	{
-		return get_image_header(i)->flags & 1;
+		return get_image_header(i)->has_extra_data;
+	}
+
+	int get_cb_diamond() const
+	{
+		return get_cx() * get_cy() >> 1;
+	}
+
+	int get_cb_extra_data(int i) const
+	{
+		return get_cx_extra(i) * get_cy_extra(i);
 	}
 
 	const byte* get_image(int i) const
 	{
 		return reinterpret_cast<const byte*>(get_image_header(i) + 1);
 	}
+
+	const byte* get_z_image(int i) const
+	{
+		int a = get_index()[i] + get_image_header(i)->z_ofs;
+		int b = get_image(i) + get_cb_diamond() - get_data();
+		assert(a == b);
+		return get_data() + get_index()[i] + get_image_header(i)->z_ofs;
+	}
 	
+	const byte* get_extra_data(int i) const
+	{
+		return get_data() + get_index()[i] + get_image_header(i)->extra_ofs;
+	}
+
+	const byte* get_extra_z_data(int i) const
+	{
+		return get_data() + get_index()[i] + get_image_header(i)->extra_z_ofs;
+	}
+
 	const int* get_index() const
 	{
 		return reinterpret_cast<const int*>(get_data() + sizeof(t_tmp_ts_header));
 	}
 };
 
+int decode_tile(const byte* s, byte* d, int cx_d);
+int encode_tile(const byte* s, byte* d, int cx_s);
 int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy);
 
 #endif // !defined(AFX_TMP_TS_FILE_H__2ADB87E0_2208_11D4_B605_0000B4936994__INCLUDED_)
