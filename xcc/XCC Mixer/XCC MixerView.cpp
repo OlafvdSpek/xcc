@@ -167,10 +167,11 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_WM_DROPFILES()
 	ON_COMMAND(ID_POPUP_COMPACT, OnPopupCompact)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COMPACT, OnUpdatePopupCompact)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
 	ON_COMMAND(ID_POPUP_COPY_AS_TGA, OnPopupCopyAsTga)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_TGA, OnUpdatePopupCopyAsTga)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_PNG, OnUpdatePopupClipboardPasteAsImage)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_PASTE_AS_JPEG, OnUpdatePopupClipboardPasteAsImage)
+	ON_COMMAND(ID_EDIT_SELECT_ALL, OnEditSelectAll)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -3082,4 +3083,11 @@ void CXCCMixerView::open_item(int id)
 			break;
 		}
 	}
+}
+
+void CXCCMixerView::OnEditSelectAll() 
+{
+	CListCtrl& lc = GetListCtrl();
+	for (int index = 0; index < lc.GetItemCount(); index++)
+		lc.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
 }
