@@ -1229,7 +1229,7 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	Cpal_file f;
 	f.load(Cvirtual_binary(image.palet(), sizeof(t_palet)));
 	fname.set_ext(".pal");
-	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str())).fail();
+	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str()), false).fail();
 }
 
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
