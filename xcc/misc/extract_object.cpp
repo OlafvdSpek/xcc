@@ -654,7 +654,7 @@ static string report_file_list(const Cxif_key& k, const string& files_url)
 				d += " " + a("view", "href=\"" + files_url + name.get_all() + "\"");
 			}
 		}
-		r += br(d);
+		r += d + "<br>";
 	}
 	return r;
 }
@@ -665,7 +665,7 @@ static string report_key_list(const Cxif_key& k)
 		return "&nbsp;";
 	string r;
 	for (t_xif_key_map::const_iterator i = k.m_keys.begin(); i != k.m_keys.end(); i++)
-		r += br(i->second.get_value_string(vi_name) + "=" + i->second.get_value_string(vi_value));
+		r += i->second.get_value_string(vi_name) + "=" + i->second.get_value_string(vi_value) + "<br>";
 	return r;
 }
 
@@ -726,8 +726,8 @@ int Cextract_object::report(const Cxif_key& k, char* d, const string& files_url)
 		if (!line.empty())
 		{
 			page +=
-				tr(th(ot_name[ot_credits], "colspan=3")) +
-				tr(td(get_object_name(k) + " created by " + line, "colspan=3"));
+				"<tr><th colspan=3>" + static_cast<string>(ot_name[ot_credits]) +
+				"<tr><td colspan=3>" + get_object_name(k) + " created by " + line;
 		}
 	}
 	for (t_xif_key_map::const_iterator i = k.m_keys.begin(); i != k.m_keys.end(); i++)
@@ -735,23 +735,23 @@ int Cextract_object::report(const Cxif_key& k, char* d, const string& files_url)
 		if (i->first == ot_credits)
 			continue;
 		const Cxif_key& l = i->second;
-		page += tr(th(ot_name[i->first], "colspan=3"));
+		page += "<tr><th colspan=3>" + static_cast<string>(ot_name[i->first]);
 		for (t_xif_key_map::const_iterator j = l.m_keys.begin(); j != l.m_keys.end(); j++)
 		{
 			const Cxif_key& m = j->second;
 			string r;
 			if (m.exists_key(ki_keys))
-				r += td(report_key_list(m.open_key_read(ki_keys)));
+				r += "<td>" + report_key_list(m.open_key_read(ki_keys));
 			else
-				r += td("&nbsp;");
+				r += "<td>&nbsp;";
 			if (m.exists_key(ki_files))
-				r += td(report_file_list(m.open_key_read(ki_files), files_url));
+				r += "<td>" + report_file_list(m.open_key_read(ki_files), files_url);
 			else
-				r += td("&nbsp;");
-			page += tr(td(m.get_value_string(vi_name)) + r);
+				r += "<td>&nbsp;";
+			page += "<tr><td>" + m.get_value_string(vi_name) + r;
 		}
 	}
-	strcpy(d, static_cast<string>(html(head_xcc(get_object_name(k)) + body(table(page, "border=1 width=100%")))).c_str());
+	strcpy(d, ("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><link rel=stylesheet href=\"http://xccu.sourceforge.net/xcc.css\"><title>" + get_object_name(k) + "</title><table border=1 width=\"100%\">" + page + "</table>").c_str());
 	return strlen(d);
 }
 
