@@ -9,6 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include <cassert>
 #include <string>
 #include "smart_ref.h"
 #include "vartypes.h"

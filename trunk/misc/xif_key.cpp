@@ -6,7 +6,7 @@
 #include "xif_key.h"
 
 #include <bzip/bzlib.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "string_conversion.h"
 
 template <class T>
