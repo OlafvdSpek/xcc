@@ -21,13 +21,6 @@ BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCWOLIRCServerClientApp construction
-
-CXCCWOLIRCServerClientApp::CXCCWOLIRCServerClientApp()
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCWOLIRCServerClientApp object
 
 CXCCWOLIRCServerClientApp theApp;

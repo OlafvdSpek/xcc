@@ -52,7 +52,7 @@ static bool platform_nt()
 {
 	OSVERSIONINFO versionInfo;
 	versionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
-	return GetVersionEx(&versionInfo) ? versionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT : false;
+	return GetVersionEx(&versionInfo) && versionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT;
 }
 
 static string hosts_fname()
@@ -69,7 +69,7 @@ BOOL CXCCWOLIRCServerClientDlg::OnInitDialog()
 
 	CDialog::OnInitDialog();
 
-	m_ipa.SetAddress(62, 216, 18, 38);
+	m_ipa.SetAddress(62, 93, 200, 61);
 	update_ipa2();
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
