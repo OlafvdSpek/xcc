@@ -144,8 +144,8 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV_PCM, OnUpdatePopupCopyAsWavPcm)
 	ON_COMMAND(ID_POPUP_COPY_AS_PCX_SINGLE, OnPopupCopyAsPcxSingle)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PCX_SINGLE, OnUpdatePopupCopyAsPcxSingle)
-	ON_COMMAND(ID_POPUP_CLIPBOARD_COPY, OnPopupClipboardCopy)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_CLIPBOARD_COPY, OnUpdatePopupClipboardCopy)
+	ON_COMMAND(ID_EDIT_COPY, OnPopupClipboardCopy)
+	ON_UPDATE_COMMAND_UI(ID_EDIT_COPY, OnUpdatePopupClipboardCopy)
 	ON_COMMAND(ID_POPUP_COPY_AS_PNG_SINGLE, OnPopupCopyAsPngSingle)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PNG_SINGLE, OnUpdatePopupCopyAsPngSingle)
 	ON_COMMAND(ID_POPUP_CLIPBOARD_PASTE_AS_PCX, OnPopupClipboardPasteAsPcx)
@@ -686,7 +686,7 @@ Cvirtual_binary CXCCMixerView::get_vdata_id(int id) const
 
 Cvirtual_binary CXCCMixerView::get_vdata(int i) const
 {
-	return get_vdata(GetListCtrl().GetItemData(i));
+	return get_vdata_id(GetListCtrl().GetItemData(i));
 }
 
 Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
@@ -732,6 +732,13 @@ Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 	case ft_tmp_ts:
 		{
 			Ctmp_ts_file f;
+			f.load(get_vdata_id(id));
+			d = f.vimage();
+		}
+		break;
+	case ft_wsa:
+		{
+			Cwsa_file f;
 			f.load(get_vdata_id(id));
 			d = f.vimage();
 		}
@@ -800,19 +807,14 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_voc:
 		return d == ft_wav_pcm;
 	case ft_cps:
-	case ft_tmp_ra:
-	case ft_tmp_ts:
-		if (d == ft_clipboard || d == ft_map_ts_preview)
-			return true;
-	case ft_shp_dune2:
-	case ft_wsa_dune2:
-	case ft_wsa:
-		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
 	case ft_dds:
 	case ft_jpeg:
 	case ft_pcx:
 	case ft_png:
 	case ft_tga:
+	case ft_tmp_ra:
+	case ft_tmp_ts:
+	case ft_wsa:
 		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pal || d == ft_pcx || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
 	case ft_hva:
 		return d == ft_csv;
@@ -820,6 +822,9 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_pal_jasc;
 	case ft_st:
 		return d == ft_text;
+	case ft_shp_dune2:
+	case ft_wsa_dune2:
+		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
 	case ft_shp:
 		return d == ft_pcx || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
 	case ft_shp_ts:
@@ -1052,21 +1057,18 @@ int CXCCMixerView::copy_as_avi(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 {
-	int error = 0;
 	fname.set_ext(".cps");
-	Cvirtual_image image;
-	if (error = image.load(get_vdata(i)))
-		return error;
+	Cvirtual_image image = get_vimage(i);
 	if (image.cx() != 320 || image.cy() != 200)
 		return 257;
 	t_palet palet;
 	if (image.palet())
-		memcpy(palet, image.palet(), sizeof(t_palet));
-	else
 	{
-		memcpy(palet, get_default_palet(), sizeof(t_palet));
-		convert_palet_18_to_24(palet);
+		memcpy(palet, image.palet(), sizeof(t_palet));
+		convert_palet_24_to_18(palet);
 	}
+	else
+		memcpy(palet, get_default_palet(), sizeof(t_palet));
 	if (image.cb_pixel() != 1)
 		image.decrease_color_depth(1, palet);
 	return cps_file_write(image.image(), palet).export(fname);
