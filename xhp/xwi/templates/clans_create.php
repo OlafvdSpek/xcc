@@ -13,7 +13,7 @@
 			<td align=right>ICQ:
 			<td><input type=text name=icq maxlength=15 value="<?php echo(htmlspecialchars($icq))?>">
 		<tr>
-			<td align=right>Mail:
+			<td align=right>Email:
 			<td><input type=text name=mail maxlength=63 value="<?php echo(htmlspecialchars($mail))?>">
 		<tr>
 			<td align=right>MSN:
