@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Game Spy Player.h"
 
 #include "XCC Game Spy PlayerDoc.h"
 

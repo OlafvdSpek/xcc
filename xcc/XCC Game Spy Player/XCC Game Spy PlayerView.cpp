@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Game Spy Player.h"
 
 #include "XCC Game Spy PlayerDoc.h"
 #include "XCC Game Spy PlayerView.h"
@@ -11,6 +10,7 @@
 #include "wol/ra2_names.h"
 #include "map_ts_ini_reader.h"
 #include "mix_file.h"
+#include "resource.h"
 #include "string_conversion.h"
 #include "virtual_image.h"
 #include "xcc_dirs.h"
