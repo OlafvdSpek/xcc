@@ -1035,27 +1035,13 @@ int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 			error = 258;
 		else
 		{
-			byte* s = new byte[320 * 200];
-			pcx_decode(f.get_image(), s, *f.get_header());
-			byte* d = new byte[256 << 10];
+			Cvirtual_binary s, d;
+			pcx_decode(f.get_image(), s.write_start(320 * 200), *f.get_header());
 			t_palet palet;
 			memcpy(palet, f.get_palet(), sizeof(t_palet));
 			convert_palet_24_to_18(palet);
-			int cb_d = cps_file_write(s, d, palet);
-			delete[] s;
-			if (cb_d)
-			{
-				Cfile32 g;
-				error = g.open_write(fname);
-				if (!error)
-				{
-					error = g.write(d, cb_d);
-					g.close();
-				}
-			}
-			else
-				error = 1;
-			delete[] d;
+			int cb_d = cps_file_write(s, d.write_start(256 << 10), palet);
+			error = cb_d ? d.export(fname) : 1;
 		}
 		f.close();
 	}
@@ -1134,21 +1120,9 @@ int CXCCMixerView::copy_as_hva(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		byte* d = new byte[64 << 10];
-		int cb_d = hva_file_write(f.get_data(), f.get_size(), d);
-		if (cb_d)
-		{
-			Cfile32 g;
-			error = g.open_write(fname);
-			if (!error)
-			{
-				error = g.write(d, cb_d);
-				g.close();
-			}
-		}
-		else
-			error = 1;
-		delete[] d;
+		Cvirtual_binary d;
+		int cb_d = hva_file_write(f.get_data(), f.get_size(), d.write_start(64 << 10));
+		error = cb_d ? d.export(fname) : 1;
 		f.close();
 	}
 	return error;
@@ -1210,13 +1184,7 @@ int CXCCMixerView::copy_as_pal(int i, Cfname fname) const
 		t_palet palet;
 		memcpy(palet, f.get_palet(), sizeof(t_palet));
 		convert_palet_24_to_18(palet);
-		Cfile32 g;
-		error = g.open_write(fname);
-		if (!error)
-		{
-			error = g.write(palet, sizeof(t_palet));
-			g.close();
-		}
+		error = file32_write(fname, palet, sizeof(t_palet));
 		f.close();
 	}
 	return error;
@@ -1535,17 +1503,10 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * c_images, rp);
 		}
-		Cfile32 f;
+		Cvirtual_binary d;
+		const int cb_d = shp_file_write(s, d.write_start(sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images), cx, cy, c_images);
 		fname.set_title(base_name);
-		error = f.open_write(fname);
-		if (!error)
-		{
-			byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images];
-			const int cb_d = shp_file_write(s, d, cx, cy, c_images);
-			error = f.write(d, cb_d);
-			delete[] d;
-			f.close();
-		}
+		error = d.export(fname);
 	}
 	delete[] s;
 	return error;
@@ -1685,17 +1646,10 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				create_rp(s_palet, p, rp);
 			apply_rp(s, cx * cy * (c_images >> convert_shadow), rp);
 		}
-		Cfile32 f;
+		Cvirtual_binary d;
+		const int cb_d = shp_ts_file_write(s, d.write_start(Cshp_ts_file::get_max_size(cx, cy, c_images)), cx, cy, c_images, enable_compression);
 		fname.set_title(base_name);
-		error = f.open_write(fname);
-		if (!error)
-		{
-			byte* d = new byte[Cshp_ts_file::get_max_size(cx, cy, c_images)];
-			const int cb_d = shp_ts_file_write(s, d, cx, cy, c_images, enable_compression);
-			error = f.write(d, cb_d);
-			delete[] d;
-			f.close();
-		}
+		error = d.export(fname);
 	}
 	delete[] s;
 	return error;
@@ -1758,9 +1712,8 @@ int CXCCMixerView::copy_as_tmp_ts(int i, Cfname fname) const
 	{
 		int cx = f.cx();
 		int cy = f.cy();
-		Cvirtual_binary s;
+		Cvirtual_binary s, d;
 		pcx_decode(f.get_image(), s.write_start(cx * cy), *f.get_header());
-		Cvirtual_binary d;
 		int cb_d = tmp_ts_file_write(s, d.write_start(256 << 10), cx, cy);
 		error = cb_d ? d.export(fname) : 1;
 		f.close();
@@ -1865,21 +1818,9 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				error = k.load_key(f.get_data(), f.get_size());
 				if (!error)
 				{
-					byte* d = new byte[1 << 20];
-					int cb_d = vxl_file_write(k, d);
-					if (cb_d)
-					{
-						Cfile32 g;
-						error = g.open_write(fname);
-						if (!error)
-						{
-							error = g.write(d, cb_d);
-							g.close();
-						}
-					}
-					else
-						error = 1;
-					delete[] d;
+					Cvirtual_binary d;
+					int cb_d = vxl_file_write(k, d.write_start(1 << 20));
+					error = cb_d ? d.export(fname) : 1;
 				}
 				f.close();
 			}
