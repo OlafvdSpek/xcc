@@ -684,6 +684,84 @@ BEGIN
     PUSHBUTTON      "Select...",IDC_SELECT,129,103,50,14
 END
 
+CG_IDD_PROPERTYBAR DIALOG DISCARDABLE  0, 0, 257, 19
+STYLE WS_CHILD
+FONT 8, "MS Sans Serif"
+BEGIN
+    COMBOBOX        IDC_COMBO_SIDE,7,3,120,160,CBS_DROPDOWNLIST | WS_VSCROLL | 
+                    WS_TABSTOP
+    COMBOBOX        IDC_COMBO_ACTION,131,3,120,160,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+END
+
+IDD_ENERGY_STATUS_DLG DIALOG DISCARDABLE  0, 0, 186, 189
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Energy Status"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,129,168,50,14
+    LTEXT           "Goodguy",IDC_STATIC,7,7,30,8
+    LTEXT           "Badguy",IDC_STATIC,7,23,25,8
+    LTEXT           "Neutral",IDC_STATIC,7,39,24,8
+    LTEXT           "Special",IDC_STATIC,7,55,24,8
+    LTEXT           "Multi1",IDC_STATIC,7,71,20,8
+    LTEXT           "Multi2",IDC_STATIC,7,87,20,8
+    LTEXT           "Multi3",IDC_STATIC,7,103,20,8
+    LTEXT           "Multi4",IDC_STATIC,7,119,20,8
+    LTEXT           "Multi5",IDC_STATIC,7,135,20,8
+    LTEXT           "Multi6",IDC_STATIC,7,151,20,8
+    EDITTEXT        IDC_EDIT_GOODGUY_IN,70,7,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_BADGUY_IN,70,23,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_NEUTRAL_IN,70,39,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_SPECIAL_IN,70,55,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI1_IN,69,71,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI2_IN,69,87,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI3_IN,69,103,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI4_IN,69,119,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI5_IN,69,135,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI6_IN,69,151,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_GOODGUY_OUT,129,7,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_BADGUY_OUT,129,23,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_NEUTRAL_OUT,129,39,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_SPECIAL_OUT,129,55,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI1_OUT,129,71,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI2_OUT,129,87,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI3_OUT,129,103,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI4_OUT,129,119,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI5_OUT,129,135,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+    EDITTEXT        IDC_EDIT_MULTI6_OUT,129,151,50,12,ES_AUTOHSCROLL | 
+                    ES_READONLY
+END
+
+IDD_EDIT_BRIEFING_DLG DIALOG DISCARDABLE  0, 0, 285, 90
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Edit briefing"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,228,7,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,228,24,50,14
+    EDITTEXT        IDC_EDIT1,7,7,217,76,ES_MULTILINE
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -788,6 +866,30 @@ BEGIN
         TOPMARGIN, 7
         BOTTOMMARGIN, 115
     END
+
+    CG_IDD_PROPERTYBAR, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 250
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 12
+    END
+
+    IDD_ENERGY_STATUS_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 182
+    END
+
+    IDD_EDIT_BRIEFING_DLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 282
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 83
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -871,137 +973,6 @@ BEGIN
 END
 
 #endif    // English (U.S.) resources
-/////////////////////////////////////////////////////////////////////////////
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Dutch (Netherlands) resources
-
-#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
-#ifdef _WIN32
-LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
-#pragma code_page(1252)
-#endif //_WIN32
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// Dialog
-//
-
-CG_IDD_PROPERTYBAR DIALOG DISCARDABLE  0, 0, 257, 19
-STYLE WS_CHILD
-FONT 8, "MS Sans Serif"
-BEGIN
-    COMBOBOX        IDC_COMBO_SIDE,7,3,120,160,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
-    COMBOBOX        IDC_COMBO_ACTION,131,3,120,160,CBS_DROPDOWNLIST | 
-                    WS_VSCROLL | WS_TABSTOP
-END
-
-IDD_ENERGY_STATUS_DLG DIALOG DISCARDABLE  0, 0, 186, 189
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Energy Status"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,129,168,50,14
-    LTEXT           "Goodguy",IDC_STATIC,7,7,30,8
-    LTEXT           "Badguy",IDC_STATIC,7,23,25,8
-    LTEXT           "Neutral",IDC_STATIC,7,39,24,8
-    LTEXT           "Special",IDC_STATIC,7,55,24,8
-    LTEXT           "Multi1",IDC_STATIC,7,71,20,8
-    LTEXT           "Multi2",IDC_STATIC,7,87,20,8
-    LTEXT           "Multi3",IDC_STATIC,7,103,20,8
-    LTEXT           "Multi4",IDC_STATIC,7,119,20,8
-    LTEXT           "Multi5",IDC_STATIC,7,135,20,8
-    LTEXT           "Multi6",IDC_STATIC,7,151,20,8
-    EDITTEXT        IDC_EDIT_GOODGUY_IN,70,7,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_BADGUY_IN,70,23,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_NEUTRAL_IN,70,39,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_SPECIAL_IN,70,55,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI1_IN,69,71,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI2_IN,69,87,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI3_IN,69,103,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI4_IN,69,119,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI5_IN,69,135,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI6_IN,69,151,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_GOODGUY_OUT,129,7,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_BADGUY_OUT,129,23,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_NEUTRAL_OUT,129,39,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_SPECIAL_OUT,129,55,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI1_OUT,129,71,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI2_OUT,129,87,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI3_OUT,129,103,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI4_OUT,129,119,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI5_OUT,129,135,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-    EDITTEXT        IDC_EDIT_MULTI6_OUT,129,151,50,12,ES_AUTOHSCROLL | 
-                    ES_READONLY
-END
-
-IDD_EDIT_BRIEFING_DLG DIALOG DISCARDABLE  0, 0, 285, 90
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit briefing"
-FONT 8, "MS Sans Serif"
-BEGIN
-    DEFPUSHBUTTON   "OK",IDOK,228,7,50,14
-    PUSHBUTTON      "Cancel",IDCANCEL,228,24,50,14
-    EDITTEXT        IDC_EDIT1,7,7,217,76,ES_MULTILINE
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    CG_IDD_PROPERTYBAR, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 250
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 12
-    END
-
-    IDD_ENERGY_STATUS_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 179
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 182
-    END
-
-    IDD_EDIT_BRIEFING_DLG, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 282
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 83
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-#endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
