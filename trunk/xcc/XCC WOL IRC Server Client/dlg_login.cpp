@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "XCC WOL IRC Server Client.h"
 #include "dlg_login.h"
 
+#include "socket.h"
 #include "virtual_binary.h"
 #include "xcc_dirs.h"
 
@@ -139,50 +139,43 @@ void Cdlg_login::OnOK()
 {
 	CWaitCursor wc;
 	m_edit.Empty();
-	SOCKET s = socket(PF_INET, SOCK_STREAM, 0);
+	Csocket s;
+	s.open(SOCK_STREAM, true);
 	if (s == -1)
-		m_edit += "unable to create socket: " + n(WSAGetLastError());
+		m_edit += "unable to create socket: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
+	else if (s.connect(m_ipa, htons(4005)))
+		m_edit += "unable to connect: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
 	else
 	{
-		sockaddr_in d_address;
-		d_address.sin_family = AF_INET;
-		d_address.sin_port = htons(4005);
-		d_address.sin_addr.s_addr = m_ipa;
-		if (connect(s, reinterpret_cast<const sockaddr*>(&d_address), sizeof(sockaddr_in)))
-			m_edit += "unable to connect: " + n(WSAGetLastError());
+		strstream msg;
+		int selected_game = m_game.GetItemData(m_game.GetCurSel());
+		int selected_nick = m_user.GetItemData(m_user.GetCurSel());
+		const t_game& game = m_games[selected_game];
+		const t_nick& nick = m_nicks[selected_nick];
+		msg << "cvers 0 " << (game.gsku << 8) << endl
+			<< "nick " << nick.name << endl
+			<< "apgar " << nick.password << " 0" << endl
+			<< "serial " << game.serial << endl
+			<< "user UserName e e e" << endl
+			<< "quit" << endl;
+		m_edit += "server: ";
+		m_edit += Csocket::inet_ntoa(m_ipa).c_str();
+		m_edit += "\r\n";
+		m_edit += "nick: ";
+		m_edit += nick.name.c_str();
+		m_edit += "\r\n";
+		if (msg.pcount() != s.send(msg.str(), msg.pcount()))
+			m_edit += "unable to send: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
 		else
 		{
-			strstream msg;
-			int selected_game = m_game.GetItemData(m_game.GetCurSel());
-			int selected_nick = m_user.GetItemData(m_user.GetCurSel());
-			const t_game& game = m_games[selected_game];
-			const t_nick& nick = m_nicks[selected_nick];
-			msg << "cvers 0 " << (game.gsku << 8) << endl
-				<< "nick " << nick.name << endl
-				<< "apgar " << nick.password << " 0" << endl
-				<< "serial " << game.serial << endl
-				<< "user UserName e e e" << endl
-				<< "quit" << endl;
-			m_edit += "server: ";
-			m_edit += inet_ntoa(d_address.sin_addr);
-			m_edit += "\r\n";
-			m_edit += "nick: ";
-			m_edit += nick.name.c_str();
-			m_edit += "\r\n";
-			if (msg.pcount() != send(s, msg.str(), msg.pcount(), 0))
-				m_edit += "unable to send: " + n(WSAGetLastError());
-			else
-			{
-				const int cb_d = 4 << 10;
-				char d[cb_d];				
-				int e;
-				while ((e = recv(s, d, cb_d, 0)) && e != SOCKET_ERROR)
-					m_edit += CString(d, e);
-				if (e == SOCKET_ERROR)
-					m_edit += "unable to receive: " + n(WSAGetLastError());
-			}
+			const int cb_d = 4 << 10;
+			char d[cb_d];				
+			int e;
+			while ((e = recv(s, d, cb_d, 0)) && e != SOCKET_ERROR)
+				m_edit += CString(d, e);
+			if (e == SOCKET_ERROR)
+				m_edit += "unable to receive: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
 		}
-		closesocket(s);
 	}
 	UpdateData(false);
 }
