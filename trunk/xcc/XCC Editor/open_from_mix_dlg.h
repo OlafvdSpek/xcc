@@ -30,7 +30,7 @@ class Copen_from_mix_dlg : public CDialog
 {
 // Construction
 public:
-	void get_selected_f(word*& bin_d, byte*& ini_d, dword& cb_ini);
+	void get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d);
 	void add_column(const string &text, dword index, dword size, dword format = LVCFMT_LEFT);
 	void add_item(const string &text, dword index, dword subindex);
 	Copen_from_mix_dlg(CWnd* pParent = NULL);   // standard constructor

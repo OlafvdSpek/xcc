@@ -68,7 +68,7 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	mix_database::load();
 	{
 		CWaitCursor wait;
-		Ccc_file bin_f(false), ini_f(false);
+		Ccc_file bin_f(false), ini_f(true);
 		Cxcc_level level;
 		for (long i = 0; i < c_files; i++)
 		{
@@ -83,11 +83,8 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 			ini_f.open(name, mix);
 			if (bin_f.is_open() && ini_f.is_open())
 			{
-				const long cb_ini = ini_f.get_size();
-				byte* ini_d = new byte[cb_ini];
-				ini_f.read(ini_d, cb_ini);
 				xcc_log::write_line("loading " + name.get_ftitle());
-				if (!level.load(0, ini_d, cb_ini))
+				if (!level.load(Cvirtual_binary(), ini_f.get_vdata()))
 				{
 					name.set_ext("");
 					t_index_info info;
@@ -99,7 +96,6 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 					info.theater = level.map_data.theater;
 					index[name] = info;
 				}
-				delete[] ini_d;
 			}
 			if (ini_f.is_open())
 				ini_f.close();
@@ -157,16 +153,13 @@ void Copen_from_mix_dlg::add_item(const string& text, dword index, dword subinde
 		m_list.SetItem(&item_data);
 }
 
-void Copen_from_mix_dlg::get_selected_f(word*& bin_d, byte*& ini_d, dword& cb_ini)
+void Copen_from_mix_dlg::get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d)
 {
-	Ccc_file bin_f(false), ini_f(false);
+	Ccc_file bin_f(true), ini_f(true);
 	ini_f.open(selected_fname + ".ini", mix);
 	bin_f.open(selected_fname + ".bin", mix);
-	cb_ini = ini_f.get_size();
-	ini_d = new byte[cb_ini];
-	bin_d = new word[4096];
-	ini_f.read(ini_d, cb_ini);
-	bin_f.read(bin_d, 8192);
+	ini_d = ini_f.get_vdata();
+	bin_d = bin_f.get_vdata();
 	bin_f.close();
 	ini_f.close();
 }

@@ -334,12 +334,12 @@ class Cxcc_level
 public:
 	void clear();
 	void process();
-	int load(const word* bin, const byte* ini, dword size);
-	int load_bin(const word* data);
-	int load_ini(const byte* data, dword size, bool fast);
-	void save(word*& bin, byte*& ini, dword& size) const;
-	void save_bin(word*& data) const;
-	void save_ini(byte*& data, dword& size) const;
+	int load(const Cvirtual_binary& bin, const Cvirtual_binary& ini);
+	int load_bin(const Cvirtual_binary& data);
+	int load_ini(const Cvirtual_binary& data, bool fast);
+	void save(Cvirtual_binary& bin, Cvirtual_binary& ini) const;
+	Cvirtual_binary save_bin() const;
+	Cvirtual_binary save_ini() const;
 	Cxcc_level();
 	virtual ~Cxcc_level();
 // private:

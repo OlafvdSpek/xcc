@@ -862,13 +862,10 @@ void CXCCEditorView::OnFileOpenFromMix()
 	{
 		if (!pDoc->OnNewDocument())
 			return;
-		word* bin_d;
-		byte* ini_d;
-		dword cb_ini;
-		dlg.get_selected_f(bin_d, ini_d, cb_ini);
-		pDoc->load(bin_d, ini_d, cb_ini);
-		delete[] ini_d;
-		delete[] bin_d;
+		Cvirtual_binary bin_d;
+		Cvirtual_binary ini_d;
+		dlg.get_selected_f(bin_d, ini_d);
+		pDoc->load(bin_d, ini_d);
 		main_frame()->InitialUpdateFrame(GetDocument(), true);
 		pDoc->GetDocTemplate()->SetDefaultTitle(pDoc);
 		pDoc->SetModifiedFlag();
