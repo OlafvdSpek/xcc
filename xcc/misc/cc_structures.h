@@ -135,6 +135,7 @@ struct t_mix_rg_header
 	__int32 id;
 	__int32 index_offset;
 	__int32 tailer_offset;
+	__int32 zero;
 };
 
 struct t_mix_rg_index_entry
@@ -412,6 +413,19 @@ struct t_vxl_section_tailer
 };
 
 const char vxl_id[] = "Voxel Animation";
+
+struct t_w3d_header
+{
+	__int32 id;
+	__int32 m_size;
+	// unsigned __int16 size;
+	// unsigned __int16 unknown;
+
+	int size() const
+	{
+		return m_size & ~0x80000000;
+	}
+};
 
 struct t_wsa_dune2_header
 {

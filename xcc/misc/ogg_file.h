@@ -13,6 +13,10 @@
 #include "cc_structures.h"
 #include "virtual_audio.h"
 
+#pragma comment(lib, "ogg_static.lib")
+#pragma comment(lib, "vorbis_static.lib")
+#pragma comment(lib, "vorbisfile_static.lib")
+
 class Cogg_file: public Ccc_file_sh<t_ogg_header>
 {
 public:
@@ -29,7 +33,5 @@ public:
 	int get_c_samples();
 	int get_samplerate();
 };
-
-int ogg_test();
 
 #endif // !defined(AFX_OGG_FILE_H__3FD21862_D8E9_11D4_A95D_0050042229FC__INCLUDED_)

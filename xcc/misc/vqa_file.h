@@ -13,6 +13,8 @@
 #include <cc_structures.h>
 #include "fname.h"
 
+#pragma comment(lib, "vfw32.lib")
+
 class Cvqa_file: public Ccc_file  
 {
 public:

@@ -34,6 +34,8 @@ Cmix_file::Cmix_file():
 bool Cmix_file::is_valid()
 {
 	const byte* data = get_data();
+	if (!data)
+		return false;
 	const t_mix_header& header = *reinterpret_cast<const t_mix_header*>(data);
 	int size = get_size();
 	if (sizeof(t_mix_header) > size)
@@ -217,23 +219,32 @@ int Cmix_file::post_open()
 				m_game = game_ts;
 		}
 	}
+	for (int i = 0; i < get_c_files(); i++)
+		m_id_index[get_id(i)] = i;
 #ifndef NO_FT_SUPPORT
 	if (m_ft_support)
 	{
-		int count[game_unknown] = {0};
-		for (int i = 0; i < get_c_files(); i++)
+		switch (m_game)
 		{
-			int id = get_id(i);
-			for (int game = game_td; game < game_unknown; game++)
-				count[game] += mix_database::get_name(static_cast<t_game>(game), id).empty();
-		}
-		int min = count[0];
-		for (int game = 0; game < game_unknown; game++)
-		{
-			if (count[game] < min)
+		case game_dune2:
+		case game_rg:
+			break;
+		default:
+			int count[game_unknown] = {0};
+			for (int i = 0; i < get_c_files(); i++)
 			{
-				m_game = static_cast<t_game>(game);
-				min = count[game];
+				int id = get_id(i);
+				for (int game = game_td; game < game_unknown; game++)
+					count[game] += mix_database::get_name(static_cast<t_game>(game), id).empty();
+			}
+			int min = count[0];
+			for (int game = 0; game < game_unknown; game++)
+			{
+				if (count[game] < min)
+				{
+					m_game = static_cast<t_game>(game);
+					min = count[game];
+				}
 			}
 		}
 		if (!m_data_loaded)
@@ -247,11 +258,22 @@ int Cmix_file::post_open()
 				memcpy(m_index_ft, s, m_c_files * sizeof(t_file_type));
 			else
 			{
-				for (int i = 0; i < m_c_files; i++)
+				typedef multimap<int, int> t_block_map;
+
+				t_block_map block_map;
+				{
+					for (int i = 0; i < m_c_files; i++)
+					{
+						int id = get_id(i);
+						if (get_size(id))
+							block_map.insert(t_block_map::value_type(get_offset(id), i));
+					}
+				}
+				for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
 				{
 					Ccc_file f(false);
-					f.open(get_id(i), *this);
-					m_index_ft[i] = f.get_file_type();
+					f.open(get_id(i->second), *this);
+					m_index_ft[i->second] = f.get_file_type();
 					f.close();
 				}
 				mix_cache::set_data(crc.get_crc(), m_index_ft, m_c_files * sizeof(t_file_type));
@@ -318,6 +340,7 @@ int Cmix_file::post_open()
 
 void Cmix_file::close()
 {
+	m_id_index.clear();
 	delete[] m_index_ft;
 	m_index_ft = NULL;
     delete[] m_index;
@@ -348,8 +371,27 @@ int Cmix_file::get_id(t_game game, string name)
 		name = fname.get_ftitle().substr(0, 8) + fname.get_fext();
 	*/
 	name = to_upper(name);
-	if (game != game_ts && game != game_ra2)
+	switch (game)
 	{
+	case game_ts:
+	case game_ra2:
+	case game_rg:
+		{
+			const int l = name.length();
+			int a = l >> 2;
+			if (l & 3)
+			{
+				name += static_cast<char>(l - (a << 2));
+				int i = 3 - (l & 3);
+				while (i--)
+					name += name[a << 2];
+			}
+			Ccrc crc;
+			crc.init();
+			crc.do_block(name.c_str(), name.length());
+			return crc.get_crc();
+		}
+	default:
 		int i = 0;
 		unsigned int id = 0;
 		int l = name.length();
@@ -367,37 +409,18 @@ int Cmix_file::get_id(t_game game, string name)
 		}
 		return id;
 	}
-	else
-	{
-		const int l = name.length();
-		int a = l >> 2;
-		if (l & 3)
-		{
-			name += static_cast<char>(l - (a << 2));
-			int i = 3 - (l & 3);
-			while (i--)
-				name += name[a << 2];
-		}
-		Ccrc crc;
-		crc.init();
-		crc.do_block(name.c_str(), name.length());
-		return crc.get_crc();
-	}
 }
 
 int Cmix_file::get_index(unsigned int id) const
 {
     assert(is_open());
-    for (int i = 0; i < m_c_files; i++)
-	{
-        if (m_index[i].id == id)
-            return i;
-	}
-    return -1;
+	t_id_index::const_iterator i = m_id_index.find(id);
+	return i == m_id_index.end() ? -1 : i->second;
 }
 
 void Cmix_file::clean_up()
 {
+	m_id_index.clear();
     delete[] m_index_ft;
     m_index_ft = NULL;
     delete[] m_index;

@@ -277,7 +277,7 @@ void Cvirtual_image::remove_alpha()
 {
 	assert(cb_pixel() == 4);
 	Cvirtual_binary t = m_image;
-	load(NULL, cx(), cy(), 4, NULL);
+	load(NULL, cx(), cy(), 3, NULL);
 	int count = m_cx * m_cy;
 	const byte* r = t.data();
 	byte* w = image_edit();

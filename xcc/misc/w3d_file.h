@@ -9,14 +9,16 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "cc_file_small.h"
+#include "cc_file_sh.h"
+#include "cc_structures.h"
 
-class Cw3d_file: public Ccc_file_small
+class Cw3d_file: public Ccc_file_sh<t_w3d_header>
 {
 public:
 	bool is_valid() const
 	{
-		return get_size() >= 4 && *reinterpret_cast<const __int32*>(get_data()) == ' D3W';
+		const t_w3d_header& header = *get_header();
+		return get_size() >= sizeof(t_w3d_header) && sizeof(t_w3d_header) + header.size() <= get_size() && header.m_size & 0x80000000 && !(header.size() & ~0xfffff);
 	}
 };
 

@@ -80,7 +80,14 @@ public:
 	{
 		return m_is_encrypted;	
 	}
+
+	const t_mix_index_entry* index() const
+	{
+		return m_index;
+	}
 private:
+	typedef map<int, int> t_id_index;
+
 	static bool m_ft_support;
 
     void clean_up();
@@ -91,6 +98,7 @@ private:
 	bool m_has_checksum;
     t_mix_index_entry* m_index;
 	t_file_type* m_index_ft;
+	t_id_index m_id_index;
 };
 
 #endif // !defined(AFX_MIX_FILE_H__6AA2E061_D405_11D3_8684_0000F81AF605__INCLUDED_)

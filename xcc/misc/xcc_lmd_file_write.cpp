@@ -17,13 +17,13 @@ void Cxcc_lmd_file_write::add_fname(const string& fname)
 	m_index.push_back(to_lower(fname));
 }
 
-int Cxcc_lmd_file_write::write(byte*& data, t_game game) const
+Cvirtual_binary Cxcc_lmd_file_write::write(t_game game) const
 {
 	int size = sizeof(t_xcc_header) + sizeof(t_xcc_lmd_header);
 	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 		size += i->length() + 1;
-	data = new byte[size];
-	byte* w = data;
+	Cvirtual_binary data;
+	byte* w = data.write_start(size);
 	t_xcc_header& header = *reinterpret_cast<t_xcc_header*>(w);
 	strcpy(header.id, xcc_id);
 	header.size = size;
@@ -39,5 +39,5 @@ int Cxcc_lmd_file_write::write(byte*& data, t_game game) const
 		strcpy(reinterpret_cast<char*>(w), i->c_str());
 		w += i->length() + 1;
 	}
-	return size;
+	return data;
 }

@@ -91,9 +91,7 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 	m_p = 0;
     m_is_open = true;
     if (m_read_on_open)
-    { 
         test_fail(read(m_data.write_start(m_size), m_size));
-    }
     test_fail(post_open())
     return 0;
 }
@@ -144,16 +142,14 @@ HANDLE Ccc_file::handle()
 int Ccc_file::attach(HANDLE handle)
 {
     assert(!is_open());
-	m_f.attach(handle);
+	m_f.open(handle);
 	m_attached = true;
 	m_mix_f = NULL;
 	m_size = m_f.get_size();
 	m_p = 0;
     m_is_open = true;
     if (m_read_on_open)
-    { 
 		test_fail(read(m_data.write_start(m_size), m_size));
-    }
     test_fail(post_open())
 	return 0;
 }
@@ -163,7 +159,7 @@ void Ccc_file::detach()
     assert(is_open());
 	m_is_open = false;
 	m_attached = false;
-	m_f.detach();
+	m_f.close();
 }
 
 void Ccc_file::load(const Cvirtual_binary d, int size)
@@ -196,6 +192,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	else
 	{
 		size = min(m_size, 64 << 10);
+		seek(0);
 		if (read(data.write_start(size), size))
 		{
 			return ft_unknown;
