@@ -159,9 +159,9 @@ void create_deep_dir(string dir, const string& name)
 {
 	int a = 0;
 	int b;
-	while ((b = name.find('\\', a)) != string::npos)
+	while ((b = name.find_first_of("/\\", a)) != string::npos)
 	{
-		dir += '\\' + name.substr(a, b - a);
+		dir += '/' + name.substr(a, b - a);
 		create_dir(dir);
 		a = b + 1;
 	}
