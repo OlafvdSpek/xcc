@@ -68,8 +68,8 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 		int half_cx = m_header.cx / 2;
 		int half_cy = m_header.cy / 2;
 
-		byte* d = new byte[256 << 10];
-		byte* w = d;
+		Cvirtual_binary d;
+		byte* w = d.write_start(256 << 10);
 
 		*reinterpret_cast<t_tmp_ts_header*>(w) = m_header;;
 		w += sizeof(t_tmp_ts_header);
@@ -89,29 +89,22 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 						int cb_extra_data = e.header.cx_extra * e.header.cy_extra;
 						e.header.z_ofs = cb_diamond + sizeof(t_tmp_image_header);		
 						e.header.extra_ofs = 2 * cb_diamond + sizeof(t_tmp_image_header);
-						if (i->second.extra_data.data())
+						if (e.extra_data.data())
 							e.header.extra_z_ofs = 2 * cb_diamond + cb_extra_data + sizeof(t_tmp_image_header);
-						e.header.has_extra_data = static_cast<bool>(i->second.extra_data.data());
+						e.header.has_extra_data = static_cast<bool>(e.extra_data.data());
 						e.header.has_z_data = static_cast<bool>(e.z_data.data());
 						e.header.has_damaged_data = true; // false;
 						*reinterpret_cast<t_tmp_image_header*>(w) = e.header;
 						w += sizeof(t_tmp_image_header);
-						memcpy(w, e.data.data(), cb_diamond);
-						w += cb_diamond;
-						if (e.z_data.data())
+						assert(e.data.size() == cb_diamond);
+						w += e.data.read(w);
+						if (e.z_data)
+							w += e.z_data.read(w);
+						if (e.extra_data)
 						{
-							memcpy(w, e.z_data.data(), cb_diamond);
-							w += cb_diamond;
-						}
-						if (i->second.extra_data.data())
-						{
-							memcpy(w, i->second.extra_data.data(), cb_extra_data);
-							w += cb_extra_data;
-							if (i->second.extra_z_data.data())
-							{
-								memcpy(w, i->second.extra_z_data.data(), cb_extra_data);
-								w += cb_extra_data;
-							}
+							w += e.extra_data.read(w);
+							if (e.extra_z_data.data())
+								w += e.extra_z_data.read(w);
 						}
 						break;
 					}
@@ -120,9 +113,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 					*index++ = 0;
 			}
 		}
-		int cb_d = w - d;
-		ar.Write(d, cb_d);
-		delete[] d;
+		ar.Write(d, w - d);
 	}
 	else
 	{
