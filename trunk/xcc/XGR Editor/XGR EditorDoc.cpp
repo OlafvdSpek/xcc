@@ -68,12 +68,42 @@ BOOL CXGREditorDoc::OnSaveDocument(LPCTSTR lpszPathName)
 	Cbig_file_write f;
 	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
 		f.insert(i->first, i->second);
-	f.write().export("c:/temp/XGR Editor output.big");
-	return true; // CDocument::OnSaveDocument(lpszPathName);
+	if (f.write().export("c:/temp/XGR Editor output.big"))
+		return false;
+	SetModifiedFlag(false);
+	return true;
 }
 
-void CXGREditorDoc::erase(const string &v)
+void CXGREditorDoc::erase(const string& name)
 {
-	m_map.erase(v);
+	m_map.erase(name);
+	SetModifiedFlag();
 	UpdateAllViews(NULL);
 }
+
+void CXGREditorDoc::insert(const string& name, const Cvirtual_binary& d)
+{
+	m_map[name] = d;
+	SetModifiedFlag();
+	UpdateAllViews(NULL);
+}
+
+void CXGREditorDoc::SetModifiedFlag(BOOL bModified)
+{
+	if (IsModified() == bModified)
+		return;
+	CDocument::SetModifiedFlag(bModified);
+	CString title = GetTitle();
+	if (bModified)
+	{
+		if (title.Find('*') < 0)
+			title += '*';
+	}
+	else
+	{
+		if (title.Find('*') >= 0)
+			title.Delete(title.GetLength() - 1);
+	}
+	SetTitle(title);
+}
+

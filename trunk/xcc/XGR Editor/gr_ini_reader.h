@@ -154,7 +154,7 @@ public:
 			string section_t;
 			string section_name;
 			if (read_string("\t\n\r ;", section_t)
-				|| read_string("\t\n\r ;", section_name))
+				|| read_string("\t\n\r;", section_name))
 				return 1;
 			if (section_name.empty())
 			{
@@ -188,6 +188,20 @@ public:
 	{
 		m_sections.erase(v);
 	}
+
+	t_sections& sections()
+	{
+		return m_sections;
+	}
+
+	const t_sections& sections() const
+	{
+		return m_sections;
+	}
+
 };
+
+ostream& operator<<(ostream& os, const Cgr_ini_reader& v);
+ostream& operator<<(ostream& os, const Cgr_ini_reader::Csection& v);
 
 #endif // !defined(AFX_GR_INI_READER_H__B14F22AB_6A52_4075_8719_F5E30E7AD8B2__INCLUDED_)

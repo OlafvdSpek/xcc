@@ -52,7 +52,7 @@ BOOL CXGREditorApp::InitInstance()
 #endif
 
 	// Change the registry key under which our settings are stored.
-	SetRegistryKey(_T("Local AppWizard-Generated Applications"));
+	SetRegistryKey("XCC");
 
 	LoadStdProfileSettings(16);  // Load standard INI file options (including MRU)
 

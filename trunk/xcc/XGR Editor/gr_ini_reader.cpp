@@ -85,3 +85,14 @@ Cgr_ini_reader::Cgr_ini_reader(const Cvirtual_binary& d)
 {
 	import(d);
 }
+
+ostream& operator<<(ostream& os, const Cgr_ini_reader& v)
+{
+	return v.export(os);
+}
+
+ostream& operator<<(ostream& os, const Cgr_ini_reader::Csection& v)
+{
+	return v.export(os, 0);
+}
+
