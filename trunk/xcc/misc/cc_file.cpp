@@ -55,11 +55,12 @@ const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini
 	"ini", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
 	"mix", "mng", "mp3", "mrf", "pak", "pal", "pal (jasc)", "pcx", "png", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
 	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
-	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vqa", "vqp", "vxl", "wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
+	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
 {
+	m_attached = false;
     m_data = NULL;
     m_data_loaded = m_is_open = false;
 }
@@ -117,6 +118,32 @@ int Ccc_file::open(const string& name)
     }
     test_fail(post_open())
     return 0;
+}
+
+int Ccc_file::attach(HANDLE handle)
+{
+    assert(!is_open());
+	m_f.attach(handle);
+	m_attached = true;
+	m_mix_f = NULL;
+	m_size = m_f.get_size();
+	m_p = 0;
+    m_is_open = true;
+    if (m_read_on_open)
+    { 
+        m_data = new byte[m_size];
+        test_fail(read(m_data, m_size));
+    }
+    test_fail(post_open())
+	return 0;
+}
+
+void Ccc_file::detach()
+{
+    assert(is_open());
+	m_is_open = false;
+	m_attached = false;
+	m_f.detach();
 }
 
 void Ccc_file::load(const byte* data, int size)
@@ -451,6 +478,8 @@ void Ccc_file::close()
         delete[] m_data;
 		m_data = NULL;
 	}
+	if (m_f.is_open())
+		assert(!m_mix_f);
     if (!m_mix_f && m_f.is_open())
         m_f.close();
     m_is_open = false;
