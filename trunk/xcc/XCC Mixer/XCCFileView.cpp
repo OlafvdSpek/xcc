@@ -711,8 +711,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					if (!f.get_index()[i])
 						continue;
 					const t_tmp_image_header& header = *f.get_image_header(i);
-					draw_info("Tile:", n(i));
 					/*
+					draw_info("Tile:", n(i));
 					draw_info("x:", n(header.x));
 					draw_info("y:", n(header.y));
 					for (int j = 0; j < 3; j++)
@@ -722,6 +722,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					draw_info("cx_extra:", n(header.cx_extra));
 					draw_info("cy_extra:", n(header.cy_extra));
 					*/
+					/*
 					draw_info("flags:", n(header.flags & 7));
 					draw_info("height:", n(header.height));
 					draw_info("terrain type:", n(header.terraintype));
@@ -915,7 +916,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				{
 					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
 					draw_info("Audio:", n(format_chunk.samplerate) + " hz, " + n(format_chunk.cbits_sample) + " bit, " + (format_chunk.c_channels == 1 ? "mono" : "stereo"));
-					draw_info("Count samples:", n(f.get_data_header().size * 8 / (format_chunk.cbits_sample * format_chunk.c_channels)));
+					draw_info("Count samples:", n(format_chunk.tag == 1 ? f.get_data_header().size * 8 / (format_chunk.cbits_sample * format_chunk.c_channels) : f.get_fact_chunk().c_samples));
 					draw_info("Format:", nh(4, format_chunk.tag));
 				}
 				break;
