@@ -16,11 +16,11 @@
 #include "image_file.h"
 #include "palet.h"
 
-class Ctmp_ts_file: public Ccc_file_sh<t_tmp_ts_header>
+class Ctmp_ts_file: public Cimage_file<t_tmp_ts_header>
 {
 public:
+	void decode(void*) const;
 	void draw(byte* d) const;
-	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
 	void get_rect(int& x, int& y, int& cx, int& cy) const;
 
 	bool is_valid() const
@@ -41,6 +41,25 @@ public:
 			}
 		}
 		return true;
+	}
+
+	int cb_pixel() const
+	{
+		return 1;
+	}
+
+	int cx() const
+	{
+		int x, y, cx, cy;
+		get_rect(x, y, cx, cy);
+		return cx;
+	}
+
+	int cy() const
+	{
+		int x, y, cx, cy;
+		get_rect(x, y, cx, cy);
+		return cy;
 	}
 
 	int get_c_tiles() const

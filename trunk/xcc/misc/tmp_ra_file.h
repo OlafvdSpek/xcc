@@ -15,10 +15,10 @@
 #include "image_file.h"
 #include "palet.h"
 
-class Ctmp_ra_file: public Ccc_file_sh<t_tmp_ra_header>
+class Ctmp_ra_file: public Cimage_file<t_tmp_ra_header>
 {
 public:
-	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
+	void decode(void*) const;
 
 	bool is_valid() const
 	{
@@ -32,6 +32,21 @@ public:
 			header.size != size ||
 			header.image_offset > size ||
 			header.zero2);
+	}
+
+	int cb_pixel() const
+	{
+		return 1;
+	}
+
+	int cx() const
+	{
+		return 24 * get_cblocks_x();
+	}
+
+	int cy() const
+	{
+		return 24 * get_cblocks_y();
 	}
 
 	int get_c_tiles() const

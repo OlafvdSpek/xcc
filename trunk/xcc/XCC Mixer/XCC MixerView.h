@@ -36,6 +36,7 @@ protected: // create from serialization only
 	CXCCMixerView();
 	DECLARE_DYNCREATE(CXCCMixerView)
 public:
+	Cvirtual_image get_vimage(int i) const;
 	Cvirtual_binary get_vdata(int i) const;
 	bool can_accept() const;
 	bool can_copy();
