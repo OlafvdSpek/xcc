@@ -53,7 +53,7 @@
 			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
 		$results = db_query(sprintf("select * from xcl_players where name in (%s)", implode(",", $pnames)));
 		while ($result = mysql_fetch_assoc($results))
-			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
+			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points']);
 		return;
 	}
 	else if (isset($_GET['pure']))
@@ -62,7 +62,7 @@
 		{
 			$results = db_query(sprintf("select p.name, sum(pc > 0) w,  sum(pc < 0) l, sum(greatest(pc, 0)) pw, sum(least(pc, 0)) pl, sum(pc) pc from xcl_games_players gp inner join xcl_players p using (pid) where cid = %d group by p.pid order by name", $cid));
 			while ($result = mysql_fetch_assoc($results))
-				printf("%s %d %d %d %d %d\n", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
+				printf("%s %d %d %d %d %d\n", $result['name'], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
 		}
 		else if ($lid || $pid)
 		{
@@ -233,8 +233,8 @@
 		$rank = 1;
 		while ($result = mysql_fetch_assoc($results))
 		{
-			if ($result[rank] != $rank)
-				db_query(sprintf("update xcl_players set rank = %d, mtime = mtime where pid = %d", $rank, $result[pid]));
+			if ($result['rank'] != $rank)
+				db_query(sprintf("update xcl_players set rank = %d, mtime = mtime where pid = %d", $rank, $result['pid']));
 			$rank++;
 		}
 	}
@@ -247,7 +247,7 @@
 		$rank = 1;
 		while ($result = mysql_fetch_assoc($results))
 		{
-			printf("<tr><td align=right>%d<td>%s", $rank++, $result[name]);
+			printf("<tr><td align=right>%d<td>%s", $rank++, $result['name']);
 		}
 		echo("</table>");
 	}
@@ -255,10 +255,10 @@
 	function echo_player($player)
 	{
 		echo($player[cid] ? "<td>" : "<td colspan=2>");
-		printf("<a href=\"?pid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[pid], $player[rank], $player[win_count], $player[loss_count], $player[points], $player[name]);
+		printf("<a href=\"?pid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player['pid'], $player['rank'], $player['win_count'], $player['loss_count'], $player['points'], $player['name']);
 		if ($player[cid])
 			printf("<td><a href=\"?cid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[cid], $player[crank], $player[cwin_count], $player[closs_count], $player[cpoints], $player[cname]);
-		printf("<td align=center><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($player[cty]), get_country_name($player[cty]), cmp2a($player[cmp]), pc2a($player[pc]));
+		printf("<td align=center><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($player['cty']), get_country_name($player['cty']), cmp2a($player[cmp]), pc2a($player[pc]));
 	}
 
 	function echo_games($results, $pid, $cid, $unfair_games)
@@ -280,7 +280,7 @@
 				echo_player($players[$player_a++]);
 				echo_player($players[$player_b++]);
 				printf("<td align=right>%s<td>%s<td align=right>%s<td>%d<td>%d<td>%d",
-					dura2a($result[dura]), $result[scen], gmdate("H:i d-m", $result[mtime]), $result[afps], $result[oosy], $result[trny]);
+					dura2a($result['dura']), $result['scen'], gmdate("H:i d-m", $result['mtime']), $result['afps'], $result[oosy], $result['trny']);
 				if ($unfair_games)
 					printf("<td><a href=\"/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
 				for (; $player_a < $plrs; $player_a++, $player_b++)
@@ -320,7 +320,7 @@
 		echo("</table></center>");
 		$results = db_query("select * from xcl_hof order by date desc, lid, rank");
 		while ($result = mysql_fetch_assoc($results))
-			$v[$result[date]][$result[lid]][$result[rank]] = $result[name];
+			$v[$result['date']][$result['lid']][$result['rank']] = $result['name'];
 		foreach ($v as $date => $w)
 		{
 			printf("<hr><center><table><tr><th colspan=12>%s<tr>", gmdate("F Y", gmmktime(0, 0, 0, substr($date, 5, 2), 1, substr($date, 0, 4))));
@@ -360,10 +360,10 @@
 		echo("<center><table><tr><th>Name");
 		$results = db_query("select xcl_players.pid from xcl_players inner join bl using (name) where points");
 		while ($result = mysql_fetch_assoc($results))
-			db_query(sprintf("update xcl_players set points = 0 where pid = %d", $result[pid]));
+			db_query(sprintf("update xcl_players set points = 0 where pid = %d", $result['pid']));
 		$results = db_query("select distinct xcl_players.name from xcl_players inner join bl using (name) order by xcl_players.name");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td>%s", $result[name]);
+			printf("<tr><td>%s", $result['name']);
 		echo("</table></center>");
 	}
 	else if (isset($_GET['stats']))
@@ -391,10 +391,10 @@
 		$results = db_query("select * from xcl_stats_gsku order by count desc");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			$games[$result[gsku]][$result[trny]] = $result[count];
-			$games[$result[gsku]][-1] += $result[count];
-			$games[-1][$result[trny]] += $result[count];
-			$games[-1][-1] += $result[count];
+			$games[$result['gsku']][$result['trny']] = $result['count'];
+			$games[$result['gsku']][-1] += $result['count'];
+			$games[-1][$result['trny']] += $result['count'];
+			$games[-1][-1] += $result['count'];
 		}
 		echo("<table><tr><th><th>Player<th>Clan");
 		foreach ($games as $gsku => $game)
@@ -409,10 +409,10 @@
 		$results = db_query("select * from xcl_stats_players order by count desc");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			$games[$result[gsku]][$result[trny]] = $result[count];
-			$games[$result[gsku]][-1] += $result[count];
-			$games[-1][$result[trny]] += $result[count];
-			$games[-1][-1] += $result[count];
+			$games[$result['gsku']][$result['trny']] = $result['count'];
+			$games[$result['gsku']][-1] += $result['count'];
+			$games[-1][$result['trny']] += $result['count'];
+			$games[-1][-1] += $result['count'];
 		}
 		echo("<table><tr><th><th>Player<th>Clan");
 		foreach ($games as $gsku => $game)
@@ -428,7 +428,7 @@
 		$results = db_query("select * from xcl_stats_gsku order by count desc");
 		echo("<table><tr><th>Games<th>Game");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
+			printf("<tr><td align=right>%d<td>%s", $result['count'], gsku2a($result['gsku']));
 		echo("</table><hr>");
 		*/
 		/*
@@ -436,36 +436,36 @@
 		$results = db_query("select * from xcl_stats_players order by count desc");
 		echo("<table><tr><th>Players<th>Game");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
+			printf("<tr><td align=right>%d<td>%s", $result['count'], gsku2a($result['gsku']));
 		echo("</table><hr>");
 		// $results = db_query("select gsku, count(distinct cid) count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc");
 		$results = db_query("select * from xcl_stats_clans order by count desc");
 		echo("<table><tr><th>Clans<th>Game");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
+			printf("<tr><td align=right>%d<td>%s", $result['count'], gsku2a($result['gsku']));
 		echo("</table><hr>");
 		*/
 		// $results = db_query("select cty, count(*) count from xcl_games_players group by cty order by count desc");
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		echo("<table><tr><th>Count<th>Country");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td align=center><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
+			printf("<tr><td align=right>%d<td align=center><img src=\"%s\" alt=\"%s\">", $result['count'], get_country_flag_url($result['cty']), get_country_name($result['cty']));
 		echo("</table><hr>");
 		// $results = db_query("select ifnull(xcl_maps.name, xcl_games.scen) scen, count(*) count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc");
 		// $results = db_query("select ifnull(xcl_maps.name, xcl_stats_maps.scen) scen, count from xcl_stats_maps left join xcl_maps on xcl_stats_maps.scen = xcl_maps.fname order by count desc");
 		$results = db_query("select scen, count from xcl_stats_maps order by count desc");
 		echo("<table><tr><th>Count<th>Scenario");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
+			printf("<tr><td align=right>%d<td>%s", $result['count'], $result['scen']);
 		echo("</table><hr>");
 		// $results = db_query("select round(dura / 600) * 10 dura, count(*) count from xcl_games group by dura order by dura");
 		$results = db_query("select * from xcl_stats_dura order by dura");
 		echo("<table><tr><th>Count<th>Duration");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			printf("<tr><td align=right>%d<td align=right>", $result[count]);
-			if ($result[dura])
-				printf("%d - %d", $result[dura] - 5, $result[dura] + 5);
+			printf("<tr><td align=right>%d<td align=right>", $result['count']);
+			if ($result['dura'])
+				printf("%d - %d", $result['dura'] - 5, $result['dura'] + 5);
 			else
 				echo("< 5");
 		}
@@ -474,17 +474,17 @@
 		$results = db_query("select * from xcl_stats_afps order by afps");
 		echo("<table><tr><th>Count<th>Average FPS");
 		while ($result = mysql_fetch_assoc($results))
-			printf("<tr><td align=right>%d<td>%d", $result[count], $result[afps]);
+			printf("<tr><td align=right>%d<td>%d", $result['count'], $result['afps']);
 		echo("</table><hr>");
 		$games = array();
 		// $results = db_query("select hour(mtime) h, dayofmonth(mtime) d, count(*) c from xcl_games group by dayofmonth(mtime), hour(mtime)");
 		$results = db_query("select * from xcl_stats_time order by d, h");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			$games[$result[d]][$result[h]] = $result[c];
-			$games[$result[d]][24] += $result[c];
-			$games[32][$result[h]] += $result[c];
-			$games[32][24] += $result[c];
+			$games[$result['d']][$result['h']] = $result['c'];
+			$games[$result['d']][24] += $result['c'];
+			$games[32][$result['h']] += $result['c'];
+			$games[32][24] += $result['c'];
 		}
 		echo("<table><tr><td>");
 		for ($h = 0; $h < 24; $h++)
@@ -564,7 +564,7 @@
 					echo("<table><tr><th>Rank<th>Name<th colspan=2>Stats<th>Points<th>Date");
 					do
 					{
-						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result[rank], $result[name], $result[win_count], $result[loss_count], $result[points], gmdate("H:i d-m-Y", $result[mtime]));
+						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result['rank'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], gmdate("H:i d-m-Y", $result['mtime']));
 					}
 					while ($result = mysql_fetch_assoc($results));
 					echo("</table><hr>");
@@ -582,7 +582,7 @@
 					echo("<hr><table>");
 					while ($result = mysql_fetch_assoc($results))
 					{
-						printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
+						printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d", $result['name'], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
 					}
 					echo("</table>");
 				}
@@ -594,7 +594,7 @@
 					echo("<hr><table><tr><th>Count<th>Country");
 					do
 					{
-						printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
+						printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result['count'], get_country_flag_url($result['cty']), get_country_name($result['cty']));
 					}
 					while ($result = mysql_fetch_assoc($results));
 					echo("</table>");
@@ -607,7 +607,7 @@
 					echo("<hr><table><tr><th>Count<th>Scenario");
 					do
 					{
-						printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
+						printf("<tr><td align=right>%d<td>%s", $result['count'], $result['scen']);
 					}
 					while ($result = mysql_fetch_assoc($results));
 					echo("</table>");
@@ -619,7 +619,7 @@
 				echo("<hr><table>");
 				while ($result = mysql_fetch_assoc($results))
 				{
-					printf("<tr><th>%s<th>killed<th>bought<th>left<th>captured", $result[name]);
+					printf("<tr><th>%s<th>killed<th>bought<th>left<th>captured", $result['name']);
 					printf("<tr><td align=right>units<td align=right>%d<td align=right>%d<td align=right>%d", $result[unk], $result[unb], $result[unl]);
 					printf("<tr><td align=right>buildings<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d", $result[blk], $result[blb], $result[bll], $result[blc]);
 					printf("<tr><td align=right>infantry<td align=right>%d<td align=right>%d<td align=right>%d", $result[ink], $result[inb], $result[inl]);
@@ -661,28 +661,28 @@
 					{
 						echo("<tr>");
 						if (!$lid)
-							printf("<td><a href=\"?lid=%d\">%s</a>", $result[lid], lid2a($result[lid]));
-						printf("<td align=right>%d<td>", $result[rank]);
+							printf("<td><a href=\"?lid=%d\">%s</a>", $result['lid'], lid2a($result['lid']));
+						printf("<td align=right>%d<td>", $result['rank']);
 						if ($lid & 1)
 						{
 							echo("<img src=\"images/cooperat.png\" alt=\"XCL Founder\">");
-							if ($result[points_max] > 1500)
+							if ($result['points_max'] > 1500)
 								echo(" <img src=\"images/stargen.png\" alt=\"&gt; 1500p\">");
-							else if ($result[points_max] > 1000)
+							else if ($result['points_max'] > 1000)
 								echo(" <img src=\"images/general.png\"  alt=\"&gt; 1000p\">");
-							else if ($result[points_max] > 500)
+							else if ($result['points_max'] > 500)
 								echo(" <img src=\"images/briggenr.png\" alt=\"&gt; 500p\">");
-							if ($result[rank] == 1)
+							if ($result['rank'] == 1)
 								echo(" <img src=\"images/comchief.png\" alt=\"#1\">");
-							else if ($result[rank] && $result[rank] < 26)
+							else if ($result['rank'] && $result['rank'] < 26)
 								echo(" <img src=\"images/colonel.png\" alt=\"< #26\">");
 						}
-						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], gmdate("H:i d-m-Y", $result[mtime]));
+						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], gmdate("H:i d-m-Y", $result['mtime']));
 						for ($i = 0; $i < 10; $i++)
 						{
-							if ($result[countries] & 1 << $i)
+							if ($result['countries'] & 1 << $i)
 							{
-								switch ($result[lid])
+								switch ($result['lid'])
 								{
 								case 5:
 								case 6:
