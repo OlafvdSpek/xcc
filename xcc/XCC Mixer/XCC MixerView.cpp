@@ -80,7 +80,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
 	ON_COMMAND(ID_FILE_CLOSE, OnFileClose)
 	ON_NOTIFY_REFLECT(LVN_ITEMCHANGED, OnItemchanged)
-	ON_UPDATE_COMMAND_UI(ID_FILE_CLOSE, OnUpdateFileClose)
 	ON_COMMAND(ID_FILE_NEW, OnFileNew)
 	ON_NOTIFY_REFLECT(NM_DBLCLK, OnDblclk)
 	ON_WM_DESTROY()
@@ -307,12 +306,18 @@ void CXCCMixerView::OnFileOpen()
 
 void CXCCMixerView::OnFileClose()
 {
-	close_location(true);
-}
-
-void CXCCMixerView::OnUpdateFileClose(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(static_cast<bool>(m_mix_f));
+	if (m_mix_f)
+		close_location(true);
+	else
+	{
+		int i = m_dir.rfind('\\');
+		if (i != string::npos)
+		{
+			i = m_dir.rfind('\\', i - 1);
+			if (i != string::npos)
+				open_location_dir(m_dir.substr(0, i + 1));
+		}
+	}
 }
 
 void CXCCMixerView::open_location_dir(const string& name)
