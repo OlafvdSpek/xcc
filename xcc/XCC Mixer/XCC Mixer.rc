@@ -79,7 +79,7 @@ BEGIN
     BEGIN
         MENUITEM "&New...\tCtrl+N",             ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "Close\tCtrl+C",               ID_FILE_CLOSE
+        MENUITEM "Close",                       ID_FILE_CLOSE
         MENUITEM "Create SFL",                  ID_FILE_CREATE_SFL
         MENUITEM "Find...\tCtrl+F",             ID_FILE_SEARCH
         POPUP "&Found"
@@ -198,7 +198,7 @@ BEGIN
         MENUITEM SEPARATOR
         POPUP "Clipboard"
         BEGIN
-            MENUITEM "Copy",                        ID_POPUP_CLIPBOARD_COPY
+            MENUITEM "Copy\tCtrl+C",                ID_EDIT_COPY
             MENUITEM "Paste as JPEG",               ID_POPUP_CLIPBOARD_PASTE_AS_JPEG
 
             MENUITEM "Paste as PCX",                ID_POPUP_CLIPBOARD_PASTE_AS_PCX
@@ -266,7 +266,7 @@ BEGIN
     27,             ID_VIEW_PALET_PREV,     ASCII,  NOINVERT
     29,             ID_VIEW_PALET_NEXT,     ASCII,  NOINVERT
     "A",            ID_EDIT_SELECT_ALL,     VIRTKEY, CONTROL, NOINVERT
-    "C",            ID_FILE_CLOSE,          VIRTKEY, CONTROL, NOINVERT
+    "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     "F",            ID_FILE_SEARCH,         VIRTKEY, CONTROL, NOINVERT
     "N",            ID_FILE_NEW,            VIRTKEY, CONTROL, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
