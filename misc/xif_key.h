@@ -89,6 +89,11 @@ public:
 		return m_keys[id];
 	}
 
+	Cxif_key& open_key_write()
+	{
+		return open_key_write(m_keys.empty() ? 0 : m_keys.rbegin()->first + 1);
+	}
+
 	Cxif_key& open_key_write(int id)
 	{
 		m_keys[id] = Cxif_key();
