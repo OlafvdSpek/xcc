@@ -1,8 +1,6 @@
 <?
 	require("xcc_common.php");
 
-	$PHP_SELF = "";
-
 	$config['ladderdefault'] = "1"; // 1 = RA2 , 2 = YURI
 
 	function get_side($c)
