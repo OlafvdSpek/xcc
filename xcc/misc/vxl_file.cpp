@@ -1,12 +1,14 @@
 #include "stdafx.h"
+#include "vxl_file.h"
+
 #include "file32.h"
+#include "image_file.h"
 #include "multi_line.h"
 #include "pcx_decode.h"
 #include "pcx_file_write.h"
 #include "string_conversion.h"
-#include "vxl_file.h"
 
-int Cvxl_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
+int Cvxl_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
@@ -17,7 +19,6 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 	const int cy = section_tailer.cy;
 	const int cz = section_tailer.cz;
 	byte* s = new byte[cx * cy];
-	byte* d = new byte[cx * cy * 2];
 	for (int i = 0; i < cz; i++)
 	{
 		memset(s, 0, cx * cy);
@@ -47,24 +48,11 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 				j++;
 			}
 		}
-		int cb_d = pcx_encode(s, d, cx, cy, 1);
-		Cpcx_file_write f;
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		error = f.open_write(t);
-		if (error)
-			break;
-		f.set_size(cx, cy, 1);
-		error = f.write_header();
-		if (!error)
-			error = f.write_image(d, cb_d);
-		if (!error)
-			error = f.write_palet(palet);
-		f.close();
-		if (error)
+		if (error = image_file_write(t, ft, s, palet, cx, cy))
 			break;
 	}
-	delete[] d;
 	delete[] s;
 	return error;
 }
@@ -199,9 +187,10 @@ int Cvxl_file::extract_as_xif(const string& name) const
 	return k.vdata().export(name);
 }
 
-int vxl_file_write(const Cxif_key& s, byte* d)
+Cvirtual_binary vxl_file_write(const Cxif_key& s)
 {
-	byte* w = d;
+	Cvirtual_binary d;
+	byte* w = d.write_start(1 << 20);
 	const Cxif_key& header_key = s.open_key_read(vi_header);
 	const Cxif_key& body_key = s.open_key_read(vi_body);
 	int c_sections = body_key.c_keys();
@@ -321,10 +310,10 @@ int vxl_file_write(const Cxif_key& s, byte* d)
 	delete[] span_data_ofs;
 	delete[] span_end_list_ofs;
 	delete[] span_start_list_ofs;
-	return w - d;
+	return d;
 }
 
-int vxl_file_write(const byte* s, const byte* s_normals, byte* d, int cx, int cy, int cz)
+Cvirtual_binary vxl_file_write(const byte* s, const byte* s_normals, int cx, int cy, int cz)
 {
 	Cxif_key k;
 	Cxif_key& header = k.open_key_write(vi_header);
@@ -373,7 +362,7 @@ int vxl_file_write(const byte* s, const byte* s_normals, byte* d, int cx, int cy
 		tailer.set_value_int(vi_cy, cy);
 		tailer.set_value_int(vi_cz, cz);
 	}
-	return vxl_file_write(k, d);
+	return vxl_file_write(k);
 }
 
 struct t_voxel
@@ -385,7 +374,7 @@ struct t_voxel
 	int normal;
 };
 
-int vxl_file_write(Cvirtual_tfile s, Cvirtual_binary& d)
+Cvirtual_binary vxl_file_write(Cvirtual_tfile s)
 {
 	typedef list<t_voxel> t_list;
 
@@ -423,8 +412,7 @@ int vxl_file_write(Cvirtual_tfile s, Cvirtual_binary& d)
 		colors.data_edit()[o] = e.color;
 		normals.data_edit()[o] = e.normal;
 	}
-	d.size(vxl_file_write(colors.data(), normals.data(), d.write_start(4 << 20), cx, cy, cz));
-	return !d.size();
+	return vxl_file_write(colors.data(), normals.data(), cx, cy, cz);
 }
 #endif
 
