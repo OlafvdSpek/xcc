@@ -10,7 +10,7 @@
 #include "XSE_dlg.h"
 #include "XSTE_dlg.h"
 
-#include <assert.h>
+#include <cassert>
 #include <fstream>
 #include "aud_file.h"
 #include "directoriesdlg.h"

@@ -247,7 +247,7 @@ int Cdlg_ccr::load_screenshots()
 					Cvirtual_image image;
 					Cvirtual_file g;
 					e.jpeg_size = -1; // image.load(e.fname) || image.save_as_jpeg(g) ? -1 : g.size();
-					e.pcx_size = f.get_size();;
+					e.pcx_size = f.get_size();
 					m_list.SetItemData(m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK), id);
 					f.close();
 				}

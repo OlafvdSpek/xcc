@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <assert.h>
+#include <cassert>
 #include <aud_decode.h>
 #include <aud_file.h>
 #include "wav_structures.h"

@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include <assert.h>
+#include <cassert>
 // #include <fstream>
 #include <minilzo.h>
 #include <memory>

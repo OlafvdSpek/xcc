@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <assert.h>
+#include <cassert>
 #include <memory.h>
 #include "shp_decode.h"
 #include "vqa_decode.h"

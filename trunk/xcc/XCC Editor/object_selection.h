@@ -5,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "assert.h"
+#include "cassert"
 #include "palet.h"
 #include "xcc_infantry.h"
 #include "xcc_level.h"
