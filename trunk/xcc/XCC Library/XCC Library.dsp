@@ -225,11 +225,19 @@ SOURCE=..\misc\mix_decode.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_edit.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\mix_file.cpp
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\mix_file_write.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_rg_edit.cpp
 # End Source File
 # Begin Source File
 
@@ -642,11 +650,19 @@ SOURCE=..\misc\mix_decode.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_edit.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\mix_file.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\mix_file_write.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_rg_edit.h
 # End Source File
 # Begin Source File
 
