@@ -82,15 +82,6 @@ BOOL CLeftView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView drawing
-
-void CLeftView::OnDraw(CDC* pDC)
-{
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-}
-
 static int c_colums = 6;
 
 void CLeftView::OnInitialUpdate()
