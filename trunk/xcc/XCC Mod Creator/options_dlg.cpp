@@ -91,6 +91,9 @@ Cxcc_mod::t_options Coptions_dlg::get() const
 	case 0:
 		r.game = game_ts;
 		break;
+	case 2:
+		r.game = game_ra2_yr;
+		break;
 	default:
 		r.game = game_ra2;
 	}
@@ -122,6 +125,9 @@ void Coptions_dlg::set(Cxcc_mod::t_options options)
 	{
 	case game_ts:
 		m_game = 0;
+		break;
+	case game_ra2_yr:
+		m_game = 2;
 		break;
 	default:
 		m_game = 1;

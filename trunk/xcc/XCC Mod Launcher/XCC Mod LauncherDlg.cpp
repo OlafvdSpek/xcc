@@ -10,9 +10,11 @@
 #include "download_dlg.h"
 #include "jpeg_file.h"
 #include "multi_line.h"
+#include "string_conversion.h"
 #include "virtual_tfile.h"
 #include "web_tools.h"
 #include "xcc_dirs.h"
+#include "xcc_log.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -28,6 +30,7 @@ CXCCModLauncherDlg::CXCCModLauncherDlg(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(CXCCModLauncherDlg)
 	//}}AFX_DATA_INIT
+	m_ds = NULL;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
@@ -101,6 +104,17 @@ void CXCCModLauncherDlg::load_button_image(string fname, CButton& button)
 	}
 }
 
+void CXCCModLauncherDlg::load_intro()
+{
+	Cvirtual_audio audio;
+	if (!Cxcc_mod::load_launcher_audio(m_key, "intro.ogg", audio))
+	{
+		m_xap.ds(get_ds());
+		m_xap.load(audio.save_as_wav_pcm().read());
+		m_xap.play(true);
+	}
+}
+
 BOOL CXCCModLauncherDlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
@@ -131,16 +145,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 			Cvirtual_image banner;
 			if (!Cxcc_mod::load_launcher_image(m_key, "banner.jpeg", banner) || !load_banner(banner))
 			{
-				banner.swap_rb();
-				BITMAPINFOHEADER header;
-				ZeroMemory(&header, sizeof(BITMAPINFOHEADER));
-				header.biSize = sizeof(BITMAPINFOHEADER);
-				header.biWidth = banner.cx();
-				header.biHeight = -banner.cy();
-				header.biPlanes = 1;
-				header.biBitCount = banner.cb_pixel() << 3;
-				header.biCompression = BI_RGB;
-				HBITMAP bitmap = CreateDIBitmap(CClientDC(NULL), &header, CBM_INIT, banner.image(), reinterpret_cast<BITMAPINFO*>(&header), DIB_RGB_COLORS);
+				HBITMAP bitmap = create_bitmap(banner);
 				if (bitmap)
 					m_banner.SetBitmap(bitmap);
 			}
@@ -150,6 +155,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 			load_button_image("site_button.jpeg", m_site);
 			load_button_image("mod_button.jpeg", m_ok);
 			load_button_image("manual_button.jpeg", m_manual);
+			load_intro();
 
 			Cxcc_mod::t_options options = m_mod.options();
 			CString name = options.mod_name.c_str();
@@ -459,3 +465,33 @@ void CXCCModLauncherDlg::OnUninstall()
 	EndDialog(IDCANCEL);
 	ShellExecute(m_hWnd, "open", m_uninstall_exe.c_str(), NULL, NULL, SW_SHOW);
 }
+
+LPDIRECTSOUND CXCCModLauncherDlg::get_ds()
+{
+	if (!m_ds)
+		open_ds();
+	return m_ds;
+}
+
+void CXCCModLauncherDlg::open_ds()
+{
+	HRESULT dsr;
+	assert(!m_ds);
+    dsr = DirectSoundCreate(NULL, &m_ds, NULL);
+	xcc_log::write_line("DirectSoundCreate returned " + nh(8, dsr));
+	if (m_ds)
+	{
+		dsr = m_ds->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL);
+		xcc_log::write_line("SetCooperativeLevel returned " + nh(8, dsr));
+	}
+}
+
+void CXCCModLauncherDlg::close_ds()
+{
+	if (m_ds)
+	{
+		m_ds->Release();
+		m_ds = NULL;
+	}
+}
+

@@ -192,18 +192,6 @@ END
 // Dialog
 //
 
-IDD_ABOUTBOX DIALOG DISCARDABLE  0, 0, 235, 55
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "About XCC Mod Creator"
-FONT 8, "MS Sans Serif"
-BEGIN
-    ICON            IDR_MAINFRAME,IDC_STATIC,11,17,20,20
-    LTEXT           "XCC Mod Creator Version 1.0",IDC_STATIC,40,10,119,8,
-                    SS_NOPREFIX
-    LTEXT           "Copyright (C) 2000",IDC_STATIC,40,25,119,8
-    DEFPUSHBUTTON   "OK",IDOK,178,7,50,14,WS_GROUP
-END
-
 IDR_MAINFRAME DIALOG DISCARDABLE  0, 0, 330, 16
 STYLE WS_CHILD
 FONT 8, "MS Sans Serif"
@@ -214,31 +202,12 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// DESIGNINFO
-//
-
-#ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
-BEGIN
-    IDD_ABOUTBOX, DIALOG
-    BEGIN
-        LEFTMARGIN, 7
-        RIGHTMARGIN, 228
-        TOPMARGIN, 7
-        BOTTOMMARGIN, 48
-    END
-END
-#endif    // APSTUDIO_INVOKED
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // String Table
 //
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.07"
+    IDR_MAINFRAME           "XCC Mod Creator 1.08"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
@@ -514,6 +483,8 @@ BEGIN
 0x6954, 0x6562, 0x6972, 0x6e61, 0x5320, 0x6e75, "\000" 
     IDC_GAME, 0x403, 12, 0
 0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x0032, 
+    IDC_GAME, 0x403, 15, 0
+0x6552, 0x2064, 0x6c41, 0x7265, 0x2074, 0x2032, 0x5259, "\000" 
     0
 END
 

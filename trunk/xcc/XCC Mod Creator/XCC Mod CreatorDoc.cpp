@@ -71,13 +71,18 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 		fname.set_ext("");
 		fname.make_path();
 		Cxif_key k;
-		int cb_s = ar.GetFile()->GetLength();
-		byte* s = new byte[cb_s];
-		if (ar.Read(s, cb_s) != cb_s 
-			|| k.load_key(s, cb_s) 
+		Cvirtual_binary s(NULL, ar.GetFile()->GetLength());
+		if (ar.Read(s.data_edit(), s.size()) != s.size())
+			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
+		if (s.size() >= 4)
+		{
+			int cb_mod = *reinterpret_cast<const __int32*>(s.data_end() - 4);
+			if (cb_mod >= 4 && s.size() >= 4 + cb_mod && !memcmp(s.data_end() - 4 - cb_mod, "XIF\x1a", 4))
+				s = Cvirtual_binary(s.data_end() - 4 - cb_mod, cb_mod);
+		}
+		if (k.load_key(s) 
 			|| m_mod.load(k, fname))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
-		delete[] s;
 	}
 }
 

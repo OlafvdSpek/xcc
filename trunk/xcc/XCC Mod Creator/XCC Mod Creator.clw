@@ -15,19 +15,18 @@ Class3=CXCCModCreatorView
 Class4=CMainFrame
 Class7=CAboutDlg
 
-ResourceCount=8
-Resource1=IDD_ABOUTBOX
+ResourceCount=7
+Resource1=IDR_MAINFRAME (English (U.S.))
 Resource2=IDR_MAINFRAME
 Resource3=IDR_XCCMODTYPE
-Resource4=IDD_ABOUTBOX (English (U.S.))
+Resource4=IDR_XCCMODTYPE (English (U.S.))
 Resource5=CG_IDR_POPUP
 Class5=CChildFrame
 Class6=CLeftView
-Resource6=IDR_MAINFRAME (English (U.S.))
-Resource7=IDR_XCCMODTYPE (English (U.S.))
+Resource6=IDD_ABOUTBOX (English (U.S.))
 Class8=Coptions_dlg
 Class9=Cexport_options_dlg
-Resource8=IDD_OPTIONS
+Resource7=IDD_OPTIONS
 
 [CLS:CXCCModCreatorApp]
 Type=0
@@ -83,15 +82,6 @@ Type=0
 HeaderFile=XCC Mod Creator.cpp
 ImplementationFile=XCC Mod Creator.cpp
 Filter=D
-
-[DLG:IDD_ABOUTBOX]
-Type=1
-ControlCount=4
-Control1=IDC_STATIC,static,1342177283
-Control2=IDC_STATIC,static,1342308352
-Control3=IDC_STATIC,static,1342308352
-Control4=IDOK,button,1342373889
-Class=CAboutDlg
 
 [MNU:IDR_MAINFRAME]
 Type=1
