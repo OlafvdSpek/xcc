@@ -8,7 +8,10 @@
 #include "INIView.h"
 #include "inichildfrm.h"
 
+#include <fstream>
+#include "lazy_ini_reader.h"
 #include "multi_line.h"
+#include "string_conversion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -25,10 +28,11 @@ BEGIN_MESSAGE_MAP(CINIView, CCrystalEditView)
 	//{{AFX_MSG_MAP(CINIView)
 	ON_COMMAND(ID_VIEW_SYNTAX_HIGHLIGHTING, OnViewSyntaxHighlighting)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SYNTAX_HIGHLIGHTING, OnUpdateViewSyntaxHighlighting)
-	ON_WM_KILLFOCUS()
-	ON_WM_SETFOCUS()
 	ON_COMMAND(ID_VIEW_SELECTION_MARGIN, OnViewSelectionMargin)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_SELECTION_MARGIN, OnUpdateViewSelectionMargin)
+	ON_WM_KILLFOCUS()
+	ON_WM_SETFOCUS()
+	ON_COMMAND(ID_VIEW_REPORT, OnViewReport)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -158,4 +162,119 @@ void CINIView::OnViewSelectionMargin()
 void CINIView::OnUpdateViewSelectionMargin(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(GetSelectionMargin());
+}
+
+void CINIView::find_section(int l) 
+{
+	CPoint pt(0, l);
+	SetCursorPos(pt);
+	ScrollToLine(pt.y);
+	UpdateCaret();
+	SetSelection(pt, pt);
+}
+
+
+COLORREF CINIView::GetColor(int nColorIndex)
+{
+	switch (nColorIndex)
+	{
+	default:
+		return super::GetColor(nColorIndex);
+	}
+}
+
+#if 0
+typedef set<Clazy_key_map::t_vt> t_tset;
+typedef map<string, t_tset> t_tmap;
+typedef Clazy_ini_reader::t_map t_smap;
+
+void filter(t_smap smap)
+{
+	typedef map<string, int> t_cmap;
+
+	t_cmap cmap;
+	for (t_smap::const_iterator si = smap.begin(); si != smap.end(); si++)
+	{
+		for (Clazy_key_map::const_iterator ki = si->second.begin(); ki != si->second.end(); ki++)
+		{
+			cmap[ki->first]++;
+		}
+	}
+	int key_max = INT_MIN;
+	string key_name;
+	for (t_cmap::const_iterator ci = cmap.begin(); ci != cmap.end(); ci++)
+	{
+		if (ci->second > key_max)
+		{
+			key_max = ci->second;
+			key_name = ci->first;
+
+		}
+	}	
+	for (si = smap.begin(); si != smap.end(); si++)
+	{
+		if (si->second.find(key_name) == si->second.end())
+			remove_key(
+
+	}
+}
+
+void CINIView::analyse()
+{
+	ofstream f("d:/temp/report.txt");
+	CCrystalTextBuffer& b = *LocateTextBuffer();
+	Clazy_ini_reader ir;
+	for (int l = 0; l < b.GetLineCount(); l++)
+	{
+		const CCrystalTextBuffer::SLineInfo& line = LocateTextBuffer()->GetLine(l);
+		ir.process_line(line.text());
+	}
+	t_tmap tmap;
+	for (Clazy_ini_reader::const_iterator si = ir.begin(); si != ir.end(); si++)
+	{
+		bool list = si->second.list();
+		f << "[S_" << si->first << "]" << endl
+			<< "List=" << btoa(list) << endl;
+		for (Clazy_key_map::const_iterator ki = si->second.begin(); ki != si->second.end(); ki++)
+		{
+			Clazy_key_map::t_vt vt = Clazy_key_map::st(ki->second);
+			tmap[ki->first].insert(vt);
+			f << "K_" << ki->first << "=" << Clazy_key_map::vt_name[vt] << endl;
+		}
+		f << endl;
+	}
+	filter(ir.map());
+	/*
+	for (ki = tmap.begin(); ki != tmap.end(); ki++)
+	{
+		typedef set<string> t_sset;
+		int max_keys = 0;
+		t_sset sset;
+		for (Clazy_ini_reader::const_iterator si = ir.begin(); si != ir.end(); si++)
+		{
+			if (si->second.map().find(ki->first) != si->second.map().end())
+			{
+				max_keys = max(max_keys, si->second.map().size());
+				sset.insert(si->first);
+			}
+		}
+	}
+	*/
+	f << "[Keys]" << endl;
+	for (t_tmap::const_iterator ki = tmap.begin(); ki != tmap.end(); ki++)
+	{
+		f << "K_" << ki->first << "=";
+		for (t_tset::const_iterator ti = ki->second.begin(); ti != ki->second.end(); ti++)
+		{
+			f << Clazy_key_map::vt_name[*ti] << ", ";
+		}
+		f << endl;
+	}
+	f << endl;
+}
+#endif 
+
+void CINIView::OnViewReport() 
+{
+	// analyse();
 }

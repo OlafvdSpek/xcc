@@ -194,10 +194,8 @@ protected:
 	void RecalcHorzScrollBar(BOOL bPositionOnly = FALSE);
 
 	//	Scrolling helpers
-public:
 	void ScrollToChar(int nNewOffsetChar, BOOL bNoSmoothScroll = FALSE, BOOL bTrackScrollBar = TRUE);
 	void ScrollToLine(int nNewTopLine, BOOL bNoSmoothScroll = FALSE, BOOL bTrackScrollBar = TRUE);
-protected:
 
 	//	Splitter support
 	virtual void UpdateSiblingScrollPos(BOOL bHorz);

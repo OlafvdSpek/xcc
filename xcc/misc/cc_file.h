@@ -10,6 +10,7 @@
 #endif // _MSC_VER >= 1000
 
 #include "file32.h"
+#include "virtual_binary.h"
 
 enum t_file_type
 {
@@ -33,7 +34,8 @@ public:
     int open(unsigned int id, Cmix_file& mix_f);
     int open(const string& name, Cmix_file& mix_f);
     int open(const string& name);
-	void load(const byte* data, int size);
+	// void load(const byte* data, int size);
+	void load(const Cvirtual_binary d, int size = -1);
 	void load(const Ccc_file& f);
 	t_file_type get_file_type(bool fast = true);
 	int read();
@@ -44,6 +46,11 @@ public:
 	~Ccc_file();
 
     const byte* get_data() const
+    {
+        return m_data.data();
+    }
+
+    Cvirtual_binary get_vdata() const
     {
         return m_data;
     }
@@ -88,7 +95,7 @@ private:
     void clean_up();
 
 	bool m_attached;
-    byte* m_data;
+    Cvirtual_binary m_data;
     Cfile32 m_f;
     Cmix_file* m_mix_f;
     bool m_is_open;

@@ -23,9 +23,9 @@ Class11=CAboutDlg
 
 ResourceCount=3
 Resource1=IDD_ABOUTBOX (English (U.S.))
-Resource2=IDR_MAINFRAME (English (U.S.))
+Resource2=IDR_INITYPE (English (U.S.))
 Class12=CINILeftView
-Resource3=IDR_INITYPE (English (U.S.))
+Resource3=IDR_MAINFRAME (English (U.S.))
 
 [CLS:CCrystalEditView]
 Type=0
@@ -85,7 +85,7 @@ HeaderFile=INIView.h
 ImplementationFile=INIView.cpp
 Filter=C
 VirtualFilter=VWC
-LastObject=ID_VIEW_SELECTION_MARGIN
+LastObject=ID_VIEW_REPORT
 
 [CLS:CXIEApp]
 Type=0
@@ -160,12 +160,13 @@ Command21=ID_EDIT_GOTO_NEXT_BOOKMARK
 Command22=ID_EDIT_TOGGLE_BOOKMARK
 Command23=ID_VIEW_SELECTION_MARGIN
 Command24=ID_VIEW_SYNTAX_HIGHLIGHTING
-Command25=ID_WINDOW_NEW
-Command26=ID_WINDOW_CASCADE
-Command27=ID_WINDOW_TILE_HORZ
-Command28=ID_WINDOW_ARRANGE
-Command29=ID_WINDOW_SPLIT
-CommandCount=29
+Command25=ID_VIEW_REPORT
+Command26=ID_WINDOW_NEW
+Command27=ID_WINDOW_CASCADE
+Command28=ID_WINDOW_TILE_HORZ
+Command29=ID_WINDOW_ARRANGE
+Command30=ID_WINDOW_SPLIT
+CommandCount=30
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1

@@ -7,55 +7,26 @@
 #include "mix_file_write.h"
 #include "string_conversion.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Cmix_file_write::~Cmix_file_write()
+void Cmix_file_write::add_file(int id, const Cvirtual_binary d)
 {
-	for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
-		delete[] i->second.d;
+	m_index[id] = d;
 }
 
-void Cmix_file_write::add_file(int id, const void* d, int cb_d)
+void Cmix_file_write::add_file(string name, const Cvirtual_binary d)
 {
-	t_index::iterator i = m_index.find(id);
-	if (i != m_index.end())
-	{
-		delete[] i->second.d;
-		m_index.erase(i);
-	}
-	t_index_entry e;
-	e.d = new byte[cb_d];
-	e.cb_d = cb_d;
-	memcpy(e.d, d, cb_d);
-	m_index[id] = e;
-}
-
-void Cmix_file_write::add_file(string name, const void* d, int cb_d)
-{
-	add_file(Cmix_file::get_id(game_ts, name), d, cb_d);
+	add_file(Cmix_file::get_id(game_ts, name), d);
 	m_lmd_fw.add_fname(name);
-}
-
-void Cmix_file_write::add_file(string name, Cmix_file_write& s)
-{
-	int cb_d = s.write_start();
-	byte* d = new byte[cb_d];
-	s.write(d);
-	add_file(name, d, cb_d);
-	delete[] d;
 }
 
 int Cmix_file_write::write_start()
 {
 	byte* lmd_d;
 	int cb_lmd_d = m_lmd_fw.write(lmd_d, game_ts);
-	add_file("local mix database.dat", lmd_d, cb_lmd_d);
+	add_file("local mix database.dat", Cvirtual_binary(lmd_d, cb_lmd_d));
 	delete[] lmd_d;
 	int r = 4 + sizeof(t_mix_header) + m_index.size() * sizeof(t_mix_index_entry);
 	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-		r += i->second.cb_d;
+		r += i->second.size();
 	return r;
 }
 
@@ -74,22 +45,17 @@ int Cmix_file_write::write(byte* d) const
 	{
 		index->id = i->first;
 		index->offset = w - body_start;
-		index->size = i->second.cb_d;
+		index->size = i->second.size();
 		index++;
-		memcpy(w, i->second.d, i->second.cb_d);
-		w += i->second.cb_d;
+		w += i->second.read(w);
 	}
 	header.size = w - body_start;
 	return w - d;
 }
 
-
-int Cmix_file_write::write(string fname)
+Cvirtual_binary Cmix_file_write::write()
 {
-	int cb_d = write_start();
-	byte* d = new byte[cb_d];
-	write(d);
-	int error = file32_write(fname, d, cb_d);
-	delete[] d;
-	return error;
+	Cvirtual_binary d;
+	write(d.write_start(write_start()));
+	return d;
 }

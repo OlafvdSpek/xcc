@@ -12,6 +12,7 @@
 #include <map>
 #include <string>
 #include "cc_structures.h"
+#include "virtual_binary.h"
 #include "xcc_lmd_file_write.h"
 
 using namespace std;
@@ -19,21 +20,16 @@ using namespace std;
 class Cmix_file_write  
 {
 public:
-	void add_file(int id, const void* d, int cb_d)	;
-	void add_file(string name, const void* d, int cb_d);
-	void add_file(string name, Cmix_file_write& s);
+	void add_file(int id, const Cvirtual_binary d);
+	void add_file(string name, const Cvirtual_binary d);
+	// void add_file(string name, Cmix_file_write& s);
+	Cvirtual_binary write();
+	// int write(string fname);
+private:
+	typedef map<int, Cvirtual_binary> t_index;
+
 	int write_start();
 	int write(byte* d) const;
-	int write(string fname);
-	~Cmix_file_write();
-private:
-	struct t_index_entry
-	{
-		byte* d;
-		int cb_d;
-	};
-
-	typedef map<int, t_index_entry> t_index;
 
 	t_index m_index;
 	Cxcc_lmd_file_write m_lmd_fw;

@@ -11,6 +11,7 @@
 
 #include <string>
 #include "vartypes.h"
+#include "virtual_binary.h"
 
 using namespace std;
 
@@ -20,6 +21,7 @@ public:
 	Cini_reader();
 	static int find_id(string s, const char* t[], int count);
 	int process(const byte* s, int cb_s);
+	int process(const Cvirtual_binary s);
 	int process_line(string line);
 	virtual int process_section_start(const string& name) = 0;
 	virtual bool process_section() const = 0;

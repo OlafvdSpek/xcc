@@ -3,6 +3,18 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
+Project: "SQL Test"="..\SQL Test\SQL Test.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "XCC Cheat Reporter"=".\XCC Cheat Reporter.dsp" - Package Owner=<4>
 
 Package=<5>

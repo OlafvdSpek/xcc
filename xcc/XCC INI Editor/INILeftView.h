@@ -53,8 +53,11 @@ protected:
 protected:
 	//{{AFX_MSG(CINILeftView)
 	afx_msg void OnDblclk(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnSetFocus(CWnd* pOldWnd);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	bool m_bounce_focus;
 };
 
 /////////////////////////////////////////////////////////////////////////////

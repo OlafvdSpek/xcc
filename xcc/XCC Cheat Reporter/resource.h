@@ -29,6 +29,7 @@
 #define IDC_GAME_ID                     1019
 #define IDC_SEND_WS                     1020
 #define IDC_SEND_XHP                    1021
+#define IDC_CHEATER                     1022
 
 // Next default values for new objects
 // 

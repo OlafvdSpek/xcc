@@ -124,6 +124,7 @@ BEGIN
     BEGIN
         MENUITEM "Selection margin",            ID_VIEW_SELECTION_MARGIN
         MENUITEM "Syntax highlighting",         ID_VIEW_SYNTAX_HIGHLIGHTING
+        MENUITEM "&Report",                     ID_VIEW_REPORT
     END
     POPUP "&Window"
     BEGIN

@@ -29,6 +29,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(Cdlg_ccr)
 	enum { IDD = IDD_CCR };
+	CComboBox	m_cheater;
 	CComboBox	m_nickname;
 	CListCtrl	m_list;
 	CString	m_stats;
@@ -75,9 +76,11 @@ private:
 	struct t_map_entry
 	{
 		string fname;
-		int size;
+		int jpeg_size;
+		int pcx_size;
 	};
 
+	typedef set<string> t_cheaters;
 	typedef map<int, t_map_entry> t_map;
 
 	int get_free_id() const;
@@ -85,6 +88,7 @@ private:
 
 	string m_buffer[4];
 	int m_buffer_w;
+	t_cheaters m_cheaters;
 	t_game m_game;
 	t_map m_map;
 	CString m_reg_key;

@@ -37,7 +37,7 @@ int hva_file_write(const byte* s, int cb_s, byte* d)
 {
 	const char sep = ';';
 	Cvirtual_tfile f;
-	f.load_data(s, cb_s);
+	f.load_data(Cvirtual_binary(s, cb_s));
 	Cmulti_line l;
 	l = f.read_line();
 	l.get_next_line(sep);

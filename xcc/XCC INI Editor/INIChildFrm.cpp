@@ -37,17 +37,10 @@ CINIChildFrame::~CINIChildFrame()
 BOOL CINIChildFrame::OnCreateClient( LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
-	m_wndSplitter1.CreateStatic(this, 1, 2);
-	m_wndSplitter1.CreateView(0, 0, RUNTIME_CLASS(CINILeftView), CSize(200,0), pContext);
-	m_wndSplitter1.CreateView(0, 1, RUNTIME_CLASS(CINIView), CSize(200,0), pContext);
-	// m_wndSplitter2.Create(&m_wndSplitter1, 2, 2, CSize(10, 10), pContext, WS_CHILD | WS_VISIBLE |WS_HSCROLL | WS_VSCROLL | SPLS_DYNAMIC_SPLIT, m_wndSplitter1.IdFromRowCol(0, 1));
+	VERIFY(m_wndSplitter1.CreateStatic(this, 1, 2));
+	VERIFY(m_wndSplitter1.CreateView(0, 0, RUNTIME_CLASS(CINILeftView), CSize(200,0), pContext));
+	VERIFY(m_wndSplitter2.Create(&m_wndSplitter1, 2, 2, CSize(10, 10), pContext, WS_CHILD | WS_VISIBLE |WS_HSCROLL | WS_VSCROLL | SPLS_DYNAMIC_SPLIT, m_wndSplitter1.IdFromRowCol(0, 1)));
 	return true;
-	/*
-	return m_wndSplitter2.Create( this,
-		2, 2,
-		CSize( 10, 10 ),
-		pContext );
-	*/
 }
 
 BOOL CINIChildFrame::PreCreateWindow(CREATESTRUCT& cs)
@@ -89,12 +82,12 @@ void CINIChildFrame::Dump(CDumpContext& dc) const
 
 CINILeftView* CINIChildFrame::GetLeftPane()
 {
-	return reinterpret_cast<CINILeftView*>(m_wndSplitter1.GetPane(0, 0));;
+	return reinterpret_cast<CINILeftView*>(m_wndSplitter1.GetPane(0, 0));
 }
 
 CINIView* CINIChildFrame::GetRightPane()
 {
-	return reinterpret_cast<CINIView*>(m_wndSplitter1.GetPane(0, 1));;
+	return reinterpret_cast<CINIView*>(m_wndSplitter2.GetPane(0, 0));
 }
 
 void CINIChildFrame::SetActivePane(int row, int col)

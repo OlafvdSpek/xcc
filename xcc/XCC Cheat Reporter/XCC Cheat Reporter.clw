@@ -56,7 +56,7 @@ Control5=IDC_GAME,combobox,1344339971
 [DLG:IDD_CCR]
 Type=1
 Class=Cdlg_ccr
-ControlCount=20
+ControlCount=21
 Control1=IDC_DESCRIPTION,edit,1353781380
 Control2=IDC_LIST,SysListView32,1350631433
 Control3=IDC_DISCONNECT,button,1342242819
@@ -77,6 +77,7 @@ Control17=IDC_STATS,edit,1353779332
 Control18=IDC_GAME_ID,edit,1350639744
 Control19=IDC_SEND_WS,button,1342242819
 Control20=IDC_SEND_XHP,button,1342242819
+Control21=IDC_CHEATER,combobox,1344340227
 
 [CLS:Cdlg_ccr]
 Type=0

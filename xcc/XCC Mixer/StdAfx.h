@@ -24,7 +24,7 @@
 #pragma warning(disable: 4786)
 #pragma warning(disable: 4800)
 
-#include <assert.h>
+#include <cassert>
 #include <climits>
 #include <memory>
 #include <map>

@@ -28,6 +28,7 @@ public:
 	}
 };
 
+int png_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy);
 int png_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy);
 
 #endif // !defined(AFX_PNG_FILE_H__B98B88C0_BBF8_11D4_B606_0000B4936994__INCLUDED_)

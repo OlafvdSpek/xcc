@@ -2745,14 +2745,15 @@ void CCrystalTextView::SetDisableDragAndDrop(BOOL bDDAD)
 
 BOOL CCrystalTextView::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt) 
 {
-	int count = 3;
 	if (zDelta < 0)
 	{
+		int count = -zDelta / 40;
 		while (count--)
 			ScrollDown();
 	}
 	else if (zDelta > 0)
 	{
+		int count = zDelta / 40;
 		while (count--)
 			ScrollUp();
 	}
