@@ -5,6 +5,17 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
+bool Cwsa_file::is_valid() const
+{
+	const t_wsa_header& header = *get_header();
+	int size = get_size();
+	if (sizeof(t_wsa_header) > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_header) + get_cb_index() > size)
+		return false;
+	if (get_offset(cf() + has_loop()) != size)
+		return false;
+	return true;
+}
+
 void Cwsa_file::decode(void* d) const
 {
 	memset(d, 0, cb_image());

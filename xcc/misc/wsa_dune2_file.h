@@ -19,15 +19,7 @@ class Cwsa_dune2_file: public Cvideo_file<t_wsa_dune2_header>
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
-
-	bool is_valid() const
-	{
-		const t_wsa_dune2_header& header = *get_header();
-		int size = get_size();
-		if (sizeof(t_wsa_dune2_header) + 4 > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_dune2_header) + 4 * (get_header()->c_frames + 2) > size)
-			return false;
-		return get_offset(cf() + has_loop()) == size;
-	}
+	bool is_valid() const;
 
 	int cb_pixel() const
 	{

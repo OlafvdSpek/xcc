@@ -124,7 +124,7 @@ bool Cfname::exists() const
 	return true;
 }
 
-Cfname Cfname::operator=(const string &s)
+const Cfname& Cfname::operator=(const string &s)
 {
 	long p1 = s.rfind('\\');
 	long p2 = s.rfind('.');

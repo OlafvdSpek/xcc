@@ -1,8 +1,6 @@
 #pragma once
 
-#pragma warning(disable: 4503)
-#pragma warning(disable: 4786)
-#pragma warning(disable: 4800)
+#pragma warning(disable: 4503 4554 4786 4800 4804)
 
 #include <cassert>
 #include <climits>
