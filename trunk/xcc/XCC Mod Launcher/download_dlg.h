@@ -4,8 +4,11 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
+
 // download_dlg.h : header file
 //
+
+#include "resource.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // Cdownload_dlg dialog

@@ -8,6 +8,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "resource.h"
 #include "xcc_mod.h"
 #include "xap.h"
 

@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Launcher.h"
 #include "XCC Mod LauncherDlg.h"
 
 #include <afxinet.h>
