@@ -38,7 +38,7 @@ int Cxcl_database::pid(int lid, const string& name)
 
 int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b)
 {
-	int points_win = 64 * (1 - 1 / (powf(10, static_cast<float>(b.points - a.points) / 400) + 1));
+	int points_win = static_cast<int>(64 * (1 - 1 / (powf(10, static_cast<float>(b.points - a.points) / 400) + 1)));
 	int points_loss = min(64 - points_win, a.points / 10);
 	Csql_query q(*this);
 	switch (cmp)
@@ -101,7 +101,7 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	}
 	for (i = 0; i < 2; i++)
 		pc[i] = update_player(pids[i], gr.get_int("cmp", i), gr.get_int("cty", i), gr.get_int("gsku"), players[i], players[1 - i]);
-	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 	q.p(gr.get_int("afps"));
 	q.p(gr.get_int("dura"));
 	q.p(gr.get_int("gsku"));
@@ -111,6 +111,7 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	for (i = 0; i < 2; i++)
 	{
 		q.p(pids[i]);
+		q.p(gr.get_int("cid", i));
 		q.p(gr.get_int("cmp", i));
 		q.p(gr.get_int("col", i));
 		q.p(gr.get_int("cty", i));
