@@ -79,7 +79,7 @@
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-	<link rel=stylesheet href="/xcl.css">
+	<link rel=stylesheet href="/egx.css">
 	<title>XCC Community Ladder<?php if (gmdate("d") == 1) echo (" (frozen)") ?></title>
 <table width="100%">
 	<tr>
@@ -241,10 +241,9 @@
 
 	function echo_hof($lid, $title)
 	{
-		printf("<table><tr><th colspan=2>%s<tr><th>Rank<th>Name", $title);
-		$results = db_query(0 // $lid & 1
-			? sprintf("select xcl_players.* from xcl_players inner join wl using (name) where lid = %d order by points desc limit 10", $lid)
-			: sprintf("select * from xcl_players where lid = %d order by points desc limit 10", $lid));
+		printf("<table><tr><th colspan=2>%s", $title);
+		// echo("<tr><th>Rank<th>Name");
+		$results = db_query(sprintf("select * from xcl_players where lid = %d order by points desc limit 10", $lid));
 		$rank = 1;
 		while ($result = mysql_fetch_array($results))
 		{
@@ -255,9 +254,10 @@
 
 	function echo_player($player)
 	{
-		printf("<td><a href=\"?pid=%d\" title=\"#%d %d / %d %dp\">%s</a><td>", $player[pid], $player[rank], $player[win_count], $player[loss_count], $player[points], $player[name]);
+		echo($player[cid] ? "<td>" : "<td colspan=2>");
+		printf("<a href=\"?pid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[pid], $player[rank], $player[win_count], $player[loss_count], $player[points], $player[name]);
 		if ($player[cid])
-			printf("<a href=\"?cid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[cid], $player[crank], $player[cwin_count], $player[closs_count], $player[cpoints], $player[cname]);
+			printf("<td><a href=\"?cid=%d\" title=\"#%d %d / %d %dp\">%s</a>", $player[cid], $player[crank], $player[cwin_count], $player[closs_count], $player[cpoints], $player[cname]);
 		printf("<td align=center><img src=\"%s\" alt=\"%s\"><td>%s<td align=right>%s", get_country_flag_url($player[cty]), get_country_name($player[cty]), cmp2a($player[cmp]), pc2a($player[pc]));
 	}
 
@@ -306,10 +306,6 @@
 	if (isset($_GET[hof]))
 	{
 		echo("<center><table><tr><td>");
-		echo_hof(7, "Tiberian Sun");
-		echo("<td><td>");
-		echo_hof(8, "Clan");
-		echo("<td><td>");
 		echo_hof(1, "Red Alert 2");
 		echo("<td><td>");
 		echo_hof(2, "Clan");
@@ -317,8 +313,47 @@
 		echo_hof(3, "Yuri's Revenge");
 		echo("<td><td>");
 		echo_hof(4, "Clan");
+		echo("<td><td>");
+		echo_hof(7, "Tiberian Sun");
+		echo("<td><td>");
+		echo_hof(8, "Clan");
 		echo("</table></center>");
-		@include("hof.php");
+		$results = db_query("select * from xcl_hof order by date desc, lid, rank");
+		while ($result = mysql_fetch_assoc($results))
+			$v[$result[date]][$result[lid]][$result[rank]] = $result[name];
+		foreach ($v as $date => $w)
+		{
+			printf("<hr><center><table><tr><th colspan=12>%s<tr>", gmdate("F Y", gmmktime(0, 0, 0, substr($date, 5, 2), 1, substr($date, 0, 4))));
+			foreach ($w as $lid => $x)
+			{
+				echo("<td><table>");
+				if ($lid)
+					echo("<tr><th colspan=2>");
+				switch ($lid)
+				{
+				case 1:
+					echo("Red Alert 2");
+					break;
+				case 2:
+				case 4:
+				case 6:
+				case 8:
+					echo("Clan");
+					break;
+				case 3:
+					echo("Yuri's Revenge");
+					break;
+				case 7:
+					echo("Tiberian Sun");
+					break;
+				}
+				// echo("<tr><th>Rank<th>Name");
+				foreach ($x as $rank => $name)
+					printf("<tr><td align=right>%d<td>%s", $rank, $name);
+				printf("</table>");
+			}
+			printf("</table></center>");
+		}
 	}
 	else if (isset($_GET[hos]))
 	{
@@ -515,13 +550,13 @@
 					"));
 			else
 			{
-				$results = db_query(sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where pid = %d", $cid ? $cid : $pid));
+				$results = db_query(sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where pid = %d", $cid ? $cid : $pid));
 				if ($result = mysql_fetch_array($results))
 				{
-					echo("<table><tr><th>Rank<th>Name<th colspan=2>Stats<th>Points<th><th><th>Date");
+					echo("<table><tr><th>Rank<th>Name<th colspan=2>Stats<th>Points<th>Date");
 					do
 					{
-						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[rank], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", gmdate("H:i d-m-Y", $result[mtime]));
+						printf("<tr><td align=right>%d<td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result[rank], $result[name], $result[win_count], $result[loss_count], $result[points], gmdate("H:i d-m-Y", $result[mtime]));
 					}
 					while ($result = mysql_fetch_array($results));
 					echo("</table><hr>");
@@ -606,12 +641,12 @@
 				echo("<center><table><tr>");
 				if (!$lid)
 					echo("<th>Ladder");
-				echo("<th>Rank<th><th>Name<th colspan=2>Stats<th>Points<th><th><th>Date");
+				echo("<th>Rank<th><th>Name<th colspan=2>Stats<th>Points<th>Date<th colspan=10>Countries");
 				$results = db_query($pname
 					? $lid
-					? sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc limit 250", $lid, AddSlashes($pname))
-					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.name like \"%s\" order by points desc limit 250", AddSlashes($pname))
-					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and points order by points desc limit 250", $lid));
+					? sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc limit 250", $lid, AddSlashes($pname))
+					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.name like \"%s\" order by points desc limit 250", AddSlashes($pname))
+					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points order by points desc limit 250", $lid));
 				if ($result = mysql_fetch_array($results))
 				{
 					do
@@ -634,7 +669,7 @@
 							else if ($result[rank] && $result[rank] < 26)
 								echo(" <img src=\"images/colonel.png\" alt=\"< #26\">");
 						}
-						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", gmdate("H:i d-m-Y", $result[mtime]));
+						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], gmdate("H:i d-m-Y", $result[mtime]));
 						for ($i = 0; $i < 10; $i++)
 						{
 							if ($result[countries] & 1 << $i)
