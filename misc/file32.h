@@ -18,6 +18,9 @@ using namespace std;
 class Cfile32  
 {
 public:
+	HANDLE handle();
+	void attach(HANDLE handle);
+	void detach();
     int open(const string& name, dword access);
     int open(const string& name, dword access, dword creation, dword share);
 	int open_read(const string& name);
