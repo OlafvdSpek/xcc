@@ -46,7 +46,7 @@ public:
 
 	operator SOCKET() const
 	{
-		return m_source ? *m_source : INVALID_SOCKET;
+		return m_source ? static_cast<SOCKET>(*m_source) : INVALID_SOCKET;
 	}
 private:
 	Csocket_source* m_source;
