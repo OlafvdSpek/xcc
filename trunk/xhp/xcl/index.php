@@ -151,9 +151,6 @@
 	else if (isset($_GET['hos']))
 	{
 		echo("t14(new Array(");
-		$results = db_query("select xcl_players.pid from xcl_players inner join bl using (name) where points");
-		while ($result = mysql_fetch_assoc($results))
-			db_query(sprintf("update xcl_players set points = 0 where pid = %d", $result['pid']));
 		$results = db_query("select distinct xcl_players.name from xcl_players inner join bl using (name) order by xcl_players.name");
 		while ($result = mysql_fetch_assoc($results))
 			printf("'%s',", $result['name']);
