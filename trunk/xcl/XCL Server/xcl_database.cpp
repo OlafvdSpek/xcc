@@ -74,6 +74,7 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	if (gr.get_int("dura") < 90
 		|| gr.get_int("trny") != 1)
 		return;
+	query("lock tables xcl_games write, xcl_players write");
 	Csql_query q(*this);
 	q.write("select ws_gid from xcl_games where ws_gid = %s");
 	q.p(gr.get_int("idno"));
