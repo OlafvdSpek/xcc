@@ -6,7 +6,7 @@
 #include "xif_key_r.h"
 
 #include <bzip/bzlib.h>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "xif_key.h"
 
 template <class T>

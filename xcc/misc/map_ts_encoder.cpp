@@ -8,7 +8,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include <zlib/zlib.h>
+#include <zlib.h>
 #include "file32.h"
 #include "cc_structures.h"
 #include "shp_decode.h"
