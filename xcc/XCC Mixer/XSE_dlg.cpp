@@ -35,7 +35,6 @@ CXSE_dlg::CXSE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CXSE_dlg)
 	m_extract_to_edit = _T("");
 	//}}AFX_DATA_INIT
-	m_buffer_w = 0;
 	m_ds = GetMainFrame()->get_ds();
 	m_game = game;
 	m_xap.ds(m_ds);
@@ -503,54 +502,52 @@ void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
 	const t_map_entry& e = m_map.find(id)->second;
+	string& buffer = m_list.get_buffer();
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
 		{
 			t_reverse_csf_map::const_iterator i = m_reverse_csf_map.find(e.extra_value + 'e');
 			if (i == m_reverse_csf_map.end())
-				m_buffer[m_buffer_w].erase();
+				buffer.erase();
 			else
-				m_buffer[m_buffer_w] = i->second->first;
+				buffer = i->second->first;
 			break;
 		}
 	case 1:
 		{
 			t_reverse_csf_map::const_iterator i = m_reverse_csf_map.find(e.extra_value + 'e');
 			if (i == m_reverse_csf_map.end())
-				m_buffer[m_buffer_w].erase();
+				buffer.erase();
 			else
-				m_buffer[m_buffer_w] = m_csf_f.get_converted_value(i->second->first);
+				buffer = m_csf_f.get_converted_value(i->second->first);
 			break;
 		}
 	case 2:
-		m_buffer[m_buffer_w] = e.extra_value;
+		buffer = e.extra_value;
 		break;
 	case 3:
-		m_buffer[m_buffer_w].erase();
+		buffer.erase();
 		break;
 	case 4:
-		m_buffer[m_buffer_w] = n(e.offset);
+		buffer = n(e.offset);
 		break;
 	case 5:
-		m_buffer[m_buffer_w] = n(e.size);
+		buffer = n(e.size);
 		break;
 	case 6:
-		m_buffer[m_buffer_w] = n(e.samplerate);
+		buffer = n(e.samplerate);
 		break;
 	case 7:
-		m_buffer[m_buffer_w] = n(e.flags);
+		buffer = n(e.flags);
 		break;
 	case 8:
-		m_buffer[m_buffer_w] = n(e.chunk_size);
+		buffer = n(e.chunk_size);
 		break;
 	default:
-		m_buffer[m_buffer_w].erase();
+		buffer.erase();
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
 

@@ -23,7 +23,6 @@ CSearchFileDlg::CSearchFileDlg(CWnd* pParent /*=NULL*/)
 	m_reg_key = "find_file_dlg";
 	//{{AFX_DATA_INIT(CSearchFileDlg)
 	//}}AFX_DATA_INIT
-	m_buffer_w = 0;
 	m_filename = AfxGetApp()->GetProfileString(m_reg_key, "file_name");
 }
 
@@ -169,10 +168,8 @@ void CSearchFileDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
 	const t_map_entry& e = m_map.find(id)->second;
-	m_buffer[m_buffer_w] = e.name;
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	string& buffer = m_list.get_buffer();
+	buffer = e.name;
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
