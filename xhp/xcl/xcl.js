@@ -263,7 +263,7 @@ function t0(v, echo_lid)
 			tr0(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7], v[i + 8], v[i + 9], echo_lid);
 	}
 	else
-		document.write('<tr><th colspan=10>-');
+		document.write('<tr><th colspan=18>-');
 	document.write('</table></center>');
 }
 
@@ -579,7 +579,7 @@ function t16(v)
 
 function tr17(rank, name, wins, losses, points, channel, gsku)
 {
-	document.write('<tr><td><a href="?pname="',  name, '">', name, '</a>');
+	document.write('<tr><td><a href="?pname=',  name, '">', name, '</a>');
 	if (wins || losses)
 		document.write('<td align=right>', rank, '<td align=right>', wins, '<td align=right>', losses, '<td align=right>', points);
 	else
