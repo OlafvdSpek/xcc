@@ -20,9 +20,10 @@ CResizeDlg::CResizeDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CResizeDlg)
 	m_cx = 0;
 	m_cy = 0;
+	m_maintain_aspect_ratio = true;
 	m_relative_cx = 100;
 	m_relative_cy = 100;
-	m_maintain_aspect_ratio = true;
+	m_fix_shadows = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -35,9 +36,10 @@ void CResizeDlg::DoDataExchange(CDataExchange* pDX)
 	DDV_MinMaxInt(pDX, m_cx, 0, 16384);
 	DDX_Text(pDX, IDC_CY, m_cy);
 	DDV_MinMaxInt(pDX, m_cy, 0, 16384);
+	DDX_Check(pDX, IDC_MAINTAIN_ASPECT_RATIO, m_maintain_aspect_ratio);
 	DDX_Text(pDX, IDC_RELATIVE_CX, m_relative_cx);
 	DDX_Text(pDX, IDC_RELATIVE_CY, m_relative_cy);
-	DDX_Check(pDX, IDC_MAINTAIN_ASPECT_RATIO, m_maintain_aspect_ratio);
+	DDX_Check(pDX, IDC_FIX_SHADOWS, m_fix_shadows);
 	//}}AFX_DATA_MAP
 }
 

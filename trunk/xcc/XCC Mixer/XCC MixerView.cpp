@@ -1616,7 +1616,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	{
 		if (convert_shadow)
 		{
-			int count = cx * cy * (c_images >> 1);
+			int count = cx * cy * c_images >> 1;
 			byte* r = s;
 			byte* w = s + count;
 			while (count--)
@@ -1647,7 +1647,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		}
 		if (GetMainFrame()->fix_shadows() && ~c_images & 1)
 		{
-			int count = cx * cy * (c_images >> 1);
+			int count = cx * cy * c_images >> 1;
 			for (byte* w = s + count; count--; w++)
 			{
 				if (*w)
@@ -2669,17 +2669,31 @@ void CXCCMixerView::OnPopupResize()
 							w += global_cx;
 						}
 						delete[] image;
-						upsample_image(image8, image32, global_cx, global_cy, palet);
-						if (global_cx < global_cx_d)
-							resize_image_up(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
+						if (global_cx == global_cx_d && global_cy == global_cy_d)
+							memcpy(d8 + global_cx_d * global_cy_d * i, image8, global_cx * global_cy);
 						else
-							resize_image_down(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
-						if (rp.size())
-							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, rp.data());
-						else
-							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
+						{
+							upsample_image(image8, image32, global_cx, global_cy, palet);
+							if (global_cx < global_cx_d)
+								resize_image_up(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
+							else
+								resize_image_down(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
+							if (rp.size())
+								downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, rp.data());
+							else
+								downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
+						}
 					}
 					f.close();
+					if (dlg.m_fix_shadows && ~c_images & 1)
+					{
+						int count = global_cx_d * global_cy_d * c_images >> 1;
+						for (byte* w = d8 + count; count--; w++)
+						{
+							if (*w)
+								*w = 1;
+						}
+					}
 					error = shp_ts_file_write(d8, global_cx_d, global_cy_d, c_images).export(fname);
 					delete[] image32;
 					delete[] image8;

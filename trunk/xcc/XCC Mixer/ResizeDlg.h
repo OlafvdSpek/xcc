@@ -39,6 +39,7 @@ public:
 	BOOL	m_maintain_aspect_ratio;
 	int	m_relative_cx;
 	int	m_relative_cy;
+	BOOL	m_fix_shadows;
 	//}}AFX_DATA
 
 
