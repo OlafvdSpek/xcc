@@ -114,7 +114,7 @@
 						printf("Player %s created clan %s<br>", $player['name'], $clan['name']);
 						printf("The clan admin pass is %s", $cpass);
 						if (strlen($mail))
-							mail($mail, sprintf("XWI Clan Manager: Clan %s created", $clan['name']), sprintf("Player %s created clan %s with admin pass %s from IP address %s", $player['name'], $clan['name'], $cpass, $_SERVER['REMOTE_ADDR']));
+							mail($mail, sprintf("XWI Clan Manager: Clan %s created", $clan['name']), sprintf("Player %s created clan %s with admin pass %s from IP address %s", $player['name'], $clan['name'], $cpass, $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
 					}
 				}
 				else
@@ -261,7 +261,7 @@
 			if ($clan = mysql_fetch_array(db_query(sprintf("select mail, pass from xwi_clans where name = '%s' and mail = '%s'", AddSlashes($cname), AddSlashes($mail)))))
 			{
 				printf("The clan admin pass has been emailed to %s", htmlspecialchars($clan['mail']));
-				mail($clan['mail'], sprintf("XWI Clan Manager: Pass for clan %s", $clan['name']), sprintf("The admin pass for clan %s is %s. The request has been send from IP address %s", $clan['name'], $clan['pass'], $_SERVER['REMOTE_ADDR']));
+				mail($clan['mail'], sprintf("XWI Clan Manager: Pass for clan %s", $clan['name']), sprintf("The admin pass for clan %s is %s. The request has been send from IP address %s", $clan['name'], $clan['pass'], $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
 			}
 			else
 			{
@@ -333,9 +333,9 @@
 			<hr>
 			<?php
 			if ($_GET['text'])
-				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by size desc", $_GET['text'], $_GET['text']));
+				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by name", $_GET['text'], $_GET['text']));
 			else
-				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name having size > 1 order by size desc");
+				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name having size > 1 order by name");
 			echo("<table><tr><th align=left>Name<th align=right>Players");
 			while ($result = mysql_fetch_array($results))
 				printf("<tr><td><a href=\"?cid=%d\">%s</a><td align=right>%d", $result['cid'], $result['name'], $result['size']);
