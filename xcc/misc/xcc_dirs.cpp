@@ -3,9 +3,10 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "xcc_dirs.h"
+
 #include <windows.h>
 #include "string_conversion.h"
-#include "xcc_dirs.h"
 #include "xcc_registry.h"
 
 //////////////////////////////////////////////////////////////////////
@@ -171,7 +172,7 @@ string xcc_dirs::get_language_mix(t_game game)
 	case game_gr:
 		return gr_dir + "english.big";
 	case game_gr_zh:
-		return gr_dir + "englishzh.big";
+		return gr_zh_dir + "englishzh.big";
 	}
 	assert(false);
 	return "";

@@ -137,6 +137,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_AUTO_SELECT, OnUpdateViewPaletAutoSelect)
 	ON_COMMAND(ID_LAUNCH_XSTE_GR, OnLaunchXSTE_GR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_GR, OnUpdateLaunchXSTE_GR)
+	ON_COMMAND(ID_LAUNCH_XSTE_GR_ZH, OnLaunchXSTE_GR_ZH)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_GR_ZH, OnUpdateLaunchXSTE_GR_ZH)
 	ON_COMMAND(ID_LAUNCH_XSTE_OPEN, OnLaunchXSTE_Open)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
@@ -519,6 +521,7 @@ void CMainFrame::initialize_lists()
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.mix");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.pkg");
 	find_mixs(xcc_dirs::get_dir(game_gr), game_gr, "*.big");
+	find_mixs(xcc_dirs::get_dir(game_gr_zh), game_gr_zh, "*.big");
 
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();
