@@ -28,8 +28,9 @@ bool Cmix_rg_file::is_valid()
 	seek(0);
 	if (read(&header, sizeof(t_mix_rg_header))
 		|| header.id != mix_rg_id
-		|| header.index_offset + 4> header.tailer_offset
-		|| header.tailer_offset + 4 > get_size())
+		|| header.index_offset + 4 > header.tailer_offset
+		|| header.tailer_offset + 4 > get_size()
+		|| header.zero)
 		return false;
 	return true;
 }
@@ -37,6 +38,7 @@ bool Cmix_rg_file::is_valid()
 int Cmix_rg_file::post_open()
 {
 	m_index.clear();
+	m_old_index.clear();
 	if (!is_valid())
 		return 1;
 	if (get_data() && get_vdata().size() != get_size())
@@ -70,6 +72,7 @@ int Cmix_rg_file::post_open()
 			r_tailer += cb_v;
 			m_index[v] = *r_index++;
 			m_old_index.push_back(v);
+
 		}
 	}
 	return error;

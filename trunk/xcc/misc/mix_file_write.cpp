@@ -25,10 +25,7 @@ void Cmix_file_write::clear()
 
 int Cmix_file_write::write_start()
 {
-	byte* lmd_d;
-	int cb_lmd_d = m_lmd_fw.write(lmd_d, game_ts);
-	add_file("local mix database.dat", Cvirtual_binary(lmd_d, cb_lmd_d));
-	delete[] lmd_d;
+	add_file("local mix database.dat", m_lmd_fw.write(game_ts));
 	int r = 4 + sizeof(t_mix_header) + m_index.size() * sizeof(t_mix_index_entry);
 	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 		r += i->second.size();

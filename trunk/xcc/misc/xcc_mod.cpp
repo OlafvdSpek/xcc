@@ -24,6 +24,7 @@
 #include "vxl_file.h"
 #include "web_tools.h"
 #include "xcc_dirs.h"
+#include "xcc_log.h"
 #include "xse.h"
 #include "xste.h"
 
@@ -62,10 +63,9 @@ Cxcc_mod::Cxcc_mod()
 	m_options.mod_ucf = "http://";
 	m_options.confirm_deactivate = false;
 	m_options.mf_version = 0;
-}
 
-Cxcc_mod::~Cxcc_mod()
-{
+	m_mode_map[-1] = "Base";
+	m_module_map[-1] = "Base";
 }
 
 Cxcc_mod::t_category_file_list Cxcc_mod::category_file_list(t_category_type category) const
@@ -94,7 +94,7 @@ bool Cxcc_mod::contains(t_category_type category, string fname, bool strip_path)
 		{
 			for (t_category_file_list::const_iterator j = i->second.begin(); j != i->second.end(); j++)
 			{
-				if (Cfname(*j).get_fname() == fname)
+				if (Cfname(j->first).get_fname() == fname)
 					return true;
 			}
 		}
@@ -107,11 +107,20 @@ bool Cxcc_mod::contains(t_category_type category, string fname, bool strip_path)
 	}
 }
 
+Cxcc_mod::t_file_properties Cxcc_mod::file_properties(t_category_type category, string fname) const
+{
+	return m_file_list.find(category)->second.find(fname)->second;
+}
+
+void Cxcc_mod::file_properties(t_category_type category, string fname, Cxcc_mod::t_file_properties v)
+{
+	m_file_list.find(category)->second.find(fname)->second = v;
+}
+
 int Cxcc_mod::insert(t_category_type category, string fname)
 {
-	int error = 0;
-	m_file_list[category].insert(fname);
-	return error;
+	m_file_list[category][fname];
+	return 0;
 }
 
 void Cxcc_mod::remove(t_category_type category, string fname)
@@ -163,7 +172,11 @@ enum
 	vi_mf_version,
 	vi_shp_compression,
 	vi_vxl_compression,
-	vi_cb_d
+	vi_cb_d,
+	vi_mode,
+	vi_module,
+	ki_modes = 0x100,
+	ki_modules
 };
 
 enum t_encoding
@@ -241,6 +254,20 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 			*/
 		}
 	}
+	{
+		m_mode_map.clear();
+		m_mode_map[-1] = "Base";
+		const Cxif_key& modes_key = key.get_key(ki_modes);
+		for (t_xif_value_map::const_iterator i = modes_key.m_values.begin(); i != modes_key.m_values.end(); i++)
+			m_mode_map[i->first] = i->second.get_string();
+	}
+	{
+		m_module_map.clear();
+		m_module_map[-1] = "Base";
+		const Cxif_key& modules_key = key.get_key(ki_modules);
+		for (t_xif_value_map::const_iterator i = modules_key.m_values.begin(); i != modules_key.m_values.end(); i++)
+			m_module_map[i->first] = i->second.get_string();
+	}
 	for (t_xif_key_map::const_iterator category = key.m_keys.begin(); category != key.m_keys.end(); category++)
 	{
 		t_category_file_list& list = m_file_list[static_cast<t_category_type>(category->first)];
@@ -258,10 +285,11 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 					create_directory(fname.get_path());
 					error = file32_write(fname, fdata.get_data(), fdata.get_size());
 				}
-				list.insert(fname);
 			}
-			else
-				list.insert(i->second.get_value_string(vi_fname));
+			t_file_properties properties;
+			properties.mode = i->second.get_value_int(vi_mode, -1);
+			properties.module = i->second.get_value_int(vi_module, -1);
+			list[i->second.get_value_string(vi_fname)] = properties;
 		}
 	}
 	return error;
@@ -277,8 +305,9 @@ void Cxcc_mod::options(t_options options)
 	m_options = options;
 }
 
-Cxif_key Cxcc_mod::save(bool export) const
+Cxif_key Cxcc_mod::save(bool export, int module) const
 {
+	assert(module >= -1 && module < 100);
 	Cxif_key key;
 	Cmix_file language_mix, main_mix;
 	Cmix_file local_mix;
@@ -301,13 +330,21 @@ Cxif_key Cxcc_mod::save(bool export) const
 		{
 			if (export)
 			{
+				if (i->second.module != module)
+					continue;
 				Ccc_file f(true);
-				if (!f.open(*i))
+				if (!f.open(i->first))
 				{
 					t_file_type ft = f.get_file_type();
 					Cxif_key& l = k.open_key_edit(id++);
-					l.set_value_string(vi_fname, Cfname(*i).get_fname());
+					l.set_value_string(vi_fname, Cfname(i->first).get_fname());
 					l.set_value_int(vi_ft, ft);
+					if (i->second.mode != -1)
+						l.set_value_int(vi_mode, i->second.mode);
+					/*
+					if (i->second.module != -1)
+						l.set_value_int(vi_module, i->second.module);
+					*/
 					switch (category)
 					{
 					case ct_ini:
@@ -315,7 +352,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 						if (m_options.ini_diff_compression && local_mix.is_open())
 						{
 							Ccc_file g(true);
-							string fname = Cfname(*i).get_fname();
+							string fname = Cfname(i->first).get_fname();
 							if (!g.open(fname, local_mix))
 							{
 								Cneat_ini_reader ir1, ir2;
@@ -352,7 +389,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 						if (m_options.csf_diff_compression && language_mix.is_open())
 						{
 							Ccsf_file e, g, h;
-							string fname = Cfname(*i).get_fname();
+							string fname = Cfname(i->first).get_fname();
 							if (!g.open(fname, language_mix))
 							{
 								Ccsf_file h;
@@ -370,7 +407,7 @@ Cxif_key Cxcc_mod::save(bool export) const
 						}
 						break;
 					default:
-						if (ft == ft_shp_ts && m_options.shp_compression && *i != "mouse.shp")
+						if (ft == ft_shp_ts && m_options.shp_compression && Cfname(i->first).get_fname() != "mouse.sha" && Cfname(i->first).get_fname() != "mouse.shp")
 						{
 							Cshp_ts_file g;
 							g.load(f);
@@ -405,7 +442,11 @@ Cxif_key Cxcc_mod::save(bool export) const
 			else
 			{
 				Cxif_key& l = k.open_key_edit(id++);
-				l.set_value_string(vi_fname, *i);
+				l.set_value_string(vi_fname, i->first);
+				if (i->second.mode != -1)
+					l.set_value_int(vi_mode, i->second.mode);
+				if (i->second.module != -1)
+					l.set_value_int(vi_module, i->second.module);
 			}
 		}
 	}
@@ -418,27 +459,64 @@ Cxif_key Cxcc_mod::save(bool export) const
 		if (language_mix.is_open())
 			language_mix.close();
 	}
-	key.set_value_string(vi_name, m_options.name);
-	key.set_value_string(vi_mail, m_options.mail);
-	key.set_value_string(vi_link_title, m_options.link_title);
-	key.set_value_string(vi_link, m_options.link);
-	key.set_value_string(vi_mod_name, m_options.mod_name);
-	key.set_value_int(vi_game, m_options.game);
-	key.set_value_int(vi_csf_diff_compression, m_options.csf_diff_compression);
-	key.set_value_int(vi_ini_diff_compression, m_options.ini_diff_compression);
-	key.set_value_int(vi_shp_compression, m_options.shp_compression);
-	key.set_value_int(vi_vxl_compression, m_options.vxl_compression);
-	key.set_value_int(vi_custom_button_text, m_options.custom_button_text);
-	key.set_value_int(vi_exit_button, m_options.exit_button);
-	key.set_value_int(vi_manual_button, m_options.manual_button);
-	key.set_value_int(vi_site_button, m_options.site_button);
-	key.set_value_int(vi_update_button, m_options.update_button);
-	key.set_value_int(vi_xhp_button, m_options.xhp_button);
-	key.set_value_string(vi_mod_version, m_options.mod_version);
-	key.set_value_string(vi_mod_ucf, m_options.mod_ucf);
-	key.set_value_int(vi_confirm_deactivate, m_options.confirm_deactivate);
-	key.set_value_int(vi_mf_version, mf_version);
+	if (module == -1)
+	{
+		key.set_value_string(vi_name, m_options.name);
+		key.set_value_string(vi_mail, m_options.mail);
+		key.set_value_string(vi_link_title, m_options.link_title);
+		key.set_value_string(vi_link, m_options.link);
+		key.set_value_string(vi_mod_name, m_options.mod_name);
+		key.set_value_int(vi_game, m_options.game);
+		key.set_value_int(vi_csf_diff_compression, m_options.csf_diff_compression);
+		key.set_value_int(vi_ini_diff_compression, m_options.ini_diff_compression);
+		key.set_value_int(vi_shp_compression, m_options.shp_compression);
+		key.set_value_int(vi_vxl_compression, m_options.vxl_compression);
+		key.set_value_int(vi_custom_button_text, m_options.custom_button_text);
+		key.set_value_int(vi_exit_button, m_options.exit_button);
+		key.set_value_int(vi_manual_button, m_options.manual_button);
+		key.set_value_int(vi_site_button, m_options.site_button);
+		key.set_value_int(vi_update_button, m_options.update_button);
+		key.set_value_int(vi_xhp_button, m_options.xhp_button);
+		key.set_value_string(vi_mod_version, m_options.mod_version);
+		key.set_value_string(vi_mod_ucf, m_options.mod_ucf);
+		key.set_value_int(vi_confirm_deactivate, m_options.confirm_deactivate);
+		key.set_value_int(vi_mf_version, mf_version);
+		{
+			Cxif_key& modes_key = key.open_key_write(ki_modes);
+			for (t_mode_map::const_iterator i = mode_map().begin(); i != mode_map().end(); i++)
+			{
+				if (i->first != -1)
+					modes_key.set_value_string(i->first, i->second);
+			}
+		}
+		if (!export)
+		{
+			Cxif_key& modules_key = key.open_key_write(ki_modules);
+			for (t_module_map::const_iterator i = module_map().begin(); i != module_map().end(); i++)
+			{
+				if (i->first != -1)
+					modules_key.set_value_string(i->first, i->second);
+			}
+		}
+	}
 	return key;
+}
+
+int Cxcc_mod::save_modules(Cfname fname)
+{
+	int error = 0;
+	string base_name = fname.get_ftitle();
+	fname.set_ext(".xmlf");
+	for (t_module_map::const_iterator i = module_map().begin(); i != module_map().end(); i++)
+	{
+		if (i->first == -1)
+			continue;
+		fname.set_title(base_name + ' ' + nwzl(2, i->first));
+		error = save(true, i->first).vdata().export(fname);
+		if (error)
+			break;
+	}
+	return error;
 }
 
 __int64 get_last_write_time(string fname)
@@ -454,7 +532,7 @@ __int64 get_last_write_time(string fname)
 	return *reinterpret_cast<__int64*>(&r);
 }
 
-int Cxcc_mod::activate(Cxif_key key, bool external_data)
+int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 {
 	Cmix_file_write expand_mix;
 	Cmix_file_write ecache_mix;
@@ -465,18 +543,24 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 	const t_game game = static_cast<t_game>(key.get_value_int(vi_game));
 	const string dir = xcc_dirs::get_dir(game);
 	const string temp_dir = get_temp_path() + mod_name + " Cache/";
-	if (!Cfname(xcc_dirs::get_exe(game)).exists())
+	if (!xcc_dirs::is_available(game))
 		return 2;
 	if (external_data)
 		CreateDirectory(temp_dir.c_str(), NULL);
 	int error = main_mix.open(xcc_dirs::get_main_mix(game));
-	if (!error)
+	if (error)
+		xcc_log::write_line("Unable to open " + xcc_dirs::get_main_mix(game));
+	else
 	{
 		error = language_mix.open(xcc_dirs::get_language_mix(game));
-		if (!error)
+		if (error)
+			xcc_log::write_line("Unable to open " + xcc_dirs::get_language_mix(game));
+		else
 		{
 			error = local_mix.open(xcc_dirs::get_local_mix(game), main_mix);
-			if (!error)
+			if (error)
+				xcc_log::write_line("Unable to open " + xcc_dirs::get_local_mix(game));
+			else
 			{
 				{
 					for (t_module_list::const_iterator i = m_module_list.begin(); i != m_module_list.end(); i++)
@@ -491,17 +575,18 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 							for (t_xif_key_map::const_iterator i = category->second.m_keys.begin(); i != category->second.m_keys.end(); i++)
 							{
 								key.open_key_edit(category->first).open_key_write() = i->second;
-								list.insert(i->second.get_value_string(vi_fname));
+								list[i->second.get_value_string(vi_fname)];
 							}
 						}
 					}
 				}
 				for (t_xif_key_map::const_iterator category = key.m_keys.begin(); category != key.m_keys.end(); category++)
-				{
+				{				
 					if (error)
 						break;
 					if (category->second.m_keys.empty())
 						continue;
+					xcc_log::write_line(ct_name[category->first]);
 					Cmix_file_write side_mix;
 					Cxse xse;
 					switch (category->first)
@@ -558,6 +643,10 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 							break;
 						const Cfname external_fname = i->second.get_value_string(vi_fname);
 						Cfname fname = external_fname.get_fname();
+						xcc_log::write_line(fname);
+						int file_mode = i->second.get_value_int(vi_mode, -1);
+						if (file_mode != -1 && file_mode != mode)
+							continue;
 						t_file_type ft;
 						Cvirtual_binary data;
 						t_encoding encoding;
@@ -604,9 +693,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 								}
 							}
 							else
-							{
 								data = h.read();
-							}
 							break;
 						case ft_ogg:
 							fname.set_ext(game == game_ts ? ".aud" : ".wav");
@@ -627,7 +714,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 											h = audio.save_as_aud();
 									}
 									else
-										h = audio.save_as_wav_pcm(); // audio.save_as_wav_ima_adpcm();
+										h = audio.save_as_wav_ima_adpcm(); // audio.save_as_wav_pcm();
 									if (!error)
 									{
 										if (external_data)
@@ -640,9 +727,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 								}
 							}
 							else
-							{
 								data = h.read();
-							}
 							break;
 						case ft_pcx:
 							if ((category->first == ct_cameo || (category->first == ct_screen && game == game_ra2)))
@@ -676,21 +761,6 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 								{
 									if (Cmap_ts_encoder::wrong_version(k))
 										error = 1;
-										/*
-										else if (Cmap_ts_encoder::write_mmx(k))
-										{
-										fname.set_ext(".mmx");
-										string title = fname.get_ftitle();
-										strstream ini, pkt;
-										Cmix_file_write mmx_f;
-										Cmap_ts_encoder::write_map(ini, k, Cvirtual_binary());
-										Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
-										mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
-										mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
-										error = mmx_f.write().export(dir + fname);
-										ignore = true;
-										}
-									*/
 									else
 									{
 										fname.set_ext(".map");
@@ -701,141 +771,135 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 								}
 							}
 							break;
-					}
-					if (!error && !ignore)
-					{
-						switch (category->first)
+						}
+						if (!error && !ignore)
 						{
-						case ct_cameo:
-						case ct_shp:
-						case ct_speech:
-						case ct_tmp:
-							ecache_mix.add_file(fname, data);
-							break;
-						case ct_ini:
-							if (encoding == enc_diff)
+							switch (category->first)
 							{
-								Ccc_file g(true);
-								if (g.open(fname, local_mix))
-									error = 1;
-								else
-								{
-									Cneat_ini_reader ir;
-									ir.process(g.get_data(), g.get_size());
-									ir.process(data.data(), data.size());
-									g.close();
-									Cvirtual_binary d(NULL, g.get_size() + data.size());
-									strstream s(reinterpret_cast<char*>(d.data_edit()), d.size());
-									ir.write(s);
-									error = s.pcount() == d.size();
-									d.size(s.pcount());
-									expand_mix.add_file(fname, d);
-								}
-							}
-							else
-								expand_mix.add_file(fname, data);
-							break;
-						case ct_screen:
-							if (fname.get_fname() == "glslmd.pal" || fname.get_fname() == "glslmd.shp")
-								error = data.export(dir + fname);
-							else
-								expand_mix.add_file(fname, data);
-							break;
-						case ct_side_1:
-						case ct_side_2:
-						case ct_side_3:
-							side_mix.add_file(fname, data);
-							break;
-						case ct_sound:
-							if (game == game_ts)
+							case ct_cameo:
+							case ct_shp:
+							case ct_speech:
+							case ct_tmp:
 								ecache_mix.add_file(fname, data);
-							else
-							{
-								Cwav_file f;
-								f.load(data);
-								xse.insert(fname.get_ftitle(), f);
-							}
-							break;
-							ecache_mix.add_file(fname, data);
-							break;
-						case ct_st:
-							if (encoding == enc_diff)
-							{
-								Ccc_file g(true);
-								if (!language_mix.is_open() || g.open(fname, language_mix))
-									error = 1;
-								else
+								break;
+							case ct_ini:
+								if (encoding == enc_diff)
 								{
-									Ccsf_file e, h;
-									e.load(g);
-									g.close();
-									h.load(data);
-									const Ccsf_file::t_map& map = h.get_map();
-									for (Ccsf_file::t_map::const_iterator i = map.begin(); i != map.end(); i++)
-										e.set_value(i->first, i->second.value, i->second.extra_value);
-									error = e.write().export(dir + fname);
-								}
-							}
-							else if (ft == ft_text)
-							{
-								Ccc_file g(true);
-								if (!language_mix.is_open() || g.open(xcc_dirs::get_csf_fname(game), language_mix))
-									error = 1;
-								else
-								{
-									Ccsf_file e;
-									e.load(g);
-									g.close();
-									Cmulti_line p = string(reinterpret_cast<const char*>(data.data()), data.size());
-									while (!p.empty())
+									Ccc_file g(true);
+									if (g.open(fname, local_mix))
+										error = 1;
+									else
 									{
-										string name, value;
-										split_key(p.get_next_line('\n'), name, value);
-										if (!name.empty() || !value.empty())
-											e.set_value(name, Ccsf_file::convert2wstring(value), "");
+										Cneat_ini_reader ir;
+										ir.process(g.get_data(), g.get_size());
+										ir.process(data.data(), data.size());
+										g.close();
+										Cvirtual_binary d(NULL, g.get_size() + data.size());
+										strstream s(reinterpret_cast<char*>(d.data_edit()), d.size());
+										ir.write(s);
+										error = s.pcount() == d.size();
+										d.size(s.pcount());
+										expand_mix.add_file(fname, d);
 									}
-									error = e.write().export(dir + xcc_dirs::get_csf_fname(game));
 								}
-							}
-							else
+								else
+									expand_mix.add_file(fname, data);
+								break;
+							case ct_screen:
+								if (fname.get_fname() == "glsmd.pal" || fname.get_fname() == "glslmd.shp")
+									error = data.export(dir + fname);
+								else
+									expand_mix.add_file(fname, data);
+								break;
+							case ct_side_1:
+							case ct_side_2:
+							case ct_side_3:
+								side_mix.add_file(fname, data);
+								break;
+							case ct_sound:
+								if (game == game_ts)
+									ecache_mix.add_file(fname, data);
+								else
+								{
+									Cwav_file f;
+									f.load(data);
+									xse.insert(fname.get_ftitle(), f);
+								}
+								break;
+							case ct_st:
+								if (encoding == enc_diff)
+								{
+									Ccc_file g(true);
+									if (!language_mix.is_open() || g.open(fname, language_mix))
+										error = 1;
+									else
+									{
+										Ccsf_file e, h;
+										e.load(g);
+										g.close();
+										h.load(data);
+										const Ccsf_file::t_map& map = h.get_map();
+										for (Ccsf_file::t_map::const_iterator i = map.begin(); i != map.end(); i++)
+											e.set_value(i->first, i->second.value, i->second.extra_value);
+										error = e.write().export(dir + fname);
+									}
+								}
+								else if (ft == ft_text)
+								{
+									Ccc_file g(true);
+									if (!language_mix.is_open() || g.open(xcc_dirs::get_csf_fname(game), language_mix))
+										error = 1;
+									else
+									{
+										Ccsf_file e;
+										e.load(g);
+										g.close();
+										Cmulti_line p = string(reinterpret_cast<const char*>(data.data()), data.size());
+										while (!p.empty())
+										{
+											string name, value;
+											split_key(p.get_next_line('\n'), name, value);
+											if (!name.empty() || !value.empty())
+												e.set_value(name, Ccsf_file::convert2wstring(value), "");
+										}
+										error = e.write().export(dir + xcc_dirs::get_csf_fname(game));
+									}
+								}
+								else
+									error = data.export(dir + fname);
+								break;
+							case ct_theme:
+							case ct_video:
 								error = data.export(dir + fname);
-							break;
-						case ct_theme:
-						case ct_video:
-							error = data.export(dir + fname);
-							break;
-						default:
-							expand_mix.add_file(fname, data);
+								break;
+							default:
+								expand_mix.add_file(fname, data);
+							}
 						}
 					}
-				}
-				switch (category->first)
-				{
-				case ct_side_1:
-				case ct_side_2:
-				case ct_side_3:
-					if (category->first == ct_side_3 && game == game_ra2_yr)
-						expand_mix.add_file("sidec02md.mix", side_mix.write());
-					else
-						expand_mix.add_file("sidec0" + n(category->first - ct_side_1 + 1) + ".mix", side_mix.write());
-					break;
-				case ct_sound:
-					if (game != game_ts)
+					switch (category->first)
 					{
-						/*
-						if (!error)
-							error = xse.compact();
-						*/
-						if (!error)
-							xse.write_idx_file();
-						xse.close();
+					case ct_side_1:
+					case ct_side_2:
+					case ct_side_3:
+						if (category->first == ct_side_3 && game == game_ra2_yr)
+							expand_mix.add_file("sidec02md.mix", side_mix.write());
+						else
+							expand_mix.add_file("sidec0" + n(category->first - ct_side_1 + 1) + ".mix", side_mix.write());
+						break;
+					case ct_sound:
+						if (game != game_ts)
+						{
+							if (!error)
+								xse.write_idx_file();
+							xse.close();
+						}
+						break;
 					}
-					break;
 				}
+				local_mix.close();
 			}
-			local_mix.close();
-		}
-		language_mix.close();
+			language_mix.close();
 		}
 		main_mix.close();
 	}
@@ -853,7 +917,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data)
 
 int Cxcc_mod::activate()
 {
-	return activate(save(false), true);
+	return activate(save(false, -1), true, 0);
 }
 
 int Cxcc_mod::deactivate(bool remove_themes) const
@@ -867,7 +931,7 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 			continue;
 		for (t_category_file_list::const_iterator i = list.begin(); i != list.end(); i++)
 		{
-			Cfname fname = Cfname(*i).get_fname();
+			Cfname fname = Cfname(i->first).get_fname();
 			if (category->first == ct_theme)
 				fname.set_ext(game == game_ts ? ".aud" : ".wav");
 			switch (category->first)
@@ -883,7 +947,7 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 	}
 	delete_file(dir + "audio.bag");
 	delete_file(dir + "audio.idx");
-	delete_file(dir + "glslmd.pal");
+	delete_file(dir + "glsmd.pal");
 	delete_file(dir + "glslmd.shp");
 	delete_file(dir + xcc_dirs::get_csf_fname(game));
 	delete_file(xcc_dirs::get_ecache_mix(game, true, 98));
@@ -1009,10 +1073,10 @@ void Cxcc_mod::report(string fname) const
 		t_category_file_list list = category_file_list(static_cast<t_category_type>(category));
 		for (t_category_file_list::const_iterator i = list.begin(); i != list.end(); i++)
 		{
-			Cfname fname = Cfname(*i).get_fname();
+			Cfname fname = Cfname(i->first).get_fname();
 			Chtml row = td(static_cast<string>(fname));
 			Ccc_file f(false);
-			if (f.open(*i))
+			if (f.open(i->first))
 				row += td("not found", "colspan=3");
 			else
 			{
@@ -1097,5 +1161,74 @@ void Cxcc_mod::load_modules(Cxif_key& key, Cfname fname)
 		fname.set_title(base_name + ' ' + nwzl(2, i));
 		if (fname.exists())
 			m_module_list.push_back(fname);
+	}
+}
+
+int Cxcc_mod::add_mode(string name)
+{
+	for (t_mode_map::const_iterator i = mode_map().begin(); i != mode_map().end(); i++)
+	{
+		if (i->second == name)
+			return i->first;
+	}
+	int id = mode_map().empty() ? 0 : mode_map().rbegin()->first + 1;
+	m_mode_map[id] = name;
+	return id;
+}
+
+int Cxcc_mod::add_module(string name)
+{
+	for (t_module_map::const_iterator i = module_map().begin(); i != module_map().end(); i++)
+	{
+		if (i->second == name)
+			return i->first;
+	}
+	int id = module_map().empty() ? 0 : module_map().rbegin()->first + 1;
+	m_module_map[id] = name;
+	return id;
+}
+
+string Cxcc_mod::get_mode(int id) const
+{
+	return mode_map().find(id)->second;
+}
+
+string Cxcc_mod::get_module(int id) const
+{
+	return module_map().find(id)->second;
+}
+
+void Cxcc_mod::compact()
+{
+	typedef set<int> t_int_set;
+
+	t_int_set modes, modules;
+	for (int category = 0; category < ct_unknown; category++)
+	{
+		t_category_file_list list = category_file_list(static_cast<t_category_type>(category));
+		int id = 0;
+		for (t_category_file_list::const_iterator i = list.begin(); i != list.end(); i++)
+		{
+			modes.insert(i->second.mode);
+			modules.insert(i->second.module);
+		}
+	}
+	{
+		for (t_mode_map::iterator i = m_mode_map.begin(); i != m_mode_map.end(); )
+		{
+			if (i->first != -1 && modes.find(i->first) == modes.end())
+				i = m_mode_map.erase(i);
+			else
+				i++;
+		}
+	}
+	{
+		for (t_module_map::iterator i = m_module_map.begin(); i != m_module_map.end(); )
+		{
+			if (i->first != -1 && modules.find(i->first) == modules.end())
+				i = m_module_map.erase(i);
+			else
+				i++;
+		}
 	}
 }

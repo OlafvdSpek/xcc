@@ -17,6 +17,8 @@
 
 using namespace std;
 
+#pragma comment(lib, "libpng.lib")
+
 class Cpng_file: public Ccc_file_sh<t_png_header>
 {
 public:

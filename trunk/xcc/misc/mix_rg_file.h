@@ -18,6 +18,9 @@ using namespace std;
 class Cmix_rg_file: public Ccc_file
 {
 public:
+	typedef map<string, t_mix_rg_index_entry> t_index;
+	typedef vector<string> t_old_index;
+
 	int get_c_files() const
 	{
 		return m_index.size();
@@ -47,13 +50,15 @@ public:
         return m_index.find(name)->second.size;
     }
 
+	const t_index& index() const
+	{
+		return m_index;
+	}
+
 	bool is_valid();
 	int post_open();
 	Cmix_rg_file();
 private:
-	typedef map<string, t_mix_rg_index_entry> t_index;
-	typedef vector<string> t_old_index;
-
 	t_index m_index;
 	t_old_index m_old_index;
 };
