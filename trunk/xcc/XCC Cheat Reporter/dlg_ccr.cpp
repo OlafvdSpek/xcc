@@ -6,6 +6,7 @@
 #include "dlg_ccr.h"
 
 #include <fstream>
+#include <mapi.h>
 #include <windows.h>
 #include "cgi.h"
 #include "file32.h"
@@ -44,6 +45,8 @@ Cdlg_ccr::Cdlg_ccr(CWnd* pParent /*=NULL*/)
 	m_mail = _T("Mail");
 	m_name = _T("Name");
 	m_game_id = 0;
+	m_send_ws = FALSE;
+	m_send_xhp = TRUE;
 	//}}AFX_DATA_INIT
 	m_buffer_w = 0;
 	m_reg_key = "XCR_CCR_dlg";
@@ -71,6 +74,8 @@ void Cdlg_ccr::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_NAME, m_name);
 	DDX_Text(pDX, IDC_GAME_ID, m_game_id);
 	DDV_MinMaxInt(pDX, m_game_id, 1, 100000000);
+	DDX_Check(pDX, IDC_SEND_WS, m_send_ws);
+	DDX_Check(pDX, IDC_SEND_XHP, m_send_xhp);
 	//}}AFX_DATA_MAP
 }
 
@@ -92,7 +97,7 @@ void Cdlg_ccr::game(t_game game)
 
 static int c_colums = 2;
 
-BOOL Cdlg_ccr::OnInitDialog() 
+BOOL Cdlg_ccr::OnInitDialog()
 {
 	m_name = AfxGetApp()->GetProfileString(m_reg_key, "name", "Name");
 	m_mail = AfxGetApp()->GetProfileString(m_reg_key, "mail", "Mail");
@@ -111,7 +116,7 @@ BOOL Cdlg_ccr::OnInitDialog()
 			<< item(IDC_DESCRIPTION, GREEDY)
 			<< item(IDC_LIST, GREEDY)
 			)
-		<< (pane(VERTICAL, ABSOLUTE_HORZ)		
+		<< (pane(VERTICAL, ABSOLUTE_HORZ)
 			<< item(IDC_DISCONNECT, NORESIZE)
 			<< item(IDC_RECONNECTION_ERROR, NORESIZE)
 			<< item(IDC_GAME_SPEED, NORESIZE)
@@ -121,9 +126,11 @@ BOOL Cdlg_ccr::OnInitDialog()
 			<< item(IDC_BUILD_ANYWHERE, NORESIZE)
 			<< item(IDC_MONEY, NORESIZE)
 			<< item(IDC_TECH, NORESIZE)
+			<< item(IDC_SEND_WS, NORESIZE)
+			<< item(IDC_SEND_XHP, NORESIZE)
 			// << item(, NORESIZE)
 			<< itemGrowing(VERTICAL)
-			<< (pane(HORIZONTAL, ABSOLUTE_VERT)		
+			<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 				<< item(IDOK, NORESIZE)
 				<< item(IDCANCEL, NORESIZE)
 				)
@@ -142,7 +149,7 @@ BOOL Cdlg_ccr::OnInitDialog()
 	load_nicknames();
 	load_screenshots();
 	autosize_colums();
-		
+
 	{
 		// Create the ToolTip control.
 		m_tooltip.Create(this);
@@ -244,7 +251,7 @@ void Cdlg_ccr::autosize_colums()
 	Invalidate();
 }
 
-void Cdlg_ccr::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_ccr::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
@@ -267,7 +274,7 @@ void Cdlg_ccr::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void Cdlg_ccr::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_ccr::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	int column = pNMListView->iSubItem;
@@ -342,19 +349,20 @@ enum
 	vi_tech,
 	vi_name,
 	vi_mail,
-	vi_nickname
+	vi_nickname,
+	vi_game_id
 };
 
-void Cdlg_ccr::OnOK() 
+void Cdlg_ccr::OnOK()
 {
 	if (UpdateData(true))
 	{
 		const char* save_filter = "XCRF files (*.xcrf)|*.xcrf|";
-		
-		CWaitCursor wait;
+
 		CFileDialog dlg(false, ".xcrf", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, NULL);
 		if (IDOK == dlg.DoModal())
 		{
+			CWaitCursor wait;
 			AfxGetApp()->WriteProfileString(m_reg_key, "name", m_name);
 			AfxGetApp()->WriteProfileString(m_reg_key, "mail", m_mail);
 			Cxif_key key;
@@ -377,6 +385,7 @@ void Cdlg_ccr::OnOK()
 			m_nickname.GetLBText(m_nickname.GetCurSel(), nickname);
 			key.set_value_string(vi_nickname, static_cast<string>(nickname));
 			key.set_value_string(vi_mail, static_cast<string>(m_mail));
+			key.set_value_int(vi_game_id, m_game_id);
 			Cxif_key& screenshots_key = key.open_key_write(ki_screenshots);
 			int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 			while (index != -1)
@@ -397,7 +406,83 @@ void Cdlg_ccr::OnOK()
 				}
 				index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 			}
-			key.vdata().export(static_cast<string>(dlg.GetPathName()));
+			const string fname = dlg.GetPathName();
+			key.vdata().export(fname);
+#if 1
+			if (m_send_ws || m_send_xhp)
+			{
+				HINSTANCE pMailState = LoadLibrary("MAPI32.DLL");
+				if (pMailState == NULL)
+				{
+					AfxMessageBox(AFX_IDP_FAILED_MAPI_LOAD);
+					return;
+				}
+
+				ULONG (PASCAL *lpfnSendMail)(ULONG, ULONG, MapiMessage*, FLAGS, ULONG);
+				(FARPROC&)lpfnSendMail = GetProcAddress(pMailState, "MAPISendMail");
+				if (lpfnSendMail == NULL)
+				{
+					AfxMessageBox(AFX_IDP_INVALID_MAPI_DLL);
+					return;
+				}
+
+				string title = static_cast<string>(game_name[key.get_value_int(vi_game)]) + " XCRF";
+
+				// prepare the file description (for the attachment)
+				MapiFileDesc fileDesc;
+				memset(&fileDesc, 0, sizeof(fileDesc));
+				fileDesc.nPosition = (ULONG)-1;
+				fileDesc.lpszPathName = const_cast<char*>(fname.c_str());
+
+				MapiRecipDesc recipDesc;
+				memset(&recipDesc, 0, sizeof(MapiRecipDesc));
+				recipDesc.ulRecipClass = MAPI_TO;
+				recipDesc.lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
+
+				// prepare the message (empty with 1 attachment)
+				MapiMessage message;
+				memset(&message, 0, sizeof(message));
+				message.lpszSubject = const_cast<char*>(title.c_str());
+				message.nRecipCount = 1;
+				message.lpRecips = &recipDesc;
+				message.nFileCount = 1;
+				message.lpFiles = &fileDesc;
+
+				// prepare for modal dialog box
+				AfxGetApp()->EnableModeless(FALSE);
+				HWND hWndTop;
+				CWnd* pParentWnd = CWnd::GetSafeOwner(NULL, &hWndTop);
+
+				// some extra precautions are required to use MAPISendMail as it
+				// tends to enable the parent window in between dialogs (after
+				// the login dialog, but before the send note dialog).
+				pParentWnd->SetCapture();
+				::SetFocus(NULL);
+				pParentWnd->m_nFlags |= WF_STAYDISABLED;
+
+				int nError = lpfnSendMail(0, (ULONG)pParentWnd->GetSafeHwnd(), &message, MAPI_LOGON_UI | MAPI_DIALOG, 0);
+
+				// after returning from the MAPISendMail call, the window must
+				// be re-enabled and focus returned to the frame to undo the workaround
+				// done before the MAPI call.
+				::ReleaseCapture();
+				pParentWnd->m_nFlags &= ~WF_STAYDISABLED;
+
+				pParentWnd->EnableWindow(TRUE);
+				::SetActiveWindow(NULL);
+				pParentWnd->SetActiveWindow();
+				pParentWnd->SetFocus();
+				if (hWndTop != NULL)
+					::EnableWindow(hWndTop, TRUE);
+				AfxGetApp()->EnableModeless(TRUE);
+
+				if (nError != SUCCESS_SUCCESS &&
+					nError != MAPI_USER_ABORT && nError != MAPI_E_LOGIN_FAILURE)
+				{
+					AfxMessageBox(AFX_IDP_FAILED_MAPI_SEND);
+				}
+			}
+#endif
 			ETSLayoutDialog::OnOK();
 		}
 	}
@@ -415,40 +500,40 @@ static Chtml report_cheats(const Cxif_key& key)
 			if (i->second.get_int())
 				page += "Disconnect<br>";
 			break;
-		case vi_reconnection_error: 
+		case vi_reconnection_error:
 			if (i->second.get_int())
 				page += "Reconnection error<br>";
 			break;
-		case vi_game_speed: 
+		case vi_game_speed:
 			if (i->second.get_int())
 				page += "Game speed<br>";
 			break;
-		case vi_connection_speed: 
+		case vi_connection_speed:
 			if (i->second.get_int())
 				page += "Connection speed<br>";
 			break;
-		case vi_map_revealer: 
+		case vi_map_revealer:
 			if (i->second.get_int())
 				page += "Map revealer<br>";
 			break;
-		case vi_mod_map: 
+		case vi_mod_map:
 			if (i->second.get_int())
 				page += "Mod map<br>";
 			break;
-		case vi_build_anywhere: 
+		case vi_build_anywhere:
 			if (i->second.get_int())
 				page += "Build anywhere<br>";
 			break;
-		case vi_money: 
+		case vi_money:
 			if (i->second.get_int())
 				page += "Money<br>";
 			break;
-		case vi_tech: 
+		case vi_tech:
 			if (i->second.get_int())
 				page += "Tech<br>";
 			break;
 			/*
-		case vi_@: 
+		case vi_@:
 			if (i->second.get_int())
 				page += "@<br>";
 			break;
@@ -464,11 +549,31 @@ static Chtml report_screenshots(const Cxif_key& key, string path)
 	int index = 0;
 	for (t_xif_value_map::const_iterator i = key.m_values.begin(); i != key.m_values.end(); i++)
 	{
-		Cfname fname = path + "scrn" + nwzl(4, index++) + ".jpeg";		
+		Cfname fname = path + "scrn" + nwzl(4, index++) + ".jpeg";
 		if (!i->second.get_vdata().export(fname))
 			page += "<p><img src=" + fname.get_fname() + ">";
 	}
 	return page;
+}
+
+static string get_gid(t_game game)
+{
+	switch (game)
+	{
+	case game_ts:
+		return "ts";
+	}
+	return "ra2";
+}
+
+static string a_gamelist(t_game game, string nickname)
+{
+	return a(web_encode(nickname), "href=\"http://xcc.tiberian.com/xla/gamelist.php?gid=" + get_gid(game) + "&pid=" + uri_encode(nickname) + "\"");
+}
+
+static string a_gamelog(t_game game, int game_id)
+{
+	return game_id ? a(web_encode(n(game_id)), "href=\"http://xcc.tiberian.com/xla/gamelog.php?gid=" + get_gid(game) + "&gid=" + n(game_id) + "\"") : "Unknown";
 }
 
 int xcrf_decode(Cvirtual_binary s, string fname)
@@ -477,22 +582,22 @@ int xcrf_decode(Cvirtual_binary s, string fname)
 	int error = key.load_key(s.data(), s.size());
 	if (!error)
 	{
+		t_game game = static_cast<t_game>(key.get_value_int(vi_game));
+		int game_id = key.exists_value(vi_game_id) ? key.get_value_int(vi_game_id) : 0;
 		Chtml page;
-		page += tr(td("Name") + td(web_name(key.get_value_string(vi_name), key.get_value_string(vi_mail))));
-		page += tr(td("Nickname") + td(web_encode(key.get_value_string(vi_nickname))));
-		page += tr(td("Game") + td(game_name[key.get_value_int(vi_game)]));
-		page += tr(td("Stats") + td(web_encode(key.get_value_string(vi_stats))));
+		page += tr(td("Name") + td(web_name(key.get_value_string(vi_name), key.get_value_string(vi_mail))) + td(a_gamelist(game, key.get_value_string(vi_nickname))));
+		page += tr(td("Game") + td(game_name[key.get_value_int(vi_game)]) + td(a_gamelog(game, game_id)));
+		page += tr(td("Stats") + td(web_encode(key.get_value_string(vi_stats)), "colspan=2"));
 		if (key.exists_value(vi_sync))
-			page += tr(td("Sync") + td(web_encode(key.get_value_string(vi_sync))));
-		page += tr(td("Description") + td(web_encode(key.get_value_string(vi_description))));
-		page += tr(td("Cheats") + td(report_cheats(key)));
-		// page += tr(td("Screenshots") + td());
+			page += tr(td("Sync") + td(web_encode(key.get_value_string(vi_sync)), "colspan=2"));
+		page += tr(td("Description") + td(web_encode(key.get_value_string(vi_description)), "colspan=2"));
+		page += tr(td("Cheats") + td(report_cheats(key), "colspan=2"));
 		ofstream((fname + "index.html").c_str()) << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1") + report_screenshots(key.open_key_read(ki_screenshots), fname)));
 	}
 	return error;
 }
 
-BOOL Cdlg_ccr::PreTranslateMessage(MSG* pMsg) 
+BOOL Cdlg_ccr::PreTranslateMessage(MSG* pMsg)
 {
 	m_tooltip.RelayEvent(pMsg);
 	return ETSLayoutDialog::PreTranslateMessage(pMsg);

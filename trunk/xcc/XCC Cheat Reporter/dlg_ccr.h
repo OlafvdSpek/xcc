@@ -45,6 +45,8 @@ public:
 	CString	m_mail;
 	CString	m_name;
 	int		m_game_id;
+	BOOL	m_send_ws;
+	BOOL	m_send_xhp;
 	//}}AFX_DATA
 
 
