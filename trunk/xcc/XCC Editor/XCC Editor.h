@@ -36,7 +36,6 @@ public:
 // Implementation
 
 	//{{AFX_MSG(CXCCEditorApp)
-	afx_msg void OnAppAbout();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

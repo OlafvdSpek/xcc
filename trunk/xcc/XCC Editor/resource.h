@@ -3,7 +3,6 @@
 // Used by XCC Editor.rc
 //
 #define IDC_SELECT                      3
-#define IDD_ABOUTBOX                    100
 #define ID_INDICATOR_CELL               101
 #define CG_IDR_POPUP_XCCEDITOR_VIEW     102
 #define ID_INDICATOR_TEMPLATE           103
