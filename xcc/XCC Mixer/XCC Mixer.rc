@@ -233,7 +233,6 @@ BEGIN
         MENUITEM "Copy as TGA (single)",        ID_POPUP_COPY_AS_TGA_SINGLE
         MENUITEM "Copy as TGA",                 ID_POPUP_COPY_AS_TGA
         MENUITEM "Copy as TXT",                 ID_POPUP_COPY_AS_TEXT
-        MENUITEM "Copy as TMP (TS)",            ID_POPUP_COPY_AS_TMP_TS
         MENUITEM "Copy as VXL",                 ID_POPUP_COPY_AS_VXL
         POPUP "Copy as WAV"
         BEGIN
