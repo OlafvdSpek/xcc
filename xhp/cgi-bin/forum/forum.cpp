@@ -99,7 +99,7 @@ t_config_entry config[] =
 	{"use_ladder", ci_use_ladder, "1"},
 	{"use_smilies", ci_use_smilies, "1"},
 	{"base_url", ct_base_url, "http://xcc.tiberian.com/"},
-	{"css_url", ct_css_url, "forum.css"},
+	{"css_url", ct_css_url, "/forum.css"},
 	{"forum_mail", ct_forum_mail, "Forum"},
 	{"forum_title", ct_forum_title, "Forum"},
 	{"home_dir", ct_home_dir, "~/"},
@@ -1436,6 +1436,25 @@ Chtml page_preferences_submit()
 	return page_forward();
 }
 
+int get_c_lines(const string& v)
+{
+	int r = 0;
+	bool e = true;
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (v[i] == '\n')
+		{
+			e = true;
+			r++;
+		}
+		else
+			e = false;
+	}
+	if (!e)
+		r++;
+	return r;
+}
+
 Chtml show_msg(int slot, bool allow_reply)
 {
 	if (!slot)
@@ -1459,7 +1478,7 @@ Chtml show_msg(int slot, bool allow_reply)
 	Chtml r =
 		br(get_name(msg.name, msg.mail) + " posted a message about " + html_span(web_encode(msg.subject), "class=subject") + (msg.parent ? " in reply to " + get_subject(topics[msg.parent].subject(), msg.parent) : "")) +
 		p(body);
-	if (config_int[ci_use_signature] && !msg.signature.empty() && user_preferences.show_signatures)
+	if (config_int[ci_use_signature] && !msg.signature.empty() && user_preferences.show_signatures && get_c_lines(msg.signature) <= 4)
 		r += p(msg.flags & mf_allow_html ? fix_br(fix_endl(msg.signature)) : web_magic_anchors(web_encode(fix_endl(msg.signature))), "class=signature");
 	if (config_int[ci_use_uin] && msg.uin)
 		r += p(get_icq_link(msg.uin, 2));
@@ -1614,8 +1633,8 @@ Chtml post_msg_submit()
 		{
 			if (config_int[ci_use_icq_notification] && parent_msg.uin && parent_msg.flags & mf_notify_icq)
 			{
-				string icq_msg = "Content-type: text/html\n\n" + html(head_forum(true) + body("Somebody replied to your message on " + config_string[ct_forum_title] + "\n"
-					+ "<a href=" + cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(slot) + ">msg</a>"));
+				string icq_msg = "Somebody replied to your message on " + config_string[ct_forum_title] + "\n"
+					+ "<a href=" + cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(slot) + ">msg</a>";
 				// send_icq_msg("", 0, "", "");
 				// send_mail(forum_mail, n(parent_msg.uin) + "@pager.icq.com", "Forum reply notification", icq_msg);
 				// send_mail(forum_mail, "OvdSpek@LIACS.NL", "Forum reply notification", icq_msg);
