@@ -85,6 +85,8 @@ int Cvirtual_binary::import(string fname)
 		error = f.read(write_start(size), size);
 		f.close();
 	}
+	if (error)
+		clear();		
 	return error;
 }
 
@@ -94,6 +96,11 @@ void Cvirtual_binary::clear()
 		return;
 	m_source->detach();
 	m_source = NULL;
+}
+
+void Cvirtual_binary::memset(int v)
+{
+	::memset(data_edit(), v, size());
 }
 
 int Cvirtual_binary::read(void* d) const

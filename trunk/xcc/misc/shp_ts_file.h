@@ -23,6 +23,7 @@ public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
 	int extract_as_pcx_single(Cvirtual_image& d, const t_palet _palet, bool combine_shadows = false) const;
 	int extract_as_pcx_single(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
+
 	bool is_valid() const
 	{
 		const t_shp_ts_header& header = *get_header();
@@ -98,7 +99,7 @@ public:
 
 	bool is_compressed(int i) const
 	{
-		return (get_image_header(i)->compression & 0xffff) == 3;
+		return get_image_header(i)->compression & 2;
 	}
 
 	const t_shp_ts_image_header* get_image_header(int i) const

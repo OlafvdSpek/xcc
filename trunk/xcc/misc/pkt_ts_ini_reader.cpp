@@ -91,6 +91,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 	Chtml page = tr(th("Name") + th("Description") + th("Gamemode") + th("Preview"));
 	for (t_map_list::const_iterator i = m_map_list.begin(); i != m_map_list.end(); i++)
 	{
+		/*
 		bool skip = true;
 		Cmulti_line l = i->second.m_gamemode;
 		while (!l.empty())
@@ -103,6 +104,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 		}
 		if (skip) 
 			continue;
+		*/
 		string description = i->second.m_description;
 		if (xste_available)
 		{
@@ -110,10 +112,11 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 			if (csf_f.has_name(to_lower(description)))
 				description = csf_f.get_converted_value(to_lower(description));
 		}
-		page += tr(td(a(i->first, "href=" + i->first + ".html")) + td(description) + td(i->second.m_gamemode) + td("<img src=" + i->first + "_pv.png>"));
+		// page += tr(td(a(i->first, "href=" + i->first + ".html")) + td(description) + td(i->second.m_gamemode) + td("<img src=" + i->first + "_pv.png>"));
+		page += "\"" + i->first + "\", " + "\"" + description + "\",\n";
 	}
-	os << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1")));
-	// os << page;
+	// os << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1")));
+	os << page;
 	if (xste_available)
 		xste.close();
 }

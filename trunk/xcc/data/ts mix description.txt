@@ -1,46 +1,5 @@
-missile.shp	
-missile.shp	
-missile.shp	
 ebtn-dn.shp	
 ebtn-up.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-ebtn-dn.shp	
-ebtn-up.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
-missile.shp	
 missile.shp	
 rg06ab1.shp	
 rg06b2.shp	
@@ -5246,3 +5205,24 @@ uparrow.pcx	-
 00-W044.V00	-
 01-W004.V01	-
 00-W002.V00	-
+lredsmk1.shp	-
+sredsmk1.shp	-
+hlight.shp	-
+cellsel.shp	-
+mislorca.hva	-
+mislorca.vxl	-
+des0208.tem	-
+ice0202.sno	-
+namntk_a.shp	-
+ntmntk_a.shp	-
+nod-01.aud	-
+gdi-01.aud	-
+nod-07a.aud	-
+nod-07b.aud	-
+w_piff.shp	-
+web.shp	-
+e_enhn.shp	-
+flamthro.shp	-
+sibmlr.shp	-
+truck2.vxl	-
+truck2.hva	-

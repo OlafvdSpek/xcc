@@ -18,10 +18,6 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	const int global_cx = get_cx();
 	const int global_cy = get_cy();
 	const int c_images = get_c_images();
-	/*
-	if (cx != 60 || cy != 48 || c_images != 1)
-		return 1;
-	*/
 	if (combine_shadows && ~c_images & 1)
 	{
 		bool shadow = false;

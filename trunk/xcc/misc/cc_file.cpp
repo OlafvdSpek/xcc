@@ -66,7 +66,6 @@ Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
 {
 	m_attached = false;
-    // m_data = NULL;
     m_data_loaded = m_is_open = false;
 }
 
@@ -163,19 +162,6 @@ void Ccc_file::detach()
 	m_attached = false;
 	m_f.detach();
 }
-
-/*
-void Ccc_file::load(const byte* data, int size)
-{
-	m_data = Cvirtual_binary(data, size);
-	m_data_loaded = true;
-	m_mix_f = NULL;
-	m_is_open = true;
-	m_p = 0;
-	m_size = size;
-	post_open();
-}
-*/
 
 void Ccc_file::load(const Cvirtual_binary d, int size)
 {
@@ -416,19 +402,20 @@ t_file_type Ccc_file::get_file_type(bool fast)
 
 int Ccc_file::read()
 {
-    assert(is_open());
 	seek(0);
-	int error = read(m_data.write_start(m_size), m_size);
+	int error = read(m_data.write_start(get_size()), get_size());
 	m_data_loaded = true;
 	return error;
 }
 
 int Ccc_file::read(void* data, int size)
 {
+	if (get_p() + size > get_size())
+		return 1;
 	if (m_data_loaded)
 	{
 		memcpy(data, m_data.data() + m_p, size);
-		m_p += size;
+		skip(size);
 		return 0;
 	}
 	assert(is_open());
@@ -444,7 +431,7 @@ int Ccc_file::read(void* data, int size)
         res = m_f.read(data, size);
     }
     if (!res)
-        m_p += size;
+        skip(size);
     return res;
 }
 
@@ -485,10 +472,8 @@ int Ccc_file::extract(const string& name)
 void Ccc_file::close()
 {
     assert(is_open());
-    if (!m_data_loaded)
-	{
-        m_data.clear();
-	}
+	if (!m_data_loaded)
+		m_data.clear();
 	if (m_f.is_open())
 		assert(!m_mix_f);
     if (!m_mix_f && m_f.is_open())

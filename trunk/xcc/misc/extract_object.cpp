@@ -33,33 +33,24 @@ void Cextract_object::open_default(t_game game)
 {
 	m_game = game;
 	if (game == game_ts)
-	{
 		add_mix(xcc_dirs::get_ts_dir() + "patch.mix");
-		for (int j = 0; j < 100; j++)
-		{
-			add_mix(xcc_dirs::get_ts_dir() + "ecache" + nwzl(2, 99 - j) + ".mix");
-			add_mix(xcc_dirs::get_ts_dir() + "expand" + nwzl(2, 99 - j) + ".mix");
-		}
-		add_mix(xcc_dirs::get_ts_dir() + "tibsun.mix");
-		add_path(xcc_dirs::get_ts_dir());
-	}
 	else
 	{
-		for (int j = 0; j < 100; j++)
-		{
-			add_mix(xcc_dirs::get_ra2_dir() + "ecache" + nwzl(2, 99 - j) + ".mix");
-			add_mix(xcc_dirs::get_ra2_dir() + "expand" + nwzl(2, 99 - j) + ".mix");
-		}
 		add_mix(xcc_dirs::get_ra2_dir() + "language.mix");
-		add_mix(xcc_dirs::get_ra2_dir() + "ra2.mix");
-		add_path(xcc_dirs::get_ra2_dir());
 		m_xste.open();
 	}
+	for (int j = 0; j < 100; j++)
+	{
+		add_mix(xcc_dirs::get_dir(m_game) + "ecache" + nwzl(2, 99 - j) + ".mix");
+		add_mix(xcc_dirs::get_dir(m_game) + "expand" + nwzl(2, 99 - j) + ".mix");
+	}
+	add_mix(xcc_dirs::get_main_mix(m_game));
+	add_path(xcc_dirs::get_dir(m_game));
 }
 
 void Cextract_object::close_all()
 {
-	if (m_game == game_ra2)
+	if (m_game != game_ts && m_xste.csf_f().is_open())
 		m_xste.close();
 	for (t_mix_list::iterator i = m_mix_list.begin(); i != m_mix_list.end(); i++)
 		i->close();
@@ -77,7 +68,7 @@ int Cextract_object::add_mix(string name, Cmix_file* g)
 		if (!error)
 		{
 			f.close();
-			error = f.open((m_game == game_ts ? xcc_dirs::get_ts_dir() : xcc_dirs::get_ra2_dir()) + name);
+			error = f.open(xcc_dirs::get_dir(m_game) + name);
 			if (error)
 				error = f.open(name, *g);
 		}
@@ -910,11 +901,11 @@ int Cextract_object::insert(const Cxif_key& k)
 			}
 		}
 		if (!error)
-			error = air.write(xcc_dirs::get_ts_dir() + "art.ini");
+			error = air.write(xcc_dirs::get_dir(m_game) + "art.ini");
 		if (!error)
-			error = rir.write(xcc_dirs::get_ts_dir() + "rules.ini");
+			error = rir.write(xcc_dirs::get_dir(m_game) + "rules.ini");
 		if (!error)
-			error = sir.write(xcc_dirs::get_ts_dir() + "sound.ini");
+			error = sir.write(xcc_dirs::get_dir(m_game) + "sound.ini");
 		if (!error)
 		{
 			expand_mix.add_file("ecache99.mix", ecache_mix.write());

@@ -22,6 +22,9 @@ enum t_app
 	app_se,
 	app_semm,
 	app_rage,
+	app_xcr,
+	app_xrc,
+	app_xrmu,
 	app_unknown
 };
 

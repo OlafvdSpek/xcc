@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "file32.h"
+#include "multi_line.h"
 #include "pcx_decode.h"
 #include "pcx_file_write.h"
 #include "string_conversion.h"
@@ -66,6 +67,42 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, const t_palet _palet) const
 	delete[] d;
 	delete[] s;
 	return error;
+}
+
+int Cvxl_file::extract_as_text(ostream& os) const
+{
+	for (int i = 0; i < get_c_section_headers(); i++)
+	{
+		const t_vxl_section_tailer& section_tailer = *get_section_tailer(i);
+		const int cx = section_tailer.cx;
+		const int cy = section_tailer.cy;
+		const int cz = section_tailer.cz;
+		int j = 0;
+		for (int y = 0; y < cy; y++)
+		{
+			for (int x = 0; x < cx; x++)
+			{
+				const byte* r = get_span_data(0, j);
+				if (r)
+				{
+					int z = 0;
+					while (z < cz)
+					{
+						z += *r++;
+						int c = *r++;
+						while (c--)
+						{
+							os << i << ',' << x << ',' << y << ',' << z << ',' << static_cast<int>(*r++) << ',' << static_cast<int>(*r++) << endl;
+							z++;
+						}
+						r++;
+					}
+				}
+				j++;
+			}
+		}
+	}
+	return os.fail();
 }
 
 #ifndef NO_XIF_SUPPORT
@@ -287,7 +324,7 @@ int vxl_file_write(const Cxif_key& s, byte* d)
 	return w - d;
 }
 
-int vxl_file_write(const byte* s, byte* d, int cx, int cy, int cz)
+int vxl_file_write(const byte* s, const byte* s_normals, byte* d, int cx, int cy, int cz)
 {
 	Cxif_key k;
 	Cxif_key& header = k.open_key_write(vi_header);
@@ -319,7 +356,7 @@ int vxl_file_write(const byte* s, byte* d, int cx, int cy, int cz)
 					{
 						Cxif_key& zi = xi.open_key_write(z);
 						zi.set_value_int(vi_color, v);
-						zi.set_value_int(vi_surface_normal, 0);
+						zi.set_value_int(vi_surface_normal, s_normals ? s_normals[r - s]: -1);
 					}
 					r += cx * cy;
 				}
@@ -337,6 +374,57 @@ int vxl_file_write(const byte* s, byte* d, int cx, int cy, int cz)
 		tailer.set_value_int(vi_cz, cz);
 	}
 	return vxl_file_write(k, d);
+}
+
+struct t_voxel
+{
+	int x;
+	int y;
+	int z;
+	int color;
+	int normal;
+};
+
+int vxl_file_write(Cvirtual_tfile s, Cvirtual_binary& d)
+{
+	typedef list<t_voxel> t_list;
+
+	t_list list;
+
+	int cs = 0;
+	int cx = 0;
+	int cy = 0;
+	int cz = 0;
+	while (!s.eof())
+	{
+		Cmulti_line l = s.read_line();
+		t_voxel e;
+		int s = l.get_next_int(',');
+		e.x = l.get_next_int(',');
+		e.y = l.get_next_int(',');
+		e.z = l.get_next_int(',');
+		e.normal = l.get_next_int(',');
+		e.color = l.get_next_int(',');
+		if (!s)
+			list.push_back(e);
+		cs = max(cs, s + 1);
+		cx = max(cx, e.x + 1);
+		cy = max(cy, e.y + 1);
+		cz = max(cz, e.z + 1);
+	}
+	Cvirtual_binary colors(NULL, cx * cy * cz);
+	Cvirtual_binary normals(NULL, cx * cy * cz);
+	colors.memset(0);
+	normals.memset(0);
+	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
+	{
+		const t_voxel& e = *i;
+		int o = e.x + cx * (e.y + cy * e.z);
+		colors.data_edit()[o] = e.color;
+		normals.data_edit()[o] = e.normal;
+	}
+	d.size(vxl_file_write(colors.data(), normals.data(), d.write_start(4 << 20), cx, cy, cz));
+	return !d.size();
 }
 #endif
 
