@@ -25,7 +25,7 @@ public:
 	{
 		const t_shp_header& header = *get_header();
 		int size = get_size();
-		if (sizeof(t_shp_header) > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_header) + get_cb_index() > size)
+		if (sizeof(t_shp_header) > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_header) + 8 * (get_header()->c_images + 2) > size)
 			return false;
 		int c_images = get_c_images();
 		return !(get_offset(c_images) != size || get_offset(c_images + 1));
@@ -45,11 +45,6 @@ public:
 	{
 		return get_header()->cy;
 	}
-
-    int get_cb_index() const
-    {
-        return 8 * (get_header()->c_images + 2);
-    }
 
     int get_format(int i) const
 	{

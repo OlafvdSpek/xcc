@@ -22,6 +22,7 @@ string xcc_dirs::ra_dir;
 static string dune2000_dir;
 string xcc_dirs::ts_dir;
 static string ra2_dir;
+static string rg_dir;
 
 string xcc_dirs::get_dune2_dir()
 {
@@ -55,6 +56,8 @@ string xcc_dirs::get_dir(t_game game)
 	case game_ra2:
 	case game_ra2_yr:
 		return ra2_dir;
+	case game_rg:
+		return rg_dir;
 	}
 	assert(false);
 	return "";
@@ -200,6 +203,9 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	case game_ra2:
 		set_path(s, ra2_dir);
 		break;
+	case game_rg:
+		set_path(s, rg_dir);
+		break;
 	}
 }
 
@@ -324,6 +330,12 @@ void xcc_dirs::load_from_registry()
 			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
 		{
 			set_ra2_dir(static_cast<Cfname>(s).get_path());
+		}
+		if (rg_dir.empty() &&		
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Renegade", 0, KEY_QUERY_VALUE, &kh_base) &&
+			ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+		{
+			set_dir(game_rg, static_cast<Cfname>(s).get_path());
 		}
 	}
 }

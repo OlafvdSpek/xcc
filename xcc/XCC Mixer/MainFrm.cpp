@@ -408,13 +408,13 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 	xcc_log::write_line("do_mixs ends");
 }
 
-void CMainFrame::find_mixs(const string& dir, t_game game)
+void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 {
 	xcc_log::write_line("find_mixs starts: " + dir);
 	if (!dir.empty())
 	{
 		WIN32_FIND_DATA fd;
-		HANDLE findhandle = FindFirstFile((dir + "*.mix").c_str(), &fd);
+		HANDLE findhandle = FindFirstFile((dir + filter).c_str(), &fd);
 		if (findhandle != INVALID_HANDLE_VALUE)
 		{
 			int mix_parent = mix_list_create_map(game_name[game], "", 0, -1);
@@ -442,6 +442,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game)
 	xcc_log::write_line("find_mixs ends: ");
 }
 
+/*
 void CMainFrame::find_paks(const string& dir, t_game game)
 {
 	xcc_log::write_line("find_paks starts: " + dir);
@@ -474,8 +475,19 @@ void CMainFrame::find_paks(const string& dir, t_game game)
 	m_pal_i[game] = m_pal_list.size();
 	xcc_log::write_line("find_paks ends: ");
 }
+*/
 
 typedef map<string, int> t_sort_list;
+
+string escape_menu_name(string v)
+{
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (v[i] == '&')
+			v.insert(++i, "&");
+	}
+	return v;
+}
 
 void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI) 
 {       
@@ -487,7 +499,7 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 		initialize_lists();
 		int j = 0;
 		int k = 0;
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < game_unknown; i++)
 		{
 			if (j == m_mix_i[i])
 				continue;
@@ -499,8 +511,10 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 				sort_list[static_cast<Cfname>(m_mix_list[j]).get_fname()] = j;
 				j++;
 			}
+			if (sort_list.empty())
+				continue;
 			for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
-				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX00 + l->second, l->first.c_str());
+				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX00 + l->second, escape_menu_name(l->first).c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
@@ -518,7 +532,7 @@ void CMainFrame::OnUpdateViewPaletUpdate(CCmdUI* pCmdUI)
 		initialize_lists();
 		int j = 0;
 		int k = 0;
-		for (int i = 0; i < 6; i++)
+		for (int i = 0; i < game_unknown; i++)
 		{
 			if (j == m_pal_i[i])
 				continue;
@@ -545,19 +559,23 @@ void CMainFrame::initialize_lists()
 	xcc_log::write_line("ts dir: " + xcc_dirs::get_ts_dir());
 	xcc_log::write_line("cd dir: " + xcc_dirs::get_cd_dir());
 	xcc_log::write_line("data dir: " + xcc_dirs::get_data_dir());
-	find_mixs(xcc_dirs::get_td_primary_dir(), game_td);
-	find_mixs(xcc_dirs::get_td_secondary_dir(), game_td);
-	find_mixs(xcc_dirs::get_ra_dir(), game_ra);
-	find_mixs(xcc_dirs::get_ts_dir(), game_ts);
-	find_paks(xcc_dirs::get_dune2_dir(), game_dune2);
-	find_mixs(xcc_dirs::get_dune2000_dir(), game_dune2000);
-	find_mixs(xcc_dirs::get_ra2_dir(), game_ra2);
+	find_mixs(xcc_dirs::get_td_primary_dir(), game_td, "*.mix");
+	find_mixs(xcc_dirs::get_td_secondary_dir(), game_td, "*.mix");
+	find_mixs(xcc_dirs::get_ra_dir(), game_ra, "*.mix");
+	find_mixs(xcc_dirs::get_ts_dir(), game_ts, "*.mix");
+	find_mixs(xcc_dirs::get_dune2_dir(), game_dune2, "*.pak");
+	find_mixs(xcc_dirs::get_dune2000_dir(), game_dune2000, "*.mix");
+	find_mixs(xcc_dirs::get_ra2_dir(), game_ra2, "*.mix");
+	// find_mixs("", game_ra2_yr, "");
+	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dat");
+	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dbs");
+	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.mix");
 
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();
 	int j = 0;
 	int k = 0;
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < game_unknown; i++)
 	{
 		t_sort_list sort_list;
 		while (j < m_pal_i[i])

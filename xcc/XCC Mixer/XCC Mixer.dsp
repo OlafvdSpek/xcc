@@ -132,6 +132,10 @@ SOURCE=..\misc\map_ts_encoder.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_rg_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\palet_filter.cpp
 # End Source File
 # Begin Source File
@@ -294,6 +298,10 @@ SOURCE=..\misc\map_ts_encoder.h
 # Begin Source File
 
 SOURCE=..\misc\map_ts_ini_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\mix_rg_file.h
 # End Source File
 # Begin Source File
 

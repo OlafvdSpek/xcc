@@ -53,8 +53,8 @@ public:
 // Operations
 public:
 	void do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent);
-	void find_mixs(const string& dir, t_game game);
-	void find_paks(const string& dir, t_game game);
+	void find_mixs(const string& dir, t_game game, string filter);
+	// void find_paks(const string& dir, t_game game);
 	void initialize_lists();
 	void launch_xtw(t_game game);
 
@@ -145,8 +145,8 @@ protected:  // control bar embedded members
 	int m_palet_i;
 	int m_vxl_mode;
 	bool m_lists_initialized;
-	int m_mix_i[6];
-	int m_pal_i[6];
+	int m_mix_i[game_unknown];
+	int m_pal_i[game_unknown];
 	t_mix_list m_mix_list;
 	t_mix_map_list m_mix_map_list;
 	t_pal_map_list m_pal_map_list;

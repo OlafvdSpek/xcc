@@ -119,11 +119,12 @@ public:
 
 	static int get_max_size(int cx, int cy, int c_images)
 	{
-		return sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images;
+		return sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + (2 * (cx + 1) * cy + 7 & ~7)) * c_images;
 	}
 };
 
-void shp_decode4(const byte* s, Cvirtual_file& d);
+int shp_decode4_size(const byte* s);
+Cvirtual_binary shp_decode4(const byte* s, int cb_d);
 int shp_encode4(const Cshp_ts_file& f, byte* d);
 void shp_split_frames(Cvirtual_image& image, int cblocks_x, int cblocks_y);
 void shp_split_shadows(Cvirtual_image& image);

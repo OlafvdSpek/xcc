@@ -557,17 +557,15 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				{
 					const int cx = f.get_cx(i);
 					const int cy = f.get_cy(i);
-					if (f.get_image_header(i)->compression & 1)
-						draw_info("Unknown block",  "yes");
 					byte* image = new byte[cx * cy];
 					if (f.is_compressed(i))
 					{
 						byte* d = new byte[f.get_image_header(i)->size_out];
-						decode2(d, image, decode80(f.get_image(i), d));
+						decode2(d, image, decode80(f.get_image(i), d), f.get_reference_palet(i));
 						delete[] d;
 					}
 					else
-						decode2(f.get_image(i), image, f.get_image_header(i)->size_out);
+						decode2(f.get_image(i), image, f.get_image_header(i)->size_out, f.get_reference_palet(i));
 					draw_image8(image, cx, cy, pDC, 0, m_y);
 					delete[] image;
 					m_y += cy + m_y_inc;

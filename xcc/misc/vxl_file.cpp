@@ -512,14 +512,50 @@ int vxl_encode4(const Cvxl_file& f, byte* d)
 	return w - d;
 }
 
-void vxl_decode4(const byte* s, Cvirtual_file& f)
+int vxl_decode4_size(const byte* s)
 {
 	const byte* r = s;
 	const t_vxl4_header& s_header = *reinterpret_cast<const t_vxl4_header*>(r);
 	const int c_sections = s_header.c_sections;
 	r += sizeof(t_vxl4_header);
-	byte* d = new byte[1 << 20];
-	byte* w = d;
+	int w = 0;
+	for (int i = 0; i < c_sections; i++)
+	{
+		const t_vxl4_section_header& section_header = *reinterpret_cast<const t_vxl4_section_header*>(r);
+		const int cx = section_header.cx;
+		const int cy = section_header.cy;
+		const int cz = section_header.cz;
+		w += 8 * cx * cy;
+		r += sizeof(t_vxl4_section_header);
+		for (int j = 0; j < cx * cy; j++)
+		{
+			int z = 0;
+			while (z < cz)
+			{
+				int z_inc = *r++;
+				if (z_inc == cz)
+					break;
+				z += z_inc;
+				int count = *r++;
+				r += 2 * count;
+				w += 2 * count + 3;
+				z += count;
+			}
+		}
+	}
+	return w
+		+ sizeof(t_vxl_header)
+		+ (sizeof(t_vxl_section_header) + sizeof(t_vxl_section_tailer)) * c_sections;
+}
+
+Cvirtual_binary vxl_decode4(const byte* s, int cb_d)
+{
+	Cvirtual_binary d;
+	const byte* r = s;
+	const t_vxl4_header& s_header = *reinterpret_cast<const t_vxl4_header*>(r);
+	const int c_sections = s_header.c_sections;
+	r += sizeof(t_vxl4_header);
+	byte* w = d.write_start(cb_d ? cb_d : 1 << 20);
 	t_vxl_header& header = *reinterpret_cast<t_vxl_header*>(w);
 	strcpy(header.id, vxl_id);
 	header.one = 1;
@@ -598,7 +634,6 @@ void vxl_decode4(const byte* s, Cvirtual_file& f)
 	memcpy(w, section_tailer, sizeof(t_vxl_section_tailer) * c_sections);
 	delete[] section_tailer;
 	w += sizeof(t_vxl_section_tailer) * c_sections;
-	int cb_d = w - d;
-	f.write(d, cb_d);
-	delete[] d;
+	assert(!cb_d || d.size() == w - d.data());
+	return cb_d ? d : Cvirtual_binary(d.data(), w - d.data());
 }
