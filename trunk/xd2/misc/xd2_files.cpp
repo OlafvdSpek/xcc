@@ -6,6 +6,7 @@
 #include "xd2_files.h"
 
 #include "cps_file.h"
+#include "icon_form_decoder.h"
 #include "mix_file.h"
 #include "shp_decode.h"
 #include "shp_dune2_file.h"
@@ -18,6 +19,26 @@
 
 Cxd2_files::Cxd2_files()
 {
+}
+
+const t_building_type* Cxd2_files::building_types() const
+{
+	return reinterpret_cast<const t_building_type*>(data_map().get("dune2 building types.bin").data());
+}
+
+int Cxd2_files::c_building_types() const
+{
+	return data_map().get("dune2 building types.bin").size() / sizeof(t_building_type);
+}
+
+const t_unit_type* Cxd2_files::unit_types() const
+{
+	return reinterpret_cast<const t_unit_type*>(data_map().get("dune2 unit types.bin").data());
+}
+
+int Cxd2_files::c_unit_types() const
+{
+	return data_map().get("dune2 unit types.bin").size() / sizeof(t_unit_type);
 }
 
 enum
@@ -52,6 +73,9 @@ Cxif_key Cxd2_files::save() const
 
 int Cxd2_files::load(const string& dir)
 {
+	Cvirtual_binary exe(dir + "dune2.exe");
+	m_data_map.set("dune2 building types.bin", Cvirtual_binary(exe + 193930, 19 * 96));
+	m_data_map.set("dune2 unit types.bin", Cvirtual_binary(exe + 195760, 27 * 90));
 	return load_audio_pak(dir + "atre.pak")
 		|| load_audio_pak(dir + "hark.pak")
 		|| load_audio_pak(dir + "introvoc.pak")
@@ -64,7 +88,6 @@ int Cxd2_files::load(const string& dir)
 		|| load_pak(dir + "intro.pak")
 		|| load_pak(dir + "mentat.pak")
 		|| load_pak(dir + "scenario.pak");
-	// sound.pak
 }
 
 int Cxd2_files::load_audio_pak(const string& name)
@@ -177,13 +200,31 @@ int Cxd2_files::load_pak(const string& name)
 				break;
 			}
 		default:
+			Ccc_file f(true);
+			f.open(id, pak_f);
+			Cvirtual_binary d = f.get_vdata();
+			if (name == "icon.icn")
 			{
-				Ccc_file f(true);
-				f.open(id, pak_f);
-				m_data_map.set(name, f.get_vdata());
-				f.close();
-				break;
+				const Cicon_form_decoder s(d);
+				Cvirtual_binary d;
+				byte* w = d.write_start(s.c_icons() << 8);
+				for (int i = 0; i < s.c_icons(); i++)
+				{
+					s.icon(i, w);
+					w += 256;
+				}
+				m_animation_map.set(name, Cxd2_animation(d, s.c_icons(), 16, 16));
 			}
+			else
+			{
+				if (name == "bene.pal")
+				{
+					for (byte* w = d.data_edit(); w < d.data_end(); w++)
+						*w = *w * 0xff / 0x3f;
+				}
+				m_data_map.set(name, d);
+			}
+			f.close();
 		}
 	}
 	pak_f.close();
