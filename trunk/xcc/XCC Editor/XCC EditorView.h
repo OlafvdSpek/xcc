@@ -29,6 +29,7 @@ protected: // create from serialization only
 			l_infantry, l_structure, l_unit,
 			l_celltrigger, l_waypoint
 	};
+
 	bool m_creating_sel;
 	Cxcc_cell m_sel_bp;
 	Cxcc_cell m_sel_ep;
@@ -199,8 +200,6 @@ protected:
 	afx_msg void OnPopupProperties();
 	afx_msg void OnUpdatePopupProperties(CCmdUI* pCmdUI);
 	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
-	afx_msg void OnPopupClearLayer(UINT nID);
-	afx_msg void OnUpdatePopupClearLayer(CCmdUI* pCmdUI);
 	afx_msg void OnPopupFillWithCelltriggers();
 	afx_msg void OnPopupFillWithTiberium();
 	afx_msg void OnPopupFillWithWater();
@@ -212,7 +211,10 @@ protected:
 	afx_msg void OnToolsEnergyStatus();
 	afx_msg void OnEditBriefing();
 	afx_msg void OnToolsUpgradeTiberium();
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	//}}AFX_MSG
+	afx_msg void OnPopupClearLayer(UINT nID);
+	afx_msg void OnUpdatePopupClearLayer(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
 };
 
