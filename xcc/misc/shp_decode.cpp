@@ -789,7 +789,7 @@ end:
 	return cb_out;
 }
 
-int decode2(const byte* s, byte* d, int cb_s)
+int decode2(const byte* s, byte* d, int cb_s, const byte* reference_palet)
 {
 	const byte* r = s;
 	const byte* r_end = s + cb_s;
@@ -806,6 +806,8 @@ int decode2(const byte* s, byte* d, int cb_s)
 			w += v;
 		}
 	}
+	if (reference_palet)
+		apply_rp(d, w - d, reference_palet);
 	return w - d;
 }
 

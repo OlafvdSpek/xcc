@@ -7,7 +7,7 @@
 
 #include "palet.h"
 
-enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, game_ra2_yr, game_unknown};
+enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, game_ra2_yr, game_rg, game_unknown};
 
 const char* game_name[];
 
@@ -129,6 +129,22 @@ struct t_mix_index_entry
     __int32 offset;
     __int32 size;
 };
+
+struct t_mix_rg_header
+{
+	__int32 id;
+	__int32 index_offset;
+	__int32 tailer_offset;
+};
+
+struct t_mix_rg_index_entry
+{
+	__int32 id;
+	__int32 offset;
+	__int32 size;
+};
+
+const int mix_rg_id = '1XIM';
 
 struct t_iso_map_pack_entry
 {
