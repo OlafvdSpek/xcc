@@ -57,9 +57,9 @@ static bool platform_nt()
 static CString hosts_fname()
 {
 	char win_dir[256];
-	if (platform_nt() ? !GetSystemDirectory(win_dir, 256) : !GetWindowsDirectory(win_dir, 256))
-		return "c:\\windows\\hosts";
-	return static_cast<CString>(win_dir) + (platform_nt() ? "\\drivers\\etc\\hosts" : "\\hosts");
+	return (platform_nt() ? GetSystemDirectory(win_dir, 256) : GetWindowsDirectory(win_dir, 256))
+		? static_cast<CString>(win_dir) + (platform_nt() ? "\\drivers\\etc\\hosts" : "\\hosts")
+		: "c:\\windows\\hosts";
 }
 
 BOOL CMFTesterDlg::OnInitDialog()
@@ -70,8 +70,11 @@ BOOL CMFTesterDlg::OnInitDialog()
 	test_hostname("localhost");
 	test_hostname("games2.westwood.com");
 	test_hostname("servserv.westwood.com");
-	test_serverlist_server(0x2100);
-	test_serverlist_server(0x2900);
+	// test_mf();
+	test_serverlist_server("127.0.0.1", 0x2100);
+	test_serverlist_server("127.0.0.1", 0x2900);
+	test_serverlist_server("159.153.208.17", 0x2100);
+	test_serverlist_server("159.153.208.17", 0x2900);
 
 	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
@@ -140,22 +143,24 @@ static int send_msg(SOCKET& s, strstream& msg)
 	return msg.pcount() != send(s, msg.str(), msg.pcount(), 0);
 }
 
-void CMFTesterDlg::test_serverlist_server(int gid)
+void CMFTesterDlg::test_serverlist_server(const char* ipa, int gid)
 {
-	m_edit += "\r\nlocal serverlist server (";
+	m_edit += "\r\nserverlist server (";
+	m_edit += ipa;
+	m_edit += " ";
 	m_edit += n(gid);
 	m_edit += "): ";
 	SOCKET s = socket(PF_INET, SOCK_STREAM, 0);
 	if (s == -1)
-		m_edit += "unable to create socket";
+		m_edit += "unable to create socket: " + n(WSAGetLastError());
 	else
 	{
 		sockaddr_in d_address;
 		d_address.sin_family = AF_INET;
 		d_address.sin_port = htons(4005);
-		d_address.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+		d_address.sin_addr.S_un.S_addr = inet_addr(ipa);
 		if (connect(s, reinterpret_cast<const sockaddr*>(&d_address), sizeof(sockaddr_in)))
-			m_edit += "unable to connect";
+			m_edit += "unable to connect: " + n(WSAGetLastError());
 		else
 		{
 			m_edit += "\r\n";
@@ -164,7 +169,7 @@ void CMFTesterDlg::test_serverlist_server(int gid)
 				<< "whereto TibSun TibPass99 " << gid << " 65542 0" << endl
 				<< "quit" << endl;
 			if (send_msg(s, msg))
-				m_edit += "unable to send";
+				m_edit += "unable to send: " + n(WSAGetLastError());
 			else
 			{
 				const int cb_d = 4 << 10;
@@ -174,7 +179,7 @@ void CMFTesterDlg::test_serverlist_server(int gid)
 					int e = recv(s, d, cb_d, 0);
 					if (e == SOCKET_ERROR)
 					{
-						m_edit += "unable to receive";
+						m_edit += "unable to receive" + n(WSAGetLastError());
 						break;
 					}
 					else if (e)
@@ -186,5 +191,20 @@ void CMFTesterDlg::test_serverlist_server(int gid)
 		}
 		closesocket(s);
 	}
+	m_edit += "\r\n";
+}
+
+void CMFTesterDlg::test_mf()
+{
+	m_edit += "MF: ";
+	HWND hWnd = ::FindWindow("Afx:400000:8:10013:0:c012f", NULL);
+	if (hWnd)
+	{
+		const int cb_b = 256;
+		char b[cb_b + 1];
+		m_edit += ::GetWindowText(hWnd, b, cb_b) ? b : "0";
+	}
+	else
+		m_edit += "null";
 	m_edit += "\r\n";
 }

@@ -28,7 +28,7 @@ HeaderFile=MF TesterDlg.h
 ImplementationFile=MF TesterDlg.cpp
 Filter=D
 LastObject=CMFTesterDlg
-BaseClass=CDialog
+BaseClass=ETSLayoutDialog
 VirtualFilter=dWC
 
 
