@@ -22,6 +22,7 @@ public:
 	void DeleteAllColumns();
 	DWORD GetItemData(int nItem) const;
 	int InsertItemData(int nItem, DWORD dwData);
+	int InsertItemData(DWORD dwData);
 	void auto_size();
 protected:
 	//{{AFX_MSG(CListCtrlEx)

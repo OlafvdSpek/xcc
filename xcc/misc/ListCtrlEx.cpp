@@ -40,6 +40,11 @@ int CListCtrlEx::InsertItemData(int nItem, DWORD dwData)
 	return index;
 }
 
+int CListCtrlEx::InsertItemData(DWORD dwData)
+{
+	return InsertItemData(GetItemCount(), dwData);
+}
+
 void CListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT)
