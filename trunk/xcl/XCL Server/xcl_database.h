@@ -21,6 +21,7 @@ public:
 	void create_tables();
 	Cxcl_player player(int pid);
 	void insert_game(const Cgame_result& gr);
+	void insert_game(const Cvirtual_binary&);
 	int pid(const string& name);
 	int update_player(int pid, int cmp, const Cxcl_player& a, const Cxcl_player& b);
 };
