@@ -74,12 +74,24 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	int gid;
 	int lid = gsku2lid(gr.get_int("gsku"));
 	int trny = gr.get_int("trny");
-	if (gr.get_int("dura") < 90
-		|| gr.get_int("afps") < 10 && lid != 5 && lid != 6
-		|| !lid
-		|| gr.plrs() < 2 || gr.plrs() > (trny == 1 ? 2 : 8)
-		|| trny < 1 || trny > 2)
+	switch (lid)
+	{
+	case 0:
 		return;
+	case 5:
+	case 6:
+		if (gr.get_int("dura") < 90
+			|| gr.plrs() < 2 || gr.plrs() > (trny == 2 ? 8 : 2)
+			|| trny < 0 || trny > 2)
+			return;
+		break;
+	default:
+		if (gr.get_int("dura") < 90
+			|| gr.get_int("afps") < 10
+			|| gr.plrs() < 2 || gr.plrs() > (trny == 1 ? 2 : 8)
+			|| trny < 1 || trny > 2)
+			return;
+	}
 	if (trny == 2)
 		lid++;
 	query("lock tables bl read, xcl_clans write, xcl_games write, xcl_games_players as a read, xcl_games_players as b read, xcl_games_players write, xcl_players write, xcl_sid_input write");
