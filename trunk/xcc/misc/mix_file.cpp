@@ -393,6 +393,7 @@ int Cmix_file::get_id(t_game game, string name)
 	{
 	case game_ts:
 	case game_ra2:
+	case game_ra2_yr:
 		{
 			const int l = name.length();
 			int a = l >> 2;
