@@ -2275,6 +2275,8 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 		case ft_mix_rg:
 		case ft_pak:
 		case ft_shp_ts:
+		case ft_vqa:
+		case ft_wsa:
 			pCmdUI->Enable(true);
 			return;
 		}
