@@ -109,6 +109,24 @@ string xcc_dirs::get_csf_fname(t_game game)
 	return "";
 }
 
+static string get_suffix(t_game game)
+{
+	return game == game_ra2_yr ? "md" : "";
+}
+
+string xcc_dirs::get_ecache_mix(t_game game, bool dir, int i)
+{
+	string r = "ecache" + get_suffix(game) + nwzl(2, i) + ".mix";
+	if (dir)
+		r = get_dir(game) + r;
+	return r;
+}
+
+string xcc_dirs::get_expand_mix(t_game game, int i)
+{
+	return get_dir(game) + "expand" + get_suffix(game) + nwzl(2, i) + ".mix";
+}
+
 string xcc_dirs::get_language_mix(t_game game)
 {
 	switch (game)
