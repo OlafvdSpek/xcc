@@ -59,13 +59,13 @@ Chtml web_link(const string& link_title, const string& link)
 	return a(web_encode(link_title.empty() ? link : link_title), "target=_top href=\"" + web_encode(link) + "\"");
 }
 
-Chtml web_magic_anchors(const string& v)
+Chtml web_magic_anchors(const string& v, bool keep_protocol, const string& protocol)
 {
 	string r;
 	int l = 0;
 	while (l < v.length())
 	{
-		int p = v.find("http://", l);
+		int p = v.find(protocol, l);
 		if (p == string::npos)
 		{
 			r += v.substr(l);
@@ -76,15 +76,22 @@ Chtml web_magic_anchors(const string& v)
 		while (q < v.length())
 		{
 			char c = v[q];
-			if (c == '\n' || c == ' ' || c == '<')
+			if (c == '\n' || c == ' ' || c == '<' || c == '&')
 				break;
 			q++;
 		}
 		if (v[q - 1] == ',' || v[q - 1] == '.')
 			q--;
+		if (v[q - 1] == ')')
+			q--;
 		string href = v.substr(p, q - p);
-		r += web_link(href, href);
+		r += web_link(keep_protocol ? href : href.substr(protocol.length()), href);
 		l = q;
 	}
 	return r;
+}
+
+Chtml web_magic_anchors(const string& v)
+{
+	return web_magic_anchors(web_magic_anchors(web_magic_anchors(v, true, "ftp://"), true, "http://"), false, "mailto:");
 }
