@@ -322,7 +322,7 @@ public:
 	Cvirtual_binary save_bin() const;
 	Cvirtual_binary save_ini() const;
 	Cxcc_level();
-	virtual ~Cxcc_level();
+	~Cxcc_level();
 // private:
 	t_bin_data bin_data;
 	t_basic_data basic_data;

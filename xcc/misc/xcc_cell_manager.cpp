@@ -64,7 +64,7 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 		for (t_terrain_data::const_iterator i = level.terrain_data.begin(); i != level.terrain_data.end(); i++)
 		{
 			Cxcc_cell cell;
-			cell.set_cc(i->first);
+			cell.set_xcc(i->first);
 			add(cell, oi_terrain << 24 | (cell.get_y() & 0xff00) | (cell.get_x() >> 8));
 		}
 	}

@@ -1404,7 +1404,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 						{
 							Cxcc_cell obj_cell;
 							obj_cell.set_xcc(index);
-							const dword v = level().terrain_data[obj_cell.get_cc()];
+							const dword v = level().terrain_data[obj_cell.get_xcc()];
 							int cx, cy, t;
 							Cxcc_overlays::get_terrain_image(v, t, t, cx, cy);
 							bool done = false;
