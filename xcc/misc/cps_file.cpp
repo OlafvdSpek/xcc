@@ -8,17 +8,11 @@ void Ccps_file::decode(void* d) const
 	decode80(get_image(), reinterpret_cast<byte*>(d));
 }
 
-Cvirtual_file Ccps_file::extract_as_pcx(t_file_type ft, const t_palet _palet) const
+Cvirtual_image Ccps_file::vimage() const
 {
-	t_palet palet;
-	if (has_palet())
-		memcpy(palet, get_palet(), sizeof(t_palet));
-	else
-		memcpy(palet, _palet, sizeof(t_palet));
-	convert_palet_18_to_24(palet);
 	Cvirtual_binary image;
-	decode80(get_image(), image.write_start(320 * 200));
-	return image_file_write(ft, image, palet, 320, 200);
+	decode(image.write_start(cx() * cy()));
+	return Cvirtual_image(image, cx(), cy(), cb_pixel(), palet(), true);
 }
 
 Cvirtual_binary cps_file_write(const byte* s, const t_palet_entry* palet)
