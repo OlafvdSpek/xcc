@@ -5,6 +5,16 @@
 #include "multi_line.h"
 #include "virtual_tfile.h"
 
+bool Chva_file::is_valid() const
+{
+	const t_hva_header& header = *get_header();
+	int size = get_size();
+	return !(sizeof(t_hva_header) > size
+		|| !header.c_frames 
+		|| !header.c_sections
+		|| sizeof(t_hva_header) + (48 * header.c_frames + 16) * header.c_sections != size);
+}
+
 int Chva_file::extract_as_csv(const string& name) const
 {
 	ofstream f(name.c_str());

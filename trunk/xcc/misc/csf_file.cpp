@@ -4,6 +4,7 @@
 
 #include "stdafx.h"
 #include "csf_file.h"
+
 #include "string_conversion.h"
 
 int read_int(const byte*& r)

@@ -19,19 +19,8 @@ class Cpcx_file: public Cimage_file<t_pcx_header>
 {
 public:
 	void decode(void*) const;
+	bool is_valid() const;
 	Cvirtual_image vimage() const;
-
-	bool is_valid() const
-	{
-		const t_pcx_header& header = *get_header();
-		int size = get_size();
-		return !(sizeof(t_pcx_header) > size ||
-			header.manufacturer != 10 ||
-			header.version != 5 ||
-			header.encoding != 1 ||
-			header.cbits_pixel != 8 ||
-			header.c_planes != 1 && header.c_planes != 3);
-	}
 
 	int cb_pixel() const
 	{

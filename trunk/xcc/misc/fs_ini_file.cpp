@@ -5,23 +5,8 @@
 #include "stdafx.h"
 #include "fs_ini_file.h"
 
-/*
-bool SortDummy::operator()(const string& x, const string& y) const{
-	// the length is more important than spelling (numbers!!!)...
-	if(x.length() < y.length()) 
-		return true;
-	if(x.length() == y.length())
-	{		
-		if(x < y) 
-			return true;
-	}
-	return false;
-	
-}
-*/
-
 typedef map<string,	CIniFileSection>::iterator CIniI;
-typedef map<string, string/*, SortDummy*/>::iterator SI;
+typedef map<string, string>::iterator SI;
 
 
 //////////////////////////////////////////////////////////////////////
@@ -40,10 +25,7 @@ int CIniFile::LoadFile(const char* filename)
 {
 	Clear();
 
-	// strcpy(m_filename, filename);
-
 	return(InsertFile(filename, NULL));
-	
 }
 
 
@@ -53,11 +35,13 @@ void CIniFile::Clear()
 	sections.clear();	
 }
 
-CIniFileSection::CIniFileSection(){
+CIniFileSection::CIniFileSection()
+{
 	values.clear();
 };
 
-CIniFileSection::~CIniFileSection(){
+CIniFileSection::~CIniFileSection()
+{
 	values.clear();
 };
 
@@ -117,8 +101,6 @@ int CIniFile::InsertFile(const char *filename, const char *Section)
 		}
 	
 	}
-
-	
 
 	file.close();
 

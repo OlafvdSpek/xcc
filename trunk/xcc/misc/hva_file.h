@@ -16,16 +16,7 @@ class Chva_file: public Ccc_file_sh<t_hva_header>
 {
 public:
 	int extract_as_csv(const string& name) const;
-
-	bool is_valid() const
-	{
-		const t_hva_header& header = *get_header();
-		int size = get_size();
-		return !(sizeof(t_hva_header) > size
-			|| !header.c_frames 
-			|| !header.c_sections
-			|| sizeof(t_hva_header) + (48 * header.c_frames + 16) * header.c_sections != size);
-	}
+	bool is_valid() const;
 
 	int get_c_frames() const
 	{
