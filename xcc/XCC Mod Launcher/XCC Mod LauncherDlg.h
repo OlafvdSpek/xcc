@@ -20,6 +20,7 @@ public:
 	static HBITMAP create_bitmap(Cvirtual_image& image);
 	void load_button_image(string fname, CButton& button);
 	int download_update(string link, string fname);
+	void set_mod(Cvirtual_binary v);
 	void set_mod_fname(string mod_fname);
 	CXCCModLauncherDlg(CWnd* pParent = NULL);	// standard constructor
 
@@ -64,6 +65,7 @@ private:
 	string m_mod_fname;
 	Cxif_key m_key;
 	Cxcc_mod m_mod;
+	Cvirtual_binary m_source;
 	string m_uninstall_exe;
 };
 

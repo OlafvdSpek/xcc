@@ -56,6 +56,34 @@ BOOL CXCCModLauncherApp::InitInstance()
 	if (fname.empty())
 	{
 		Cfname exe_fname = GetModuleFileName();
+		Cfile32 f;
+		int error = f.open_read(exe_fname);
+		if (!error)
+		{
+			int size = f.get_size();
+			if (size >= 4)
+			{
+				f.seek(size - 4);
+				int cb_mod;
+				error = f.read(&cb_mod, 4);
+				if (!error && cb_mod >= 4 && size >= 4 + cb_mod)
+				{
+					f.seek(size - 4 - cb_mod);
+					Cvirtual_binary mod;
+					error = f.read(mod.write_start(cb_mod), cb_mod);
+					if (!memcmp(mod.data(), "XIF\x1a", 4))
+					{
+						CXCCModLauncherDlg dlg;
+						dlg.set_mod(mod);
+						dlg.set_mod_fname(exe_fname);
+						m_pMainWnd = &dlg;
+						dlg.DoModal();
+						return false;
+					}
+				}
+			}
+			f.close();
+		}
 		exe_fname.set_ext(".xmlf");
 		if (exe_fname.exists())
 			fname = exe_fname;

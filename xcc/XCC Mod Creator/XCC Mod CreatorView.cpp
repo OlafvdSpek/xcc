@@ -11,6 +11,7 @@
 
 #include "fname.h"
 #include "string_conversion.h"
+#include "xcc_apps.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -420,12 +421,24 @@ void CXCCModCreatorView::sort_list(int i, bool reverse)
 
 void CXCCModCreatorView::export() 
 {
-	const char* xmlf_filter = "XMLF files (*.xmlf)|*.xmlf|";
-	CFileDialog file_dlg(false, "xmlf", NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, xmlf_filter, NULL);
-	if (IDOK == file_dlg.DoModal())
+	Cvirtual_binary exe;
+	Cxcc_apps apps;
+	apps.init();
+	string export_filter;
+	string export_ext = ".xmlf";
+	Cfname fname = static_cast<string>(GetDocument()->GetPathName());
+	if (apps.is_available(app_xml) && !exe.import(apps.get_exe(app_xml)))
+	{
+		export_filter += "EXE files (*.exe)|*.exe|";
+		export_ext = ".exe";
+	}
+	export_filter += "XMLF files (*.xmlf)|*.xmlf|";
+	fname.set_ext(""/*export_ext*/);
+	CFileDialog dlg(false, export_ext.substr(1).c_str(), static_cast<string>(fname).c_str(), OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, export_filter.c_str(), NULL);
+	if (IDOK == dlg.DoModal())
 	{
 		CWaitCursor wait;
-		GetDocument()->export(static_cast<string>(file_dlg.GetPathName()));
+		GetDocument()->export(static_cast<string>(dlg.GetPathName()), exe.data() && dlg.m_ofn.nFilterIndex == 1 ? exe : Cvirtual_binary());
 	}
 }
 
