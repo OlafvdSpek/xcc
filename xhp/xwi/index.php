@@ -53,7 +53,7 @@
 			return false;
 		for ($i = 0; $i < strlen($v); $i++)
 		{
-			if (stristr('-@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
+			if (stristr('-0123456789@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
 				return false;
 		}
 		return true;
@@ -65,7 +65,7 @@
 			return false;
 		for ($i = 0; $i < strlen($v); $i++)
 		{
-			if (stristr(' -@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
+			if (stristr(' -0123456789@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
 				return false;
 		}
 		return true;
