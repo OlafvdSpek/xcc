@@ -9,12 +9,12 @@
 //
 
 #include <map>
+#include "ListCtrlEx.h"
 #include "audio_idx_file.h"
 #include "cc_structures.h"
 #include "csf_file.h"
 #include "file32.h"
 #include "resource.h"
-#include "XSE_list.h"
 #include "xap.h"
 
 /////////////////////////////////////////////////////////////////////////////
@@ -41,7 +41,7 @@ public:
 	//{{AFX_DATA(CXSE_dlg)
 	enum { IDD = IDD_XSE };
 	CButton	m_compact;
-	CXSE_list	m_list;
+	CListCtrlEx	m_list;
 	CButton	m_play;
 	CButton	m_extract;
 	CButton	m_delete;
@@ -72,6 +72,8 @@ protected:
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnDestroy();
 	afx_msg void OnPlay();
+	afx_msg void OnDropFiles(HDROP hDropInfo);
+	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

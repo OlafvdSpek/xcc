@@ -66,17 +66,18 @@ BEGIN_MESSAGE_MAP(CXSE_dlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_EXTRACT_TO_BUTTON, OnExtractToButton)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
 	ON_WM_DESTROY()
-	ON_WM_DROPFILES()
 	ON_BN_CLICKED(IDC_PLAY, OnPlay)
+	ON_WM_DROPFILES()
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CXSE_dlg message handlers
 
-static int c_colums = 9;
-static char* column_label[] = {"Name", "Value", "Extra value", "Length", "Offset", "Size", "Samplerate", "Flags", "Chunk size"};
-static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT};
+static int c_colums = 10;
+static char* column_label[] = {"Name", "Value", "Extra value", "Length", "Offset", "Size", "Samplerate", "Flags", "Chunk size", ""};
+static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT};
 
 BOOL CXSE_dlg::OnInitDialog()
 {
@@ -98,16 +99,8 @@ BOOL CXSE_dlg::OnInitDialog()
 			);
 	ETSLayoutDialog::OnInitDialog();
 	SetRedraw(false);
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	LV_COLUMN lvc;
-	lvc.mask = LVCF_FMT | LVCF_TEXT | LVCF_SUBITEM;
 	for (int i = 0; i < c_colums; i++)
-	{
-		lvc.iSubItem = i;
-		lvc.pszText = column_label[i];
-		lvc.fmt = column_alignment[i];
-		m_list.InsertColumn(i, &lvc);
-	}
+		m_list.InsertColumn(i, column_label[i], column_alignment[i]);
 
 	string audio_mix_fname = xcc_dirs::get_audio_mix(m_game);
 	string csf_fname = xcc_dirs::get_csf_fname(m_game);
@@ -596,22 +589,12 @@ void CXSE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
 static int compare_int(unsigned int a, unsigned int b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 static int compare_string(string a, string b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CXSE_dlg::compare(int id_a, int id_b) const
@@ -638,9 +621,8 @@ int CXSE_dlg::compare(int id_a, int id_b) const
 		return compare_int(a.flags, b.flags);
 	case 8:
 		return compare_int(a.chunk_size, b.chunk_size);
-	default:
-		return 0;
 	}
+	return 0;
 }
 
 static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
@@ -653,4 +635,21 @@ void CXSE_dlg::sort_list(int i, bool reverse)
 	m_sort_column = i;
 	m_sort_reverse = reverse;
 	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
+}
+
+void CXSE_dlg::OnDropFiles(HDROP hDropInfo) 
+{
+	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
+	char fname[MAX_PATH];
+	for (int i = 0; i < c_files; i++)
+	{
+		DragQueryFile(hDropInfo, i, fname, MAX_PATH);
+		add_file(fname);
+	}
+	DragFinish(hDropInfo);
+}
+
+void CXSE_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	OnPlay();
 }
