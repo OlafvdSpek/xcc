@@ -740,12 +740,12 @@ static string get_lid(t_game game)
 
 static string a_gamelist(t_game game, string nickname)
 {
-	return a(web_encode(nickname), "href=\"http://xcc.tiberian.com/xla/gamelist.php?lid=" + get_lid(game) + "&pid=" + uri_encode(nickname) + "\"");
+	return a(web_encode(nickname), "href=\"http://xccu.sourceforge.net/xla/gamelist.php?lid=" + get_lid(game) + "&pid=" + uri_encode(nickname) + "\"");
 }
 
 static string a_gamelog(t_game game, int game_id)
 {
-	return game_id ? a(web_encode(n(game_id)), "href=\"http://xcc.tiberian.com/xla/gamelog.php?lid=" + get_lid(game) + "&gid=" + n(game_id) + "\"") : "Unknown";
+	return game_id ? a(web_encode(n(game_id)), "href=\"http://xccu.sourceforge.net/xla/gamelog.php?lid=" + get_lid(game) + "&gid=" + n(game_id) + "\"") : "Unknown";
 }
 
 void create_tables(Cdatabase& database)
@@ -775,7 +775,7 @@ int xcrf_decode(Cvirtual_binary s, string fname)
 			page += tr(td("Sync") + td(web_encode(key.get_value_string(vi_sync)), "colspan=2"));
 		page += tr(td("Description") + td(web_encode(key.get_value_string(vi_description)), "colspan=2"));
 		page += tr(td("Cheats") + td(report_cheats(key), "colspan=2"));
-		ofstream((fname + "index.html").c_str()) << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1") + report_screenshots(key.open_key_read(ki_screenshots), fname)));
+		ofstream((fname + "index.html").c_str()) << "<link rel=stylesheet href=\"http://xccu.sourceforge.net\">" + table(page, "border=1") + report_screenshots(key.open_key_read(ki_screenshots), fname);
 #ifndef NDEBUG
 		static ofstream index_f("c:/temp/index.html"); // xhp/xcrf/index.txt");
 		string name = Cfname(fname).get_path();

@@ -20,9 +20,9 @@ struct t_idinfo
 	string description;
 };
 
-typedef map<dword, t_idinfo, less<dword> > t_idlist;
+typedef map<dword, t_idinfo> t_idlist;
 
-void handle_error(const string &s)
+void handle_error(const string& s)
 {
 	cerr << s << endl;
 	exit(1);
@@ -52,13 +52,14 @@ string gh(long l, dword v)
 {
 	return nh(l, v);
 }
-void tolower(string &s)
+
+void tolower(string& s)
 {
 	for (long i = 0; i < s.length(); i++)
 		s[i] = tolower(s[i]);
 }
 
-void parse_line_mm(string &line, t_idinfo &idinfo)
+void parse_line_mm(string& line, t_idinfo& idinfo)
 {
 	tolower(line);
 	Cmulti_line mline = line;
@@ -67,7 +68,7 @@ void parse_line_mm(string &line, t_idinfo &idinfo)
 	idinfo.description = mline.get_next_line(',');
 }
 
-void parse_line_rm(string &line, t_idinfo &idinfo)
+void parse_line_rm(string& line, t_idinfo& idinfo)
 {
 	tolower(line);
 	Cmulti_line mline = line;
@@ -77,7 +78,7 @@ void parse_line_rm(string &line, t_idinfo &idinfo)
 	idinfo.description = mline.get_next_line(',');
 }
 
-void parse_line_normal(string &line, t_idinfo &idinfo)
+void parse_line_normal(string& line, t_idinfo& idinfo)
 {
 	tolower(line);
 	Cmulti_line mline = line;
@@ -85,11 +86,11 @@ void parse_line_normal(string &line, t_idinfo &idinfo)
 	idinfo.description = mline.get_next_line('\t');
 }
 
-void add_file(t_game game, const string &fname, t_idlist& id_list)
+void add_file(t_game game, const string& fname, t_idlist& id_list)
 {
 	cout << "Adding " + fname << endl;
-	Cfile32 inf;
-	if (inf.open(fname, GENERIC_READ))
+	ifstream inf(fname.c_str());
+	if (!inf)
 	{
 		cerr << "Error opening file" << endl;
 		return;
@@ -97,10 +98,9 @@ void add_file(t_game game, const string &fname, t_idlist& id_list)
 	long lineindex = 0;
 	string line;
 	t_idinfo idinfo;
-	while (!inf.eof())
+	while (getline(inf, line))
 	{
 		lineindex++;
-		inf.read_line(line);
 		if (!is_valid_line(line.c_str(), '\t', 1))
 		{
 			cerr << "Error in line " + g(lineindex) << endl;
@@ -110,14 +110,13 @@ void add_file(t_game game, const string &fname, t_idlist& id_list)
 		if (idinfo.name != "")
 			id_list[Cmix_file::get_id(game, idinfo.name)] = idinfo;
 	}
-	inf.close();
 }
 
 void add_rm(const string& fname, t_idlist& id_list)
 {
 	cout << "Adding " + fname << endl;
-	Cfile32 inf;
-	if (inf.open(fname, GENERIC_READ))
+	ifstream inf(fname.c_str());
+	if (!inf)
 	{
 		cerr << "Error opening file " << fname << endl;
 		return;
@@ -125,10 +124,9 @@ void add_rm(const string& fname, t_idlist& id_list)
 	long lineindex = 0;
 	string line;
 	t_idinfo idinfo;
-	while (!inf.eof())
+	while (getline(inf, line))
 	{
 		lineindex++;
-		inf.read_line(line);
 		if (!is_valid_line(line.c_str(), ',', 3))
 		{
 			cerr << "Error in line " + g(lineindex) << endl;
@@ -138,7 +136,6 @@ void add_rm(const string& fname, t_idlist& id_list)
 		if (idinfo.name != "")
 			id_list[Cmix_file::get_id(game_ra, idinfo.name)] = idinfo;
 	}
-	inf.close();
 }
 
 int get_id(const string& s)
@@ -168,7 +165,7 @@ void write_list(t_idlist& id_list, Cfile32& f1, ofstream& f2, t_game game)
 	}
 }
 
-void write_database(const string &ifname, t_idlist& td_list, t_idlist& ra_list, t_idlist& ts_list, t_idlist& ra2_list)
+void write_database(const string& ifname, t_idlist& td_list, t_idlist& ra_list, t_idlist& ts_list, t_idlist& ra2_list)
 {
 	Cfile32 f1;
 	Cfname fname = ifname;
