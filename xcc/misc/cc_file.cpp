@@ -37,6 +37,7 @@
 #include "st_file.h"
 #include "string_conversion.h"
 #include "text_file.h"
+#include "tga_file.h"
 #include "theme_ts_ini_reader.h"
 #include "tmp_file.h"
 #include "tmp_ra_file.h"
@@ -62,7 +63,7 @@
 const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dds", "dir", "drive", "fnt", "html", "hva", 
 	"ini", "jpeg", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
 	"mix", "mix (rg)", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "pkt (ts)", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
-	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
+	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "tga", "theme ini (ts)", "theme ini (ra2)", 
 	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "w3d", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 
 Ccc_file::Ccc_file(bool read_on_open):
@@ -222,6 +223,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cshp_ts_file shp_ts_f;
 	Cst_file st_f;
 	Ctext_file text_f;
+	Ctga_file tga_f;
 	Ctmp_file tmp_f;
 	Ctmp_ra_file tmp_ra_f;
 	Ctmp_ts_file tmp_ts_f;
@@ -365,6 +367,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 				ft = ft_text;
 		}
 	}
+	else if (tga_f.load(data, m_size), tga_f.is_valid())
+		ft = ft_tga;
 	else if (tmp_f.load(data, m_size), tmp_f.is_valid())
 		ft = ft_tmp;
 	else if (tmp_ra_f.load(data, m_size), tmp_ra_f.is_valid())
