@@ -1,5 +1,8 @@
+<?php
+	ob_start('ob_gzhandler');
+?>
 <link rel=stylesheet href="/xcc.css">
-<a href="?">Home</a> | <a href="logins.php">Logins</a> | <a href="?a=bad_passes">Bad passes</a> | <a href="?a=invalid_serials">Invalid serials</a> | <a href="?a=update_bl">Update BL</a> | <a href="?a=xbl">Show BL</a> | <a href="?a=motds">Show MOTDs</a>
+<a href="?">Home</a> | <a href="logins.php">Logins</a> | <a href="?a=bad_passes">Bad passes</a> | <a href="?a=invalid_serials">Invalid serials</a> | <a href="?a=update_bl">Update BL</a> | <a href="?a=xbl">Show BL</a> | <a href="?a=motds">Show MOTDs</a> | <a href="?a=xwsvs">XWSVS</a>
 <hr>
 <table><form><tr><td><input type=text name=pname> <input type=submit value="Search"></tr></form></table>
 <?php
@@ -16,19 +19,19 @@
 	{
 		while ($result = mysql_fetch_array($results))
 		{
-			printf("<tr><td><a href=\"?pid=%d\">%s</a><td>%s<td>%s<td><a href=\"logins.php?pid=%d\">L</a><td><a href=\"/xcl/?pname=%s\">P</a><td><a href=\"/xcl/?pname=%s\">C</a><td align=right><a href=\"?sid=%d\">%d</a><td>", $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
-			printf("<a href=\"?a=bl_insert&pid=%d\">-&gt;BL</a>", $result[pid]);
-			printf("<td><a href=\"?a=rb_insert&pid=%d\">-&gt;RB</a>", $result[pid]);
-			printf("<td>%s<td>%s", gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
-			printf("<td><a href=\"?a=motd&pid=%d\">%s</a>", $result[pid], $result[motd] ? nl2br(htmlspecialchars($result[motd])) : "motd");
+			printf('<tr><td><a href="?pid=%d">%s</a><td>%s<td>%s<td><a href="logins.php?pid=%d">L</a><td><a href="/xcl/?pname=%s">P</a><td><a href="/xcl/?pname=%s">C</a><td align=right><a href="?sid=%d">%d</a><td>', $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
+			printf('<a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
+			printf('<td><a href="?a=rb_insert&pid=%d">-&gt;RB</a>', $result[pid]);
+			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
+			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result[pid], $result[motd] ? nl2br(htmlspecialchars(substr($result[motd], 0, 80))) : "motd");
 		}
 	}
 
 	function echo_warning($result)
 	{
-		printf("<tr><td align=right>%d<td><a href=\"?pname=%s\">%s</a><td>", $result[wid], $result[name], $result[name]);
+		printf('<tr><td align=right>%d<td><a href="?pname=%s">%s</a><td>', $result[wid], $result[name], $result[name]);
 		if ($result[link])
-			printf("<a href=\"%s\">link</a>", htmlspecialchars($result[link]));
+			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
 		printf("<td>%s<td>%s<td>%s", htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
 	}
 
@@ -88,10 +91,10 @@
 		$dura = $_GET[dura] ? $_GET[dura] : 4;
 		if ($_GET[a] == "bl_insert_submit" && $name && $reason)
 		{
-			db_query(sprintf("insert into xbl (admin, sid, name, link, reason) values (\"%s\", %d, \"%s\", \"%s\", \"%s\")", AddSlashes($_SERVER[REMOTE_USER]), $sid, $name, AddSlashes($link), AddSlashes($reason)));
+			db_query(sprintf("insert into xbl (admin, sid, name, link, reason) values ('%s', %d, '%s', '%s', '%s')", AddSlashes($_SERVER[REMOTE_USER]), $sid, $name, AddSlashes($link), AddSlashes($reason)));
 			// db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid = %d", $dura, $sid));
 
-			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = \"%s\"", addslashes($name)));
+			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
 			$sids = array();
 			$sids[] = $sid;
 			while ($result = mysql_fetch_array($results))
@@ -153,6 +156,14 @@
 		echo_warnings($results);
 		echo("</table>");
 	}
+	else if ($_GET[a] == "xwsvs")
+	{
+		$results = db_query("select * from xwsvs_log order by time desc");
+		echo("<table>");
+		while ($result = mysql_fetch_array($results))
+			printf('<tr><td align=right>%d<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
+		echo("</table>");
+	}
 	else
 	{
 		if ($_GET[a] == "update_bl")
@@ -169,11 +180,11 @@
 		if ($_GET[a] == "motds")
 			$where = " where motd != ''";
 		else if ($cname)
-			$where = sprintf(" where c.name like \"%s\"", AddSlashes($cname));
+			$where = sprintf(" where c.name like '%s'", AddSlashes($cname));
 		else if ($pid)
 			$where = sprintf(" where pid = %d", $pid);
 		else if ($pname)
-			$where = sprintf(" where p.name like \"%s\"", AddSlashes($pname));
+			$where = sprintf(" where p.name like '%s'", AddSlashes($pname));
 		else if ($sid)
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
