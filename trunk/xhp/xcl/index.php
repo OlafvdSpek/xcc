@@ -42,16 +42,18 @@
 		return $names[$v];
 	}
 
+	$cid = $_GET[cid];
 	$lid = a2lid($_GET[lid]);
+	$pid = $_GET[pid];
 	$pname = $_GET[pname];
 	if (isset($_GET[js]))
 	{
-		$pnames = explode(",", pname);
+		$pnames = explode(",", $pname);
 		foreach ($pnames as $key => $pname)
 			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
 		$results = db_query(sprintf("select * from xcl_players where name in (%s)", implode(",", $pnames)));
 		while ($result = mysql_fetch_array($results))
-			printf("document.write(\"<a href=\\\"http://xccu.sourceforge.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
+			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[rank], $result[win_count], $result[loss_count], $result[points]);
 		return;
 	}
 	else if (isset($_GET[pure]))
@@ -62,9 +64,11 @@
 			while ($result = mysql_fetch_array($results))
 				printf("%s %d %d %d %d %d\n", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
 		}
-		else if ($lid)
+		else if ($lid || $pid)
 		{
-			if ($pname)
+			if ($pid)
+				$results = db_query(sprintf("select * from xcl_players where pid = %d", $pid));
+			else if ($pname)
 				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET[pname])));
 			else
 				$results = db_query(sprintf("select * from xcl_players where lid = %d and points", $lid));
@@ -78,79 +82,23 @@
 	<link rel=stylesheet href="/xcl.css">
 	<meta http-equiv=content-type content="text/html; charset=us-ascii">
 	<title>XCC Community Ladder<?php if (gmdate("d") == 1) echo (" (frozen)") ?></title>
-<!--
 <table width="100%">
 	<tr>
 		<td valign=bottom>
 			<p class=page_title>
 				XCC Community Ladder
 		<td align=right valign=bottom>
-			<a href="/xla/xla_black_list.php" title="Black List">BL</a> |
-			<a href="docs/" title="Documents">Docs</a> |
-			<a target=_top href="http://ea.com/" title="Electronic Arts">EA</a> |
-			<a href="/cgi-bin/forum.cgi">Forum</a> |
-			<a href="/utilities/MF.zip" title="Matching Filter">MF</a> |
-			<a href="/xla/xla_white_list.php" title="White List">WL</a> |
-			<a target=_top href="http://westwood.ea.com/" title="Westwood Studios">WS</a> |
-			<a href="/utilities/XGS.zip" title="XCC Game Spy">XGS</a><br>
+			<a href="/xwi/">Clans</a> |
+			<a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> |
+			<a href="http://xwis.net:4005/">Online</a> |
+			<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13">Rules</a> |
+			<a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> |
+			<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>
 			<a href="?hof=" title="Hall of Fame">HoF</a> |
 			<a href="?hos=" title="Hall of Shame">HoS</a> |
-			<a href="?">Home</a> | <a href="?stats=">Stats</a> |
-			<a href="?lid=<?php echo $lid ?>&amp;update_ranks=">Update</a>
+			<a href="?">Home</a> |
+			<a href="?stats=">Stats</a>
 </table>
-<hr>-->
-<center>
-	<TABLE WIDTH=728 BORDER=0 CELLPADDING=0 CELLSPACING=0>
-		<TR>
-			<TD COLSPAN=9>
-				<IMG SRC="images/greyslices_01.gif" WIDTH=728 HEIGHT=51 ALT=""></TD>
-		</TR>
-		<TR>
-			<TD>    <A title="Westwood Studios" href="http://westwood.ea.com/" target=_top>
-				<IMG SRC="images/greyslices_02.gif" WIDTH=140 HEIGHT=34 ALT=""></A></TD>
-			<TD>    <A title="Electronic Arts" href="http://ea.com/" target=_top>
-				<IMG SRC="images/greyslices_03.gif" WIDTH=88 HEIGHT=34 ALT=""></a></TD>
-			<TD>    <A title="Black List" href="/xla/xla_black_list.php">
-				<IMG SRC="images/greyslices_04.gif" WIDTH=83 HEIGHT=34 ALT=""></a></TD>
-			<TD>    <A href="?">
-				<IMG SRC="images/greyslices_05.gif" WIDTH=103 HEIGHT=34 ALT=""></a></TD>
-			<TD>    <A title="White List" href="/xla/xla_white_list.php">
-				<IMG SRC="images/greyslices_06.gif" WIDTH=84 HEIGHT=34 ALT=""></A></TD>
-			<TD>    <A title="Matching Filter" href="/utilities/MF.zip">
-				<IMG SRC="images/greyslices_07.gif" WIDTH=82 HEIGHT=34 ALT=""></A></TD>
-			<TD>    <A title="XCC Game Spy" href="/utilities/XGS.zip">
-				<IMG SRC="images/greyslices_08.gif" WIDTH=91 HEIGHT=34 ALT=""></A></TD>
-			<TD>
-				<IMG SRC="images/greyslices_09.gif" WIDTH=56 HEIGHT=34 ALT=""></TD>
-			<TD>
-				<IMG SRC="images/greyslices_10.gif" WIDTH=1 HEIGHT=34 ALT=""></TD>
-		</TR>
-		<TR>
-			<TD>
-				<IMG SRC="images/greyslices_11.gif" WIDTH=140 HEIGHT=39 ALT=""></TD>
-			<TD>    <A title=Documents href="docs/">
-				<IMG SRC="images/greyslices_12.gif" WIDTH=88 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A title="Hall of Fame" href="?hof=">
-				<IMG SRC="images/greyslices_13.gif" WIDTH=83 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A href="/cgi-bin/forum.cgi">
-				<IMG SRC="images/greyslices_14.gif" WIDTH=103 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A title="Hall of Shame" href="?hos=">
-				<IMG SRC="images/greyslices_15.gif" WIDTH=84 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A href="?stats=">
-				<IMG SRC="images/greyslices_16.gif" WIDTH=82 HEIGHT=39 ALT=""></a></TD>
-			<TD COLSPAN=3>
-				<IMG SRC="images/greyslices_17.gif" WIDTH=148 HEIGHT=39 ALT=""></TD>
-		</TR>
-		<TR>
-			<TD COLSPAN=3>
-				<IMG SRC="images/greyslices_18.gif" WIDTH=311 HEIGHT=39 ALT=""></TD>
-			<TD>    <A href="?lid=<?php echo $lid ?>&amp;update_ranks=">
-				<IMG SRC="images/greyslices_19.gif" WIDTH=103 HEIGHT=39 ALT=""></a></TD>
-			<TD COLSPAN=5>
-				<IMG SRC="images/greyslices_20.gif" WIDTH=314 HEIGHT=39 ALT=""></TD>
-		</TR>
-	</TABLE>
-</center>
 <hr>
 <?php
 	function cmp2a($v)
@@ -219,16 +167,16 @@
 		default:
 			$country_flag_urls = array
 			(
-				"http://www.liacs.nl/~ovdspek/xcl/images/usai.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/japi.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/frai.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/geri.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/gbri.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/djbi.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/arbi.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/lati.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/rusi.png",
-				"http://www.liacs.nl/~ovdspek/xcl/images/yrii.png",
+				"images/usai.png",
+				"images/japi.png",
+				"images/frai.png",
+				"images/geri.png",
+				"images/gbri.png",
+				"images/djbi.png",
+				"images/arbi.png",
+				"images/lati.png",
+				"images/rusi.png",
+				"images/yrii.png",
 			);
 		}
 		return $country_flag_urls[$i & 0xff];
@@ -287,7 +235,7 @@
 	function echo_hof($lid, $title)
 	{
 		printf("<table><tr><th colspan=2>%s<tr><th>Rank<th>Name", $title);
-		$results = db_query($lid & 1
+		$results = db_query(0 // $lid & 1
 			? sprintf("select xcl_players.* from xcl_players inner join wl using (name) where lid = %d order by points desc limit 10", $lid)
 			: sprintf("select * from xcl_players where lid = %d order by points desc limit 10", $lid));
 		$rank = 1;
@@ -327,7 +275,7 @@
 				printf("<td align=right>%s<td>%s<td align=right>%s<td>%d<td>%d<td>%d",
 					dura2a($result[dura]), $result[scen], gmdate("H:i d-m", $result[mtime]), $result[afps], $result[oosy], $result[trny]);
 				if ($unfair_games)
-					printf("<td><a href=\"/xla/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
+					printf("<td><a href=\"/admin/xcl_return_points.php?gid=%d\">Return points</a>", $result[gid]);
 				for (; $player_a < $plrs; $player_a++, $player_b++)
 				{
 					echo("<tr><td>");
@@ -359,12 +307,7 @@
 		echo("<td><td>");
 		echo_hof(4, "Clan");
 		echo("</table></center>");
-		echo("<hr><center><table><tr><th colspan=8>August<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>unstop4bl<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>canminzz<tr><td align=right>4<td>lnstopabl<tr><td align=right>5<td>klr0v<tr><td align=right>6<td>d1sc1pl1n<tr><td align=right>7<td>intagrand<tr><td align=right>8<td>xown4no1x<tr><td align=right>9<td>xclispo0p<tr><td align=right>10<td>xclyoni</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>g@work<tr><td align=right>2<td>g@w0rk<tr><td align=right>3<td>image*<tr><td align=right>4<td>penl$<tr><td align=right>5<td>forum-<tr><td align=right>6<td>farmz<tr><td align=right>7<td>masiv<tr><td align=right>8<td>@s-s@<tr><td align=right>9<td>gamovr<tr><td align=right>10<td>tribe*</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>dron3t4nk<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>dr0n3t4nk<tr><td align=right>4<td>tanyab0mb<tr><td align=right>5<td>klr0v<tr><td align=right>6<td>syocikelx<tr><td align=right>7<td>prizes4me<tr><td align=right>8<td>iwin4prep<tr><td align=right>9<td>k3tchup<tr><td align=right>10<td>perottti</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>@dps@<tr><td align=right>2<td>-auf-<tr><td align=right>3<td>myrulz<tr><td align=right>4<td>-svt*p<tr><td align=right>5<td>@dpsb@<tr><td align=right>6<td>oktron<tr><td align=right>7<td>*-gd-*<tr><td align=right>8<td>om3rta<tr><td align=right>9<td>dps*e<tr><td align=right>10<td>penl$</table></table></center>");
-		echo("<hr><center><table><tr><th colspan=8>July<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>th3rush3r<tr><td align=right>2<td>cyaandbye<tr><td align=right>3<td>rapyst<tr><td align=right>4<td>xclkong<tr><td align=right>5<td>xclmael<tr><td align=right>6<td>rush4awaz<tr><td align=right>7<td>kirov8234<tr><td align=right>8<td>bigchen11<tr><td align=right>9<td>a1xcl4ra2<tr><td align=right>10<td>xclchen</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-g3r-<tr><td align=right>2<td>.strm.<tr><td align=right>3<td>wouf<tr><td align=right>4<td>-4some<tr><td align=right>5<td>adida$<tr><td align=right>6<td>jonrim<tr><td align=right>7<td>-1rank<tr><td align=right>8<td>@nrg@<tr><td align=right>9<td>*evo*<tr><td align=right>10<td>*-now-</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>xclxclxcl<tr><td align=right>2<td>why2g00d<tr><td align=right>3<td>xclearthy<tr><td align=right>4<td>nojkovoi<tr><td align=right>5<td>libyapowr<tr><td align=right>6<td>mybush<tr><td align=right>7<td>lutz99999<tr><td align=right>8<td>jokujak<tr><td align=right>9<td>bombnbomb<tr><td align=right>10<td>xcltr00pa</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>*-gd-*<tr><td align=right>2<td>om3rta<tr><td align=right>3<td>-mef-<tr><td align=right>4<td>@dream<tr><td align=right>5<td>oktron<tr><td align=right>6<td>-m@nz-<tr><td align=right>7<td>@tde@<tr><td align=right>8<td>**21**<tr><td align=right>9<td>-dteam<tr><td align=right>10<td>#ud*e#</table></table></center>");
-		echo("<hr><center><table><tr><th colspan=8>June<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>xclkane<tr><td align=right>2<td>isovz<tr><td align=right>3<td>ul2ukhai<tr><td align=right>4<td>dimins1on<tr><td align=right>5<td>xclchen<tr><td align=right>6<td>micnbenny<tr><td align=right>7<td>lordofxcl<tr><td align=right>8<td>xclstyle<tr><td align=right>9<td>visyvisy<tr><td align=right>10<td>camelflre</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>*evo*<tr><td align=right>2<td>n0blet<tr><td align=right>3<td>workin<tr><td align=right>4<td>scandi<tr><td align=right>5<td>i*e*f<tr><td align=right>6<td>dash<tr><td align=right>7<td>@nrg@<tr><td align=right>8<td>_dub*<tr><td align=right>9<td>-cope-<tr><td align=right>10<td>tribe*</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>lordofxcl<tr><td align=right>2<td>xcltommi<tr><td align=right>3<td>xclhenl<tr><td align=right>4<td>riplea<tr><td align=right>5<td>lkillyuri<tr><td align=right>6<td>ukdinger<tr><td align=right>7<td>threemwin<tr><td align=right>8<td>wahooooma<tr><td align=right>9<td>me12inch<tr><td align=right>10<td>realmgap</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-m4e-<tr><td align=right>2<td>-auf-<tr><td align=right>3<td>*temo*<tr><td align=right>4<td>@tde2@<tr><td align=right>5<td>g-dogz<tr><td align=right>6<td>w*4*g<tr><td align=right>7<td>-bbw.r<tr><td align=right>8<td>jud²<tr><td align=right>9<td>oktron<tr><td align=right>10<td>tr1ade</table></table></center>");
-		echo("<hr><center><table><tr><th colspan=8>May<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>xclhenl<tr><td align=right>2<td>israelck<tr><td align=right>3<td>camelsun<tr><td align=right>4<td>urptsrmin<tr><td align=right>5<td>dad0m1n8r<tr><td align=right>6<td>xclmael<tr><td align=right>7<td>samnpete<tr><td align=right>8<td>xclblimp<tr><td align=right>9<td>xtf<tr><td align=right>10<td>xclnova</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>i*e*f<tr><td align=right>2<td>bo-om<tr><td align=right>3<td>dgnf<tr><td align=right>4<td>tanx..<tr><td align=right>5<td>.tc.<tr><td align=right>6<td>cnc.b<tr><td align=right>7<td>@59@<tr><td align=right>8<td>etf.!.<tr><td align=right>9<td>@k.o@<tr><td align=right>10<td>@soad-</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>xclvolkov<tr><td align=right>2<td>imgodsson<tr><td align=right>3<td>xclhenl<tr><td align=right>4<td>me12inch<tr><td align=right>5<td>iraqnoob<tr><td align=right>6<td>wahooooma<tr><td align=right>7<td>tanksh0ck<tr><td align=right>8<td>xclearthy<tr><td align=right>9<td>xcltecboy<tr><td align=right>10<td>xcliraq</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>-.h.-<tr><td align=right>2<td>om3rta<tr><td align=right>3<td>o*t*s<tr><td align=right>4<td>runnwb<tr><td align=right>5<td>r@ptor<tr><td align=right>6<td>*eite*<tr><td align=right>7<td>kapoks<tr><td align=right>8<td>--ba--<tr><td align=right>9<td>adeath<tr><td align=right>10<td>*bbw.r</table></table></center>");
-		echo("<hr><center><table><tr><th colspan=8>April<tr><td><table><tr><th colspan=2>Red Alert 2<tr><th>Rank<th>Name<tr><td align=right>1<td>jmedran0<tr><td align=right>2<td>cnckn0va<tr><td align=right>3<td>pm3k3p6d<tr><td align=right>4<td>l4yla<tr><td align=right>5<td>kbloodyr<tr><td align=right>6<td>urptsrmin<tr><td align=right>7<td>xtf<tr><td align=right>8<td>ra2ownag3<tr><td align=right>9<td>astr0n4ut<tr><td align=right>10<td>abogeyman</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>dgnf<tr><td align=right>2<td>-ragt-<tr><td align=right>3<td>do-ne<tr><td align=right>4<td>*soad-<tr><td align=right>5<td>he-lp!<tr><td align=right>6<td>-alc-<tr><td align=right>7<td>t*d*e<tr><td align=right>8<td>@soad-<tr><td align=right>9<td>@gw@<tr><td align=right>10<td>*usa_</table><td><td><table><tr><th colspan=2>Yuri's Revenge<tr><th>Rank<th>Name<tr><td align=right>1<td>xclseal<tr><td align=right>2<td>me12inch<tr><td align=right>3<td>jonisb4ck<tr><td align=right>4<td>xclrulez<tr><td align=right>5<td>xclezrush<tr><td align=right>6<td>xcljoku<tr><td align=right>7<td>xcltheone<tr><td align=right>8<td>xclmurlaw<tr><td align=right>9<td>xclffs<tr><td align=right>10<td>amikloy</table><td><td><table><tr><th colspan=2>Clan<tr><th>Rank<th>Name<tr><td align=right>1<td>*03*<tr><td align=right>2<td>adeath<tr><td align=right>3<td>om3rta<tr><td align=right>4<td>*ps-e*<tr><td align=right>5<td>o*t*s<tr><td align=right>6<td>team.b<tr><td align=right>7<td>**21**<tr><td align=right>8<td>--ba--<tr><td align=right>9<td>_rnx_<tr><td align=right>10<td>-00-</table></table></center>");
-		echo("<hr><center><table><tr><th colspan=2>March<tr><th>Rank<th>Name<tr><td align=right>1<td>cncviking<tr><td align=right>2<td>premierez<tr><td align=right>3<td>serge4nt<tr><td align=right>4<td>m270mlrs<tr><td align=right>5<td>aaai2a2<tr><td align=right>6<td>awazrobbi<tr><td align=right>7<td>wi4israel<tr><td align=right>8<td>xclsovgod<tr><td align=right>9<td>unstop4bl<tr><td align=right>10<td>iluveisso</table></center>");
+		@include("hof.php");
 	}
 	else if (isset($_GET[hos]))
 	{
@@ -379,32 +322,91 @@
 	}
 	else if (isset($_GET[stats]))
 	{
-		$results = db_query("select gsku, count(*) as count from xcl_games group by gsku order by count desc");
+		/*
+		// create table xcl_stats_gsku select gsku, count(*) as count from xcl_games group by gsku
+		create table xcl_stats_gsku select gsku, trny, count(*) as count from xcl_games group by gsku, trny
+		// create table xcl_stats_players select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku
+		create table xcl_stats_players select gsku, if(cid, 2, 1) as trny, if(cid, count(distinct cid), count(distinct pid)) as count from xcl_games inner join xcl_games_players using (gid) group by gsku, trny
+		// create table xcl_stats_clans select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku
+		create table xcl_stats_countries select cty, count(*) as count from xcl_games_players group by cty
+		create table xcl_stats_maps select scen, count(*) as count from xcl_games group by scen
+		create table xcl_stats_dura select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura
+		create table xcl_stats_afps select afps, count(*) as count from xcl_games group by afps
+		create table xcl_stats_time select hour(mtime) as h, dayofmonth(mtime) as d, count(*) as c from xcl_games group by d, h
+		*/
+		$games = array();
+		$results = db_query("select * from xcl_stats_gsku order by count desc");
+		while ($result = mysql_fetch_array($results))
+		{
+			$games[$result[gsku]][$result[trny]] = $result[count];
+			$games[$result[gsku]][-1] += $result[count];
+			$games[-1][$result[trny]] += $result[count];
+			$games[-1][-1] += $result[count];
+		}
+		echo("<table><tr><th><th>Player<th>Clan");
+		foreach ($games as $gsku => $game)
+		{
+			if ($gsku != -1)
+				printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d", gsku2a($gsku), $game[1], $game[2], $game[-1]);
+		}
+		$game = $games[-1];
+		printf("<tr><td><td align=right>%d<td align=right>%d<td align=right>%d", $game[1], $game[2], $game[-1]);
+		echo("</table><hr>");
+		$games = array();
+		$results = db_query("select * from xcl_stats_players order by count desc");
+		while ($result = mysql_fetch_array($results))
+		{
+			$games[$result[gsku]][$result[trny]] = $result[count];
+			$games[$result[gsku]][-1] += $result[count];
+			$games[-1][$result[trny]] += $result[count];
+			$games[-1][-1] += $result[count];
+		}
+		echo("<table><tr><th><th>Player<th>Clan");
+		foreach ($games as $gsku => $game)
+		{
+			if ($gsku != -1)
+				printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d", gsku2a($gsku), $game[1], $game[2], $game[-1]);
+		}
+		$game = $games[-1];
+		printf("<tr><td><td align=right>%d<td align=right>%d<td align=right>%d", $game[1], $game[2], $game[-1]);
+		echo("</table><hr>");
+		/*
+		// $results = db_query("select gsku, count(*) as count from xcl_games group by gsku order by count desc");
+		$results = db_query("select * from xcl_stats_gsku order by count desc");
 		echo("<table><tr><th>Games<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku order by count desc");
+		*/
+		/*
+		// $results = db_query("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku order by count desc");
+		$results = db_query("select * from xcl_stats_players order by count desc");
 		echo("<table><tr><th>Players<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc");
+		// $results = db_query("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc");
+		$results = db_query("select * from xcl_stats_clans order by count desc");
 		echo("<table><tr><th>Clans<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query("select cty, count(*) as count from xcl_games_players group by cty order by count desc");
+		*/
+		// $results = db_query("select cty, count(*) as count from xcl_games_players group by cty order by count desc");
+		$results = db_query("select * from xcl_stats_countries order by count desc");
 		echo("<table><tr><th>Count<th>Country");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
 		echo("</table><hr>");
-		$results = db_query("select ifnull(xcl_maps.name, xcl_games.scen) as scen, xcl_games.scen as scen_fname, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc");
+		// $results = db_query("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games left join xcl_maps on xcl_games.scen = xcl_maps.fname group by scen order by count desc");
+		// $results = db_query("select ifnull(xcl_maps.name, xcl_stats_maps.scen) as scen, count from xcl_stats_maps left join xcl_maps on xcl_stats_maps.scen = xcl_maps.fname order by count desc");
+		$results = db_query("select scen, count from xcl_stats_maps order by count desc");
 		echo("<table><tr><th>Count<th>Scenario");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
 		echo("</table><hr>");
-		$results = db_query("select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura order by dura");
+		// $results = db_query("select round(dura / 600) * 10 as dura, count(*) as count from xcl_games group by dura order by dura");
+		$results = db_query("select * from xcl_stats_dura order by dura");
 		echo("<table><tr><th>Count<th>Duration");
 		while ($result = mysql_fetch_array($results))
 		{
@@ -415,10 +417,41 @@
 				echo("< 5");
 		}
 		echo("</table><hr>");
-		$results = db_query("select afps, count(*) as count from xcl_games group by afps order by afps");
+		// $results = db_query("select afps, count(*) as count from xcl_games group by afps order by afps");
+		$results = db_query("select * from xcl_stats_afps order by afps");
 		echo("<table><tr><th>Count<th>Average FPS");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%d", $result[count], $result[afps]);
+		echo("</table><hr>");
+		$games = array();
+		// $results = db_query("select hour(mtime) as h, dayofmonth(mtime) as d, count(*) as c from xcl_games group by dayofmonth(mtime), hour(mtime)");
+		$results = db_query("select * from xcl_stats_time order by d, h");
+		while ($result = mysql_fetch_array($results))
+		{
+			$games[$result[d]][$result[h]] = $result[c];
+			$games[$result[d]][24] += $result[c];
+			$games[32][$result[h]] += $result[c];
+			$games[32][24] += $result[c];
+		}
+		echo("<table><tr><td>");
+		for ($h = 0; $h < 24; $h++)
+			printf("<th align=right>%d", $h);
+		for ($d = 1; $d < 33; $d++)
+		{
+			if (!$games[$d][24])
+				continue;
+			if ($d == 32)
+				echo("<tr><th>");
+			else
+				printf("<tr><th align=right>%d", $d);
+			for ($h = 0; $h < 25; $h++)
+			{
+				if ($games[$d][$h])
+					printf("<td align=right>%d", $games[$d][$h]);
+				else
+					echo("<td>");
+			}
+		}
 		echo("</table>");
 	}
 	else
@@ -428,6 +461,7 @@
 		$pid = $_GET[pid];
 		$pname = trim($_GET[pname]);
 		$recent_games = $_GET[recent_games];
+		$unfair_games = $_GET[unfair_games];
 		if ($cid || $gid || $pid || $recent_games || $unfair_games || $wash_games)
 		{
 			if ($gid)
@@ -446,20 +480,20 @@
 					"));
 			else if ($unfair_games)
 			{
-				$results = db_query(sprintf("
+				$results = db_query("
 					select distinct t1.*, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime
 					from bl inner join xcl_players using (name) inner join xcl_games_players as t2 using (pid) inner join xcl_games as t1 using (gid) inner join xcl_games_players as t3 using (gid) left join xcl_maps as t4 on (t1.scen = t4.fname)
 					where t2.pid != t3.pid and not t3.cid and t3.pc < 0
 					order by gid desc
-					"));
+					");
 				echo_games($results, 0, 0, true);
 				echo("<hr>");
-				$results = db_query(sprintf("
+				$results = db_query("
 					select distinct t1.*, ifnull(t4.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime
 					from bl inner join xcl_players p using (name) inner join xcl_games_players as t2 on p.pid = t2.cid inner join xcl_games as t1 using (gid) inner join xcl_games_players as t3 using (gid) left join xcl_maps as t4 on (t1.scen = t4.fname)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
-					"));
+					");
 			}
 			else if ($wash_games)
 				$results = db_query(sprintf("
@@ -565,8 +599,8 @@
 				echo("<th>Rank<th><th>Name<th colspan=2>Stats<th>Points<th><th><th>Date");
 				$results = db_query($pname
 					? $lid
-					? sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc", $lid, AddSlashes($pname))
-					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.name like \"%s\" order by points desc", AddSlashes($pname))
+					? sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and xcl_players.name like \"%s\" order by points desc limit 250", $lid, AddSlashes($pname))
+					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.name like \"%s\" order by points desc limit 250", AddSlashes($pname))
 					: sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where xcl_players.lid = %d and points order by points desc limit 250", $lid));
 				if ($result = mysql_fetch_array($results))
 				{
@@ -578,17 +612,17 @@
 						printf("<td align=right>%d<td>", $result[rank]);
 						if ($lid & 1)
 						{
-							echo("<img src=\"http://xcl.the-outsiders.net/badges/cooperat.png\" alt=\"XCL Founder\">");
+							echo("<img src=\"images/cooperat.png\" alt=\"XCL Founder\">");
 							if ($result[points_max] > 1500)
-								echo(" <img src=\"http://xcl.the-outsiders.net/badges/stargen.png\" alt=\"&gt; 1500p\">");
+								echo(" <img src=\"images/stargen.png\" alt=\"&gt; 1500p\">");
 							else if ($result[points_max] > 1000)
-								echo(" <img src=\"http://xcl.the-outsiders.net/badges/general.png\"  alt=\"&gt; 1000p\">");
+								echo(" <img src=\"images/general.png\"  alt=\"&gt; 1000p\">");
 							else if ($result[points_max] > 500)
-								echo(" <img src=\"http://xcl.the-outsiders.net/badges/briggenr.png\" alt=\"&gt; 500p\">");
+								echo(" <img src=\"images/briggenr.png\" alt=\"&gt; 500p\">");
 							if ($result[rank] == 1)
-								echo(" <img src=\"http://xcl.the-outsiders.net/badges/comchief.png\" alt=\"#1\">");
+								echo(" <img src=\"images/comchief.png\" alt=\"#1\">");
 							else if ($result[rank] && $result[rank] < 26)
-								echo(" <img src=\"http://xcl.the-outsiders.net/badges/colonel.png\" alt=\"< #26\">");
+								echo(" <img src=\"images/colonel.png\" alt=\"< #26\">");
 						}
 						printf("<td><a href=\"?%s=%d\">%s</a><td align=right>%d<td align=right>%d<td align=right>%d<td>%s<td>%s<td>%s", $result[lid] & 1 ? "pid" : "cid", $result[pid], $result[name], $result[win_count], $result[loss_count], $result[points], $result[bl] ? "BL" : "", $result[wl] ? "WL" : "", gmdate("H:i d-m-Y", $result[mtime]));
 						for ($i = 0; $i < 10; $i++)
@@ -634,27 +668,6 @@
 		}
 	}
 ?>
-<hr>
-<table width="100%">
-	<tr>
-		<td valign=top>
-			<a href="http://strike-team.net/">Strike Team</a> | <a href="/">XCC Home Page</a>
-		<td align=center valign=top>
-			<a href="http://www.strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=14"><img src="https://www.paypal.com/images/x-click-but04.gif"></a>
-
-			<script language="JavaScript" type="text/javascript" src="http://m1.nedstatbasic.net/basic.js">
-			</script>
-			<script language="JavaScript" type="text/javascript">
-			<!--
-				nedstatbasic("ACYaRA5mKkSNw9DcBlC+vYnGi83A", 0);
-			// -->
-			</script>
-			<noscript>
-				<a target="_blank" href="http://v1.nedstatbasic.net/stats?ACYaRA5mKkSNw9DcBlC+vYnGi83A"><img src="http://m1.nedstatbasic.net/n?id=ACYTXwDHntQULdYZIrOjZRmDVgjQ"	border="0" nosave width="18" height="18"></a>
-			</noscript>
-		<td align=right valign=top>
-			<?php echo(gmdate("H:i d-m-Y")) ?>
-</table>
 <?php
 	@include("bottom.php");
 ?>
