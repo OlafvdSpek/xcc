@@ -7,7 +7,7 @@
 
 #include "vartypes.h"
 
-int decode2(const byte* s, byte* d, int cb_s);
+int decode2(const byte* s, byte* d, int cb_s, const byte* reference_palet);
 int decode3(const byte* s, byte* d, int cx, int cy);
 int encode3(const byte* s, byte* d, int cx, int cy);
 int decode5(const byte* s, byte* d, int cb_s, int format);

@@ -22,9 +22,8 @@ class Cmix_file_write
 public:
 	void add_file(int id, const Cvirtual_binary d);
 	void add_file(string name, const Cvirtual_binary d);
-	// void add_file(string name, Cmix_file_write& s);
+	void clear();
 	Cvirtual_binary write();
-	// int write(string fname);
 private:
 	typedef map<int, Cvirtual_binary> t_index;
 

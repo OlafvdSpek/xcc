@@ -11,6 +11,7 @@
 #include "bink_file.h"
 #include "cc_file.h"
 #include "cps_file.h"
+#include "dds_file.h"
 #include "fnt_file.h"
 #include "hva_file.h"
 #include "id_log.h"
@@ -19,6 +20,7 @@
 #include "map_ra_ini_reader.h"
 #include "map_ts_ini_reader.h"
 #include "mix_file.h"
+#include "mix_rg_file.h"
 #include "mp3_file.h"
 #include "null_ini_reader.h"
 #include "ogg_file.h"
@@ -44,6 +46,7 @@
 #include "vqa_file.h"
 #include "vqp_file.h"
 #include "vxl_file.h"
+#include "w3d_file.h"
 #include "wav_file.h"
 #include "wsa_dune2_file.h"
 #include "wsa_file.h"
@@ -56,11 +59,11 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dir", "drive", "fnt", "html", "hva", 
+const char* ft_name[] = {"ai ini (ts)", "ai ini (ra2)", "art ini (ts)", "art ini (ra2)", "aud", "avi", "bin", "bink", "bmp", "clipboard", "cps", "csv", "dds", "dir", "drive", "fnt", "html", "hva", 
 	"ini", "jpeg", "map (dune2)", "map (td)", "map (ra)", "map (ts)", "map (ts) preview", "map (ra2)", 
-	"mix", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "pkt (ts)", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
+	"mix", "mix (rg)", "mng", "mp3", "mrf", "ogg", "pak", "pal", "pal (jasc)", "pcx (single)", "pcx", "png (single)", "png", "pkt (ts)", "riff", "rules ini (ts)", "rules ini (ra2)", "shp (dune2)", "shp", 
 	"shp (ts)", "sound ini (ts)", "sound ini (ra2)", "string table", "text", "theme ini (ts)", "theme ini (ra2)", 
-	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
+	"tmp", "tmp (ra)", "tmp (ts)", "voc", "vpl", "vqa", "vqp", "vxl", "w3d", "wav", "pcm wav", "ima adpcm wav", "wsa (dune2)", "wsa", "xcc lmd", "xcc unknown", "xif", "zip", "unknown"};
 
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
@@ -204,9 +207,11 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cbin_file bin_f;
 	Cbink_file bink_f;
 	Ccps_file cps_f;
+	Cdds_file dds_f;
 	Cfnt_file fnt_f;
 	Chva_file hva_f;
 	Cmix_file mix_f;
+	Cmix_rg_file mix_rg_f;
 	Cmp3_file mp3_f;
 	Cjpeg_file jpeg_f;
 	Cogg_file ogg_f;
@@ -227,6 +232,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cvqa_file vqa_f;
 	Cvqp_file vqp_f;
 	Cvxl_file vxl_f;
+	Cw3d_file w3d_f;
 	Cwsa_dune2_file wsa_dune2_f;
 	Cwsa_file wsa_f;
 	Cxcc_file xcc_f;
@@ -239,6 +245,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_bink;
 	else if (cps_f.load(data, m_size), cps_f.is_valid())
 		ft = ft_cps;
+	else if (dds_f.load(data, m_size), dds_f.is_valid())
+		ft = ft_dds;
 	else if (fnt_f.load(data, m_size), fnt_f.is_valid())
 		ft = ft_fnt;
 	else if (hva_f.load(data, m_size), hva_f.is_valid())
@@ -374,6 +382,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_vqp;
 	else if (vxl_f.load(data, m_size), vxl_f.is_valid())
 		ft = ft_vxl;
+	else if (w3d_f.load(data, m_size), w3d_f.is_valid())
+		ft = ft_w3d;
 	else if (wsa_dune2_f.load(data, m_size), wsa_dune2_f.is_valid())
 		ft = ft_wsa_dune2;
 	else if (wsa_f.load(data, m_size), wsa_f.is_valid())
@@ -393,6 +403,8 @@ t_file_type Ccc_file::get_file_type(bool fast)
 		ft = ft_xif;
 	else if (mix_f.load(data, m_size), mix_f.is_valid())
 		ft = ft_mix;
+	else if (mix_rg_f.load(data, m_size), mix_rg_f.is_valid())
+		ft = ft_mix_rg;
 	else if (pak_f.load(data, m_size), pak_f.is_valid())
 		ft = ft_pak;
 	return ft;
@@ -484,6 +496,8 @@ void Ccc_file::close()
 void Ccc_file::clean_up()
 {
     m_data.clear();
+	if (is_attached())
+		detach();
     if (is_open())
         close();
 }

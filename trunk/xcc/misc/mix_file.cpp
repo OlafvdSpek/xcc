@@ -10,6 +10,7 @@
 #include "mix_cache.h"
 #include <mix_decode.h>
 #include "mix_file.h"
+#include "mix_rg_file.h"
 #include "pak_file.h"
 #include <string_conversion.h>
 #include "xcc_lmd_file.h"
@@ -69,35 +70,67 @@ bool Cmix_file::is_valid()
 int Cmix_file::post_open()
 {
 #ifndef NO_FT_SUPPORT
-	Cpak_file f;
-	if (get_data())
-		f.load(get_vdata());
-	else
+	bool index_read = false;
+	if (handle() != INVALID_HANDLE_VALUE)
 	{
-		int size = min(get_size(), 64 << 10);
-		Cvirtual_binary data;
-		test_fail(read(data.write_start(size), size));
-		f.load(data, get_size());
-	}
-	if (f.is_valid())
-	{
-		m_game = game_dune2;
-		m_is_encrypted = m_has_checksum = false;
-		m_c_files = f.get_c_files();
-		if (m_c_files >> 12)
-			test_fail(1);
-		int cb_index = m_c_files * sizeof(t_mix_index_entry);
-		m_index = new t_mix_index_entry[m_c_files];
-		for (int i = 0; i < m_c_files; i++)
+		Cmix_rg_file f;
+		if (get_data())
+			f.load(get_vdata());
+		else
+			f.attach(handle());
+		if (f.is_open() && f.is_valid())
 		{
-			string name = f.get_name(i);
-			mix_database::add_name(m_game, name, "-");
-			m_index[i].id = get_id(get_game(), name);
-			m_index[i].offset = f.get_offset(name);
-			m_index[i].size = f.get_size(name);
+			m_game = game_rg;
+			m_is_encrypted = m_has_checksum = false;
+			m_c_files = f.get_c_files();
+			int cb_index = m_c_files * sizeof(t_mix_index_entry);
+			m_index = new t_mix_index_entry[m_c_files];
+			for (int i = 0; i < m_c_files; i++)
+			{
+				string name = f.get_name(i);
+				mix_database::add_name(m_game, name, "-");
+				m_index[i].id = get_id(get_game(), name);
+				m_index[i].offset = f.get_offset(name);
+				m_index[i].size = f.get_size(name);
+			}
+			index_read = true;
+			if (f.is_attached())
+				f.detach();
 		}
 	}
-	else
+	if (!index_read)
+	{
+		Cpak_file f;
+		if (get_data())
+			f.load(get_vdata());
+		else
+		{
+			int size = min(get_size(), 64 << 10);
+			Cvirtual_binary data;
+			test_fail(read(data.write_start(size), size));
+			f.load(data, get_size());
+		}
+		if (f.is_valid())
+		{
+			m_game = game_dune2;
+			m_is_encrypted = m_has_checksum = false;
+			m_c_files = f.get_c_files();
+			if (m_c_files >> 12)
+				test_fail(1);
+			int cb_index = m_c_files * sizeof(t_mix_index_entry);
+			m_index = new t_mix_index_entry[m_c_files];
+			for (int i = 0; i < m_c_files; i++)
+			{
+				string name = f.get_name(i);
+				mix_database::add_name(m_game, name, "-");
+				m_index[i].id = get_id(get_game(), name);
+				m_index[i].offset = f.get_offset(name);
+				m_index[i].size = f.get_size(name);
+			}
+			index_read = true;
+		}
+	}
+	if (!index_read)
 #endif
 	{
 		t_mix_header header;

@@ -91,6 +91,13 @@ public:
 		return r;
 	}
 
+	const byte* get_reference_palet(int i) const
+	{
+		if (~get_image_header(i)->compression & 1)
+			return NULL;
+		return reinterpret_cast<const byte*>(get_image_header(i) + 1);
+	}
+
 	bool is_compressed(int i) const
 	{
 		return ~get_image_header(i)->compression & 2;

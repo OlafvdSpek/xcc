@@ -24,11 +24,11 @@ int Cshp_dune2_file::extract_as_pcx(const Cfname& name, const t_palet _palet) co
 		if (is_compressed(i))
 		{
 			byte* d = new byte[get_image_header(i)->size_out];
-			decode2(d, image, decode80(get_image(i), d));
+			decode2(d, image, decode80(get_image(i), d), get_reference_palet(i));
 			delete[] d;
 		}
 		else
-			decode2(get_image(i), image, get_image_header(i)->size_out);
+			decode2(get_image(i), image, get_image_header(i)->size_out, get_reference_palet(i));
 		int cb_d = pcx_encode(image, d, cx, cy, 1);
 		delete[] image;
 		Cpcx_file_write f;

@@ -18,6 +18,11 @@ void Cmix_file_write::add_file(string name, const Cvirtual_binary d)
 	m_lmd_fw.add_fname(name);
 }
 
+void Cmix_file_write::clear()
+{
+	m_index.clear();
+}
+
 int Cmix_file_write::write_start()
 {
 	byte* lmd_d;
