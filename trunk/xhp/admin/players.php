@@ -84,11 +84,8 @@
 		if ($_GET[a] == "bl_insert_submit" && $name && $reason)
 		{
 			db_query(sprintf("insert into xbl (admin, sid, name, link, reason) values ('%s', %d, '%s', '%s', '%s')", AddSlashes($_SERVER[REMOTE_USER]), $sid, $name, AddSlashes($link), AddSlashes($reason)));
-			// db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid = %d", $dura, $sid));
-
 			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
-			$sids = array();
-			$sids[] = $sid;
+			$sids = array($sid);
 			while ($result = mysql_fetch_array($results))
 				$sids[] = $result[sid];
 			db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid in (%s)", $dura, addslashes(implode(",", $sids))));
@@ -121,7 +118,7 @@
 	}
 	else if ($_GET[a] == "bad_passes")
 	{
-		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) order by name");
+		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) where ~flags & 2 order by name");
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
