@@ -16,8 +16,8 @@ static char THIS_FILE[] = __FILE__;
 // Copen_from_mix_dlg dialog
 
 
-Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/)
-	: CDialog(Copen_from_mix_dlg::IDD, pParent),
+Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/):
+	ETSLayoutDialog(Copen_from_mix_dlg::IDD, pParent, "open_from_mix_dlg"),
 	mix(Cxcc_mixs::get_general_mix())
 {
 	//{{AFX_DATA_INIT(Copen_from_mix_dlg)
@@ -25,14 +25,10 @@ Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-Copen_from_mix_dlg::~Copen_from_mix_dlg()
-{
-}
-
 
 void Copen_from_mix_dlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Copen_from_mix_dlg)
 	DDX_Control(pDX, IDOK, m_ok_button);
 	DDX_Control(pDX, IDC_LIST1, m_list);
@@ -40,7 +36,7 @@ void Copen_from_mix_dlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Copen_from_mix_dlg, CDialog)
+BEGIN_MESSAGE_MAP(Copen_from_mix_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Copen_from_mix_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList1)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkList1)
@@ -52,16 +48,21 @@ END_MESSAGE_MAP()
 
 BOOL Copen_from_mix_dlg::OnInitDialog() 
 {
-	CDialog::OnInitDialog();
+	CreateRoot(HORIZONTAL)
+		<< item(IDC_LIST1, GREEDY)
+		<< (pane(VERTICAL, ABSOLUTE_HORZ)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			);
+	ETSLayoutDialog::OnInitDialog();
 	m_list.SetRedraw(false);
-	if (m_listfont.CreateFont(-11, 0, 0, 0, FW_NORMAL, 0, 0, 0, 0, 0, 0, 0, 0, "Courier New"))
-	m_list.SetFont(&m_listfont);
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);	
+	m_list.set_fixed_width_font();
+	m_list.set_full_row_selection();
 
-	add_column("ID", 0, 80);
-	add_column("Name", 1, 100);
-	add_column("Description", 2, 240);
-	add_column("Theater", 3, 240);
+	m_list.add_column("ID", 0, 80);
+	m_list.add_column("Name", 1, 100);
+	m_list.add_column("Description", 2, 240);
+	m_list.add_column("Theater", 3, 240);
 
 	c_files = mix.get_c_files();
 	mix_database::load();
@@ -69,9 +70,9 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 		CWaitCursor wait;
 		Ccc_file bin_f(false), ini_f(true);
 		Cxcc_level level;
-		for (long i = 0; i < c_files; i++)
+		for (int i = 0; i < c_files; i++)
 		{
-			dword id = mix.get_id(i);
+			int id = mix.get_id(i);
 			if (mix.get_size(id) != 8192)
 				continue;
 			Cfname name = mix_database::get_name(game_td, id);
@@ -103,53 +104,21 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 		}
 	}
 	{
-		long list_i = 0;
+		int list_i = 0;
 		for (t_index::const_iterator i = index.begin(); i != index.end(); i++)
 		{
 			const string& name = i->first;
-			add_item(nh(8, Cmix_file::get_id(game_td, name)), list_i, 0);		
-			add_item(name, list_i, 1);
-			add_item(i->second.description, list_i, 2);
-			add_item(theater_code[i->second.theater], list_i, 3);
+			m_list.add_item(nh(8, Cmix_file::get_id(game_td, name)), list_i);
+			m_list.set_item(name, list_i, 1);
+			m_list.set_item(i->second.description, list_i, 2);
+			m_list.set_item(theater_code[i->second.theater], list_i, 3);
 			list_i++;
 		}
 	}
-	{
-		for (long i = 0; i < 10; i++)
-			m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
-	}
+	m_list.autosize_columns();
 	m_list.SetRedraw(true);
 	m_list.Invalidate();
 	return TRUE;  // return TRUE unless you set the focus to a control
-}
-
-void Copen_from_mix_dlg::add_column(const string& text, dword index, dword size, dword format)
-{
-	LV_COLUMN column_data;
-	column_data.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
-	column_data.fmt = format;
-	column_data.cx = size;
-	char s[256];
-	strcpy(s, text.c_str()); 
-	column_data.pszText = s;
-	column_data.iSubItem = index;
-	m_list.InsertColumn(index, &column_data);
-}
-
-void Copen_from_mix_dlg::add_item(const string& text, dword index, dword subindex)
-{
-	LV_ITEM item_data;
-	item_data.mask = LVIF_TEXT | (subindex ? 0 : LVIF_PARAM);
-	item_data.iItem = index;
-	item_data.iSubItem = subindex;
-	char s[256];
-	strcpy(s, text.c_str()); 
-	item_data.pszText = s;
-	item_data.lParam = index;
-	if (!subindex)
-		m_list.InsertItem(&item_data);
-	else
-		m_list.SetItem(&item_data);
 }
 
 void Copen_from_mix_dlg::get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d)
@@ -178,5 +147,5 @@ void Copen_from_mix_dlg::OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult)
 void Copen_from_mix_dlg::OnOK() 
 {
 	selected_fname = m_list.GetItemText(m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED), 1);
-	CDialog::OnOK();
+	ETSLayoutDialog::OnOK();
 }

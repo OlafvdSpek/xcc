@@ -7,6 +7,7 @@
 
 #include <map>
 #include "id_log.h"
+#include "list_ctrl_extension.h"
 #include "mix_file.h"
 #include "resource.h"
 #include "string_conversion.h"
@@ -27,21 +28,18 @@ struct t_index_info
 
 typedef map<string, t_index_info> t_index;
 
-class Copen_from_mix_dlg : public CDialog
+class Copen_from_mix_dlg: public ETSLayoutDialog
 {
 // Construction
 public:
 	void get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d);
-	void add_column(const string &text, dword index, dword size, dword format = LVCFMT_LEFT);
-	void add_item(const string &text, dword index, dword subindex);
 	Copen_from_mix_dlg(CWnd* pParent = NULL);   // standard constructor
-	Copen_from_mix_dlg::~Copen_from_mix_dlg();
 
 // Dialog Data
 	//{{AFX_DATA(Copen_from_mix_dlg)
 	enum { IDD = IDD_OPEN_FROM_MIX_DLG };
 	CButton	m_ok_button;
-	CListCtrl	m_list;
+	Clist_ctrl_extension	m_list;
 	//}}AFX_DATA
 
 
@@ -64,9 +62,8 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	CFont m_listfont;
 	Cmix_file& mix;
-	dword c_files;
+	int c_files;
 	t_index index;
 	string selected_fname;
 };
