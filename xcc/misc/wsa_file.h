@@ -9,7 +9,6 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include "cc_file_sh.h"
 #include "cc_structures.h"
 #include "fname.h"
 #include "palet.h"
