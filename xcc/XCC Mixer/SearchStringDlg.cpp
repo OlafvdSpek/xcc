@@ -50,10 +50,6 @@ END_MESSAGE_MAP()
 
 BOOL CSearchStringDlg::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "Name");
-	m_list.InsertColumn(1, "Value");
 	CreateRoot(VERTICAL)
 		<< item(IDC_NAME, ABSOLUTE_VERT)
 		<< item(IDC_LIST, GREEDY)
@@ -62,7 +58,10 @@ BOOL CSearchStringDlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "Name");
+	m_list.InsertColumn(1, "Value");
 	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	m_list.SetColumnWidth(1, LVSCW_AUTOSIZE_USEHEADER);
 	return true;

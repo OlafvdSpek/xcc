@@ -58,10 +58,6 @@ void CSelectPaletDlg::set(CMainFrame* main_frame, t_pal_map_list pal_map_list, t
 
 BOOL CSelectPaletDlg::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "Name");
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, GREEDY)
 			<< item(IDC_TREE, GREEDY)
@@ -72,7 +68,10 @@ BOOL CSelectPaletDlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "Name");
+	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	insert_tree_entry(-1, TVI_ROOT);
 	return true;

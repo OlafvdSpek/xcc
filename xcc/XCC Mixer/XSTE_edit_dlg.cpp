@@ -81,8 +81,6 @@ string CXSTE_edit_dlg::get_extra_value() const
 
 BOOL CXSTE_edit_dlg::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
-	
 	CreateRoot(VERTICAL)
 		<< item(IDC_NAME, ABSOLUTE_VERT)
 		<< item(IDC_VALUE, GREEDY)
@@ -92,7 +90,6 @@ BOOL CXSTE_edit_dlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
-
+	ETSLayoutDialog::OnInitDialog();
 	return true;
 }

@@ -59,9 +59,6 @@ void CSearchFileDlg::set(CMainFrame* main_frame)
 
 BOOL CSearchFileDlg::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	m_list.InsertColumn(0, "Name");
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< item(IDC_FILENAME_STATIC, NORESIZE)
@@ -75,7 +72,9 @@ BOOL CSearchFileDlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_list.InsertColumn(0, "Name");
 	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 	return true;
 }

@@ -68,7 +68,6 @@ static char* column_label[] = {"Name", "Value", "Extra value"};
 
 BOOL CXSTE_dlg::OnInitDialog() 
 {
-	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, GREEDY)
 			<< item(IDC_CAT_LIST, ABSOLUTE_HORZ)
@@ -83,7 +82,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 			<< item(IDOK, NORESIZE)
 			<< item(IDCANCEL, NORESIZE)
 			);
-	UpdateLayout();
+	ETSLayoutDialog::OnInitDialog();
 	SetRedraw(false);
 	m_cat_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);

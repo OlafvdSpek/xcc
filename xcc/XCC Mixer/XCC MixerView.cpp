@@ -242,7 +242,7 @@ void CXCCMixerView::OnInitialUpdate()
 		}
 	}
 	CListView::OnInitialUpdate();
-	ListView_SetExtendedListViewStyle(m_hWnd, ListView_GetExtendedListViewStyle(m_hWnd) | LVS_EX_FULLROWSELECT);
+	GetListCtrl().SetExtendedStyle(GetListCtrl().GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	LV_COLUMN lvc;
 	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
 	lvc.cx = 100;
