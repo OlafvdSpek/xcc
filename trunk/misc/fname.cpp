@@ -178,7 +178,7 @@ bool fname_filter(string fname, string filter)
 				return j < 0 ? false : fname_filter(fname.substr(i + j), filter.substr(i + 1));
 
 			}
-			for (int j = 0; j < filter.length(); j++)
+			for (int j = 0; j < min(fname.length(), filter.length()) - i; j++)
 			{
 				if (fname_filter(fname.substr(i + j), filter.substr(i + 1)))
 					return true;

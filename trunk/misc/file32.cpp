@@ -23,8 +23,8 @@ Cfile32::~Cfile32()
 #ifdef _MSC_VER
 HANDLE Cfile32::handle()
 {
-	assert(is_open());
-	return m_handle;
+	// assert(is_open());
+	return is_open() ? m_handle : INVALID_HANDLE_VALUE;
 }
 
 void Cfile32::attach(HANDLE handle)
