@@ -109,7 +109,10 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	}
 	for (i = 0; i < 2; i++)
 		pc[i] = update_player(pids[i], gr.get_int("cmp", i), gr.get_int("cty", i), gr.get_int("gsku"), players[i], players[1 - i]);
-	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, "
+		"a_pid, a_cid, a_cmp, a_col, a_cty, a_pc, a_inb, a_unb, a_plb, a_blb, a_inl, a_unl, a_pll, a_bll, a_ink, a_unk, a_plk, a_blk, a_blc, "
+		"b_pid, b_cid, b_cmp, b_col, b_cty, b_pc, b_inb, b_unb, b_plb, b_blb, b_inl, b_unl, b_pll, b_bll, b_ink, b_unk, b_plk, b_blk, b_blc, "
+		"ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 	q.p(gr.get_int("afps"));
 	q.p(gr.get_int("dura"));
 	q.p(gr.get_int("gsku"));
@@ -124,6 +127,19 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 		q.p(gr.get_int("col", i));
 		q.p(gr.get_int("cty", i));
 		q.p(pc[i]);
+		q.p(gr.get_int("inb", i)); 
+		q.p(gr.get_int("unb", i)); 
+		q.p(gr.get_int("plb", i)); 
+		q.p(gr.get_int("blb", i)); 
+		q.p(gr.get_int("inl", i)); 
+		q.p(gr.get_int("unl", i)); 
+		q.p(gr.get_int("pll", i)); 
+		q.p(gr.get_int("bll", i)); 
+		q.p(gr.get_int("ink", i)); 
+		q.p(gr.get_int("unk", i)); 
+		q.p(gr.get_int("plk", i)); 
+		q.p(gr.get_int("blk", i)); 
+		q.p(gr.get_int("blc", i)); 
 	}
 	q.p(gr.get_int("idno"));
 	q.execute();
