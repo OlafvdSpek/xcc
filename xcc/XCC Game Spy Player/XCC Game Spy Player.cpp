@@ -29,13 +29,6 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerApp construction
-
-CXCCGameSpyPlayerApp::CXCCGameSpyPlayerApp()
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCGameSpyPlayerApp object
 
 CXCCGameSpyPlayerApp theApp;

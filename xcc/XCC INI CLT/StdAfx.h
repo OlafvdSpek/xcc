@@ -10,8 +10,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#pragma warning(disable: 4786)
+#pragma warning(disable: 4800)
 
-// TODO: reference additional headers your program requires here
+#include <cassert>
 
 //{{AFX_INSERT_LOCATION}}
 // Microsoft Visual C++ will insert additional declarations immediately before the previous line.

@@ -23,7 +23,6 @@ class CXCCGameSpyPlayerApp : public CWinApp
 {
 public:
 	static string data_fname();
-	CXCCGameSpyPlayerApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

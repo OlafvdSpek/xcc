@@ -311,8 +311,15 @@ void CXCCModLauncherDlg::OnOK()
 	case 0:
 		if (m_mod.launch_game(true))
 			MessageBox("Error launching game.", NULL, MB_ICONERROR);				
-		if ((m_mod.options().deactivate == 1 && MessageBox("Would you like to deactivate the mod?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES || m_mod.options().deactivate == 2) && m_mod.deactivate(false))
-			MessageBox("Error deactivating mod.", NULL, MB_ICONERROR);	
+		switch (m_mod.options().deactivate)
+		{
+		case 1:
+			if (IDYES != MessageBox("Would you like to deactivate the mod?", NULL, MB_ICONQUESTION | MB_YESNO))
+				break;
+		case 2:
+			if (m_mod.deactivate(false))
+				MessageBox("Error deactivating mod.", NULL, MB_ICONERROR);	
+		}
 		break;
 	case 2:
 		MessageBox("Error finding game.", NULL, MB_ICONERROR);

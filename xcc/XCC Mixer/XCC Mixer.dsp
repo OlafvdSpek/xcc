@@ -154,6 +154,10 @@ SOURCE=.\SearchFileDlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\SearchStringDlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\SelectPaletDlg.cpp
 # End Source File
 # Begin Source File
@@ -332,6 +336,10 @@ SOURCE=.\Resource.h
 # Begin Source File
 
 SOURCE=.\SearchFileDlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\SearchStringDlg.h
 # End Source File
 # Begin Source File
 

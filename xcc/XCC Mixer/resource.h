@@ -18,6 +18,7 @@
 #define IDD_SHP_PROPERTIES              137
 #define IDD_SELECT_PALET                138
 #define IDD_SHP_VIEWER                  139
+#define IDD_SEARCH_STRING               140
 #define IDC_DUNE2                       1000
 #define IDC_TD_PRIMARY                  1001
 #define IDC_CY                          1001
@@ -61,6 +62,7 @@
 #define IDC_IMAGE                       1031
 #define IDC_SLIDER                      1032
 #define IDC_FRAME                       1033
+#define IDC_SEARCH                      1034
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -1271,9 +1273,9 @@
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        140
+#define _APS_NEXT_RESOURCE_VALUE        141
 #define _APS_NEXT_COMMAND_VALUE         33127
-#define _APS_NEXT_CONTROL_VALUE         1034
+#define _APS_NEXT_CONTROL_VALUE         1036
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

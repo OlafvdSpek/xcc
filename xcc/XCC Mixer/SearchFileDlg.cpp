@@ -60,7 +60,7 @@ void CSearchFileDlg::set(CMainFrame* main_frame)
 BOOL CSearchFileDlg::OnInitDialog() 
 {
 	ETSLayoutDialog::OnInitDialog();
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0, "Name");
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
