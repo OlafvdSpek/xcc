@@ -22,6 +22,11 @@ void CListCtrlEx::auto_size()
 		SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
 }
 
+DWORD CListCtrlEx::GetItemData(int nItem) const
+{
+	return nItem == -1 ? -1 : CListCtrl::GetItemData(nItem);
+}
+
 void CListCtrlEx::OnCustomDraw(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if ((GetStyle() & LVS_TYPEMASK) != LVS_REPORT)
@@ -61,10 +66,7 @@ BOOL CListCtrlEx::PreTranslateMessage(MSG* pMsg)
 			case 'A':
 				if (GetStyle() & LVS_SINGLESEL)
 					break;
-				{
-					for (int i = 0; i < GetItemCount(); i++)
-						SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
-				}
+				select_all();
 				return true;
 			case VK_ADD:
 				auto_size();
@@ -73,4 +75,10 @@ BOOL CListCtrlEx::PreTranslateMessage(MSG* pMsg)
 		}
 	}
 	return CListCtrl::PreTranslateMessage(pMsg);
+}
+
+void CListCtrlEx::select_all()
+{
+	for (int i = 0; i < GetItemCount(); i++)
+		SetItemState(i, LVIS_SELECTED, LVIS_SELECTED);
 }
