@@ -9,8 +9,8 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include <cc_file.h>
-#include <cc_structures.h>
+#include "cc_file.h"
+#include "cc_structures.h"
 
 class Caud_file: public Ccc_file
 {
@@ -28,11 +28,6 @@ public:
     int post_open()
 	{
 		return read(&m_header, sizeof(t_aud_header));
-	}
-
-	bool can_be_decoded() const
-	{
-		return true;
 	}
 
 	int get_c_samples() const
