@@ -2830,6 +2830,19 @@ void CXCCMixerView::open_item(int id)
 			delete decoder;
 			break;
 		}
+	case ft_vqa:
+		{
+			Cvqa_file f;
+			open_f_id(f, id);
+			Cvideo_decoder* decoder = f.decoder();
+			if (!decoder)
+				break;
+			Cdlg_shp_viewer dlg;
+			dlg.write(decoder);
+			dlg.DoModal();
+			delete decoder;
+			break;
+		}
 	}
 }
 

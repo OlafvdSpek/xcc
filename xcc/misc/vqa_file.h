@@ -9,16 +9,18 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <cc_file.h>
-#include <cc_structures.h>
+#include "cc_file.h"
+#include "cc_structures.h"
 #include "fname.h"
+#include "video_decoder.h"
 
 #pragma comment(lib, "vfw32.lib")
 
 class Cvqa_file: public Ccc_file  
 {
 public:
-    int post_open();
+	Cvideo_decoder* decoder();
+	int post_open();
 	int extract_as_avi(const string& name, HWND hwnd);
 	int extract_as_pcx(const Cfname& name, t_file_type ft);
 	int extract_as_wav(const string& name);
