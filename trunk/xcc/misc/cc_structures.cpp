@@ -14,4 +14,5 @@ const char* game_name[] =
 	"Generals", 
 	"Generals Zero Hour",
 	"Emperor Battle for Dune",
+	"Nox",
 };

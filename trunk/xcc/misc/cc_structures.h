@@ -20,6 +20,7 @@ enum t_game
 	game_gr, 
 	game_gr_zh, 
 	game_ebfd,
+	game_nox,
 	game_unknown
 };
 

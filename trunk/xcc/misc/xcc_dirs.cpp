@@ -24,6 +24,7 @@ static string ra_dir;
 static string dune2000_dir;
 static string ts_dir;
 static string ra2_dir;
+static string nox_dir;
 static string rg_dir;
 static string gr_dir;
 static string gr_zh_dir;
@@ -61,6 +62,8 @@ string xcc_dirs::get_dir(t_game game)
 	case game_ra2:
 	case game_ra2_yr:
 		return ra2_dir;
+	case game_nox:
+		return nox_dir;
 	case game_rg:
 		return rg_dir;
 	case game_gr:
@@ -90,6 +93,8 @@ string xcc_dirs::get_exe(t_game game)
 		return dune2000_dir + "dune2000.exe";
 	case game_ra2:
 		return ra2_dir + "ra2.exe";
+	case game_nox:
+		return nox_dir + "nox.exe";
 	case game_ra2_yr:
 		return ra2_dir + "ra2md.exe";
 	case game_gr:
@@ -234,6 +239,9 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	case game_ra2:
 		set_path(s, ra2_dir);
 		break;
+	case game_nox:
+		set_path(s, nox_dir);
+		break;
 	case game_rg:
 		set_path(s, rg_dir);
 		break;
@@ -347,6 +355,13 @@ void xcc_dirs::load_from_registry()
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
 				set_dir(game_ra2, static_cast<Cfname>(s).get_path());
+			RegCloseKey(kh_base);
+		}
+		if (nox_dir.empty() &&
+			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Nox", 0, KEY_QUERY_VALUE, &kh_base))
+		{
+			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+				set_dir(game_nox, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (rg_dir.empty() &&		
