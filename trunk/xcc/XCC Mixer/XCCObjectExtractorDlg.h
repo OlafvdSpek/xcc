@@ -8,6 +8,7 @@
 // XCCObjectExtractorDlg.h : header file
 //
 
+#include "ListCtrlEx.h"
 #include "extract_object.h"
 #include "resource.h"
 
@@ -25,7 +26,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CXCCObjectExtractorDlg)
 	enum { IDD = IDD_XCC_OBJECT_EXTRACTOR };
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	CString	m_link;
 	CString	m_link_title;
 	CString	m_mail;
