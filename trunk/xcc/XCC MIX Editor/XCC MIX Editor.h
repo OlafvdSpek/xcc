@@ -22,7 +22,6 @@
 class CXCCMIXEditorApp : public CWinApp
 {
 public:
-	CXCCMIXEditorApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides

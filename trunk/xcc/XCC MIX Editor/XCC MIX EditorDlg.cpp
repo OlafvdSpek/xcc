@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC MIX Editor.h"
 #include "XCC MIX EditorDlg.h"
 
 #include "blowfish.h"

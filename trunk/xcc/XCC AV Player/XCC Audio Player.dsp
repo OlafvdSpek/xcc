@@ -114,10 +114,6 @@ SOURCE=..\misc\vqa_play.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\wav_header.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=".\XCC Audio Player.cpp"
 # End Source File
 # Begin Source File
@@ -135,10 +131,6 @@ SOURCE=..\misc\xcc_dd.cpp
 # Begin Source File
 
 SOURCE=..\misc\xcc_dds.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.cpp
 # End Source File
 # Begin Source File
 
