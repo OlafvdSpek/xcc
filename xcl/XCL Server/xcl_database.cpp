@@ -9,7 +9,7 @@
 
 static int gsku2lid(int gsku)
 {
-	switch (gsku)
+	switch (gsku & ~0xff)
 	{
 	case 0x2100:
 		return 1;
@@ -119,7 +119,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 			"ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 		q.p(gr.get_int("afps"));
 		q.p(gr.get_int("dura"));
-		q.p(gr.get_int("gsku"));
+		q.p(gr.get_int("gsku") & ~0xff);
 		q.p(gr.get_int("oosy"));
 		q.pe(gr.get_string("scen"));
 		q.p(trny);
