@@ -22,7 +22,6 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	*/
 	byte* image = new byte[global_cx * global_cy];
 	byte* s = new byte[global_cx * global_cy];
-	byte* d = new byte[global_cx * global_cy * 2];
 	for (int i = 0; i < c_images; i++)
 	{
 		const int cx = get_cx(i);
@@ -48,30 +47,15 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
 		if (ft == ft_png)
 		{
-			error = png_file_write(t, s, palet, cx, cy);
+			error = png_file_write(t, s, palet, global_cx, global_cy);
 		}
 		else
 		{
-			error = pcx_file_write(t, s, palet, cx, cy);
+			error = pcx_file_write(t, s, palet, global_cx, global_cy);
 		}
-		/*
-		int cb_d = pcx_encode(s, d, global_cx, global_cy, 1);
-		Cpcx_file_write f;
-		error = f.open_write(t);
-		if (error)
-			break;
-		f.set_size(global_cx, global_cy, 1);
-		error = f.write_header();
-		if (!error)
-			error = f.write_image(d, cb_d);
-		if (!error)
-			error = f.write_palet(palet);
-		f.close();
-		*/
 		if (error)
 			break;
 	}
-	delete[] d;
 	delete[] s;
 	delete[] image;
 	return error;
