@@ -710,7 +710,7 @@ void CMainFrame::OnInternetSeSite()
 
 void CMainFrame::OnInternetXccSite() 
 {
-	ShellExecute(m_hWnd, "open", "http://xcc.tiberian.com/", NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
 }
 
 void CMainFrame::OnViewVoxelNormal() 
