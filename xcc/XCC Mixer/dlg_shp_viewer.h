@@ -21,7 +21,7 @@ class Cdlg_shp_viewer : public ETSLayoutDialog
 public:
 	void show_frame();
 	Cvirtual_image decode_image(int i) const;
-	void write(Cvideo_decoder* decoder, const t_palet palet);
+	void write(Cvideo_decoder* decoder);
 	Cdlg_shp_viewer(CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data

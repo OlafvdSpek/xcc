@@ -42,10 +42,11 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Cdlg_shp_viewer message handlers
 
-void Cdlg_shp_viewer::write(Cvideo_decoder* decoder, const t_palet palet)
+void Cdlg_shp_viewer::write(Cvideo_decoder* decoder)
 {
 	m_decoder = decoder;
-	convert_palet_18_to_24(palet, m_palet);
+	if (decoder->palet())
+		convert_palet_18_to_24(decoder->palet(), m_palet);
 }
 
 static HBITMAP create_bitmap(Cvirtual_image image)
