@@ -19,43 +19,11 @@
 class Cshp_ts_file: public Cvideo_file<t_shp_ts_header>  
 {
 public:
-	int extract_as_pcx(Cvirtual_image& d, const t_palet _palet, bool combine_shadows) const;
+	Cvirtual_image extract_as_pcx(const t_palet _palet, bool combine_shadows) const;
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
-	int extract_as_pcx_single(Cvirtual_image& d, const t_palet _palet, bool combine_shadows = false) const;
+	Cvirtual_image extract_as_pcx_single(const t_palet _palet, bool combine_shadows = false) const;
 	int extract_as_pcx_single(const Cfname& name, t_file_type ft, const t_palet palet, bool combine_shadows = false) const;
-
-	bool is_valid() const
-	{
-		const t_shp_ts_header& header = *get_header();
-		int size = get_size();
-		if (sizeof(t_shp_ts_header) > size || 
-			header.zero ||
-			header.c_images < 1 || header.c_images > 10000 || 
-			sizeof(t_shp_ts_header) + get_cb_index() > size)
-			return false;
-		for (int i = 0; i < min(get_c_images(), 1000); i++)
-		{
-			const t_shp_ts_image_header& image_header = *get_image_header(i);
-			if (!image_header.cx && !image_header.cy && !image_header.offset)
-				continue;
-			if (!image_header.cx || image_header.x + image_header.cx > header.cx ||
-				!image_header.cy || image_header.y + image_header.cy > header.cy ||
-				image_header.zero ||
-				image_header.offset < sizeof(t_shp_ts_header) + get_cb_index())
-				return false;
-			if (is_compressed(i))
-			{
-				if (image_header.offset > size)
-					return false;
-			}
-			else
-			{
-				if (image_header.offset + image_header.cx * image_header.cy > size)
-					return false;
-			}
-		}
-		return true;
-	}
+	bool is_valid() const;
 
 	int cb_pixel() const
 	{

@@ -719,7 +719,7 @@ Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 		{
 			Cshp_ts_file f;
 			f.load(get_vdata_id(id));
-			f.extract_as_pcx_single(d, get_default_palet(), GetMainFrame()->combine_shadows());
+			d = f.extract_as_pcx_single(get_default_palet(), GetMainFrame()->combine_shadows());
 		}
 		break;
 	case ft_tmp_ra:
@@ -1184,7 +1184,7 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	fname.set_ext(".pal");
 	Cpal_file f;
 	int error = open_f_index(f, i);
-	return error ? error : f.extract_as_pal_jasc(fname);
+	return error ? error : f.extract_as_pal_jasc(ofstream(fname.get_all().c_str())).fail();
 }
 
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
@@ -1514,13 +1514,13 @@ int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 		{
 			Cst_file f;
 			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_text(fname);
+			return error ? error : f.extract_as_text(ofstream(static_cast<string>(fname).c_str())).fail();
 		}
 	case ft_vxl:
 		{
 			Cvxl_file f;
 			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_text(ofstream(static_cast<string>(fname).c_str()));
+			return error ? error : f.extract_as_text(ofstream(static_cast<string>(fname).c_str())).fail();
 		}
 	case ft_xif:
 		{

@@ -21,34 +21,10 @@ class Cvxl_file: public Ccc_file_sh<t_vxl_header>
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
-	int extract_as_text(ostream& os) const;
+	ostream& extract_as_text(ostream& os) const;
 	int extract_as_xif(const string& name) const;
+	bool is_valid() const;
 	
-	bool is_valid() const
-	{
- 		int size = get_size();
-		const t_vxl_header& header = *get_header();
-		if (sizeof(t_vxl_header) > size ||
-			strcmp(header.id, vxl_id) ||
-			header.one != 1 ||
-			header.c_section_headers != header.c_section_tailers ||
-			header.size != size - sizeof(t_vxl_header) - header.c_section_headers * sizeof(t_vxl_section_header) - header.c_section_tailers * sizeof(t_vxl_section_tailer) ||
-			header.unknown != 0x1f10)
-			return false;
-		/*
-		for (int i = 0; i < header.c_section_headers; i++)
-		{
-			const t_vxl_section_header& section_header = *get_section_header(i);
-			const t_vxl_section_tailer& section_tailer = *get_section_tailer(i);
-			if (section_header.one != 1 ||
-				section_header.zero ||
-				section_tailer.span_end_ofs - section_tailer.span_start_ofs != section_tailer.span_data_ofs - section_tailer.span_end_ofs)
-				return false;			
-		}
-		*/
-		return true;
-	}
-
 	int get_c_section_headers() const
 	{
 		return get_header()->c_section_headers;
