@@ -4,7 +4,7 @@
 			<td align=right>Clan name:
 			<td><input type=text name=cname maxlength=6 value="<?php echo(htmlspecialchars($cname))?>">
 		<tr>
-			<td align=right>Mail:
+			<td align=right>Email:
 			<td><input type=text name=mail maxlength=63 value="<?php echo(htmlspecialchars($mail))?>">
 		<tr>
 			<td>
