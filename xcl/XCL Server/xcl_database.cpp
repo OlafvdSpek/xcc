@@ -54,6 +54,7 @@ int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl
 		return points_win;
 	case 0x200:
 	case 0x210:
+	case 0x220:
 		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s, ladders = ladders | %s where pid = %s");
 		q.p(points_loss);
 		q.p(1 << cty);
@@ -63,7 +64,6 @@ int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl
 		return -points_loss;
 	}
 	q.write("update xcl_players set countries = countries | %s, ladders = ladders | %s where pid = %s");
-	q.p(points_win);
 	q.p(1 << cty);
 	q.p(ladder);
 	q.p(pid);
