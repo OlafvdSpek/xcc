@@ -155,7 +155,7 @@ string nwp(int l, int v)
 	string r;
 	string s = n(v);
 	while (1)
-	{		
+	{
 		int l = s.length();
 		if (l > 3)
 		{
