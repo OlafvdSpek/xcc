@@ -122,16 +122,29 @@ string nh(int l, int v)
 	return s;
 }
 
+bool is_white(char v)
+{
+        switch (v)
+        {
+		case '\n':
+        case '\t':
+        case ' ':
+                return true;
+        default:
+                return false;
+        }
+}
+
 void ltrim(string& s)
 {
-	while (!s.empty() && s[0] == ' ')
-		s.erase(0, 1);
+        while (!s.empty() && is_white(s[0]))
+                s.erase(0, 1);
 }
 
 void rtrim(string& s)
 {
-	while (!s.empty() && s[s.length() - 1] == ' ')
-		s.erase(s.length() - 1, 1);
+        while (!s.empty() && is_white(s[s.length() - 1]))
+                s.erase(s.length() - 1, 1);
 }
 
 string to_lower(const string& s)
@@ -155,7 +168,7 @@ string nwp(int l, int v)
 	string r;
 	string s = n(v);
 	while (1)
-	{
+	{		
 		int l = s.length();
 		if (l > 3)
 		{
@@ -184,5 +197,7 @@ void split_key(const string& key, string& name, string& value)
 	{
 		name = key.substr(0, i);
 		value = key.substr(i + 1);
+		trim(name);
+		trim(value);
 	}
 }
