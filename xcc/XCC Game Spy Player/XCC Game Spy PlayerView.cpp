@@ -244,93 +244,75 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
 				{
 					const Cobject& object = i->second;
-					if (object.x && object.y && object.target && game_state.objects.find(object.target) != game_state.objects.end())
-					{
-						Cobject target = game_state.objects.find(object.target)->second;
-						CPen pen;
-						pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
-						CPen* old_pen = m_mem_dc.SelectObject(&pen);
-						int x, y;
-						transform(object.x, object.y, x, y);
-						m_mem_dc.MoveTo(x, y);
-						transform(target.x, target.y, x, y);
-						m_mem_dc.LineTo(x, y);
-						m_mem_dc.SelectObject(old_pen);
-					}
-					/*
-					if (0 && object.x && object.y && object.dx && object.dy && (object.x != object.dx || object.x != object.dy))
-					{
-						CPen pen;
-						pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0x7f));
-						CPen* old_pen = m_mem_dc.SelectObject(&pen);
-						int x, y;
-						transform(object.x, object.y, x, y);
-						m_mem_dc.MoveTo(x, y);
-						transform(object.dx, object.dy, x, y);
-						m_mem_dc.LineTo(x, y);
-						m_mem_dc.SelectObject(old_pen);
-					}
-					*/
+					if (!object.x || !object.y || !object.target || game_state.objects.find(object.target) == game_state.objects.end())
+						continue;
+					Cobject target = game_state.objects.find(object.target)->second;
+					CPen pen;
+					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
+					CPen* old_pen = m_mem_dc.SelectObject(&pen);
+					int x, y;
+					transform(object.x, object.y, x, y);
+					m_mem_dc.MoveTo(x, y);
+					transform(target.x, target.y, x, y);
+					m_mem_dc.LineTo(x, y);
+					m_mem_dc.SelectObject(old_pen);
 				}
 			}
 			for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
 			{
 				const Cobject& object = i->second;
-				if (object.x && object.y)
+				if (!object.x || !object.y)
+					continue;
+				const Cplayer& player = game_state.players.find(object.owner)->second;
+				if (!m_view_non_human_objects && !player.human)
+					continue;
+				m_history_map[object.x >> 8][object.y >> 8] = player.id;
+				int x, y;
+				transform(object.x, object.y, x, y);
+				CBrush brush;
+				brush.CreateSolidBrush(player_color(player.id, 0xff));
+				CBrush* old_brush = m_mem_dc.SelectObject(&brush);
+				if (object.building_type == -1)
+					m_mem_dc.Ellipse(x - 2, y - 2, x + 3, y + 3);
+				else
+					m_mem_dc.Ellipse(x - 3, y - 3, x + 4, y + 4);
+				if (!m_show_names)
+					continue;
+				Cobject_type object_type;
+				object_type.strength = 1;
 				{
-					const Cplayer& player = game_state.players.find(object.owner)->second;
-					if (!m_view_non_human_objects && !player.human)
-						continue;
-					m_history_map[object.x >> 8][object.y >> 8] = player.id;
-					int x, y;
-					transform(object.x, object.y, x, y);
-					CBrush brush;
-					brush.CreateSolidBrush(player_color(player.id, 0xff));
-					CBrush* old_brush = m_mem_dc.SelectObject(&brush);
-					if (object.building_type == -1)
-						m_mem_dc.Ellipse(x - 2, y - 2, x + 3, y + 3);
-					else
-						m_mem_dc.Ellipse(x - 3, y - 3, x + 4, y + 4);
-					if (m_show_names)
-					{
-						Cobject_type object_type;
-						object_type.strength = 1;
-						{
-							Cobject_types::t_object_types::const_iterator i = m_object_types.object_types.find(object.building_type == -1 ? object.vehicle_type : object.building_type);
-							if (i == m_object_types.object_types.end())
-								i = m_object_types.object_types.find(object.infantry_type);
-							if (i != m_object_types.object_types.end())
-								object_type = i->second;
-						}
-						string type_name = object_type.name;
-						if (object.building_type == -1)
-							type_name += object.mission >= 0 && object.mission < 33 ? string(": ") + mission_names[object.mission] : "";
-						if (!type_name.empty())
-						{
-							int x, y;
-							transform(object.x, object.y, x, y);
-							{
-								CPen pen;
-								pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0x7f));
-								CPen* old_pen = m_mem_dc.SelectObject(&pen);
-								m_mem_dc.MoveTo(x + 26, y + 4);
-								m_mem_dc.LineTo(x + 6, y + 4);
-								m_mem_dc.SelectObject(old_pen);
-							}
-							{
-								CPen pen;
-								pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
-								CPen* old_pen = m_mem_dc.SelectObject(&pen);
-								m_mem_dc.LineTo(x + 6 + 20 * object.health / object_type.strength, y + 4);
-								m_mem_dc.SelectObject(old_pen);
-							}
-							COLORREF old_color = m_mem_dc.SetTextColor(player_color(player.id, 0x7f));
-							m_mem_dc.TextOut(x + 6, y + 6, type_name.c_str());
-							m_mem_dc.SetTextColor(old_color);
-						}
-					}
-					// m_mem_dc.SelectObject(old_brush);
+					Cobject_types::t_object_types::const_iterator i = m_object_types.object_types.find(object.building_type == -1 ? object.vehicle_type : object.building_type);
+					if (i == m_object_types.object_types.end())
+						i = m_object_types.object_types.find(object.infantry_type);
+					if (i != m_object_types.object_types.end())
+						object_type = i->second;
 				}
+				string type_name = object_type.name;
+				if (object.building_type == -1)
+					type_name += object.mission >= 0 && object.mission < 33 ? string(": ") + mission_names[object.mission] : "";
+				if (type_name.empty())
+					continue;
+				// int x, y;
+				// transform(object.x, object.y, x, y);
+				{
+					CPen pen;
+					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0x7f));
+					CPen* old_pen = m_mem_dc.SelectObject(&pen);
+					m_mem_dc.MoveTo(x + 26, y + 4);
+					m_mem_dc.LineTo(x + 6, y + 4);
+					m_mem_dc.SelectObject(old_pen);
+				}
+				{
+					CPen pen;
+					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
+					CPen* old_pen = m_mem_dc.SelectObject(&pen);
+					m_mem_dc.LineTo(x + 6 + 20 * object.health / object_type.strength, y + 4);
+					m_mem_dc.SelectObject(old_pen);
+				}
+				COLORREF old_color = m_mem_dc.SetTextColor(player_color(player.id, 0x7f));
+				m_mem_dc.TextOut(x + 6, y + 6, type_name.c_str());
+				m_mem_dc.SetTextColor(old_color);
+				// m_mem_dc.SelectObject(old_brush);
 			}
 		}
 		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.gid) + " " + get_map_name(game_state.scenario)).c_str());
