@@ -1,5 +1,6 @@
 #include <cassert>
 #include <cstdio>
+#include <ctime>
 #ifdef _MSC_VER
 #include <fcntl.h>
 #include <io.h>
@@ -46,7 +47,9 @@ void process(const Cvirtual_binary& s)
 		q.pe(s);
 		q.pe(get_env("REMOTE_ADDR"));
 		q.execute();
-		database.insert_game(s);
+		time_t t = time(NULL);
+		if (gmtime(&t)->tm_mday != 1)
+			database.insert_game(s);
 	}
 	catch (Cxcc_error error)
 	{
