@@ -143,16 +143,10 @@ const char* ft_name[] =
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
 {
-	m_attached = false;
-    m_data_loaded = m_is_open = false;
+    m_is_open = false;
 }
 
-Ccc_file::~Ccc_file()
-{
-    assert(!is_open() || m_data_loaded);
-}
-
-#define test_fail(res) { int v = res; if (v) { clean_up(); return v; }}
+#define test_fail(res) { int v = res; if (v) { close(); return v; }}
 
 #ifndef NO_MIX_SUPPORT
 int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
@@ -205,17 +199,21 @@ int Ccc_file::open(const string& name)
     return 0;
 }
 
+int Ccc_file::open(const char* name)
+{
+	return open(static_cast<string>(name));
+}
+
 const Cwin_handle& Ccc_file::h()
 {
 	assert(is_open());
 	return m_f.h();
 }
 
-int Ccc_file::attach(const Cwin_handle& h)
+int Ccc_file::open(const Cwin_handle& h)
 {
     assert(!is_open());
 	m_f.open(h);
-	m_attached = true;
 	m_mix_f = NULL;
 	m_size = m_f.get_size();
 	m_p = 0;
@@ -227,18 +225,9 @@ int Ccc_file::attach(const Cwin_handle& h)
 	return 0;
 }
 
-void Ccc_file::detach()
-{
-    assert(is_open());
-	m_is_open = false;
-	m_attached = false;
-	m_f.close();
-}
-
 void Ccc_file::load(const Cvirtual_binary d, int size)
 {
 	m_data = d;
-	m_data_loaded = true;
 	m_mix_f = NULL;
 	m_is_open = true;
 	m_p = 0;
@@ -492,16 +481,14 @@ t_file_type Ccc_file::get_file_type(bool fast)
 int Ccc_file::read()
 {
 	seek(0);
-	int error = read(m_data.write_start(get_size()), get_size());
-	m_data_loaded = true;
-	return error;
+	return read(m_data.write_start(get_size()), get_size());
 }
 
 int Ccc_file::read(void* data, int size)
 {
 	if (get_p() < 0 || get_p() + size > get_size())
 		return 1;
-	if (get_data()) // m_data_loaded)
+	if (get_data())
 	{
 		memcpy(data, m_data.data() + m_p, size);
 		skip(size);
@@ -560,21 +547,7 @@ int Ccc_file::extract(const string& name)
 
 void Ccc_file::close()
 {
-    assert(is_open());
-	if (!m_data_loaded)
-		m_data.clear();
-	if (m_f.is_open())
-		assert(!m_mix_f);
-    if (!m_mix_f && m_f.is_open())
-        m_f.close();
+	m_data.clear();
+    m_f.close();
     m_is_open = false;
-}
-
-void Ccc_file::clean_up()
-{
-    m_data.clear();
-	if (is_attached())
-		detach();
-    if (is_open())
-        close();
 }

@@ -99,12 +99,11 @@ class Ccc_file
 {
 public:
 	const Cwin_handle& h();
-	int attach(const Cwin_handle& h);
-	void detach();
+	int open(const Cwin_handle& h);
     int open(unsigned int id, Cmix_file& mix_f);
     int open(const string& name, Cmix_file& mix_f);
     int open(const string& name);
-	// void load(const byte* data, int size);
+	int open(const char* name);
 	void load(const Cvirtual_binary d, int size = -1);
 	void load(const Ccc_file& f);
 	t_file_type get_file_type(bool fast = true);
@@ -113,7 +112,6 @@ public:
 	int extract(const string& name);
     virtual void close();
 	Ccc_file(bool read_on_open);
-	~Ccc_file();
 
     const byte* get_data() const
     {
@@ -135,11 +133,6 @@ public:
 		return m_size;
 	}
 
-    bool is_attached() const
-    {
-        return m_attached;
-    }
-
     bool is_open() const
     {
         return m_is_open;
@@ -160,13 +153,11 @@ public:
         return 0;
     }
 protected:
-	bool m_data_loaded;
     Cmix_file* m_mix_f;
     int m_offset;
 private:
     void clean_up();
 
-	bool m_attached;
     Cvirtual_binary m_data;
     Cfile32 m_f;
     bool m_is_open;

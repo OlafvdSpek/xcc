@@ -38,14 +38,13 @@ int Cmix_edit::open(const string& name)
 	if (!error)
 	{		
 		Cmix_file f;
-		error = f.attach(m_f.h());
+		error = f.open(m_f.h());
 		if (!error)
 		{
 			m_game = f.get_game();
 			m_index.clear();
 			for (int i = 0; i < f.get_c_files(); i++)
 				m_index[f.get_id(i)] = f.index()[i];
-			f.detach();
 		}				
 		if (error)
 			m_f.close();

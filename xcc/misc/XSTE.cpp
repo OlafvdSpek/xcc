@@ -34,7 +34,7 @@ int CXSTE::open(t_game game)
 			}
 		}
 		if (!error)
-			error = m_csf_f.attach(m_f.h());
+			error = m_csf_f.open(m_f.h());
 		if (error)
 			m_f.close();
 	}
@@ -53,7 +53,6 @@ int CXSTE::write()
 
 void CXSTE::close()
 {
-	if (m_csf_f.is_attached())
-		m_csf_f.detach();
+	m_csf_f.close();
 	m_f.close();
 }

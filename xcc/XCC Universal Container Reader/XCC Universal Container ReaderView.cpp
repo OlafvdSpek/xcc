@@ -54,15 +54,6 @@ BOOL CXCCUniversalContainerReaderView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderView drawing
-
-void CXCCUniversalContainerReaderView::OnDraw(CDC* pDC)
-{
-	CXCCUniversalContainerReaderDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-}
-
 static int c_colums = 3;
 
 void CXCCUniversalContainerReaderView::OnInitialUpdate()

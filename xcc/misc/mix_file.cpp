@@ -79,7 +79,7 @@ int Cmix_file::post_open()
 		if (get_data())
 			f.load(get_vdata());
 		else
-			f.attach(h());
+			f.open(h());
 		if (f.is_open() && f.is_valid())
 		{
 			m_game = game_rg;
@@ -96,8 +96,6 @@ int Cmix_file::post_open()
 				m_index[i].size = f.get_size(name);
 			}
 			index_read = true;
-			if (f.is_attached())
-				f.detach();
 		}
 		else
 		{
@@ -105,7 +103,7 @@ int Cmix_file::post_open()
 			if (get_data())
 				f.load(get_vdata());
 			else
-				f.attach(h());
+				f.open(h());
 			if (f.is_open() && f.is_valid())
 			{
 				m_game = game_gr;
@@ -122,8 +120,6 @@ int Cmix_file::post_open()
 					m_index[i].size = f.get_size(name);
 				}
 				index_read = true;
-				if (f.is_attached())
-					f.detach();
 			}
 		}
 	}
@@ -274,7 +270,7 @@ int Cmix_file::post_open()
 				}
 			}
 		}
-		if (!m_data_loaded)
+		if (get_vdata().size() == get_size())
 		{
 			int crc = compute_crc(m_index, m_c_files * sizeof(t_mix_index_entry));
 			const void* s = mix_cache::get_data(crc);

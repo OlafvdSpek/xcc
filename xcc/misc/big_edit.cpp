@@ -41,12 +41,9 @@ int Cbig_edit::open(const string& name)
 	if (!error)
 	{		
 		Cbig_file f;
-		error = f.attach(m_f.h());
+		error = f.open(m_f.h());
 		if (!error)
-		{
 			m_index = f.index();
-			f.detach();
-		}				
 		if (error)
 			m_f.close();
 	}
