@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "string_conversion.h"
 
+#include <ctime>
+
 int a2ip(const string& s)
 {
 	int r = 0;

@@ -290,7 +290,7 @@ void CXCCMixerView::OnFileNew()
 
 void CXCCMixerView::OnFileOpen()
 {
-	CFileDialog dlg(true, "mix", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "MIX files (*.mix)|*.mix|", this);
+	CFileDialog dlg(true, "mix", NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "MIX files (*.big;*.dat;*.mix;*.pkg)|*.big;*.dat;*.mix;*.pkg|", this);
 	if (IDOK == dlg.DoModal())
 	{
 		close_all_locations();
@@ -2766,4 +2766,3 @@ void CXCCMixerView::OnEditSelectAll()
 			lc.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
 	}
 }
-
