@@ -31,6 +31,7 @@ public:
 	public:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	virtual void ActivateFrame(int nCmdShow = -1);
 	//}}AFX_VIRTUAL
 
 // Implementation

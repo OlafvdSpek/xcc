@@ -25,6 +25,8 @@
 #define IDC_UPDATE_BUTTON               1014
 #define IDC_GAME                        1015
 #define IDC_CONFIRM_DEACTIVATE          1016
+#define IDC_SHP_COMPRESSION             1017
+#define IDC_VXL_COMPRESSION             1018
 #define ID_EDIT_INSERT                  32771
 #define ID_EDIT_DELETE                  32772
 #define ID_POPUP_OPEN                   32775

@@ -41,6 +41,8 @@ public:
 	CString	m_mod_version;
 	BOOL	m_update_button;
 	BOOL	m_confirm_deactivate;
+	BOOL	m_shp_compression;
+	BOOL	m_vxl_compression;
 	//}}AFX_DATA
 
 

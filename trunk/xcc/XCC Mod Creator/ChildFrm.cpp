@@ -50,7 +50,6 @@ CChildFrame::~CChildFrame()
 BOOL CChildFrame::OnCreateClient( LPCREATESTRUCT /*lpcs*/,
 	CCreateContext* pContext)
 {
-	// create splitter window
 	if (!m_wndSplitter.CreateStatic(this, 1, 2))
 		return FALSE;
 
@@ -74,7 +73,11 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-
+void CChildFrame::ActivateFrame(int nCmdShow) 
+{
+	nCmdShow = SW_SHOWMAXIMIZED;
+	CMDIChildWnd::ActivateFrame(nCmdShow);
+}
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame diagnostics
@@ -150,8 +153,10 @@ void CChildFrame::OnModOptions()
 
 void CChildFrame::OnModReport() 
 {
+	CWaitCursor wait;
 	string fname = get_temp_path() + GetRightPane()->GetDocument()->options().mod_name + " Report.html";
 	GetRightPane()->GetDocument()->report(fname);
 	ShellExecute(m_hWnd, "open", fname.c_str(), NULL, NULL, SW_SHOW);
 }
+
 

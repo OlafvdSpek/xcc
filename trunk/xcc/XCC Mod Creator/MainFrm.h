@@ -42,7 +42,6 @@ protected:  // control bar embedded members
 	CStatusBar  m_wndStatusBar;
 	CToolBar    m_wndToolBar;
 	CReBar      m_wndReBar;
-	CDialogBar      m_wndDlgBar;
 
 // Generated message map functions
 protected:

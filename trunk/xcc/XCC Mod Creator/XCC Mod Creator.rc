@@ -440,6 +440,10 @@ BEGIN
                     WS_TABSTOP,7,264,50,10
     CONTROL         "Confirm deactivate",IDC_CONFIRM_DEACTIVATE,"Button",
                     BS_AUTOCHECKBOX | WS_TABSTOP,7,278,75,10
+    CONTROL         "SHP compression",IDC_SHP_COMPRESSION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,101,173,72,10
+    CONTROL         "VXL compression",IDC_VXL_COMPRESSION,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,101,186,71,10
 END
 
 
