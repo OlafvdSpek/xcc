@@ -5,7 +5,9 @@
 #include "XCC WOL IRC Server Client.h"
 #include "XCC WOL IRC Server ClientDlg.h"
 
+#include "dlg_login.h"
 #include "multi_line.h"
+#include "string_conversion.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -42,6 +44,7 @@ BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_SET, OnSet)
 	ON_BN_CLICKED(IDC_RESET, OnReset)
 	ON_BN_CLICKED(IDC_OPEN, OnOpen)
+	ON_BN_CLICKED(IDC_TEST, OnTest)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -166,4 +169,13 @@ void CXCCWOLIRCServerClientDlg::update_ipa2()
 		return;
 	in_addr a = *reinterpret_cast<in_addr*>(*e->h_addr_list);
 	m_ipa2.SetAddress(a.S_un.S_un_b.s_b1, a.S_un.S_un_b.s_b2, a.S_un.S_un_b.s_b3, a.S_un.S_un_b.s_b4);
+}
+
+void CXCCWOLIRCServerClientDlg::OnTest() 
+{
+	Cdlg_login dlg;
+	DWORD a;
+	m_ipa.GetAddress(a);
+	dlg.ipa(a);
+	dlg.DoModal();
 }

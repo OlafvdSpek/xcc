@@ -68,8 +68,8 @@ LINK32=link.exe
 # PROP Intermediate_Dir "Debug"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
-# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ  /c
-# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /GZ   /c
+# ADD BASE CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /Yu"stdafx.h" /FD /GZ /c
+# ADD CPP /nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Yu"stdafx.h" /FD /GZ /c
 # ADD BASE MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD MTL /nologo /D "_DEBUG" /mktyplib203 /win32
 # ADD BASE RSC /l 0x413 /d "_DEBUG" /d "_AFXDLL"
@@ -92,6 +92,26 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
+SOURCE=..\misc\cc_structures.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\dlg_login.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\file32.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\fname.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\multi_line.cpp
 # End Source File
 # Begin Source File
@@ -105,6 +125,14 @@ SOURCE=..\..\misc\string_conversion.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_binary.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\win_handle.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=".\XCC WOL IRC Server Client.cpp"
 # End Source File
 # Begin Source File
@@ -115,10 +143,22 @@ SOURCE=".\XCC WOL IRC Server Client.rc"
 
 SOURCE=".\XCC WOL IRC Server ClientDlg.cpp"
 # End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_dirs.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\xcc_registry.cpp
+# End Source File
 # End Group
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
+# Begin Source File
+
+SOURCE=.\dlg_login.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\Resource.h
