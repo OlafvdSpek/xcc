@@ -788,7 +788,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
-		return d == ft_pcx || d == ft_text || d == ft_xif;
+		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_text || d == ft_tga || d == ft_xif;
 	case ft_wav:
 		return d == ft_aud || d == ft_wav_ima_adpcm || d == ft_wav_pcm;
 	case ft_xif:
@@ -1355,6 +1355,17 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			}
 			break;
 		}
+	case ft_vxl:
+		{
+			Cvxl_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error = f.extract_as_pcx(fname, ft, get_default_palet());
+				f.close();
+			}
+			break;
+		}
 	case ft_wsa_dune2:
 		{
 			Cwsa_dune2_file f;
@@ -1373,17 +1384,6 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			if (!error)
 			{
 				error = f.extract_as_pcx(fname);
-				f.close();
-			}
-			break;
-		}
-	case ft_vxl:
-		{
-			Cvxl_file f;
-			error = open_f_index(f, i);
-			if (!error)
-			{
-				error = f.extract_as_pcx(fname, get_default_palet());
 				f.close();
 			}
 			break;
@@ -1481,9 +1481,9 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			else
 			{
 				if (f.cx() != cx || f.cy() != cy)
-					error = 0x100;
+					error = em_bad_size;
 				else if (f.get_c_planes() != 1)
-					error = 0x101;
+					error = em_bad_depth;
 				else if (!error)
 				{
 					if (!s)
@@ -1744,57 +1744,49 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 		{
 			string base_name = get_base_name(fname);
 			if (get_index_from_name(base_name, fname))
-				return 0x102;
-			Cpcx_file f;
-			error = open_f_index(f, i);
+				return em_bad_fname;
+			Cvirtual_image image;			
+			if (error = image.load(get_vdata(i)))
+				break;
+			int cx = image.cx();
+			int cy = image.cy();
+			int c_images = 0;
+			byte* s = NULL;
+			int index[256];
+			for (int i = 0; i < 256; i++)
+				index[i] = -1;
+			for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+			{
+				int z = get_index_from_name(base_name, j->second.name);
+				if (z != -1 && z < 256)
+					index[z] = j->first;
+			}
+			while (i--)
+			{
+				int id = index[i];
+				if (id == -1)
+					continue;
+				if (error = image.load(get_vdata(i)))
+					break;
+				else
+				{
+					if (image.cx() != cx || image.cy() != cy || image.cb_pixel() != 1)
+						error = em_bad_depth;
+					else if (!error)
+					{
+						if (!s)
+						{
+							c_images = i + 1;
+							s = new byte[cx * cy * c_images];
+						}
+						memcpy(s + cx * cy * i, image.image(), cx * cy);
+					}
+				}
+			}
 			if (!error)
 			{
-				int cx = f.cx();
-				int cy = f.cy();
-				int c_images = 0;
-				byte* s = NULL;
-				f.close();
-				int index[256];
-				for (int i = 0; i < 256; i++)
-					index[i] = -1;
-				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
-				{
-					int z = get_index_from_name(base_name, j->second.name);
-					if (z != -1 && z < 256)
-						index[z] = j->first;
-				}
-				while (i--)
-				{
-					int id = index[i];
-					if (id == -1)
-						continue;
-					if (open_f_id(f, id))
-					{
-						error = 1;
-						break;
-					}
-					else
-					{
-						if (f.cx() != cx || f.cy() != cy || f.get_c_planes() != 1)
-							error = 0x0100;
-						else if (!error)
-						{
-							if (!s)
-							{
-								c_images = i + 1;
-								s = new byte[cx * cy * c_images];
-							}
-							pcx_decode(f.get_image(), s + cx * cy * i, *f.get_header());
-						}
-						f.close();
-					}
-				}
-				if (!error)
-				{
-					Cvirtual_binary d;
-					d.size(vxl_file_write(s, NULL, d.write_start(1 << 20), cx, cy, c_images));
-					error = d.size() ? d.export(fname) : 1;
-				}
+				Cvirtual_binary d = vxl_file_write(s, NULL, cx, cy, c_images);
+				error = d.size() ? d.export(fname) : 1;
 			}
 			break;
 		}
@@ -1806,10 +1798,8 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			{
 				Cvirtual_tfile f;
 				f.load_data(g.get_vdata());
-				Cvirtual_binary d;
-				error = vxl_file_write(f, d);
-				if (!error)
-					error = d.export(fname);
+				Cvirtual_binary d = vxl_file_write(f);
+				error = d.size() ? d.export(fname) : 1;
 				g.close();
 			}
 			break;
@@ -1824,8 +1814,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				error = k.load_key(f.get_data(), f.get_size());
 				if (!error)
 				{
-					Cvirtual_binary d;
-					d.size(vxl_file_write(k, d.write_start(1 << 20)));
+					Cvirtual_binary d = vxl_file_write(k);
 					error = d.size() ? d.export(fname) : 1;
 				}
 				f.close();
