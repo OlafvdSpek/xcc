@@ -33,10 +33,10 @@ void Cextract_object::open_default(t_game game)
 {
 	m_game = game;
 	if (game == game_ts)
-		add_mix(xcc_dirs::get_ts_dir() + "patch.mix");
+		add_mix(xcc_dirs::get_dir(game) + "patch.mix");
 	else
 	{
-		add_mix(xcc_dirs::get_ra2_dir() + "language.mix");
+		add_mix(xcc_dirs::get_dir(game) + "language.mix");
 		m_xste.open(game);
 	}
 	for (int j = 0; j < 100; j++)

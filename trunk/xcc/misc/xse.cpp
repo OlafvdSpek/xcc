@@ -12,10 +12,10 @@
 int Cxse::open()
 {
 	t_game game = Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists() ? game_ra2_yr : game_ra2;
-	int error = m_bag_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.bag");
+	int error = m_bag_f.open_edit(xcc_dirs::get_dir(game) + "audio.bag");
 	if (!error)
 	{
-		error = m_idx_f.open_edit(xcc_dirs::get_ra2_dir() + "audio.idx");
+		error = m_idx_f.open_edit(xcc_dirs::get_dir(game) + "audio.idx");
 		if (!error)
 		{
 			if (m_bag_f.get_size() && m_idx_f.get_size())

@@ -2249,7 +2249,7 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 	Ccc_file f(false);
 	if (open_f_index(f, get_current_index()))
 		return;
-	const string fname = xcc_dirs::get_ts_dir() + m_index.find(get_current_id())->second.name;
+	const string fname = xcc_dirs::get_dir(game_ts) + m_index.find(get_current_id())->second.name;
 	f.extract(fname);
 	f.close();
 	ShellExecute(m_hWnd, "open", GetApp()->get_fs_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
@@ -2267,7 +2267,7 @@ void CXCCMixerView::OnPopupOpenWithFinalalert()
 	Ccc_file f(false);
 	if (open_f_index(f, get_current_index()))
 		return;
-	const string fname = xcc_dirs::get_ra2_dir() + m_index.find(get_current_id())->second.name;
+	const string fname = xcc_dirs::get_dir(game_ra2) + m_index.find(get_current_id())->second.name;
 	f.extract(fname);
 	f.close();
 	ShellExecute(m_hWnd, "open", GetApp()->get_fa_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
@@ -2457,7 +2457,7 @@ void CXCCMixerView::OnPopupImportIntoTS()
 void CXCCMixerView::OnUpdatePopupImportIntoTS(CCmdUI* pCmdUI)
 {
 	int id = get_current_id();
-	if (!xcc_dirs::get_ts_dir().empty() && id != -1)
+	if (!xcc_dirs::get_dir(game_ts).empty() && id != -1)
 	{
 		switch (m_index.find(get_current_id())->second.ft)
 		{
@@ -2490,7 +2490,7 @@ void CXCCMixerView::OnPopupImportIntoRa2()
 void CXCCMixerView::OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI) 
 {
 	int id = get_current_id();
-	if (!xcc_dirs::get_ra2_dir().empty() && id != -1)
+	if (!xcc_dirs::get_dir(game_ra2).empty() && id != -1)
 	{
 		switch (m_index.find(get_current_id())->second.ft)
 		{

@@ -1093,7 +1093,7 @@ void CMainFrame::OnLaunchXOE_TS()
 
 void CMainFrame::OnUpdateLaunchXOE_TS(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());
+	pCmdUI->Enable(!xcc_dirs::get_dir(game_ts).empty());
 }
 
 void CMainFrame::OnLaunchXOE_RA2() 
@@ -1104,7 +1104,7 @@ void CMainFrame::OnLaunchXOE_RA2()
 
 void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+	pCmdUI->Enable(!xcc_dirs::get_dir(game_ra2).empty());	
 }
 
 void CMainFrame::OnLaunchXSTE_RA2() 
@@ -1172,7 +1172,7 @@ void CMainFrame::OnLaunchXSE()
 
 void CMainFrame::OnUpdateLaunchXSE(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+	pCmdUI->Enable(!xcc_dirs::get_dir(game_ra2).empty());	
 }
 
 void CMainFrame::OnDestroy() 
@@ -1202,7 +1202,7 @@ void CMainFrame::OnLaunchXTW_TS()
 				if (!ir.process(theme.get_data(), theme.get_size()))
 				{
 					t_theme_list theme_list = ir.get_theme_list();
-					string dir = xcc_dirs::get_ts_dir();
+					string dir = xcc_dirs::get_dir(game_ts);
 					WIN32_FIND_DATA fd;
 					HANDLE findhandle = FindFirstFile((dir + "*.aud").c_str(), &fd);
 					if (findhandle != INVALID_HANDLE_VALUE)
@@ -1270,7 +1270,7 @@ void CMainFrame::OnLaunchXTW_TS()
 
 void CMainFrame::OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());	
+	pCmdUI->Enable(!xcc_dirs::get_dir(game_ts).empty());	
 }
 
 void CMainFrame::launch_xtw(t_game game)
@@ -1289,7 +1289,7 @@ void CMainFrame::launch_xtw(t_game game)
 				if (!ir.process(theme.get_data(), theme.get_size()))
 				{
 					t_theme_list theme_list = ir.get_theme_list();
-					string dir = xcc_dirs::get_ra2_dir();
+					string dir = xcc_dirs::get_dir(game_ra2);
 					WIN32_FIND_DATA fd;
 					HANDLE findhandle = FindFirstFile((dir + "*.wav").c_str(), &fd);
 					if (findhandle != INVALID_HANDLE_VALUE)
@@ -1371,7 +1371,7 @@ void CMainFrame::OnLaunchXTW_RA2()
 
 void CMainFrame::OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+	pCmdUI->Enable(!xcc_dirs::get_dir(game_ra2).empty());	
 }
 
 void CMainFrame::OnLaunchXTW_RA2_YR() 
@@ -1419,8 +1419,8 @@ void CMainFrame::OnViewReport()
 		+ tr(td("Split shadows") + td(btoa(m_split_shadows)))
 		+ tr(td("TD dir") + td(xcc_dirs::get_td_primary_dir()))
 		+ tr(td("RA dir") + td(xcc_dirs::get_ra_dir()))
-		+ tr(td("TS dir") + td(xcc_dirs::get_ts_dir()))
-		+ tr(td("RA2 dir") + td(xcc_dirs::get_ra2_dir()))
+		+ tr(td("TS dir") + td(xcc_dirs::get_dir(game_ts)))
+		+ tr(td("RA2 dir") + td(xcc_dirs::get_dir(game_ra2)))
 		+ tr(td("RG dir") + td(xcc_dirs::get_dir(game_rg)))
 		+ tr(td("GR dir") + td(xcc_dirs::get_dir(game_gr)))
 		+ tr(td("GR ZH dir") + td(xcc_dirs::get_dir(game_gr_zh)))

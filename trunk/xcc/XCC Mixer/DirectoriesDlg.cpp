@@ -25,8 +25,8 @@ CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 	m_edit_td_secondary = xcc_dirs::get_td_secondary_dir().c_str();
 	m_edit_ra = xcc_dirs::get_ra_dir().c_str();
 	m_edit_dune2000 = xcc_dirs::get_dune2000_dir().c_str();
-	m_edit_ts = xcc_dirs::get_ts_dir().c_str();
-	m_edit_ra2 = xcc_dirs::get_ra2_dir().c_str();
+	m_edit_ts = xcc_dirs::get_dir(game_ts).c_str();
+	m_edit_ra2 = xcc_dirs::get_dir(game_ra2).c_str();
 	m_edit_cd = xcc_dirs::get_cd_dir().c_str();
 	m_edit_data = xcc_dirs::get_data_dir().c_str();
 	//}}AFX_DATA_INIT
