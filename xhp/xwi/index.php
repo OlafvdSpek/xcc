@@ -51,22 +51,22 @@
 
 	db_connect();
 
-	$name = $_POST['name'];
-	$pass = $_POST['pass'];
+	$name = trim($_POST['name']);
+	$pass = trim($_POST['pass']);
 
 	switch ($_GET['a'])
 	{
 	case "edit":
 		{
-			$cid = $_POST['cid'] ? $_POST['cid'] : $_GET['cid'];
+			$cid = trim($_REQUEST['cid']);
 			if (isset($pass))
 			{
 				if ($clan = mysql_fetch_array(db_query(sprintf("select * from xwi_clans where cid = %d and pass = md5(\"%s\")", $cid, AddSlashes($pass)))))
 				{
-					$icq = $_POST['icq'];
-					$mail = $_POST['mail'];
-					$msn = $_POST['msn'];
-					$site = $_POST['site'];
+					$icq = trim($_POST['icq']);
+					$mail = trim($_POST['mail']);
+					$msn = trim($_POST['msn']);
+					$site = trim($_POST['site']);
 					db_query(sprintf("update xwi_clans set icq = %d, mail = \"%s\", msn = \"%s\", site = \"%s\" where cid = %d", $icq, AddSlashes($mail), AddSlashes($msn), AddSlashes($site), $clan['cid']));
 				}
 				else
@@ -78,11 +78,11 @@
 		break;
 	case "create":
 		{
-			$cname = $_POST['cname'];
-			$icq = $_POST['icq'];
-			$mail = $_POST['mail'];
-			$msn = $_POST['msn'];
-			$site = $_POST['site'];
+			$cname = trim($_POST['cname']);
+			$icq = trim($_POST['icq']);
+			$mail = trim($_POST['mail']);
+			$msn = trim($_POST['msn']);
+			$site = trim($_POST['site']);
 			if (!$site)
 				$site = "http://";
 			if ($name || $pass || $cname)
@@ -191,7 +191,7 @@
 		break;
 	case "join":
 		{
-			$cpass = $_POST['cpass'];
+			$cpass = trim($_POST['cpass']);
 			if ($name || $pass || $cpass)
 			{
 				if ($player = get_player2($name, $pass))
@@ -204,10 +204,15 @@
 					}
 					else if ($clan_invite = mysql_fetch_array(db_query(sprintf("select * from xwi_clan_invites where pass = md5(\"%s\")", AddSlashes($cpass)))))
 					{
-						db_query(sprintf("delete from xwi_clan_invites where pid = %d and cid = %d", $player['pid'], $clan_invite['cid']));
-						db_query(sprintf("update xwi_players set cid = %d where pid = %d", $clan_invite['cid'], $player['pid']));
-						$clan = get_clan($clan_invite['cid']);
-						printf("Player %s joined clan %s<br>", $player['name'], $clan['name']);
+						if ($clan_invite['pid'] == $player['pid'])
+						{
+							db_query(sprintf("delete from xwi_clan_invites where pid = %d and cid = %d", $player['pid'], $clan_invite['cid']));
+							db_query(sprintf("update xwi_players set cid = %d where pid = %d", $clan_invite['cid'], $player['pid']));
+							$clan = get_clan($clan_invite['cid']);
+							printf("Player %s joined clan %s<br>", $player['name'], $clan['name']);
+						}
+						else
+							echo("Wrong invitation");
 					}
 					else
 						echo("Wrong clan pass");
@@ -254,8 +259,8 @@
 		}
 		break;
 	case 'retrieve_pass':
-		$cname = $_POST['cname'];
-		$mail = $_POST['mail'];
+		$cname = trim($_POST['cname']);
+		$mail = trim($_POST['mail']);
 		if ($cname && $mail)
 		{
 			if ($clan = mysql_fetch_array(db_query(sprintf("select mail, pass from xwi_clans where name = '%s' and mail = '%s'", AddSlashes($cname), AddSlashes($mail)))))
