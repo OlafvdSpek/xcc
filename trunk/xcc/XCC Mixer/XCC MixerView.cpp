@@ -435,10 +435,7 @@ void CXCCMixerView::update_list()
 			m_index[id] = e;
 			if (e.ft == ft_pal)
 			{
-				Cpal_file f;
-				f.open(id, *m_mix_f);
-				memcpy(m_palet, f.get_palet(), sizeof(t_palet));
-				f.close();
+				m_mix_f->get_vdata(id).read(m_palet);
 				m_palet_loaded = true;
 			}
 		}
@@ -2761,14 +2758,9 @@ void CXCCMixerView::open_item(int id)
 		}
 	case ft_shp_ts:
 		{
-			Cshp_ts_file f;
-			if (!open_f_id(f, id))
-			{
-				Cdlg_shp_viewer dlg;
-				dlg.write(f.get_vdata(), get_default_palet());
-				f.close();
-				dlg.DoModal();
-			}
+			Cdlg_shp_viewer dlg;
+			dlg.write(get_vdata_id(id), get_default_palet());
+			dlg.DoModal();
 			break;
 		}
 	}
