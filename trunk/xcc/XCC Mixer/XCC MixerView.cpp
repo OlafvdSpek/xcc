@@ -2792,12 +2792,28 @@ void CXCCMixerView::open_item(int id)
 			break;
 		}
 	case ft_shp_ts:
+	case ft_wsa:
 		{
+			Cvideo_decoder* decoder = NULL;
+			switch (index.ft)
+			{
+			case ft_shp_ts:
+				{
+					Cshp_ts_file f;
+					f.load(get_vdata_id(id));
+					decoder = f.decoder(get_default_palet());
+				}
+				break;
+			case ft_wsa:
+				{
+					Cwsa_file f;
+					f.load(get_vdata_id(id));
+					decoder = f.decoder();
+				}
+				break;
+			}
 			Cdlg_shp_viewer dlg;
-			Cshp_ts_file f;
-			f.load(get_vdata_id(id));
-			Cvideo_decoder* decoder = f.decoder();
-			dlg.write(decoder, get_default_palet());
+			dlg.write(decoder);
 			dlg.DoModal();
 			delete decoder;
 			break;

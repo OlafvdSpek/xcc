@@ -5,6 +5,78 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
+class Cwsa_decoder: public Cvideo_decoder
+{
+public:
+	int cb_pixel() const
+	{
+		return m_f.cb_pixel();
+	}
+
+	int cf() const
+	{
+		return m_f.cf();
+	}
+
+	int cx() const
+	{
+		return m_f.cx();
+	}
+
+	int cy() const
+	{
+		return m_f.cy();
+	}
+
+	int decode(void* d0)
+	{
+		if (m_frame_i >= cf())
+			return 1;
+		m_frame.write_start(cb_image());
+		if (!m_frame_i)
+			memset(m_frame.data_edit(), 0, cb_image());
+		if (m_f.get_offset(m_frame_i))
+		{
+			Cvirtual_binary s;
+			decode80(m_f.get_frame(m_frame_i), s.write_start(64 << 10));
+			decode40(s, m_frame.data_edit());
+		}
+		if (d0)
+			m_frame.read(d0);
+		m_frame_i++;
+		return 0;
+	}
+
+	const t_palet_entry* palet() const
+	{
+		return m_f.palet();
+	}
+
+	int seek(int f)
+	{
+		if (f == m_frame_i)
+			return 0;
+		for (m_frame_i = 0; m_frame_i < f - 1 && !decode(NULL); )
+			;
+		return 0;
+	}
+
+	Cwsa_decoder(const Cwsa_file& f)
+	{
+		m_f.load(f);
+		m_frame_i = 0;
+	}
+private:
+	Cwsa_file m_f;
+	Cvirtual_binary m_frame;
+	int m_frame_i;
+};
+
+Cvideo_decoder* Cwsa_file::decoder()
+{
+	return new Cwsa_decoder(*this);
+}
+
 bool Cwsa_file::is_valid() const
 {
 	const t_wsa_header& header = *get_header();

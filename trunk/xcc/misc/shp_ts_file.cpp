@@ -31,6 +31,8 @@ public:
 
 	int decode(void* d0)
 	{
+		if (m_frame_i >= cf())
+			return 1;
 		byte* d = reinterpret_cast<byte*>(d0);
 		Cvirtual_binary s;
 		const int cx = m_f.get_cx(m_frame_i);
@@ -55,25 +57,32 @@ public:
 		return 0;
 	}
 
+	const t_palet_entry* palet() const
+	{
+		return m_palet;
+	}
+
 	int seek(int f)
 	{
 		m_frame_i = f;
 		return 0;
 	}
 
-	Cshp_ts_decoder(const Cshp_ts_file& f)
+	Cshp_ts_decoder(const Cshp_ts_file& f, const t_palet_entry* palet)
 	{
 		m_f.load(f);
 		m_frame_i = 0;
+		memcpy(m_palet, palet, sizeof(t_palet));
 	}
 private:
 	Cshp_ts_file m_f;
 	int m_frame_i;
+	t_palet m_palet;
 };
 
-Cvideo_decoder* Cshp_ts_file::decoder()
+Cvideo_decoder* Cshp_ts_file::decoder(const t_palet_entry* palet)
 {
-	return new Cshp_ts_decoder(*this);
+	return new Cshp_ts_decoder(*this, palet);
 }
 
 bool Cshp_ts_file::is_valid() const

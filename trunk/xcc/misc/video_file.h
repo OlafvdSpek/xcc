@@ -32,7 +32,7 @@ public:
 		return cf() * cb_image();
 	}
 
-	virtual Cvideo_decoder* decoder()
+	virtual Cvideo_decoder* decoder(t_palet_entry*)
 	{
 		return NULL;
 	}
