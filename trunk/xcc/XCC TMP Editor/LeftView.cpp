@@ -52,6 +52,8 @@ BEGIN_MESSAGE_MAP(CLeftView, CListView)
 	ON_COMMAND(ID_POPUP_PASTE_COMPLETE, OnPopupPasteComplete)
 	ON_COMMAND(ID_POPUP_LOAD_COMPLETE, OnPopupLoadComplete)
 	ON_COMMAND(ID_POPUP_SAVE_COMPLETE, OnPopupSaveComplete)
+	ON_COMMAND(ID_POPUP_DELETE_EXTRAIMAGE, OnPopupDeleteExtraimage)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_DELETE_EXTRAIMAGE, OnUpdatePopupDeleteExtraimage)
 	ON_NOTIFY_REFLECT(LVN_GETDISPINFO, OnGetdispinfo)
 	ON_COMMAND(ID_POPUP_COPY_IMAGE, OnEditCopy)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_IMAGE, OnUpdateEditCopy)
@@ -59,8 +61,7 @@ BEGIN_MESSAGE_MAP(CLeftView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_PASTE_IMAGE, OnUpdateEditPaste)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_SAVEASPCX_IMAGE, OnUpdateEditCopy)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_SAVEASPCX_EXTRAIMAGE, OnUpdatePopupCopyExtraImage)
-	ON_COMMAND(ID_POPUP_DELETE_EXTRAIMAGE, OnPopupDeleteExtraimage)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_DELETE_EXTRAIMAGE, OnUpdatePopupDeleteExtraimage)
+	ON_NOTIFY_REFLECT(NM_DBLCLK, OnDblclk)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -372,9 +373,7 @@ int CLeftView::get_current_id()
 {
 	CListCtrl& lc = GetListCtrl();
 	int index = lc.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
-	if (index == -1)
-		return -1;
-	return lc.GetItemData(index);
+	return index == -1 ? -1 : lc.GetItemData(index);
 }
 
 void CLeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
@@ -412,12 +411,7 @@ void CLeftView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 
 static int compare_int(int a, int b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CLeftView::compare(int id_a, int id_b)
@@ -438,7 +432,7 @@ int CLeftView::compare(int id_a, int id_b)
 	case 1:
 		return compare_int(a.header.y, b.header.y);
 	case 2:
-		return compare_int(static_cast<bool>(a.extra_data.data()), static_cast<bool>(b.extra_data.data()));
+		return compare_int(static_cast<bool>(a.extra_data), static_cast<bool>(b.extra_data));
 	case 3:
 		return compare_int(a.header.height, b.header.height);
 	case 4:
@@ -497,4 +491,11 @@ int CLeftView::save_image(const Cvirtual_image& image)
 void CLeftView::set_other_pane(CXCCTMPEditorView* other_pane)
 {
 	m_other_pane = other_pane;
+}
+
+void CLeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	if (get_current_id() != -1)
+		OnPopupProperties();	
+	*pResult = 0;
 }
