@@ -38,7 +38,6 @@ public:
     int read(void* data, int size);
     int write(const void* data, int size);
 	int write(int v);
-	// int write(const string& s);
 	int set_eof();
     void close();
 
@@ -83,22 +82,9 @@ private:
 class Cmemory_map_source
 {
 public:
-	Cmemory_map_source(const Cfile32& f);
-
-	Cmemory_map_source* attach()
-	{
-		mc_references++;
-		return this;
-	}
-
-	void detach()
-	{
-		if (!--mc_references)
-		{
-			UnmapViewOfFile(m_d);
-			delete this;
-		}
-	}
+	Cmemory_map_source(const Cfile32&);
+	Cmemory_map_source* attach();
+	void detach();
 
 	const byte* d() const
 	{
