@@ -12,9 +12,7 @@
 
 #define WIN32_LEAN_AND_MEAN		// Exclude rarely-used stuff from Windows headers
 
-#pragma warning(disable: 4503)
-#pragma warning(disable: 4786)
-#pragma warning(disable: 4800)
+#pragma warning(disable: 4503 4554 4786 4800 4804)
 
 #include <cassert>
 #include <climits>

@@ -21,18 +21,8 @@ class Cwsa_file: public Cvideo_file<t_wsa_header>
 public:
 	void decode(void* d) const;
 	int extract_as_pcx(const Cfname& name, t_file_type ft) const;
+	bool is_valid() const;
 	Cvirtual_image vimage() const;
-
-	bool is_valid() const
-	{
-		const t_wsa_header& header = *get_header();
-		int size = get_size();
-		if (sizeof(t_wsa_header) > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_header) + get_cb_index() > size)
-			return false;
-		if (get_offset(cf() + has_loop()) != size)
-			return false;
-		return true;
-	}
 
 	int cb_pixel() const
 	{

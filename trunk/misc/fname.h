@@ -21,7 +21,7 @@ private:
 	string title;
 	string ext;
 public:
-	Cfname operator=(const string &s);
+	const Cfname& operator=(const string &s);
 	bool exists() const;
 	void make_path();
 	void use_default_ext(const string &s);

@@ -56,7 +56,7 @@ void Cvirtual_image::load(const Cvirtual_binary& image, int cx, int cy, int cb_p
 	m_cx = cx;
 	m_cy = cy;
 	mcb_pixel = cb_pixel;
-	if (image.size() == cb_image()))
+	if (image.size() == cb_image())
 		m_image = image;
 	else
 		m_image.write_start(cb_image());
