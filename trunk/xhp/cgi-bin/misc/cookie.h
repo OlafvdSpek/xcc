@@ -26,11 +26,10 @@ public:
 	void set_value(const string& name, int value);
 	void set_value(const string& name, const string& value);
 	void set_session_value(const string& name, int value);
-
 	void set_session_value(const string& name, const string& value);
 	Ccookie();
 	Ccookie(const Cmulti_line& l);
-	operator=(Cmulti_line l);
+	void operator=(Cmulti_line l);
 	friend ostream& operator<<(ostream& os, const Ccookie& v);
 
 	t_keys keys() const

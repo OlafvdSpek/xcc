@@ -4,6 +4,7 @@
 
 #pragma warning(disable: 4786)
 
+#include "stdafx.h"
 #include "cgi.h"
 #include "cookie.h"
 #include "string_conversion.h"
@@ -21,7 +22,7 @@ Ccookie::Ccookie(const Cmulti_line& l)
 	*this = l;
 }
 
-Ccookie::operator=(Cmulti_line v)
+void Ccookie::operator=(Cmulti_line v)
 {
 	while (!v.empty())
 	{
