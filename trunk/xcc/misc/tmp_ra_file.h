@@ -46,7 +46,7 @@ public:
 
 	int cy() const
 	{
-		return 24 * get_cblocks_y();
+		return 24 * (get_cblocks_x() == 1 && get_cblocks_x() == 1 ? get_c_tiles() : get_cblocks_y());
 	}
 
 	int get_c_tiles() const
