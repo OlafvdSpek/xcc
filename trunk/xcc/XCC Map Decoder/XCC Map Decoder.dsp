@@ -177,6 +177,14 @@ SOURCE=..\misc\xcc_registry.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\xif_key.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\xif_value.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\XSTE.cpp
 # End Source File
 # End Group
