@@ -52,7 +52,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 		|| !gr.get_int("trny"))
 		return;
 	Csql_query q(*this);
-	q.write("select count(*) from xcl_games where ws_gid = %s");
+	q.write("select ws_gid from xcl_games where ws_gid = %s");
 	q.p(gr.get_int("idno"));
 	if (q.execute().fetch_row())
 		return;
