@@ -11,6 +11,52 @@
 
 #include "vartypes.h"
 
+class Cvirtual_binary_source
+{
+public:
+	Cvirtual_binary_source(const void* d, int cb_d);
+	Cvirtual_binary_source* pre_edit();
+
+	Cvirtual_binary_source* attach()
+	{
+		mc_references++;
+		return this;
+	}
+
+	void detach()
+	{
+		mc_references--;
+		if (!mc_references)
+			delete this;
+	}
+
+	const byte* data() const
+	{
+		return m_data;
+	}
+
+	byte* data_edit()
+	{
+		assert(mc_references == 1);
+		return m_data;
+	}
+
+	int size() const
+	{
+		return m_size;
+	}
+
+	void size(int v)
+	{
+		assert(mc_references == 1 && v <= m_size);
+		m_size = v;
+	}
+private:
+	byte* m_data;
+	int m_size;
+	int mc_references;
+};
+
 class Cvirtual_binary  
 {
 public:
@@ -18,6 +64,7 @@ public:
 	int import(string fname);
 	void clear();
 	int read(void* d) const;
+	byte* write_start(int cb_d);
 	void write(const void* d, int cb_d);
 	const Cvirtual_binary& operator=(const Cvirtual_binary& v);
 	Cvirtual_binary();
@@ -27,21 +74,29 @@ public:
 
 	const byte* data() const
 	{
-		return m_data;
+		return m_source ? m_source->data() : NULL;
 	}
 
 	byte* data_edit()
 	{
-		return m_data;
+		assert(m_source);
+		m_source = m_source->pre_edit();
+		return m_source->data_edit();
 	}
 
 	int size() const
 	{
-		return m_size;
+		return m_source ? m_source->size() : 0;
+	}
+
+	void size(int v)
+	{
+		assert(m_source);
+		m_source = m_source->pre_edit();
+		m_source->size(v);
 	}
 private:
-	byte* m_data;
-	int m_size;
+	Cvirtual_binary_source* m_source;
 };
 
 #endif // !defined(AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_)

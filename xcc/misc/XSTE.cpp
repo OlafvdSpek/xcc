@@ -15,24 +15,29 @@ Ccsf_file& CXSTE::csf_f()
 int CXSTE::open()
 {
 	int error = m_f.open_edit(xcc_dirs::get_ra2_dir() + "ra2.csf");
-	if (!error && !m_f.get_size())
+	if (!error)
 	{
-		Cmix_file language;
-		error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
-		if (!error)
+		if (!m_f.get_size())
 		{
-			Ccsf_file f;
-			error = f.open("ra2.csf", language);
+			Cmix_file language;
+			error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
 			if (!error)
 			{
-				error = m_f.write(f.get_data(), f.get_size());
-				f.close();
+				Ccsf_file f;
+				error = f.open("ra2.csf", language);
+				if (!error)
+				{
+					error = m_f.write(f.get_data(), f.get_size());
+					f.close();
+				}
+				language.close();
 			}
-			language.close();
 		}
+		if (!error)
+			error = m_csf_f.attach(m_f.handle());
+		if (error)
+			m_f.close();
 	}
-	if (!error)
-		error = m_csf_f.attach(m_f.handle());
 	return error;
 }
 

@@ -10,8 +10,8 @@
 Cini_reader::Cini_reader()
 {
 	m_fast = false;
-	m_skip_errors = false;
 	m_lower_case = true;
+	m_skip_errors = false;
 }
 
 int Cini_reader::find_id(string s, const char* t[], int count)
@@ -47,16 +47,122 @@ int Cini_reader::process(const byte* s, int cb_s)
 	tf.load_data(s, cb_s);
 	int error = 0;
 	int line = 0;
-	while (!error && !tf.eof())
+	m_section_open = false;
+	while ((!error || m_skip_errors) && !tf.eof())
 	{
 		line++;
-		error = process_line(tf.read_line());
+		error = process_line(tf.read_line(true));
 	}
+	if (m_section_open)
+		process_section_end();
 	return error;
 }
 
 int Cini_reader::process_line(string line)
 {
+	int i = 0;
+	int first_non_ws;
+	int last_non_ws;
+	while (i < line.length())
+	{
+		switch (line[i])
+		{
+		case '\t':
+		case ' ':
+			break;
+		case ';':
+			return 0;
+		case '=':
+			return 1;
+		case '[':
+			last_non_ws = i++;
+			first_non_ws = i;
+			while (i < line.length())
+			{
+				switch (line[i])
+				{
+				case '\t':
+				case ' ':
+					break;
+				case ';':
+					i = line.length();
+					continue;
+				default:
+					last_non_ws = i;
+				}
+				i++;
+			}
+			if (line[last_non_ws] != ']')
+				return 1;
+			if (m_section_open)
+				process_section_end();
+			m_section_open = true;
+			line = line.substr(first_non_ws, last_non_ws - first_non_ws);
+			return process_section_start(m_lower_case ? to_lower(line) : line);
+		default:
+			if (!process_section())
+				return 0;
+			first_non_ws = last_non_ws = i++;
+			while (i < line.length())
+			{
+				switch (line[i])
+				{
+				case '\t':
+				case ' ':
+					break;
+				case ';':
+					return 1;
+				case '=':
+					{
+						string name = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
+						if (m_lower_case)
+							name = to_lower(name);
+						i++;
+						while (i < line.length())
+						{
+							switch (line[i])
+							{
+							case '\t':
+							case ' ':
+								break;
+							case ';':
+								i = line.length();
+								continue;
+							default:
+								first_non_ws = last_non_ws = i++;
+								while (i < line.length())
+								{
+									switch (line[i])
+									{
+									case '\t':
+									case ' ':
+										break;
+									case ';':
+										i = line.length();
+										continue;
+									default:
+										last_non_ws = i;
+									}
+									i++;
+								}
+								line = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
+								return process_key(name, line);
+							}
+							i++;
+							
+						}
+						return process_key(name, "");
+					}
+				default:
+					last_non_ws = i;
+				}
+				i++;
+			}
+			return 1;
+		}
+		i++;
+	}
+	return 0;
 	int comment_start = line.find(';');
 	if (comment_start != string::npos)
 		line = line.substr(0, comment_start);
@@ -65,6 +171,9 @@ int Cini_reader::process_line(string line)
 		return 0;
 	if (is_section_start(line))
 	{
+		if (m_section_open)
+			process_section_end();
+		m_section_open = true;
 		line = line.substr(1, line.length() - 2);
 		if (m_lower_case)
 			return process_section_start(to_lower(line));
@@ -79,6 +188,10 @@ int Cini_reader::process_line(string line)
 	if (m_lower_case)
 		return process_key(to_lower(name), value);
 	return process_key(name, value);
+}
+
+void Cini_reader::process_section_end()
+{
 }
 
 void Cini_reader::fast(bool v)

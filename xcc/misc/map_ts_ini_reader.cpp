@@ -3,12 +3,15 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include <fstream>
+#include "html.h"
 #include "map_ts_ini_reader.h"
 #include "multi_line.h"
 #include "string_conversion.h"
+#include "virtual_image.h"
 
-static const char* section_code[] = {"basic", "map", "preview", "previewpack", "unknown"};
-static const char* basic_code[] = {"name", "player", "unknown"};
+static const char* section_code[] = {"basic", "map", "preview", "previewpack", "waypoints", "unknown"};
+static const char* basic_code[] = {"name", "player", "multiplayeronly", "unknown"};
 static const char* map_code[] = {"localsize", "size", "theater", "unknown"};
 static const char* preview_code[] = {"size", "unknown"};
 
@@ -61,6 +64,9 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 		case bai_player:
 			m_basic_data.player = value;
 			break;
+		case bai_multiplayeronly:
+			m_basic_data.multiplayeronly = atoi(value.c_str());
+			break;
 		}
 		break;
 	case sei_map:
@@ -108,6 +114,8 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 	case sei_preview_pack:
 		m_preview_pack_data += value;
 		break;
+	case sei_waypoints:
+		m_waypoints_data[atoi(name.c_str())] = atoi(value.c_str());
 	}
 	return 0;
 }
@@ -125,4 +133,32 @@ bool Cmap_ts_ini_reader::is_valid() const
 		m_preview_data.y ||
 		m_preview_data.cx < 0 ||
 		m_preview_data.cy < 0);
+}
+
+int Cmap_ts_ini_reader::max_players() const
+{
+	int count = 0;
+	for (int i = 0; i < 8; i++)
+	{
+		if (get_waypoints_data().find(i) != get_waypoints_data().end())
+			count++;
+	}
+	return count;
+}
+
+void Cmap_ts_ini_reader::write_report(ostream& os, string fname, const Cmap_ts_encoder& encoder) const
+{
+	string path = Cfname(fname).get_path();
+	string image_fname = Cfname(fname).get_ftitle();
+	Chtml page;
+	Cvirtual_image preview;
+	preview.load(encoder.preview_pack().data(), m_preview_data.cx, m_preview_data.cy, 3, NULL);
+	preview.save_as_png(path + image_fname + "_pv.png");
+	encoder.create_heightmap().save_as_png(path + image_fname + "_hm.png");
+	page += tr(td("Name:") + td(get_basic_data().name.empty() ? Cfname(fname).get_ftitle() : get_basic_data().name));
+	page += tr(td("Size:") + td(n(get_map_data().size_right) + " x " + n(get_map_data().size_bottom)));
+	page += tr(td("Max players:") + td(n(max_players())));
+	page += tr(td("Preview:") + td("<img src=" + image_fname + "_pv.png>"));
+	page += tr(td("Height map:") + td("<img src=" + image_fname +"_hm.png>"));
+	os << html(head("<link rel=stylesheet href=http://xcc.tiberian.com/xcc.css>") + body(table(page, "border=1")));
 }

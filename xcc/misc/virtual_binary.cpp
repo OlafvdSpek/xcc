@@ -7,50 +7,59 @@
 
 #include "file32.h"
 
+Cvirtual_binary_source::Cvirtual_binary_source(const void* d, int cb_d)
+{
+	m_data = new byte[cb_d];
+	m_size = cb_d;
+	if (d)
+		memcpy(m_data, d, cb_d);
+	mc_references = 1;
+}
+
+Cvirtual_binary_source* Cvirtual_binary_source::pre_edit()
+{
+	if (mc_references == 1)
+		return this;
+	detach();
+	return new Cvirtual_binary_source(data(), size());
+}	
+
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
 Cvirtual_binary::Cvirtual_binary()
 {
-	m_data = NULL;
+	m_source = NULL;
 }
 
 Cvirtual_binary::Cvirtual_binary(const Cvirtual_binary& v)
 {
-	m_data = NULL;
-	*this = v;
+	m_source = v.m_source ? v.m_source->attach() : NULL;
 }
 
 Cvirtual_binary::Cvirtual_binary(const void* d, int cb_d)
 {
-	m_data = new byte[cb_d];
-	m_size = cb_d;
-	memcpy(m_data, d, cb_d);
+	m_source = new Cvirtual_binary_source(d, cb_d);
 }
 
 Cvirtual_binary::~Cvirtual_binary()
 {
-	delete[] m_data;
+	if (m_source)
+		m_source->detach();
 }
 
 const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 {
-	delete[] m_data;
-	if (v.m_data)
-	{
-		m_data = new byte[v.m_size];
-		m_size = v.m_size;
-		memcpy(m_data, v.m_data, v.m_size);
-	}
-	else
-		m_data = NULL;
+	if (m_source)
+		m_source->detach();
+	m_source = v.m_source ? v.m_source->attach() : NULL;
 	return *this;
 }
 
 int Cvirtual_binary::export(string fname) const
 {
-	return file32_write(fname, m_data, m_size);
+	return file32_write(fname, data(), size());
 }
 
 int Cvirtual_binary::import(string fname)
@@ -59,32 +68,38 @@ int Cvirtual_binary::import(string fname)
 	int error = f.open_read(fname);
 	if (!error)
 	{
-		m_size = f.get_size();
-		delete[] m_data;
-		m_data = new byte[m_size];
-		error = f.read(m_data, m_size);
+		int size = f.get_size();
+		error = f.read(write_start(size), size);
+		f.close();
 	}
 	return error;
 }
 
 void Cvirtual_binary::clear()
 {
-	delete[] m_data;
-	m_data = NULL;
+	if (!m_source)
+		return;
+	m_source->detach();
+	m_source = NULL;
 }
 
 int Cvirtual_binary::read(void* d) const
 {
-	if (!data())
-		return 0;
 	memcpy(d, data(), size());
 	return size();
 }
 
+byte* Cvirtual_binary::write_start(int cb_d)
+{
+	if (data() && size() == cb_d)
+		return data_edit();
+	if (m_source)
+		m_source->detach();
+	m_source = new Cvirtual_binary_source(NULL, cb_d);;
+	return data_edit();
+}
+
 void Cvirtual_binary::write(const void* d, int cb_d)
 {
-	delete[] m_data;
-	m_data = new byte[cb_d];
-	m_size = cb_d;
-	memcpy(m_data, d, cb_d);
+	memcpy(write_start(cb_d), d, cb_d);
 }

@@ -27,8 +27,6 @@ public:
 	int read(void* d) const;
 	void write(const Cvirtual_binary& d);
 	void write(const void* d, int cb_d);
-	Cvirtual_file();
-	~Cvirtual_file();
 private:
 	typedef list<Cvirtual_binary> t_data;
 	t_data m_data;

@@ -28,7 +28,6 @@ static const char* sound_code[] = {"priority", "volume", "unknown"};
 Csound_ts_ini_reader::Csound_ts_ini_reader()
 {
 	m_section = sei_unknown;
-	erase();
 }
 
 void Csound_ts_ini_reader::erase()

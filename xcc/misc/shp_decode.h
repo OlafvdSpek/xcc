@@ -10,8 +10,8 @@
 int decode2(const byte* s, byte* d, int cb_s);
 int decode3(const byte* s, byte* d, int cx, int cy);
 int encode3(const byte* s, byte* d, int cx, int cy);
-int decode5(const byte* s, byte* d, int cb_s);
-int encode5(const byte* s, byte* d, int cb_s);
+int decode5(const byte* s, byte* d, int cb_s, int format);
+int encode5(const byte* s, byte* d, int cb_s, int format);
 int decode5s(const byte* s, byte* d, int cb_s);
 int encode5s(const byte* s, byte* d, int cb_s);
 int decode64(const byte* s, byte* d);

@@ -24,6 +24,11 @@ public:
 			header.id != file_id ||
 			header.version != file_version_old && header.version != file_version_new);
 	}
+
+	int decode(Cxif_key& key)
+	{
+		return key.load_key(get_data(), get_size());
+	}
 };
 
 #endif // !defined(AFX_XIF_FILE_H__93731940_3FA3_11D4_B606_0000B4936994__INCLUDED_)

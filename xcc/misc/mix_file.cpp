@@ -4,8 +4,8 @@
 
 #include <stdafx.h>
 #include <assert.h>
-#include <blowfish.h>
-#include <crc.h>
+#include "blowfish.h"
+#include "crc.h"
 #include "id_log.h"
 #include "mix_cache.h"
 #include <mix_decode.h>
@@ -71,6 +71,7 @@ bool Cmix_file::is_valid()
 
 int Cmix_file::post_open()
 {
+#ifndef NO_FT_SUPPORT
 	Cpak_file f;
 	byte* data;
 	if (get_data())
@@ -104,6 +105,7 @@ int Cmix_file::post_open()
 		}
 	}
 	else
+#endif
 	{
 		t_mix_header header;
 		seek(0);
@@ -190,6 +192,7 @@ int Cmix_file::post_open()
 				m_game = game_ts;
 		}
 	}
+#ifndef NO_FT_SUPPORT
 	delete[] data;
 	int count[game_unknown] = {0};
 	for (int i = 0; i < get_c_files(); i++)
@@ -209,7 +212,6 @@ int Cmix_file::post_open()
 	}
 	if (!m_data_loaded)
 	{
-#ifndef NO_FT_SUPPORT
 		Ccrc crc;
 		crc.init();
 		crc.do_block(m_index, m_c_files * sizeof(t_mix_index_entry));
@@ -252,8 +254,8 @@ int Cmix_file::post_open()
 				}
 			}
 		}
-#endif
 	}
+#endif
 	if (m_mix_expansion)
 	{
 		const int c_files = m_c_files;
@@ -298,7 +300,11 @@ void Cmix_file::close()
 
 string Cmix_file::get_name(int id)
 {
+#ifdef NO_FT_SUPPORT
+	return "";
+#else
 	return mix_database::get_name(get_game(), id);
+#endif
 }
 
 t_file_type Cmix_file::get_type(int id)
@@ -309,6 +315,11 @@ t_file_type Cmix_file::get_type(int id)
 
 int Cmix_file::get_id(t_game game, string name)
 {
+	/*
+	Cfname fname = name;
+	if (fname.get_ftitle().length() > 8)
+		name = fname.get_ftitle().substr(0, 8) + fname.get_fext();
+	*/
 	name = to_upper(name);
 	if (game != game_ts && game != game_ra2)
 	{
