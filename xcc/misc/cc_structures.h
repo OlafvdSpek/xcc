@@ -260,7 +260,11 @@ struct t_tmp_image_header
 	__int32 cx_extra;
 	__int32 cy_extra;
 	__int32 flags;
-	__int32 unknown2[3];
+	__int8 height;
+	__int8 terraintype;
+	__int8 direction; // or probably just ramp_type
+	__int8 unknown2;
+	__int32 unknown3[2];
 };
 
 struct t_voc_header
