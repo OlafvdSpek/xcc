@@ -356,7 +356,7 @@ void CXCCTMPEditorDoc::set_image_header(int id, const t_tmp_image_header& header
 	UpdateAllViews(NULL);
 }
 
-t_rect CXCCTMPEditorDoc::get_rect() const
+t_rect CXCCTMPEditorDoc::get_rect(bool view_true_height) const
 {
 	int half_cy = m_header.cy / 2;
 	t_rect rect;
@@ -392,6 +392,11 @@ t_rect CXCCTMPEditorDoc::get_rect() const
 			rect.b = max(rect.b, t.b);
 		}
 	}
+	if (view_true_height)
+	{
+		int y = half_cy * m_header.cblocks_x + half_cy * m_header.cblocks_y;
+		rect.b = max(rect.b, y);
+	}
 	return rect;
 }
 
@@ -405,10 +410,10 @@ const byte* get_p(const byte* d, int x, int y, int cx, int cy)
 	return d + x + cx * y;
 }
 
-void CXCCTMPEditorDoc::draw(byte* d, int outline) const
+void CXCCTMPEditorDoc::draw(byte* d, int outline, bool view_true_height) const
 {
 	int half_cy = m_header.cy / 2;
-	t_rect global = get_rect();
+	t_rect global = get_rect(view_true_height);
 	int global_cx = global.r - global.x;
 	int global_cy = global.b - global.y;
 	memset(d, 0, global_cx * global_cy);

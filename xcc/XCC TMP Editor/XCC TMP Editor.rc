@@ -75,12 +75,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
-    POPUP "&View"
-    BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        MENUITEM "S&plit",                      ID_WINDOW_SPLIT
-    END
+    MENUITEM "&View",                       65535
 END
 
 IDR_TMPTYPE MENU PRELOAD DISCARDABLE 
@@ -120,8 +115,7 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
-        MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
-        MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
+        MENUITEM "True &height",                ID_VIEW_TRUE_HEIGHT
     END
     POPUP "&Window"
     BEGIN
@@ -262,7 +256,7 @@ END
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
     IDR_MAINFRAME           "XCC TMP Editor 1.01"
-    IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.tem)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
+    IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.sno;*.tem;*.urb)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
