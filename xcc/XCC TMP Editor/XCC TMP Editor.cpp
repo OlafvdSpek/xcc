@@ -87,9 +87,9 @@ BOOL CXCCTMPEditorApp::InitInstance()
 
 	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
+	ParseCommandLine(cmdInfo);
 	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) 
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
-	ParseCommandLine(cmdInfo);
 
 	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
