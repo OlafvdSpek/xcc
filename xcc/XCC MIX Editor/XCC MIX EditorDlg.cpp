@@ -699,7 +699,7 @@ void CXCCMIXEditorDlg::OnDropFiles(HDROP hDropInfo)
 	for (int i = 0; i < c_files; i++)
 	{
 		DragQueryFile(hDropInfo, i, fname, MAX_PATH);
-		reinterpret_cast<CXCCMIXEditorDlg*>(GetParent())->add_file(fname);
+		add_file(fname);
 	}
 	DragFinish(hDropInfo);
 }

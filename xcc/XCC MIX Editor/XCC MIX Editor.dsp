@@ -96,7 +96,7 @@ SOURCE=..\..\misc\ETSLayout.cpp
 # End Source File
 # Begin Source File
 
-SOURCE=.\MIXList.cpp
+SOURCE=..\misc\ListCtrlEx.cpp
 # End Source File
 # Begin Source File
 
@@ -123,10 +123,6 @@ SOURCE=".\XCC MIX EditorDlg.cpp"
 # Begin Group "Header Files"
 
 # PROP Default_Filter "h;hpp;hxx;hm;inl"
-# Begin Source File
-
-SOURCE=.\MIXList.h
-# End Source File
 # Begin Source File
 
 SOURCE=.\MIXOptions.h
