@@ -78,7 +78,7 @@
 	$name = trim($_POST['name']);
 	$pass = trim($_POST['pass']);
 
-	switch ($_GET['a'])
+	switch ($_REQUEST['a'])
 	{
 	case "edit":
 		{
@@ -91,7 +91,7 @@
 					$mail = trim($_POST['mail']);
 					$msn = trim($_POST['msn']);
 					$site = trim($_POST['site']);
-					db_query(sprintf("update xwi_clans set icq = %d, mail = '%s', msn = '%s', site = '%s' where cid = %d", $icq, addslashes($mail), addslashes($msn), addslashes($site), $clan['cid']));
+					db_query(sprintf("update xwi_clans set icq = %d, mail = '%s', msn = '%s', site = '%s', mtime = unix_timestamp() where cid = %d", $icq, addslashes($mail), addslashes($msn), addslashes($site), $clan['cid']));
 				}
 				else
 					echo("Wrong clan pass<hr>");
@@ -129,7 +129,7 @@
 							$result = mysql_fetch_array($results);
 						}
 						while ($result['0']);
-						db_query(sprintf("insert into xwi_clans (name, full_name, pass, icq, mail, msn, site, ctime) values (lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), unix_timestamp())", addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
+						db_query(sprintf("insert into xwi_clans (name, full_name, pass, icq, mail, msn, site, mtime, ctime) values (lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), unix_timestamp(), unix_timestamp())", addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
 						$cid = mysql_insert_id();
 						db_query(sprintf("update xwi_players set cid = %d where pid = %d", $cid, $player['pid']));
 						$clan = get_clan($cid);
@@ -324,7 +324,7 @@
 		}
 		break;
 	default:
-		$cid = $_GET['cid'];
+		$cid = $_REQUEST['cid'];
 		if ($cid && $clan = get_clan($cid))
 		{
 			echo("<table>");
@@ -363,8 +363,9 @@
 			</table>
 			<hr>
 			<?php
-			if ($_GET['text'])
-				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by name", $_GET['text'], $_GET['text']));
+			$text = $_REQUEST['text'];
+			if ($text)
+				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by name", addslashes($text), addslashes($text)));
 			else
 				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name having size > 1 order by name");
 			echo("<table><tr><th align=left>Abbrev<th align=left>Name<th align=right>Players<th align=left>Modified<th align=left>Created");
