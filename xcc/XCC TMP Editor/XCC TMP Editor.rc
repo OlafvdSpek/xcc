@@ -230,7 +230,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC TMP Editor 1.03"
+    IDR_MAINFRAME           "XCC TMP Editor 1.04"
     IDR_TMPTYPE             "\nTMP\nTMP\nTemplate Files (*.des;*.lun;*.sno;*.tem;*.ubn;*.urb)\n.tem\nXCCTMPEditor.Document\nTemplate Document"
 END
 

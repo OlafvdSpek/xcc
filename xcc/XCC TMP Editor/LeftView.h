@@ -89,6 +89,7 @@ protected:
 	afx_msg void OnPopupSaveComplete();
 	afx_msg void OnPopupDeleteExtraimage();
 	afx_msg void OnUpdatePopupDeleteExtraimage(CCmdUI* pCmdUI);
+	afx_msg void OnDblclk(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
