@@ -807,7 +807,7 @@ if($clansh != "") { $alink = "<a href=\"$PHP_SELF?mode=showclan&laddertype=3&id=
 <td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">IP:</b></td>
 <td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
 <?
-$ipdd = dec2ip($data3[ipa]);
+$ipdd = long2ip($data3[ipa]);
 $ip_crypt_1 = "";
 $ip_crypt_2 = "";
 $ip_crypt = explode(".", $ipdd);
