@@ -55,7 +55,7 @@ int main(int argc, char* argv[])
 #endif
 	Csocket s;
 	s.open(SOCK_DGRAM);
-	s.connect(Csocket::get_host("xwis.net"), htons(4005));
+	s.connect(Csocket::get_host("servserv.xwis.net"), htons(4005));
 	fd_set fd_read_set;
 	int stime = 0;
 	while (1)
