@@ -3049,7 +3049,18 @@ void CXCCMixerView::open_item(int id)
 		{
 			string name = index.name;
 			close_location(false);
-			open_location_dir(m_dir + name + '\\');
+			if (name == "..")
+			{
+				int i = m_dir.rfind('\\');
+				if (i != string::npos)
+				{
+					i = m_dir.rfind('\\', i - 1);
+					if (i != string::npos)
+						open_location_dir(m_dir.substr(0, i + 1));
+				}
+			}
+			else
+				open_location_dir(m_dir + name + '\\');
 			break;
 		}
 	case ft_drive:
