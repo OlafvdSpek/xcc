@@ -126,59 +126,6 @@ void aud_decode_ws_chunk(const byte* r, char* w, int cb_s, int cb_d)
     }
 }
 
-void aud_decode_ws_chunk_x(const byte* s, char* w, int cs_chunk)
-{
-	int sample = 0;
-	const byte* r = s;
-	char* w_end = w + cs_chunk;
-	while (w < w_end)
-	{
-		int code = *r++;
-		int count = code & 0x3f;
-		switch (code >> 6)
-		{
-		case 0: 
-			count++;
-			while (count--)
-			{
-				code = *r++;
-				*w++ = sample = clip8(sample + aud_ws_step_table2[code & 0x3]);
-				*w++ = sample = clip8(sample + aud_ws_step_table2[code >> 2 & 0x3]);
-				*w++ = sample = clip8(sample + aud_ws_step_table2[code >> 4 & 0x3]);
-				*w++ = sample = clip8(sample + aud_ws_step_table2[code >> 6]);
-			}
-			break;
-		case 1: 
-			count++;
-			while (count--)
-			{
-				code = *r++;
-				*w++ = sample = clip8(sample + aud_ws_step_table4[code & 0xf]);
-				*w++ = sample = clip8(sample + aud_ws_step_table4[code >> 4]);
-			}
-			break;			
-		case 2:
-			if (count & 0x20)
-			{
-				// *w++ = sample = clip8(sample + (static_cast<char>(count << 3) >> 3));
-				sample += static_cast<char>(count << 3) >> 3;
-				*w++ = sample;
-			}
-			else 
-			{
-				count++;
-				while (count--)
-					*w++ = sample = static_cast<char>(*r++);
-			}
-			break;
-		case 3:
-			count++;
-			while (count--)
-				*w++ = sample;
-		}
-	}
-}
-
 void aud_encode_ima_chunk(const short* audio_in, byte* audio_out, int& index, int& sample, int cs_chunk)
 {
 	const short* r = audio_in;
