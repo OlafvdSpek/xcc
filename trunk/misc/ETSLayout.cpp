@@ -1428,14 +1428,16 @@ bool ETSLayoutMgr::Pane::resizeToRelative(int& availSpace, CArray<int,int>& size
 			break;
 	}
 
-	// Fixup Relative: invert all negative (limited) sized to correct value
-	for(int i=0; i<m_paneItems.GetSize(); ++i) {
-		CPaneBase pItem = m_paneItems[i];
-		if( (m_Orientation==HORIZONTAL && (pItem->modeResize() & RELATIVE_HORZ) && sizePrimary[i] < 0)
-			||
-			(m_Orientation==VERTICAL   && (pItem->modeResize() & RELATIVE_VERT) && sizePrimary[i] < 0) )
-		{
-			sizePrimary[i] *= -1;
+	{
+		// Fixup Relative: invert all negative (limited) sized to correct value
+		for(int i=0; i<m_paneItems.GetSize(); ++i) {
+			CPaneBase pItem = m_paneItems[i];
+			if( (m_Orientation==HORIZONTAL && (pItem->modeResize() & RELATIVE_HORZ) && sizePrimary[i] < 0)
+				||
+				(m_Orientation==VERTICAL   && (pItem->modeResize() & RELATIVE_VERT) && sizePrimary[i] < 0) )
+			{
+				sizePrimary[i] *= -1;
+			}
 		}
 	}
 
@@ -1663,28 +1665,29 @@ bool ETSLayoutMgr::Pane::resizeToGreedy(int& availSpace, int nGreedy, CArray<int
 		}
 	}
 
+	{
+		// Fixup Greedy III: invert all negative (limited) sized to correct value
+		for(int i=0; i<m_paneItems.GetSize(); ++i) {
+			CPaneBase pItem = m_paneItems[i];
 
-	// Fixup Greedy III: invert all negative (limited) sized to correct value
-	for(int i=0; i<m_paneItems.GetSize(); ++i) {
-		CPaneBase pItem = m_paneItems[i];
-
-		if( (m_Orientation==HORIZONTAL 
-				&& !(pItem->modeResize() & ABSOLUTE_HORZ) 
-				&& !(pItem->modeResize() & RELATIVE_HORZ) 
-				&& sizePrimary[i] < 0
-				&& sizeMin[i] >= 0
+			if( (m_Orientation==HORIZONTAL 
+					&& !(pItem->modeResize() & ABSOLUTE_HORZ) 
+					&& !(pItem->modeResize() & RELATIVE_HORZ) 
+					&& sizePrimary[i] < 0
+					&& sizeMin[i] >= 0
+				)
+				||
+				(m_Orientation==VERTICAL   
+					&& !(pItem->modeResize() & ABSOLUTE_VERT) 
+					&& !(pItem->modeResize() & RELATIVE_VERT) 
+					&& sizePrimary[i] < 0
+					&& sizeMin[i] >= 0
+				) 
 			)
-			||
-			(m_Orientation==VERTICAL   
-				&& !(pItem->modeResize() & ABSOLUTE_VERT) 
-				&& !(pItem->modeResize() & RELATIVE_VERT) 
-				&& sizePrimary[i] < 0
-				&& sizeMin[i] >= 0
-			) 
-		)
-		{
-			if(sizePrimary[i] < 0)
-				sizePrimary[i] *= -1;
+			{
+				if(sizePrimary[i] < 0)
+					sizePrimary[i] *= -1;
+			}
 		}
 	}
 
