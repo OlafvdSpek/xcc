@@ -16,7 +16,7 @@ END_MESSAGE_MAP()
 
 void CListCtrlEx::auto_size()
 {
-	if (!GetSafeHwnd())
+	if (!GetSafeHwnd() || !GetHeaderCtrl())
 		return;
 	for (int i = 0; i < GetHeaderCtrl()->GetItemCount(); i++)
 		SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
