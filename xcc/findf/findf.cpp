@@ -86,7 +86,7 @@ void check_dir(const string& name)
 	}
 }
 
-void check_name(const string& name, ofstream& log_f, bool check_chars = true)
+void check_name(const string& name, ostream& log_f, bool check_chars = true)
 {
 	if (name.empty())
 		return;
@@ -156,7 +156,7 @@ string find_file(const string& name)
 	return i == flist.end() ? "" : i->second;
 }
 
-void check_binary_file(const string& name, ofstream& log_f)
+void check_binary_file(const string& name, ostream& log_f)
 {
 	Ccc_file f(false);
 	f.open(name);
@@ -181,7 +181,7 @@ void check_binary_file(const string& name, ofstream& log_f)
 	}
 }
 
-void check_text_file(const string& name, ofstream& log_f)
+void check_text_file(const string& name, ostream& log_f)
 {
 	Ccc_file f(false);
 	f.open(name);
@@ -213,6 +213,7 @@ void check_text_file(const string& name, ofstream& log_f)
 int main()
 {
 	xcc_dirs::load_from_registry();
+	Cmix_file::enable_ft_support();
 	mix_cache::load();
 	mix_database::load();
 	check_dir(xcc_dirs::get_dir(game));
