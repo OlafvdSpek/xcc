@@ -5,33 +5,11 @@
 #include "stdafx.h"
 #include "virtual_tfile.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
-Cvirtual_tfile::Cvirtual_tfile()
-{
-}
-
-Cvirtual_tfile::~Cvirtual_tfile()
-{
-}
-
 void Cvirtual_tfile::load_data(const Cvirtual_binary s)
 {
 	m_data = s;
-	// m_size = s.size();
 	pos = 0;
 }
-
-/*
-void Cvirtual_tfile::save_data(byte*& _data, dword& _size) const
-{
-	_data = new byte[size];
-	memcpy(_data, data, size);
-	_size = size;
-}
-*/
 
 string Cvirtual_tfile::read_line()
 {
@@ -99,43 +77,3 @@ string Cvirtual_tfile::read_line(bool remove_ws)
 	}
 	return "";
 }
-
-/*
-void Cvirtual_tfile::write(const string& s)
-{
-	const dword cb_inc = 4096;
-	if (!data())
-	{
-		reserved = cb_inc;
-		size = 0;
-		data = new char[reserved];
-		pos = 0;
-	}
-	const dword l = s.length();
-	if (pos + l > reserved)
-	{
-		reserved = (pos + l + cb_inc - 1) & ~(cb_inc - 1);
-		char* new_data = new char[reserved];
-		memcpy(new_data, data, size);
-		delete[] data;
-		data = new_data;
-	}
-	if (force_upper_case)
-	{
-		for (long i = 0; i < l; i++)
-			data[pos++] = toupper(s[i]);		
-	}
-	else
-	{
-		memcpy(data + pos, s.c_str(), l);
-		pos += l;
-	}
-	if (pos > size)
-		size = pos;
-}
-
-void Cvirtual_tfile::write_line(const string& s)
-{
-	write(s + "\r\n");
-}
-*/

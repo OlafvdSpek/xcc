@@ -8,7 +8,6 @@ using namespace std;
 bool atob(string s);
 string btoa(bool v);
 bool is_white(char v);
-char* make_c_str(const char* s);
 string n(unsigned int v);
 string n(int v);
 string n(__int64 v);
@@ -27,11 +26,6 @@ void split_key(const string& key, string& name, string& value);
 bool string_equal_i(const char* a, const char* b);
 bool string_equal_ip(const char* a, const char* b);
 string tabs2spaces(const string& v);
-
-inline char* make_c_str(const string& s)
-{
-	return make_c_str(s.c_str());
-}
 
 inline string n(__int32 v)
 {
@@ -58,4 +52,3 @@ inline void trim(string& s)
 	ltrim(s);
 	rtrim(s);
 }
-

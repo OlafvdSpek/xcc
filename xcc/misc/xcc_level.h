@@ -17,7 +17,6 @@
 #include "virtual_tfile.h"
 #include "vartypes.h"
 #include "xcc_cell.h"
-#include "xstring.h"
 
 using namespace std;
 

@@ -22,10 +22,6 @@ using namespace std;
 class Cfile32  
 {
 public:
-	/*
-	void attach(HANDLE handle);
-	void detach();
-	*/
 	int open(HANDLE handle);
     int open(const string& name, dword access);
     int open(const string& name, dword access, dword creation, dword share);
@@ -83,7 +79,6 @@ private:
 #else
 	fstream m_f;
 #endif
-    // bool m_is_open;
     int m_p;
 };
 

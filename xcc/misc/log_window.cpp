@@ -36,7 +36,7 @@ bool Clog_window::create()
 	CRect p(0, 0, 320, 240);
 	SystemParametersInfo(SPI_GETWORKAREA, 0, &p, 0);
 	if (!CreateEx(0, AfxRegisterWndClass(0, 0, 0, 0),
-		"Log Window", WS_MINIMIZEBOX | WS_VISIBLE, p, AfxGetMainWnd(), 0, 0))
+		"Log Window", WS_MINIMIZEBOX | WS_SYSMENU | WS_VISIBLE, p, AfxGetMainWnd(), 0, 0))
 		return 1;
 	GetClientRect(p);
 	if (!m_edit.Create(ES_MULTILINE | ES_READONLY | WS_VISIBLE | WS_VSCROLL, p, this, 0))
@@ -49,6 +49,6 @@ bool Clog_window::create()
 
 void Clog_window::write_line(const string& s)
 {
-	m_log_text += nwp(11, m_timer.read()) + '\t' + s + "\xd\xa";
+	m_log_text += nwp(11, m_timer.read()) + '\t' + s + "\r\n";
 	m_edit.SetWindowText(m_log_text.c_str());
 }

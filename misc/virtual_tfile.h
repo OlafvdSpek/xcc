@@ -40,8 +40,6 @@ public:
 	void release_memory();
 	void load_data(const Cvirtual_binary s);
 	void save_data(byte*& _data, dword& _size) const;
-	Cvirtual_tfile();
-	~Cvirtual_tfile();
 
 	bool eof() const
 	{
