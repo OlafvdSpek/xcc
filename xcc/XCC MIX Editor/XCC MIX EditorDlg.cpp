@@ -71,15 +71,16 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, ETSLayoutDialog)
 	ON_NOTIFY(LVN_DELETEITEM, IDC_LIST, OnDeleteitemList)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
 	ON_BN_CLICKED(IDC_BUTTON_INSERT, OnButtonInsert)
+	ON_WM_DROPFILES()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCMIXEditorDlg message handlers
 
-int c_colums = 6;
-char* column_label[] = {"Name", "Type", "Description", "ID", "Offset", "Size"};
-int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT};
+int c_colums = 7;
+char* column_label[] = {"Name", "Type", "Description", "ID", "Offset", "Size", ""};
+int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT};
 
 BOOL CXCCMIXEditorDlg::OnInitDialog()
 {
@@ -105,12 +106,11 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	ListView_SetExtendedListViewStyle(m_list, ListView_GetExtendedListViewStyle(m_list) | LVS_EX_FULLROWSELECT);
 	for (int i = 0; i < c_colums; i++)
 		m_list.InsertColumn(i, column_label[i], column_alignment[i]);
 	if (read_key(xcc_dirs::get_main_mix(game_ts)))
 		read_key(xcc_dirs::get_main_mix(game_ra2));
-	autosize_colums();
+	m_list.auto_size();
 	update_buttons();
 	return true;
 }
@@ -588,7 +588,7 @@ void CXCCMIXEditorDlg::update_list()
 	m_list.DeleteAllItems();
 	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 		add_entry(i->first);
-	autosize_colums();
+	m_list.auto_size();
 	sort_list(0, false);
 	m_list.SetRedraw(true);
 }
@@ -692,9 +692,14 @@ void CXCCMIXEditorDlg::OnButtonInsert()
 		add_file(static_cast<string>(dlg.GetPathName()));
 }
 
-void CXCCMIXEditorDlg::autosize_colums()
+void CXCCMIXEditorDlg::OnDropFiles(HDROP hDropInfo) 
 {
-	for (int i = 0; i < c_colums; i++)
-		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
-	return;
+	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
+	char fname[MAX_PATH];
+	for (int i = 0; i < c_files; i++)
+	{
+		DragQueryFile(hDropInfo, i, fname, MAX_PATH);
+		reinterpret_cast<CXCCMIXEditorDlg*>(GetParent())->add_file(fname);
+	}
+	DragFinish(hDropInfo);
 }
