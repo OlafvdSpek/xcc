@@ -3,6 +3,8 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
+#include "vqa_file.h"
+
 #include <vector>
 #ifndef NO_AVI_SUPPORT
 #include <windows.h>
@@ -12,7 +14,6 @@
 #include "pcx_decode.h"
 #include "string_conversion.h"
 #include "vqa_decode.h"
-#include "vqa_file.h"
 #include "wav_structures.h"
 #include "xcc_log.h"
 
@@ -20,12 +21,77 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
+class Cvqa_decoder: public Cvideo_decoder
+{
+public:
+	int cb_pixel() const
+	{
+		return m_f.get_cbits_pixel() + 7 >> 3;
+	}
+
+	int cf() const
+	{
+		return m_f.get_c_frames();
+	}
+
+	int cx() const
+	{
+		return m_f.get_cx();
+	}
+
+	int cy() const
+	{
+		return m_f.get_cy();
+	}
+
+	int decode(void* d)
+	{
+		if (m_frame_i >= cf())
+			return 1;
+		while (!m_f.is_video_chunk())
+			m_f.skip_chunk();
+		Cvirtual_binary data;
+		m_f.read_chunk(data.write_start(m_f.get_chunk_size()));
+		m_vqa_d.decode_vqfr_chunk(data, m_frame.write_start(cb_image()), m_palet);
+		m_frame.read(d);
+		m_frame_i++;
+		return 0;
+	}
+
+	const t_palet_entry* palet() const
+	{
+		return m_palet;
+	}
+
+	int seek(int f)
+	{
+		m_frame_i = f;
+		return 0;
+	}
+
+	Cvqa_decoder(const Cvqa_file& f)
+	{
+		m_f.load(f);
+		m_frame_i = 0;
+		m_vqa_d.start_decode(*m_f.get_header());
+	}
+private:
+	Cvqa_decode m_vqa_d;
+	Cvqa_file m_f;
+	Cvirtual_binary m_frame;
+	int m_frame_i;
+	t_palet m_palet;
+};
+
+Cvideo_decoder* Cvqa_file::decoder()
+{
+	return new Cvqa_decoder(*this);
+}
+
 int Cvqa_file::post_open()
 {
 	int error = read(&m_header, sizeof(t_vqa_header));
-	if (!error)
-		error = read_chunk_header();
-	return error;
+	return error ? error : read_chunk_header();
 }
 
 #ifndef NO_AVI_SUPPORT
@@ -413,21 +479,17 @@ int Cvqa_file::extract_as_wav(const string& name)
 
 int Cvqa_file::read_chunk_header()
 {
-	int error;
 	if (get_p() & 1)
 		skip(1);
-	error = read(&m_chunk_header, sizeof(t_vqa_chunk_header));
+	int error = read(&m_chunk_header, sizeof(t_vqa_chunk_header));
 	m_chunk_header.size = reverse(m_chunk_header.size);
 	return error;
 }
 
 int Cvqa_file::read_chunk(void* data)
 {
-	int error;
-	error = read(data, get_chunk_size());
-	if (!error)
-		read_chunk_header();	
-	return error;
+	int error = read(data, get_chunk_size());
+	return error ? error : read_chunk_header();
 }
 
 void Cvqa_file::set_empty_chunk()
