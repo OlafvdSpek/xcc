@@ -198,6 +198,14 @@ void Cvirtual_image::flip()
 }
 
 
+void Cvirtual_image::cb_pixel(int cb_pixel, const t_palet_entry* palet)
+{
+	if (cb_pixel < mcb_pixel)
+		decrease_color_depth(cb_pixel, palet);
+	else if (cb_pixel > mcb_pixel)
+		increase_color_depth(cb_pixel);
+}
+
 void Cvirtual_image::decrease_color_depth(int new_cb_pixel, const t_palet_entry* palet)
 {
 	if (new_cb_pixel == 3)
