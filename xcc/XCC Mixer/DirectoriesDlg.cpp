@@ -2,8 +2,8 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mixer.h"
 #include "DirectoriesDlg.h"
+
 #include "xcc_dirs.h"
 
 #ifdef _DEBUG

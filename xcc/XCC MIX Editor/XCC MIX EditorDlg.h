@@ -13,6 +13,7 @@
 #include "cc_file.h"
 #include "mix_file.h"
 #include "MIXList.h"
+#include "resource.h"
 
 using namespace std;
 

@@ -11,6 +11,8 @@
 /////////////////////////////////////////////////////////////////////////////
 // CDirectoriesDlg dialog
 
+#include "resource.h"
+
 class CDirectoriesDlg : public CDialog
 {
 // Construction

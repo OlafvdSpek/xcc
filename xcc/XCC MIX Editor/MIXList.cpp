@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "MIXList.h"
-#include "XCC MIX Editor.h"
 #include "XCC MIX EditorDlg.h"
 
 #ifdef _DEBUG

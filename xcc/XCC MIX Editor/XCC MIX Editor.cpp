@@ -24,13 +24,6 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorApp, CWinApp)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCMIXEditorApp construction
-
-CXCCMIXEditorApp::CXCCMIXEditorApp()
-{
-}
-
-/////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCMIXEditorApp object
 
 CXCCMIXEditorApp theApp;
