@@ -86,7 +86,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 	UpdateLayout();
 	SetRedraw(false);
 	m_cat_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	m_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_cat_list.InsertColumn(0, "");
 	LV_COLUMN lvc;
 	lvc.mask = LVCF_TEXT | LVCF_SUBITEM;
