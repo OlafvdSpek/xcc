@@ -221,10 +221,6 @@ BOOL CXCCMixerView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-static int c_colums = 4;
-static char* column_label[] = {"Name", "Type", "Size", "Description"};
-static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT};
-
 void CXCCMixerView::OnInitialUpdate()
 {
 	char dir[MAX_PATH];
@@ -247,16 +243,10 @@ void CXCCMixerView::OnInitialUpdate()
 	}
 	CListView::OnInitialUpdate();
 	GetListCtrl().SetExtendedStyle(GetListCtrl().GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	LV_COLUMN lvc;
-	lvc.mask = LVCF_FMT | LVCF_WIDTH | LVCF_TEXT | LVCF_SUBITEM;
-	lvc.cx = 100;
-	for (int i = 0; i < c_colums; i++)
-	{
-		lvc.iSubItem = i;
-		lvc.pszText = column_label[i];
-		lvc.fmt = column_alignment[i];
-		GetListCtrl().InsertColumn(i, &lvc);
-	}
+	GetListCtrl().InsertColumn(0, "Name", LVCFMT_LEFT);
+	GetListCtrl().InsertColumn(1, "Type", LVCFMT_LEFT);
+	GetListCtrl().InsertColumn(2, "Size", LVCFMT_RIGHT);
+	GetListCtrl().InsertColumn(3, "Description", LVCFMT_LEFT);
 	update_list();
 }
 
@@ -499,16 +489,14 @@ void CXCCMixerView::update_list()
 void CXCCMixerView::autosize_colums()
 {
 	SetRedraw(false);
-	CListCtrl& lc = GetListCtrl();
-	for (int i = 0; i < c_colums; i++)
-		lc.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+	for (int i = 0; i < GetListCtrl().GetHeaderCtrl()->GetItemCount(); i++)
+		GetListCtrl().SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
 	SetRedraw(true);
 }
 
 void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
-	CListCtrl& lc = GetListCtrl();
 	m_buffer[++m_buffer_w &= 3].erase();
 	const t_index_entry& e = m_index.find(pDispInfo->item.lParam)->second;
 	switch (pDispInfo->item.iSubItem)
