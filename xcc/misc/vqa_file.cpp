@@ -5,6 +5,7 @@
 #include "stdafx.h"
 #include <vector>
 #ifndef NO_AVI_SUPPORT
+#include <windows.h>
 #include <vfw.h>
 #endif
 #include "pcx_decode.h"
@@ -69,7 +70,7 @@ static int process_audio_chunk_for_avi(Cvqa_file& f, Cvqa_decode& vqa_d, int& au
 	return error;
 }
 
-int Cvqa_file::extract_as_avi(const string& name)
+int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 {
 	int error = 0;
 	Cvqa_decode vqa_d;
@@ -110,7 +111,7 @@ int Cvqa_file::extract_as_avi(const string& name)
 			else
 			{	
 				AVICOMPRESSOPTIONS* vco = new AVICOMPRESSOPTIONS;
-				if (!AVISaveOptions(AfxGetMainWnd()->m_hWnd, 0, 1, &v, &vco))
+				if (!AVISaveOptions(hwnd, 0, 1, &v, &vco))
 					error = 4;
 				else 
 				{
@@ -276,7 +277,6 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 	{
 		t_palet palet;
 		byte* frame = new byte[cx * cy];
-		byte* d = new byte[2 * cx * cy];
 		for (int i = 0; i < get_c_frames(); i++)
 		{
 			while (!is_video_chunk())
@@ -286,34 +286,12 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 			read_chunk(data);
 			vqa_d.decode_vqfr_chunk(data, frame, palet);
 			delete[] data;
-			// int cb_d = pcx_encode(frame, d, cx, cy, 1);
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-			if (ft == ft_png)
-			{
-				error = png_file_write(t, frame, palet, cx, cy);
-			}
-			else
-			{
-				error = pcx_file_write(t, frame, palet, cx, cy);
-				/*
-				Cpcx_file_write f;
-				error = f.open_write(t);
-				if (error)
-					break;
-				f.set_size(get_cx(), get_cy(), 1);
-				error = f.write_header();
-				if (!error)
-					error = f.write_image(d, cb_d);
-				if (!error)
-					error = f.write_palet(palet);
-				f.close();
-				*/
-			}
+			error = ft == ft_png ? png_file_write(t, frame, palet, cx, cy) : pcx_file_write(t, frame, palet, cx, cy);
 			if (error)
 				break;
 		}
-		delete[] d;
 		delete[] frame;
 	}
 	else
@@ -325,7 +303,6 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 		pf.dwBBitMask = 0xff0000;
 		vqa_d.set_pf(pf, 3);
 		byte* frame = new byte[3 * cx * cy];
-		byte* d = new byte[6 * cx * cy];
 		for (int i = 0; i < get_c_frames(); i++)
 		{
 			if (get_chunk_id() == vqa_vqfl_id)
@@ -343,32 +320,12 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 			read_chunk(data);
 			vqa_d.decode_vqfr_chunk(data, frame, NULL);
 			delete[] data;
-			// int cb_d = pcx_encode(frame, d, cx, cy, 3);
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-			if (ft == ft_png)
-			{
-				error = png_file_write(t, frame, NULL, cx, cy);
-			}
-			else
-			{
-				error = pcx_file_write(t, frame, NULL, cx, cy);
-				/*
-				Cpcx_file_write f;
-				error = f.open_write(t);
-				if (error)
-				break;
-				f.set_size(get_cx(), get_cy(), 3);
-				error = f.write_header();
-				if (!error)
-				error = f.write_image(d, cb_d);
-				f.close();
-				*/
-			}
+			error = ft == ft_png ? png_file_write(t, frame, NULL, cx, cy) : pcx_file_write(t, frame, NULL, cx, cy);
 			if (error)
 				break;
 		}
-		delete[] d;
 		delete[] frame;
 	}
 	return error;
