@@ -26,7 +26,7 @@ public:
 	int insert(int id);
 	void check_selection();
 	int compare(int id_a, int id_b) const;
-	CXSTE_dlg(CWnd* pParent = NULL);   // standard constructor
+	CXSTE_dlg(t_game game, bool expansion, CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CXSTE_dlg)
@@ -74,6 +74,8 @@ private:
 	typedef map<int, t_map_entry> t_map;
 	typedef map<string, int> t_reverse_cat_map;
 
+	bool m_expansion;
+	t_game m_game;
 	string m_buffer[4];
 	int m_buffer_w;
 	t_cat_map m_cat_map;

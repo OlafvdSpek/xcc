@@ -34,7 +34,7 @@ public:
 	void read_idx_file(const Caudio_idx_file& f);
 	void write_idx_file();
 	int compare(int id_a, int id_b) const;
-	CXSE_dlg(CWnd* pParent = NULL);   // standard constructor
+	CXSE_dlg(t_game game, bool expansion, CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CXSE_dlg)
@@ -89,6 +89,8 @@ private:
 	typedef map<int, t_map_entry> t_map;
 	typedef map<string, Ccsf_file::t_map::const_iterator> t_reverse_csf_map;
 
+	bool m_expansion;
+	t_game m_game;
 	string m_buffer[4];
 	int m_buffer_w;
 	Cfile32 m_bag_f;

@@ -44,6 +44,7 @@
 #include "tmp_file.h"
 #include "tmp_ra_file.h"
 #include "tmp_ts_file.h"
+#include "virtual_tfile.h"
 #include "voc_file.h"
 #include "vqa_file.h"
 #include "vxl_file.h"
@@ -750,13 +751,11 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_shp_ts:
 		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx_single || d == ft_pcx || d == ft_png_single || d == ft_png;
 	case ft_text:
-		if (d == ft_html)
-			return true;
-		return d == ft_hva;
+		return d == ft_html || d == ft_hva || d == ft_vxl;
 	case ft_vqa:
 		return d == ft_avi || d == ft_jpeg || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
-		return d == ft_pcx || d == ft_xif;
+		return d == ft_pcx || d == ft_text || d == ft_xif;
 	case ft_wav:
 		return d == ft_aud || d == ft_wav_ima_adpcm || d == ft_wav_pcm;
 	case ft_xif:
@@ -1227,7 +1226,7 @@ int CXCCMixerView::copy_as_pcx_single(int i, Cfname fname, t_file_type ft) const
 			error = open_f_index(f, i);
 			if (!error)
 			{
-				error = f.extract_as_pcx_single(fname, ft, get_default_palet(), GetMainFrame()->combine_shadows());
+				error = f.extract_as_pcx_single(fname, ft == ft_png_single? ft_png : ft_pcx, get_default_palet(), GetMainFrame()->combine_shadows());
 				f.close();
 			}
 			break;
@@ -1681,6 +1680,17 @@ int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 			}
 			break;
 		}
+	case ft_vxl:
+		{
+			Cvxl_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error =  f.extract_as_text(ofstream(static_cast<string>(fname).c_str()));
+				f.close();
+			}
+			break;
+		}
 	case ft_xif:
 		{
 			Cxif_file f;
@@ -1790,22 +1800,32 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				if (!error)
 				{
 					byte* d = new byte[1 << 20];
-					int cb_d = vxl_file_write(s, d, cx, cy, c_images);
+					int cb_d = vxl_file_write(s, NULL, d, cx, cy, c_images);
 					if (cb_d)
 					{
-						Cfile32 g;
 						fname.set_title(base_name);
-						error = g.open_write(fname);
-						if (!error)
-						{
-							error = g.write(d, cb_d);
-							g.close();
-						}
+						error = file32_write(fname, d, cb_d);
 					}
 					else
 						error = 1;
 					delete[] d;
 				}
+			}
+			break;
+		}
+	case ft_text:
+		{
+			Ccc_file_small g;
+			error = open_f_index(g, i);
+			if (!error)
+			{
+				Cvirtual_tfile f;
+				f.load_data(g.get_vdata());
+				Cvirtual_binary d;
+				error = vxl_file_write(f, d);
+				if (!error)
+					error = d.export(fname);
+				g.close();
 			}
 			break;
 		}

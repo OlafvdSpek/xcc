@@ -150,7 +150,11 @@ BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XOE_RA2
         END
         MENUITEM "XCC &Sound Editor",           ID_LAUNCH_XSE
-        MENUITEM "XCC &String Table Editor",    ID_LAUNCH_XSTE
+        POPUP "XCC &String Table Editor"
+        BEGIN
+            MENUITEM "&Red Alert 2",                ID_LAUNCH_XSTE_RA2
+            MENUITEM "&Red Alert 2 YR",             ID_LAUNCH_XSTE_RA2_YR
+        END
         POPUP "XCC &Theme Writer"
         BEGIN
             MENUITEM "&Tiberian Sun",               ID_LAUNCH_XTW_TS
@@ -443,7 +447,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.13\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.14\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 

@@ -7,6 +7,7 @@
 #include "XCC Mixer.h"
 
 #include <cmath>
+#include <fstream>
 #include <strstream>
 #include "aud_file.h"
 #include "cps_file.h"
@@ -19,6 +20,7 @@
 #include "map_ts_ini_reader.h"
 #include "mp3_file.h"
 #include "jpeg_file.h"
+#include "pak_file.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
@@ -433,7 +435,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Size:", n(md.size_right) + " x " + n(md.size_bottom));
 				draw_info("Theater:", ir.get_map_data().theater);
 				draw_info("Max players:", n(ir.max_players()));
-				if (pd.cx && pd.cy)
+				if (pd.cx && pd.cy && ppd != "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA")
 				{
 					m_y += m_y_inc;
 					byte* s = new byte[ppd.length()];
@@ -447,7 +449,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				break;
 			}
 		case ft_mix:
-		case ft_pak:
 			{
 				Cmix_file f;
 				f.load(m_data, m_size);
@@ -462,6 +463,19 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				{
 					int id = f.get_id(i);
 					draw_info(nwzl(4, i) + " - " + nh(8, id) + nwsl(11, f.get_size(id)) + ' ' + mix_database::get_name(game, id), "");
+				}
+				break;
+			}
+		case ft_pak:
+			{
+				Cpak_file f;
+				f.load(m_data, m_size);
+				const int c_files = f.get_c_files();
+				draw_info("Count files:", n(c_files));
+				m_y += m_y_inc;
+				for (int i = 0; i < c_files; i++)
+				{
+					draw_info(nwzl(4, i) + " - " + nwsl(11, f.get_size(f.get_name(i))) + ' ' + f.get_name(i), "");
 				}
 				break;
 			}

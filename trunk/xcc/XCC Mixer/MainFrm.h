@@ -228,6 +228,10 @@ protected:
 	afx_msg void OnUpdateConversionCombineShadows(CCmdUI* pCmdUI);
 	afx_msg void OnViewReport();
 	afx_msg void OnUpdateViewReport(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE_RA2();
+	afx_msg void OnUpdateLaunchXSTE_RA2(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE_RA2_YR();
+	afx_msg void OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
