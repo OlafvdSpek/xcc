@@ -4,9 +4,11 @@
 #include "stdafx.h"
 #include "XCC Mod Launcher.h"
 #include "XCC Mod LauncherDlg.h"
+#include "XMLCommandLineInfo.h"
 
 #include "xcc_dirs.h"
 #include "xcc_log.h"
+#include "xcc_mod.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -22,13 +24,6 @@ BEGIN_MESSAGE_MAP(CXCCModLauncherApp, CWinApp)
 	//}}AFX_MSG
 	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherApp construction
-
-CXCCModLauncherApp::CXCCModLauncherApp()
-{
-}
 
 /////////////////////////////////////////////////////////////////////////////
 // The one and only CXCCModLauncherApp object
@@ -51,7 +46,7 @@ BOOL CXCCModLauncherApp::InitInstance()
 	xcc_dirs::load_from_registry();
 	xcc_log::attach_file("XCC Mod Launcher log.txt");
 
-	CCommandLineInfo cmdInfo;
+	CXMLCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
 	string fname = cmdInfo.m_strFileName;
@@ -67,11 +62,20 @@ BOOL CXCCModLauncherApp::InitInstance()
 				Cvirtual_binary mod = s.sub_bin(s.size() - 4 - cb_mod, cb_mod);
 				if (!memcmp(mod, "XIF\x1a", 4))
 				{
-					CXCCModLauncherDlg dlg;
-					dlg.set_mod(mod);
-					dlg.set_mod_fname(exe_fname);
-					m_pMainWnd = &dlg;
-					dlg.DoModal();
+					if (cmdInfo.m_activate)
+					{
+						Cxif_key key;
+						if (!key.load_key(mod))
+							Cxcc_mod().activate(key, false, -1);
+					}
+					else
+					{
+						CXCCModLauncherDlg dlg;
+						dlg.set_mod(mod);
+						dlg.set_mod_fname(exe_fname);
+						m_pMainWnd = &dlg;
+						dlg.DoModal();
+					}
 					return false;
 				}
 			}
