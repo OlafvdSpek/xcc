@@ -88,7 +88,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 {
 	CXSTE xste;
 	bool xste_available = !xste.open(game_ra2_yr);
-	Chtml page = tr(th("Name") + th("Description") + th("Gamemode") + th("Preview"));
+	string page = tr(th("Name") + th("Description") + th("Gamemode") + th("Preview"));
 	for (t_map_list::const_iterator i = m_map_list.begin(); i != m_map_list.end(); i++)
 	{
 		/*

@@ -21,7 +21,6 @@ Cdlg_shp_viewer::Cdlg_shp_viewer(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_shp_viewer::IDD, pParent, "shp_viewer_dlg")
 {
 	//{{AFX_DATA_INIT(Cdlg_shp_viewer)
-		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 }
 
@@ -32,6 +31,7 @@ void Cdlg_shp_viewer::DoDataExchange(CDataExchange* pDX)
 	//{{AFX_DATA_MAP(Cdlg_shp_viewer)
 	DDX_Control(pDX, IDC_SLIDER, m_slider);
 	DDX_Control(pDX, IDC_IMAGE, m_image);
+	DDX_Text(pDX, IDC_FRAME, m_index);
 	//}}AFX_DATA_MAP
 }
 
@@ -73,6 +73,7 @@ BOOL Cdlg_shp_viewer::OnInitDialog()
 	CreateRoot(VERTICAL)
 		<< item(IDC_IMAGE, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
+			<< item(IDC_FRAME, NORESIZE)
 			<< item(IDC_SLIDER, GREEDY)
 			<< item(IDOK, NORESIZE)
 			);
@@ -100,7 +101,9 @@ void Cdlg_shp_viewer::OnTimer(UINT nIDEvent)
 		{
 			m_frame++;
 			m_frame %= c_frames();
-		}		
+		}
+		else
+			return;
 		show_frame();
 	}
 	else
@@ -158,7 +161,9 @@ Cvirtual_image Cdlg_shp_viewer::decode_image(int i) const
 void Cdlg_shp_viewer::show_frame()
 {
 	DeleteObject(m_image.SetBitmap(create_bitmap(decode_image(m_frame))));
+	m_index = m_frame;
 	m_slider.SetPos(m_frame);
+	UpdateData(false);
 }
 
 bool Cdlg_shp_viewer::combine_shadows() const
@@ -193,3 +198,4 @@ int Cdlg_shp_viewer::c_frames() const
 {
 	return m_f.get_c_images() >> (m_combine_shadows ? 1 : 0);
 }
+

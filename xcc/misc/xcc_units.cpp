@@ -7,7 +7,6 @@ namespace xcc_units
 }
 
 static const char* units_xif_fname = "units.xif";
-Cxif_key units_key;
 
 enum
 {
@@ -33,16 +32,13 @@ dword xcc_units::c_units()
 
 int xcc_units::load_data()
 {
-	Ccc_file f(false);
+	Ccc_file f(true);
 	f.open(xcc_dirs::get_data_dir() + units_xif_fname);
 	if (!f.is_open())
 		return 1;
-	const dword size = f.get_size();
-	byte* data = new byte[size];
-	f.read(data, size);
+	Cxif_key units_key;
+	units_key.load_key(f.get_vdata());
 	f.close();
-	units_key.load_key(data, size);
-	delete[] data;
 	int unit_i = 0;
 	for (t_xif_key_map::iterator i = units_key.m_keys.begin(); i != units_key.m_keys.end(); i++)
 	{
@@ -84,10 +80,10 @@ int xcc_units::save_data()
 			if (~ud.flags & ud_flags_in_use)
 				// don't save if not in use
 				continue;
-			list[static_cast<string>(ud.short_name)] = i;
+			list[ud.short_name] = i;
 		}
 	}
-	units_key = Cxif_key(); // .delete_all_keys();
+	Cxif_key units_key;
 	int unit_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
@@ -95,29 +91,17 @@ int xcc_units::save_data()
 		Cxif_key& uk = units_key.set_key(unit_i);
 		uk.set_value_string(vi_ud_long_name, ud.long_name);
 		uk.set_value_string(vi_ud_short_name, ud.short_name);
-		uk.set_value(vi_ud_cx, static_cast<dword>(ud.cx));
-		uk.set_value(vi_ud_cy, static_cast<dword>(ud.cy));
+		uk.set_value_int(vi_ud_cx, ud.cx);
+		uk.set_value_int(vi_ud_cy, ud.cy);
 		if (ud.base_ox)
-			uk.set_value(vi_ud_base_ox, static_cast<dword>(ud.base_ox));
+			uk.set_value_int(vi_ud_base_ox, ud.base_ox);
 		if (ud.base_oy)
-			uk.set_value(vi_ud_base_oy, static_cast<dword>(ud.base_oy));
-		uk.set_value(vi_ud_flags, ud.flags);
-		uk.set_value(vi_ud_c_rotations, static_cast<dword>(ud.c_rotations));
+			uk.set_value_int(vi_ud_base_oy, ud.base_oy);
+		uk.set_value_int(vi_ud_flags, ud.flags);
+		uk.set_value_int(vi_ud_c_rotations, ud.c_rotations);
 		unit_i++;
 	}
 	return units_key.vdata().export(xcc_dirs::get_data_dir() + units_xif_fname);
-	/*
-	Cfile32 f;
-	if (f.open_write(xcc_dirs::get_data_dir() + units_xif_fname))
-		return 1;
-	dword size = units_key.key_size();
-	byte* data = new byte[size];
-	units_key.save_key(data);
-	f.write(data, size);
-	delete[] data;
-	f.close();
-	return 0;
-	*/
 }
 
 int xcc_units::load_images(bool load_icons)
@@ -177,7 +161,7 @@ int xcc_units::get_id(const string& s)
 	for (int i = 0; i < 256; i++)
 	{
 		t_unit_data_entry& ud = unit_data[i];
-		if (ud.flags & ud_flags_in_use && (ud.short_name == s))
+		if (ud.flags & ud_flags_in_use && ud.short_name == s)
 			return i;
 	}
 	return -1;

@@ -39,7 +39,7 @@ int Cmix_edit::open(const string& name)
 	if (!error)
 	{		
 		Cmix_file f;
-		error = f.attach(m_f.handle());
+		error = f.attach(m_f.h());
 		if (!error)
 		{
 			m_game = f.get_game();

@@ -23,6 +23,7 @@
 #include "string_conversion.h"
 #include "vxl_file.h"
 #include "web_tools.h"
+#include "win_handle.h"
 #include "xcc_dirs.h"
 #include "xcc_log.h"
 #include "xse.h"
@@ -63,6 +64,7 @@ Cxcc_mod::Cxcc_mod()
 	m_options.mod_ucf = "http://";
 	m_options.confirm_deactivate = false;
 	m_options.mf_version = 0;
+	m_options.mod_mfs = "98";
 
 	m_mode_map[-1] = "Base";
 	m_module_map[-1] = "Base";
@@ -175,6 +177,7 @@ enum
 	vi_cb_d,
 	vi_mode,
 	vi_module,
+	vi_mod_mfs,
 	ki_modes = 0x100,
 	ki_modules
 };
@@ -247,6 +250,9 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 		case vi_mf_version:
 			m_options.mf_version = value->second.get_int();
 			break;
+		case vi_mod_mfs:
+			m_options.mod_mfs = value->second.get_string();
+			break;
 			/*
 		case vi_@:
 			m_options.@ = value->second.get_int();
@@ -281,8 +287,8 @@ int Cxcc_mod::load(const Cxif_key& key, string dir)
 				Cfname fname = dir + ct_name[category->first] + '\\' + i->second.get_value_string(vi_fname);
 				if (!fname.exists())
 				{
-					create_directory(dir);
-					create_directory(fname.get_path());
+					create_dir(dir);
+					create_dir(fname.get_path());
 					error = file32_write(fname, fdata.get_data(), fdata.get_size());
 				}
 			}
@@ -481,6 +487,7 @@ Cxif_key Cxcc_mod::save(bool export, int module) const
 		key.set_value_string(vi_mod_ucf, m_options.mod_ucf);
 		key.set_value_int(vi_confirm_deactivate, m_options.confirm_deactivate);
 		key.set_value_int(vi_mf_version, mf_version);
+		key.set_value_string(vi_mod_mfs, m_options.mod_mfs);
 		{
 			Cxif_key& modes_key = key.open_key_write(ki_modes);
 			for (t_mode_map::const_iterator i = mode_map().begin(); i != mode_map().end(); i++)
@@ -552,7 +559,8 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 		xcc_log::write_line("Unable to open " + xcc_dirs::get_main_mix(game));
 	else
 	{
-		error = language_mix.open(xcc_dirs::get_language_mix(game));
+		if (game != game_ts)
+			error = language_mix.open(xcc_dirs::get_language_mix(game));
 		if (error)
 			xcc_log::write_line("Unable to open " + xcc_dirs::get_language_mix(game));
 		else
@@ -799,11 +807,16 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 										ir.write(s);
 										error = s.pcount() == d.size();
 										d.size(s.pcount());
-										expand_mix.add_file(fname, d);
+										data = d;
 									}
 								}
-								else
-									expand_mix.add_file(fname, data);
+								if (!error)
+								{
+									if (fname.get_fname() == "missionsmd.pkt")
+										error = data.export(dir + fname);
+									else
+										expand_mix.add_file(fname, data);
+								}
 								break;
 							case ct_screen:
 								if (fname.get_fname() == "glsmd.pal" || fname.get_fname() == "glslmd.shp")
@@ -899,7 +912,8 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 				}
 				local_mix.close();
 			}
-			language_mix.close();
+			if (language_mix.is_open())
+				language_mix.close();
 		}
 		main_mix.close();
 	}
@@ -908,9 +922,9 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 		if (game == game_ts)
 			expand_mix.add_file(xcc_dirs::get_ecache_mix(game, false, 98), ecache_mix.write());
 		else
-			error = ecache_mix.write().export(xcc_dirs::get_ecache_mix(game, true, 98));
+			error = ecache_mix.write().export(xcc_dirs::get_ecache_mix(game, true, m_options.mod_mfs));
 		if (!error)
-			error = expand_mix.write().export(xcc_dirs::get_expand_mix(game, 98));
+			error = expand_mix.write().export(xcc_dirs::get_expand_mix(game, m_options.mod_mfs));
 	}
 	return error;
 }
@@ -950,25 +964,9 @@ int Cxcc_mod::deactivate(bool remove_themes) const
 	delete_file(dir + "glsmd.pal");
 	delete_file(dir + "glslmd.shp");
 	delete_file(dir + xcc_dirs::get_csf_fname(game));
-	delete_file(xcc_dirs::get_ecache_mix(game, true, 98));
-	delete_file(xcc_dirs::get_expand_mix(game, 98));
+	delete_file(xcc_dirs::get_ecache_mix(game, true, m_options.mod_mfs));
+	delete_file(xcc_dirs::get_expand_mix(game, m_options.mod_mfs));
 	return 0;
-}
-
-static int create_process(const string& exe_name, const string& _cmd_line, bool wait)
-{
-	char cmd_line[256];
-	strcpy(cmd_line, ("\"" + exe_name + "\" " + _cmd_line).c_str());
-	STARTUPINFO si;
-	memset(&si, 0, sizeof(STARTUPINFO));
-	si.cb = sizeof(STARTUPINFO);
-	PROCESS_INFORMATION pi;
-	int error = !CreateProcess(exe_name.c_str(), cmd_line, NULL, NULL, false, CREATE_DEFAULT_ERROR_MODE, NULL, NULL, &si, &pi);
-	if (!error && wait)
-		WaitForSingleObject(pi.hProcess, INFINITE);
-	CloseHandle(pi.hProcess);
-	CloseHandle(pi.hThread);
-	return error;
 }
 
 int Cxcc_mod::launch_game(bool wait) const
@@ -987,7 +985,12 @@ void Cxcc_mod::clear_game_dir() const
 	delete_file(dir + "audio.idx");
 	delete_files(dir + "ecache*.mix");
 	delete_files(dir + "elocal*.mix");
-	delete_files(dir + "expand*.mix");
+	for (int i = 2; i < 100; i++)
+	{
+		delete_files(dir + "expand" + nwzl(2, i) + ".mix");
+		delete_files(dir + "expandmd" + nwzl(2, i) + ".mix");
+	}
+	delete_file(dir + "missionsmd.pkt");
 	delete_file(dir + "ra2.csf");
 	delete_file(dir + "ra2md.csf");
 	delete_file(dir + "rules.ini");

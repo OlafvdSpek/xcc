@@ -55,19 +55,37 @@ public:
 		return get_data() + get_offset(i);
 	}
 
-    const __int32* get_index() const
-    {
-        return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header));
-    }
+	int get_cb_ofs() const
+	{
+		return get_index16()[1] ? 2 : 4;
+	}
+
+	int get_ofs(int i) const
+	{
+		if (get_cb_ofs() == 2)
+			return get_index16()[i];
+		else
+			return get_index32()[i];
+	}
+
+	const __int16* get_index16() const
+	{
+		return reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header));
+	}
+
+	const __int32* get_index32() const
+	{
+		return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header));
+	}
 
     int get_offset(int i) const
     {
-		return get_index()[i];
+		return get_ofs(i);
     }
 
 	bool has_loop() const
 	{
-		return get_index()[get_c_frames() + 1];
+		return get_ofs(get_c_frames() + 1);
 	}
 };
 

@@ -106,10 +106,10 @@ int Cjpeg_file::decode(Cvirtual_image& d) const
 	return 0;
 }
 
-int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy)
+int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy, int q)
 {
 	string temp_fname = get_temp_fname();
-	int error = jpeg_file_write(temp_fname, image, palet, cx, cy);
+	int error = jpeg_file_write(temp_fname, image, palet, cx, cy, q);
 	if (!error)
 	{
 		Cvirtual_binary s;
@@ -119,7 +119,7 @@ int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* pa
 	return error;
 }
 
-int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)
+int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy, int q)
 {
 	t_palet_entry* s;
 	if (palet)
@@ -150,7 +150,8 @@ int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* 
 	cinfo.input_components = 3;
 	cinfo.in_color_space = JCS_RGB;
 	jpeg_set_defaults(&cinfo);
-
+	if (q != -1)
+		jpeg_set_quality(&cinfo, q, true);
 	jpeg_start_compress(&cinfo, TRUE);
 
 	const t_palet_entry* r = s;

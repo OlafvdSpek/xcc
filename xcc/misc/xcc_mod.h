@@ -38,6 +38,7 @@ public:
 		bool xhp_button;
 		bool confirm_deactivate;
 		string mod_version;
+		string mod_mfs;
 		string mod_ucf;
 		int mf_version;
 	};

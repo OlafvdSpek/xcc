@@ -110,14 +110,14 @@ int Cvirtual_image::save(string fname, t_file_type ft) const
 }
 
 #ifdef JPEG_SUPPORT
-int Cvirtual_image::save_as_jpeg(Cvirtual_file& f) const
+int Cvirtual_image::save_as_jpeg(Cvirtual_file& f, int q ) const
 {
-	return jpeg_file_write(f, image(), palet(), m_cx, m_cy);
+	return jpeg_file_write(f, image(), palet(), m_cx, m_cy, q);
 }
 
-int Cvirtual_image::save_as_jpeg(string fname) const
+int Cvirtual_image::save_as_jpeg(string fname, int q) const
 {
-	return jpeg_file_write(fname, image(), palet(), m_cx, m_cy);
+	return jpeg_file_write(fname, image(), palet(), m_cx, m_cy, q);
 }
 #endif
 

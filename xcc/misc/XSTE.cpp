@@ -34,7 +34,7 @@ int CXSTE::open(t_game game)
 			}
 		}
 		if (!error)
-			error = m_csf_f.attach(m_f.handle());
+			error = m_csf_f.attach(m_f.h());
 		if (error)
 			m_f.close();
 	}

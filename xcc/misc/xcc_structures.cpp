@@ -7,7 +7,6 @@ namespace xcc_structures
 }
 
 static const char* structures_xif_fname = "structures.xif";
-Cxif_key structures_key;
 
 enum
 {
@@ -24,7 +23,7 @@ enum
 
 dword xcc_structures::c_structures()
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		if (~structure_data[i].flags & sd_flags_in_use)
 			return i;
@@ -32,19 +31,16 @@ dword xcc_structures::c_structures()
 	return 0;
 }
 
-long xcc_structures::load_data()
+int xcc_structures::load_data()
 {
-	Ccc_file f(false);
+	Ccc_file f(true);
 	f.open(xcc_dirs::get_data_dir() + structures_xif_fname);
 	if (!f.is_open())
 		return 1;
-	const dword size = f.get_size();
-	byte* data = new byte[size];
-	f.read(data, size);
+	Cxif_key structures_key;
+	structures_key.load_key(f.get_vdata());
 	f.close();
-	structures_key.load_key(data, size);
-	delete[] data;
-	long structure_i = 0;
+	int structure_i = 0;
 	for (t_xif_key_map::iterator i = structures_key.m_keys.begin(); i != structures_key.m_keys.end(); i++)
 	{
 		t_structure_data_entry& sd = structure_data[structure_i];
@@ -78,65 +74,53 @@ long xcc_structures::load_data()
 	return 0;
 }
 
-long xcc_structures::save_data()
+int xcc_structures::save_data()
 {
-	typedef map<string, long> t_list;
+	typedef map<string, int> t_list;
 	t_list list;	
 	{
-		for (long i = 0; i < 256; i++)
+		for (int i = 0; i < 256; i++)
 		{
 			t_structure_data_entry& sd = structure_data[i];
 			if (~sd.flags & sd_flags_in_use)
 				// don't save if not in use
 				continue;
-			list[static_cast<string>(sd.short_name)] = i;
+			list[sd.short_name] = i;
 		}
 	}
-	structures_key = Cxif_key(); // .delete_all_keys();
-	long structure_i = 0;
+	Cxif_key structures_key;
+	int structure_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
 		t_structure_data_entry& sd = structure_data[i->second];
 		Cxif_key& sk = structures_key.set_key(structure_i);
 		sk.set_value_string(vi_sd_long_name, sd.long_name);
 		sk.set_value_string(vi_sd_short_name, sd.short_name);
-		sk.set_value_int(vi_sd_cx, static_cast<dword>(sd.cx));
-		sk.set_value(vi_sd_cy, static_cast<dword>(sd.cy));
-		sk.set_value(vi_sd_flags, sd.flags);
-		sk.set_value(vi_sd_blocked, sd.blocked);
+		sk.set_value_int(vi_sd_cx, sd.cx);
+		sk.set_value_int(vi_sd_cy, sd.cy);
+		sk.set_value_int(vi_sd_flags, sd.flags);
+		sk.set_value_int(vi_sd_blocked, sd.blocked);
 		if (sd.ground)
-			sk.set_value(vi_sd_ground, sd.ground);
+			sk.set_value_int(vi_sd_ground, sd.ground);
 		if (sd.power_in)
-			sk.set_value(vi_sd_power_in, static_cast<dword>(sd.power_in));
+			sk.set_value_int(vi_sd_power_in, sd.power_in);
 		if (sd.power_out)
-			sk.set_value(vi_sd_power_out, static_cast<dword>(sd.power_out));
+			sk.set_value_int(vi_sd_power_out, sd.power_out);
 		structure_i++;
 	}
 	return structures_key.vdata().export(xcc_dirs::get_data_dir() + structures_xif_fname);
-	/*
-	Cfile32 f;
-	if (f.open_write(xcc_dirs::get_data_dir() + structures_xif_fname))
-		return 1;
-	dword size = structures_key.key_size();
-	byte* data = new byte[size];
-	structures_key.save_key(data);
-	f.write(data, size);
-	delete[] data;
-	f.close();
-	return 0;
-	*/
 }
 
-long xcc_structures::load_images(t_theater_id theater, bool load_icons)
+int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 {
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
-	long error = 0;
+	int error = 0;
 	if (theater == loaded_theater)
 		return 0;
 	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
 	Cmix_file& theater_mix = Cxcc_mixs::get_theater_mix(theater);
 	const string ext = "." + Cxcc_mixs::get_theater_fname(theater).substr(0, 3);
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
 		if (~sd.flags & sd_flags_in_use)
@@ -152,10 +136,10 @@ long xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		{
 			if (~sd.flags >> theater & sd_flags_desert)
 				continue;
-			f.open(static_cast<string>(sd.short_name) + ext, theater_mix);
+			f.open(sd.short_name + ext, theater_mix);
 		}
 		else
-			f.open(static_cast<string>(sd.short_name) + ".shp", conquer_mix);
+			f.open(sd.short_name + ".shp", conquer_mix);
 		if (!f.is_open())
 		{
 			error = 1;
@@ -172,7 +156,7 @@ long xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		if (load_icons && sd.flags & sd_flags_icon)
 		{
 			// icon
-			f.open(static_cast<string>(sd.short_name) + "icon.shp", conquer_mix);
+			f.open(sd.short_name + "icon.shp", conquer_mix);
 			if (!f.is_open())
 			{
 				error = 1;
@@ -185,7 +169,7 @@ long xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		if (sd.flags & sd_flags_images2)
 		{
 			// images2 (weapons factory)
-			f.open(static_cast<string>(sd.short_name) + "2.shp", conquer_mix);
+			f.open(sd.short_name + "2.shp", conquer_mix);
 			if (!f.is_open())
 			{
 				error = 1;
@@ -203,18 +187,18 @@ long xcc_structures::load_images(t_theater_id theater, bool load_icons)
 
 void xcc_structures::destroy()
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
 	}
 }
 
-long xcc_structures::get_id(const string& s)
+int xcc_structures::get_id(const string& s)
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
-		if (sd.flags & sd_flags_in_use && (sd.short_name == s))
+		if (sd.flags & sd_flags_in_use && sd.short_name == s)
 			return i;
 	}
 	return -1;

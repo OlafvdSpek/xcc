@@ -30,6 +30,7 @@ public:
 	enum { IDD = IDD_SHP_VIEWER };
 	CSliderCtrl	m_slider;
 	CStatic	m_image;
+	int		m_index;
 	//}}AFX_DATA
 
 

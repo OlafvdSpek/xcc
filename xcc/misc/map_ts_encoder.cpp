@@ -8,7 +8,7 @@
 #include <fstream>
 #include <map>
 #include <vector>
-#include <zlib.h>
+#include <zlib/zlib.h>
 #include "file32.h"
 #include "cc_structures.h"
 #include "shp_decode.h"
@@ -350,8 +350,8 @@ static void log_overlay_pack(const byte* s, const Cmap_ts_encoder::t_header& siz
 
 static void write_pack(ostream& os, const byte* s, int cb_s)
 {
-	Cvirtual_binary d;
-	d.size(encode64(s, d.write_start(cb_s << 1), cb_s));
+	Cvirtual_binary d = encode64(Cvirtual_binary(s, cb_s));
+	// d.size(encode64(s, d.write_start(cb_s << 1), cb_s));
 	const byte* r = d.data();
 	const byte* r_end = d.data_end();
 	int line_i = 1;
@@ -688,6 +688,30 @@ Cvirtual_image Cmap_ts_encoder::create_heightmap() const
 		y++;
 	}
 	return image;
+}
+
+void Cmap_ts_encoder::extract_map(t_iso_map_pack_entry4* d) const
+{
+	const t_iso_map_pack_entry4* r = reinterpret_cast<const t_iso_map_pack_entry4*>(m_iso_map_pack.data());
+	int x_line = m_header.cx;
+	int r_line = m_header.cx + 1;
+	int y = 1;
+	int z = 0;
+	while (x_line < r_line)
+	{
+		for (int x = x_line; x < r_line; x++)
+		{
+			z += r->z;
+			t_iso_map_pack_entry4& e = d[x << 9 | y];
+			e.tile = r->tile;
+			e.sub_tile = r->sub_tile;
+			e.z = z;
+			r++;
+		}
+		x_line += get_x_inc(m_header, y);
+		r_line += get_r_inc(m_header, y);
+		y++;
+	}
 }
 
 static const t_palet_entry* get_radar_colors(Cvirtual_binary& s, int tile, int sub_tile)

@@ -8,7 +8,7 @@
 using namespace std;
 
 static ofstream log_f;
-static int log_t = 0;
+static int log_t = time(NULL);
 static int log_x = 0;
 
 #ifdef __AFX_H__
@@ -24,7 +24,8 @@ void xcc_log::attach(void* log_window)
 
 void xcc_log::attach_file(const string& name)
 {
-	log_f.open((xcc_dirs::get_data_dir() + name).c_str());
+	if (xcc_dirs::enable_log())
+		log_f.open((xcc_dirs::get_data_dir() + name).c_str());
 }
 
 void xcc_log::indent(int x)
@@ -34,8 +35,6 @@ void xcc_log::indent(int x)
 
 void xcc_log::write_line(const string& s, int x)
 {
-	if (!log_t)
-		log_t = time(NULL);
 	if (x < 0)
 		log_x += x;
 	if (log_f.is_open())

@@ -215,16 +215,6 @@ struct t_infantry_data_entry
 	string trigger;
 };
 
-inline operator<(const t_infantry_data_entry &a, const t_infantry_data_entry &b)
-{
-	return false;
-}
-
-inline operator==(const t_infantry_data_entry &a, const t_infantry_data_entry &b)
-{
-	return false;
-}
-
 typedef vector<t_infantry_data_entry> t_infantry_data;
 
 enum
@@ -244,6 +234,7 @@ struct t_structure_data_entry
 	string trigger;
 };
 
+/*
 inline operator<(const t_structure_data_entry &a, const t_structure_data_entry &b)
 {
 	return false;
@@ -253,6 +244,7 @@ inline operator==(const t_structure_data_entry &a, const t_structure_data_entry 
 {
 	return false;
 }
+*/
 
 typedef vector<t_structure_data_entry> t_structure_data;
 
@@ -266,16 +258,6 @@ struct t_unit_data_entry
 	t_action_id action;
 	string trigger;
 };
-
-inline operator<(const t_unit_data_entry &a, const t_unit_data_entry &b)
-{
-	return false;
-}
-
-inline operator==(const t_unit_data_entry &a, const t_unit_data_entry &b)
-{
-	return false;
-}
 
 typedef vector<t_unit_data_entry> t_unit_data;
 

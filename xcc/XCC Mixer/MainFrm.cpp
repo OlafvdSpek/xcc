@@ -40,10 +40,13 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
+	// ON_COMMAND(ID_VIEW_DIRECTX_OPTIONS, OnViewDirectxOptions)
 	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnViewPalet)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnUpdateViewPalet)
 	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnUpdateLaunchApp)
+	// ON_COMMAND(ID_LAUNCH_XSTE, OnLaunchXSTE)
+	// ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE, OnUpdateLaunchXSTE)
 	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_GAME_TD, OnViewGameTD)
@@ -84,7 +87,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_UTILITIES_XCC_MIX_EDITOR, OnUtilitiesXccMixEditor)
 	ON_UPDATE_COMMAND_UI(ID_UTILITIES_XCC_MIX_EDITOR, OnUpdateUtilitiesXccMixEditor)
 	ON_COMMAND(ID_VIEW_DIRECTORIES, OnViewDirectories)
-	ON_COMMAND(ID_VIEW_DIRECTX_OPTIONS, OnViewDirectxOptions)
 	ON_COMMAND(ID_UTILITIES_FS, OnUtilitiesFS)
 	ON_UPDATE_COMMAND_UI(ID_UTILITIES_FS, OnUpdateUtilitiesFS)
 	ON_COMMAND(ID_UTILITIES_SEMM, OnUtilitiesSEMM)
@@ -109,8 +111,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_RA2, OnUpdateLaunchXOE_RA2)
 	ON_COMMAND(ID_LAUNCH_XOE_TS, OnLaunchXOE_TS)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_TS, OnUpdateLaunchXOE_TS)
-	ON_COMMAND(ID_LAUNCH_XSTE, OnLaunchXSTE)
-	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE, OnUpdateLaunchXSTE)
 	ON_COMMAND(ID_LAUNCH_XSE, OnLaunchXSE)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE, OnUpdateLaunchXSE)
 	ON_COMMAND(ID_LAUNCH_FA, OnLaunchFA)
@@ -137,6 +137,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_VIEW_PALET_SELECT, OnViewPaletSelect)
 	ON_COMMAND(ID_VIEW_PALET_AUTO_SELECT, OnViewPaletAutoSelect)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_AUTO_SELECT, OnUpdateViewPaletAutoSelect)
+	ON_COMMAND(ID_LAUNCH_XSTE_GR, OnLaunchXSTE_GR)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_GR, OnUpdateLaunchXSTE_GR)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -879,7 +881,7 @@ void CMainFrame::OnUtilitiesXccMixEditor()
 
 void CMainFrame::OnLaunchApp(dword ID) 
 {
-	t_app app = static_cast<t_app>(ID - ID_LAUNCH_XMC);
+	t_app app = static_cast<t_app>(app_xmc + ID - ID_LAUNCH_XMC);
 	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
 }
 
@@ -900,7 +902,7 @@ void CMainFrame::OnUpdateUtilitiesXccMixEditor(CCmdUI* pCmdUI)
 
 void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI) 
 {
-	t_app app = static_cast<t_app>(pCmdUI->m_nID - ID_LAUNCH_XMC);
+	t_app app = static_cast<t_app>(app_xmc + pCmdUI->m_nID - ID_LAUNCH_XMC);
 	pCmdUI->Enable(m_apps.is_available(app));
 }
 
@@ -1105,6 +1107,7 @@ void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI)
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
 
+/*
 void CMainFrame::OnLaunchXSTE() 
 {
 	CXSTE_dlg dlg(game_ra2, false);
@@ -1115,6 +1118,7 @@ void CMainFrame::OnUpdateLaunchXSTE(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
+*/
 
 void CMainFrame::OnLaunchXSTE_RA2() 
 {
@@ -1136,6 +1140,17 @@ void CMainFrame::OnLaunchXSTE_RA2_YR()
 void CMainFrame::OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists());
+}
+
+void CMainFrame::OnLaunchXSTE_GR() 
+{
+	CXSTE_dlg dlg(game_gr);
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSTE_GR(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(Cfname(xcc_dirs::get_dir(game_gr) + xcc_dirs::get_csf_fname(game_gr)).exists());	
 }
 
 void CMainFrame::OnLaunchXSE() 
@@ -1385,7 +1400,7 @@ BOOL CMainFrame::OnIdle(LONG lCount)
 
 void CMainFrame::OnViewReport() 
 {
-	Chtml page;
+	string page;
 	CString version;
 	if (version.LoadString(IDR_MAINFRAME))
 		page += tr(th(static_cast<string>(version.Left(version.Find('\n'))), "colspan=2"));

@@ -855,7 +855,9 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 	int error;
 	for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
 	{
-		const string fname = m_other_pane->get_dir() + m_index.find(get_id(*i))->second.name;
+		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(*i))->second.name;
+		if (m_index.find(get_id(*i))->second.name.find('\\') != string::npos)
+			create_dir(fname.get_path());
 		switch (ft)
 		{
 		case -1:
@@ -1188,27 +1190,24 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 			pcx_decode(f.get_image(), s, *f.get_header());
 		byte* d = new byte[cx * cy * 6];
 		int cb_d = encode5(s, d, cb_s, 5);
-		byte* e = new byte[cb_d << 1];
-		int cb_e = encode64(d, e, cb_d);
+		Cvirtual_binary e = encode64(Cvirtual_binary(d, cb_d));
 		ofstream g(fname.get_all().c_str());
 		g << "[Preview]" << endl
 			<< "Size=0,0," << n(cx) << ',' << n(cy) << endl
 			<< endl
 			<< "[PreviewPack]" << endl;
 		const byte* r = e;
-		const byte* r_end = e + cb_e;
 		int line_i = 1;
-		while (r < r_end)
+		while (r < e.data_end())
 		{
 			char line[80];
-			int cb_line = min(r_end - r, 70);
+			int cb_line = min(e.data_end() - r, 70);
 			memcpy(line, r, cb_line);
 			line[cb_line] = 0;
 			r += cb_line;
 			g << line_i++ << '=' << line << endl;
 		}
 		error = g.fail();
-		delete[] e;
 		delete[] d;
 		delete[] s;
 		f.close();
@@ -2416,6 +2415,8 @@ void CXCCMixerView::OnUpdatePopupCompact(CCmdUI* pCmdUI)
 
 void CXCCMixerView::OnPopupDelete()
 {
+	if (~GetAsyncKeyState(VK_SHIFT) < 0 && MessageBox("Are you sure you want to delete these files?", NULL, MB_ICONQUESTION | MB_YESNO) != IDYES)
+		return;
 	CWaitCursor wait;
 	int error = 0;
 	if (m_mix_f)
@@ -3035,9 +3036,9 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 	return false;
 }
 
-Chtml CXCCMixerView::report() const
+string CXCCMixerView::report() const
 {
-	Chtml page;
+	string page;
 	ULARGE_INTEGER available, total, free;
 	if (GetDiskFreeSpaceEx(m_dir.c_str(), &available, &total, &free))
 		page += tr(td(m_dir) + td(n(*reinterpret_cast<__int64*>(&available))) + td(n(*reinterpret_cast<__int64*>(&total))));

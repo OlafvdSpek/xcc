@@ -8,7 +8,6 @@ namespace xcc_infantry
 }
 
 static const char* infantry_xif_fname = "infantry.xif";
-Cxif_key infantry_key;
 
 enum
 {
@@ -21,7 +20,7 @@ enum
 
 dword xcc_infantry::c_infantry()
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		if (~infantry_data[i].flags & id_flags_in_use)
 			return i;
@@ -29,19 +28,16 @@ dword xcc_infantry::c_infantry()
 	return 0;
 }
 
-long xcc_infantry::load_data()
+int xcc_infantry::load_data()
 {
-	Ccc_file f(false);
+	Ccc_file f(true);
 	f.open(xcc_dirs::get_data_dir() + infantry_xif_fname);
 	if (!f.is_open())
 		return 1;
-	const dword size = f.get_size();
-	byte* data = new byte[size];
-	f.read(data, size);
+	Cxif_key infantry_key;
+	infantry_key.load_key(f.get_vdata());
 	f.close();
-	infantry_key.load_key(data, size);
-	delete[] data;
-	long infantry_i = 0;
+	int infantry_i = 0;
 	for (t_xif_key_map::iterator i = infantry_key.m_keys.begin(); i != infantry_key.m_keys.end(); i++)
 	{
 		t_infantry_data_entry& id = infantry_data[infantry_i];
@@ -62,56 +58,44 @@ long xcc_infantry::load_data()
 	return 0;
 }
 
-long xcc_infantry::save_data()
+int xcc_infantry::save_data()
 {
-	typedef map<string, long> t_list;
+	typedef map<string, int> t_list;
 	t_list list;	
 	{
-		for (long i = 0; i < 256; i++)
+		for (int i = 0; i < 256; i++)
 		{
 			t_infantry_data_entry& id = infantry_data[i];
 			if (~id.flags & id_flags_in_use)
 				// don't save if not in use
 				continue;
-			list[static_cast<string>(id.short_name)] = i;
+			list[id.short_name] = i;
 		}
 	}
-	infantry_key = Cxif_key(); // .delete_all_keys();
-	long infantry_i = 0;
+	Cxif_key infantry_key;
+	int infantry_i = 0;
 	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i->second];
 		Cxif_key& ik = infantry_key.set_key(infantry_i);
 		ik.set_value_string(vi_id_long_name, id.long_name);
 		ik.set_value_string(vi_id_short_name, id.short_name);
-		ik.set_value(vi_id_cx, static_cast<dword>(id.cx));
-		ik.set_value(vi_id_cy, static_cast<dword>(id.cy));
-		ik.set_value(vi_id_flags, id.flags);
+		ik.set_value_int(vi_id_cx, id.cx);
+		ik.set_value_int(vi_id_cy, id.cy);
+		ik.set_value_int(vi_id_flags, id.flags);
 		infantry_i++;
 	}
 	return infantry_key.vdata().export(xcc_dirs::get_data_dir() + infantry_xif_fname);
-	/*
-	Cfile32 f;
-	if (f.open_write(xcc_dirs::get_data_dir() + infantry_xif_fname))
-		return 1;
-	dword size = infantry_key.key_size();
-	byte* data = new byte[size];
-	infantry_key.save_key(data);
-	f.write(data, size);
-	delete[] data;
-	f.close();
-	return 0;
-	*/
 }
 
-long xcc_infantry::load_images(bool load_icons)
+int xcc_infantry::load_images(bool load_icons)
 {
-	long error = 0;
+	int error = 0;
 	static bool loaded = false;
 	if (loaded)
 		return 0;
 	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
 		if (~id.flags & id_flags_in_use)
@@ -148,18 +132,18 @@ long xcc_infantry::load_images(bool load_icons)
 
 void xcc_infantry::destroy()
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
 	}
 }
 
-long xcc_infantry::get_id(const string& s)
+int xcc_infantry::get_id(const string& s)
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
-		if (id.flags & id_flags_in_use && (id.short_name == s))
+		if (id.flags & id_flags_in_use && id.short_name == s)
 			return i;
 	}
 	return -1;

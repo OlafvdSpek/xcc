@@ -73,13 +73,13 @@ int Cmix_file::post_open()
 {
 #ifndef NO_FT_SUPPORT
 	bool index_read = false;
-	if (handle() != INVALID_HANDLE_VALUE)
+	if (h())
 	{
 		Cmix_rg_file f;
 		if (get_data())
 			f.load(get_vdata());
 		else
-			f.attach(handle());
+			f.attach(h());
 		if (f.is_open() && f.is_valid())
 		{
 			m_game = game_rg;
@@ -249,10 +249,8 @@ int Cmix_file::post_open()
 		}
 		if (!m_data_loaded)
 		{
-			Ccrc crc;
-			crc.init();
-			crc.do_block(m_index, m_c_files * sizeof(t_mix_index_entry));
-			const void* s = mix_cache::get_data(crc.get_crc());
+			int crc = compute_crc(m_index, m_c_files * sizeof(t_mix_index_entry));
+			const void* s = mix_cache::get_data(crc);
 			m_index_ft = new t_file_type[m_c_files];
 			if (s)
 				memcpy(m_index_ft, s, m_c_files * sizeof(t_file_type));
@@ -272,7 +270,7 @@ int Cmix_file::post_open()
 					m_index_ft[i->second] = f.get_file_type();
 					f.close();
 				}
-				mix_cache::set_data(crc.get_crc(), m_index_ft, m_c_files * sizeof(t_file_type));
+				mix_cache::set_data(crc, m_index_ft, m_c_files * sizeof(t_file_type));
 			}
 			for (int i = 0; i < m_c_files; i++)
 			{
@@ -361,17 +359,11 @@ t_file_type Cmix_file::get_type(int id)
 
 int Cmix_file::get_id(t_game game, string name)
 {
-	/*
-	Cfname fname = name;
-	if (fname.get_ftitle().length() > 8)
-		name = fname.get_ftitle().substr(0, 8) + fname.get_fext();
-	*/
 	name = to_upper(name);
 	switch (game)
 	{
 	case game_ts:
 	case game_ra2:
-	case game_rg:
 		{
 			const int l = name.length();
 			int a = l >> 2;
@@ -382,6 +374,13 @@ int Cmix_file::get_id(t_game game, string name)
 				while (i--)
 					name += name[a << 2];
 			}
+			Ccrc crc;
+			crc.init();
+			crc.do_block(name.c_str(), name.length());
+			return crc.get_crc();
+		}
+	case game_rg:
+		{
 			Ccrc crc;
 			crc.init();
 			crc.do_block(name.c_str(), name.length());
@@ -423,4 +422,34 @@ void Cmix_file::clean_up()
     m_index = NULL;
     if (is_open())
         close();
+}
+
+Cvirtual_binary Cmix_file::get_vdata(int id)
+{
+	if (get_index(id) == -1)
+		return Cvirtual_binary();
+	int offset = get_offset(id);
+	int o = offset;
+	Cmix_file* last_p;
+	Cmix_file* p = this;
+	do
+	{
+		if (p->m_mix_f)
+			o += p->m_offset;
+		last_p = p;
+	}
+	while (p = p->m_mix_f);
+	if (last_p->get_data())
+		return Cvirtual_binary(last_p->get_data() + o, get_size(id), Csmart_ref<Cvirtual_binary>::create(last_p->get_vdata()));
+	Cvirtual_binary d;
+	seek(offset);
+	int size = get_size(id);
+	if (read(d.write_start(size), size))
+		d.clear();
+	return d;
+}
+
+Cvirtual_binary Cmix_file::get_vdata(const string& name)
+{
+	return get_vdata(get_id(m_game, name));
 }
