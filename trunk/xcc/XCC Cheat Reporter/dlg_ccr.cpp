@@ -573,8 +573,7 @@ void Cdlg_ccr::OnOK()
 			}
 			const string fname = dlg.GetPathName();
 			key.vdata().export(fname);
-#if 1
-			if (m_send_ws || m_send_xhp)
+			if (m_send_xhp)
 			{
 				HINSTANCE pMailState = LoadLibrary("MAPI32.DLL");
 				if (pMailState == NULL)
@@ -597,22 +596,10 @@ void Cdlg_ccr::OnOK()
 				fileDesc.nPosition = (ULONG)-1;
 				fileDesc.lpszPathName = const_cast<char*>(fname.c_str());
 
-				MapiRecipDesc recipDesc[2];
-				MapiRecipDesc* w = recipDesc;
-				if (m_send_ws)
-				{
-					memset(w, 0, sizeof(MapiRecipDesc));
-					w->ulRecipClass = MAPI_TO;
-					w->lpszAddress = "SMTP:Contests@Westwood.Com";
-					w++;
-				}
-				if (m_send_xhp)
-				{
-					memset(w, 0, sizeof(MapiRecipDesc));
-					w->ulRecipClass = MAPI_TO;
-					w->lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
-					w++;
-				}
+				MapiRecipDesc recipDesc;
+				memset(&recipDesc, 0, sizeof(MapiRecipDesc));
+				recipDesc.ulRecipClass = MAPI_TO;
+				recipDesc.lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
 
 				string title = static_cast<CString>(game_name[key.get_value_int(vi_game)]) + " XCRF: " + nickname + " (r) vs " + cheater + " (c) in game " + n(m_game_id).c_str();
 
@@ -621,8 +608,8 @@ void Cdlg_ccr::OnOK()
 				memset(&message, 0, sizeof(message));
 				message.lpszSubject = const_cast<char*>(title.c_str());
 				// message.lpszNoteText = const_cast<char*>(static_cast<const char*>(m_description));
-				message.nRecipCount = m_send_ws + m_send_xhp;
-				message.lpRecips = recipDesc;
+				message.nRecipCount = 1;
+				message.lpRecips = &recipDesc;
 				message.nFileCount = 1;
 				message.lpFiles = &fileDesc;
 
@@ -660,7 +647,6 @@ void Cdlg_ccr::OnOK()
 					AfxMessageBox(AFX_IDP_FAILED_MAPI_SEND);
 				}
 			}
-#endif
 			if (m_send_ws)
 			{
 				CString page;
