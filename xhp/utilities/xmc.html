@@ -1,0 +1,209 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<link rel=stylesheet href="/xcc.css">
+<style>
+    td, th {text-align=left; vertical-align=baseline}
+</style>
+<title>Guide: Using XCC Mod Creator</title>
+
+<p class=page-title>
+Guide: Using XCC Mod Creator
+
+<hr>
+
+<font color=yellow>Requirements</font>
+
+<p>
+You will need XCC Mixer, XCC Mod Creator, Command & Conquer: Tiberian Sun or Red Alert 2.<br>
+You can download the XCC utilities from <a target=_top href="/show_frame.php?src=/utilities/">http://xccu.sf.net/</a>.<br>
+
+<hr>
+
+<font color=yellow>Description</font>
+
+<p>
+XCC Mod Creator can be used to create and distribute Mods for Tiberian Sun and Red Alert 2. It's an utility to assemble a Mod. It's not an all-in-one editor. All files that are part of a Mod are inserted in a certain category. The Mod can be exported to a XCC Mod Launcher file (XMLF), which can be used by XCC Mod Launcher. Strong compression is used for XMLF.
+
+<hr>
+
+<font color=yellow>Categories</font>
+
+<p>
+<table>
+    <tr><th>Category</th><th>Description</th></tr>
+    <tr><td>cameo</td><td>The cameos/icons in SHP (TS) format.</td></tr>
+    <tr><td>hva</td><td></td></tr>
+    <tr><td>ini</td><td>The INI files.</td></tr>
+    <tr><td>map</td><td>The maps of your Mod, if any. Use the XMMF format for better compression.</td></tr>
+    <tr><td>mix</td><td>If your Mod needs to use files in other MIXs then ecache##.mix or expand##.mix, insert those MIXs here. Those MIXs will be inserted into expand##.mix. This shouldn't be necessary and if it is, please send <a href="mailto:Olaf van der Spek <XCC@XCC.TMFWeb.NL>">me</a> an email.</td></tr>
+    <tr><td>screen</td><td>The customized loading screens for your Mod in 24-bit PCX (TS) or SHP (RA2) format.</td></tr>
+    <tr><td>shp</td><td></td></tr>
+    <tr><td>sound</td><td>The non-EVA audio in AUD (TS) or WAV (RA2) format. For RA2, those WAVs are inserted into audio.bag/idx.</td></tr>
+    <tr><td>speech</td><td>The EVA audio in AUD (TS) or WAV (RA2) format.</td></tr>
+    <tr><td>string table</td><td>The string table in CSF or TXT format. This category is not used for TS.</td></tr>
+    <tr><td>theme</td><td>The music in AUD (TS) or WAV (RA2) format.</td></tr>
+    <tr><td>video</td><td>The video in VQA (TS) or BINK (RA2) format.</td></tr>
+    <tr><td>vxl</td><td></td></tr>
+    <tr><td>launcher</td><td>If you want to customize the look of the launcher, use this category. You can insert 24-bit JPEGs. Possible filenames: banner.jpeg, xhp_button.jpeg, exit_button.jpeg, update_button.jpeg, site_button.jpeg, mod_button.jpeg and manual_button.jpeg. The width of the JPEGs should be dividable by four.<br>You can also use an intro tune by inserting a short OGG as intro.ogg</td></tr>
+    <tr><td>manual</td><td>The documentation of your Mod. This will be accesible via the Manual button. It will be extracted to a temporary directory. If a file with the title index (index.chm, index.exe, index.html) exists it will be executed, otherwise the directory will be opened.</td></tr>
+    <tr><td>interface</td><td>The customized interface elements (buttons, etc).</td></tr>
+    <tr><td>tmp</td><td></td></tr>
+</table>
+
+<hr>
+
+<font color=yellow>Additinal formats</font>
+
+<p>
+Some additional file formats are supported, either for better compression or for easier editing. 24-bit JPEG files can be used instead of 24-bit PCX files. OGG files can be used instead of AUD (TS) or WAV (RA2) files. 8-bit PCX files can be used instead of SHP files for the cameo and screen (RA2) categories.
+
+<p>
+TXT files can be used for the  string table category.
+
+<pre>
+theme:hell226m=Hell March
+</pre>
+
+<p>
+OGG <a target=_top href="http://vorbis.com/">Vorbis</a> is a professional audio encoding and streaming technology. It provides better compression/quality than MP3. AUD and WAV files used by TS and RA2 at 22050 hz, 16-bit mono have a bitrate of 86 kbit/s. Stereo WAVs used by RA2 have a bitrate of 172 kbit/s. OGG files can be used with bitrates as low as 40 kbit/channel/s. This means the compression is more than twice as good.
+
+<hr>
+
+<img src=xmc_s1.png>
+
+<p>
+<b>Open</b>
+
+<p>
+You can open files by using the open option in the popup menu. The file extension needs to be associated with an application.
+
+<p>
+<b>Explore</b>
+
+<p>
+You can explore the directory of a file by using the explore option in the popup menu.
+
+<p>
+<b>Insert</b>
+
+<p>
+You can insert files by dragging a file from Windows Explorer to XCC Mod Creator. Be sure to select the right category first. Files can also be inserted one at a time by using the insert option in the popup menu.
+
+<p>
+<b>Delete</b>
+
+<p>
+You can delete files by using the delete option in the popup menu.
+
+<p>
+<b>Properties</b>
+
+<p>
+You can define the mode and module for each file. Modes allow the user to play the mod in different modes. Only files attached to the base mode and the chosen mode are inserted when the mod is activated. Modules allow the mod to be split up in multiple XMLFs.
+
+<hr>
+
+<img src=xmc_s2.png>
+
+<p>
+<b>Activate</b>
+
+<p>
+This activates the Mod by copying all files to the game directory. Most files are inserted into ecache98.mix or expand98.mix.
+
+<p>
+<b>Launch</b>
+
+<p>
+This activates the Mod and launches the game, but does not deactivate the Mod after the game ends.
+
+<p>
+<b>Deactivate</b>
+
+<p>
+This deactivates the Mod by deleting all Mod files from the game directory.
+
+<p>
+<b>Clear game directory</b>
+
+<p>
+This deletes the following files from the game directory: ai.ini, art.ini, audio.bag, audio.idx, ecache*.mix, elocal*.mix, expand*.mix, ra2.csf, rules.ini, sound.ini, ui.ini.
+
+<p>
+<b>Options</b>
+
+<p>
+This allows you to edit some options of your Mod.
+
+<p>
+<b>Report</b>
+
+<p>
+This generates a HTML report of the contents of your Mod. Some check, like wrong file type, are made.
+
+<hr>
+
+<img src=xmc_s3.png>
+
+<p>
+<b>Name</b>
+
+<p>
+The name of the creator of the Mod.
+
+<p>
+<b>Link</b>
+
+<p>
+A link to the web site of the Mod. This is used for the Site button.
+
+<p>
+<b>Mod name</b>
+
+<p>
+The name of the Mod. This is used for the caption of XCC Mod Launcher.
+
+<p>
+<b>Game</b>
+
+<p>
+The game for which the Mod is created. This is used when the Mod is activated.
+
+<p>
+<b>Mod version</b>
+
+<p>
+The version of the Mod. This is used for the version check.
+
+<p>
+<b>Mod update control file</b>
+
+<p>
+The URL of the update control file that's used for the version check and auto update. The update control file should contain a line like the line below. The line contains the Mod name, Mod version and URL of the XMLF (not ZIP) file.
+
+<pre>
+XCC Mod=1.10,http://xcc.tiberian.com/temp/CSF.xmlf
+</pre>
+
+<p>
+<b>CSF diff compression</b>
+
+<p>
+When enabled, only the differences between the CSF files of your Mod and the original ones are saved. This should always be enabled.
+
+<p>
+<b>INI diff compression</b>
+
+<p>
+When enabled, only the differences between the INI files of your Mod and the original ones are saved. This should be enabled, unless it causes trouble in the game.
+
+<p>
+<b>Custom button text</b>
+
+<p>
+When enabled, the Mod name is added to the text of the Manual, Mod and Site buttons. This could be enabled if the Mod name is short. If disabled, the Mod name is only visible in the caption of XCC Mod Launcher.
+
+<p>
+<b>Various buttons</b>
+
+<p>
+When enabled, the button will be visible, otherwise it will be invisible. If disabled, the option is only available via the system menu.
