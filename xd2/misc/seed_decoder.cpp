@@ -27,55 +27,7 @@ enum
 const int PAIRCOUNT = 21;
 int seed;
 
-/* these are offsets used by matrix modifier */
-
-const int offsets[] =
-{
-	0,
-	-1,
-	1,
-	-16,
-	16,
-	-17,
-	17,
-	-15,
-	15,
-	-2,
-	2,
-	-32,
-	32,
-	-4,
-	4,
-	-64,
-	64,
-	-30,
-	30,
-	-34,
-	34
-};
-
-/* these is array used to find corresponding points */
-/*
-      A·B·C    00··20··40
-      ·····    ··········
-      D·E·F    02··22··42
-      ·····    ··········
-      G·H·I    04··24··44
-*/
-
-const int offsets2[] =
-{
-	A,C, C,I, A,G, G,I, A,D, D,G,
-	A,B, B,C, C,F, F,I, G,H, H,I,
-	A,I, B,E, A,E, C,E, D,E, E,F,
-	E,G, E,I, E,H,
-	A,C, C,I, A,G, G,I, A,D, D,G,
-	A,B, B,C, C,F, F,I, G,H, H,I,
-	C,G, B,E, A,E, C,E, D,E, E,F,
-	E,G, E,I, E,H
-};
-
-int random()
+static int random()
 {
    unsigned char* s = (unsigned char* )&seed, a, b, x, y;
 
@@ -114,7 +66,7 @@ int random()
  * The technique is similiar to --> balanceMap
  */
 
-void scanRegions(short map[64][64])
+static void scanRegions(short map[64][64])
 {
 	short prevln[64], currln[64];
 	for (int i = 0; i < 64; i++)
@@ -163,13 +115,9 @@ void scanRegions(short map[64][64])
  * creates terrain regions by replacing numbers within specified range
  */
 
-void createRegions(short map[64][64])
+static void createRegions(short map[64][64])
 {
-   int rock = random() & 0xf;
-   if (rock < 8)
-	   rock = 8;
-   else if (rock > 0xc)
-	   rock = 0xc;
+   int rock = min(max(random() & 0xf, 8), 0xc);
    int mountains = rock + 4;
    int dunes = (random() & 3) - 1;
 
@@ -200,7 +148,7 @@ void createRegions(short map[64][64])
  * to 'prevln'.
  */
 
-void balanceMap(short map[64][64])
+static void balanceMap(short map[64][64])
 {
    short prevln[64], currln[64];
    for (int i = 0; i < 64; i++)
@@ -226,6 +174,18 @@ void balanceMap(short map[64][64])
    }
 }
 
+const int offsets2[] =
+{
+	A,C, C,I, A,G, G,I, A,D, D,G,
+	A,B, B,C, C,F, F,I, G,H, H,I,
+	A,I, B,E, A,E, C,E, D,E, E,F,
+	E,G, E,I, E,H,
+	A,C, C,I, A,G, G,I, A,D, D,G,
+	A,B, B,C, C,F, F,I, G,H, H,I,
+	C,G, B,E, A,E, C,E, D,E, E,F,
+	E,G, E,I, E,H
+};
+
 /*
  * "spreads" the matrix by replacing empty shorts with arithmetic
  * mean of two neighbors. Offsets needed to locate neighbors
@@ -234,7 +194,7 @@ void balanceMap(short map[64][64])
  * also the right border shorts are inproperly calculated.
  */
 
-void spreadMatrix(short map[64][64])
+static void spreadMatrix(short map[64][64])
 {
    int diag = 0;
    for (int y = 0; y < 64; y += 4)
@@ -265,7 +225,7 @@ void spreadMatrix(short map[64][64])
  * (the generator has a tend to use that extra row in spreadMatrix :)
  */
 
-void copyMatrix(char* matrix, short map[65][64])
+static void copyMatrix(char* matrix, short map[65][64])
 {
 	for (int y = 0; y < 65; y++)
 	{
@@ -280,7 +240,7 @@ void copyMatrix(char* matrix, short map[65][64])
 	}
 }
 
-void createMatrix(char* matrix)
+static void createMatrix(char* matrix)
 {
 	for (int i = 0; i < 16 * 17; i++)
 	{
@@ -290,7 +250,32 @@ void createMatrix(char* matrix)
 	matrix[i] = 0;
 }
 
-void addNoise1(char* matrix)
+const int offsets[] =
+{
+	0,
+	-1,
+	1,
+	-16,
+	16,
+	-17,
+	17,
+	-15,
+	15,
+	-2,
+	2,
+	-32,
+	32,
+	-4,
+	4,
+	-64,
+	64,
+	-30,
+	30,
+	-34,
+	34
+};
+
+static void addNoise1(char* matrix)
 {
    for (int count = random() & 0xf; count >= 0 ; count--)
    {
@@ -303,7 +288,7 @@ void addNoise1(char* matrix)
    }
 }
 
-void addNoise2(char* matrix)
+static void addNoise2(char* matrix)
 {
 	for (int count = random() & 3; count >= 0; count--)
 	{
