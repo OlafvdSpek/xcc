@@ -27,14 +27,14 @@ namespace xcc_units
 		int cy;
 		int base_ox;
 		int base_oy;
-		dword flags;
+		int flags;
 		void* images;
 		void* icon;
 		int c_images;
 		int c_rotations;
 	};
 	
-	dword c_units();
+	int c_units();
 
 	int load_data();
 	int save_data();

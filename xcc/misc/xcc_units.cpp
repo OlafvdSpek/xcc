@@ -20,7 +20,7 @@ enum
 	vi_ud_c_rotations
 };
 
-dword xcc_units::c_units()
+int xcc_units::c_units()
 {
 	for (int i = 0; i < 256; i++)
 	{

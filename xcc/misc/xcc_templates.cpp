@@ -119,7 +119,7 @@ long Cxcc_templates::load_images(t_theater_id theater)
 	Ctmp_file f;
 	memset(image_list, -1, sizeof(image_list));
 	memset(template_list, -1, sizeof(template_list));
-	dword write_i = 0;
+	int write_i = 0;
 // #define RELOAD
 	for (long i = 0; i < 0xd8; i++)
 	{
@@ -142,13 +142,13 @@ long Cxcc_templates::load_images(t_theater_id theater)
 	for (i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
-		const dword c_images = td.c_images >> (theater << 3) & 0xff;
+		const int c_images = td.c_images >> (theater << 3) & 0xff;
 		if (!c_images)
 			continue;
 		f.open(string(template_code[i]) + ext, mixf);
 		assert(f.is_open());
 		image_list[i] = write_p;
-		const dword c_tiles = td.cx * td.cy;
+		const int c_tiles = td.cx * td.cy;
 		const byte* ofs_list = f.get_index1();
 		for (long j = 0; j < c_tiles; j++)
 		{
