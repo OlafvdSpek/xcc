@@ -150,6 +150,8 @@ void Cdlg_login::OnOK()
 		strstream msg;
 		int selected_game = m_game.GetItemData(m_game.GetCurSel());
 		int selected_nick = m_user.GetItemData(m_user.GetCurSel());
+		if (selected_game < 0 || selected_nick < 0)
+			return;
 		const t_game& game = m_games[selected_game];
 		const t_nick& nick = m_nicks[selected_nick];
 		msg << "cvers 0 " << (game.gsku << 8) << endl
