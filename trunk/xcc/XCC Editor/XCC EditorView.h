@@ -90,9 +90,6 @@ public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
-	virtual BOOL OnPreparePrinting(CPrintInfo* pInfo);
-	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
-	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnUpdate();
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	//}}AFX_VIRTUAL
@@ -122,10 +119,6 @@ public:
 	void Invalidate(bool mem_surface);
 	void update_mem_surface();
 	virtual ~CXCCEditorView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
@@ -218,10 +211,10 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-#ifndef _DEBUG  // debug version in XCC EditorView.cpp
 inline CXCCEditorDoc* CXCCEditorView::GetDocument() const
-   { return (CXCCEditorDoc*)m_pDocument; }
-#endif
+{ 
+	return (CXCCEditorDoc*)m_pDocument; 
+}
 
 inline Cxcc_level& CXCCEditorView::level() const
 {
