@@ -46,8 +46,9 @@ int Cxcl_database::update_player(int pid, int cmp, const Cxcl_player& a, const C
 	return 0;
 }
 
-void Cxcl_database::insert_game(const Cgame_result& gr)
+void Cxcl_database::insert_game(const Cgame_result& _gr)
 {
+	Cgame_result gr = _gr;
 	if (gr.get_int("dura") < 90
 		|| !gr.get_int("trny"))
 		return;
@@ -56,6 +57,16 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	q.p(gr.get_int("idno"));
 	if (q.execute().fetch_row())
 		return;
+	if (gr.get_int("oosy"))
+	{
+		gr.set_int("cmp0", 0);
+		gr.set_int("cmp1", 0);
+	}
+	else if (gr.get_int("cmp0") == 2 && gr.get_int("cmp1") == 2)
+	{
+		gr.set_int("cmp0", 0x100);
+		gr.set_int("cmp1", 0x220);
+	}
 	int pids[4];
 	Cxcl_player players[4];
 	int pc[4];
@@ -65,7 +76,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	for (i = 0; i < 2; i++)
 		players[i] = player(pids[i]);
 	for (i = 0; i < 2; i++)
-		pc[i] = gr.get_int("oosy") ? 0 : update_player(pids[i], gr.get_int("cmp", i), players[i], players[1 - i]);
+		pc[i] = update_player(pids[i], gr.get_int("cmp", i), players[i], players[1 - i]);
 	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 	q.p(gr.get_int("afps"));
 	q.p(gr.get_int("dura"));
