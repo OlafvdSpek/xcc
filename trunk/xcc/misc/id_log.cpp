@@ -125,8 +125,6 @@ string id_log::get_name(t_game game, int id)
 {
 	t_id_list& list = get_list(game);
 	t_id_list::iterator i = list.find(id);
-	if (game == game_ts && i == list.end())
-		return get_name(game_ra2, id);
 	return i == list.end() ? "" : i->second.name;
 }
 
