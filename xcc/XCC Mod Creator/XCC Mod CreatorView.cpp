@@ -185,6 +185,7 @@ int CXCCModCreatorView::insert(string fname)
 
 void CXCCModCreatorView::sync()
 {
+	CWaitCursor wait;
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	lc.DeleteAllItems();
@@ -238,7 +239,7 @@ void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
-	int id = lc.GetItemData(pDispInfo->item.iItem);
+	int id = pDispInfo->item.lParam;
 	m_buffer[m_buffer_w].erase();
 	Ccc_file f(false);
 	const t_map_entry& e = m_map.find(id)->second;

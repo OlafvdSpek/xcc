@@ -95,7 +95,7 @@ BOOL CXCCModCreatorApp::InitInstance()
 	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
-	pMainFrame->ShowWindow(m_nCmdShow);
+	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
 	pMainFrame->UpdateWindow();
 
 	return TRUE;

@@ -56,16 +56,9 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
-	if (!m_wndDlgBar.Create(this, IDR_MAINFRAME, 
-		CBRS_ALIGN_TOP, AFX_IDW_DIALOGBAR))
-	{
-		TRACE0("Failed to create dialogbar\n");
-		return -1;		// fail to create
-	}
 
 	if (!m_wndReBar.Create(this) ||
-		!m_wndReBar.AddBar(&m_wndToolBar) ||
-		!m_wndReBar.AddBar(&m_wndDlgBar))
+		!m_wndReBar.AddBar(&m_wndToolBar))
 	{
 		TRACE0("Failed to create rebar\n");
 		return -1;      // fail to create
@@ -89,6 +82,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 {
 	if( !CMDIFrameWnd::PreCreateWindow(cs) )
 		return FALSE;
+	// cs.style |= WS_MAXIMIZE;
 	return TRUE;
 }
 

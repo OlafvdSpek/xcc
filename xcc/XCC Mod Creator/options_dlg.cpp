@@ -37,6 +37,8 @@ Coptions_dlg::Coptions_dlg(CWnd* pParent /*=NULL*/)
 	m_mod_version = _T("");
 	m_update_button = FALSE;
 	m_confirm_deactivate = FALSE;
+	m_shp_compression = FALSE;
+	m_vxl_compression = FALSE;
 	//}}AFX_DATA_INIT
 }
 
@@ -62,6 +64,8 @@ void Coptions_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_MOD_VERSION, m_mod_version);
 	DDX_Check(pDX, IDC_UPDATE_BUTTON, m_update_button);
 	DDX_Check(pDX, IDC_CONFIRM_DEACTIVATE, m_confirm_deactivate);
+	DDX_Check(pDX, IDC_SHP_COMPRESSION, m_shp_compression);
+	DDX_Check(pDX, IDC_VXL_COMPRESSION, m_vxl_compression);
 	//}}AFX_DATA_MAP
 }
 
@@ -92,6 +96,8 @@ Cxcc_mod::t_options Coptions_dlg::get() const
 	}
 	r.csf_diff_compression = m_csf_diff_compression;
 	r.ini_diff_compression = m_ini_diff_compression;
+	r.shp_compression = m_shp_compression;
+	r.vxl_compression = m_vxl_compression;
 	r.custom_button_text = m_custom_button_text;
 	r.xhp_button = m_xhp_button;
 	r.exit_button = m_exit_button;
@@ -122,6 +128,8 @@ void Coptions_dlg::set(Cxcc_mod::t_options options)
 	}
 	m_csf_diff_compression = options.csf_diff_compression;
 	m_ini_diff_compression = options.ini_diff_compression;
+	m_shp_compression = options.shp_compression;
+	m_vxl_compression = options.vxl_compression;
 	m_custom_button_text= options.custom_button_text;
 	m_xhp_button = options.xhp_button;
 	m_exit_button = options.exit_button;
