@@ -195,6 +195,10 @@ protected:
 	afx_msg void OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXOE_TS();
 	afx_msg void OnUpdateLaunchXOE_TS(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE();
+	afx_msg void OnUpdateLaunchXSTE(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSE();
+	afx_msg void OnUpdateLaunchXSE(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -12,6 +12,9 @@
 #define IDD_RESIZE                      131
 #define IDD_SEARCH_FILE                 132
 #define IDD_XCC_OBJECT_EXTRACTOR        133
+#define IDD_XSTE                        134
+#define IDD_XSTE_EDIT                   135
+#define IDD_XSE                         136
 #define IDC_DUNE2                       1000
 #define IDC_TD_PRIMARY                  1001
 #define IDC_CY                          1001
@@ -30,6 +33,16 @@
 #define IDC_CD                          1008
 #define IDC_LINK                        1008
 #define IDC_EXTRACT                     1010
+#define IDC_PLAY                        1011
+#define IDC_COMPACT                     1012
+#define IDC_EDIT                        1013
+#define IDC_INSERT                      1014
+#define IDC_DELETE                      1015
+#define IDC_VALUE                       1015
+#define IDC_EXTRA_VALUE                 1016
+#define IDC_EXTRACT_TO_EDIT             1017
+#define IDC_EXTRACT_TO_STATIC           1018
+#define IDC_EXTRACT_TO_BUTTON           1019
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -302,15 +315,16 @@
 #define ID_LAUNCH_XOE_TS                33084
 #define ID_LAUNCH_XOE_RA2               33085
 #define ID_LAUNCH_XSE                   33086
+#define ID_LAUNCH_XSTE                  33089
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        134
-#define _APS_NEXT_COMMAND_VALUE         33088
-#define _APS_NEXT_CONTROL_VALUE         1012
+#define _APS_NEXT_RESOURCE_VALUE        137
+#define _APS_NEXT_COMMAND_VALUE         33090
+#define _APS_NEXT_CONTROL_VALUE         1020
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

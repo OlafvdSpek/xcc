@@ -2,13 +2,13 @@
 
 [General Info]
 Version=1
-LastClass=CXCCMixerView
-LastTemplate=CDialog
+LastClass=CXSE_dlg
+LastTemplate=CListCtrl
 NewFileInclude1=#include "stdafx.h"
 NewFileInclude2=#include "xcc mixer.h"
 LastPage=0
 
-ClassCount=10
+ClassCount=14
 Class1=CMainFrame
 Class2=CXCCMixerApp
 Class3=CAboutDlg
@@ -16,24 +16,31 @@ Class4=CXCCMixerDoc
 Class5=CXCCMixerView
 Class6=CXCCFileView
 
-ResourceCount=6
-Resource1=IDD_SEARCH_FILE
-Resource2=IDD_RESIZE
+ResourceCount=9
+Resource1=IDR_MAINFRAME (English (U.S.))
+Resource2=IDD_SEARCH_FILE
 Class7=CDirectoriesDlg
-Resource3=IDR_MAINFRAME (English (U.S.))
+Resource3=IDD_DIRECTORIES
 Class8=CResizeDlg
-Resource4=IDD_DIRECTORIES
+Resource4=IDD_RESIZE
 Class9=CSearchFileDlg
 Resource5=CG_IDR_POPUP_MIX_VIEW
 Class10=CXCCObjectExtractorDlg
-Resource6=IDD_XCC_OBJECT_EXTRACTOR
+Resource6=IDD_XSTE_EDIT
+Class11=CXSTE_dlg
+Resource7=IDD_XCC_OBJECT_EXTRACTOR
+Class12=CXSTE_edit_dlg
+Resource8=IDD_XSTE
+Class13=CXSE_dlg
+Class14=CXSE_list
+Resource9=IDD_XSE
 
 [CLS:CMainFrame]
 Type=0
 BaseClass=CFrameWnd
 HeaderFile=MainFrm.h
 ImplementationFile=MainFrm.cpp
-LastObject=ID_POPUP_IMPORT_INTO_RA2
+LastObject=ID_LAUNCH_XSE
 Filter=T
 VirtualFilter=fWC
 
@@ -63,7 +70,7 @@ HeaderFile=XCC MixerView.h
 ImplementationFile=XCC MixerView.cpp
 Filter=C
 VirtualFilter=VWC
-LastObject=ID_POPUP_COPY_AS_PNG
+LastObject=CXCCMixerView
 
 [CLS:CXCCFileView]
 Type=0
@@ -147,17 +154,18 @@ Command31=ID_UTILITIES_XCC_MIX_EDITOR
 Command32=ID_LAUNCH_XOE_TS
 Command33=ID_LAUNCH_XOE_RA2
 Command34=ID_LAUNCH_XSE
-Command35=ID_LAUNCH_XCC_THEME_WRITER
-Command36=ID_UTILITIES_FS
-Command37=ID_UTILITIES_SE
-Command38=ID_UTILITIES_SEMM
-Command39=ID_LAUNCH_DUNE2
-Command40=ID_LAUNCH_TD
-Command41=ID_LAUNCH_RA
-Command42=ID_LAUNCH_DUNE2000
-Command43=ID_LAUNCH_TS
-Command44=ID_LAUNCH_RA2
-CommandCount=44
+Command35=ID_LAUNCH_XSTE
+Command36=ID_LAUNCH_XCC_THEME_WRITER
+Command37=ID_UTILITIES_FS
+Command38=ID_UTILITIES_SE
+Command39=ID_UTILITIES_SEMM
+Command40=ID_LAUNCH_DUNE2
+Command41=ID_LAUNCH_TD
+Command42=ID_LAUNCH_RA
+Command43=ID_LAUNCH_DUNE2000
+Command44=ID_LAUNCH_TS
+Command45=ID_LAUNCH_RA2
+CommandCount=45
 
 [ACL:IDR_MAINFRAME (English (U.S.))]
 Type=1
@@ -266,6 +274,77 @@ HeaderFile=XCCObjectExtractorDlg.h
 ImplementationFile=XCCObjectExtractorDlg.cpp
 BaseClass=CDialog
 Filter=D
-LastObject=IDC_CREATE_SFL
+LastObject=CXCCObjectExtractorDlg
 VirtualFilter=dWC
+
+[DLG:IDD_XSTE]
+Type=1
+Class=CXSTE_dlg
+ControlCount=6
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_LIST,SysListView32,1350664713
+Control4=IDC_EDIT,button,1476460544
+Control5=IDC_INSERT,button,1342242816
+Control6=IDC_DELETE,button,1476460544
+
+[CLS:CXSTE_dlg]
+Type=0
+HeaderFile=XSTE_dlg.h
+ImplementationFile=XSTE_dlg.cpp
+BaseClass=ETSLayoutDialog
+Filter=D
+LastObject=CXSTE_dlg
+VirtualFilter=dWC
+
+[DLG:IDD_XSTE_EDIT]
+Type=1
+Class=CXSTE_edit_dlg
+ControlCount=5
+Control1=IDOK,button,1342242817
+Control2=IDCANCEL,button,1342242816
+Control3=IDC_NAME,edit,1350633600
+Control4=IDC_VALUE,edit,1350635588
+Control5=IDC_EXTRA_VALUE,edit,1350631552
+
+[CLS:CXSTE_edit_dlg]
+Type=0
+HeaderFile=XSTE_edit_dlg.h
+ImplementationFile=XSTE_edit_dlg.cpp
+BaseClass=ETSLayoutDialog
+Filter=D
+LastObject=CXSTE_edit_dlg
+VirtualFilter=dWC
+
+[DLG:IDD_XSE]
+Type=1
+Class=CXSE_dlg
+ControlCount=10
+Control1=IDC_LIST,SysListView32,1350631433
+Control2=IDC_PLAY,button,1476460544
+Control3=IDC_EXTRACT,button,1476460544
+Control4=IDC_DELETE,button,1476460544
+Control5=IDC_COMPACT,button,1476460544
+Control6=IDOK,button,1342242817
+Control7=IDCANCEL,button,1342242816
+Control8=IDC_EXTRACT_TO_EDIT,edit,1350631552
+Control9=IDC_EXTRACT_TO_STATIC,static,1342308352
+Control10=IDC_EXTRACT_TO_BUTTON,button,1342242816
+
+[CLS:CXSE_dlg]
+Type=0
+HeaderFile=XSE_dlg.h
+ImplementationFile=XSE_dlg.cpp
+BaseClass=ETSLayoutDialog
+Filter=C
+LastObject=IDC_EXTRACT_TO_BUTTON
+VirtualFilter=dWC
+
+[CLS:CXSE_list]
+Type=0
+HeaderFile=XSE_list.h
+ImplementationFile=XSE_list.cpp
+BaseClass=CListCtrl
+Filter=W
+VirtualFilter=FWC
 

@@ -72,7 +72,7 @@ public:
 	void open_location_mix(const string& name);
 	void open_location_mix(int id);
 	void set_other_panes(CXCCFileView* file_view_pane, CXCCMixerView* other_pane);
-	void sort_list(int i);
+	void sort_list(int i, bool reverse);
 	void update_list();
 
 // Overrides
@@ -183,6 +183,7 @@ private:
 	t_palet m_palet;
 	bool m_palet_loaded;
 	int m_sort_column;
+	bool m_sort_reverse;
 };
 
 /////////////////////////////////////////////////////////////////////////////
