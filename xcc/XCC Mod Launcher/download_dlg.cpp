@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Launcher.h"
 #include "download_dlg.h"
 
 #include "string_conversion.h"

@@ -2,7 +2,6 @@
 //
 
 #include "stdafx.h"
-#include "XCC Mod Launcher.h"
 #include "mode_dlg.h"
 
 #ifdef _DEBUG
