@@ -38,9 +38,10 @@ int Ccps_file::extract_as_pcx(const string& name, const t_palet _palet) const
 	return error;
 }
 
-int cps_file_write(const byte* s, byte* d, const t_palet_entry* palet)
+Cvirtual_binary cps_file_write(const byte* s, const t_palet_entry* palet)
 {
-	byte* w = d;
+	Cvirtual_binary d;
+	byte* w = d.write_start(128 << 10);
 	t_cps_header& header = *reinterpret_cast<t_cps_header*>(w);
 	header.unknown = 4;
 	header.image_size = 320 * 200;
@@ -54,5 +55,6 @@ int cps_file_write(const byte* s, byte* d, const t_palet_entry* palet)
 	}
 	w += encode80(s, w, 320 * 200);
 	header.size = w - d - 2;
-	return w - d;
+	d.size(w - d);
+	return d;
 }
