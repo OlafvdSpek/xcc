@@ -30,7 +30,7 @@ if($total == 0) {
 <td width="100%">
 <? if($lid == $player_lid) { $ladr = "player"; } else { $ladr = "clan"; } ?>
 <META HTTP-EQUIV=Refresh CONTENT="1; URL=?ladr=<?=$ladr?>&laddertype=1">
-<br><div align="center"><font face="VERDANA,ARIAL,HELVETICA" size="2">Clan/Player/rank not found</div><br><br>
+<br><div align="center"><font size="2">Clan/Player/rank not found</div><br><br>
 
 
 </table>
@@ -200,12 +200,12 @@ if($data[points] < 150 && $data[points] > 0) { $button = "<img src=\"images/ra2/
 <td bgcolor="#113341" width="100%">
 <table bgcolor="#113341" width="100%">
 <tr>
-<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?></font>
+<td width="5%"><font size="2"><?=$data[rank]?></font>
 <td width="12%"><?=$button?>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
-<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
-<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
+<td width="32%"><font size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="27%"><font size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="20%"><font size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="4%"><font size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
 
 </table>
 <table width="100%">
@@ -248,28 +248,28 @@ while ($data = mysql_fetch_array($query)) {
 <td width="65%">
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="16%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?>
+<td width="16%"><font size="2"><b>Rank:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[rank]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?>
+<td width="10%"><font size="2"><b>Wins:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[win_count]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
+<td width="10%"><font size="2"><b>Losses:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?>
+<td width="10%"><font size="2"><b>Points:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[points]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Clan Ladder
+<td width="10%"><font size="2"><b>Ladder:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7">Clan Ladder
 
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b>
-<td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%" valign="top"><font size="2"><b>Sides:</b>
+<td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_players WHERE cid='$id' group by cty order by count desc");
 while ($data_sides = mysql_fetch_array($query_sides)) {
@@ -281,8 +281,8 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"
 
 
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b>
-<td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%" valign="top"><font size="2"><b>Maps:</b>
+<td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
 					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
@@ -379,7 +379,7 @@ $query6 = db_query("SELECT mtime, scen, ws_gid, gid FROM xcl_games WHERE gid='$d
 while ($data2 = mysql_fetch_array($query6)) {
 ?>
 <tr>
-<td width="100%" height="35px"><font face="VERDANA,ARIAL,HELVETICA" size="2">
+<td width="100%" height="35px"><font size="2">
 <?
 $Jahr = substr($data2[mtime],0,4);
 $Monat = substr ($data2[mtime],5,2);
@@ -442,28 +442,28 @@ while ($data = mysql_fetch_array($query)) {
 
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="13%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Rank:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[rank]?>
+<td width="13%"><font size="2"><b>Rank:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[rank]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Wins:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[win_count]?>
+<td width="10%"><font size="2"><b>Wins:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[win_count]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Losses:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
+<td width="10%"><font size="2"><b>Losses:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[loss_count]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Points:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data[points]?>
+<td width="10%"><font size="2"><b>Points:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7"><?=$data[points]?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Ladder:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">Player Ladder
+<td width="10%"><font size="2"><b>Ladder:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7">Player Ladder
 
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Sides:</b>
-<td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%" valign="top"><font size="2"><b>Sides:</b>
+<td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 $query_sides = db_query("SELECT DISTINCT cty, count(*) as count from xcl_games_players WHERE pid='$id' AND cid='0' group by cty order by count desc");
 while ($data_sides = mysql_fetch_array($query_sides)) {
@@ -475,8 +475,8 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" border=\"
 
 
 <tr>
-<td width="10%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Maps:</b>
-<td width="90%" valign="top"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%" valign="top"><font size="2"><b>Maps:</b>
+<td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
 					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
@@ -573,7 +573,7 @@ $query7 = db_query("SELECT mtime, scen, ws_gid, gid FROM xcl_games WHERE gid='$d
 while ($data2 = mysql_fetch_array($query7)) {
 ?>
 <tr>
-<td width="100%" height="35px"><font face="VERDANA,ARIAL,HELVETICA" size="2">
+<td width="100%" height="35px"><font size="2">
 <?
 $Jahr = substr($data2[mtime],0,4);
 $Monat = substr ($data2[mtime],5,2);
@@ -675,8 +675,8 @@ echo "$clan[1] vs. $clan[2]";
 </table>
 <table width="100%" cellspacing="1" cellpadding="3">
 <tr>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Scenario:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="32%"><font size="2"><b>Scenario:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7">
 <?
 $map = explode(".",$data[scen]);
 $mapsave = $map[0];
@@ -684,16 +684,16 @@ echo $map[0];
 ?>
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Game Duration:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%"><font size="2"><b>Game Duration:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7">
 <?
 $minutes_seconds = intval($data[dura]/60).":".($data[dura]%60);
 echo $minutes_seconds;
 ?> minutes
 
 <tr>
-<td width="10%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><b>Type:</b>
-<td width="90%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="10%"><font size="2"><b>Type:</b>
+<td width="90%"><font size="2"><font color="#D7D7D7">
 <? if($data[trny] == "1") { echo "Player tournament"; } ?>
 <? if($data[trny] == "2") { echo "Clan tournament"; } ?>
 <? if($data[trny] == "0") { echo "FFG"; } ?>
@@ -712,7 +712,7 @@ while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
 if($data3[pc] == 0) { $show = "+0"; }
-echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
+echo "<tr><td width=\"10%\" valign=\"top\"><font size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
 }
 }
 
@@ -726,7 +726,7 @@ while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
 if($data3[pc] == 0) { $show = "+0"; }
-echo "<tr><td width=\"10%\" valign=\"top\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font face=\"VERDANA,ARIAL,HELVETICA\" size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
+echo "<tr><td width=\"10%\" valign=\"top\"><font size=\"2\"><b>$data_nick1[name]'s point change:</b><td width=\"90%\"><font size=\"2\"><font color=\"#D7D7D7\">$col $show</font>";
 }
 }
 }
@@ -772,40 +772,40 @@ if($clansh != "") { $alink = "<a href=\"?mode=showclan&laddertype=1&id=$data3[ci
 <?=$alink?><Font size="4"><b><?=$data_nick1[name]?></a> <?=$clansh?></b></font>
 <table width="60%" cellspacing="2" cellpadding="3">
 <tr>
-<td width="37%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Result:</b>
-<td width="60%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$result?></font>
+<td width="37%"><font size="2">Result:</b>
+<td width="60%"><font size="2"><font color="#D7D7D7"><?=$result?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Points:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[points]?></font>
+<td width="20%"><font size="2">Points:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data_nick1[points]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Record:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data_nick1[win_count]?>/<?=$data_nick1[loss_count]?></font>
+<td width="20%"><font size="2">Record:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data_nick1[win_count]?>/<?=$data_nick1[loss_count]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Side:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><img src="<?=get_country_flag_url($data3[cty])?>" alt="" border="0"></font>
+<td width="20%"><font size="2">Side:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><img src="<?=get_country_flag_url($data3[cty])?>" alt="" border="0"></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Units Killed/Bought/Left:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[unk]?>/<?=$data3[unb]?>/<?=$data3[unl]?></font>
+<td width="20%"><font size="2">Units Killed/Bought/Left:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data3[unk]?>/<?=$data3[unb]?>/<?=$data3[unl]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Buildings Killed/Bought/Left:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[blk]?>/<?=$data3[blb]?>/<?=$data3[bll]?></font>
+<td width="20%"><font size="2">Buildings Killed/Bought/Left:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data3[blk]?>/<?=$data3[blb]?>/<?=$data3[bll]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Infantry Killed/Bought/Left:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[ink]?>/<?=$data3[inb]?>/<?=$data3[inl]?></font>
+<td width="20%"><font size="2">Infantry Killed/Bought/Left:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data3[ink]?>/<?=$data3[inb]?>/<?=$data3[inl]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">Planes Killed/Bought/Left:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7"><?=$data3[plk]?>/<?=$data3[plb]?>/<?=$data3[pll]?></font>
+<td width="20%"><font size="2">Planes Killed/Bought/Left:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7"><?=$data3[plk]?>/<?=$data3[plb]?>/<?=$data3[pll]?></font>
 
 <tr>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2">IP:</b>
-<td width="80%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><font color="#D7D7D7">
+<td width="20%"><font size="2">IP:</b>
+<td width="80%"><font size="2"><font color="#D7D7D7">
 <?
 $ipdd = long2ip($data3[ipa]);
 $ip_crypt_1 = "";
@@ -1042,12 +1042,12 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
 <td width="100%">
 <table width="100%">
 <tr>
-<td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?><? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="5%"><font size="2"><?=$data[rank]?><? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="12%"><?=$button?>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
-<td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
-<td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
-<td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
+<td width="32%"><font size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="27%"><font size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="20%"><font size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
+<td width="4%"><font size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
 
 </table>
 <table width="100%">
@@ -1071,19 +1071,19 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
  $sitehu = $site+1;
  if($site > 1) { ?>
 
- <font face="VERDANA,ARIAL,HELVETICA" size="2"><a href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$prewsite?>">&laquo; Previous Page</a></font>
+ <font size="2"><a href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$prewsite?>">&laquo; Previous Page</a></font>
 
 
  <? } ?>
 
  <td width="60%" align="center">
- <font face="VERDANA,ARIAL,HELVETICA" size="2">Page <?=$site?> / <?=$seiten_a2?></font>
+ <font size="2">Page <?=$site?> / <?=$seiten_a2?></font>
 
  <td width="20%" align="right">
  <?
  if($site < $seitencheck) { ?>
 
- <font face="VERDANA,ARIAL,HELVETICA" size="2"><a class="text" href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$nextsite?>">Next Page &raquo</a></font>
+ <font size="2"><a class="text" href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$nextsite?>">Next Page &raquo</a></font>
 
  <? } ?>
 
