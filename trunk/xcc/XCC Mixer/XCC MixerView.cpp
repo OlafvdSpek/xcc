@@ -1518,9 +1518,6 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	const bool convert_from_td = GetMainFrame()->convert_from_td();
 	const bool convert_from_ra = GetMainFrame()->convert_from_ra();
 	const bool convert_shadow = GetMainFrame()->split_shadows();
-	const bool enable_compression = GetMainFrame()->enable_compression();
-	const bool fix_shadows = GetMainFrame()->fix_shadows();
-	// const bool remap_team_colors = GetMainFrame()->remap_team_colors();
 	int cx;
 	int cy;
 	int c_images;
@@ -1658,7 +1655,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 			}
 		}
 		fname.set_title(base_name);
-		error = shp_ts_file_write(s, cx, cy, c_images, enable_compression).export(fname);
+		error = shp_ts_file_write(s, cx, cy, c_images, GetMainFrame()->enable_compression()).export(fname);
 	}
 	delete[] s;
 	return error;
