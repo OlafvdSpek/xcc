@@ -64,6 +64,7 @@ static HBITMAP create_bitmap(Cvirtual_image image)
 		}
 		image = d;
 	}
+	memset(image.image_edit(), 0, image.cb_pixel());
 	image.increase_color_depth(3);
 	image.swap_rb();
 	BITMAPINFOHEADER header;
