@@ -92,6 +92,7 @@ public:
 	Cvirtual_image get_complete() const;
 	Cvirtual_image get_extra_image(int id);
 	Cvirtual_image get_image(int id);
+	void insert();
 	void remove(int id);
 	virtual ~CXCCTMPEditorDoc();
 #ifdef _DEBUG

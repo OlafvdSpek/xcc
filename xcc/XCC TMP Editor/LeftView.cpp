@@ -243,18 +243,6 @@ void CLeftView::OnContextMenu(CWnd*, CPoint point)
 void CLeftView::OnEditCopy() 
 {
 	GetDocument()->get_image(get_current_id()).set_clipboard();
-	/*
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	const CXCCTMPEditorDoc::t_map_entry& e = pDoc->map().find(get_current_id())->second;
-	int cx = pDoc->header().cx;
-	int cy = pDoc->header().cy;
-	byte* d = new byte[cx * cy];
-	decode_tile(e.data.data(), d, cx);
-	Cvirtual_image image;
-	image.load(d, cx, cy, 1, pDoc->palet());
-	delete[] d;
-	image.set_clipboard();
-	*/
 }
 
 void CLeftView::OnUpdateEditCopy(CCmdUI* pCmdUI) 
@@ -265,13 +253,6 @@ void CLeftView::OnUpdateEditCopy(CCmdUI* pCmdUI)
 void CLeftView::OnPopupCopyExtraImage() 
 {
 	GetDocument()->get_extra_image(get_current_id()).set_clipboard();
-	/*
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	const CXCCTMPEditorDoc::t_map_entry& e = pDoc->map().find(get_current_id())->second;
-	Cvirtual_image image;
-	image.load(e.extra_data.data(), e.header.cx_extra, e.header.cy_extra, 1, pDoc->palet());
-	image.set_clipboard();
-	*/
 }
 
 void CLeftView::OnUpdatePopupCopyExtraImage(CCmdUI* pCmdUI) 
@@ -288,20 +269,6 @@ void CLeftView::OnEditPaste()
 	if (image.cb_pixel() == 3)
 		image.decrease_color_depth(GetDocument()->palet());
 	GetDocument()->set_image(get_current_id(), image);
-	/*
-	Cvirtual_image image;
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	int cx = pDoc->header().cx;
-	int cy = pDoc->header().cy;
-	if (image.get_clipboard() || image.cx() != cx || image.cy() != cy)
-		return;
-	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
-	CXCCTMPEditorDoc::t_map_entry& e = pDoc->map_edit().find(get_current_id())->second;
-	encode_tile(image.image(), e.data.data_edit(), cx);
-	pDoc->SetModifiedFlag();
-	pDoc->UpdateAllViews(NULL);
-	*/
 }
 
 void CLeftView::OnUpdateEditPaste(CCmdUI* pCmdUI) 
@@ -317,20 +284,6 @@ void CLeftView::OnPopupPasteExtraImage()
 	if (image.cb_pixel() == 3)
 		image.decrease_color_depth(GetDocument()->palet());
 	GetDocument()->set_extra_image(get_current_id(), image);
-	/*
-	Cvirtual_image image;
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	if (image.get_clipboard())
-		return;
-	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
-	CXCCTMPEditorDoc::t_map_entry& e = pDoc->map_edit().find(get_current_id())->second;
-	e.extra_data.write(image.image(), image.cb_image());
-	e.header.cx_extra = image.cx();
-	e.header.cy_extra = image.cy();
-	pDoc->SetModifiedFlag();
-	pDoc->UpdateAllViews(NULL);
-	*/
 }
 
 void CLeftView::OnUpdatePopupPasteExtraImage(CCmdUI* pCmdUI) 
@@ -343,19 +296,6 @@ void CLeftView::OnPopupLoadaspcxImage()
 	Cvirtual_image image;
 	if (!load_image(image))
 		GetDocument()->set_image(get_current_id(), image);
-	/*
-	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		Cvirtual_image image;
-		if (image.load(static_cast<string>(dlg.GetPathName())))
-			return;
-		if (image.cb_pixel() == 3)
-			image.decrease_color_depth(GetDocument()->palet());
-		GetDocument()->set_image(get_current_id(), image);
-	}
-	*/
 }
 
 void CLeftView::OnUpdatePopupLoadaspcxImage(CCmdUI* pCmdUI) 
@@ -368,19 +308,6 @@ void CLeftView::OnPopupLoadaspcxExtraimage()
 	Cvirtual_image image;
 	if (!load_image(image))
 		GetDocument()->set_extra_image(get_current_id(), image);
-	/*
-	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		Cvirtual_image image;
-		if (image.load(static_cast<string>(dlg.GetPathName())))
-			return;
-		if (image.cb_pixel() == 3)
-			image.decrease_color_depth(GetDocument()->palet());
-		GetDocument()->set_extra_image(get_current_id(), image);
-	}
-	*/
 }
 
 void CLeftView::OnUpdatePopupLoadaspcxExtraimage(CCmdUI* pCmdUI) 
@@ -391,70 +318,16 @@ void CLeftView::OnUpdatePopupLoadaspcxExtraimage(CCmdUI* pCmdUI)
 void CLeftView::OnPopupSaveaspcxImage() 
 {
 	save_image(GetDocument()->get_image(get_current_id()));
-	/*
-	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		t_file_type ft = ft_pcx;
-		switch (dlg.m_ofn.nFilterIndex)
-		{
-		case 1:
-			ft = ft_jpeg;
-			break;
-		case 2:
-			ft = ft_pcx;
-			break;
-		case 3:
-			ft = ft_png;
-			break;
-		}
-		GetDocument()->get_image(get_current_id()).save(static_cast<string>(dlg.GetPathName()), ft);
-	}
-	*/
 }
 
 void CLeftView::OnPopupSaveaspcxExtraimage() 
 {
 	save_image(GetDocument()->get_extra_image(get_current_id()));
-	/*
-	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		t_file_type ft = ft_pcx;
-		switch (dlg.m_ofn.nFilterIndex)
-		{
-		case 1:
-			ft = ft_jpeg;
-			break;
-		case 2:
-			ft = ft_pcx;
-			break;
-		case 3:
-			ft = ft_png;
-			break;
-		}
-		GetDocument()->get_extra_image(get_current_id()).save(static_cast<string>(dlg.GetPathName()), ft);
-	}
-	*/
 }
 
 void CLeftView::OnPopupCopyComplete() 
 {
 	GetDocument()->get_complete().set_clipboard();
-	/*
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	t_rect global = pDoc->get_rect();
-	int cx = global.r - global.x;
-	int cy = global.b - global.y;
-	byte* d = new byte[cx * cy];
-	pDoc->draw(d);
-	Cvirtual_image image;
-	image.load(d, cx, cy, 1, pDoc->palet());
-	delete[] d;
-	image.set_clipboard();
-	*/
 }
 
 void CLeftView::OnPopupPasteComplete() 
@@ -465,18 +338,6 @@ void CLeftView::OnPopupPasteComplete()
 	if (image.cb_pixel() == 3)
 		image.decrease_color_depth(GetDocument()->palet());
 	GetDocument()->set_complete(image);
-	/*
-	CXCCTMPEditorDoc* pDoc = GetDocument();
-	t_rect global = pDoc->get_rect();
-	int cx = global.r - global.x;
-	int cy = global.b - global.y;
-	Cvirtual_image image;
-	if (image.get_clipboard() || image.cx() != cx || image.cy() != cy)
-		return;
-	if (image.cb_pixel() == 3)
-		image.decrease_color_depth(GetDocument()->palet());
-	pDoc->draw_reverse(image.image());
-	*/
 }
 
 void CLeftView::OnPopupLoadComplete() 
@@ -484,45 +345,11 @@ void CLeftView::OnPopupLoadComplete()
 	Cvirtual_image image;
 	if (!load_image(image))
 		GetDocument()->set_complete(image);
-	/*
-	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		Cvirtual_image image;
-		if (image.load(static_cast<string>(dlg.GetPathName())))
-			return;
-		if (image.cb_pixel() == 3)
-			image.decrease_color_depth(GetDocument()->palet());
-		GetDocument()->set_complete(image);
-	}
-	*/
 }
 
 void CLeftView::OnPopupSaveComplete() 
 {
 	save_image(GetDocument()->get_complete());
-	/*
-	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		t_file_type ft = ft_pcx;
-		switch (dlg.m_ofn.nFilterIndex)
-		{
-		case 1:
-			ft = ft_jpeg;
-			break;
-		case 2:
-			ft = ft_pcx;
-			break;
-		case 3:
-			ft = ft_png;
-			break;
-		}
-		GetDocument()->get_complete().save(static_cast<string>(dlg.GetPathName()), ft);
-	}
-	*/
 }
 
 void CLeftView::OnPopupDelete() 
@@ -555,11 +382,12 @@ void CLeftView::OnUpdatePopupDeleteExtraimage(CCmdUI* pCmdUI)
 
 void CLeftView::OnPopupInsert() 
 {
+	GetDocument()->insert();
 }
 
 void CLeftView::OnUpdatePopupInsert(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(false);
+	// pCmdUI->Enable(!GetDocument()->map().empty());
 }
 
 void CLeftView::OnItemchanged(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -689,48 +517,11 @@ int CLeftView::load_image(Cvirtual_image& image)
 	if (!error && image.cb_pixel() == 3)
 		image.decrease_color_depth(GetDocument()->palet());
 	return error;
-	/*
-	const char* load_filter = "Image files (*.jpeg;*.jpg;*.pcx;*.png)|*.jpeg;*.jpg;*.pcx;*.png|JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
-
-	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, load_filter, this);
-	if (IDOK == dlg.DoModal())
-	{
-		int error = image.load(static_cast<string>(dlg.GetPathName()));
-		if (!error && image.cb_pixel() == 3)
-			image.decrease_color_depth(GetDocument()->palet());
-		return error;
-	}
-	return 2;
-	*/
 }
 
 int CLeftView::save_image(const Cvirtual_image& image)
 {
 	return image.save();
-	/*
-	const char* save_filter = "JPEG files (*.jpeg;*.jpg)|*.jpeg;*.jpg|PCX files (*.pcx)|*.pcx|PNG files (*.png)|*.png|";
-
-	CFileDialog dlg(false, "", NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, save_filter, this);
-	dlg.m_ofn.nFilterIndex = 2;
-	if (IDOK == dlg.DoModal())
-	{
-		t_file_type ft = ft_pcx;
-		switch (dlg.m_ofn.nFilterIndex)
-		{
-		case 1:
-			ft = ft_jpeg;
-			break;
-		case 2:
-			ft = ft_pcx;
-			break;
-		case 3:
-			ft = ft_png;
-			break;
-		}
-		return image.save(static_cast<string>(dlg.GetPathName()), ft);
-	}
-	return 2;
-	*/
 }
 
 void CLeftView::set_other_pane(CXCCTMPEditorView* other_pane)

@@ -139,7 +139,8 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 			load_color_table(pDoc->palet());
 			draw_image8(i->second.extra_data.data(), header.cx_extra, header.cy_extra, pDC, 0, y);
 			if (m_selected == i->first)
-				pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y), CSize(header.cx_extra, header.cy_extra)), &brush);
+				pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y - header.height * (cy / 2)), CSize(header.cx_extra, header.cy_extra)), &brush);
+				// pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y), CSize(header.cx_extra, header.cy_extra)), &brush);
 			if (i->second.extra_z_data.data())
 			{
 				load_grey_table(32);
