@@ -27,7 +27,7 @@ public:
 			return false;
 		for (int i = 0; i < get_c_images(); i++)
 		{
-			if (get_ofs(i) + sizeof(t_shp_dune2_image_header) > size)
+			if (get_ofs(i) < 0 || get_ofs(i) + sizeof(t_shp_dune2_image_header) > min(size, 32 << 10))
 				return false;
 			const t_shp_dune2_image_header& image_header = *get_image_header(i);
 			if (image_header.compression & ~3 ||
@@ -67,10 +67,7 @@ public:
 
 	int get_ofs(int i) const
 	{
-		if (get_cb_ofs() == 2)
-			return get_index16()[i];
-		else
-			return get_index32()[i] + 2;			
+		return get_cb_ofs() == 2 ? get_index16()[i] : get_index32()[i] + 2;			
 	}
 
 	const __int16* get_index16() const
