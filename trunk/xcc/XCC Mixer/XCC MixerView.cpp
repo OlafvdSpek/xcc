@@ -74,7 +74,7 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CXCCMixerView, CListView)
 
 BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
-	ON_COMMAND_RANGE(ID_FILE_FOUND_MIX00, ID_FILE_FOUND_MIX99, OnFileFound)
+	ON_COMMAND_RANGE(ID_FILE_FOUND_MIX000, ID_FILE_FOUND_MIX199, OnFileFound)
 	ON_WM_CONTEXTMENU()
 	//{{AFX_MSG_MAP(CXCCMixerView)
 	ON_COMMAND(ID_FILE_OPEN, OnFileOpen)
@@ -666,7 +666,7 @@ void CXCCMixerView::OnContextMenu(CWnd*, CPoint point)
 void CXCCMixerView::OnFileFound(dword ID)
 {
 	close_all_locations();
-	open_location_mix(GetMainFrame()->get_mix_name(ID - ID_FILE_FOUND_MIX00));
+	open_location_mix(GetMainFrame()->get_mix_name(ID - ID_FILE_FOUND_MIX000));
 }
 
 int CXCCMixerView::open_f_id(Ccc_file& f, int id) const

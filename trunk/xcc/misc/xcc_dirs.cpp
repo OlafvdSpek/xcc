@@ -29,6 +29,7 @@ static string rg_dir;
 static string gr_dir;
 static string gr_zh_dir;
 static string ebfd_dir;
+static string bfme_dir;
 
 bool xcc_dirs::enable_log()
 {
@@ -72,6 +73,8 @@ string xcc_dirs::get_dir(t_game game)
 		return gr_zh_dir;
 	case game_ebfd:
 		return ebfd_dir;
+	case game_bfme:
+		return bfme_dir;
 	}
 	assert(false);
 	return "";
@@ -99,6 +102,8 @@ string xcc_dirs::get_exe(t_game game)
 		return ra2_dir + "ra2md.exe";
 	case game_gr:
 		return gr_dir + "generals.exe";
+	case game_bfme:
+		return bfme_dir + "lotrbfme.exe";
 	}
 	assert(false);
 	return "";
@@ -254,6 +259,11 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	case game_ebfd:
 		set_path(s, ebfd_dir);
 		break;
+	case game_bfme:
+		set_path(s, bfme_dir);
+		break;
+	default:
+		assert(false);
 	}
 }
 
@@ -395,6 +405,14 @@ void xcc_dirs::load_from_registry()
 			ERROR_SUCCESS == RegQueryValueEx(kh_gr_zh, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
 			set_dir(game_gr_zh, static_cast<Cfname>(s).get_path());
 		RegCloseKey(kh_gr_zh);
+	}
+	HKEY kh_bfme;
+	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Electronic Arts\\EA Games\\The Battle for Middle-earth", 0, KEY_QUERY_VALUE, &kh_bfme))
+	{
+		if (bfme_dir.empty() &&
+			ERROR_SUCCESS == RegQueryValueEx(kh_bfme, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
+			set_dir(game_bfme, static_cast<Cfname>(s).get_path());
+		RegCloseKey(kh_bfme);
 	}
 }
 

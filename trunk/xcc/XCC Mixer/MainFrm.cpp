@@ -466,7 +466,7 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 			if (sort_list.empty())
 				continue;
 			for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
-				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX00 + l->second, escape_menu_name(l->first).c_str());
+				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX000 + l->second, escape_menu_name(l->first).c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
@@ -513,6 +513,7 @@ void CMainFrame::initialize_lists()
 	xcc_log::write_line("rg dir: " + xcc_dirs::get_dir(game_rg));
 	xcc_log::write_line("gr dir: " + xcc_dirs::get_dir(game_gr));
 	xcc_log::write_line("gr zh dir: " + xcc_dirs::get_dir(game_gr_zh));
+	xcc_log::write_line("bfme dir: " + xcc_dirs::get_dir(game_bfme));
 	xcc_log::write_line("cd dir: " + xcc_dirs::get_cd_dir());
 	xcc_log::write_line("data dir: " + xcc_dirs::get_data_dir());
 	find_mixs(xcc_dirs::get_dir(game_td), game_td, "*.mix");
@@ -529,6 +530,7 @@ void CMainFrame::initialize_lists()
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.pkg");
 	find_mixs(xcc_dirs::get_dir(game_gr), game_gr, "*.big");
 	find_mixs(xcc_dirs::get_dir(game_gr_zh), game_gr_zh, "*.big");
+	find_mixs(xcc_dirs::get_dir(game_bfme), game_bfme, "*.big");
 
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();
