@@ -29,7 +29,7 @@ ImplementationFile=XCC RA2 Radar CustomizerDlg.cpp
 Filter=D
 BaseClass=CDialog
 VirtualFilter=dWC
-LastObject=CXCCRA2RadarCustomizerDlg
+LastObject=IDC_RA2
 
 
 
@@ -44,18 +44,19 @@ Class=CXCCRA2RadarCustomizerDlg
 [DLG:IDD_XCCRA2RADARCUSTOMIZER_DIALOG (English (U.S.))]
 Type=1
 Class=?
-ControlCount=13
+ControlCount=14
 Control1=IDOK,button,1342242817
-Control2=IDCANCEL,button,1342242816
-Control3=IDC_RED,edit,1350631552
-Control4=IDC_GREEN,edit,1350631552
-Control5=IDC_BLUE,edit,1350631552
+Control2=IDC_RED,edit,1350631552
+Control3=IDC_GREEN,edit,1350631552
+Control4=IDC_BLUE,edit,1350631552
+Control5=IDC_STATIC,static,1342308352
 Control6=IDC_STATIC,static,1342308352
 Control7=IDC_STATIC,static,1342308352
-Control8=IDC_STATIC,static,1342308352
-Control9=IDC_SNOW,button,1342242819
-Control10=IDC_TEMPERATE,button,1342242819
-Control11=IDC_RESET,button,1342242819
-Control12=IDC_URBAN,button,1342242819
-Control13=IDC_RELATIVE,button,1342242819
+Control8=IDC_SNOW,button,1342242819
+Control9=IDC_TEMPERATE,button,1342242819
+Control10=IDC_RESET,button,1342242819
+Control11=IDC_URBAN,button,1342242819
+Control12=IDC_RELATIVE,button,1342242819
+Control13=IDC_TS,button,1342242819
+Control14=IDC_RA2,button,1342242819
 

@@ -33,7 +33,9 @@ CXCCRA2RadarCustomizerDlg::CXCCRA2RadarCustomizerDlg(CWnd* pParent /*=NULL*/)
 	m_snow = TRUE;
 	m_temperate = TRUE;
 	m_urban = TRUE;
-	m_relative = FALSE;
+	m_relative = TRUE;
+	m_ra2 = FALSE;
+	m_ts = FALSE;
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -53,6 +55,8 @@ void CXCCRA2RadarCustomizerDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Check(pDX, IDC_TEMPERATE, m_temperate);
 	DDX_Check(pDX, IDC_URBAN, m_urban);
 	DDX_Check(pDX, IDC_RELATIVE, m_relative);
+	DDX_Check(pDX, IDC_RA2, m_ra2);
+	DDX_Check(pDX, IDC_TS, m_ts);
 	//}}AFX_DATA_MAP
 }
 
@@ -116,25 +120,35 @@ void CXCCRA2RadarCustomizerDlg::OnOK()
 {
 	if (UpdateData(true))
 	{
-		if (m_snow)
-			customize_radar(0);
-		if (m_temperate)
-			customize_radar(1);
-		if (m_urban)
-			customize_radar(2);
+		if (m_ts)
+		{
+			if (m_snow)
+				customize_radar(game_ts, 0);
+			if (m_temperate)
+				customize_radar(game_ts, 1);
+		}
+		if (m_ra2)
+		{
+			if (m_snow)
+				customize_radar(game_ra2, 0);
+			if (m_temperate)
+				customize_radar(game_ra2, 1);
+			if (m_urban)
+				customize_radar(game_ra2, 2);
+		}
 	}
 }
 
-int CXCCRA2RadarCustomizerDlg::customize_radar(int theater)
+int CXCCRA2RadarCustomizerDlg::customize_radar(t_game game, int theater)
 {
 	CWaitCursor wait;
 	const string theater_mname[] = {"snow", "temp", "urb"};
 
-	const Cfname fname = xcc_dirs::get_dir(game_ra2) + "iso" + theater_mname[theater] + ".mix";
+	const Cfname fname = xcc_dirs::get_dir(game) + "iso" + theater_mname[theater] + ".mix";
 	if (m_reset)
 		return delete_file(fname);
 	Cmix_file main_mix;
-	main_mix.open(xcc_dirs::get_main_mix(game_ra2));
+	main_mix.open(xcc_dirs::get_main_mix(game));
 	{
 		Ccc_file mix_f(false);
 		mix_f.open(fname.get_fname(), main_mix);

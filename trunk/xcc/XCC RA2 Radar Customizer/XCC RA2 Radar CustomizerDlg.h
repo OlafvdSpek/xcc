@@ -8,6 +8,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "cc_structures.h"
+
 /////////////////////////////////////////////////////////////////////////////
 // CXCCRA2RadarCustomizerDlg dialog
 
@@ -15,7 +17,7 @@ class CXCCRA2RadarCustomizerDlg : public CDialog
 {
 // Construction
 public:
-	int customize_radar(int theater);
+	int customize_radar(t_game game, int theater);
 	CXCCRA2RadarCustomizerDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
@@ -29,6 +31,8 @@ public:
 	BOOL	m_temperate;
 	BOOL	m_urban;
 	BOOL	m_relative;
+	BOOL	m_ra2;
+	BOOL	m_ts;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
