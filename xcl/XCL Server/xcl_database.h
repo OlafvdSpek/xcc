@@ -22,7 +22,7 @@ public:
 	Cxcl_player player(int pid);
 	void insert_game(const Cgame_result& gr);
 	void insert_game(const Cvirtual_binary&);
-	int pid(const string& name);
+	int pid(int lid, const string& name);
 	int update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b);
 };
 
