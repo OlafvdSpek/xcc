@@ -6,6 +6,9 @@
 #include "XCCAudioPlayerInfoDlg.h"
 #include "XCCSetDirectoriesDlg.h"
 
+#include "ima_adpcm_wav_decode.h"
+#include "riff_structures.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
@@ -18,7 +21,7 @@ using namespace std;
 // CXCCAudioPlayerDlg dialog
 
 CXCCAudioPlayerDlg::CXCCAudioPlayerDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CXCCAudioPlayerDlg::IDD, pParent)
+	: ETSLayoutDialog(CXCCAudioPlayerDlg::IDD, pParent, "AudioPlayerDlg")
 {
 	//{{AFX_DATA_INIT(CXCCAudioPlayerDlg)
 	m_statusbar = "";
@@ -35,7 +38,7 @@ CXCCAudioPlayerDlg::~CXCCAudioPlayerDlg()
 
 void CXCCAudioPlayerDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCAudioPlayerDlg)
 	DDX_Control(pDX, IDEXTRACT_RAW, m_extract_raw_button);
 	DDX_Control(pDX, IDEXTRACT, m_extractbutton);
@@ -46,7 +49,7 @@ void CXCCAudioPlayerDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, CDialog)
+BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CXCCAudioPlayerDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
@@ -66,6 +69,9 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, CDialog)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDOPENAUD, OnOpenaud)
 	ON_BN_CLICKED(IDOPENVQA, OnOpenvqa)
+	ON_BN_CLICKED(IDC_OpenTheme, OnOpenTheme)
+	ON_WM_DESTROY()
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST1, OnColumnclickList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -89,7 +95,31 @@ string time2str(long v)
 
 BOOL CXCCAudioPlayerDlg::OnInitDialog()
 {
-	CDialog::OnInitDialog();
+	ETSLayoutDialog::OnInitDialog();
+
+	CreateRoot(VERTICAL)
+		<< (pane(HORIZONTAL, GREEDY)
+			<< item(IDC_LIST1, GREEDY)
+			<< (pane(VERTICAL, ABSOLUTE_HORZ)
+				<< item(IDOK, NORESIZE)
+				<< item(IDEXTRACT, NORESIZE)
+				<< item(IDEXTRACT_RAW, NORESIZE)
+				<< item(IDOPENMIX, NORESIZE)
+				<< item(IDSETDIRECTORIES, NORESIZE)
+				<< item(IDPLAY, NORESIZE)
+				<< item(IDSHUFFLE, NORESIZE)
+				<< item(IDSTOP, NORESIZE)
+				<< item(IDINFO, NORESIZE)
+				<< item(IDC_OpenMovies, NORESIZE)
+				<< item(IDC_OpenScores, NORESIZE)
+				<< item(IDC_OpenSounds, NORESIZE)
+				<< item(IDC_OpenTheme, NORESIZE)
+				<< item(IDOPENAUD, NORESIZE)
+				<< item(IDOPENVQA, NORESIZE)
+				)
+			)
+		<< item(IDC_STATUSBAR, ABSOLUTE_VERT);
+	UpdateLayout();
 
 	// Set the icon for this dialog.  The framework does this automatically
 	//  when the application's main window is not a dialog
@@ -152,7 +182,7 @@ void CXCCAudioPlayerDlg::OnPaint()
 	}
 	else
 	{
-		CDialog::OnPaint();
+		ETSLayoutDialog::OnPaint();
 	}
 }
 
@@ -260,8 +290,10 @@ void CXCCAudioPlayerDlg::OnOpenvqa()
 
 void CXCCAudioPlayerDlg::OnSetdirectories() 
 {
+	/*
 	CXCCSetDirectoriesDlg dlg;
 	dlg.DoModal();
+	*/
 }
 
 long CXCCAudioPlayerDlg::OpenMix(const string &fname)
@@ -290,7 +322,7 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	{
 		dword id = mixf.get_id(i);
 		t_file_type ft = mixf.get_type(id);
-		if (ft != ft_aud && ft != ft_vqa && ft != ft_wsa)
+		if (ft != ft_aud && ft != ft_vqa && ft != ft_wav && ft != ft_wsa)
 			continue;
 		if (add_item(nh(8, id), j, 0) ||		
 			add_item(n(j), j, 1) ||
@@ -298,6 +330,7 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 			add_item(mix_database::get_name(game, id), j, 4) ||
 			add_item(mix_database::get_description(game, id), j, 5))
 			throw;
+		m_list.SetItemData(j, id);
 		mixdata[j].id = id;
 		mixdata[j].type = ft;
 		string s = ft_name[ft];
@@ -318,11 +351,23 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 			{
 				Cvqa_file f;
 				f.open(id, mixf);
-				// add_item(n(f.get_cx()) + " x " + n(f.get_cy()), i, 5);
 				if(!f.can_be_decoded())
 					s = "vqa: compression unsupported";
 				else
 					s = time2str(f.get_c_frames() * 1000 / 15);
+				f.close();
+				break;
+			}
+		case ft_wav:
+			{
+				Cwav_file f;
+				f.open(id, mixf);
+				f.process();
+				const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+				if (format_chunk.tag != 0x11 || format_chunk.cbits_sample != 4)
+					s = "wav: compression unspported";
+				else
+					s = time2str(f.get_fact_chunk().c_samples / (format_chunk.samplerate / 1000));
 				f.close();
 				break;
 			}
@@ -332,6 +377,7 @@ long CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	}	
 	for (i = 0; i < 10; i++)
 		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE);
+	sort_list(4, false);
 	m_list.SetRedraw(true);
 	m_list.Invalidate();
 	if (has_scores())
@@ -385,6 +431,12 @@ void CXCCAudioPlayerDlg::OnPlay()
 		else
 			m_statusbar = "Ready";
 		break;
+	case ft_wav:
+		if (play_wav(id))
+			m_statusbar = "Play wav failed";
+		else
+			m_statusbar = "Ready";
+		break;
 	}
 	UpdateData(false);
 }
@@ -432,8 +484,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 	else if (dsb.create(ds, cb_sample * audf.get_c_samples(), 1, audf.get_samplerate(), cb_sample << 3, DSBCAPS_GLOBALFOCUS))
 		error = 1;
 	else
-	{	
-		
+	{			
 		int cs_remaining = audf.get_c_samples();
 		int writeofs = 0;			
 		decode.init();
@@ -515,6 +566,97 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 	return error;
 }
 
+int CXCCAudioPlayerDlg::play_wav(dword id)
+{
+	Cwav_file f;
+	if (f.open(id, mixf))
+		return 1;
+	int error = play_wav(f);
+	f.close();
+	return error;
+}
+
+int CXCCAudioPlayerDlg::play_wav(Cwav_file& f)
+{
+	int error = 0;
+	if (!audio_output)
+		return 1;
+	if (f.process())
+		return 1;
+	const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+	const t_riff_wave_fact_chunk& fact_chunk = f.get_fact_chunk();
+	int c_channels = format_chunk.c_channels;
+	int cb_sample = format_chunk.cbits_sample >> (format_chunk.tag == 1 ? 3 : 1);
+	if (dsb.is_available())
+		dsb.destroy();
+	if (dsb.create(ds, c_channels * cb_sample * fact_chunk.c_samples, c_channels, format_chunk.samplerate, cb_sample << 3, DSBCAPS_GLOBALFOCUS))
+		error = 1;
+	else
+	{
+		int cb_s = f.get_data_header().size;
+		byte* s = new byte[cb_s];
+		const byte* r = s;
+		f.seek(f.get_data_ofs());
+		f.read(s, cb_s);
+		int cs_remaining = fact_chunk.c_samples;
+		int writeofs = 0;			
+		int chunk_i = 0;
+		bool playing = false;
+		void* p1;
+		dword s1;
+		if (dsb.lock(writeofs, cb_sample * cs_remaining * c_channels, &p1, &s1, 0, 0))
+			error = 1;
+		else
+		{
+			Cima_adpcm_wav_decode decode;
+			decode.load(s, cb_s, c_channels, 512 * c_channels);
+			memcpy(reinterpret_cast<short*>(p1), decode.data(), c_channels * cs_remaining << 1);
+			if (dsb.unlock(p1, s1, 0, 0))
+				error = 1;
+			else if (dsb.play(0))
+				error = 1;
+		}
+		/*
+		while (cs_remaining)
+		{	
+			m_statusbar = n(cs_remaining / format_chunk.samplerate).c_str();
+			UpdateData(false);
+			for (int channel = 0; channel < c_channels; channel++)
+			{
+				const t_ima_adpcm_chunk_header& chunk_header = *reinterpret_cast<const t_ima_adpcm_chunk_header*>(r);
+				r += sizeof(t_ima_adpcm_chunk_header);
+				int cs_chunk = min(cs_remaining, format_chunk.block_align / c_channels - sizeof(t_ima_adpcm_chunk_header) << 1);
+				decode.init(chunk_header.index, chunk_header.sample);
+				cs_remaining -= cs_chunk;
+				void* p1;
+				dword s1;
+				if (dsb.lock(writeofs, cb_sample * cs_chunk, &p1, &s1, 0, 0))
+					error = 1;
+				else
+				{
+					short* w = reinterpret_cast<short*>(p1);
+					*w++ = chunk_header.sample;
+					decode.decode_chunk(r, w, cs_chunk);
+					r += cs_chunk >> 1;
+					writeofs += cb_sample * cs_chunk;
+					if (dsb.unlock(p1, s1, 0, 0))
+						error = 1;
+					else if (!playing)
+					{
+						if (dsb.play(0))
+							error = 1;
+						else
+							playing = true;
+					}
+				}
+			}
+		}
+		*/
+		delete[] s;
+	}
+	return error;
+}
+
 bool CXCCAudioPlayerDlg::valid_index()
 {
 	current_index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
@@ -528,6 +670,7 @@ bool CXCCAudioPlayerDlg::valid_index()
 			can_extract = can_play = true;
 			break;
 		case ft_vqa:
+		case ft_wav:
 			can_play = true;
 			break;
 		}
@@ -551,6 +694,11 @@ void CXCCAudioPlayerDlg::OnOpenScores()
 void CXCCAudioPlayerDlg::OnOpenSounds() 
 {
 	OpenMix("sounds.mix");	
+}
+
+void CXCCAudioPlayerDlg::OnOpenTheme() 
+{
+	OpenMix("theme.mix");	
 }
 
 void CXCCAudioPlayerDlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -578,7 +726,15 @@ bool CXCCAudioPlayerDlg::has_scores()
 
 bool CXCCAudioPlayerDlg::is_score(int i)
 {
-	return mixdata[i].type == ft_aud && mixf.get_size(mixdata[i].id) > 128 << 10;
+	switch (mixdata[i].type)
+	{
+	case ft_aud:
+	case ft_wav:
+		return mixf.get_size(mixdata[i].id) > 128 << 10;
+	default:
+		return false;
+	}
+	
 }
 
 void CXCCAudioPlayerDlg::shuffle_aud()
@@ -591,7 +747,15 @@ void CXCCAudioPlayerDlg::shuffle_aud()
 		i = rand() % m_c_files;
 	}
 	while (!is_score(i));
-	play_aud(mixdata[i].id);
+	switch (mixdata[i].type)
+	{
+	case ft_aud:
+		play_aud(mixdata[i].id);
+		break;
+	case ft_wav:
+		play_wav(mixdata[i].id);
+		break;
+	}
 }
 
 void CXCCAudioPlayerDlg::OnTimer(UINT nIDEvent) 
@@ -605,5 +769,70 @@ void CXCCAudioPlayerDlg::OnTimer(UINT nIDEvent)
 	}
 	else if (m_shuffle)
 		shuffle_aud();
-	CDialog::OnTimer(nIDEvent);
+	ETSLayoutDialog::OnTimer(nIDEvent);
+}
+
+void CXCCAudioPlayerDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
+	sort_list(column, column == m_sort_column ? !m_sort_reverse : false);
+	*pResult = 0;
+}
+
+int compare_int(unsigned int a, unsigned int b)
+{
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
+int compare_string(string a, string b)
+{
+	if (a < b)
+		return -1;
+	else if (a == b)
+		return 0;
+	else
+		return 1;
+}
+
+int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
+{
+	if (m_sort_reverse)
+		swap(id_a, id_b);
+	switch (m_sort_column)
+	{
+	case 0:
+		return compare_int(id_a, id_b);
+		break;
+	case 1:
+		return compare_int(mixf.get_index(id_a), mixf.get_index(id_b));
+		break;
+	case 2:
+		return compare_int(mixf.get_size(id_a), mixf.get_size(id_b));
+		break;
+	case 4:
+		return compare_string(mix_database::get_name(game, id_a), mix_database::get_name(game, id_b));
+		break;
+	case 5:
+		return compare_string(mix_database::get_description(game, id_a), mix_database::get_description(game, id_b));
+		break;
+	default:
+		return 0;
+	}
+}
+
+static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+	return reinterpret_cast<CXCCAudioPlayerDlg*>(lParamSort)->compare(lParam1, lParam2);
+}
+
+void CXCCAudioPlayerDlg::sort_list(int i, bool reverse)
+{
+	m_sort_column = i;
+	m_sort_reverse = reverse;
+	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
 }

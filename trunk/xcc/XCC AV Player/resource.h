@@ -25,6 +25,7 @@
 #define IDC_OpenScores                  1006
 #define IDC_EDIT_DATA                   1007
 #define IDC_OpenSounds                  1007
+#define IDC_OpenTheme                   1008
 
 // Next default values for new objects
 // 

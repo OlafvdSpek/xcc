@@ -12,6 +12,7 @@
 #include "string_conversion.h"
 #include "vqa_file.h"
 #include "vqa_play.h"
+#include "wav_file.h"
 #include "xcc_dirs.h"
 #include "xcc_dds.h"
 #include "xcc_dsb.h"
@@ -32,20 +33,24 @@ struct mixdata_entry
 /////////////////////////////////////////////////////////////////////////////
 // CXCCAudioPlayerDlg dialog
 
-class CXCCAudioPlayerDlg : public CDialog
+class CXCCAudioPlayerDlg : public ETSLayoutDialog
 {
 // Construction
 public:
+	int compare(int id_a, int id_b) const;
 	bool has_scores();
 	bool is_score(int i);
-	void shuffle_aud();
 	void release_memory();
+	void shuffle_aud();
+	void sort_list(int i, bool reverse);
 	bool valid_index();
 	mixdata_entry* mixdata; 
 	int play_aud(dword id);
 	int play_aud(Caud_file& audf);
 	int play_vqa(dword id);
 	int play_vqa(Cvqa_file& f);
+	int play_wav(dword id);
+	int play_wav(Cwav_file& wavf);
 	long add_column(const string &text, dword index, dword size, dword format = LVCFMT_LEFT, dword subindex = -1);
 	long add_item(const string &text, dword index, dword subindex, long param = -1);
 	long OpenMix(const string &fname);
@@ -106,8 +111,13 @@ protected:
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnOpenaud();
 	afx_msg void OnOpenvqa();
+	afx_msg void OnOpenTheme();
+	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
+private:
+	int m_sort_column;
+	bool m_sort_reverse;
 };
 
 //{{AFX_INSERT_LOCATION}}
