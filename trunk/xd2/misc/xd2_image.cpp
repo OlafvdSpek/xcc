@@ -11,6 +11,7 @@
 
 Cxd2_image::Cxd2_image()
 {
+	m_cx = m_cy = 0;
 }
 
 Cxd2_image::Cxd2_image(const Cvirtual_binary& d, int cx, int cy)

@@ -41,6 +41,11 @@ int Cxd2_files::c_unit_types() const
 	return data_map().get("dune2 unit types.bin").size() / sizeof(t_unit_type);
 }
 
+const Cxd2_image& Cxd2_files::shape(int i) const
+{
+	return shapes().get("dune2 shapes.shp").get(i);
+}
+
 enum
 {
 	vi_animations,
@@ -87,7 +92,8 @@ int Cxd2_files::load(const string& dir)
 		|| load_pak(dir + "finale.pak")
 		|| load_pak(dir + "intro.pak")
 		|| load_pak(dir + "mentat.pak")
-		|| load_pak(dir + "scenario.pak");
+		|| load_pak(dir + "scenario.pak")
+		|| process();
 }
 
 int Cxd2_files::load_audio_pak(const string& name)
@@ -129,7 +135,7 @@ static Cxd2_animation load_animation(const Cwsa_dune2_file& f)
 		if (f.get_offset(i))
 		{
 			decode80(f.get_frame(i), s.write_start(1 << 16));
-			decode40(s.data(), w);
+			decode40(s, w);
 		}
 		w += cx * cy;
 	}
@@ -156,6 +162,16 @@ static Cxd2_shape load_shape(const Cshp_dune2_file& f)
 		d.set(i, Cxd2_image(image, cx, cy));
 	}
 	return d;
+}
+
+static void add_shape(Cxd2_shape_map& shapes, const string& name, Cxd2_shape& d, int d_i)
+{
+	if (!shapes.has(name))
+		return;
+	const Cxd2_shape& s = shapes.get(name);
+	for (int i = 0; i < s.size(); i++)
+		d.set(d_i + i, s.get(i));
+	shapes.erase(name);
 }
 
 int Cxd2_files::load_pak(const string& name)
@@ -217,7 +233,7 @@ int Cxd2_files::load_pak(const string& name)
 			}
 			else
 			{
-				if (name == "bene.pal")
+				if (name == "bene.pal" || name == "ibm.pal" || name == "intro.pal" || name == "westwood.pal")
 				{
 					for (byte* w = d.data_edit(); w < d.data_end(); w++)
 						*w = *w * 0xff / 0x3f;
@@ -228,5 +244,21 @@ int Cxd2_files::load_pak(const string& name)
 		}
 	}
 	pak_f.close();
+	return 0;
+}
+
+int Cxd2_files::process()
+{
+	{
+		Cxd2_shape d;
+		d.resize(355);
+		add_shape(m_shape_map, "mouse.shp", d, 0);
+		add_shape(m_shape_map, "bttn.eng", d, 7);
+		add_shape(m_shape_map, "shapes.shp", d, 12);
+		add_shape(m_shape_map, "units2.shp", d, 111);
+		add_shape(m_shape_map, "units1.shp", d, 151);
+		add_shape(m_shape_map, "units.shp", d, 238);
+		m_shape_map.set("dune2 shapes.shp", d);
+	}
 	return 0;
 }

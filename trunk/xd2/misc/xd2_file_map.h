@@ -34,6 +34,11 @@ public:
 		return key;
 	}
 
+	void erase(const string& name)
+	{
+		m_map.erase(name);
+	}
+	
 	const T& get(const string& name) const
 	{
 		return m_map.find(name)->second;
