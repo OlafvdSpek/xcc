@@ -26,15 +26,15 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // Dialog
 //
 
-IDD_MY3DS2VXLFE_DIALOG DIALOGEX 0, 0, 320, 164
-STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION |
+IDD_MY3DS2VXLFE_DIALOG DIALOGEX 0, 0, 320, 189
+STYLE DS_MODALFRAME | WS_MINIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
     WS_SYSMENU
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "3DS -> VXL FrontEnd"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON   "Run",IDOK,209,143,50,14
-    PUSHBUTTON      "Exit",IDCANCEL,263,143,50,14
+    DEFPUSHBUTTON   "Run",IDOK,209,168,50,14
+    PUSHBUTTON      "Exit",IDCANCEL,263,168,50,14
     LTEXT           "Source (3DS):",IDC_STATIC,7,7,46,8
     EDITTEXT        IDC_SOURCE,71,7,186,12,ES_AUTOHSCROLL
     LTEXT           "Skybox (TGA):",IDC_STATIC,7,21,47,8
@@ -44,22 +44,37 @@ BEGIN
     LTEXT           "Destination (VXL):",IDC_STATIC,7,35,58,8
     EDITTEXT        IDC_DESTINATION,71,35,186,12,ES_AUTOHSCROLL
     PUSHBUTTON      "Browse...",IDC_DESTINATION_BROWSE,263,35,50,12
-    LTEXT           "Size:",IDC_STATIC,7,49,16,8
+    LTEXT           "Voxel size:",IDC_STATIC,7,49,34,8
     EDITTEXT        IDC_MAX_SIZE,71,49,186,12,ES_AUTOHSCROLL | ES_NUMBER
-    CONTROL         "Flip x",IDC_FLIP_X,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,7,63,32,10
-    CONTROL         "Flip y",IDC_FLIP_Y,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,7,77,32,10
-    CONTROL         "Swap x and y",IDC_SWAP_XY,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,7,91,59,10
+    CONTROL         "Flip x",IDC_FLIP_X,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,81,32,10
+    CONTROL         "Flip y",IDC_FLIP_Y,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,95,32,10
+    CONTROL         "Swap x and y",IDC_SWAP_XY,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,144,95,59,10
     CONTROL         "Estimate origin",IDC_ESTIMATE_ORIGIN,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,105,61,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,121,61,10
     CONTROL         "Use smoothing group numbers",IDC_SGN,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,119,111,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,134,111,10
     CONTROL         "Use smoothing group angle limits",IDC_SGAL,"Button",
-                    BS_AUTOCHECKBOX | WS_TABSTOP,7,133,119,10
-    CONTROL         "Use textures",IDC_TEXTURES,"Button",BS_AUTOCHECKBOX |
-                    WS_TABSTOP,7,147,55,10
+                    BS_AUTOCHECKBOX | WS_TABSTOP,7,146,119,10
+    CONTROL         "Use textures",IDC_TEXTURES,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,172,55,10
+    CONTROL         "Flip z",IDC_FLIP_Z,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,108,32,10
+    CONTROL         "Swap y and z",IDC_SWAP_YZ,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,144,108,59,10
+    CONTROL         "Swap z and x",IDC_SWAP_ZX,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,144,121,59,10
+    COMBOBOX        IDC_RESOLUTION,144,134,48,156,CBS_DROPDOWNLIST | 
+                    WS_VSCROLL | WS_TABSTOP
+    CONTROL         "Use materials",IDC_MATERIALS,"Button",BS_AUTOCHECKBOX | 
+                    WS_TABSTOP,7,159,58,10
+    LTEXT           "Scale:",IDC_STATIC,7,63,21,8
+    EDITTEXT        IDC_SCALE,71,63,186,12,ES_AUTOHSCROLL
+    CONTROL         "Enable viewer",IDC_ENABLE_VIEWER,"Button",
+                    BS_AUTOCHECKBOX | WS_TABSTOP,144,153,61,10
+    LTEXT           "Screen resolution",IDC_STATIC,195,134,56,8
 END
 
 
@@ -69,17 +84,38 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE
+GUIDELINES DESIGNINFO DISCARDABLE 
 BEGIN
     IDD_MY3DS2VXLFE_DIALOG, DIALOG
     BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 313
         TOPMARGIN, 7
-        BOTTOMMARGIN, 157
+        BOTTOMMARGIN, 182
     END
 END
 #endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog Info
+//
+
+IDD_MY3DS2VXLFE_DIALOG DLGINIT
+BEGIN
+    IDC_RESOLUTION, 0x403, 10, 0
+0x3436, 0x2030, 0x2078, 0x3834, 0x0030, 
+    IDC_RESOLUTION, 0x403, 10, 0
+0x3038, 0x2030, 0x2078, 0x3036, 0x0030, 
+    IDC_RESOLUTION, 0x403, 11, 0
+0x3031, 0x3432, 0x7820, 0x3720, 0x3836, "\000" 
+    IDC_RESOLUTION, 0x403, 11, 0
+0x3231, 0x3038, 0x7820, 0x3920, 0x3036, "\000" 
+    IDC_RESOLUTION, 0x403, 12, 0
+0x3631, 0x3030, 0x7820, 0x3120, 0x3032, 0x0030, 
+    0
+END
 
 #endif    // English (U.S.) resources
 /////////////////////////////////////////////////////////////////////////////
@@ -100,18 +136,18 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE
+1 TEXTINCLUDE DISCARDABLE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE
+2 TEXTINCLUDE DISCARDABLE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE
+3 TEXTINCLUDE DISCARDABLE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
