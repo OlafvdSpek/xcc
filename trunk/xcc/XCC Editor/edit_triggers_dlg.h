@@ -16,7 +16,7 @@
 /////////////////////////////////////////////////////////////////////////////
 // Cedit_triggers_dlg dialog
 
-class Cedit_triggers_dlg : public CDialog
+class Cedit_triggers_dlg: public ETSLayoutDialog
 {
 // Construction
 public:

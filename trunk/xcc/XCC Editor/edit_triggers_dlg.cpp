@@ -14,8 +14,8 @@ static char THIS_FILE[] = __FILE__;
 // Cedit_triggers_dlg dialog
 
 
-Cedit_triggers_dlg::Cedit_triggers_dlg(Cxcc_level& level, bool selection_wanted)
-	: CDialog(Cedit_triggers_dlg::IDD, 0),
+Cedit_triggers_dlg::Cedit_triggers_dlg(Cxcc_level& level, bool selection_wanted):
+	ETSLayoutDialog(Cedit_triggers_dlg::IDD, 0),
 	m_level(level),
 	m_trigger_data(level.trigger_data),
 	m_selection_wanted(selection_wanted)
@@ -27,7 +27,7 @@ Cedit_triggers_dlg::Cedit_triggers_dlg(Cxcc_level& level, bool selection_wanted)
 
 void Cedit_triggers_dlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Cedit_triggers_dlg)
 	DDX_Control(pDX, IDC_LIST, m_list);
 	DDX_Control(pDX, IDC_EDIT, m_edit_button);
@@ -37,7 +37,7 @@ void Cedit_triggers_dlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(Cedit_triggers_dlg, CDialog)
+BEGIN_MESSAGE_MAP(Cedit_triggers_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cedit_triggers_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_BN_CLICKED(IDC_DELETE, OnDelete)
@@ -52,7 +52,16 @@ END_MESSAGE_MAP()
 
 BOOL Cedit_triggers_dlg::OnInitDialog() 
 {
-	CDialog::OnInitDialog();
+	CreateRoot(HORIZONTAL)
+		<< item(IDC_LIST, GREEDY)
+		<< (pane(VERTICAL, ABSOLUTE_HORZ)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			<< item(IDC_NEW, NORESIZE)
+			<< item(IDC_EDIT, NORESIZE)
+			<< item(IDC_DELETE, NORESIZE)
+			);
+	ETSLayoutDialog::OnInitDialog();
 
 	m_list.set_full_row_selection();
 
