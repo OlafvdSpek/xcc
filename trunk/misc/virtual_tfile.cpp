@@ -35,18 +35,6 @@ void Cvirtual_tfile::save_data(byte*& _data, dword& _size) const
 	_size = size;
 }
 
-/*
-void Cvirtual_tfile::load_data(xccfile &f)
-{
-	release_memory();
-	size = f.get_size();
-	data = new char[size];
-	f.seek_block(0);
-	f.read_block(reinterpret_cast<byte*>(data), size);
-	pos = 0;
-}
-*/
-
 void Cvirtual_tfile::release_memory()
 {
 	if (data)
@@ -59,19 +47,68 @@ void Cvirtual_tfile::release_memory()
 string Cvirtual_tfile::read_line()
 {
 	assert(data);
-	dword spos = pos;
-	while (pos < size && data[pos] != 0xa && data[pos] != 0xd)
+	const int first_non_ws = pos;
+	int last_non_ws;
+	while (pos < size)
 	{
-		pos++;
+		switch (data[pos++])
+		{
+		case 0xd:
+			last_non_ws = pos - 2;
+			if (pos < size && data[pos] == 0xa)
+				pos++;
+			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+		case 0xa:
+			last_non_ws = pos - 2;
+			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+		}
 	}
-	string s(data + spos, pos - spos);
-	if (pos < size)
+	last_non_ws = size - 1;
+	return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+}
+
+string Cvirtual_tfile::read_line(bool remove_ws)
+{
+	if (!remove_ws)
+		return read_line();
+	assert(data);
+	int first_non_ws;
+	int last_non_ws;
+	while (pos < size)
 	{
-		pos++;
-		if (pos < size && data[pos] == 0xa)
-			pos++;
+		switch (data[pos++])
+		{
+		case 0xd:
+			if (pos < size && data[pos] == 0xa)
+				pos++;
+		case 0xa:
+			return "";
+		case '\t':
+		case ' ':
+			break;
+		default:
+			first_non_ws = pos - 1;
+			last_non_ws = pos - 2;
+			while (pos < size)
+			{
+				switch (data[pos++])
+				{
+				case 0xd:
+					if (pos < size && data[pos] == 0xa)
+						pos++;
+				case 0xa:
+					return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+				case '\t':
+				case ' ':
+					break;
+				default:
+					last_non_ws = pos - 1;
+				}
+			}
+			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+		}
 	}
-	return s;
+	return "";
 }
 
 void Cvirtual_tfile::write(const string& s)

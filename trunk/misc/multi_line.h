@@ -15,19 +15,20 @@ using namespace std;
 
 class Cmulti_line  
 {
-	string s;
 public:
 	Cmulti_line();
 	Cmulti_line(const char* is);
 	Cmulti_line(const string &is);
-	int Cmulti_line::get_next_int(const char separator = ',');
-	string get_next_line(const char separator = ',');
-	string get_next_line(const string& separator);
+	int get_next_int(const char separator = ',');
+	string get_next_line(const char separator = ',', bool remove_ws = true);
+	string get_next_line(const string& separator, bool remove_ws = true);
 
 	bool empty() const
 	{
 		return s.empty();
 	};
+private:
+	string s;
 };
 
 #endif // !defined(AFX_MULTI_LINE_H__82C084C6_E2A2_11D2_B750_FE15CBEFD064__INCLUDED_)

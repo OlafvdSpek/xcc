@@ -11,6 +11,7 @@
 
 #include <map>
 #include <string>
+#include "virtual_binary.h"
 #include "xif_value.h"
 #include "zlib.h"
 
@@ -275,6 +276,9 @@ public:
 		m_values.clear();
 	}
 
+	void dump(ostream& os, bool show_ratio, int depth = 0, Cvirtual_binary* t = NULL) const;
+	void dump_ratio(ostream& os, Cvirtual_binary* t) const;
+	int save(string fname);
 	t_xif_key_map& m_keys;
 	t_xif_value_map& m_values;
 private:

@@ -9,8 +9,7 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
-#include <string>
-#include "assert.h"
+#include "vartypes.h"
 
 using namespace std;
 
@@ -181,6 +180,8 @@ public:
 			data += m_size;
 		}
 	}
+
+	void dump(ostream& os, int depth = 0) const;
 private:
 	byte* m_data;
 	t_vt m_type;

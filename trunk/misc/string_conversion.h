@@ -23,6 +23,7 @@ string to_lower(const string& s);
 string to_normal(string s);
 string to_upper(const string& s);
 void split_key(const string& key, string& name, string& value);
+string tabs2spaces(const string& v);
 
 inline char* make_c_str(const string& s)
 {
