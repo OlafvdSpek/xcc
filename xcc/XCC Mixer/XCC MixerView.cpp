@@ -1029,7 +1029,7 @@ int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		if (f.get_cx() != 320 || f.get_cy() != 200)
+		if (f.cx() != 320 || f.cy() != 200)
 			error = 257;
 		else if (f.get_c_planes() != 1)
 			error = 258;
@@ -1162,25 +1162,24 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		int cx = f.get_cx();
-		int cy = f.get_cy();
-		int cb_s = cx * cy * 3;
-		byte* s = new byte[cx * cy * 3];
+		int cx = f.cx();
+		int cy = f.cy();
+		Cvirtual_binary s(NULL, cx * cy * 3);
 		if (f.get_c_planes() == 1)
 		{
 			byte* t = new byte[cx * cy];
 			pcx_decode(f.get_image(), t, *f.get_header());
-			convert_image_8_to_24(t, s, cx, cy, *f.get_palet());
+			convert_image_8_to_24(t, s.data_edit(), cx, cy, *f.get_palet());
 			delete[] t;
 		}
 		else
-			pcx_decode(f.get_image(), s, *f.get_header());
-		byte* d = new byte[cx * cy * 6];
-		int cb_d = encode5(s, d, cb_s, 5);
+			pcx_decode(f.get_image(), s.data_edit(), *f.get_header());
+		Cvirtual_binary d;
+		int cb_d = encode5(s, d.write_start(cx * cy * 6), s.size(), 5);
 		Cvirtual_binary e = encode64(Cvirtual_binary(d, cb_d));
 		ofstream g(fname.get_all().c_str());
 		g << "[Preview]" << endl
-			<< "Size=0,0," << n(cx) << ',' << n(cy) << endl
+			<< "Size=0,0," << cx << ',' << cy << endl
 			<< endl
 			<< "[PreviewPack]" << endl;
 		const byte* r = e;
@@ -1195,8 +1194,6 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 			g << line_i++ << '=' << line << endl;
 		}
 		error = g.fail();
-		delete[] d;
-		delete[] s;
 		f.close();
 	}
 	return error;
@@ -1485,8 +1482,8 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 	if (!error)
 	{
 		memcpy(s_palet, *f.get_palet(), sizeof(t_palet));
-		cx = f.get_cx();
-		cy = f.get_cy();
+		cx = f.cx();
+		cy = f.cy();
 		c_images = 0;
 		f.close();
 		int index[1000];
@@ -1510,7 +1507,7 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			}
 			else
 			{
-				if (f.get_cx() != cx || f.get_cy() != cy)
+				if (f.cx() != cx || f.cy() != cy)
 					error = 0x100;
 				else if (f.get_c_planes() != 1)
 					error = 0x101;
@@ -1581,8 +1578,8 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 			if (!error)
 			{
 				memcpy(s_palet, *f.get_palet(), sizeof(t_palet));
-				cx = f.get_cx();
-				cy = f.get_cy();
+				cx = f.cx();
+				cy = f.cy();
 				c_images = 0;
 				f.close();
 				int index[10000];
@@ -1606,7 +1603,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 					}
 					else
 					{
-						if (f.get_cx() != cx || f.get_cy() != cy)
+						if (f.cx() != cx || f.cy() != cy)
 							error = em_bad_size;
 						else if (f.get_c_planes() != 1)
 							error = em_bad_depth;
@@ -1759,26 +1756,13 @@ int CXCCMixerView::copy_as_tmp_ts(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		int cx = f.get_cx();
-		int cy = f.get_cy();
-		byte* s = new byte[cx * cy];
-		pcx_decode(f.get_image(), s, *f.get_header());
-		byte* d = new byte[256 << 10];
-		int cb_d = tmp_ts_file_write(s, d, f.get_cx(), f.get_cy());
-		delete[] s;
-		if (cb_d)
-		{
-			Cfile32 g;
-			error = g.open_write(fname);
-			if (!error)
-			{
-				error = g.write(d, cb_d);
-				g.close();
-			}
-		}
-		else
-			error = 1;
-		delete[] d;
+		int cx = f.cx();
+		int cy = f.cy();
+		Cvirtual_binary s;
+		pcx_decode(f.get_image(), s.write_start(cx * cy), *f.get_header());
+		Cvirtual_binary d;
+		int cb_d = tmp_ts_file_write(s, d.write_start(256 << 10), cx, cy);
+		error = cb_d ? d.export(fname) : 1;
 		f.close();
 	}
 	return error;
@@ -1799,8 +1783,8 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			error = open_f_index(f, i);
 			if (!error)
 			{
-				int cx = f.get_cx();
-				int cy = f.get_cy();
+				int cx = f.cx();
+				int cy = f.cy();
 				int c_images = 0;
 				byte* s = NULL;
 				f.close();
@@ -1825,7 +1809,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 					}
 					else
 					{
-						if (f.get_cx() != cx || f.get_cy() != cy || f.get_c_planes() != 1)
+						if (f.cx() != cx || f.cy() != cy || f.get_c_planes() != 1)
 							error = 0x0100;
 						else if (!error)
 						{

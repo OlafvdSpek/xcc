@@ -597,14 +597,13 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cpcx_file f;
 				f.load(m_data);
 				const int c_planes = f.get_c_planes();
-				const int cx = f.get_cx();
-				const int cy = f.get_cy();
+				const int cx = f.cx();
+				const int cy = f.cy();
 				draw_info("Bits/pixel:", n(8 * c_planes));
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;
-				byte* image = new byte[c_planes * cx * cy];
-				f.decode(image);
-				// pcx_decode(f.get_image(), image, *f.get_header());
+				Cvirtual_binary image;
+				f.decode(image.write_start(c_planes * cx * cy));
 				if (c_planes == 1)
 				{
 					load_color_table(*f.get_palet(), false);
@@ -613,7 +612,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				else
 					draw_image24(image, cx, cy, pDC, 0, m_y);
 				m_y += cy + m_y_inc;
-				delete[] image;
 				break;
 			}
 		case ft_png:
