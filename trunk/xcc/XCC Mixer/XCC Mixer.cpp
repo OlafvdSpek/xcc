@@ -81,9 +81,9 @@ BOOL CXCCMixerApp::InitInstance()
 	m_xcc_mix_editor_exe = xcc_path + "XCC Mix Editor.exe";
 	m_xcc_mixer_exe = xcc_path + "XCC Mixer.exe";
 	m_dune2_exe = xcc_dirs::get_exe(game_dune2);
-	m_td_dos_exe = xcc_dirs::get_td_primary_dir() + "c&c.com";
+	m_td_dos_exe = xcc_dirs::get_dir(game_td) + "c&c.com";
 	m_td_win_exe = xcc_dirs::get_exe(game_td);
-	m_ra_dos_exe = xcc_dirs::get_ra_dir() + "ra.exe";
+	m_ra_dos_exe = xcc_dirs::get_dir(game_ra) + "ra.exe";
 	m_ra_win_exe = xcc_dirs::get_exe(game_ra);
 	m_dune2000_exe = xcc_dirs::get_exe(game_dune2000);
 	m_ts_exe = xcc_dirs::get_exe(game_ts);

@@ -505,7 +505,7 @@ void CMainFrame::initialize_lists()
 		return;
 	CWaitCursor wait;
 	xcc_log::write_line("initialize_lists starts");
-	xcc_log::write_line("primary dir: " + xcc_dirs::get_td_primary_dir());
+	xcc_log::write_line("primary dir: " + xcc_dirs::get_dir(game_td));
 	xcc_log::write_line("secondary dir: " + xcc_dirs::get_td_secondary_dir());
 	xcc_log::write_line("ra dir: " + xcc_dirs::get_dir(game_ra));
 	xcc_log::write_line("ts dir: " + xcc_dirs::get_dir(game_ts));
@@ -515,7 +515,7 @@ void CMainFrame::initialize_lists()
 	xcc_log::write_line("gr zh dir: " + xcc_dirs::get_dir(game_gr_zh));
 	xcc_log::write_line("cd dir: " + xcc_dirs::get_cd_dir());
 	xcc_log::write_line("data dir: " + xcc_dirs::get_data_dir());
-	find_mixs(xcc_dirs::get_td_primary_dir(), game_td, "*.mix");
+	find_mixs(xcc_dirs::get_dir(game_td), game_td, "*.mix");
 	find_mixs(xcc_dirs::get_td_secondary_dir(), game_td, "*.mix");
 	find_mixs(xcc_dirs::get_dir(game_ra), game_ra, "*.mix");
 	find_mixs(xcc_dirs::get_dir(game_ts), game_ts, "*.mix");
@@ -1417,8 +1417,8 @@ void CMainFrame::OnViewReport()
 		+ tr(td("Right pane") + td(m_right_mix_pane->get_dir()))
 		+ tr(td("Combine shadows") + td(btoa(m_combine_shadows)))
 		+ tr(td("Split shadows") + td(btoa(m_split_shadows)))
-		+ tr(td("TD dir") + td(xcc_dirs::get_td_primary_dir()))
-		+ tr(td("RA dir") + td(xcc_dirs::get_ra_dir()))
+		+ tr(td("TD dir") + td(xcc_dirs::get_dir(game_td)))
+		+ tr(td("RA dir") + td(xcc_dirs::get_dir(game_ra)))
 		+ tr(td("TS dir") + td(xcc_dirs::get_dir(game_ts)))
 		+ tr(td("RA2 dir") + td(xcc_dirs::get_dir(game_ra2)))
 		+ tr(td("RG dir") + td(xcc_dirs::get_dir(game_rg)))

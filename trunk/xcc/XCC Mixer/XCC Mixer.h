@@ -62,7 +62,6 @@ public:
 	bool is_dune2000_available() const;
 	bool is_ts_available() const;
 	bool is_ra2_available() const;
-	CXCCMixerApp();
 
 // Overrides
 	// ClassWizard generated virtual function overrides
