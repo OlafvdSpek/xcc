@@ -108,53 +108,54 @@
 </table>
 <hr>
 		<?php
-			echo("<table>");
+			echo('<table>');
 			echo_players(select_players(sprintf(" where p.sid = %d", $sid)));
-			echo("</table>");
+			echo('</table>');
 	}
 	else if ($_GET[a] == "rb_insert")
 	{
 		$pid = $_GET[pid];
 		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
-		echo("<table>");
+		echo('<table>');
 		echo_players(select_players(sprintf(" where pid = %d", $pid)));
-		echo("</table>");
+		echo('</table>');
 	}
 	else if ($_GET[a] == "bad_passes")
 	{
-		$results = db_query("select name from xwi_players inner join bad_passes using (pass) order by name");
-		echo("<table>");
+		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) order by name");
+		echo('<table>');
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td>%s", $result[name]);
-		echo("</table>");
+			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
+		echo('</table>');
 	}
 	else if ($_GET[a] == "invalid_serials")
 	{
-		$results = db_query("select name from xwi_players inner join xwi_serials using (sid) where ~flags & 2 and valid < 0 order by name");
-		echo("<table>");
-		while ($result = mysql_fetch_array($results))
-			printf("<tr><td>%s", $result[name]);
-		echo("</table>");
 		$results = db_query("select valid, count(*) c from xwi_serials group by valid");
-		echo("<hr><table>");
+		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td align=right>%d", $result[c], $result[valid]);
-		echo("</table>");
+		echo('</table>');
+		echo('<hr>');
+		$results = db_query("select flags, name from xwi_players inner join xwi_serials using (sid) where ~flags & 2 and valid < 0 order by name");
+		echo('<table>');
+		while ($result = mysql_fetch_array($results))
+			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
+		echo('</table>');
 	}
 	else if ($_GET[a] == "xbl")
 	{
 		$results = db_query("select *, unix_timestamp(xbl.mtime) as mtime from xbl order by wid desc");
-		echo("<table>");
+		echo('<table>');
 		echo_warnings($results);
-		echo("</table>");
+		echo('</table>');
 	}
 	else if ($_GET[a] == "xwsvs")
 	{
 		$results = db_query("select * from xwsvs_log order by time desc");
-		echo("<table>");
+		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 			printf('<tr><td align=right>%d<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
-		echo("</table>");
+		echo('</table>');
 	}
 	else
 	{
@@ -183,7 +184,7 @@
 			$where = " where wtime > now()";
 		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th><th><th align=right>SID<th><th><th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
-		echo("</table>");
+		echo('</table>');
 		if ($sid)
 		{
 			$results = db_query(sprintf("select *, unix_timestamp(ctime) ctime, unix_timestamp(mtime) mtime, unix_timestamp(wtime) wtime from xwi_serials where sid = %d", $sid));
@@ -195,7 +196,7 @@
 					printf("<tr><td align=right>%d<td align=right>%x<td align=right>%d<td>%s<td>%s<td>%s", $result[sid], $result[gsku], $result[valid], $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "", gmdate("H:i d-m-Y", $result[mtime]), gmdate("H:i d-m-Y", $result[ctime]));
 				}
 				while ($result = mysql_fetch_array($results));
-				echo("</table>");
+				echo('</table>');
 			}
 			$results = db_query(sprintf("select *, unix_timestamp(xbl.mtime) mtime from xbl where sid = %d", $sid));
 			if ($result = mysql_fetch_array($results))
@@ -206,7 +207,7 @@
 					echo_warning($result);
 				}
 				while ($result = mysql_fetch_array($results));
-				echo("</table>");
+				echo('</table>');
 			}
 		}
 	}
