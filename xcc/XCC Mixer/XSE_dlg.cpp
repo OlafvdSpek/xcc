@@ -567,7 +567,7 @@ void CXSE_dlg::OnExtractToButton()
     BROWSEINFO bi;
 	ZeroMemory(&bi, sizeof(BROWSEINFO));
 	bi.hwndOwner = GetSafeHwnd();
-	bi.ulFlags = BIF_EDITBOX | BIF_RETURNONLYFSDIRS ; 
+	bi.ulFlags = BIF_EDITBOX | BIF_RETURNONLYFSDIRS | BIF_USENEWUI;
 	ITEMIDLIST* idl = SHBrowseForFolder(&bi);
 	if (idl)
 	{
