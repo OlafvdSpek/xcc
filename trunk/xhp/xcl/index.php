@@ -79,7 +79,7 @@
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <script type="text/javascript" src="xcl.js"></script>
-<script type="text/javascript">page_top(<?=gmdate("d") == 1?>);
+<script type="text/javascript">page_top(0);
 <?php
 	function echo_hof($lid)
 	{
