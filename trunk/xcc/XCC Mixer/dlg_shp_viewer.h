@@ -47,6 +47,7 @@ protected:
 	//{{AFX_MSG(Cdlg_shp_viewer)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnTimer(UINT nIDEvent);
+	afx_msg void OnPlay();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

@@ -13,7 +13,6 @@
 #include "fname.h"
 #include "palet.h"
 #include "video_file.h"
-#include "virtual_file.h"
 #include "virtual_image.h"
 
 class Cshp_ts_file: public Cvideo_file<t_shp_ts_header>  

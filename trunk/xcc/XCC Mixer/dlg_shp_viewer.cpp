@@ -36,6 +36,7 @@ void Cdlg_shp_viewer::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Cdlg_shp_viewer, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cdlg_shp_viewer)
 	ON_WM_TIMER()
+	ON_BN_CLICKED(IDC_PLAY, OnPlay)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -85,6 +86,7 @@ BOOL Cdlg_shp_viewer::OnInitDialog()
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< item(IDC_FRAME, NORESIZE)
 			<< item(IDC_SLIDER, GREEDY)
+			<< item(IDC_PLAY, NORESIZE)
 			<< item(IDOK, NORESIZE)
 			);
 	ETSLayoutDialog::OnInitDialog();
@@ -135,4 +137,9 @@ void Cdlg_shp_viewer::show_frame()
 	m_index = m_frame;
 	m_slider.SetPos(m_frame);
 	UpdateData(false);
+}
+
+void Cdlg_shp_viewer::OnPlay() 
+{
+	m_last_access = 0;	
 }

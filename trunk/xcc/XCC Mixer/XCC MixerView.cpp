@@ -715,6 +715,13 @@ Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 	case ft_tga:
 		d.load(get_vdata_id(id));
 		break;
+	case ft_shp:
+		{
+			Cshp_file f;
+			f.load(get_vdata_id(id));
+			d = f.vimage();
+		}
+		break;
 	case ft_shp_ts:
 		{
 			Cshp_ts_file f;
@@ -812,6 +819,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_pcx:
 	case ft_png:
 	case ft_tga:
+	case ft_shp:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
 	case ft_wsa:
@@ -838,12 +846,6 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_jpeg 
 			|| d == ft_pcx 
 			|| d == ft_png 
-			|| d == ft_tga;
-	case ft_shp:
-		return d == ft_jpeg 
-			|| d == ft_pcx 
-			|| d == ft_png 
-			|| d == ft_shp_ts 
 			|| d == ft_tga;
 	case ft_shp_ts:
 		return d == ft_clipboard 
@@ -2791,12 +2793,20 @@ void CXCCMixerView::open_item(int id)
 				open_location_mix(m_dir + index.name);
 			break;
 		}
+	case ft_shp:
 	case ft_shp_ts:
 	case ft_wsa:
 		{
 			Cvideo_decoder* decoder = NULL;
 			switch (index.ft)
 			{
+			case ft_shp:
+				{
+					Cshp_file f;
+					f.load(get_vdata_id(id));
+					decoder = f.decoder(get_default_palet());
+				}
+				break;
 			case ft_shp_ts:
 				{
 					Cshp_ts_file f;
@@ -2812,6 +2822,8 @@ void CXCCMixerView::open_item(int id)
 				}
 				break;
 			}
+			if (!decoder)
+				break;
 			Cdlg_shp_viewer dlg;
 			dlg.write(decoder);
 			dlg.DoModal();
