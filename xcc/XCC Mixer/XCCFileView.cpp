@@ -11,6 +11,7 @@
 #include <strstream>
 #include "aud_file.h"
 #include "cps_file.h"
+#include "dds_file.h"
 #include "fname.h"
 #include "fnt_file.h"
 #include "hva_file.h"
@@ -291,6 +292,34 @@ t_vector rotate_y(t_vector v, double a)
 	return r;
 }
 
+const char* dump_four_cc(DWORD four_cc)
+{
+	static char r[5];
+	r[0] = four_cc & 0xff;
+	r[1] = four_cc >> 8 & 0xff;
+	r[2] = four_cc >> 16 & 0xff;
+	r[3] = four_cc >> 24 & 0xff;
+	r[4] = 0;
+	return r;
+}
+
+int get_size(unsigned int v)
+{
+	int r = 0;
+	while (v)
+	{
+		if (v & 1)
+			r++;
+		v >>= 1;
+	}
+	return r;
+}
+
+inline string n(unsigned long v)
+{
+	return n(static_cast<unsigned int>(v));
+}
+
 void CXCCFileView::OnDraw(CDC* pDC)
 {
 	const char* b2a[] = {"no", "yes"};
@@ -331,6 +360,56 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_image8(image, 320, 200, pDC, 0, m_y);
 				m_y += 200 + m_y_inc;
 				delete[] image;
+				break;
+			}
+		case ft_dds:
+			{
+				Cdds_file f;
+				f.load(m_data);
+				const DDSURFACEDESC2& ddsd = f.ddsd();
+				if (ddsd.dwFlags & (DDSD_WIDTH | DDSD_HEIGHT) == DDSD_WIDTH | DDSD_HEIGHT)
+					draw_info("Size: ",  n(ddsd.dwWidth) + " x " + n(ddsd.dwHeight));
+				if (ddsd.dwFlags & DDSD_PITCH)
+					draw_info("Pitch: ", n(ddsd.lPitch));
+				if (ddsd.dwFlags & DDSD_LINEARSIZE)
+					draw_info("Linear size: ", n(ddsd.dwLinearSize));
+				if (ddsd.dwFlags & DDSD_DEPTH)
+					draw_info("Depth: ", n(ddsd.dwDepth));
+				if (ddsd.dwFlags & DDSD_MIPMAPCOUNT)
+					draw_info("Mip map count: ", n(ddsd.dwMipMapCount));
+				if (ddsd.ddpfPixelFormat.dwFlags & DDPF_FOURCC)
+					draw_info("Pixel format: ", dump_four_cc(ddsd.ddpfPixelFormat.dwFourCC));
+				if (ddsd.ddpfPixelFormat.dwFlags & DDPF_RGB)
+					draw_info("Pixel format: ", n(ddsd.ddpfPixelFormat.dwRGBBitCount) + " bits (" + nwzl(4, 1000 * get_size(ddsd.ddpfPixelFormat.dwRGBAlphaBitMask) + 100 * get_size(ddsd.ddpfPixelFormat.dwRBitMask) + 10 * get_size(ddsd.ddpfPixelFormat.dwGBitMask) + get_size(ddsd.ddpfPixelFormat.dwBBitMask)) + ')');		
+				if (ddsd.ddpfPixelFormat.dwFlags & DDPF_FOURCC)
+				{					
+					Cvirtual_image image = f.vimage();
+					if (image.image())
+					{
+						image.remove_alpha();
+						m_y += m_y_inc;
+						draw_image24(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
+						m_y += f.cy() + m_y_inc;
+					}
+					/*
+					Cvirtual_binary d = f.decode();
+					if (d.data())
+					{
+						Cvirtual_image image;
+						image.load(d.data(), f.cx(), f.cy(), 4, NULL);
+						image.remove_alpha();
+						m_y += m_y_inc;
+						draw_image24(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
+						m_y += f.cy() + m_y_inc;
+					}
+					*/
+				}
+				if (ddsd.ddpfPixelFormat.dwFlags & DDPF_RGB && ddsd.ddpfPixelFormat.dwRGBBitCount == 24)
+				{
+					m_y += m_y_inc;
+					draw_image24(f.image(), f.cx(), f.cy(), pDC, 0, m_y);
+					m_y += f.cy() + m_y_inc;
+				}
 				break;
 			}
 		case ft_fnt:
@@ -1217,7 +1296,7 @@ void CXCCFileView::post_open(Ccc_file& f)
 		m_cy = 0;
 		m_ft = f.get_file_type(false);
 		m_size = f.get_size();
-		int cb_max_data = (m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
+		int cb_max_data = (m_ft == ft_dds || m_ft == ft_jpeg || m_ft == ft_map_td || m_ft == ft_map_ra || m_ft == ft_map_ts || m_ft == ft_pcx || m_ft == ft_png || m_ft == ft_shp || m_ft == ft_shp_ts || m_ft == ft_vxl || m_ft == ft_wsa_dune2 || m_ft == ft_wsa || m_ft == ft_xif) ? m_size : 256 << 10;
 		int cb_data = m_size > cb_max_data ? cb_max_data : m_size;	
 		f.read(m_data.write_start(cb_data), cb_data);
 		f.close();

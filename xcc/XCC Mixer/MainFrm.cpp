@@ -353,7 +353,6 @@ void CMainFrame::clean_pal_map_list()
 				used_set.insert(p);
 				p = m_pal_map_list.find(p)->second.parent;
 			}
-
 		}
 	}
 	{
@@ -371,7 +370,7 @@ void CMainFrame::clean_pal_map_list()
 
 void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent)
 {
-	xcc_log::write_line("do_mix starts: " + mix_name);
+	xcc_log::write_line("do_mix starts: " + mix_name, 1);
 	set_msg("Reading " + mix_name);
 	if (mix_name.find(" - ") == string::npos)
 		m_mix_list[m_mix_list.size()] = mix_name;
@@ -405,12 +404,12 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 			}
 		}
 	}
-	xcc_log::write_line("do_mixs ends");
+	xcc_log::write_line("do_mixs ends", -1);
 }
 
 void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 {
-	xcc_log::write_line("find_mixs starts: " + dir);
+	xcc_log::write_line("find_mixs starts: " + dir, 1);
 	if (!dir.empty())
 	{
 		WIN32_FIND_DATA fd;
@@ -424,13 +423,14 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				{
 					const string fname = to_lower(fd.cFileName);
-					xcc_log::write_line("\tfinds: " + fname);
+					xcc_log::write_line("finds: " + fname, 1);
 					Cmix_file f;
 					if (!f.open(dir + fname))
 					{
 						do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, mix_parent), pal_list_create_map(fname, pal_parent));
 						f.close();
 					}
+					xcc_log::indent(-1);
 				}
 			}
 			while (FindNextFile(findhandle, &fd));
@@ -439,43 +439,8 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 	}
 	m_mix_i[game] = m_mix_list.size();
 	m_pal_i[game] = m_pal_list.size();
-	xcc_log::write_line("find_mixs ends: ");
+	xcc_log::write_line("find_mixs ends", -1);
 }
-
-/*
-void CMainFrame::find_paks(const string& dir, t_game game)
-{
-	xcc_log::write_line("find_paks starts: " + dir);
-	if (!dir.empty())
-	{
-		WIN32_FIND_DATA fd;
-		HANDLE findhandle = FindFirstFile((dir + "*.pak").c_str(), &fd);
-		if (findhandle != INVALID_HANDLE_VALUE)
-		{
-			int parent = pal_list_create_map(game_name[game], -1);
-			do
-			{
-				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				{
-					const string fname = to_lower(fd.cFileName);
-					xcc_log::write_line("\tfinds: " + fname);
-					Cmix_file f;
-					if (!f.open(dir + fname))
-					{
-						do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, parent), pal_list_create_map(fname, parent));
-						f.close();
-					}
-				}
-			}
-			while (FindNextFile(findhandle, &fd));
-			FindClose(findhandle);
-		}
-	}
-	m_mix_i[game] = m_mix_list.size();
-	m_pal_i[game] = m_pal_list.size();
-	xcc_log::write_line("find_paks ends: ");
-}
-*/
 
 typedef map<string, int> t_sort_list;
 
@@ -566,7 +531,7 @@ void CMainFrame::initialize_lists()
 	find_mixs(xcc_dirs::get_dune2_dir(), game_dune2, "*.pak");
 	find_mixs(xcc_dirs::get_dune2000_dir(), game_dune2000, "*.mix");
 	find_mixs(xcc_dirs::get_ra2_dir(), game_ra2, "*.mix");
-	// find_mixs("", game_ra2_yr, "");
+	find_mixs("", game_ra2_yr, "");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dat");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dbs");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.mix");

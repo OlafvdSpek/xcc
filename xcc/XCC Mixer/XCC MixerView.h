@@ -26,7 +26,7 @@ struct t_index_entry
 	int size;
 };
 
-typedef map<int, t_index_entry, less<int> > t_index;
+typedef map<int, t_index_entry> t_index;
 typedef vector<int> t_index_selected;
 typedef stack<Cmix_file*> t_location;
 
@@ -40,6 +40,7 @@ public:
 	bool can_copy();
 	bool can_copy_as(t_file_type ft);
 	bool can_delete();
+	bool can_edit() const;
 	void clear_list();
 	void close_all_locations();
 	void close_location(int reload);
@@ -110,6 +111,7 @@ protected:
 // Generated message map functions
 protected:
 	afx_msg void OnContextMenu(CWnd*, CPoint point);
+	afx_msg void OnFileFound(dword ID);
 	//{{AFX_MSG(CXCCMixerView)
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileClose();
@@ -121,7 +123,6 @@ protected:
 	afx_msg void OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnPopupExtract();
 	afx_msg void OnUpdatePopupExtract(CCmdUI* pCmdUI);
-	afx_msg void OnFileFound(dword ID);
 	afx_msg void OnPopupCopy();
 	afx_msg void OnUpdatePopupCopy(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsAUD();
@@ -199,14 +200,18 @@ protected:
 	afx_msg void OnPopupExplore();
 	afx_msg void OnUpdatePopupExplore(CCmdUI* pCmdUI);
 	afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDropFiles(HDROP hDropInfo);
+	afx_msg void OnPopupCompact();
+	afx_msg void OnUpdatePopupCompact(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	string m_dir;
 	t_index m_index;
 	t_index_selected m_index_selected;
-	t_location	m_location;
-	Cmix_file*	m_mix_f;
+	t_location m_location;
+	Cmix_file* m_mix_f;
+	string m_mix_fname;
 	CXCCFileView* m_file_view_pane;
 	CXCCMixerView* m_other_pane;
 	t_game m_game;
