@@ -95,6 +95,7 @@ BEGIN
 
         MENUITEM "Enable compression",          ID_CONVERSION_ENABLE_COMPRESSION
 
+        MENUITEM "Fix shadows",                 ID_CONVERSION_FIX_SHADOWS
         MENUITEM "Split shadows",               ID_CONVERSION_SPLIT_SHADOWS
     END
     POPUP "&View"

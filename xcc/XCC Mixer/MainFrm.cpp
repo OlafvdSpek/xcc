@@ -140,6 +140,8 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_LAUNCH_XSTE_GR_ZH, OnLaunchXSTE_GR_ZH)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE_GR_ZH, OnUpdateLaunchXSTE_GR_ZH)
 	ON_COMMAND(ID_LAUNCH_XSTE_OPEN, OnLaunchXSTE_Open)
+	ON_COMMAND(ID_CONVERSION_FIX_SHADOWS, OnConversionFixShadows)
+	ON_UPDATE_COMMAND_UI(ID_CONVERSION_FIX_SHADOWS, OnUpdateConversionFixShadows)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -169,6 +171,7 @@ CMainFrame::CMainFrame()
 
 	m_combine_shadows = AfxGetApp()->GetProfileInt(m_reg_key, "combine_shadows", false);
 	m_enable_compression = AfxGetApp()->GetProfileInt(m_reg_key, "enable_compression", true);
+	m_fix_shadows = false;
 	m_palet_i = AfxGetApp()->GetProfileInt(m_reg_key, "palet_i", -1);
 	m_split_shadows = AfxGetApp()->GetProfileInt(m_reg_key, "split_shadows", false);
 	m_use_palet_for_conversion = AfxGetApp()->GetProfileInt(m_reg_key, "use_palet_for_conversion", false);
@@ -757,6 +760,16 @@ void CMainFrame::OnConversionCombineShadows()
 void CMainFrame::OnUpdateConversionCombineShadows(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_combine_shadows);
+}
+
+void CMainFrame::OnConversionFixShadows() 
+{
+	m_fix_shadows = !m_fix_shadows;	
+}
+
+void CMainFrame::OnUpdateConversionFixShadows(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_fix_shadows);
 }
 
 void CMainFrame::OnConversionSplitShadows() 
@@ -1451,3 +1464,4 @@ void CMainFrame::OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_file_info_pane->can_auto_select());
 }
+

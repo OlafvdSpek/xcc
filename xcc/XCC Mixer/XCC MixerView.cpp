@@ -1519,6 +1519,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	const bool convert_from_ra = GetMainFrame()->convert_from_ra();
 	const bool convert_shadow = GetMainFrame()->split_shadows();
 	const bool enable_compression = GetMainFrame()->enable_compression();
+	const bool fix_shadows = GetMainFrame()->fix_shadows();
 	// const bool remap_team_colors = GetMainFrame()->remap_team_colors();
 	int cx;
 	int cy;
