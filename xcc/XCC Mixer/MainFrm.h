@@ -72,6 +72,11 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 
+	bool combine_shadows() const
+	{
+		return m_combine_shadows;
+	}
+
 	bool convert_from_td() const
 	{
 		return m_convert_from_td;
@@ -80,6 +85,11 @@ public:
 	bool convert_from_ra() const
 	{
 		return m_convert_from_ra;
+	}
+
+	bool enable_compression() const
+	{
+		return m_enable_compression;
 	}
 
 	bool remap_team_colors() const
@@ -108,8 +118,10 @@ protected:  // control bar embedded members
 	int m_pal_i[6];
 	t_mix_list m_mix_list;
 	t_pal_list m_pal_list;
+	bool m_combine_shadows;
 	bool m_convert_from_td;
 	bool m_convert_from_ra;
+	bool m_enable_compression;
 	bool m_remap_team_colors;
 	bool m_split_shadows;
 	bool m_use_palet_for_conversion;
@@ -120,6 +132,7 @@ protected:  // control bar embedded members
 	CStatusBar m_wndStatusBar;
 	LPDIRECTDRAW m_dd;
 	LPDIRECTSOUND m_ds;
+	CString m_reg_key;
 
 // Generated message map functions
 protected:
@@ -137,8 +150,6 @@ protected:
 	afx_msg void OnUpdateViewGameAuto(CCmdUI* pCmdUI);
 	afx_msg void OnViewPaletAuto();
 	afx_msg void OnUpdateViewPaletAuto(CCmdUI* pCmdUI);
-	afx_msg void OnViewPalet(dword ID);
-	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
 	afx_msg void OnViewPaletPrev();
 	afx_msg void OnViewPaletNext();
 	afx_msg void OnViewPaletUseForConversion();
@@ -158,8 +169,6 @@ protected:
 	afx_msg void OnUpdateViewVoxelDepthInformation(CCmdUI* pCmdUI);
 	afx_msg void OnConversionSplitShadows();
 	afx_msg void OnUpdateConversionSplitShadows(CCmdUI* pCmdUI);
-	afx_msg void OnConversionRemapTeamColors();
-	afx_msg void OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI);
 	afx_msg void OnInternetGeniusSite();
 	afx_msg void OnUtilitiesXccAvPlayer();
 	afx_msg void OnUpdateUtilitiesXccAvPlayer(CCmdUI* pCmdUI);
@@ -199,7 +208,24 @@ protected:
 	afx_msg void OnUpdateLaunchXSTE(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSE();
 	afx_msg void OnUpdateLaunchXSE(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchFA();
+	afx_msg void OnUpdateLaunchFA(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchRAGE();
+	afx_msg void OnUpdateLaunchRAGE(CCmdUI* pCmdUI);
+	afx_msg void OnConversionEnableCompression();
+	afx_msg void OnUpdateConversionEnableCompression(CCmdUI* pCmdUI);
+	afx_msg void OnDestroy();
+	afx_msg void OnLaunchXTW_TS();
+	afx_msg void OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXTW_RA2();
+	afx_msg void OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI);
+	afx_msg void OnConversionCombineShadows();
+	afx_msg void OnUpdateConversionCombineShadows(CCmdUI* pCmdUI);
 	//}}AFX_MSG
+	afx_msg void OnViewPalet(dword ID);
+	afx_msg void OnConversionRemapTeamColors();
+	afx_msg void OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI);
+	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
 };
 

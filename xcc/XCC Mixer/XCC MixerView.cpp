@@ -20,6 +20,8 @@
 #include "cps_file.h"
 #include "extract_object.h"
 #include "hva_file.h"
+#include "ima_adpcm_wav_decode.h"
+#include "ima_adpcm_wav_encode.h"
 #include "image_tools.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
@@ -40,6 +42,7 @@
 #include "vqa_file.h"
 #include "vxl_file.h"
 #include "wav_file.h"
+#include "wav_structures.h"
 #include "wsa_dune2_file.h"
 #include "wsa_file.h"
 #include "xif_file.h"
@@ -81,8 +84,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PCX, OnUpdatePopupCopyAsPCX)
 	ON_COMMAND(ID_POPUP_COPY_AS_SHP, OnPopupCopyAsSHP)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_SHP, OnUpdatePopupCopyAsSHP)
-	ON_COMMAND(ID_POPUP_COPY_AS_WAV, OnPopupCopyAsWAV)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV, OnUpdatePopupCopyAsWAV)
 	ON_COMMAND(ID_POPUP_COPY_AS_WSA, OnPopupCopyAsWSA)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WSA, OnUpdatePopupCopyAsWSA)
 	ON_COMMAND(ID_POPUP_DELETE, OnPopupDelete)
@@ -127,6 +128,10 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_IMPORT_INTO_RA2, OnUpdatePopupImportIntoRa2)
 	ON_COMMAND(ID_POPUP_COPY_AS_PNG, OnPopupCopyAsPNG)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PNG, OnUpdatePopupCopyAsPNG)
+	ON_COMMAND(ID_POPUP_COPY_AS_WAV_IMA_ADPCM, OnPopupCopyAsWavImaAdpcm)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV_IMA_ADPCM, OnUpdatePopupCopyAsWavImaAdpcm)
+	ON_COMMAND(ID_POPUP_COPY_AS_WAV_PCM, OnPopupCopyAsWavPcm)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_WAV_PCM, OnUpdatePopupCopyAsWavPcm)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -135,15 +140,6 @@ END_MESSAGE_MAP()
 
 CXCCMixerView::CXCCMixerView()
 {
-	char dir[MAX_PATH];
-	if (GetCurrentDirectory(MAX_PATH, dir))
-	{
-		Cfname fn = dir;
-		fn.make_path();
-		m_dir = fn.get_all();;
-	}
-	else
-		m_dir = "c:\\";
 	m_mix_f = NULL;
 }
 
@@ -170,6 +166,16 @@ static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_R
 
 void CXCCMixerView::OnInitialUpdate()
 {
+	char dir[MAX_PATH];
+	if (GetCurrentDirectory(MAX_PATH, dir))
+	{
+		Cfname fn = dir;
+		fn.make_path();
+		m_dir = fn.get_all();;
+	}
+	else
+		m_dir = "c:\\";
+	m_dir = AfxGetApp()->GetProfileString(m_reg_key, "path", m_dir.c_str());
 	CListView::OnInitialUpdate();
 	ListView_SetExtendedListViewStyle(m_hWnd, ListView_GetExtendedListViewStyle(m_hWnd) | LVS_EX_FULLROWSELECT);
 	LV_COLUMN lvc;
@@ -462,7 +468,6 @@ static CMainFrame* GetMainFrame()
 	return static_cast<CMainFrame*>(AfxGetMainWnd());
 }
 
-
 void CXCCMixerView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
@@ -472,6 +477,7 @@ void CXCCMixerView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CXCCMixerView::OnDestroy()
 {
+	AfxGetApp()->WriteProfileString(m_reg_key, "path", m_dir.c_str());	
 	close_all_locations();
 }
 
@@ -641,13 +647,18 @@ string CXCCMixerView::get_dir() const
 	return m_dir;
 }
 
+void CXCCMixerView::set_reg_key(const string& v)
+{
+	m_reg_key = v.c_str();
+}
+
 static bool can_convert(t_file_type s, t_file_type d)
 {
 	switch (s)
 	{
 	case ft_aud:
 	case ft_voc:
-		return d == ft_wav;
+		return d == ft_wav_pcm;
 	case ft_cps:
 	case ft_shp_dune2:
 	case ft_tmp_ra:
@@ -670,11 +681,11 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_text:
 		return d == ft_hva;
 	case ft_vqa:
-		return d == ft_avi || d == ft_pcx  || d == ft_png || d == ft_wav;
+		return d == ft_avi || d == ft_pcx  || d == ft_png || d == ft_wav_pcm;
 	case ft_vxl:
 		return d == ft_pcx || d == ft_xif;
 	case ft_wav:
-		return d == ft_aud;
+		return d == ft_aud || d == ft_wav_ima_adpcm || d == ft_wav_pcm;
 	case ft_xif:
 		return d == ft_html || d == ft_vxl;
 	}
@@ -704,7 +715,7 @@ bool CXCCMixerView::can_delete()
 
 bool CXCCMixerView::can_copy_as(t_file_type ft)
 {
-	if (!can_copy())
+	if (!can_copy() || m_index_selected.empty())
 		return false;
 	for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
 	{
@@ -788,8 +799,11 @@ void CXCCMixerView::copy_as(t_file_type ft) const
 		case ft_vxl:
 			error = copy_as_vxl(*i, fname);
 			break;
-		case ft_wav:
-			error = copy_as_wav(*i, fname);
+		case ft_wav_ima_adpcm:
+			error = copy_as_wav_ima_adpcm(*i, fname);
+			break;
+		case ft_wav_pcm:
+			error = copy_as_wav_pcm(*i, fname);
 			break;
 		case ft_xif:
 			error = copy_as_xif(*i, fname);
@@ -898,7 +912,7 @@ int CXCCMixerView::copy_as_avi(int i, Cfname fname) const
 	error = open_f_index(f, i);
 	if (!error)
 	{
-		error =  f.extract_as_avi(fname);
+		error =  f.extract_as_avi(fname, AfxGetMainWnd()->GetSafeHwnd());
 		f.close();
 	}
 	return error;
@@ -1101,7 +1115,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 {
 	int error = 0;
 	fname.set_ext(ft == ft_png ? ".png" : ".pcx");
-	switch  (m_index.find(get_id(i))->second.ft)
+	switch (m_index.find(get_id(i))->second.ft)
 	{
 	case ft_cps:
 		{
@@ -1153,7 +1167,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			error = open_f_index(f, i);
 			if (!error)
 			{
-				error = f.extract_as_pcx(fname, ft, get_default_palet());
+				error = f.extract_as_pcx(fname, ft, get_default_palet(), GetMainFrame()->combine_shadows());
 				f.close();
 			}
 			break;
@@ -1228,12 +1242,30 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 	return error;
 }
 
-static int get_index_from_name(const string& base_name, Cfname fname)
+static string get_base_name(const string& fname)
 {
-	const string t = fname.get_ftitle();
-	if (t.length() < 5 || t.substr(0, t.length() - 5) != base_name)
+	string t = Cfname(fname).get_ftitle();
+	int p = -1;
+	for (int i = 0; i < t.length(); i++)
+	{
+		if (!isdigit(t[i]))
+			p = i;
+	}
+	return t.substr(0, p);
+}
+
+static int get_index_from_name(const string& base_name, const string& fname)
+{
+	string t = Cfname(fname).get_ftitle();
+	if (t.substr(0, base_name.length()) != base_name)
 		return -1;
-	return atoi(t.substr(t.length() - 4, 4).c_str());
+	int p = -1;
+	for (int i = 0; i < t.length(); i++)
+	{
+		if (!isdigit(t[i]))
+			p = i;
+	}
+	return p == base_name.length() && p < t.length() ? atoi(t.substr(p).c_str()) : -1;
 }
 
 static void create_rp(const t_palet s1, const t_palet s2, byte* d, t_game game)
@@ -1263,7 +1295,6 @@ static void create_rp(const t_palet s1, const t_palet s2, byte* d, t_game game)
 
 int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 {
-	string base_name = fname.get_ftitle();
 	int cx;
 	int cy;
 	int c_images;
@@ -1271,10 +1302,9 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 	fname.set_ext(".shp");
 	byte* s = NULL;
 	t_palet s_palet;
-	const string t = fname.get_ftitle();
-	if (t.length() < 5 || t.substr(t.length() - 5, 5) != " 0000")
-		return 1;
-	base_name = t.substr(0, t.length() - 5);
+	string base_name = get_base_name(fname);
+	if (get_index_from_name(base_name, fname))
+		return 0x102;
 	Cpcx_file f;
 	error = open_f_index(f, i);
 	if (!error)
@@ -1284,13 +1314,13 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 		cy = f.get_cy();
 		c_images = 0;
 		f.close();
-		int index[10000];
-		for (int i = 0; i < 10000; i++)
+		int index[1000];
+		for (int i = 0; i < 1000; i++)
 			index[i] = -1;
 		for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 		{
 			int z = get_index_from_name(base_name, j->second.name);
-			if (z != -1)
+			if (z != -1 && z < 1000)
 				index[z] = j->first;
 		}
 		while (i--)
@@ -1306,7 +1336,7 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 			else
 			{
 				if (f.get_cx() != cx || f.get_cy() != cy)
-					error = 0x0100;
+					error = 0x100;
 				else if (f.get_c_planes() != 1)
 					error = 0x101;
 				else if (!error)
@@ -1351,11 +1381,11 @@ int CXCCMixerView::copy_as_shp(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 {
-	string base_name = fname.get_ftitle();
 	const bool convert_from_td = GetMainFrame()->convert_from_td();
 	const bool convert_from_ra = GetMainFrame()->convert_from_ra();
 	const bool convert_shadow = GetMainFrame()->split_shadows();
-	const bool remap_team_colors = GetMainFrame()->remap_team_colors();
+	const bool enable_compression = GetMainFrame()->enable_compression();
+	// const bool remap_team_colors = GetMainFrame()->remap_team_colors();
 	int cx;
 	int cy;
 	int c_images;
@@ -1363,14 +1393,14 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	fname.set_ext(".shp");
 	byte* s = NULL;
 	t_palet s_palet;
-	switch  (m_index.find(get_id(i))->second.ft)
+	string base_name = fname.get_ftitle();
+	switch (m_index.find(get_id(i))->second.ft)
 	{
 	case ft_pcx:
 		{
-			const string t = fname.get_ftitle();
-			if (t.length() < 5 || t.substr(t.length() - 5, 5) != " 0000")
+			base_name = get_base_name(fname);
+			if (get_index_from_name(base_name, fname))
 				return 0x102;
-			base_name = t.substr(0, t.length() - 5);
 			Cpcx_file f;
 			error = open_f_index(f, i);
 			if (!error)
@@ -1386,7 +1416,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 				{
 					int z = get_index_from_name(base_name, j->second.name);
-					if (z != -1)
+					if (z != -1 && z < 10000)
 						index[z] = j->first;
 				}
 				while (i--)
@@ -1402,7 +1432,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 					else
 					{
 						if (f.get_cx() != cx || f.get_cy() != cy)
-							error = 0x0100;
+							error = 0x100;
 						else if (f.get_c_planes() != 1)
 							error = 0x101;
 						else if (!error)
@@ -1489,7 +1519,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		if (!error)
 		{
 			byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + cx * cy) * c_images];
-			const int cb_d = shp_ts_file_write(s, d, cx, cy, c_images);
+			const int cb_d = shp_ts_file_write(s, d, cx, cy, c_images, enable_compression);
 			error = f.write(d, cb_d);
 			delete[] d;
 			f.close();
@@ -1550,14 +1580,13 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".vxl");
-	switch  (m_index.find(get_id(i))->second.ft)
+	switch (m_index.find(get_id(i))->second.ft)
 	{
 	case ft_pcx:
 		{
-			const string t = fname.get_ftitle();
-			if (t.length() < 5 || t.substr(t.length() - 5, 5) != " 0000")
-				return 1;
-			string base_name = t.substr(0, t.length() - 5);
+			string base_name = get_base_name(fname);
+			if (get_index_from_name(base_name, fname))
+				return 0x102;
 			Cpcx_file f;
 			error = open_f_index(f, i);
 			if (!error)
@@ -1573,7 +1602,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 				for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 				{
 					int z = get_index_from_name(base_name, j->second.name);
-					if (z != -1)
+					if (z != -1 && z < 256)
 						index[z] = j->first;
 				}
 				while (i--)
@@ -1658,11 +1687,63 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 	return error;
 }
 
-int CXCCMixerView::copy_as_wav(int i, Cfname fname) const
+int CXCCMixerView::copy_as_wav_ima_adpcm(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".wav");
-	switch  (m_index.find(get_id(i))->second.ft)
+	switch (m_index.find(get_id(i))->second.ft)
+	{
+	case ft_wav:
+		{
+			Cwav_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error = f.process();
+				if (!error)
+				{
+					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+					if (format_chunk.tag != 1 
+						|| format_chunk.c_channels != 1 && format_chunk.c_channels != 2
+						|| format_chunk.cbits_sample != 16)
+						error = 0x100;
+					else
+					{						
+						int cb_s = f.get_data_header().size;
+						byte* s = new byte[cb_s];
+						f.seek(f.get_data_ofs());
+						if (!f.read(s, cb_s))
+						{
+							int c_channels = format_chunk.c_channels;
+							Cima_adpcm_wav_encode encode;
+							encode.load(reinterpret_cast<short*>(s), cb_s, c_channels);
+							int c_samples = encode.c_samples();
+							int cb_audio = encode.cb_data();
+							int cb_d = sizeof(t_wav_ima_adpcm_header) + cb_audio;
+							byte* d = new byte[cb_d];
+							byte* w = d;
+							w += wav_ima_adpcm_file_write_header(w, cb_audio, c_samples, format_chunk.samplerate, c_channels);
+							memcpy(w, encode.data(), cb_audio);
+							error = file32_write(fname, d, cb_d);
+							delete[] d;
+
+						}
+						delete[] s;
+					}
+				}
+				f.close();
+			}
+			break;
+		}
+	}
+	return error;
+}
+
+int CXCCMixerView::copy_as_wav_pcm(int i, Cfname fname) const
+{
+	int error = 0;
+	fname.set_ext(".wav");
+	switch (m_index.find(get_id(i))->second.ft)
 	{
 	case ft_aud:
 		{
@@ -1693,6 +1774,48 @@ int CXCCMixerView::copy_as_wav(int i, Cfname fname) const
 			if (!error)
 			{
 				error =  f.extract_as_wav(fname);
+				f.close();
+			}
+			break;
+		}
+	case ft_wav:
+		{
+			Cwav_file f;
+			error = open_f_index(f, i);
+			if (!error)
+			{
+				error = f.process();
+				if (!error)
+				{
+					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+					if (format_chunk.tag != 0x11 
+						|| format_chunk.c_channels != 1 && format_chunk.c_channels != 2
+						|| format_chunk.cbits_sample != 4)
+						error = 0x100;
+					else
+					{						
+						int cb_s = f.get_data_header().size;
+						byte* s = new byte[cb_s];
+						f.seek(f.get_data_ofs());
+						if (!f.read(s, cb_s))
+						{
+							int c_channels = format_chunk.c_channels;
+							int c_samples = f.get_fact_chunk().c_samples;
+							int cb_audio = c_channels * c_samples << 1;
+							int cb_d = sizeof(t_wav_header) + cb_audio;
+							byte* d = new byte[cb_d];
+							byte* w = d;
+							w += wav_file_write_header(w, c_samples, format_chunk.samplerate, 2, c_channels);
+							Cima_adpcm_wav_decode decode;
+							decode.load(s, cb_s, c_channels, 512 * c_channels);
+							memcpy(w, decode.data(), cb_audio);
+							error = file32_write(fname, d, cb_d);
+							delete[] d;
+
+						}
+						delete[] s;
+					}
+				}
 				f.close();
 			}
 			break;
@@ -1875,14 +1998,24 @@ void CXCCMixerView::OnUpdatePopupCopyAsTMP_TS(CCmdUI* pCmdUI)
 	pCmdUI->Enable(can_copy_as(ft_tmp_ts));
 }
 
-void CXCCMixerView::OnPopupCopyAsWAV()
+void CXCCMixerView::OnPopupCopyAsWavImaAdpcm() 
 {
-	copy_as(ft_wav);
+	copy_as(ft_wav_ima_adpcm);
 }
 
-void CXCCMixerView::OnUpdatePopupCopyAsWAV(CCmdUI* pCmdUI)
+void CXCCMixerView::OnUpdatePopupCopyAsWavImaAdpcm(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(can_copy_as(ft_wav));
+	pCmdUI->Enable(can_copy_as(ft_wav_ima_adpcm));
+}
+
+void CXCCMixerView::OnPopupCopyAsWavPcm() 
+{
+	copy_as(ft_wav_pcm);
+}
+
+void CXCCMixerView::OnUpdatePopupCopyAsWavPcm(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(can_copy_as(ft_wav_pcm));
 }
 
 void CXCCMixerView::OnPopupCopyAsWSA()
@@ -1984,21 +2117,35 @@ void CXCCMixerView::OnUpdatePopupOpenWithFinalsun(CCmdUI* pCmdUI)
 
 void CXCCMixerView::OnPopupPlay()
 {
+	CWaitCursor wait;
+	Ccc_file f(true);
+	if (!open_f_index(f, get_current_index()))
+	{
+		m_xap.ds(GetMainFrame()->get_ds());
+		m_xap.load(f.get_data(), f.get_size());
+		f.close();
+		m_xap.play();
+	}
 }
 
 void CXCCMixerView::OnUpdatePopupPlay(CCmdUI* pCmdUI)
 {
-	int id = get_current_id();
-	if (id != -1)
+	if (!m_xap.busy())
 	{
-		switch (m_index.find(get_current_id())->second.ft)
+		int id = get_current_id();
+		if (id != -1)
 		{
-		case ft_aud:
-			pCmdUI->Enable(static_cast<bool>(GetMainFrame()->get_ds()));
-			return;
-		case ft_vqa:
-			pCmdUI->Enable(GetMainFrame()->get_dd() && GetMainFrame()->get_ds());
-			return;
+			switch (m_index.find(get_current_id())->second.ft)
+			{
+			case ft_aud:
+			case ft_voc:
+			case ft_wav:
+				pCmdUI->Enable(static_cast<bool>(GetMainFrame()->get_ds()));
+				return;
+			case ft_vqa:
+				pCmdUI->Enable(GetMainFrame()->get_dd() && GetMainFrame()->get_ds());
+				return;
+			}
 		}
 	}
 	pCmdUI->Enable(false);

@@ -13,11 +13,12 @@
 /////////////////////////////////////////////////////////////////////////////
 // CXCCObjectExtractorDlg dialog
 
-class CXCCObjectExtractorDlg : public CDialog
+class CXCCObjectExtractorDlg : public ETSLayoutDialog
 {
 // Construction
 public:
 	void add(int j, string name);
+	void set_extract_to_dir(const string& v);
 	CXCCObjectExtractorDlg(t_game game, CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
@@ -28,6 +29,7 @@ public:
 	CString	m_link_title;
 	CString	m_mail;
 	CString	m_name;
+	CString	m_extract_to_edit;
 	//}}AFX_DATA
 
 
@@ -45,11 +47,13 @@ protected:
 	//{{AFX_MSG(CXCCObjectExtractorDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnExtract();
+	afx_msg void OnExtractToButton();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	t_game m_game;
 	Cextract_object m_extract_object;
+	CString m_reg_key;
 };
 
 //{{AFX_INSERT_LOCATION}}

@@ -18,9 +18,11 @@
 #include "searchfiledlg.h"
 #include "string_conversion.h"
 #include "theme_ts_ini_reader.h"
+#include "wav_file.h"
 #include "xcc_dirs.h"
 #include "xcc_log.h"
 #include "xccobjectextractordlg.h"
+#include "xste.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -96,8 +98,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_RA2, OnUpdateLaunchRA2)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_TD, OnUpdateLaunchTD)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_TS, OnUpdateLaunchTS)
-	ON_COMMAND(ID_LAUNCH_XCC_THEME_WRITER, OnLaunchXccThemeWriter)
-	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XCC_THEME_WRITER, OnUpdateLaunchXccThemeWriter)
 	ON_COMMAND(ID_FILE_SEARCH, OnFileSearch)
 	ON_COMMAND(ID_FILE_CREATE_SFL, OnFileCreateSFL)
 	ON_COMMAND(ID_LAUNCH_XOE_RA2, OnLaunchXOE_RA2)
@@ -108,6 +108,19 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSTE, OnUpdateLaunchXSTE)
 	ON_COMMAND(ID_LAUNCH_XSE, OnLaunchXSE)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE, OnUpdateLaunchXSE)
+	ON_COMMAND(ID_LAUNCH_FA, OnLaunchFA)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_FA, OnUpdateLaunchFA)
+	ON_COMMAND(ID_LAUNCH_RAGE, OnLaunchRAGE)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_RAGE, OnUpdateLaunchRAGE)
+	ON_COMMAND(ID_CONVERSION_ENABLE_COMPRESSION, OnConversionEnableCompression)
+	ON_UPDATE_COMMAND_UI(ID_CONVERSION_ENABLE_COMPRESSION, OnUpdateConversionEnableCompression)
+	ON_WM_DESTROY()
+	ON_COMMAND(ID_LAUNCH_XTW_TS, OnLaunchXTW_TS)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_TS, OnUpdateLaunchXTW_TS)
+	ON_COMMAND(ID_LAUNCH_XTW_RA2, OnLaunchXTW_RA2)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XTW_RA2, OnUpdateLaunchXTW_RA2)
+	ON_COMMAND(ID_CONVERSION_COMBINE_SHADOWS, OnConversionCombineShadows)
+	ON_UPDATE_COMMAND_UI(ID_CONVERSION_COMBINE_SHADOWS, OnUpdateConversionCombineShadows)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -128,13 +141,21 @@ CMainFrame::CMainFrame()
 	m_convert_from_ra = false;
 	m_dd = NULL;
 	m_ds = NULL;
+	m_enable_compression = true;
 	m_remap_team_colors = false;
-	m_split_shadows = false;
+	m_combine_shadows = m_split_shadows = false;
 	m_game = static_cast<t_game>(-1);
 	m_lists_initialized = false;
 	m_palet_i = -1;
+	m_reg_key = "MainFrame";
 	m_vxl_mode = 0;
 	m_use_palet_for_conversion = false;
+
+	m_combine_shadows = AfxGetApp()->GetProfileInt(m_reg_key, "combine_shadows", false);
+	m_enable_compression = AfxGetApp()->GetProfileInt(m_reg_key, "enable_compression", true);
+	m_palet_i = AfxGetApp()->GetProfileInt(m_reg_key, "palet_i", -1);
+	m_split_shadows = AfxGetApp()->GetProfileInt(m_reg_key, "split_shadows", false);
+	m_use_palet_for_conversion = AfxGetApp()->GetProfileInt(m_reg_key, "use_palet_for_conversion", false);
 }
 
 CMainFrame::~CMainFrame()
@@ -215,7 +236,12 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_left_mix_pane->set_other_panes(m_file_info_pane, m_right_mix_pane);
 	m_right_mix_pane->set_other_panes(m_file_info_pane, m_left_mix_pane);
 
+	m_left_mix_pane->set_reg_key("left_mix_pame");
+	m_right_mix_pane->set_reg_key("right_mix_pame");
+
 	SetActiveView(reinterpret_cast<CView*>(m_left_mix_pane));
+
+	initialize_lists();
 
 	return true;
 }
@@ -422,13 +448,8 @@ void CMainFrame::OnUpdateViewPaletUpdate(CCmdUI* pCmdUI)
 			CMenu sub_menu;
 			sub_menu.CreatePopupMenu();
 			t_sort_list sort_list;
-			while (j < m_pal_i[i])
-			{
-				sort_list[m_pal_list[j].name] = j;
-				j++;
-			}
-			for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
-				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL00 + l->second, l->first.c_str());
+			for (; j < m_pal_i[i]; j++)
+				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL00 + j, m_pal_list[j].name.c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
@@ -455,6 +476,23 @@ void CMainFrame::initialize_lists()
 	find_paks(xcc_dirs::get_dune2_dir(), game_dune2);
 	find_mixs(xcc_dirs::get_dune2000_dir(), game_dune2000);
 	find_mixs(xcc_dirs::get_ra2_dir(), game_ra2);
+
+	t_pal_list pal_list = m_pal_list;
+	m_pal_list.clear();
+	int j = 0;
+	int k = 0;
+	for (int i = 0; i < 6; i++)
+	{
+		t_sort_list sort_list;
+		while (j < m_pal_i[i])
+		{
+			sort_list[pal_list[j].name] = j;
+			j++;
+		}
+		for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
+			m_pal_list[k++] = pal_list.find(l->second)->second;
+	}
+
 	Cmix_file f1, f2;
 	Cpal_file pal_f;
 	if (!f1.open("temperat.mix"))
@@ -492,6 +530,8 @@ void CMainFrame::initialize_lists()
 		}
 		f1.close();
 	}
+	if (m_palet_i >= m_pal_list.size())
+		m_palet_i = -1;
 	m_lists_initialized = true;
 	xcc_log::write_line("initialize_lists ends");
 }
@@ -654,6 +694,16 @@ void CMainFrame::OnUpdateViewVoxelDepthInformation(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_vxl_mode == 2);
 }
 
+void CMainFrame::OnConversionCombineShadows() 
+{
+	m_combine_shadows = !m_combine_shadows;	
+}
+
+void CMainFrame::OnUpdateConversionCombineShadows(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_combine_shadows);
+}
+
 void CMainFrame::OnConversionSplitShadows() 
 {
 	m_split_shadows = !m_split_shadows;	
@@ -662,6 +712,16 @@ void CMainFrame::OnConversionSplitShadows()
 void CMainFrame::OnUpdateConversionSplitShadows(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_split_shadows);
+}
+
+void CMainFrame::OnConversionEnableCompression() 
+{
+	m_enable_compression = !m_enable_compression;	
+}
+
+void CMainFrame::OnUpdateConversionEnableCompression(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_enable_compression);
 }
 
 void CMainFrame::OnConversionRemapTeamColors() 
@@ -712,6 +772,11 @@ void CMainFrame::open_ds()
 	assert(!m_ds);
     dsr = DirectSoundCreate(NULL, &m_ds, NULL);
 	xcc_log::write_line("DirectSoundCreate returned " + nh(8, dsr));
+	if (m_ds)
+	{
+		dsr = m_ds->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL);
+		xcc_log::write_line("SetCooperativeLevel returned " + nh(8, dsr));
+	}
 }
 
 void CMainFrame::close_ds()
@@ -773,6 +838,11 @@ void CMainFrame::OnUtilitiesFS()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_fs_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
+void CMainFrame::OnLaunchFA() 
+{
+	ShellExecute(m_hWnd, NULL, GetApp()->get_fa_exe().c_str(), NULL, NULL, SW_SHOW);
+}
+
 void CMainFrame::OnUtilitiesSE() 
 {
 	ShellExecute(m_hWnd, NULL, GetApp()->get_se_exe().c_str(), NULL, NULL, SW_SHOW);
@@ -783,9 +853,20 @@ void CMainFrame::OnUtilitiesSEMM()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_semm_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
+
+void CMainFrame::OnLaunchRAGE() 
+{
+	ShellExecute(m_hWnd, NULL, GetApp()->get_rage_exe().c_str(), NULL, NULL, SW_SHOW);
+}
+
 void CMainFrame::OnUpdateUtilitiesFS(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_fs_available());
+}
+
+void CMainFrame::OnUpdateLaunchFA(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(GetApp()->is_fa_available());
 }
 
 void CMainFrame::OnUpdateUtilitiesSE(CCmdUI* pCmdUI) 
@@ -798,6 +879,10 @@ void CMainFrame::OnUpdateUtilitiesSEMM(CCmdUI* pCmdUI)
 	pCmdUI->Enable(GetApp()->is_semm_available());
 }
 
+void CMainFrame::OnUpdateLaunchRAGE(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(GetApp()->is_rage_available());
+}
 
 void CMainFrame::OnLaunchDune2() 
 {
@@ -902,7 +987,6 @@ void CMainFrame::OnLaunchXccThemeWriter()
 									{
 										Ctheme_data e;
 										e.name(Cfname(fd.cFileName).get_ftitle());
-										e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
 										theme_list[to_upper(Cfname(b).get_ftitle())] = e;
 									}
 									f.close();
@@ -1090,3 +1174,195 @@ void CMainFrame::OnUpdateLaunchXSE(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
 }
+
+void CMainFrame::OnDestroy() 
+{
+	AfxGetApp()->WriteProfileInt(m_reg_key, "combine_shadows", m_combine_shadows);
+	AfxGetApp()->WriteProfileInt(m_reg_key, "enable_compression", m_enable_compression);
+	AfxGetApp()->WriteProfileInt(m_reg_key, "palet_i", m_palet_i);
+	AfxGetApp()->WriteProfileInt(m_reg_key, "split_shadows", m_split_shadows);
+	AfxGetApp()->WriteProfileInt(m_reg_key, "use_palet_for_conversion", m_use_palet_for_conversion);
+	CFrameWnd::OnDestroy();
+}
+
+void CMainFrame::OnLaunchXTW_TS() 
+{
+	Cmix_file tibsun;
+	if (!tibsun.open("tibsun.mix"))
+	{
+		Cmix_file local;
+		if (!local.open("local.mix", tibsun))
+		{
+			Ccc_file theme(true);
+			if (!theme.open("theme.ini", local))
+			{
+				Ctheme_ts_ini_reader ir;
+				if (!ir.process(theme.get_data(), theme.get_size()))
+				{
+					t_theme_list theme_list = ir.get_theme_list();
+					string dir = xcc_dirs::get_ts_dir();
+					WIN32_FIND_DATA fd;
+					HANDLE findhandle = FindFirstFile((dir + "*.aud").c_str(), &fd);
+					if (findhandle != INVALID_HANDLE_VALUE)
+					{
+						do
+						{
+							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+							{
+								const string fname = dir + fd.cFileName;
+								Caud_file f;
+								if (!f.open(fname))
+								{
+									char b[MAX_PATH];
+									int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+									if (error > 0 && error < MAX_PATH)
+									{
+										Ctheme_data e;
+										e.name(Cfname(fd.cFileName).get_ftitle());
+										e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
+										theme_list[to_upper(Cfname(b).get_ftitle())] = e;
+									}
+									f.close();
+								}
+							}
+						}
+						while (FindNextFile(findhandle, &fd));
+						FindClose(findhandle);
+					}
+					ofstream g((dir + "theme.ini").c_str());
+					g << "[Themes]" << endl;
+					// "1=INTRO" << endl;
+					int j = 51;
+					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
+						g << n(j++) << '=' << to_upper(i->first) << endl;
+					g << endl;
+					for (i = theme_list.begin(); i != theme_list.end(); i++)
+					{
+						const Ctheme_data& e = i->second;
+						g << '[' << to_upper(i->first) << ']' << endl
+							<< "Name=" << e.name() << endl;
+						if (e.normal())
+							g << "Length=" << e.length() << endl;
+						if (!e.normal())
+							g << "Normal=no" << endl;
+						if (e.scenario())
+							g << "Scenario=" <<  n(e.scenario()) << endl;
+						if (!e.side().empty())
+							g << "Side=" <<  e.side() << endl;
+						if (e.repeat())
+							g << "Repeat=yes" << endl;
+						g << endl;
+					}
+					if (g.fail())
+						MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
+					else
+						MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
+				}
+				theme.close();
+			}
+			local.close();
+		}
+		tibsun.close();
+	}
+}
+
+void CMainFrame::OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!xcc_dirs::get_ts_dir().empty());	
+}
+
+void CMainFrame::OnLaunchXTW_RA2() 
+{
+	Cmix_file ra2;
+	if (!ra2.open("ra2.mix"))
+	{
+		Cmix_file local;
+		if (!local.open("local.mix", ra2))
+		{
+			Ccc_file theme(true);
+			if (!theme.open("theme.ini", local))
+			{
+				Ctheme_ts_ini_reader ir;
+				if (!ir.process(theme.get_data(), theme.get_size()))
+				{
+					t_theme_list theme_list = ir.get_theme_list();
+					string dir = xcc_dirs::get_ra2_dir();
+					WIN32_FIND_DATA fd;
+					HANDLE findhandle = FindFirstFile((dir + "*.wav").c_str(), &fd);
+					if (findhandle != INVALID_HANDLE_VALUE)
+					{
+						CXSTE xste;
+						bool xste_open = !xste.open();
+						do
+						{
+							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+							{
+								const string fname = dir + fd.cFileName;
+								Cwav_file f;
+								if (!f.open(fname))
+								{
+									if (!f.process())
+									{
+										char b[MAX_PATH];
+										int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+										if (error > 0 && error < MAX_PATH)
+										{
+											Ctheme_data e;
+											e.name("THEME:" + Cfname(b).get_ftitle());
+											e.sound(Cfname(b).get_ftitle());
+											theme_list[to_upper(Cfname(b).get_ftitle())] = e;
+											if (xste_open)
+												xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
+
+										}
+									}
+									f.close();
+								}
+							}
+						}
+						while (FindNextFile(findhandle, &fd));
+						if (xste_open)
+						{
+							xste.write();
+							xste.close();
+						}
+						FindClose(findhandle);
+					}
+					ofstream g((dir + "theme.ini").c_str());
+					g << "[Themes]" << endl;
+					int j = 51;
+					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
+						g << n(j++) << '=' << to_upper(i->first) << endl;
+					g << endl;
+					for (i = theme_list.begin(); i != theme_list.end(); i++)
+					{
+						const Ctheme_data& e = i->second;
+						g << '[' << to_upper(i->first) << ']' << endl;
+						if (!e.name().empty())
+							g << "Name=" << e.name() << endl;
+						if (!e.normal())
+							g << "Normal=no" << endl;
+						if (e.repeat())
+							g << "Repeat=yes" << endl;
+						if (!e.sound().empty())
+							g << "Sound=" << e.sound() << endl;
+						g << endl;
+					}
+					if (g.fail())
+						MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
+					else
+						MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
+				}
+				theme.close();
+			}
+			local.close();
+		}
+		ra2.close();
+	}
+}
+
+void CMainFrame::OnUpdateLaunchXTW_RA2(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(!xcc_dirs::get_ra2_dir().empty());	
+}
+

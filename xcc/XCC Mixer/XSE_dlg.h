@@ -14,6 +14,7 @@
 #include "csf_file.h"
 #include "file32.h"
 #include "XSE_list.h"
+#include "xap.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CXSE_dlg dialog
@@ -26,6 +27,7 @@ public:
 	void set_extract_to_dir(const string& v);
 	void add_file(const string& name);
 	void check_selection();
+	int get_bag_size() const;
 	int get_current_index();
 	int get_free_id();
 	int insert(int i);
@@ -37,6 +39,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CXSE_dlg)
 	enum { IDD = IDD_XSE };
+	CButton	m_compact;
 	CXSE_list	m_list;
 	CButton	m_play;
 	CButton	m_extract;
@@ -59,7 +62,6 @@ protected:
 	//{{AFX_MSG(CXSE_dlg)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
-	virtual void OnCancel();
 	afx_msg void OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnExtract();
 	afx_msg void OnDelete();
@@ -67,6 +69,8 @@ protected:
 	afx_msg void OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnExtractToButton();
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDestroy();
+	afx_msg void OnPlay();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
@@ -94,6 +98,8 @@ private:
 	t_reverse_csf_map m_reverse_csf_map;
 	int m_sort_column;
 	bool m_sort_reverse;
+	LPDIRECTSOUND m_ds;
+	Cxap m_xap;
 };
 
 //{{AFX_INSERT_LOCATION}}
