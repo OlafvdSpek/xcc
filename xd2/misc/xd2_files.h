@@ -142,6 +142,7 @@ class Cxd2_files
 public:
 	const t_building_type* building_types() const;
 	int c_building_types() const;
+	const Cxd2_image& shape(int i) const;
 	const t_unit_type* unit_types() const;
 	int c_unit_types() const;
 	int load(const Cxif_key_r& key);
@@ -176,6 +177,7 @@ public:
 private:
 	int load_audio_pak(const string& name);
 	int load_pak(const string& name);
+	int process();
 
 	Cxd2_animation_map m_animation_map;
 	Cxd2_audio_map m_audio_map;

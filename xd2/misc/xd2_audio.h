@@ -22,7 +22,7 @@ public:
 
 	const byte* d() const
 	{
-		return m_d.data();
+		return m_d;
 	}
 		
 	int samplerate() const

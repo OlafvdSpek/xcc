@@ -14,18 +14,7 @@ enum
 	SPICE,
 };
 
-#define A 0,0
-#define B 2,0
-#define C 4,0
-#define D 0,2
-#define E 2,2
-#define F 4,2
-#define G 0,4
-#define H 2,4
-#define I 4,4
-
-const int PAIRCOUNT = 21;
-int seed;
+static int seed;
 
 static int random()
 {
@@ -152,6 +141,16 @@ static void balanceMap(byte map[64][64])
    }
 }
 
+#define A 0,0
+#define B 2,0
+#define C 4,0
+#define D 0,2
+#define E 2,2
+#define F 4,2
+#define G 0,4
+#define H 2,4
+#define I 4,4
+
 const int offsets2[] =
 {
 	A,C, C,I, A,G, G,I, A,D, D,G,
@@ -179,7 +178,7 @@ static void spreadMatrix(byte map[64][64])
    {
       for (int x = 0; x < 64; x += 4)
       {
-		 const int* offs = diag ? offsets2 : offsets2 + 4 * PAIRCOUNT;
+		 const int* offs = diag ? offsets2 : offsets2 + 84;
          diag = 1 - diag;
          for (int i = 0; i < 21; i++)
          {

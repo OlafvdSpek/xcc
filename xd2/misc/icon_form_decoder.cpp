@@ -31,7 +31,7 @@ Cicon_form_decoder::Cicon_form_decoder(const Cvirtual_binary& s):
 	m_sset = NULL;
 	m_rpal = NULL;
 	m_rtbl = NULL;
-	do_form_chunk(s.data());
+	do_form_chunk(s);
 	assert(m_sset);
 	assert(m_rpal);
 	assert(m_rtbl);

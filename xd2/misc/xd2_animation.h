@@ -22,7 +22,7 @@ public:
 
 	const byte* d(int i) const
 	{
-		return m_d.data() + cx() * cy() * i;
+		return m_d + cx() * cy() * i;
 	}
 
 	int cf() const
