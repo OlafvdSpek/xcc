@@ -33,39 +33,35 @@ int Cxcl_database::pid(int lid, const string& name)
 	q.p(lid);
 	q.pe(name);
 	q.execute();
-	return mysql_insert_id(&handle());
+	return insert_id();
 }
 
 int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b)
 {
-	int ladder = gsku2lid(gsku) >> 1;;
 	int points_win = 64 * (1 - 1 / (powf(10, static_cast<float>(b.points - a.points) / 400) + 1));
 	int points_loss = min(64 - points_win, a.points / 10);
 	Csql_query q(*this);
 	switch (cmp)
 	{
 	case 0x100:
-		q.write("update xcl_players set win_count = win_count + 1, points = points + %s, points_max = greatest(points_max, points), countries = countries | %s, ladders = ladders | %s where pid = %s");
+		q.write("update xcl_players set win_count = win_count + 1, points = points + %s, points_max = greatest(points_max, points), countries = countries | %s where pid = %s");
 		q.p(points_win);
 		q.p(1 << cty);
-		q.p(ladder);
 		q.p(pid);
 		q.execute();
 		return points_win;
 	case 0x200:
 	case 0x210:
 	case 0x220:
-		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s, ladders = ladders | %s where pid = %s");
+		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s where pid = %s");
 		q.p(points_loss);
 		q.p(1 << cty);
-		q.p(ladder);
 		q.p(pid);
 		q.execute();
 		return -points_loss;
 	}
-	q.write("update xcl_players set countries = countries | %s, ladders = ladders | %s where pid = %s");
+	q.write("update xcl_players set countries = countries | %s where pid = %s");
 	q.p(1 << cty);
-	q.p(ladder);
 	q.p(pid);
 	q.execute();
 	return 0;
@@ -390,14 +386,12 @@ void Cxcl_database::insert_maps()
 		"xyuriplot.map", "Yuri's Plot",
 		NULL
 	};
-	t_key* i = map_names;
-	while (i->name)
+	for (t_key* i = map_names; i->name; i++)
 	{
 		Csql_query q(*this);
 		q.write("insert into xcl_maps (fname, name) values (%s, %s)");
 		q.pe(i->name);
 		q.pe(i->value);
 		q.execute();
-		i++;
 	}
 }
