@@ -44,11 +44,6 @@ string xcc_dirs::get_dune2000_dir()
 	return dune2000_dir;
 }
 
-string xcc_dirs::get_ra2_dir()
-{
-	return ra2_dir;
-}
-
 string xcc_dirs::get_dir(t_game game)
 {
 	switch (game)
@@ -254,16 +249,6 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	}
 }
 
-void xcc_dirs::set_dune2_dir(const string& s)
-{
-	set_path(s, dune2_dir);
-}
-
-void xcc_dirs::set_td_primary_dir(const string& s)
-{
-	set_path(s, td_primary_dir);
-}
-
 void xcc_dirs::set_td_secondary_dir(const string& s)
 {
 	set_path(s, td_secondary_dir);
@@ -277,26 +262,6 @@ void xcc_dirs::set_cd_dir(const string& s)
 void xcc_dirs::set_data_dir(const string& s)
 {
 	set_path(s, data_dir);
-}
-
-void xcc_dirs::set_ra_dir(const string& s)
-{
-	set_path(s, ra_dir);
-}
-
-void xcc_dirs::set_dune2000_dir(const string& s)
-{
-	set_path(s, dune2000_dir);
-}
-
-void xcc_dirs::set_ts_dir(const string& s)
-{
-	set_path(s, ts_dir);
-}
-
-void xcc_dirs::set_ra2_dir(const string& s)
-{
-	set_path(s, ra2_dir);
 }
 
 void xcc_dirs::reset_cd_dir()
@@ -327,13 +292,13 @@ void xcc_dirs::load_from_registry()
 	if (!Cxcc_registry::get_base_key(kh_base))
 	{
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dune2_dir", 0, 0, (byte*)s, &(size = 256)))
-			set_dune2_dir(s);
+			set_dir(game_dune2, s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dir1", 0, 0, (byte*)s, &(size = 256)))
-			set_td_primary_dir(s);
+			set_dir(game_td, s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dir2", 0, 0, (byte*)s, &(size = 256)))
 			set_td_secondary_dir(s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "ra_dir", 0, 0, (byte*)s, &(size = 256)))
-			set_ra_dir(s);
+			set_dir(game_ra, s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "cddir", 0, 0, (byte*)s, &(size = 256)))
 			set_cd_dir(s);
 		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "datadir", 0, 0, (byte*)s, &(size = 256)))
@@ -353,35 +318,35 @@ void xcc_dirs::load_from_registry()
 			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Command & Conquer Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_td_primary_dir(static_cast<Cfname>(s).get_path());
+				set_dir(game_td, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (ra_dir.empty() &&		
 			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_ra_dir(static_cast<Cfname>(s).get_path());
+				set_dir(game_ra, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (dune2000_dir.empty() &&		
 			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Dune 2000", 0, KEY_QUERY_VALUE, &kh_base))
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dune2000_dir(static_cast<Cfname>(s).get_path());
+				set_dir(game_dune2000, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (ts_dir.empty() &&		
 			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Tiberian Sun", 0, KEY_QUERY_VALUE, &kh_base))
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_ts_dir(static_cast<Cfname>(s).get_path());
+				set_dir(game_ts, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (ra2_dir.empty() &&
 			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert 2", 0, KEY_QUERY_VALUE, &kh_base))
 		{
 			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_ra2_dir(static_cast<Cfname>(s).get_path());
+				set_dir(game_ra2, static_cast<Cfname>(s).get_path());
 			RegCloseKey(kh_base);
 		}
 		if (rg_dir.empty() &&		

@@ -35,7 +35,6 @@ public:
 	static string get_csf_fname(t_game game);
 	static string get_dune2_dir();
 	static string get_dune2000_dir();
-	static string get_ra2_dir();
 	static string get_dir(t_game game);
 	static string get_exe(t_game game);
 	static string get_ecache_mix(t_game game, bool dir, int i);
@@ -45,13 +44,7 @@ public:
 	static string get_language_mix(t_game game);
 	static string get_local_mix(t_game game);
 	static string get_main_mix(t_game game);
-	static void set_dune2_dir(const string& s);
-	static void set_td_primary_dir(const string& s);
 	static void set_td_secondary_dir(const string& s);
-	static void set_ra_dir(const string &s);
-	static void set_dune2000_dir(const string& s);
-	static void set_ts_dir(const string &s);
-	static void set_ra2_dir(const string &s);
 	static void set_cd_dir(const string &s);
 	static void set_data_dir(const string &s);
 	static void set_dir(t_game game, const string& s);
@@ -69,11 +62,6 @@ public:
 		m_use_external_files = v;
 	}
 
-	static const string& get_td_primary_dir()
-	{
-		return td_primary_dir;
-	}
-	
 	static const string& get_td_secondary_dir()
 	{
 		return td_secondary_dir;
@@ -87,16 +75,6 @@ public:
 	static const string& get_data_dir()
 	{
 		return data_dir;
-	}
-
-	static const string& get_ra_dir()
-	{
-		return ra_dir;
-	}
-
-	static const string& get_ts_dir()
-	{
-		return ts_dir;
 	}
 };
 

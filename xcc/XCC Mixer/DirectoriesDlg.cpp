@@ -21,9 +21,9 @@ CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 {
 	//{{AFX_DATA_INIT(CDirectoriesDlg)
 	m_edit_dune2 = xcc_dirs::get_dune2_dir().c_str();
-	m_edit_td_primary = xcc_dirs::get_td_primary_dir().c_str();
+	m_edit_td_primary = xcc_dirs::get_dir(game_td).c_str();
 	m_edit_td_secondary = xcc_dirs::get_td_secondary_dir().c_str();
-	m_edit_ra = xcc_dirs::get_ra_dir().c_str();
+	m_edit_ra = xcc_dirs::get_dir(game_ra).c_str();
 	m_edit_dune2000 = xcc_dirs::get_dune2000_dir().c_str();
 	m_edit_ts = xcc_dirs::get_dir(game_ts).c_str();
 	m_edit_ra2 = xcc_dirs::get_dir(game_ra2).c_str();
@@ -63,13 +63,13 @@ END_MESSAGE_MAP()
 void CDirectoriesDlg::OnOK() 
 {
 	CDialog::OnOK();
-	xcc_dirs::set_dune2_dir(static_cast<string>(m_edit_dune2));
-	xcc_dirs::set_td_primary_dir(static_cast<string>(m_edit_td_primary));
+	xcc_dirs::set_dir(game_dune2, static_cast<string>(m_edit_dune2));
+	xcc_dirs::set_dir(game_td, static_cast<string>(m_edit_td_primary));
 	xcc_dirs::set_td_secondary_dir(static_cast<string>(m_edit_td_secondary));
-	xcc_dirs::set_ra_dir(static_cast<string>(m_edit_ra));
-	xcc_dirs::set_dune2000_dir(static_cast<string>(m_edit_dune2000));
-	xcc_dirs::set_ts_dir(static_cast<string>(m_edit_ts));
-	xcc_dirs::set_ra2_dir(static_cast<string>(m_edit_ra2));
+	xcc_dirs::set_dir(game_ra, static_cast<string>(m_edit_ra));
+	xcc_dirs::set_dir(game_dune2000, static_cast<string>(m_edit_dune2000));
+	xcc_dirs::set_dir(game_ts, static_cast<string>(m_edit_ts));
+	xcc_dirs::set_dir(game_ra2, static_cast<string>(m_edit_ra2));
 	xcc_dirs::set_data_dir(static_cast<string>(m_edit_data));
 	xcc_dirs::set_cd_dir(static_cast<string>(m_edit_cd));
 }
