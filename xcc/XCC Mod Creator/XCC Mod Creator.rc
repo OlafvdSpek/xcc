@@ -155,25 +155,12 @@ END
 
 /////////////////////////////////////////////////////////////////////////////
 //
-// Dialog
-//
-
-IDR_MAINFRAME DIALOG DISCARDABLE  0, 0, 330, 16
-STYLE WS_CHILD
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT           "TODO: layout dialog bar ",IDC_STATIC,12,4,300,8
-END
-
-
-/////////////////////////////////////////////////////////////////////////////
-//
 // String Table
 //
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mod Creator 1.14"
+    IDR_MAINFRAME           "XCC Mod Creator 1.15"
     IDR_XCCMODTYPE          "\nXMCF\nXMCF\nXCC Mod Creator Files (*.xmcf)\n.xmcf\nXMCF\nXCC Mod Creator File"
 END
 
