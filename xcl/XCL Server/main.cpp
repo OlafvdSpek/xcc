@@ -36,7 +36,7 @@ void process(const Cvirtual_binary& s)
 			q.pe(get_env("REMOTE_ADDR"));
 			q.execute();
 			Cgame_result gr;
-			if (gr.write(s) && gr.get_int("dura") > 90)
+			if (gr.write(s) && gr.get_int("dura") > 90 && gr.get_int("trny"))
 				database.insert_game(gr);
 		}
 	}
