@@ -770,7 +770,7 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_jpeg:
 	case ft_png:
 	case ft_tga:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
+		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
 	case ft_hva:
 		return d == ft_csv;
 	case ft_pal:
@@ -1042,26 +1042,22 @@ int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".cps");
-	Cpcx_file f;
-	error = open_f_index(f, i);
-	if (!error)
+	Cvirtual_image image;
+	if (error = image.load(get_vdata(i)))
+		return error;
+	if (image.cx() != 320 || image.cy() != 200)
+		return 257;
+	t_palet palet;
+	if (image.palet())
+		memcpy(palet, image.palet(), sizeof(t_palet));
+	else
 	{
-		if (f.cx() != 320 || f.cy() != 200)
-			error = 257;
-		else if (f.get_c_planes() != 1)
-			error = 258;
-		else
-		{
-			Cvirtual_binary s;
-			pcx_decode(f.get_image(), s.write_start(320 * 200), *f.get_header());
-			t_palet palet;
-			memcpy(palet, f.get_palet(), sizeof(t_palet));
-			convert_palet_24_to_18(palet);
-			error = cps_file_write(s, palet).export(fname);
-		}
-		f.close();
+		memcpy(palet, get_default_palet(), sizeof(t_palet));
+		convert_palet_18_to_24(palet);
 	}
-	return error;
+	if (image.cb_pixel() != 1)
+		image.decrease_color_depth(1, palet);
+	return cps_file_write(image.image(), palet).export(fname);
 }
 
 int CXCCMixerView::copy_as_csv(int i, Cfname fname) const
