@@ -478,22 +478,40 @@ function tr12(d, v)
 function t12(v)
 {
 	document.write('<table><tr><td>');
+	var column_totals = new Array();
 	for (h = 0; h < 24; h++)
-		document.write('<th align=right>', h);
-	for (var i = 0; i + 26 <= v.length; i += 26)
 	{
-		if (v[i] == 32)
-			document.write('<tr><th>');
-		else
-			document.write('<tr><th align=right>', v[i]);
-		for (var h = 0; h < 25; h++)
+		column_totals[h] = 0;
+		document.write('<th align=right>', h);
+	}
+	for (var i = 0; i + 25 <= v.length; i += 25)
+	{
+		document.write('<tr><th align=right>', v[i]);
+		var row_total = 0;
+		for (var h = 0; h < 24; h++)
 		{
-			if (v[h + i + 1])
-				document.write('<td align=right>', v[h + i + 1]);
+			var f = v[h + i + 1];
+			column_totals[h] += f;
+			row_total += f;
+			if (f)
+				document.write('<td align=right>', f);
 			else
 				document.write('<td>');
 		}
+		document.write('<td align=right>', row_total);
 	}
+	document.write('<tr><th>');
+	var row_total = 0;
+	for (var h = 0; h < 24; h++)
+	{
+		var f = column_totals[h];
+		row_total += f;
+		if (f)
+			document.write('<td align=right>', f);
+		else
+			document.write('<td>');
+	}
+	document.write('<td align=right>', row_total);
 	document.write('</table>');
 }
 

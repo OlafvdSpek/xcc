@@ -235,22 +235,15 @@
 			printf("%d,%d,", $result['count'], $result['afps']);
 		echo("0));");
 		$games = array();
-		$results = db_query("select * from xcl_stats_time order by d, h");
+		$results = db_query("select * from xcl_stats_time");
 		while ($result = mysql_fetch_assoc($results))
-		{
 			$games[$result['d']][$result['h']] = $result['c'];
-			$games[$result['d']][24] += $result['c'];
-			$games[32][$result['h']] += $result['c'];
-			$games[32][24] += $result['c'];
-		}
 		echo("t12(new Array(");
-		for ($d = 1; $d < 33; $d++)
+		foreach ($games as $d => $hours)
 		{
-			if (!$games[$d][24])
-				continue;
 			printf("%d,", $d);
-			for ($h = 0; $h < 25; $h++)
-				printf("%d,", $games[$d][$h]);
+			for ($h = 0; $h < 24; $h++)
+				printf("%d,", $hours[$h]);
 		}
 		echo("0));");
 	}
