@@ -27,7 +27,7 @@ bool Cbig_file::is_valid()
 	t_big_header header;
 	seek(0);
 	if (read(&header, sizeof(t_big_header))
-		|| header.id != big_id
+		|| header.id != big_id && header.id != big4_id
 		|| header.size != get_size()
 		|| header.c_files() < 0
 		|| header.cb_header() < sizeof(t_big_header))
