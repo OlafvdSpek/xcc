@@ -25,7 +25,7 @@ public:
 
 // Operations
 public:
-	long load(const word* bin, const byte* ini, dword size);
+	long load(const Cvirtual_binary& bin, const Cvirtual_binary& ini);
 // Overrides
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCEditorDoc)

@@ -834,28 +834,28 @@ Cxcc_level::~Cxcc_level()
 {
 }
 
-int Cxcc_level::load(const word* bin, const byte* ini, dword size)
+int Cxcc_level::load(const Cvirtual_binary& bin, const Cvirtual_binary& ini)
 {
 	clear();
-	if (!bin)
-		return load_ini(ini, size, true);
-	if (load_ini(ini, size, false) || load_bin(bin))
+	if (!bin.data())
+		return load_ini(ini, true);
+	if (load_ini(ini, false) || load_bin(bin))
 		return 1;
 	process();
 	return 0;
 }
 
-int Cxcc_level::load_bin(const word* data)
+int Cxcc_level::load_bin(const Cvirtual_binary& data)
 {
-	memcpy(bin_data, data, 8192);
+	memcpy(bin_data, data.data(), 8192);
 	convert_bin(bin_data);
 	return 0;
 }
 
-int Cxcc_level::load_ini(const byte* data, dword size, bool fast)
+int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 {
 	Cvirtual_tfile f;
-	f.load_data(Cvirtual_binary(data, size));
+	f.load_data(data);
 	t_section_id section;
 	bool handle_section = false;
 	int line_i = 0;
@@ -961,20 +961,21 @@ int Cxcc_level::load_ini(const byte* data, dword size, bool fast)
 	return 0;
 }
 
-void Cxcc_level::save(word*& bin, byte*& ini, dword& size) const
+void Cxcc_level::save(Cvirtual_binary& bin, Cvirtual_binary& ini) const
 {
-	save_bin(bin);
-	save_ini(ini, size);
+	bin = save_bin();
+	ini = save_ini();
 }
 
-void Cxcc_level::save_bin(word*& data) const
+Cvirtual_binary Cxcc_level::save_bin() const
 {
-	data = new word[4096];
-	memcpy(data, bin_data, 8192);
-	deconvert_bin(data);
+	Cvirtual_binary d(NULL, 8192);
+	memcpy(d.data_edit(), bin_data, d.size());
+	deconvert_bin(reinterpret_cast<unsigned short*>(d.data_edit()));
+	return d;
 }
 
-void Cxcc_level::save_ini(byte*& data, dword& size) const
+Cvirtual_binary Cxcc_level::save_ini() const
 {
 	Cvirtual_tfile_write f;
 	// f.set_force_upper_case(true);
@@ -1214,7 +1215,7 @@ void Cxcc_level::save_ini(byte*& data, dword& size) const
 		f.write_line("");
 	}
 
-	f.save_data(data, size);
+	return f.save();
 }
 
 void Cxcc_level::convert_bin(word* data) const

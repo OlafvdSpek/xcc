@@ -53,45 +53,37 @@ BOOL CXCCEditorDoc::OnNewDocument()
 /////////////////////////////////////////////////////////////////////////////
 // CXCCEditorDoc serialization
 
-long CXCCEditorDoc::load(const word* bin, const byte* ini, dword size)
+long CXCCEditorDoc::load(const Cvirtual_binary& bin, const Cvirtual_binary& ini)
 {
 	CWaitCursor wait;
 	DeleteContents();
 	SetModifiedFlag(false);
-	return level.load(bin, ini, size);
+	return level.load(bin, ini);
 }
 
 void CXCCEditorDoc::Serialize(CArchive& ar)
 {
 	Cfname fname = string(ar.m_strFileName);
 	fname.set_ext(".bin");
-	const dword max_size = 64 * 1024;
-	word* bin_data;
-	byte* ini_data;
-	dword size;
+	Cvirtual_binary bin_data;
+	Cvirtual_binary ini_data;
 	if (ar.IsStoring())
 	{
-		level.save(bin_data, ini_data, size);
-		ar.Write(ini_data, size);
-		Cfile32 f;
-		f.open_write(fname);
-		f.write(bin_data, 8192);
-		f.close();
+		level.save(bin_data, ini_data);
+		ar.Write(ini_data.data(), ini_data.size());
+		bin_data.export(fname);
 	}
 	else
 	{
-		bin_data = new word[4096];
-		ini_data = new byte[max_size];
-		size = ar.Read(ini_data, max_size);
+		ini_data.write_start(64 << 10);
+		ini_data.size(ar.Read(ini_data.data_edit(), ini_data.size()));
 		Cbin_file f;
 		f.open(fname);
-		memcpy(bin_data, f.get_data(), 8192);
+		bin_data = f.get_vdata();
 		f.close();
-		if (load(bin_data, ini_data, size))
+		if (load(bin_data, ini_data))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 	}
-	delete[] ini_data;
-	delete[] bin_data;
 }
 
 /////////////////////////////////////////////////////////////////////////////
