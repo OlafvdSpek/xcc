@@ -28,7 +28,7 @@ public:
 		return m_f.cy();
 	}
 
-	int decode(void* d0)
+	int decode(void* d)
 	{
 		if (m_frame_i >= cf())
 			return 1;
@@ -41,8 +41,8 @@ public:
 			decode80(m_f.get_frame(m_frame_i), s.write_start(64 << 10));
 			decode40(s, m_frame.data_edit());
 		}
-		if (d0)
-			m_frame.read(d0);
+		if (d)
+			m_frame.read(d);
 		m_frame_i++;
 		return 0;
 	}
