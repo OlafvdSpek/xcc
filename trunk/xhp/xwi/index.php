@@ -47,6 +47,30 @@
 		return mysql_fetch_array(db_query(sprintf("select * from xwi_players where name = \"%s\" and pass = md5(\"%s\")", AddSlashes($name), apgar_encode($pass))));
 	}
 
+	function valid_clan_abbrev($v)
+	{
+		if (strlen($v) < 2 || strlen($v) > 6)
+			return false;
+		for ($i = 0; $i < strlen($v); $i++)
+		{
+			if (stristr('-@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
+				return false;
+		}
+		return true;
+	}
+
+	function valid_clan_name($v)
+	{
+		if (strlen($v) < 3 || strlen($v) > 32)
+			return false;
+		for ($i = 0; $i < strlen($v); $i++)
+		{
+			if (stristr(' -@abcdefghijklmnopqrstuvwxyz', $v[$i]) === false)
+				return false;
+		}
+		return true;
+	}
+
 	require("../xcc_common.php");
 
 	db_connect();
@@ -87,7 +111,9 @@
 				$site = "http://";
 			if ($name || $pass || $cname)
 			{
-				if (!eregi("^['0-9a-z@']{2,6}$", $cname))
+				if (!valid_clan_abbrev($cname))
+					echo("Invalid clan abbreviation");
+				else if (!valid_clan_name($cname))
 					echo("Invalid clan name");
 				else if ($player = get_player2($name, $pass))
 				{
