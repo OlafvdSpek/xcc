@@ -28,6 +28,10 @@ public:
 		return cb_pixel() * cx() * cy();
 	}
 
+	int cb_video() const
+	{
+		return cf() * cb_image();
+	}
 };
 
 #endif // !defined(AFX_VIDEO_DECODER_H__19F569DD_C810_4315_9AD7_6AE2CAD1CE1F__INCLUDED_)

@@ -6,6 +6,68 @@
 #include "shp_images.h"
 #include "string_conversion.h"
 
+class Cshp_decoder: public Cvideo_decoder
+{
+public:
+	int cb_pixel() const
+	{
+		return m_f.cb_pixel();
+	}
+
+	int cf() const
+	{
+		return m_f.cf();
+	}
+
+	int cx() const
+	{
+		return m_f.cx();
+	}
+
+	int cy() const
+	{
+		return m_f.cy();
+	}
+
+	int decode(void* d0)
+	{
+		if (m_frame_i >= cf())
+			return 1;
+		memcpy(d0, m_video + cb_image() * m_frame_i, cb_image());
+		m_frame_i++;
+		return 0;
+	}
+
+	const t_palet_entry* palet() const
+	{
+		return m_palet;
+	}
+
+	int seek(int f)
+	{
+		m_frame_i = f;
+		return 0;
+	}
+
+	Cshp_decoder(const Cshp_file& f, const t_palet_entry* palet)
+	{
+		m_f.load(f);
+		m_f.decode(m_video.write_start(cb_video()));
+		m_frame_i = 0;
+		memcpy(m_palet, palet, sizeof(t_palet));
+	}
+private:
+	Cshp_file m_f;
+	int m_frame_i;
+	t_palet m_palet;
+	Cvirtual_binary m_video;
+};
+
+Cvideo_decoder* Cshp_file::decoder(const t_palet_entry* palet)
+{
+	return new Cshp_decoder(*this, palet);
+}
+
 bool Cshp_file::is_valid() const
 {
 	const t_shp_header& header = *get_header();
@@ -14,6 +76,27 @@ bool Cshp_file::is_valid() const
 		return false;
 	int c_images = get_c_images();
 	return !(get_offset(c_images) != size || get_offset(c_images + 1));
+}
+
+void Cshp_file::decode(void* d) const
+{
+	void* p;
+	if (shp_images::load_shp(*this, p))
+		return;
+	byte* w = reinterpret_cast<byte*>(d);
+	for (int i = 0; i < cf(); i++)
+	{
+		memcpy(w, shp_images::get_shp(p, i), cb_image());
+		w += cb_image();
+	}
+	shp_images::destroy_shp(p);
+}
+
+Cvirtual_image Cshp_file::vimage() const
+{
+	Cvirtual_binary image;
+	decode(image.write_start(cb_video()));
+	return Cvirtual_image(image, cx(), cf() * cy(), cb_pixel());
 }
 
 int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const
