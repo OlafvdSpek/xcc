@@ -10,6 +10,7 @@
 #include "download_dlg.h"
 #include "jpeg_file.h"
 #include "multi_line.h"
+#include "mode_dlg.h"
 #include "string_conversion.h"
 #include "virtual_tfile.h"
 #include "web_tools.h"
@@ -142,6 +143,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 		}
 		else
 		{
+			m_mod.load_modules(m_key, m_mod_fname);
 			Cvirtual_image banner;
 			if (!Cxcc_mod::load_launcher_image(m_key, "banner.jpeg", banner) || !load_banner(banner))
 			{
@@ -294,18 +296,29 @@ void CXCCModLauncherDlg::OnMailAuthor()
 
 void CXCCModLauncherDlg::OnOK() 
 {
-	CWaitCursor wait;
-	if (Cxcc_mod::activate(m_key, false))
+	int mode = -1;
+	if (m_mod.mode_map().size() > 1)
 	{
-		MessageBox("Error activating mod.", NULL, MB_ICONERROR);
+		Cmode_dlg dlg;
+		dlg.mod(m_mod);
+		if (IDOK != dlg.DoModal())
+			return;
+		mode = m_mod.add_mode(dlg.mode());
 	}
-	else if (m_mod.launch_game(true))
+	CWaitCursor wait;
+	switch (m_mod.activate(m_key, false, mode))
 	{
-		MessageBox("Error launching game.", NULL, MB_ICONERROR);				
-	}	
-	if ((!m_mod.options().confirm_deactivate || MessageBox("Would you like to deactivate the mod?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES) && m_mod.deactivate(false))
-	{
-		MessageBox("Error deactivating mod.", NULL, MB_ICONERROR);				
+	case 0:
+		if (m_mod.launch_game(true))
+			MessageBox("Error launching game.", NULL, MB_ICONERROR);				
+		if ((!m_mod.options().confirm_deactivate || MessageBox("Would you like to deactivate the mod?", NULL, MB_ICONQUESTION | MB_YESNO) == IDYES) && m_mod.deactivate(false))
+			MessageBox("Error deactivating mod.", NULL, MB_ICONERROR);	
+		break;
+	case 2:
+		MessageBox("Error finding game.", NULL, MB_ICONERROR);
+		break;
+	default:
+		MessageBox("Error activating mod.", NULL, MB_ICONERROR);
 	}
 }
 
