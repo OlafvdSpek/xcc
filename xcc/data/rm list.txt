@@ -647,7 +647,7 @@
 31074,474,FLAK.SHP,MISC: Small explosion
 247192850,1731744,FLARE.VQA,flare man
 64987330,1731744,FLARE.VQP,VQP: flare man
-986821,19919,FLARE1.AUD,sinnal flare detected
+986821,19919,FLARE1.AUD,signal flare detected
 1006740,25606,FLAREE1.AUD,signal flare detected to the east
 1032346,25506,FLAREN1.AUD,signal flare detected to the north
 1057852,26114,FLARES1.AUD,signal flare detected to the south
