@@ -8,9 +8,11 @@
 #pragma once
 #endif // _MSC_VER >= 1000
 
+#include <windows.h>
 #include "aud_file.h"
 #include "dd_window.h"
 #include "id_log.h"
+#include "ListCtrlEx.h"
 #include "mix_file.h"
 #include "string_conversion.h"
 #include "vqa_file.h"
@@ -20,7 +22,6 @@
 #include "xcc_dds.h"
 #include "xcc_dsb.h"
 #include "XCC Audio Player.h"
-#include "windows.h"
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCAudioPlayerDlg dialog
@@ -54,7 +55,7 @@ public:
 	CButton	m_extractbutton;
 	CButton	m_playbutton;
 	CButton	m_shufflebutton;
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	CString	m_statusbar;
 	//}}AFX_DATA
 
