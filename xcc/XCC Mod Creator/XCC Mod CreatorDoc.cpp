@@ -87,12 +87,12 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 	}
 }
 
-int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
+int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe, int compression)
 {
 	int error;
 	if (exe.data())
 	{
-		Cvirtual_binary mod = m_mod.save(true, -1).export_bz();
+		Cvirtual_binary mod = compression ? m_mod.save(true, -1).vdata() : m_mod.save(true, -1).export_bz();
 		Cfile32 f;
 		error = f.open_write(fname);
 		if (!error)
@@ -104,26 +104,11 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
 		f.close();
 	}
 	else
-		error = m_mod.save(true, -1).vdata().export(fname);
+		error = (compression ? m_mod.save(true, -1).vdata() : m_mod.save(true, -1).export_bz()).export(fname);
 	if (!error)
 		error = m_mod.save_modules(fname);
 	return error;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorDoc diagnostics
-
-#ifdef _DEBUG
-void CXCCModCreatorDoc::AssertValid() const
-{
-	CDocument::AssertValid();
-}
-
-void CXCCModCreatorDoc::Dump(CDumpContext& dc) const
-{
-	CDocument::Dump(dc);
-}
-#endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCModCreatorDoc commands

@@ -43,6 +43,7 @@ public:
 	BOOL	m_confirm_deactivate;
 	BOOL	m_shp_compression;
 	BOOL	m_vxl_compression;
+	CString	m_mod_mfs;
 	//}}AFX_DATA
 
 

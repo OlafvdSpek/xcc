@@ -42,7 +42,7 @@ public:
 	bool contains(Cxcc_mod::t_category_type category, string fname);
 	Cxcc_mod::t_file_properties file_properties(Cxcc_mod::t_category_type category, string fname) const;
 	void file_properties(Cxcc_mod::t_category_type category, string fname, Cxcc_mod::t_file_properties properties);
-	int export(string fname, Cvirtual_binary exe);
+	int export(string fname, Cvirtual_binary exe, int compression);
 	int insert(Cxcc_mod::t_category_type category, string fname);
 	Cxcc_mod::t_options options() const;
 	void options(Cxcc_mod::t_options options);
@@ -56,10 +56,6 @@ public:
 	{
 		return m_mod;
 	}
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 

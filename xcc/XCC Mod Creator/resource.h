@@ -30,6 +30,7 @@
 #define IDC_CONFIRM_DEACTIVATE          1016
 #define IDC_SHP_COMPRESSION             1017
 #define IDC_VXL_COMPRESSION             1018
+#define IDC_MOD_MFS                     1019
 #define ID_EDIT_INSERT                  32771
 #define ID_EDIT_DELETE                  32772
 #define ID_POPUP_OPEN                   32775
