@@ -264,7 +264,7 @@ void CXIFList::OnPopupInsertBin32()
 void CXIFList::OnPopupInsertBinary() 
 {
 	int id = get_free_id();
-	m_key->set_value_binary(id, NULL, 0);
+	m_key->set_value_binary(id, Cvirtual_binary());
 	GetListCtrl().EditLabel(insert_value(id));
 }
 
@@ -329,10 +329,9 @@ void CXIFList::OnPopupLoadValuePcx()
 				int id = lc.GetItemData(i);
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
-				byte* image = new byte[cx * cy];
-				pcx_decode(f.get_image(), image, *f.get_header());
-				m_key->set_value_binary(id, image, cx * cy);
-				delete[] image;
+				Cvirtual_binary image;
+				pcx_decode(f.get_image(), image.write_start(cx * cy), *f.get_header());
+				m_key->set_value_binary(id, image);
 				update_value(i, id);
 			}
 			f.close();

@@ -83,3 +83,9 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 /////////////////////////////////////////////////////////////////////////////
 // CChildFrame message handlers
+
+void CChildFrame::ActivateFrame(int nCmdShow) 
+{
+	nCmdShow = SW_SHOWMAXIMIZED;
+	CMDIChildWnd::ActivateFrame(nCmdShow);
+}

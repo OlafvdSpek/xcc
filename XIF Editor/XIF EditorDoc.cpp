@@ -57,22 +57,16 @@ void CXIFEditorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		if (m_top.save_start())
-			AfxThrowArchiveException(CArchiveException::generic, ar.m_strFileName);
-		else
-		{
-			ar.Write(m_top.key_data(), m_top.key_size());
-			m_top.save_finish();
-		}
+		Cvirtual_binary d = m_top.vdata();
+		ar.Write(d.data(), d.size());
 	}
 	else
 	{
+		Cvirtual_binary s;
 		int cb_s = ar.GetFile()->GetLength();
-		byte* s = new byte[cb_s];
-		if (ar.Read(s, cb_s) != cb_s ||
-			m_top.load_key(s, cb_s))
+		if (ar.Read(s.write_start(cb_s), cb_s) != cb_s ||
+			m_top.load_key(s))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
-		delete[] s;
 	}
 }
 

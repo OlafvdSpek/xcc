@@ -19,21 +19,23 @@ Class7=CXIFList
 Class8=CXIFTree
 
 ResourceCount=7
-Resource1=IDD_EDIT_BIN32
-Resource2=IDD_EDIT_STRING
-Resource3=CG_IDR_POPUP_XIFTREE
-Resource4=IDR_XIFTYPE (English (U.S.))
-Resource5=IDD_EDIT_INT32
+Resource1=IDR_MAINFRAME (English (U.S.))
+Resource2=IDD_EDIT_INT32
+Resource3=IDR_XIFTYPE (English (U.S.))
+Resource4=CG_IDR_POPUP_XIFLIST
+Resource5=IDD_EDIT_BIN32
 Class9=Cdlg_edit_int32
-Resource6=CG_IDR_POPUP_XIFLIST
+Resource6=CG_IDR_POPUP_XIFTREE
 Class10=Cdlg_edit_string
-Resource7=IDR_MAINFRAME (English (U.S.))
+Resource7=IDD_EDIT_STRING
 
 [CLS:CChildFrame]
 Type=0
 BaseClass=CMDIChildWnd
 HeaderFile=ChildFrm.h
 ImplementationFile=ChildFrm.cpp
+Filter=M
+VirtualFilter=mfWC
 
 [CLS:Cdlg_edit_bin32]
 Type=0
