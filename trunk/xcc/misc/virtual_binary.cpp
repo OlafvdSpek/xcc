@@ -94,12 +94,12 @@ const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 	return *this;
 }
 
-int Cvirtual_binary::export(string fname) const
+int Cvirtual_binary::export(const string& fname) const
 {
 	return file32_write(fname, data(), size());
 }
 
-int Cvirtual_binary::import(string fname, bool use_mm)
+int Cvirtual_binary::import(const string& fname, bool use_mm)
 {
 	if (use_mm)
 		*this = file32_read(fname);
