@@ -2853,8 +2853,14 @@ void CXCCMixerView::OnEditSelectAll()
 	CListCtrl& lc = GetListCtrl();
 	for (int index = 0; index < lc.GetItemCount(); index++)
 	{
-		if (m_index.find(lc.GetItemData(index))->second.ft != ft_dir
-			&& m_index.find(lc.GetItemData(index))->second.ft != ft_drive)
+		switch (m_index.find(lc.GetItemData(index))->second.ft)
+		{
+		case ft_dir:
+		case ft_drive:
+			lc.SetItemState(index, 0, LVIS_SELECTED);
+			break;
+		default:
 			lc.SetItemState(index, LVIS_SELECTED, LVIS_SELECTED);
+		}
 	}
 }
