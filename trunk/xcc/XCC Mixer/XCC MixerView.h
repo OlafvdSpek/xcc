@@ -200,6 +200,7 @@ protected:
 	afx_msg void OnUpdatePopupCompact(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsTga();
 	afx_msg void OnUpdatePopupCopyAsTga(CCmdUI* pCmdUI);
+	afx_msg void OnEditSelectAll();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
