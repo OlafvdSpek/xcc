@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 ddraw.lib dsound.lib /nologo /subsystem:windows /machine:I386
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386
 
 !ELSEIF  "$(CFG)" == "XCC Editor - Win32 Debug"
 
@@ -79,7 +79,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -253,7 +253,15 @@ SOURCE=..\..\misc\timer.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_binary.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\virtual_tfile.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\virtual_tfile_write.cpp
 # End Source File
 # Begin Source File
 
@@ -322,10 +330,6 @@ SOURCE=..\misc\xcc_templates.cpp
 # Begin Source File
 
 SOURCE=..\misc\xcc_units.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\XCCSetDirectoriesDlg.cpp
 # End Source File
 # Begin Source File
 
@@ -405,6 +409,10 @@ SOURCE=.\StdAfx.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\virtual_tfile_write.h
+# End Source File
+# Begin Source File
+
 SOURCE=".\XCC Editor.h"
 # End Source File
 # Begin Source File
@@ -450,9 +458,9 @@ SOURCE=".\XCC Editor.reg"
 # End Source File
 # End Target
 # End Project
-# Section XCC Editor : {72642D72-7761-6C20-6973-74626F782061}
-# 	1:27:CG_IDR_POPUP_XCCEDITOR_VIEW:102
-# End Section
 # Section XCC Editor : {73746E65-535C-6C70-6173-682073637265}
 # 	1:32:CG_IDR_POPUP_CTEMPLATE_SELECTION:105
+# End Section
+# Section XCC Editor : {72642D72-7761-6C20-6973-74626F782061}
+# 	1:27:CG_IDR_POPUP_XCCEDITOR_VIEW:102
 # End Section

@@ -103,8 +103,8 @@ void Cedit_units_dlg::OnNewButton()
 		xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 		if (ud.flags & ud_flags_in_use)
 			continue;
-		ud.long_name = make_c_str("");
-		ud.short_name = make_c_str("");
+		ud.long_name = "";
+		ud.short_name = "";
 		ud.flags = ud_flags_in_use;
 		add_item(i);
 		m_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
@@ -155,8 +155,8 @@ void Cedit_units_dlg::load_controls()
 	if (m_current_i == -1)
 		return;
 	xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[m_current_i];	
-	m_edit_long_name = ud.long_name;
-	m_edit_short_name = ud.short_name;
+	m_edit_long_name = ud.long_name.c_str();
+	m_edit_short_name = ud.short_name.c_str();
 	m_edit_flags = ud.flags;
 	m_edit_size = (n(ud.cx) + " x " + n(ud.cy)).c_str();
 	m_edit_base_ox = ud.base_ox;
@@ -174,10 +174,8 @@ void Cedit_units_dlg::save_controls()
 		return;
 	UpdateData(true);
 	xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[m_current_i];	
-	delete[] ud.long_name;
-	delete[] ud.short_name;
-	ud.long_name = make_c_str(m_edit_long_name);
-	ud.short_name = make_c_str(m_edit_short_name);
+	ud.long_name = m_edit_long_name;
+	ud.short_name = m_edit_short_name;
 	ud.flags = m_edit_flags;
 	ud.base_ox = m_edit_base_ox;
 	ud.base_oy = m_edit_base_oy;

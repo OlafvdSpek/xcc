@@ -123,8 +123,8 @@ void Cedit_structures_dlg::OnNewButton()
 		xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[i];
 		if (sd.flags & sd_flags_in_use)
 			continue;
-		sd.long_name = make_c_str("");
-		sd.short_name = make_c_str("");
+		sd.long_name = "";
+		sd.short_name = "";
 		sd.flags = sd_flags_in_use;
 		add_item(i);
 		m_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
@@ -172,8 +172,8 @@ void Cedit_structures_dlg::load_controls()
 	if (m_current_i == -1)
 		return;
 	xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[m_current_i];	
-	m_edit_long_name = sd.long_name;
-	m_edit_short_name = sd.short_name;
+	m_edit_long_name = sd.long_name.c_str();
+	m_edit_short_name = sd.short_name.c_str();
 	m_edit_flags = sd.flags;
 	m_edit_size = (n(sd.cx) + " x " + n(sd.cy)).c_str();
 	m_check_bib = static_cast<bool>(sd.flags & sd_flags_bib);
@@ -203,10 +203,8 @@ void Cedit_structures_dlg::save_controls()
 		return;
 	UpdateData(true);
 	xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[m_current_i];	
-	delete[] sd.long_name;
-	delete[] sd.short_name;
-	sd.long_name = make_c_str(m_edit_long_name);
-	sd.short_name = make_c_str(m_edit_short_name);
+	sd.long_name = m_edit_long_name;
+	sd.short_name = m_edit_short_name;
 	sd.flags = m_edit_flags;
 	sd.blocked = 0;
 	if (m_check_blocked0)

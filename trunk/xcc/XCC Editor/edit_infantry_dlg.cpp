@@ -98,8 +98,8 @@ void Cedit_infantry_dlg::OnNewButton()
 		xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)
 			continue;
-		id.long_name = make_c_str("");
-		id.short_name = make_c_str("");
+		id.long_name = "";
+		id.short_name = "";
 		id.flags = id_flags_in_use;
 		add_item(i);
 		m_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
@@ -149,8 +149,8 @@ void Cedit_infantry_dlg::load_controls()
 	if (m_current_i == -1)
 		return;
 	xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[m_current_i];	
-	m_edit_long_name = id.long_name;
-	m_edit_short_name = id.short_name;
+	m_edit_long_name = id.long_name.c_str();
+	m_edit_short_name = id.short_name.c_str();
 	m_edit_flags = id.flags;
 	m_edit_size = (n(id.cx) + " x " + n(id.cy)).c_str();
 	// m_edit_ox = id.ox;
@@ -166,10 +166,8 @@ void Cedit_infantry_dlg::save_controls()
 		return;
 	UpdateData(true);
 	xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[m_current_i];	
-	delete[] id.long_name;
-	delete[] id.short_name;
-	id.long_name = make_c_str(m_edit_long_name);
-	id.short_name = make_c_str(m_edit_short_name);
+	id.long_name = m_edit_long_name;
+	id.short_name = m_edit_short_name;
 	id.flags = m_edit_flags;
 	// id.ox = m_edit_ox;
 	// id.oy = m_edit_oy;

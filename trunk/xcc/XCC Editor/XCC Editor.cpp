@@ -9,7 +9,6 @@
 #include "XCC EditorView.h"
 
 #include "xcc_mixs.h"
-#include "XCCSetDirectoriesDlg.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -23,7 +22,6 @@ static char THIS_FILE[] = __FILE__;
 BEGIN_MESSAGE_MAP(CXCCEditorApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCEditorApp)
 	ON_COMMAND(ID_APP_ABOUT, OnAppAbout)
-	ON_COMMAND(ID_TOOLS_SET_DIRECTORIES, OnToolsSetDirectories)
 	//}}AFX_MSG_MAP
 	// Standard file based document commands
 	ON_COMMAND(ID_FILE_NEW, CWinApp::OnFileNew)
@@ -202,8 +200,3 @@ void CXCCEditorApp::OnAppAbout()
 /////////////////////////////////////////////////////////////////////////////
 // CXCCEditorApp commands
 
-void CXCCEditorApp::OnToolsSetDirectories() 
-{
-	CXCCSetDirectoriesDlg dlg;
-	dlg.DoModal();
-}

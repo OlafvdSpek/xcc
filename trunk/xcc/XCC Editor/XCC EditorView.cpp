@@ -996,7 +996,7 @@ void CXCCEditorView::draw_structure(dword v, int angle, const byte* rp,dword* d,
 			}
 		}
 	}
-	const int sub_image = convert_angle(angle, strcmp(sd.short_name, "gun") ? 0 : 32);
+	const int sub_image = convert_angle(angle, sd.short_name == "gun" ? 0 : 32);
 	const byte* s = shp_images::get_shp(sd.images, sub_image, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 	if (sd.flags & sd_flags_images2)

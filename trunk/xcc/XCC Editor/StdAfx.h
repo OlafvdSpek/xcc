@@ -19,7 +19,12 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#pragma warning(disable: 4503)
+#pragma warning(disable: 4786)
+#pragma warning(disable: 4800)
+
 #include <cassert>
+#include <map>
 #include "id_log.h"
 #include "mix_file.h"
 #include "xcc_dirs.h"
