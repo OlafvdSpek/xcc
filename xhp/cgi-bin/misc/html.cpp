@@ -65,7 +65,11 @@ Chtml fix_br(const string& v)
 
 Chtml fix_endl(const string& v)
 {
+#ifdef NDEBUG
+	return v;
+#else
 	return v.length() && v[v.length() - 1] == '\n' ? v : v + '\n';
+#endif
 };
 
 Chtml indent(const string& v)
@@ -102,10 +106,14 @@ Chtml indent(const string& v)
 
 Chtml tag_da(const string& name, const Chtml& v, const string& elements)
 {
+#ifdef NDEBUG
+	return tag_ds(name, v, elements);
+#else
 	if (v.is_multi_line())
 		return tag_dm(name, v, elements);
 	else
 		return tag_ds(name, v, elements);
+#endif
 }
 
 Chtml tag_ds(const string& name, const Chtml& v, const string& elements)
@@ -115,7 +123,11 @@ Chtml tag_ds(const string& name, const Chtml& v, const string& elements)
 
 Chtml tag_dm(const string& name, const Chtml& v, const string& elements)
 {
+#ifdef NDEBUG
+	return tag_ds(name, v, elements);
+#else
 	return "<" + name + (elements.empty() ? "" : " " + elements) + ">\n" + static_cast<string>(indent(v)) + "</" + name + ">\n";
+#endif
 }
 
 Chtml html(const Chtml& v)
@@ -163,9 +175,9 @@ Chtml center(const Chtml& v)
 	return tag_da("center", v);
 }
 
-Chtml dir(const Chtml& v)
+Chtml html_div(const Chtml& v, const string& elements)
 {
-	return tag_dm("dir", v);
+	return tag_dm("div", v, elements);
 }
 
 Chtml font(const Chtml& v, const string& elements)
@@ -188,9 +200,9 @@ Chtml hr()
 	return "<hr>\n";
 }
 
-Chtml p(const Chtml& v)
+Chtml p(const Chtml& v, const string& elements)
 {
-	return "<p>\n" + indent(v);
+	return (elements.empty() ? "<p>\n" : "<p " + elements + ">\n") + indent(v);
 }
 
 Chtml php(const Chtml& v)
@@ -206,6 +218,21 @@ Chtml pre(const Chtml& v, const string& elements)
 Chtml table(const Chtml& v, const string& elements)
 {
 	return tag_dm("table", v, elements);
+}
+
+Chtml html_thead(const Chtml& v, const string& elements)
+{
+	return tag_dm("thead", v, elements);
+}
+
+Chtml html_tbody(const Chtml& v, const string& elements)
+{
+	return tag_dm("tbody", v, elements);
+}
+
+Chtml html_tfoot(const Chtml& v, const string& elements)
+{
+	return tag_dm("tfoot", v, elements);
 }
 
 Chtml td(const Chtml& v, const string& elements)
@@ -241,6 +268,16 @@ Chtml html_option(const Chtml& v, const string& elements)
 Chtml html_select(const Chtml& v, const string& elements)
 {
 	return tag_da("select", v, elements);
+}
+
+Chtml html_span(const Chtml& v, const string& elements)
+{
+	return tag_da("span", v, elements);
+}
+
+Chtml html_ul(const Chtml& v, const string& elements)
+{
+	return tag_dm("ul", v, elements);
 }
 
 Chtml operator+(const Chtml& a, const Chtml& b)
