@@ -33,10 +33,10 @@ t_vt Cxif_value::get_type() const
 {
 	if (m_type != vt_unknown)
 		return m_type;
-	const byte* data = get_data();
-	int size = get_size();
+	const byte* data = m_data.data(); // get_data();
 	if (!data)
 		return vt_binary;
+	int size = get_size();
 	if (!data[size - 1])
 	{
 		const byte* r = data;
@@ -59,6 +59,8 @@ void Cxif_value::load_old(const byte*& data)
 {
 	m_data.clear();
 	int size = read_int(data);
+	if (size == 4)
+		memcpy(m_value, data, size);
 	memcpy(m_data.write_start(size), data, size);
 	data += size;
 	m_type = vt_unknown;
@@ -73,13 +75,13 @@ void Cxif_value::load_new(const byte*& data)
 	switch (m_type)
 	{
 	case vt_bin32:
-		*reinterpret_cast<unsigned __int32*>(m_data.write_start(4)) = read<unsigned __int32>(data);
+		m_value_int = read<unsigned __int32>(data);
 		break;
 	case vt_int32:
-		*reinterpret_cast<__int32*>(m_data.write_start(4)) = read<__int32>(data);
+		m_value_int = read<__int32>(data);
 		break;
 	case vt_float:
-		*reinterpret_cast<float*>(m_data.write_start(4)) = read<float>(data);
+		m_value_float = read<float>(data);
 		break;
 	case vt_external_binary:
 		m_data.write_start(read_int(data));
