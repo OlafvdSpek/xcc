@@ -18,15 +18,13 @@ using namespace std;
 class Ccookie
 {
 public:
-	// void erase_value(const string& name);
 	string get_value(const string& name) const;
 	int get_value_int(const string& name) const;
 	bool has_value(const string& name) const;
 	void set_value(const string& name, int value);
 	void set_value(const string& name, const string& value);
+	void set_session_value(const string& name, int value);
 	void set_session_value(const string& name, const string& value);
-	// string get_keys() const;
-	// string get_session_keys() const;
 	Ccookie();
 	Ccookie(const Cmulti_line& l);
 	operator=(Cmulti_line l);
