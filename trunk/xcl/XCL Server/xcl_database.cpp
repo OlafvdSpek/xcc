@@ -11,6 +11,8 @@ static int gsku2lid(int gsku)
 {
 	switch (gsku & ~0xff)
 	{
+	case 0x1f00:
+		return 5;
 	case 0x2100:
 		return 1;
 	case 0x2900:
@@ -73,13 +75,14 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	int lid = gsku2lid(gr.get_int("gsku"));
 	int trny = gr.get_int("trny");
 	if (gr.get_int("dura") < 90
+		|| gr.get_int("afps") < 10 && lid & ~1 != 5
 		|| !lid
 		|| gr.plrs() < 2 || gr.plrs() > (trny == 1 ? 2 : 8)
 		|| trny < 1 || trny > 2)
 		return;
 	if (trny == 2)
 		lid++;
-	query("lock tables bl read, xcl_clans write, xcl_games write, xcl_games_players write, xcl_players write, xcl_sid_input write");
+	query("lock tables bl read, xcl_clans write, xcl_games write, xcl_games_players as a read, xcl_games_players as b read, xcl_games_players write, xcl_players write, xcl_sid_input write");
 	Csql_query q(*this);
 	q.write("select gid from xcl_games where ws_gid = %s");
 	q.p(gr.idno());
@@ -113,12 +116,17 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 			int won_cty = 0;
 			int lost_cty = 0;
 			for (i = 0; i < gr.plrs(); i++)
-			{
 				(gr.cmp(i) == 0x100 ? won : lost) = i;
-				(gr.cmp(i) == 0x100 ? won_cty : lost_cty) |= 1 << gr.cty(i);
-			}
 			if (won == -1 || lost == -1)
 				return;
+			for (lost = 0; lost < gr.plrs() && gr.cid(lost) == gr.cid(won); lost++)
+				;
+			for (i = 0; i < gr.plrs(); i++)
+				(gr.cid(i) == gr.cid(won) ? won_cty : lost_cty) |= 1 << gr.cty(i);
+			q.write("select count(distinct a.gid) from xcl_games_players a inner join xcl_games_players b using (gid) where a.pc > 0 and a.cid = %s and b.cid = %s");
+			q.p(players[won].pid);
+			q.p(players[lost].pid);
+			bl |= q.execute().fetch_row().f_int(0) >= 5;
 			pc[won] = update_player(bl ? 0 : cmp[won], won_cty, players[won], players[lost]);
 			pc[lost] = update_player(bl ? 0 : cmp[lost], lost_cty, players[lost], players[won]);
 			for (i = 0; i < gr.plrs(); i++)
@@ -139,6 +147,12 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 					cmp[1] = 0x220;
 				}
 			}
+			q.write(trny == 2
+				? "select count(distinct a.gid) from xcl_games_players a inner join xcl_games_players b using (gid) where a.pc > 0 and a.cid = %s and b.cid = %s"
+				: "select count(*) from xcl_games_players a inner join xcl_games_players b using (gid) where a.pc > 0 and a.pid = %s and b.pid = %s");
+			q.p(players[cmp[0] != 0x100].pid);
+			q.p(players[cmp[0] == 0x100].pid);
+			bl |= q.execute().fetch_row().f_int(0) >= 5;
 			for (i = 0; i < gr.plrs(); i++)
 				pc[i] = update_player(bl ? 0 : cmp[i], 1 << gr.cty(i), players[i], players[1 - i]);
 		}
