@@ -135,6 +135,18 @@
 		echo('<table>');
 		echo_warnings($results);
 		echo('</table>');
+		echo('<hr>');
+		$results = db_query("select * from xbl_ipas order by wid desc");
+		echo('<table>');
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr>');
+			printf('<td align=right><a href="?a=show_warning&amp;wid=%d">%d</a>', $result['wid'], $result['wid']);
+			printf('<td>%s', long2ip($result['ipa']));
+			printf('<td>%s', htmlspecialchars($result['creator']));
+			printf('<td>%s', gmdate("H:i d-m-Y", $result['ctime']));
+		}
+		echo('</table>');
 		break;
 	case 'xwsvs':
 		$results = db_query("select * from xwsvs_log order by time desc");
