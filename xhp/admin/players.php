@@ -108,12 +108,12 @@
 		echo('</table>');
 		break;
 	case 'games':
-		$results = db_query(sprintf("select gid, ipa, sid from xcl_games_players gp inner join xcl_players p using (pid) where p.name like '%s' order by gid desc", $pname));
+		$results = db_query(sprintf("select gid, ipa, sid, p.name, c.name cname from xcl_games_players gp inner join xcl_players p using (pid) left join xcl_players c on (gp.cid = c.pid) where p.name like '%s' order by gid desc", $pname));
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 		{
-			printf('<tr><td align=right><a href="/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a>',
-				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid']);
+			printf('<tr><td align=right><a href="/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a><td>%s<td>%s',
+				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid'], $result['name'], $result['cname']);
 		}
 		echo('</table>');
 		break;
