@@ -1,7 +1,8 @@
 #include "stdafx.h"
+#include "shp_ts_file.h"
+
 #include "image_file.h"
 #include "shp_decode.h"
-#include "shp_ts_file.h"
 #include "string_conversion.h"
 #include "xcc_log.h"
 
@@ -148,6 +149,7 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	return error;
 }
 
+/*
 Cvirtual_image Cshp_ts_file::extract_as_pcx(const t_palet _palet, bool combine_shadows) const
 {
 	t_palet palet;
@@ -230,6 +232,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx(const t_palet _palet, bool combine_s
 	delete[] image;
 	return d;
 }
+*/
 
 Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool combine_shadows) const
 {
@@ -238,17 +241,16 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 	const int global_cx = get_cx();
 	const int global_cy = get_cy();
 	int c_images = get_c_images();
-	if (c_images & 1)
-		combine_shadows = false;
+	combine_shadows &= ~c_images & 1;
 	if (combine_shadows)
 		c_images >>= 1;
 	const int cblocks_x = min(c_images, 1024 / global_cx);
 	const int cblocks_y = (c_images + cblocks_x - 1) / cblocks_x;
 	int cx_s = cblocks_x * global_cx;
 	int cy_s = cblocks_y * global_cy;
-	byte* image = new byte[global_cx * global_cy];
-	byte* s = new byte[cx_s * cy_s];
-	memset(s, 0, cx_s * cy_s);
+	Cvirtual_binary image;
+	Cvirtual_binary s;
+	memset(s.write_start(cx_s * cy_s), 0, cx_s * cy_s);
 	if (combine_shadows)
 	{
 		c_images <<= 1;
@@ -260,7 +262,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			const byte* r;
 			if (is_compressed(i))
 			{
-				decode3(get_image(i), image, cx, cy);
+				decode3(get_image(i), image.write_start(global_cx * global_cy), cx, cy);
 				r = image;
 			}
 			else
@@ -268,7 +270,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			if (!shadow && i == c_images >> 1)
 				shadow = true;
 			int j = i % (c_images >> 1);
-			byte* w = s + get_ofs(j % cblocks_x * global_cx + get_x(i), j / cblocks_x * global_cy + get_y(i), cx_s, cy_s);
+			byte* w = s.data_edit() + get_ofs(j % cblocks_x * global_cx + get_x(i), j / cblocks_x * global_cy + get_y(i), cx_s, cy_s);
 			for (int y = 0; y < cy; y++)
 			{
 				if (shadow)
@@ -297,12 +299,12 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			const byte* r;
 			if (is_compressed(i))
 			{
-				decode3(get_image(i), image, cx, cy);
+				decode3(get_image(i), image.write_start(global_cx * global_cy), cx, cy);
 				r = image;
 			}
 			else
 				r = get_image(i);
-			byte* w = s + get_ofs(i % cblocks_x * global_cx + get_x(i), i / cblocks_x * global_cy + get_y(i), cx_s, cy_s);
+			byte* w = s.data_edit() + get_ofs(i % cblocks_x * global_cx + get_x(i), i / cblocks_x * global_cy + get_y(i), cx_s, cy_s);
 			for (int y = 0; y < cy; y++)
 			{
 				memcpy(w, r, cx);
@@ -311,11 +313,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			}
 		}
 	}
-	Cvirtual_image d;
-	d.load(s, cx_s, cy_s, 1, palet);
-	delete[] s;
-	delete[] image;
-	return d;
+	return Cvirtual_image(s, cx_s, cy_s, 1, palet);
 }
 
 void shp_split_frames(Cvirtual_image& image, int cblocks_x, int cblocks_y)

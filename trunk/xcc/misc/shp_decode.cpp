@@ -1,11 +1,12 @@
 #include "stdafx.h"
+#include "shp_decode.h"
+
 #include <cassert>
-// #include <fstream>
+#include "shp_decode.h"
 #include <minilzo.h>
 #include <memory>
 #include <minmax.h>
 #include "cc_structures.h"
-#include "shp_decode.h"
 #include "string_conversion.h"
 #include "virtual_binary.h"
 #include "xcc_log.h"
@@ -883,7 +884,7 @@ int encode64(const byte* s, byte* d, int cb_s)
 		*w++ = encode64_table[c1>>2];
 		
 		int c2 = --cb_s == 0 ? 0 : *r++;
-		*w++ = encode64_table[((c1 & 0x3)<< 4) | ((c2 & 0xF0) >> 4)];		
+		*w++ = encode64_table[((c1 & 0x3) << 4) | ((c2 & 0xf0) >> 4)];		
 		if (cb_s == 0) 
 		{
 			*w++ = '=';
@@ -893,14 +894,14 @@ int encode64(const byte* s, byte* d, int cb_s)
 		
 		int c3 = --cb_s == 0 ? 0 : *r++;
 		
-		*w++ = encode64_table[((c2 & 0xF) << 2) | ((c3 & 0xC0) >>6)];
+		*w++ = encode64_table[((c2 & 0xf) << 2) | ((c3 & 0xc0) >> 6)];
 		if (cb_s == 0) 
 		{
 			*w++ = '=';
 			break;
 		}		
 		--cb_s;
-		*w++ = encode64_table[c3 & 0x3F];
+		*w++ = encode64_table[c3 & 0x3f];
     }	
     return w - d;
 }
@@ -908,13 +909,13 @@ int encode64(const byte* s, byte* d, int cb_s)
 Cvirtual_binary encode64(const Cvirtual_binary& s)
 {
 	Cvirtual_binary d;
-	d.size(encode64(s.data(), d.write_start(s.size() << 1), s.size()));
+	d.size(encode64(s.data(), d.write_start(s.size()), s.size()));
 	return d;
 }
 
-int decode64(const byte* s, byte* d)
+int decode64(const void* s, byte* d)
 {
-	const byte* r = s;
+	const byte* r = reinterpret_cast<const byte*>(s);
     byte* w = d;
     while (*r)
 	{
@@ -939,6 +940,18 @@ int decode64(const byte* s, byte* d)
 		*w++ = ((decode64_table[c3] << 6) & 0xc0) | decode64_table[c4];
     }	
 	return w - d;
+}
+
+Cvirtual_binary decode64(const void* s, int cb_s)
+{
+	Cvirtual_binary d;
+	d.size(decode64(s, d.write_start(cb_s << 1)));
+	return d;
+}
+
+Cvirtual_binary decode64(const Cvirtual_binary& s)
+{
+	return decode64(s.data(), s.size());
 }
 
 inline static void write5_count(byte*& w, int count)
