@@ -9,14 +9,14 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <cc_file_sh.h>
-#include <cc_structures.h>
+#include "cc_structures.h"
 #include "fname.h"
 #include "palet.h"
+#include "video_file.h"
 #include "virtual_file.h"
 #include "virtual_image.h"
 
-class Cshp_ts_file: public Ccc_file_sh<t_shp_ts_header>  
+class Cshp_ts_file: public Cvideo_file<t_shp_ts_header>  
 {
 public:
 	int extract_as_pcx(Cvirtual_image& d, const t_palet _palet, bool combine_shadows) const;
@@ -55,6 +55,21 @@ public:
 			}
 		}
 		return true;
+	}
+
+	int cf() const
+	{
+		return get_header()->c_images;
+	}
+
+	int cx() const
+	{
+		return get_header()->cx;
+	}
+
+	int cy() const
+	{
+		return get_header()->cy;
 	}
 
 	int get_c_images() const

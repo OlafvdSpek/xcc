@@ -4,6 +4,11 @@
 #include "pcx_decode.h"
 #include "pcx_file_write.h"
 
+void Ccps_file::decode(void* d) const
+{
+	decode80(get_image(), reinterpret_cast<byte*>(d));
+}
+
 int Ccps_file::extract_as_pcx(const string& name, const t_palet _palet) const
 {
 	t_palet palet;

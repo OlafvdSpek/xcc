@@ -9,16 +9,16 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <assert.h>
-#include <cc_file_sh.h>
-#include <cc_structures.h>
-#include <palet.h>
+#include "cc_structures.h"
+#include "image_file.h"
+#include "palet.h"
 #include "pcx_decode.h"
 #include "virtual_image.h"
 
-class Cpcx_file: public Ccc_file_sh<t_pcx_header>  
+class Cpcx_file: public Cimage_file<t_pcx_header>  
 {
 public:
+	void decode(void*) const;
 	void decode(Cvirtual_image& image) const;
 	int extract_as_png(const string& name) const;
 
@@ -34,12 +34,12 @@ public:
 			header.c_planes != 1 && header.c_planes != 3);
 	}
 
-	int get_cx() const
+	int cx() const
 	{
 		return get_header()->xmax - get_header()->xmin + 1;
 	}
 
-	int get_cy() const
+	int cy() const
 	{
 		return get_header()->ymax - get_header()->ymin + 1;
 	}
