@@ -79,7 +79,7 @@ BEGIN
     BEGIN
         MENUITEM "&New...\tCtrl+N",             ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "Close",                       ID_FILE_CLOSE
+        MENUITEM "Close\tBackspace",            ID_FILE_CLOSE
         MENUITEM "Create SFL",                  ID_FILE_CREATE_SFL
         MENUITEM "Find...\tCtrl+F",             ID_FILE_SEARCH
         POPUP "&Found"
@@ -516,7 +516,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.35"
+    IDR_MAINFRAME           "XCC Mixer 1.36"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 
