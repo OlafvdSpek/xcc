@@ -3,13 +3,14 @@
 //////////////////////////////////////////////////////////////////////
 
 #include <stdafx.h>
+#include "mix_file.h"
+
 #include "big_file.h"
 #include "blowfish.h"
 #include "crc.h"
 #include "id_log.h"
 #include "mix_cache.h"
 #include "mix_decode.h"
-#include "mix_file.h"
 #include "mix_rg_file.h"
 #include "pak_file.h"
 #include "string_conversion.h"
@@ -383,6 +384,11 @@ t_file_type Cmix_file::get_type(int id)
 int Cmix_file::get_id(t_game game, string name)
 {
 	name = to_upper(name);
+	for (int i = 0; i < name.length(); i++)
+	{
+		if (name[i] == '/')
+			name[i] = '\\';
+	}
 	switch (game)
 	{
 	case game_ts:
@@ -401,6 +407,7 @@ int Cmix_file::get_id(t_game game, string name)
 		}
 	case game_rg:
 	case game_gr:
+	case game_gr_zh:
 			return compute_crc(name.c_str(), name.length());
 	default:
 		int i = 0;

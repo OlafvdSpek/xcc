@@ -120,6 +120,8 @@ string xcc_dirs::get_csf_fname(t_game game)
 		return "ra2md.csf";
 	case game_gr:
 		return "data/english/generals.csf";
+	case game_gr_zh:
+		return "data/englishzh/generals.csf";
 	}
 	assert(false);
 	return "";
@@ -161,6 +163,10 @@ string xcc_dirs::get_language_mix(t_game game)
 		return ra2_dir + "language.mix";
 	case game_ra2_yr:
 		return ra2_dir + "langmd.mix";
+	case game_gr:
+		return gr_dir + "english.big";
+	case game_gr_zh:
+		return gr_dir + "englishzh.big";
 	}
 	assert(false);
 	return "";
@@ -391,9 +397,6 @@ void xcc_dirs::save_to_registry()
 	RegSetValueEx(kh_base, "dir1", 0, REG_SZ, (byte*)td_primary_dir.c_str(), td_primary_dir.length() + 1);
 	RegSetValueEx(kh_base, "dir2", 0, REG_SZ, (byte*)td_secondary_dir.c_str(), td_secondary_dir.length() + 1);
 	RegSetValueEx(kh_base, "ra_dir", ra_dir);
-	// RegSetValueEx(kh_base, "dune2000_dir", dune2000_dir);
-	// RegSetValueEx(kh_base, "ts_dir", ts_dir);
-	// RegSetValueEx(kh_base, "ra2_dir", ra2_dir);
 	RegSetValueEx(kh_base, "cddir", 0, REG_SZ, (byte*)cd_dir.c_str(), cd_dir.length() + 1);
 	RegSetValueEx(kh_base, "datadir", 0, REG_SZ, (byte*)data_dir.c_str(), data_dir.length() + 1);
 };
