@@ -577,16 +577,16 @@
 		{
 ?>
 <center>
-	<table>
-		<form action="<?php echo $_SERVER[SCRIPT_NAME]; ?>">
-			<input type=hidden name=lid value=<?php echo($lid) ?>>
+	<form action="<?php echo $_SERVER[SCRIPT_NAME]; ?>">
+		<input type=hidden name=lid value=<?php echo($lid) ?>>
+		<table>
 			<tr>
 				<td>Player:
 				<td><input type=text name=pname size=9>
 				<td><input type=submit value="Search">
 			</tr>
-		</form>
-	</table>
+		</table>
+	</form>
 </center>
 <hr>
 <?php
