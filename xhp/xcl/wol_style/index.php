@@ -64,28 +64,9 @@
 	db_connect();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<link rel=stylesheet href="common.css">
 <title>XCC Community Ladder</title>
-<body text="#BABABA" link="#BABABA" alink="#BABABA" vlink="#BABABA" topmargin="0">
-<style type='text/css'>
-	body
-	{
-		font-family: verdana;
-		font-size: 10px;
-		font-color: #ffffff;
-		background-color: #3a3a3a;
-	}
-	a:link, a:visited, a:active
-	{
-		color: #d8d8d8;
-		text-decoration: none;
-	}
-	a:hover
-	{
-		color: #bababa;
-		text-decoration: none;
-	}
-	.maintitle { vertical-align:middle;font-weight:normal; color:#ffffff; padding:8px 0px 8px 5px; background-image: url(images/tile_back.gif) }
-</style>
+<body text="#BABABA">
 <?
 	if($laddertype == "")
 		$laddertype = $config['ladderdefault'];
