@@ -68,7 +68,7 @@
 				XCC Community Ladder
 		<td align=right valign=bottom>
 			<a href="/xla/xla_black_list.php" title="Black List">BL</a> |
-			<a href="/xcl/docs/" title="Documents">Docs</a> |
+			<a href="docs/" title="Documents">Docs</a> |
 			<a target=_top href="http://ea.com/" title="Electronic Arts">EA</a> |
 			<a href="/cgi-bin/forum.cgi">Forum</a> |
 			<a href="/utilities/MF.zip" title="Matching Filter">MF</a> |
@@ -94,7 +94,7 @@
 				<IMG SRC="images/greyslices_03.gif" WIDTH=88 HEIGHT=34 ALT=""></a></TD>
 			<TD>    <A title="Black List" href="/xla/xla_black_list.php">
 				<IMG SRC="images/greyslices_04.gif" WIDTH=83 HEIGHT=34 ALT=""></a></TD>
-			<TD>    <A href="/xcl/?">
+			<TD>    <A href="?">
 				<IMG SRC="images/greyslices_05.gif" WIDTH=103 HEIGHT=34 ALT=""></a></TD>
 			<TD>    <A title="White List" href="/xla/xla_white_list.php">
 				<IMG SRC="images/greyslices_06.gif" WIDTH=84 HEIGHT=34 ALT=""></A></TD>
@@ -110,15 +110,15 @@
 		<TR>
 			<TD>
 				<IMG SRC="images/greyslices_11.gif" WIDTH=140 HEIGHT=39 ALT=""></TD>
-			<TD>    <A title=Documents href="/xcl/docs/">
+			<TD>    <A title=Documents href="docs/">
 				<IMG SRC="images/greyslices_12.gif" WIDTH=88 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A title="Hall of Fame" href="/xcl/?hof=">
+			<TD>    <A title="Hall of Fame" href="?hof=">
 				<IMG SRC="images/greyslices_13.gif" WIDTH=83 HEIGHT=39 ALT=""></A></TD>
 			<TD>    <A href="/cgi-bin/forum.cgi">
 				<IMG SRC="images/greyslices_14.gif" WIDTH=103 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A title="Hall of Shame" href="/xcl/?hos=">
+			<TD>    <A title="Hall of Shame" href="?hos=">
 				<IMG SRC="images/greyslices_15.gif" WIDTH=84 HEIGHT=39 ALT=""></A></TD>
-			<TD>    <A href="/xcl/?stats=">
+			<TD>    <A href="?stats=">
 				<IMG SRC="images/greyslices_16.gif" WIDTH=82 HEIGHT=39 ALT=""></a></TD>
 			<TD COLSPAN=3>
 				<IMG SRC="images/greyslices_17.gif" WIDTH=148 HEIGHT=39 ALT=""></TD>
@@ -126,7 +126,7 @@
 		<TR>
 			<TD COLSPAN=3>
 				<IMG SRC="images/greyslices_18.gif" WIDTH=311 HEIGHT=39 ALT=""></TD>
-			<TD>    <A href="/xcl/?lid=<?php echo $lid ?>&amp;update_ranks=">
+			<TD>    <A href="?lid=<?php echo $lid ?>&amp;update_ranks=">
 				<IMG SRC="images/greyslices_19.gif" WIDTH=103 HEIGHT=39 ALT=""></a></TD>
 			<TD COLSPAN=5>
 				<IMG SRC="images/greyslices_20.gif" WIDTH=314 HEIGHT=39 ALT=""></TD>
@@ -355,12 +355,12 @@
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where trny = 1 group by gsku order by count desc"));
+		$results = db_query(sprintf("select gsku, count(distinct pid) as count from xcl_games inner join xcl_games_players using (gid) where not cid group by gsku order by count desc"));
 		echo("<table><tr><th>Players<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
 		echo("</table><hr>");
-		$results = db_query(sprintf("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where trny = 2 group by gsku order by count desc"));
+		$results = db_query(sprintf("select gsku, count(distinct cid) as count from xcl_games inner join xcl_games_players using (gid) where cid group by gsku order by count desc"));
 		echo("<table><tr><th>Clans<th>Game");
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td>%s", $result[count], gsku2a($result[gsku]));
@@ -441,32 +441,6 @@
 					"));
 			else
 			{
-				$results = db_query($cid
-					? sprintf("select cty, count(*) as count from xcl_games_players where cid = %d group by cty order by count desc", $cid)
-					: sprintf("select cty, count(*) as count from xcl_games_players where not cid and pid = %d group by cty order by count desc", $pid));
-				if ($result = mysql_fetch_array($results))
-				{
-					echo("<table><tr><th>Count<th>Country");
-					do
-					{
-						printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
-					}
-					while ($result = mysql_fetch_array($results));
-					echo("</table><hr>");
-				}
-				$results = db_query($cid
-					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
-					: sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where not cid and pid = %d group by scen order by count desc", $pid));
-				if ($result = mysql_fetch_array($results))
-				{
-					echo("<table><tr><th>Count<th>Scenario");
-					do
-					{
-						printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
-					}
-					while ($result = mysql_fetch_array($results));
-					echo("</table><hr>");
-				}
 				$results = db_query(sprintf("select xcl_players.*, bl.name as bl, wl.name as wl, unix_timestamp(xcl_players.mtime) as mtime from xcl_players left join bl using (name) left join wl on (xcl_players.name = wl.name) where pid = %d", $cid ? $cid : $pid));
 				if ($result = mysql_fetch_array($results))
 				{
@@ -483,17 +457,46 @@
 					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) as scen, unix_timestamp(t1.mtime) as mtime from xcl_games as t1 inner join xcl_games_players as t2 using (gid) left join xcl_maps as t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $pid));
 			}
 			echo_games($results, $pid, $cid, $unfair_games);
-			if ($cid)
+			if ($cid || $pid)
 			{
-				$results = db_query(sprintf("select p.name, sum(pc > 0) as w,  sum(pc < 0) as l, sum(greatest(pc, 0)) as pw, sum(least(pc, 0)) as pl, sum(pc) as pc from xcl_games_players gp inner join xcl_players p using (pid) where cid = %d group by p.pid order by name", $cid));
-				echo("<hr><table>");
-				while ($result = mysql_fetch_array($results))
+				if ($cid)
 				{
-					printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
+					$results = db_query(sprintf("select p.name, sum(pc > 0) as w,  sum(pc < 0) as l, sum(greatest(pc, 0)) as pw, sum(least(pc, 0)) as pl, sum(pc) as pc from xcl_games_players gp inner join xcl_players p using (pid) where cid = %d group by p.pid order by name", $cid));
+					echo("<hr><table>");
+					while ($result = mysql_fetch_array($results))
+					{
+						printf("<tr><td>%s<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d<td align=right>%d", $result[name], $result[w], $result[l], $result[pw], $result[pl], $result[pc]);
+					}
+					echo("</table>");
 				}
-				echo("</table>");
+				$results = db_query($cid
+					? sprintf("select cty, count(*) as count from xcl_games_players where cid = %d group by cty order by count desc", $cid)
+					: sprintf("select cty, count(*) as count from xcl_games_players where not cid and pid = %d group by cty order by count desc", $pid));
+				if ($result = mysql_fetch_array($results))
+				{
+					echo("<hr><table><tr><th>Count<th>Country");
+					do
+					{
+						printf("<tr><td align=right>%d<td><img src=\"%s\" alt=\"%s\">", $result[count], get_country_flag_url($result[cty]), get_country_name($result[cty]));
+					}
+					while ($result = mysql_fetch_array($results));
+					echo("</table>");
+				}
+				$results = db_query($cid
+					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
+					: sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where not cid and pid = %d group by scen order by count desc", $pid));
+				if ($result = mysql_fetch_array($results))
+				{
+					echo("<hr><table><tr><th>Count<th>Scenario");
+					do
+					{
+						printf("<tr><td align=right>%d<td>%s", $result[count], $result[scen]);
+					}
+					while ($result = mysql_fetch_array($results));
+					echo("</table>");
+				}
 			}
-			if ($gid)
+			else if ($gid)
 			{
 				$results = db_query(sprintf("select * from xcl_games_players inner join xcl_players using (pid) where gid = %d", $gid));
 				echo("<hr><table>");
