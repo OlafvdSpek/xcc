@@ -623,7 +623,7 @@ function tr18(count, lid, name)
 
 function t18(v)
 {
-	document.write('<table><tr><th>Count<th>Name<th>Ladder');
+	document.write('<table><tr><th>Count<th align=left>Name<th>Ladder');
 	for (var i = 0; i + 3 <= v.length; i += 3)
 		tr18(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table><hr>');
