@@ -123,7 +123,7 @@ void Cdlg_shp_viewer::OnTimer(UINT nIDEvent)
 Cvirtual_image Cdlg_shp_viewer::decode_image(int i) const
 {
 	Cvirtual_image d;
-	d.load(NULL, m_decoder->cx(), m_decoder->cy(), 1, NULL);
+	d.load(NULL, m_decoder->cx(), m_decoder->cy(), m_decoder->cb_pixel(), NULL);
 	m_decoder->seek(i);
 	m_decoder->decode(d.image_edit());
 	if (m_decoder->palet())

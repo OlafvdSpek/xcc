@@ -26,7 +26,7 @@ class Cvqa_decoder: public Cvideo_decoder
 public:
 	int cb_pixel() const
 	{
-		return m_f.get_cbits_pixel() + 7 >> 3;
+		return m_f.get_cbits_pixel() == 8 ? 1 : 3;
 	}
 
 	int cf() const
@@ -48,11 +48,23 @@ public:
 	{
 		if (m_frame_i >= cf())
 			return 1;
-		while (!m_f.is_video_chunk())
-			m_f.skip_chunk();
-		Cvirtual_binary data;
-		m_f.read_chunk(data.write_start(m_f.get_chunk_size()));
-		m_vqa_d.decode_vqfr_chunk(data, m_frame.write_start(cb_image()), m_palet);
+		if (cb_pixel() == 1)
+		{
+			while (!m_f.is_video_chunk())
+				m_f.skip_chunk();
+			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk(), m_frame.write_start(cb_image()), m_palet);
+		}
+		else
+		{
+			if (m_f.get_chunk_id() == vqa_vqfl_id)
+			{
+				Cvirtual_binary data = m_f.read_chunk();
+				m_vqa_d.decode_vqfl_chunk(data, data.size());
+			}
+			while (!m_f.is_video_chunk())
+				m_f.skip_chunk();
+			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk(), m_frame.write_start(cb_image()), NULL);
+		}
 		if (d)
 			m_frame.read(d);
 		m_frame_i++;
@@ -71,6 +83,15 @@ public:
 		m_f.seek(sizeof(t_vqa_header));
 		m_f.read_chunk_header();
 		m_vqa_d.start_decode(*m_f.get_header());
+		if (cb_pixel() != 1)
+		{
+			DDPIXELFORMAT pf;
+			pf.dwRGBAlphaBitMask = 0;
+			pf.dwRBitMask = 0x0000ff;
+			pf.dwGBitMask = 0x00ff00;
+			pf.dwBBitMask = 0xff0000;
+			m_vqa_d.set_pf(pf, 3);
+		}
 		for (m_frame_i = 0; m_frame_i < f && !decode(NULL); )
 			;
 		return 0;
@@ -497,6 +518,12 @@ int Cvqa_file::read_chunk(void* data)
 {
 	int error = read(data, get_chunk_size());
 	return error ? error : read_chunk_header();
+}
+
+Cvirtual_binary Cvqa_file::read_chunk()
+{
+	Cvirtual_binary d;
+	return read_chunk(d.write_start(get_chunk_size())) ? Cvirtual_binary() : d;
 }
 
 void Cvqa_file::set_empty_chunk()
