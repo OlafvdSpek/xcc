@@ -664,7 +664,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				const byte* r = image.image();
 				for (int i = 0; i < f.cf(); i++)
 				{
-					draw_image8(image.image(), f.cx(), f.cy(), pDC, 0, m_y);
+					draw_image8(r, f.cx(), f.cy(), pDC, 0, m_y);
 					r += f.cb_image();
 					m_y += f.cy() + m_y_inc;
 				}
@@ -692,10 +692,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					{
 						if (f.is_compressed(i))
 						{
-							byte* image = new byte[cx * cy];
-							decode3(f.get_image(i), image, cx, cy);
+							Cvirtual_binary image;
+							decode3(f.get_image(i), image.write_start(cx * cy), cx, cy);
 							draw_image8(image, cx, cy, pDC, 0, m_y);
-							delete[] image;
 						}
 						else
 							draw_image8(f.get_image(i), cx, cy, pDC, 0, m_y);
