@@ -207,6 +207,8 @@ BEGIN
 
             MENUITEM "Paste as SHP (TS)",           ID_POPUP_CLIPBOARD_PASTE_AS_SHP_TS
 
+            MENUITEM "Paste as TGA",                ID_POPUP_CLIPBOARD_PASTE_AS_TGA
+
         END
         MENUITEM "&Extract...",                 ID_POPUP_EXTRACT
         MENUITEM "Copy",                        ID_POPUP_COPY
