@@ -25,6 +25,7 @@ public:
 	CIPAddressCtrl	m_ipa2;
 	CIPAddressCtrl	m_ipa;
 	CString	m_hosts;
+	CString	m_wolapi_dll;
 	//}}AFX_DATA
 
 	// ClassWizard generated virtual function overrides
