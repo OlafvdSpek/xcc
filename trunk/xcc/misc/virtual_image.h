@@ -34,8 +34,8 @@ public:
 	int load_as_pcx(string fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
 	int save(string fname, t_file_type ft) const;
-	int save_as_jpeg(Cvirtual_file& f) const;
-	int save_as_jpeg(string fname) const;
+	int save_as_jpeg(Cvirtual_file& f, int q = -1) const;
+	int save_as_jpeg(string fname, int q = -1) const;
 	void save_as_pcx(Cvirtual_file& f) const;
 	int save_as_pcx(string fname) const;
 	int save_as_png(Cvirtual_file& f) const;

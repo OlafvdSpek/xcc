@@ -25,6 +25,8 @@ enum t_app
 	app_xcr,
 	app_xrc,
 	app_xrmu,
+	app_xgs,
+	app_xgsp,
 	app_unknown
 };
 
@@ -33,11 +35,12 @@ class Cxcc_apps
 public:
 	bool is_available(t_app app) const;
 	string get_exe(t_app app) const;
-	void set_exe(t_app app, string exe);
-	void init();
 	Cxcc_apps();
 private:
 	typedef map<t_app, string> t_map;
+
+	void init();
+	void set_exe(t_app app, string exe);
 
 	t_map m_map;
 };

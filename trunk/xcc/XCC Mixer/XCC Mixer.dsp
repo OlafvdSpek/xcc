@@ -53,7 +53,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /machine:I386
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /machine:I386 /libpath:"..\..\misc\library"
 # SUBTRACT LINK32 /profile
 
 !ELSEIF  "$(CFG)" == "XCC Mixer - Win32 Debug"
@@ -80,7 +80,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
+# ADD LINK32 ddraw.lib dsound.lib vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib bzip_static.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept /libpath:"..\..\misc\library"
 # SUBTRACT LINK32 /profile
 
 !ENDIF 
@@ -111,10 +111,6 @@ SOURCE=..\..\misc\ETSLayout.cpp
 # Begin Source File
 
 SOURCE="..\..\xhp\cgi-bin\misc\file31.cpp"
-# End Source File
-# Begin Source File
-
-SOURCE="..\..\xhp\cgi-bin\misc\html.cpp"
 # End Source File
 # Begin Source File
 
@@ -160,10 +156,6 @@ SOURCE=.\shp_properties_dlg.cpp
 
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\tga_file.cpp
 # End Source File
 # Begin Source File
 
@@ -340,10 +332,6 @@ SOURCE=..\misc\st_file.h
 # Begin Source File
 
 SOURCE=.\StdAfx.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\tga_file.h
 # End Source File
 # Begin Source File
 

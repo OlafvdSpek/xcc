@@ -150,7 +150,7 @@ void Cmap_ts_ini_reader::write_report(ostream& os, string fname, const Cmap_ts_e
 {
 	string path = Cfname(fname).get_path();
 	string image_fname = Cfname(fname).get_ftitle();
-	Chtml page;
+	string page;
 	Cvirtual_image preview;
 	preview.load(encoder.preview_pack().data(), m_preview_data.cx, m_preview_data.cy, 3, NULL);
 	preview.save_as_png(path + image_fname + "_pv.png");

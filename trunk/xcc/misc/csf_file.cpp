@@ -3,7 +3,6 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <assert.h>
 #include "csf_file.h"
 #include "string_conversion.h"
 
@@ -58,14 +57,19 @@ int Ccsf_file::post_open()
 	for (int i = 0; i < get_header()->count1; i++)
 	{
 		read_int(r);
-		read_int(r);
+		int flags = read_int(r);
 		string name = read_string(r);
-		bool has_extra_value = read_int(r) == csf_string_w_id;
-		wstring value = read_wstring(r);
-		string extra_value;
-		if (has_extra_value)
-			extra_value = read_string(r);
-		set_value(name, value, extra_value);
+		if (flags & 1)
+		{
+			bool has_extra_value = read_int(r) == csf_string_w_id;
+			wstring value = read_wstring(r);
+			string extra_value;
+			if (has_extra_value)
+				extra_value = read_string(r);
+			set_value(name, value, extra_value);
+		}
+		else
+			set_value(name, wstring(), string());
 	}
 	return 0;
 }
@@ -74,9 +78,7 @@ string Ccsf_file::convert2string(const wstring& s)
 {
 	string r;
 	for (int i = 0; i < s.length(); i++)
-	{
 		r += ~s[i];
-	}
 	return r;
 }
 
@@ -84,9 +86,7 @@ wstring Ccsf_file::convert2wstring(const string& s)
 {
 	wstring r;
 	for (int i = 0; i < s.length(); i++)
-	{
 		r += 0xff00 | ~s[i];
-	}
 	return r;
 }
 

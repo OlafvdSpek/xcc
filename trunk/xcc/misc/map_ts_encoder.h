@@ -46,6 +46,7 @@ public:
 	void encode(const Cvirtual_binary palet);
 	Cvirtual_image create_heightmap() const;
 	Cvirtual_image create_preview() const;
+	void extract_map(t_iso_map_pack_entry4* d) const;
 	Cmap_ts_encoder(ostream& f, bool encode4);
 
 	Cvirtual_binary iso_map_pack() const

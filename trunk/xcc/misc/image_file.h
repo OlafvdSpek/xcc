@@ -20,8 +20,6 @@ using namespace std;
 class Cimage_file  
 {
 public:
-	Cimage_file();
-	~Cimage_file();
 };
 
 int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);

@@ -28,25 +28,25 @@ namespace xcc_structures
 	{
 		string long_name;
 		string short_name;
-		long cx;
-		long cy;
+		int cx;
+		int cy;
 		dword flags;
 		void* images;
 		void* images2;
 		void* icon;
 		dword blocked;
 		dword ground;
-		long power_in;
-		long power_out;
+		int power_in;
+		int power_out;
 	};
 	
 	dword c_structures();
 
-	long load_data();
-	long save_data();
+	int load_data();
+	int save_data();
 
-	long load_images(t_theater_id theater, bool load_icons);
-	long get_id(const string& s);
+	int load_images(t_theater_id theater, bool load_icons);
+	int get_id(const string& s);
 
 	void destroy();
 	t_structure_data_entry structure_data[];

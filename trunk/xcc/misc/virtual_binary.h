@@ -10,6 +10,7 @@
 #endif // _MSC_VER > 1000
 
 #include <string>
+#include "smart_ref.h"
 #include "vartypes.h"
 
 using namespace std;
@@ -17,7 +18,7 @@ using namespace std;
 class Cvirtual_binary_source
 {
 public:
-	Cvirtual_binary_source(const void* d, int cb_d);
+	Cvirtual_binary_source(const void* d, int cb_d, Csmart_ref_base* source = NULL);
 	void detach();
 	Cvirtual_binary_source* pre_edit();
 
@@ -39,7 +40,7 @@ public:
 
 	byte* data_edit()
 	{
-		assert(mc_references == 1);
+		assert(mc_references == 1 && !m_source);
 		return m_data;
 	}
 
@@ -50,20 +51,22 @@ public:
 
 	void size(int v)
 	{
-		assert(mc_references == 1 && v <= m_size);
+		assert(mc_references == 1 && !m_source && v <= m_size);
 		m_size = v;
 	}
 private:
 	byte* m_data;
 	int m_size;
 	int mc_references;
+	Csmart_ref_base* m_source;
 };
 
 class Cvirtual_binary  
 {
 public:
+	Cvirtual_binary sub_bin(int offset, int size) const;
 	int export(string fname) const;
-	int import(string fname);
+	int import(string fname, bool use_mm = true);
 	void clear();
 	void memset(int v);
 	int read(void* d) const;
@@ -73,6 +76,8 @@ public:
 	Cvirtual_binary();
 	Cvirtual_binary(const Cvirtual_binary& v);
 	Cvirtual_binary(const void* d, int cb_d);
+	Cvirtual_binary(const void* d, int cb_d, Csmart_ref_base* source);
+	explicit Cvirtual_binary(const string& fname, bool use_mm = true);
 	~Cvirtual_binary();
 
 	const byte* data() const
@@ -102,6 +107,11 @@ public:
 		assert(m_source);
 		m_source = m_source->pre_edit();
 		m_source->size(v);
+	}
+
+	operator const byte*() const
+	{
+		return data();
 	}
 private:
 	Cvirtual_binary_source* m_source;

@@ -29,10 +29,6 @@ public:
 	string get_name(int index) const
 	{
 		return m_old_index[index];
-		t_index::const_iterator i = m_index.begin();
-		while (index--)
-			i++;
-		return i->first;
 	}
 
 	int get_offset(const string& name) const

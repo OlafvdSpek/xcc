@@ -7,7 +7,7 @@
 
 #include "palet.h"
 
-enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, game_ra2_yr, game_rg, game_unknown};
+enum t_game {game_td, game_ra, game_ts, game_dune2, game_dune2000, game_ra2, game_ra2_yr, game_rg, game_gr, game_unknown};
 
 const char* game_name[];
 
@@ -436,8 +436,11 @@ struct t_w3d_header
 {
 	__int32 id;
 	__int32 m_size;
-	// unsigned __int16 size;
-	// unsigned __int16 unknown;
+
+	bool container() const
+	{
+		return m_size & 0x80000000;
+	}
 
 	int size() const
 	{
@@ -450,7 +453,7 @@ struct t_wsa_dune2_header
     __int16 c_frames;
     __int16 cx;
     __int16 cy;
-	__int32 delta;
+	__int16 delta;
 };
 
 struct t_wsa_header

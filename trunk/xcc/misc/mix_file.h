@@ -20,6 +20,10 @@ public:
 	string get_name(int id);
     static int get_id(t_game game, string name);
     int get_index(unsigned int id) const;
+	Ccc_file::get_size;
+	Ccc_file::get_vdata;
+	Cvirtual_binary get_vdata(int id);
+	Cvirtual_binary get_vdata(const string& name);
 	bool is_valid();
 	void close();
 	Cmix_file();
@@ -60,11 +64,6 @@ public:
     {
         return m_index[get_index(id)].offset;
     }
-
-    int get_size() const
-	{
-		return Ccc_file::get_size();
-	}
 
 	int get_size(unsigned int id) const
     {

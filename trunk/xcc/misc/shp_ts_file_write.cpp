@@ -30,6 +30,7 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 	byte* u = new byte[(global_cx + 1) * global_cy * 2];
 	for (int i = 0; i < c_images; i++)
 	{
+		w1 = d + (w1 - d + 7 & ~7);
 		int x = 0;
 		int y = 0;
 		int cx = 0;
@@ -81,7 +82,7 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 		image_header.cx = cx;
 		image_header.cy = cy;
 		image_header.compression = 0;
-		image_header.unknown = 0;
+		image_header.unknown = c_images & 1 || i < c_images / 2 ? 0x70000 : 0;
 		image_header.zero = 0;
 		image_header.offset = w1 - d;
 		w += sizeof(t_shp_ts_image_header);
@@ -104,7 +105,6 @@ int shp_ts_file_write(const byte* s, byte* d, int global_cx, int global_cy, int 
 		else
 			image_header.offset = 0;
 		r += global_cx * global_cy;
-		w1 = d + (w1 - d + 7 & ~7);
 	}
 	delete[] u;
 	delete[] t;

@@ -82,7 +82,7 @@ int Cvxl_file::extract_as_text(ostream& os) const
 		{
 			for (int x = 0; x < cx; x++)
 			{
-				const byte* r = get_span_data(0, j);
+				const byte* r = get_span_data(i, j);
 				if (r)
 				{
 					int z = 0;

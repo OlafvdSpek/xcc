@@ -6,6 +6,7 @@
 #endif // _MSC_VER >= 1000
 
 #include "vartypes.h"
+#include "virtual_binary.h"
 
 int decode2(const byte* s, byte* d, int cb_s, const byte* reference_palet);
 int decode3(const byte* s, byte* d, int cx, int cy);
@@ -15,7 +16,8 @@ int encode5(const byte* s, byte* d, int cb_s, int format);
 int decode5s(const byte* s, byte* d, int cb_s);
 int encode5s(const byte* s, byte* d, int cb_s);
 int decode64(const byte* s, byte* d);
-int encode64(const byte* s, byte* d, int cb_s);
+// int encode64(const byte* s, byte* d, int cb_s);
+Cvirtual_binary encode64(const Cvirtual_binary& s);
 int decode40(const byte image_in[], byte image_out[]);
 int decode80(const byte image_in[], byte image_out[]);
 int decode80c(const byte image_in[], byte image_out[], int cb_in);

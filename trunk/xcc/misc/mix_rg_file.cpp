@@ -72,7 +72,6 @@ int Cmix_rg_file::post_open()
 			r_tailer += cb_v;
 			m_index[v] = *r_index++;
 			m_old_index.push_back(v);
-
 		}
 	}
 	return error;

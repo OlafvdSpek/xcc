@@ -264,6 +264,8 @@ protected:
 	afx_msg void OnViewPaletSelect();
 	afx_msg void OnViewPaletAutoSelect();
 	afx_msg void OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSTE_GR();
+	afx_msg void OnUpdateLaunchXSTE_GR(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

@@ -28,8 +28,8 @@ class Cmix_file;
 class Ccc_file  
 {
 public:
-	HANDLE handle();
-	int attach(HANDLE handle);
+	const Cwin_handle& h();
+	int attach(const Cwin_handle& h);
 	void detach();
     int open(unsigned int id, Cmix_file& mix_f);
     int open(const string& name, Cmix_file& mix_f);
@@ -91,15 +91,15 @@ public:
     }
 protected:
 	bool m_data_loaded;
+    Cmix_file* m_mix_f;
+    int m_offset;
 private:
     void clean_up();
 
 	bool m_attached;
     Cvirtual_binary m_data;
     Cfile32 m_f;
-    Cmix_file* m_mix_f;
     bool m_is_open;
-    int m_offset;
     int m_p;
     const bool m_read_on_open;
     int m_size;

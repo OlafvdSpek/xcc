@@ -896,13 +896,20 @@ int encode64(const byte* s, byte* d, int cb_s)
 		*w++ = encode64_table[((c2 & 0xF) << 2) | ((c3 & 0xC0) >>6)];
 		if (cb_s == 0) 
 		{
-			*w++ = '=';			
+			*w++ = '=';
 			break;
 		}		
 		--cb_s;
 		*w++ = encode64_table[c3 & 0x3F];
     }	
     return w - d;
+}
+
+Cvirtual_binary encode64(const Cvirtual_binary& s)
+{
+	Cvirtual_binary d;
+	d.size(encode64(s.data(), d.write_start(s.size() << 1), s.size()));
+	return d;
 }
 
 int decode64(const byte* s, byte* d)

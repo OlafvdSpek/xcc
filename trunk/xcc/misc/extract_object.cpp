@@ -625,15 +625,15 @@ void Cextract_object::store_art_list(Cxif_key& k)
 	m_art_list.clear();
 }
 
-static Chtml report_file_list(const Cxif_key& k, const string& files_url)
+static string report_file_list(const Cxif_key& k, const string& files_url)
 {
 	if (!k.m_keys.size())
 		return "&nbsp;";
-	Chtml r;
+	string r;
 	for (t_xif_key_map::const_iterator i = k.m_keys.begin(); i != k.m_keys.end(); i++)
 	{
 		Cfname name = i->second.get_value_string(vi_name);
-		Chtml d = name; // .get_all();
+		string d = name; // .get_all();
 		int cb_f = i->second.exists_value(vi_value) ? i->second.get_value(vi_value).get_size() : -1;
 		if (cb_f < 0)
 			d += " (standard)";
@@ -659,11 +659,11 @@ static Chtml report_file_list(const Cxif_key& k, const string& files_url)
 	return r;
 }
 
-static Chtml report_key_list(const Cxif_key& k)
+static string report_key_list(const Cxif_key& k)
 {
 	if (!k.m_keys.size())
 		return "&nbsp;";
-	Chtml r;
+	string r;
 	for (t_xif_key_map::const_iterator i = k.m_keys.begin(); i != k.m_keys.end(); i++)
 		r += br(i->second.get_value_string(vi_name) + "=" + i->second.get_value_string(vi_value));
 	return r;
@@ -711,7 +711,7 @@ const char* ot_name[] = {"Aircraft", "Animation", "Art", "Building", "Credits", 
 
 int Cextract_object::report(const Cxif_key& k, char* d, const string& files_url)
 {
-	Chtml page;
+	string page;
 	if (k.exists_key(ot_credits))
 	{
 		const Cxif_key& credits_key = k.open_key_read(ot_credits);
@@ -739,7 +739,7 @@ int Cextract_object::report(const Cxif_key& k, char* d, const string& files_url)
 		for (t_xif_key_map::const_iterator j = l.m_keys.begin(); j != l.m_keys.end(); j++)
 		{
 			const Cxif_key& m = j->second;
-			Chtml r;
+			string r;
 			if (m.exists_key(ki_keys))
 				r += td(report_key_list(m.open_key_read(ki_keys)));
 			else

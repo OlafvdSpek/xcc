@@ -131,6 +131,7 @@ BEGIN
 
         END
         MENUITEM "DirectX options...",          ID_VIEW_DIRECTX_OPTIONS
+        , GRAYED
         MENUITEM "Directories...",              ID_VIEW_DIRECTORIES
         MENUITEM "&Report",                     ID_VIEW_REPORT
     END
@@ -157,6 +158,7 @@ BEGIN
         BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XSTE_RA2
             MENUITEM "&Red Alert 2 YR",             ID_LAUNCH_XSTE_RA2_YR
+            MENUITEM "&Generals",                   ID_LAUNCH_XSTE_GR
         END
         POPUP "XCC &Theme Writer"
         BEGIN
@@ -263,6 +265,7 @@ BEGIN
     "P",            ID_VIEW_PALET_SELECT,   VIRTKEY, CONTROL, NOINVERT
     "Q",            ID_VIEW_PALET_AUTO_SELECT, VIRTKEY, CONTROL, NOINVERT
     VK_DELETE,      ID_POPUP_DELETE,        VIRTKEY, NOINVERT
+    VK_DELETE,      ID_POPUP_DELETE,        VIRTKEY, SHIFT, NOINVERT
     VK_F5,          ID_POPUP_REFRESH,       VIRTKEY, NOINVERT
     VK_RETURN,      ID_POPUP_OPEN,          VIRTKEY, NOINVERT
 END
@@ -433,7 +436,9 @@ BEGIN
     CONTROL         "",IDC_IMAGE,"Static",SS_BITMAP | SS_CENTERIMAGE,7,7,172,
                     88
     CONTROL         "Slider1",IDC_SLIDER,"msctls_trackbar32",TBS_BOTH | 
-                    TBS_NOTICKS | WS_TABSTOP,7,100,100,15
+                    TBS_NOTICKS | WS_TABSTOP,35,100,72,15
+    EDITTEXT        IDC_FRAME,7,101,22,14,ES_RIGHT | ES_AUTOHSCROLL | 
+                    ES_READONLY | ES_NUMBER
 END
 
 
@@ -463,7 +468,7 @@ END
 
 STRINGTABLE PRELOAD DISCARDABLE 
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.21\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.22\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
 STRINGTABLE PRELOAD DISCARDABLE 

@@ -42,17 +42,13 @@ enum
 
 long Cxcc_templates::load_data()
 {
-	Ccc_file f(false);
+	Ccc_file f(true);
 	f.open(xcc_dirs::get_data_dir() + theater_xif_fname);
 	if (!f.is_open())
 		return 1;
-	const dword size = f.get_size();
-	byte* data = new byte[size];
-	f.read(data, size);
-	f.close();
 	Cxif_key base_key;
-	base_key.load_key(data, size);
-	delete[] data;
+	base_key.load_key(f.get_vdata());
+	f.close();
 	for (long i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
@@ -100,30 +96,18 @@ long Cxcc_templates::save_data()
 	{
 		Cxif_key& template_key = base_key.set_key(i);
 		const t_template_data_entry& td = template_data[i];
-		template_key.set_value(vi_td_cx, td.cx);
-		template_key.set_value(vi_td_cy, td.cy);
-		template_key.set_value(vi_td_c_images, td.c_images);
+		template_key.set_value_int(vi_td_cx, td.cx);
+		template_key.set_value_int(vi_td_cy, td.cy);
+		template_key.set_value_int(vi_td_c_images, td.c_images);
 		template_key.set_value_string(vi_td_fname, template_code[i]);
 		if (td.buildable)
-			template_key.set_value(vi_td_buildable, td.buildable);
+			template_key.set_value_int64(vi_td_buildable, td.buildable);
 		if (td.moveable)
-			template_key.set_value(vi_td_moveable, td.moveable);
+			template_key.set_value_int64(vi_td_moveable, td.moveable);
 		if (td.flags)
-			template_key.set_value(vi_td_flags, td.flags);
+			template_key.set_value_int(vi_td_flags, td.flags);
 	}
 	return base_key.vdata().export(xcc_dirs::get_data_dir() + theater_xif_fname);
-	/*
-	Cfile32 f;
-	if (f.open_write(xcc_dirs::get_data_dir() + theater_xif_fname))
-		return 1;
-	dword size = base_key.key_size();
-	byte* data = new byte[size];
-	base_key.save_key(data);
-	f.write(data, size);
-	delete[] data;
-	f.close();
-	return 0;
-	*/
 }
 
 long Cxcc_templates::load_images(t_theater_id theater)
@@ -185,7 +169,7 @@ long Cxcc_templates::load_images(t_theater_id theater)
 	{
 		Ccc_file f(false);
 		f.open(fname + ".pal", mixf);
-		f.read(reinterpret_cast<byte*>(palet), 768);
+		f.read(palet, 768);
 		f.close();
 		convert_palet_18_to_24(palet);
 		f.open(fname.substr(0, 1) + "shade.mrf", mixf);

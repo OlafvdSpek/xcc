@@ -91,8 +91,11 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 	m_size = m_mix_f->get_size(id);
 	m_p = 0;
     m_is_open = true;
+	m_data = mix_f.get_vdata(id);
     if (m_read_on_open)
-        test_fail(read(m_data.write_start(m_size), m_size));
+	{
+        // test_fail(read(m_data.write_start(m_size), m_size));
+	}
     test_fail(post_open())
     return 0;
 }
@@ -115,9 +118,10 @@ int Ccc_file::open(const string& name)
 	m_size = m_f.get_size();
 	m_p = 0;
     m_is_open = true;
+	m_data = m_f.get_mm();
     if (m_read_on_open)
     { 
-        test_fail(read(m_data.write_start(m_size), m_size));
+        // test_fail(read(m_data.write_start(m_size), m_size));
         m_f.close();
     }
 #ifndef NO_FT_SUPPORT
@@ -134,16 +138,16 @@ int Ccc_file::open(const string& name)
     return 0;
 }
 
-HANDLE Ccc_file::handle()
+const Cwin_handle& Ccc_file::h()
 {
 	assert(is_open());
-	return m_f.handle();
+	return m_f.h();
 }
 
-int Ccc_file::attach(HANDLE handle)
+int Ccc_file::attach(const Cwin_handle& h)
 {
     assert(!is_open());
-	m_f.open(handle);
+	m_f.open(h);
 	m_attached = true;
 	m_mix_f = NULL;
 	m_size = m_f.get_size();
@@ -185,7 +189,7 @@ t_file_type Ccc_file::get_file_type(bool fast)
 {
 	Cvirtual_binary data;
 	int size;
-	if (m_read_on_open)
+	if (1) // m_read_on_open)
 	{
 		data = m_data;
 		size = m_size;
@@ -425,7 +429,7 @@ int Ccc_file::read(void* data, int size)
 {
 	if (get_p() < 0 || get_p() + size > get_size())
 		return 1;
-	if (m_data_loaded)
+	if (get_data()) // m_data_loaded)
 	{
 		memcpy(data, m_data.data() + m_p, size);
 		skip(size);

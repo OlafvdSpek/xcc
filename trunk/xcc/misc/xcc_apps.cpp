@@ -20,6 +20,7 @@ static char THIS_FILE[]=__FILE__;
 
 Cxcc_apps::Cxcc_apps()
 {
+	init();
 }
 
 bool Cxcc_apps::is_available(t_app app) const
@@ -91,6 +92,8 @@ void Cxcc_apps::init()
 	set_exe(app_xap, xcc_path + "XCC AV Player.exe");
 	set_exe(app_xcr, xcc_path + "XCC Cheat Reporter.exe");
 	set_exe(app_xed, xcc_path + "XCC Editor.exe");
+	set_exe(app_xgs, xcc_path + "XCC Game Spy.exe");
+	set_exe(app_xgsp, xcc_path + "XCC Game Spy Player.exe");
 	set_exe(app_xmr, xcc_path + "XCC Mixer.exe");
 	set_exe(app_xme, xcc_path + "XCC Mix Editor.exe");
 	set_exe(app_xmc, xcc_path + "XCC Mod Creator.exe");

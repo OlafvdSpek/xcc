@@ -40,7 +40,7 @@ int Cmix_rg_edit::open(const string& name)
 		if (!error)
 		{
 			Cmix_rg_file f;
-			error = f.attach(m_f.handle());
+			error = f.attach(m_f.h());
 			if (!error)
 			{				
 				m_index = f.index();
@@ -120,6 +120,7 @@ int Cmix_rg_edit::write_index()
 		strcpy(reinterpret_cast<char*>(w), j->first.c_str());
 		w += j->first.length() + 1;
 	}
+	m_index_size = m_tailer_size = 0;
 	int offset = new_block(INT_MAX); 
 	m_f.seek(offset);
 	int error = m_f.write(d.data(), d.size());
@@ -146,7 +147,6 @@ int Cmix_rg_edit::compact()
 		if (1 && i->second->offset != offset)
 		{
 			assert(i->second->offset > offset);
-			int a_ofs = offset + 7 & ~7;
 			error = copy_block(m_f, i->second->offset, m_f, offset, i->second->size);
 			if (error)
 				break;

@@ -21,8 +21,8 @@ namespace xcc_infantry
 	{
 		string long_name;
 		string short_name;
-		long cx;
-		long cy;
+		int cx;
+		int cy;
 		dword flags;
 		void* images;
 		void* icon;
@@ -30,11 +30,11 @@ namespace xcc_infantry
 	
 	dword c_infantry();
 
-	long load_data();
-	long save_data();
+	int load_data();
+	int save_data();
 
-	long load_images(bool load_icons);
-	long get_id(const string& s);
+	int load_images(bool load_icons);
+	int get_id(const string& s);
 
 	void destroy();
 	t_infantry_data_entry infantry_data[];

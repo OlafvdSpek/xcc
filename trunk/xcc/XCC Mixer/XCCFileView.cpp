@@ -577,6 +577,21 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Version:", mpv_name[header.version()]);
 				break;
 			}
+		case ft_pal:
+			{
+				Cpal_file f;
+				f.load(m_data);
+				int y = m_y;
+				const t_palet_entry* palet = f.get_palet();
+				for (int i = 0; i < 256; i++)
+				{
+					CBrush brush;
+					brush.CreateSolidBrush(RGB(palet[i].r * 255 / 63, palet[i].g * 255 / 63, palet[i].b * 255 / 63));
+					y += m_y_inc;
+					pDC->FillRect(CRect(CPoint(100, y), CSize(24, m_y_inc * 2 / 3)), &brush);
+				}
+				break;
+			}
 		case ft_pcx:
 			{
 				Cpcx_file f;
@@ -1145,9 +1160,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					m_y += m_y_inc;
 					const t_palet_entry* palet = f.get_palet();
 					for (int i = 0; i < 256; i++)
-					{
-						draw_info((nh(2, i) + " - " + nwzl(2, palet[i].r) + ' '+ nwzl(2, palet[i].g) + ' '+ nwzl(2, palet[i].b)), "");
-					}
+						draw_info((nh(2, i) + " - " + nwzl(2, palet[i].r) + ' '+ nwzl(2, palet[i].g) + ' ' + nwzl(2, palet[i].b)), "");
 					break;
 				}
 			case ft_pkt_ts:
@@ -1158,9 +1171,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					draw_info("Count maps:", n(ml.size()));
 					m_y += m_y_inc;
 					for (Cpkt_ts_ini_reader::t_map_list::const_iterator i = ml.begin(); i != ml.end(); i++)
-					{
 						draw_info(i->first, i->second.m_description + ", " + i->second.m_gamemode);
-					}
 					break;
 				}
 			case ft_sound_ini_ts:

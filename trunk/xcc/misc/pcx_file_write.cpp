@@ -49,6 +49,13 @@ int Cpcx_file_write::write_palet(const t_palet palet)
 	return write(palet, sizeof(t_palet));
 }
 
+Cvirtual_binary pcx_file_write(const byte* image, const t_palet_entry* palet, int cx, int cy)
+{
+	Cvirtual_file f;
+	pcx_file_write(f, image, palet, cx, cy);
+	return f.read();
+}
+
 void pcx_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy)
 {
 	int c_planes = palet ? 1 : 3;

@@ -27,6 +27,7 @@ private:
 	int mc_planes;
 };
 
+Cvirtual_binary pcx_file_write(const byte* image, const t_palet_entry* palet, int cx, int cy);
 void pcx_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy);
 int pcx_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy);
 
