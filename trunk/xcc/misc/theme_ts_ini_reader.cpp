@@ -38,13 +38,18 @@ void Ctheme_data::side(string v)
 	m_side = v;
 }
 
+void Ctheme_data::sound(string v)
+{
+	m_sound = v;
+}
+
 void Ctheme_data::repeat(bool v)
 {
 	m_repeat = v;
 }
 
 static const char* section_code[] = {"themes", "unknown"};
-static const char* theme_code[] = {"name", "length", "normal", "scenario", "side", "repeat", "unknown"};
+static const char* theme_code[] = {"name", "length", "normal", "scenario", "side", "sound", "repeat", "unknown"};
 
 Ctheme_ts_ini_reader::Ctheme_ts_ini_reader()
 {
@@ -78,7 +83,8 @@ int Ctheme_ts_ini_reader::process_key(const string& name, const string& value)
 	switch (m_section)
 	{
 	case sei_themes:
-		m_theme_list[to_lower(value)];
+		if (!value.empty())
+			m_theme_list[to_lower(value)];
 		break;
 	case sei_unknown:
 		switch (find_id(name, theme_code, thi_unknown))
@@ -97,6 +103,9 @@ int Ctheme_ts_ini_reader::process_key(const string& name, const string& value)
 			break;
 		case thi_side:
 			m_theme_list[m_current_theme].side(value);
+			break;
+		case thi_sound:
+			m_theme_list[m_current_theme].sound(value);
 			break;
 		case thi_repeat:
 			m_theme_list[m_current_theme].repeat(atob(to_lower(value)));
