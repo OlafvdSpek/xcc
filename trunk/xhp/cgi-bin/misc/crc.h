@@ -9,11 +9,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class Ccrc  
+class Ccrc
 {
 public:
 	void do_block(const void* data, int size);
-	
+
 	void init()
 	{
 		m_crc = 0;
