@@ -16,7 +16,7 @@ int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const 
 	{
 #ifdef JPEG_SUPPORT
 	case ft_jpeg:
-		return jpeg_file_write(f, image, palet, cx, cy);;
+		return jpeg_file_write(f, image, palet, cx, cy);
 #else
 		return 1;
 #endif
@@ -28,7 +28,7 @@ int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const 
 		return 0;
 	default:
 #ifdef PNG_SUPPORT
-		return png_file_write(f, image, palet, cx, cy);;
+		return png_file_write(f, image, palet, cx, cy);
 #else
 		return 1;
 #endif

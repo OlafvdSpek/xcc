@@ -1052,7 +1052,7 @@ int Cxcc_mod::launch_manual(const Cxif_key& key, string dir, HWND hWnd)
 		string fname = i->second.get_value_string(vi_fname);
 		if (Cfname(fname).get_ftitle() == "index")
 			index = fname;
-		error = i->second.get_value(vi_fdata).get_vdata().export(dir + fname);;
+		error = i->second.get_value(vi_fdata).get_vdata().export(dir + fname);
 	}
 	if (!error)
 	{

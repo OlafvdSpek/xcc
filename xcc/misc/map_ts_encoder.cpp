@@ -746,7 +746,7 @@ Cvirtual_image Cmap_ts_encoder::create_preview() const
 		{
 			if (x + y & 1)
 			{
-				const t_palet_entry* c = get_radar_colors(s, r->tile, r->sub_tile);;
+				const t_palet_entry* c = get_radar_colors(s, r->tile, r->sub_tile);
 				int a = get_x(x, y, m_header.cx) << 1;
 				int b = get_y(x, y, m_header.cx);	
 				image.pixel24(a, b, c[0]);

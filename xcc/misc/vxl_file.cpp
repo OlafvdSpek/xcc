@@ -290,7 +290,7 @@ int vxl_file_write(const Cxif_key& s, byte* d)
 			}
 		}
 	}
-	header.size = w - body_start;;
+	header.size = w - body_start;
 	for (i = 0; i < c_sections; i++)
 	{
 		const Cxif_key& section_key = body_key.open_key_read(i);

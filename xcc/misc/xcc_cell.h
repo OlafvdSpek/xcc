@@ -47,7 +47,7 @@ public:
 
 	unsigned int get_xcc() const
 	{
-		return x >> 8 | y & 0xff00;;
+		return x >> 8 | y & 0xff00;
 	}
 	
 	void set_xcc(unsigned int v)
