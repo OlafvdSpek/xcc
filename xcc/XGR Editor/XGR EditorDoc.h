@@ -38,7 +38,9 @@ public:
 
 // Implementation
 public:
-	void erase(const string& v);
+	void insert(const string& name, const Cvirtual_binary& d);
+	void erase(const string& name);
+	void SetModifiedFlag(BOOL bModified = true);
 	virtual ~CXGREditorDoc();
 
 protected:

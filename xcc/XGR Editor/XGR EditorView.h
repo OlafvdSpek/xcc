@@ -38,34 +38,34 @@ public:
 
 // Implementation
 public:
+	void save();
 	void close();
-	void open(const Cvirtual_binary& d);
+	void open(const string& name, const Cvirtual_binary& d);
 	virtual ~CXGREditorView();
 
 protected:
-	void insert_section(int l, const Cgr_ini_reader::Csection& section);
+	void insert_section(int l, Cgr_ini_reader::Csection& section);
 
 // Generated message map functions
 protected:
 	//{{AFX_MSG(CXGREditorView)
 	afx_msg void OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnPopupOpen();
+	afx_msg void OnUpdatePopupOpen(CCmdUI* pCmdUI);
+	afx_msg void OnDblclk(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
-	string m_buffer[4];
-	int m_buffer_w;
-	Cgr_ini_editor m_ini;
-
 	struct t_map_entry
 	{
 		int l;
-		const Cgr_ini_editor::Csection* section;
+		Cgr_ini_editor::Csection* section;
 
 		t_map_entry()
 		{
 		}
 
-		t_map_entry(int _l, const Cgr_ini_editor::Csection* _section)
+		t_map_entry(int _l, Cgr_ini_editor::Csection* _section)
 		{
 			l = _l;
 			section = _section;
@@ -74,6 +74,10 @@ private:
 
 	typedef map<int, t_map_entry> t_map;
 
+	string m_buffer[4];
+	int m_buffer_w;
+	Cgr_ini_editor m_ini;
+	string m_ini_name;
 	t_map m_map;
 };
 
