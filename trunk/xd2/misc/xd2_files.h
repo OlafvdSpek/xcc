@@ -140,11 +140,8 @@ struct t_unit_type
 class Cxd2_files  
 {
 public:
-	const t_building_type* building_types() const;
-	int c_building_types() const;
+	const Cxd2_shape& shapes2() const;
 	const Cxd2_image& shape(int i) const;
-	const t_unit_type* unit_types() const;
-	int c_unit_types() const;
 	int load(const Cxif_key_r& key);
 	Cxif_key save() const;
 	int load(const string& dir);
@@ -174,6 +171,26 @@ public:
 	{
 		return m_shape_map;
 	}
+
+	const t_building_type* building_types() const
+	{
+		return reinterpret_cast<const t_building_type*>(m_building_types.data());
+	}
+
+	int c_building_types() const
+	{
+		return m_building_types.size() / sizeof(t_building_type);
+	}
+
+	const t_unit_type* unit_types() const
+	{
+		return reinterpret_cast<const t_unit_type*>(m_unit_types.data());
+	}
+
+	int c_unit_types() const
+	{
+		return m_unit_types.size() / sizeof(t_unit_type);
+	}
 private:
 	int load_audio_pak(const string& name);
 	int load_pak(const string& name);
@@ -184,6 +201,9 @@ private:
 	Cxd2_data_map m_data_map;
 	Cxd2_image_map m_image_map;
 	Cxd2_shape_map m_shape_map;
+
+	Cvirtual_binary m_building_types;
+	Cvirtual_binary m_unit_types;
 };
 
 #endif // !defined(AFX_XD2_FILES_H__07830A80_534B_11D7_B607_0000C006A2C2__INCLUDED_)

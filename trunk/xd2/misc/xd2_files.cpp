@@ -21,29 +21,14 @@ Cxd2_files::Cxd2_files()
 {
 }
 
-const t_building_type* Cxd2_files::building_types() const
+const Cxd2_shape& Cxd2_files::shapes2() const
 {
-	return reinterpret_cast<const t_building_type*>(data_map().get("dune2 building types.bin").data());
-}
-
-int Cxd2_files::c_building_types() const
-{
-	return data_map().get("dune2 building types.bin").size() / sizeof(t_building_type);
-}
-
-const t_unit_type* Cxd2_files::unit_types() const
-{
-	return reinterpret_cast<const t_unit_type*>(data_map().get("dune2 unit types.bin").data());
-}
-
-int Cxd2_files::c_unit_types() const
-{
-	return data_map().get("dune2 unit types.bin").size() / sizeof(t_unit_type);
+	return shapes().get("dune2 shapes.shp");
 }
 
 const Cxd2_image& Cxd2_files::shape(int i) const
 {
-	return shapes().get("dune2 shapes.shp").get(i);
+	return shapes2().get(i);
 }
 
 enum
@@ -62,6 +47,9 @@ int Cxd2_files::load(const Cxif_key_r& key)
 	m_data_map.load(key.get_key(vi_data));
 	m_image_map.load(key.get_key(vi_images));
 	m_shape_map.load(key.get_key(vi_shapes));
+
+	m_building_types = data_map().get("dune2 building types.bin");
+	m_unit_types = data_map().get("dune2 unit types.bin");
 	return 0;
 }
 
@@ -79,6 +67,8 @@ Cxif_key Cxd2_files::save() const
 int Cxd2_files::load(const string& dir)
 {
 	Cvirtual_binary exe(dir + "dune2.exe");
+	if (exe.size() != 367794)
+		return 1;
 	m_data_map.set("dune2 building types.bin", Cvirtual_binary(exe + 193930, 19 * 96));
 	m_data_map.set("dune2 unit types.bin", Cvirtual_binary(exe + 195760, 27 * 90));
 	return load_audio_pak(dir + "atre.pak")
@@ -112,9 +102,7 @@ int Cxd2_files::load_audio_pak(const string& name)
 		assert(f.is_valid());
 		assert(!m_audio_map.has(name));
 		m_audio_map.set(name, Cxd2_audio(Cvirtual_binary(f.get_sound_data(), f.get_c_samples()), f.get_samplerate()));
-		f.close();
 	}
-	pak_f.close();
 	return 0;
 }
 
@@ -164,16 +152,6 @@ static Cxd2_shape load_shape(const Cshp_dune2_file& f)
 	return d;
 }
 
-static void add_shape(Cxd2_shape_map& shapes, const string& name, Cxd2_shape& d, int d_i)
-{
-	if (!shapes.has(name))
-		return;
-	const Cxd2_shape& s = shapes.get(name);
-	for (int i = 0; i < s.size(); i++)
-		d.set(d_i + i, s.get(i));
-	shapes.erase(name);
-}
-
 int Cxd2_files::load_pak(const string& name)
 {
 	Cmix_file pak_f;
@@ -190,11 +168,9 @@ int Cxd2_files::load_pak(const string& name)
 				Ccps_file f;
 				f.open(id, pak_f);
 				assert(f.is_valid());
-				// assert(!f.has_palet());
 				Cvirtual_binary d;
 				decode80(f.get_image(), d.write_start(320 * 200));
 				m_image_map.set(name, Cxd2_image(d, 320, 200));
-				f.close();
 				break;
 			}
 		case ft_shp_dune2:
@@ -203,7 +179,6 @@ int Cxd2_files::load_pak(const string& name)
 				f.open(id, pak_f);
 				assert(f.is_valid());
 				m_shape_map.set(name, load_shape(f));
-				f.close();
 				break;
 			}
 		case ft_wsa_dune2:
@@ -212,7 +187,6 @@ int Cxd2_files::load_pak(const string& name)
 				f.open(id, pak_f);
 				assert(f.is_valid());
 				m_animation_map.set(name, load_animation(f));
-				f.close();
 				break;
 			}
 		default:
@@ -240,11 +214,19 @@ int Cxd2_files::load_pak(const string& name)
 				}
 				m_data_map.set(name, d);
 			}
-			f.close();
 		}
 	}
-	pak_f.close();
 	return 0;
+}
+
+static void add_shape(Cxd2_shape_map& shapes, const string& name, Cxd2_shape& d, int d_i)
+{
+	if (!shapes.has(name))
+		return;
+	const Cxd2_shape& s = shapes.get(name);
+	for (int i = 0; i < s.size(); i++)
+		d.set(d_i + i, s.get(i));
+	shapes.erase(name);
 }
 
 int Cxd2_files::process()
