@@ -12,6 +12,7 @@ int get_net_part(int v);
 bool atob(string s);
 string btoa(bool v);
 bool is_white(char v);
+string js_encode(const string&);
 string n(unsigned int v);
 string n(int v);
 string n(__int64 v);
