@@ -39,6 +39,7 @@ public:
 
 // Implementation
 public:
+	int focus() const;
 	void clear_game_dir();
 	void launch();
 	void options();
@@ -76,6 +77,8 @@ protected:
 	afx_msg void OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnPopupExplore();
 	afx_msg void OnUpdatePopupExplore(CCmdUI* pCmdUI);
+	afx_msg void OnPopupProperties();
+	afx_msg void OnUpdatePopupProperties(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStruct);
 	DECLARE_MESSAGE_MAP()

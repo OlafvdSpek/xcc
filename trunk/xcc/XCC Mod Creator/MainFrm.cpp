@@ -38,7 +38,6 @@ static UINT indicators[] =
 
 CMainFrame::CMainFrame()
 {
-	m_apps.init();
 }
 
 CMainFrame::~CMainFrame()

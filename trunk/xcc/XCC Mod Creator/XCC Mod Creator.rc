@@ -182,6 +182,7 @@ BEGIN
     VK_INSERT,      ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
     VK_INSERT,      ID_EDIT_PASTE,          VIRTKEY, SHIFT, NOINVERT
     VK_RETURN,      ID_POPUP_OPEN,          VIRTKEY, NOINVERT
+    VK_RETURN,      ID_POPUP_PROPERTIES,    VIRTKEY, ALT, NOINVERT
     "X",            ID_EDIT_CUT,            VIRTKEY, CONTROL, NOINVERT
     "Z",            ID_EDIT_UNDO,           VIRTKEY, CONTROL, NOINVERT
 END
@@ -358,6 +359,8 @@ BEGIN
         MENUITEM "&Explore",                    ID_POPUP_EXPLORE
         MENUITEM "&Insert...\tIns",             ID_EDIT_INSERT
         MENUITEM "&Delete\tDel",                ID_EDIT_DELETE
+        MENUITEM SEPARATOR
+        MENUITEM "&Properties\tAlt+Enter",      ID_POPUP_PROPERTIES
     END
 END
 
@@ -415,6 +418,21 @@ BEGIN
                     BS_AUTOCHECKBOX | WS_TABSTOP,101,186,71,10
 END
 
+IDD_PROPERTIES DIALOG DISCARDABLE  0, 0, 186, 63
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Properties"
+FONT 8, "MS Sans Serif"
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,72,42,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,129,42,50,14
+    LTEXT           "Mode:",IDC_STATIC,7,7,21,8
+    COMBOBOX        IDC_MODE,41,7,138,343,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+    LTEXT           "Module:",IDC_STATIC,7,26,26,8
+    COMBOBOX        IDC_MODULE,41,25,138,343,CBS_DROPDOWN | WS_VSCROLL | 
+                    WS_TABSTOP
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -430,6 +448,14 @@ BEGIN
         RIGHTMARGIN, 341
         TOPMARGIN, 7
         BOTTOMMARGIN, 288
+    END
+
+    IDD_PROPERTIES, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 179
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 56
     END
 END
 #endif    // APSTUDIO_INVOKED
