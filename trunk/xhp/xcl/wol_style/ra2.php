@@ -19,7 +19,7 @@ $total=mysql_num_rows($result);
 if($total == 0) {
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=1">XCC community ladder</a> &raquo; Search Result for <?=$id?></font></th>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="?laddertype=1">XCC community ladder</a> &raquo; Search Result for <?=$id?></font></th>
 </table>
 <table bgcolor="#113341" width="100%" cellspacing="0" cellpadding="5" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
 <tr>
@@ -29,7 +29,7 @@ if($total == 0) {
 <tr>
 <td width="100%">
 <? if($lid == $player_lid) { $ladr = "player"; } else { $ladr = "clan"; } ?>
-<META HTTP-EQUIV=Refresh CONTENT="1; URL=<?=$PHP_SELF?>?ladr=<?=$ladr?>&laddertype=1">
+<META HTTP-EQUIV=Refresh CONTENT="1; URL=?ladr=<?=$ladr?>&laddertype=1">
 <br><div align="center"><font face="VERDANA,ARIAL,HELVETICA" size="2">Clan/Player/rank not found</div><br><br>
 
 
@@ -52,16 +52,16 @@ function jumpTo(URL_List){
 // --->
 </SCRIPT>
 <select NAME="" style="background-color: #113341; color: #ffffff; width:200;" onChange="jumpTo(this);">
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Ra2 Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=1&ladr=player" <? if($ladr == "player" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=1&ladr=clan" <? if($ladr == "clan" && $laddertype == "1" or $ladr == "" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Yuri Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=2&ladr=player" <? if($ladr == "player" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=2&ladr=clan"  <? if($ladr == "clan" && $laddertype == "2" or $ladr == "" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- TS Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=3&ladr=player" style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=3&ladr=clan" style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Other options</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Ra2 Ladder</option>
+<option value="?laddertype=1&ladr=player" <? if($ladr == "player" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=1&ladr=clan" <? if($ladr == "clan" && $laddertype == "1" or $ladr == "" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Yuri Ladder</option>
+<option value="?laddertype=2&ladr=player" <? if($ladr == "player" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=2&ladr=clan"  <? if($ladr == "clan" && $laddertype == "2" or $ladr == "" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- TS Ladder</option>
+<option value="?laddertype=3&ladr=player" style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=3&ladr=clan" style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Other options</option>
 <option value="http://xwis.net/xcl/?hof=" style="color: #B5B5B5;">Hall of Fame</option>
 <option value="http://xwis.net/xcl/?hos=" style="color: #B5B5B5;">Hall of Shame</option>
 <option value="http://xwis.net/xcl/?stats=" style="color: #B5B5B5;">Statistics</option>
@@ -202,7 +202,7 @@ if($data[points] < 150 && $data[points] > 0) { $button = "<img src=\"images/ra2/
 <tr>
 <td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?></font>
 <td width="12%"><?=$button?>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
 <td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
@@ -235,7 +235,7 @@ while ($data = mysql_fetch_array($query)) {
 ?>
 
 <table width="100%" border="0" class="maintitle" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th colspan="2" align="left" class="maintitle" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=1">XCC community ladder</a> &raquo; Clanstats for [<?=$data[name]?>]</font></th>
+<tr><th colspan="2" align="left" class="maintitle" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="?laddertype=1">XCC community ladder</a> &raquo; Clanstats for [<?=$data[name]?>]</font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" bgcolor="#113341" valign="top" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -358,17 +358,17 @@ $pts_clan2 = $rows_2_1[summe];
 
 if($rows3[pc] == 0 && $data3[pc] == 0) {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Plays <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Plays <a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
 
 } else {
 
 if($data3[pc] > 1) {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Defeats <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Defeats <a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
 
 } else {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts ) Defeats <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts ) Defeats <a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts )";
 
 }
 
@@ -399,7 +399,7 @@ if($Monat == 12) { $month = "Dez"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
 echo "$month $Tag, $Jahr";
-?> - <?=$matchtext?> in game# <a href="<?=$PHP_SELF?>?laddertype=1&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
+?> - <?=$matchtext?> in game# <a href="?laddertype=1&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
 
 
@@ -428,7 +428,7 @@ $query = db_query("SELECT * FROM xcl_players WHERE pid='$id' AND lid='$player_li
 while ($data = mysql_fetch_array($query)) {
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=1">XCC community ladder</a> &raquo; Playerstats for <?=$data[name]?></font></th>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="?laddertype=1">XCC community ladder</a> &raquo; Playerstats for <?=$data[name]?></font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -549,17 +549,17 @@ $pts_clan2 = $rows_2_1[summe];
 
 if($rows3[pc] == 0 && $data3[pc] == 0) {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Plays <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Plays <a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
 
 } else {
 
 if($data3[pc] > 1) {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Defeats <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts ) Defeats <a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts )";
 
 } else {
 
-$matchtext = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts ) Defeats <a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts )";
+$matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Font color=\"FFFF00\">".$rows2["name"]."</a></font> ( ".$pts_clan2." pts ) Defeats <a href=\"?mode=showplayer&laddertype=1&id=".$rows1["pid"]."\"><Font color=\"FFFF00\">".$rows1["name"]."</a></font> ( ".$pts_clan1." pts )";
 
 }
 
@@ -593,7 +593,7 @@ if($Monat == 12) { $month = "Dez"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
 echo "$month $Tag, $Jahr";
-?> - <?=$matchtext?> in game# <a href="<?=$PHP_SELF?>?mode=showmatch&laddertype=1&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
+?> - <?=$matchtext?> in game# <a href="?mode=showmatch&laddertype=1&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
 
 
@@ -620,7 +620,7 @@ while ($data = mysql_fetch_array($query)) {
 $gametype = $data[trny];
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2">
-<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="<?=$PHP_SELF?>?laddertype=1">XCC community ladder</a> &raquo; Match #<?=$data[gid]?></font></th>
+<tr><th class="maintitle" colspan="2" align="left" height="30"><span class="thnorm"><font face="Tahoma" size="2">&nbsp;<a href="?laddertype=1">XCC community ladder</a> &raquo; Match #<?=$data[gid]?></font></th>
 </table>
 
 <table width="100%" border="0" cellspacing="1" cellpadding="5" bgcolor="#113341" style="border-bottom: 1px solid black; border-right: 1px solid black; border-left: 1px solid black;">
@@ -767,7 +767,7 @@ while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 
 if($data3[pc] > 0) { $result = "Won"; } else { $result = "Lost"; }
 
-if($clansh != "") { $alink = "<a href=\"$PHP_SELF?mode=showclan&laddertype=1&id=$data3[cid]\">"; } else { $alink = "<a href=\"$PHP_SELF?mode=showplayer&laddertype=1&id=$data_nick1[pid]\">"; }
+if($clansh != "") { $alink = "<a href=\"?mode=showclan&laddertype=1&id=$data3[cid]\">"; } else { $alink = "<a href=\"?mode=showplayer&laddertype=1&id=$data_nick1[pid]\">"; }
 ?>
 <?=$alink?><Font size="4"><b><?=$data_nick1[name]?></a> <?=$clansh?></b></font>
 <table width="60%" cellspacing="2" cellpadding="3">
@@ -854,16 +854,16 @@ function jumpTo(URL_List){
 // --->
 </SCRIPT>
 <select NAME="" style="background-color: #113341; color: #ffffff; width:200;" onChange="jumpTo(this);">
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Ra2 Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=1&ladr=player" <? if($ladr == "player" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=1&ladr=clan" <? if($ladr == "clan" && $laddertype == "1" or $ladr == "" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Yuri Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=2&ladr=player" <? if($ladr == "player" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=2&ladr=clan"  <? if($ladr == "clan" && $laddertype == "2" or $ladr == "" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- TS Ladder</option>
-<option value="<?=$PHP_SELF?>?laddertype=3&ladr=player" style="color: #B5B5B5;">XCL - Player</option>
-<option value="<?=$PHP_SELF?>?laddertype=3&ladr=clan" style="color: #B5B5B5;">XCL - Clan</option>
-<option value="<?=$PHP_SELF?>" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Other options</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Ra2 Ladder</option>
+<option value="?laddertype=1&ladr=player" <? if($ladr == "player" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=1&ladr=clan" <? if($ladr == "clan" && $laddertype == "1" or $ladr == "" && $laddertype == "1") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Yuri Ladder</option>
+<option value="?laddertype=2&ladr=player" <? if($ladr == "player" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=2&ladr=clan"  <? if($ladr == "clan" && $laddertype == "2" or $ladr == "" && $laddertype == "2") { echo "selected"; } ?> style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- TS Ladder</option>
+<option value="?laddertype=3&ladr=player" style="color: #B5B5B5;">XCL - Player</option>
+<option value="?laddertype=3&ladr=clan" style="color: #B5B5B5;">XCL - Clan</option>
+<option value="" disabled="disabled" style="background-color: #164356; color: #FFFFB0;">---- Other options</option>
 <option value="http://xwis.net/xcl/?hof=" style="color: #B5B5B5;">Hall of Fame</option>
 <option value="http://xwis.net/xcl/?hos=" style="color: #B5B5B5;">Hall of Shame</option>
 <option value="http://xwis.net/xcl/?stats=" style="color: #B5B5B5;">Statistics</option>
@@ -1044,7 +1044,7 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
 <tr>
 <td width="5%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[rank]?><? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="12%"><?=$button?>
-<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="<?=$PHP_SELF?>?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="<?=$PHP_SELF?>?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
+<td width="32%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><? if($ladr == "player") { ?><a href="?mode=showplayer&laddertype=1&id=<?=$data[pid]?>"><? } else { ?><a href="?mode=showclan&laddertype=1&id=<?=$data[pid]?>"><? } ?><u><font color="#FFFFB0"><u><b><?=$data[name]?></b></u></font></u></a></font>
 <td width="27%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[win_count]?> wins / <?=$data[loss_count]?> losses<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="20%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><?=$data[points]?> Points<? if($data[rank] == 1) { echo "</font></b>"; } ?></font>
 <td width="4%"><font face="VERDANA,ARIAL,HELVETICA" size="2"><img src="images/1.gif" alt="" border="0">&nbsp;&nbsp;</font>
@@ -1071,7 +1071,7 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
  $sitehu = $site+1;
  if($site > 1) { ?>
 
- <font face="VERDANA,ARIAL,HELVETICA" size="2"><a href="<?=$PHP_SELF?>?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$prewsite?>">&laquo; Previous Page</a></font>
+ <font face="VERDANA,ARIAL,HELVETICA" size="2"><a href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$prewsite?>">&laquo; Previous Page</a></font>
 
 
  <? } ?>
@@ -1083,7 +1083,7 @@ if($ladr != "player") { $data[name] = strtoupper($data[name]); }
  <?
  if($site < $seitencheck) { ?>
 
- <font face="VERDANA,ARIAL,HELVETICA" size="2"><a class="text" href="<?=$PHP_SELF?>?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$nextsite?>">Next Page &raquo</a></font>
+ <font face="VERDANA,ARIAL,HELVETICA" size="2"><a class="text" href="?ladr=<?=$ladr?>&laddertype=<?=$laddertype?>&mode=<?=$mode?>&id=<?=$id?>&lid=<?=$lid?>&site=<?=$nextsite?>">Next Page &raquo</a></font>
 
  <? } ?>
 

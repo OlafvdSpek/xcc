@@ -1,7 +1,7 @@
 <?
 	require("xcc_common.php");
 
-	$PHP_SELF = "http://xwis.net/xcl/ra2/";
+	$PHP_SELF = "";
 
 	$config['ladderdefault'] = "1"; // 1 = RA2 , 2 = YURI
 
@@ -25,31 +25,31 @@
 		case 0x100:
 			$country_flag_urls = array
 			(
-				"http://xwis.net/xcl/images/atreides.png",
-				"http://xwis.net/xcl/images/harkonnen.png",
-				"http://xwis.net/xcl/images/ordos.png",
+				"../images/atreides.png",
+				"../images/harkonnen.png",
+				"../images/ordos.png",
 			);
 			break;
 		case 0x200:
 			$country_flag_urls = array
 			(
-				"http://xwis.net/xcl/images/gdi.png",
-				"http://xwis.net/xcl/images/nod.png",
+				"../images/gdi.png",
+				"../images/nod.png",
 			);
 			break;
 		default:
 			$country_flag_urls = array
 			(
-				"http://xwis.net/xcl/images/usai.png",
-				"http://xwis.net/xcl/images/japi.png",
-				"http://xwis.net/xcl/images/frai.png",
-				"http://xwis.net/xcl/images/geri.png",
-				"http://xwis.net/xcl/images/gbri.png",
-				"http://xwis.net/xcl/images/djbi.png",
-				"http://xwis.net/xcl/images/arbi.png",
-				"http://xwis.net/xcl/images/lati.png",
-				"http://xwis.net/xcl/images/rusi.png",
-				"http://xwis.net/xcl/images/yrii.png",
+				"../images/usai.png",
+				"../images/japi.png",
+				"../images/frai.png",
+				"../images/geri.png",
+				"../images/gbri.png",
+				"../images/djbi.png",
+				"../images/arbi.png",
+				"../images/lati.png",
+				"../images/rusi.png",
+				"../images/yrii.png",
 			);
 		}
 		return $country_flag_urls[$i & 0xff];
