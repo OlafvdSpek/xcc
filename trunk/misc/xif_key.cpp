@@ -83,6 +83,7 @@ void Cxif_key::dump(ostream& os, bool show_ratio, int depth, Cvirtual_binary* t)
 		delete t;
 }
 
+/*
 int Cxif_key::save(string fname)
 {
 	int error = save_start();
@@ -93,3 +94,21 @@ int Cxif_key::save(string fname)
 	}
 	return error;
 }
+*/
+
+Cvirtual_binary Cxif_key::vdata() const
+{
+	Cvirtual_binary d;
+	Cvirtual_binary s;
+	byte* w = s.write_start(get_size());;
+	save(w);
+	unsigned long cb_d = s.size() + (s.size() + 999) / 1000 + 12;
+	t_xif_header& header = *reinterpret_cast<t_xif_header*>(d.write_start(sizeof(t_xif_header) + cb_d));
+	header.id = file_id;
+	header.version = file_version_new;		
+	header.size_uncompressed = s.size();
+	compress(d.data_edit() + sizeof(t_xif_header), &cb_d, s.data(), s.size());
+	d.size(sizeof(t_xif_header) + cb_d);
+	return d;
+}
+

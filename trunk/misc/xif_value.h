@@ -10,6 +10,7 @@
 #endif // _MSC_VER >= 1000
 
 #include "vartypes.h"
+#include "virtual_binary.h"
 
 using namespace std;
 
@@ -20,94 +21,97 @@ class Cxif_value
 public:
 	Cxif_value()
 	{
-		m_data = NULL;
-		m_size = 0;
 		m_type = vt_unknown;
 	}
 
-	~Cxif_value()
-	{
-		delete[] m_data;
-	}
-
+	/*
 	Cxif_value(const Cxif_value& v):
-		m_size(v.m_size),
 		m_type(v.m_type)
 	{
-		m_data = new byte[m_size];
-		memcpy(m_data, v.m_data, m_size);
+		m_data = v.m_data;
 	}
+	*/
 
-	Cxif_value(t_vt type, int v):
-		m_size(4),
-		m_type(type)
+	Cxif_value(t_vt type, int v)
 	{
-		m_data = new byte[m_size];
-		memcpy(m_data, &v, m_size);
+		m_type = type;
+		memcpy(m_data.write_start(4), &v, 4);
 	}	
 
+	Cxif_value(const Cvirtual_binary v)
+	{
+		m_type = vt_binary;
+		m_data = v;
+	}	
+
+	/*
 	Cxif_value(const void* v, int size):
-		m_size(size),
 		m_type(vt_binary)
 	{
-		m_data = new byte[m_size];
-		memcpy(m_data, v, m_size);
+		memcpy(m_data.write_start(size), v, size);
 	}	
+	*/
 
-	Cxif_value(const string& v):
-		m_size(v.length() + 1),
-		m_type(vt_string)
+	Cxif_value(const string& v)
 	{
-		m_data = new byte[m_size];
-		memcpy(m_data, v.c_str(), m_size);
+		m_type = vt_string;
+		memcpy(m_data.write_start(v.length() + 1), v.c_str(), v.length() + 1);
 	}	
 
+	/*
 	Cxif_value& operator=(const Cxif_value& v)
 	{
 		if (&v != this)
 		{
-			delete[] m_data;
-			m_size = v.m_size;
+			// delete[] m_data;
+			// m_size = v.m_size;
 			m_type = v.m_type;
-			m_data = new byte[m_size];
-			memcpy(m_data, v.m_data, m_size);
+			m_data = v.m_data;
+			// memcpy(m_data, v.m_data, m_size);
 		}
 		return *this;
 	}
-	
+	*/
 
-	byte* get_data() const
+	Cvirtual_binary get_vdata() const
 	{
 		return m_data;
 	}
 
+	const byte* get_data() const
+	{
+		return m_data.data();
+	}
+
 	int get_size() const 
 	{
-		return m_size;
+		return m_data.size();
 	}
 
 	int get_int() const
 	{
-		assert(m_data && m_size == 4);
-		return *reinterpret_cast<__int32*>(m_data);
+		assert(get_size() == 4);
+		return *reinterpret_cast<const __int32*>(get_data());
 	}
 
 	string get_string() const
 	{
-		assert(m_data && m_size);
-		return reinterpret_cast<const char*>(m_data);
+		assert(get_size());
+		return reinterpret_cast<const char*>(get_data());
 	}
 
 	t_vt get_type() const
 	{
 		if (m_type != vt_unknown)
 			return m_type;
-		if (!m_data)
+		const byte* data = get_data();
+		int size = get_size();
+		if (!data)
 			return vt_binary;
-		if (!m_data[m_size - 1])
+		if (!data[size - 1])
 		{
-			const byte* r = m_data;
-			int c = m_size - 1;
+			const byte* r = data;
+			int c = size - 1;
 			while (c--)
 			{
 				if (*r != 9 && *r < 0x20)
@@ -124,41 +128,43 @@ public:
 
 	void load_old(const byte*& data)
 	{
-		delete[] m_data;
-		m_size = *reinterpret_cast<const __int32*>(data);
+		m_data.clear();
+		int size = *reinterpret_cast<const __int32*>(data);
 		data += 4;
-		m_data = m_size ? new byte[m_size] : NULL;
-		memcpy(m_data, data, m_size);
-		data += m_size;
+		// m_data = m_size ? new byte[m_size] : NULL;
+		memcpy(m_data.write_start(size), data, size);
+		data += size;
 		m_type = vt_unknown;
 		m_type = get_type();
 	}
 
 	void load_new(const byte*& data)
 	{
-		delete[] m_data;
+		m_data.clear();
 		m_type = static_cast<t_vt>(*reinterpret_cast<const __int8*>(data));
 		data++;
 		switch (m_type)
 		{
 		case vt_bin32:
-			m_size = 4;
-			m_data = new byte[m_size];
-			*reinterpret_cast<__int32*>(m_data) = *reinterpret_cast<const unsigned __int32*>(data);
+			// m_size = 4;
+			// m_data = new byte[m_size];
+			*reinterpret_cast<__int32*>(m_data.write_start(4)) = *reinterpret_cast<const unsigned __int32*>(data);
 			data += 4;
 			break;
 		case vt_int32:
-			m_size = 4;
-			m_data = new byte[m_size];
-			*reinterpret_cast<__int32*>(m_data) = *reinterpret_cast<const __int32*>(data);
+			// m_size = 4;
+			// m_data = new byte[m_size];
+			*reinterpret_cast<__int32*>(m_data.write_start(4)) = *reinterpret_cast<const __int32*>(data);
 			data += 4;
 			break;
 		default:
-			m_size = *reinterpret_cast<const __int32*>(data);
-			data += 4;
-			m_data = new byte[m_size];
-			memcpy(m_data, data, m_size);
-			data += m_size;
+			{
+				int size = *reinterpret_cast<const __int32*>(data);
+				data += 4;
+				// m_data = new byte[m_size];
+				memcpy(m_data.write_start(size), data, size);
+				data += size;
+			}
 		}
 	}
 
@@ -174,18 +180,22 @@ public:
 			data += 4;
 			break;
 		default:
-			*reinterpret_cast<__int32*>(data) = m_size;
-			data += 4;
-			memcpy(data, m_data, m_size);
-			data += m_size;
+			{
+				int size = get_size();
+				*reinterpret_cast<__int32*>(data) = size;
+				data += 4;
+				memcpy(data, get_data(), size);
+				data += size;
+			}
 		}
 	}
 
 	void dump(ostream& os, int depth = 0) const;
 private:
-	byte* m_data;
+	Cvirtual_binary m_data;
+	// byte* m_data;
 	t_vt m_type;
-	int m_size;
+	// int m_size;
 };
 
 #endif // !defined(AFX_XIF_VALUE_H__99A07CE5_FA5D_11D2_B601_8B199B22657D__INCLUDED_)

@@ -11,77 +11,66 @@
 
 Cvirtual_tfile::Cvirtual_tfile()
 {
-	data = 0;
 }
 
 Cvirtual_tfile::~Cvirtual_tfile()
 {
-	release_memory();
 }
 
-void Cvirtual_tfile::load_data(const void* _data, dword _size)
+void Cvirtual_tfile::load_data(const Cvirtual_binary s)
 {
-	release_memory();
-	data = new char[_size];
-	memcpy(data, _data, _size);
-	size = _size;
+	m_data = s;
+	// m_size = s.size();
 	pos = 0;
 }
 
+/*
 void Cvirtual_tfile::save_data(byte*& _data, dword& _size) const
 {
 	_data = new byte[size];
 	memcpy(_data, data, size);
 	_size = size;
 }
-
-void Cvirtual_tfile::release_memory()
-{
-	if (data)
-	{
-		delete[] data;	
-		data = 0;
-	}
-}
+*/
 
 string Cvirtual_tfile::read_line()
 {
-	assert(data);
+	assert(data());
 	const int first_non_ws = pos;
 	int last_non_ws;
-	while (pos < size)
+	while (pos < size())
 	{
-		switch (data[pos++])
+		switch (data()[pos++])
 		{
-		case 0xd:
+		case '\r':
 			last_non_ws = pos - 2;
-			if (pos < size && data[pos] == 0xa)
+			if (pos < size() && data()[pos] == '\n')
 				pos++;
-			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
-		case 0xa:
+			return string(data() + first_non_ws, last_non_ws - first_non_ws + 1);
+		case '\n':
 			last_non_ws = pos - 2;
-			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+			return string(data() + first_non_ws, last_non_ws - first_non_ws + 1);
 		}
 	}
-	last_non_ws = size - 1;
-	return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+	last_non_ws = size() - 1;
+	return string(data() + first_non_ws, last_non_ws - first_non_ws + 1);
 }
 
 string Cvirtual_tfile::read_line(bool remove_ws)
 {
 	if (!remove_ws)
 		return read_line();
-	assert(data);
+	assert(data());
 	int first_non_ws;
 	int last_non_ws;
-	while (pos < size)
+	while (pos < size())
 	{
-		switch (data[pos++])
+		switch (data()[pos++])
 		{
-		case 0xd:
-			if (pos < size && data[pos] == 0xa)
+		case '\r':
+			if (pos < size() && data()[pos] == '\n')
 				pos++;
-		case 0xa:
+		case '\n':
 			return "";
 		case '\t':
 		case ' ':
@@ -89,15 +78,15 @@ string Cvirtual_tfile::read_line(bool remove_ws)
 		default:
 			first_non_ws = pos - 1;
 			last_non_ws = pos - 2;
-			while (pos < size)
+			while (pos < size())
 			{
-				switch (data[pos++])
+				switch (data()[pos++])
 				{
-				case 0xd:
-					if (pos < size && data[pos] == 0xa)
+				case '\r':
+					if (pos < size() && data()[pos] == '\n')
 						pos++;
-				case 0xa:
-					return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+				case '\n':
+					return string(data() + first_non_ws, last_non_ws - first_non_ws + 1);
 				case '\t':
 				case ' ':
 					break;
@@ -105,16 +94,17 @@ string Cvirtual_tfile::read_line(bool remove_ws)
 					last_non_ws = pos - 1;
 				}
 			}
-			return string(data + first_non_ws, last_non_ws - first_non_ws + 1);
+			return string(data() + first_non_ws, last_non_ws - first_non_ws + 1);
 		}
 	}
 	return "";
 }
 
+/*
 void Cvirtual_tfile::write(const string& s)
 {
 	const dword cb_inc = 4096;
-	if (!data)
+	if (!data())
 	{
 		reserved = cb_inc;
 		size = 0;
@@ -146,5 +136,6 @@ void Cvirtual_tfile::write(const string& s)
 
 void Cvirtual_tfile::write_line(const string& s)
 {
-	write(s + "\xd\xa");
+	write(s + "\r\n");
 }
+*/
