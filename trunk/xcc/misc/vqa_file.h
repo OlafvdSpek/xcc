@@ -26,6 +26,7 @@ public:
 	int extract_as_wav(const string& name);
 	int read_chunk_header();
 	int read_chunk(void* data);
+	Cvirtual_binary read_chunk();
 	void set_empty_chunk();
 	int skip_chunk();
 

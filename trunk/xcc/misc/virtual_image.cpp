@@ -282,8 +282,8 @@ void Cvirtual_image::increase_color_depth(int new_cb_pixel)
 {
 	if (cb_pixel() == 3)
 	{
-		assert(new_cb_pixel == 4);
-		add_alpha();
+		if (new_cb_pixel == 4)
+			add_alpha();
 		return;
 	}
 	assert(cb_pixel() == 1);
