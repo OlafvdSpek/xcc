@@ -107,6 +107,7 @@ string uri_encode(const string v)
 				r += '+';
 				break;
 			case '-':
+			case ',':
 			case '.':
 			case '@':
 			case '_':
@@ -245,7 +246,7 @@ t_cgi_error Ccgi_input::read()
 		t_content_type ct = get_content_type();
 		if (ct == ct_application)
 		{
-			if (cb_data > 16 << 10)
+			if (cb_data > 64 << 10)
 				return cgi_error_unsupported_content_length;
 			char* data = new char[cb_data + 1];
 			cin.read(data, cb_data);

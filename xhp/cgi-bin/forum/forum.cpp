@@ -12,6 +12,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
+#include <unistd.h>
 #endif
 #include "cgi.h"
 #include "crc.h"
@@ -495,7 +496,7 @@ int read_topics()
 			if (topic_f.fail())
 				return 1;
 		}
-		if (topic.score < -9 || topic.score > 9)
+		if (topic.score < -9 || topic.score > 9 || topic.m_name < 0 || topic.m_name > 1 << 20)
 			continue;
 		topics[slot] = topic;
 		reverse_topics[topic.parent].insert(slot);
@@ -1706,7 +1707,8 @@ int main()
 {
 	if (0)
 	{
-		cout << "A" << endl;
+		cout << "Content-type: text/html" << endl
+			<< endl;
 		if (read_config())
 		{
 			cout << "Error: unable to read config" << endl;
@@ -1724,13 +1726,14 @@ int main()
 		for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
 		{
 			const t_topic& topic = i->second;
-			if (topic.score < -9 || topic.score > 9)
+			if (topic.score < -9 || topic.score > 9 || topic.m_name < 0 || topic.m_name > 1 << 20)
 			{
-				page += tr(td("Skipping " + n(i->first)));
+				page += tr(td("Skipping " + n(i->first)) + td(n(topic.m_subject)) + td(n(topic.m_name)));
 				continue;
 			}
 			if (topic.hidden() || current_date - topic.date > 3600)
 				continue;
+			continue;
 			Chtml r;
 			if (user_preferences.show_date)
 				r += td(cnv_date(topic.date), "nowrap");
@@ -1738,12 +1741,13 @@ int main()
 #if 0
 				td(an_show_msg(web_encode(n(topic.m_subject)/*topic.subject()*/), i->first))
 				+ td(web_encode(n(topic.m_name)/*topic.name()*/))
-#endif
+#else
 				td(an_show_msg(web_encode(topic.subject()), i->first))
 				+ td(web_encode(topic.name()))
+#endif
 				+ r);
 		}
-		cout << page << endl;
+		cout << table(page) << endl;
 		return 0;
 	}
 	Chtml page;
