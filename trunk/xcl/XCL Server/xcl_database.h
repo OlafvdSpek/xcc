@@ -11,12 +11,11 @@
 
 #include "sql/database.h"
 #include "wol/game_result.h"
-#include "xcl_player.h"	// Added by ClassView
+#include "xcl_player.h"
 
 class Cxcl_database: public Cdatabase
 {
 public:
-	void insert_maps();
 	void drop_tables();
 	void create_tables();
 	Cxcl_player player(int pid);
@@ -26,6 +25,7 @@ public:
 	void insert_game(const Cvirtual_binary&);
 	int pid(int lid, const string& name);
 	int update_player(int cmp, int cty, const Cxcl_player& a, const Cxcl_player& b);
+	void update_ranks();
 };
 
 #endif // !defined(AFX_XCL_DATABASE_H__96E5131C_1A7C_4A26_9DE5_0CC56ECD5139__INCLUDED_)
