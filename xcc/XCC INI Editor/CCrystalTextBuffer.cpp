@@ -808,7 +808,7 @@ void CCrystalTextBuffer::GetText(int nStartLine, int nStartChar, int nEndLine, i
 		pszBuf += nCRLFLength;
 		for (int I = nStartLine + 1; I < nEndLine; I ++)
 		{
-			nCount = GetLineLength(I);;
+			nCount = GetLineLength(I);
 			if (nCount > 0)
 			{
 				memcpy(pszBuf, GetLineChars(I), sizeof(TCHAR) * nCount);

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <assert.h>
+#include <cassert>
 #include "ima_adpcm_wav_encode.h"
 #include "wav_file.h"
 #include "wav_structures.h"

@@ -3,7 +3,7 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include <assert.h>
+#include <cassert>
 #include "audio_idx_file.h"
 
 int audio_idx_file_get_write_size(int c_sounds)

@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <assert.h>
+#include <cassert>
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 #include "fname.h"

@@ -10,7 +10,7 @@
 #endif // _MSC_VER >= 1000
 
 #include <math.h>
-#include "assert.h"
+#include "cassert"
 #include "string_conversion.h"
 #include "vartypes.h"
 
