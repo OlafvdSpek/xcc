@@ -75,24 +75,9 @@ int Cini_reader::process_line(string line)
 		case '=':
 			return 1;
 		case '[':
-			last_non_ws = i++;
-			first_non_ws = i;
-			while (i < line.length())
-			{
-				switch (line[i])
-				{
-				case '\t':
-				case ' ':
-					break;
-				case ';':
-					i = line.length();
-					continue;
-				default:
-					last_non_ws = i;
-				}
-				i++;
-			}
-			if (line[last_non_ws] != ']')
+			first_non_ws = ++i;
+			last_non_ws = line.find(']', i);
+			if (last_non_ws == string::npos)
 				return 1;
 			if (m_section_open)
 				process_section_end();
@@ -145,11 +130,10 @@ int Cini_reader::process_line(string line)
 									}
 									i++;
 								}
-								line = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
-								return process_key(name, line);
+								return process_key(name, line.substr(first_non_ws, last_non_ws - first_non_ws + 1));
 							}
 							i++;
-							
+
 						}
 						return process_key(name, "");
 					}
