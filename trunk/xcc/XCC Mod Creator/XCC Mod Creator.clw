@@ -16,11 +16,11 @@ Class4=CMainFrame
 Class7=CAboutDlg
 
 ResourceCount=7
-Resource1=IDD_OPTIONS
-Resource2=IDR_MAINFRAME (English (U.S.))
+Resource1=IDR_MAINFRAME (English (U.S.))
+Resource2=IDD_OPTIONS
 Resource3=IDR_XCCMODTYPE
-Resource4=IDR_XCCMODTYPE (English (U.S.))
-Resource5=CG_IDR_POPUP
+Resource4=CG_IDR_POPUP
+Resource5=IDR_XCCMODTYPE (English (U.S.))
 Class5=CChildFrame
 Class6=CLeftView
 Resource6=IDD_ABOUTBOX (English (U.S.))

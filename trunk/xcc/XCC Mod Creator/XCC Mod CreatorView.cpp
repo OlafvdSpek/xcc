@@ -432,20 +432,21 @@ void CXCCModCreatorView::export()
 	Cvirtual_binary exe;
 	Cxcc_apps apps;
 	string export_filter;
-	string export_ext = ".xmlf";
+	const char* export_ext = "xmlf";
 	Cfname fname = static_cast<string>(GetDocument()->GetPathName());
 	if (apps.is_available(app_xml) && !exe.import(apps.get_exe(app_xml)))
 	{
-		export_filter += "EXE files (*.exe)|*.exe|";
-		export_ext = ".exe";
+		export_filter += "BZ EXE files (*.exe)|*.exe|"
+			"GZ EXE files (*.exe)|*.exe|";
+		export_ext = "exe";
 	}
-	export_filter += "XMLF files (*.xmlf)|*.xmlf|";
-	fname.set_ext(""/*export_ext*/);
-	CFileDialog dlg(false, export_ext.substr(1).c_str(), static_cast<string>(fname).c_str(), OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, export_filter.c_str(), NULL);
+	export_filter += "BZ XMLF files (*.xmlf)|*.xmlf|"
+		"GZ XMLF files (*.xmlf)|*.xmlf|";
+	CFileDialog dlg(false, export_ext, NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, export_filter.c_str(), NULL);
 	if (IDOK == dlg.DoModal())
 	{
 		CWaitCursor wait;
-		GetDocument()->export(static_cast<string>(dlg.GetPathName()), exe.data() && dlg.m_ofn.nFilterIndex == 1 ? exe : Cvirtual_binary());
+		GetDocument()->export(static_cast<string>(dlg.GetPathName()), dlg.m_ofn.nFilterIndex < 3 ? exe : Cvirtual_binary(), ~dlg.m_ofn.nFilterIndex & 1);
 	}
 }
 
