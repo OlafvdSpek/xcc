@@ -3,7 +3,6 @@
 
 #include "stdafx.h"
 #include "XCC RA2 Map Updater.h"
-// #include "XCC RA2 Map UpdaterDlg.h"
 
 #include <afxinet.h>
 #include <fstream>
@@ -80,7 +79,7 @@ int CXCCRA2MapUpdaterApp::update()
 	{
 		CWaitCursor wait;
 		CInternetSession is;
-		CHttpFile* f = reinterpret_cast<CHttpFile*>(is.OpenURL("http://xcc.tiberian.com/ra2_maps/official.ucf"));
+		CHttpFile* f = reinterpret_cast<CHttpFile*>(is.OpenURL("http://xccu.sourceforge.net/ra2_maps/official.ucf"));
 		if (!f)
 			error = 1;
 		else
@@ -213,7 +212,7 @@ void CXCCRA2MapUpdaterApp::create()
 				l.set_value_string(vi_fname, title + ".mmx");
 				l.set_value_binary(vi_fdata, fdata);
 				k.vdata().export(out_dir + title + ".xmuf");
-				f << title << "=,http://xcc.tiberian.com/ra2_maps/" << title << ".xmuf" << endl;
+				f << title << "=,http://xcc.virtualgn.com/ra2_maps/" << title << ".xmuf" << endl;
 			}
 		}
 		while (FindNextFile(findhandle, &fd));

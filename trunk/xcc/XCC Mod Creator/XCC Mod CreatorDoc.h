@@ -38,7 +38,7 @@ public:
 	void clear_game_dir() const;
 	void launch();
 	bool contains(Cxcc_mod::t_category_type category, string fname);
-	int export(string fname);
+	int export(string fname, Cvirtual_binary exe);
 	int insert(Cxcc_mod::t_category_type category, string fname);
 	Cxcc_mod::t_options options() const;
 	void options(Cxcc_mod::t_options options);

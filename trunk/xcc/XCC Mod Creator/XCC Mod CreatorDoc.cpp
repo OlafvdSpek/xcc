@@ -81,8 +81,22 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 	}
 }
 
-int CXCCModCreatorDoc::export(string fname)
+int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
 {
+	if (exe.data())
+	{
+		Cvirtual_binary mod = m_mod.save(true).vdata();
+		Cfile32 f;
+		int error = f.open_write(fname);
+		if (!error)
+			error = f.write(exe.data(), exe.size());
+		if (!error)
+			error = f.write(mod.data(), mod.size());
+		if (!error)
+			error = f.write(mod.size());
+		f.close();
+		return error;
+	}
 	return m_mod.save(true).vdata().export(fname);
 }
 

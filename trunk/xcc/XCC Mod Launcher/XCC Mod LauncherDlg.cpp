@@ -108,8 +108,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	Ccc_file f(true);
-	if (f.open(m_mod_fname))
+	if (!m_source.data() && m_source.import(m_mod_fname))
 	{
 		MessageBox("Error opening mod.", NULL, MB_ICONERROR);
 		EndDialog(IDCANCEL);
@@ -117,7 +116,7 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 	}
 	else
 	{
-		if (m_key.load_key(f.get_data(), f.get_size()))
+		if (m_key.load_key(m_source.data(), m_source.size()))
 		{
 			MessageBox("Error reading mod.", NULL, MB_ICONERROR);
 			EndDialog(IDCANCEL);
@@ -206,8 +205,8 @@ BOOL CXCCModLauncherDlg::OnInitDialog()
 			}
 
 		}
-		f.close();
 	}
+	m_source.clear();
 	return true;
 }
 
@@ -318,6 +317,11 @@ void CXCCModLauncherDlg::OnButtonManual()
 	}
 	if (error)
 		MessageBox("Error extracting manual.", NULL, MB_ICONERROR);
+}
+
+void CXCCModLauncherDlg::set_mod(Cvirtual_binary v)
+{
+	m_source = v;
 }
 
 void CXCCModLauncherDlg::set_mod_fname(string mod_fname)

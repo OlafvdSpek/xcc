@@ -50,7 +50,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /machine:I386
-# ADD LINK32 /nologo /subsystem:console /machine:I386
+# ADD LINK32 vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:console /machine:I386
 
 !ELSEIF  "$(CFG)" == "Compile mdfs - Win32 Debug"
 
@@ -74,7 +74,7 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib /nologo /subsystem:console /debug /machine:I386 /pdbtype:sept
 
 !ENDIF 
 
@@ -84,95 +84,7 @@ LINK32=link.exe
 # Name "Compile mdfs - Win32 Debug"
 # Begin Source File
 
-SOURCE=..\..\misc\blowfish.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\cc_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\crc.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\ddpf_conversion.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\file32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\file32.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\fname.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\fname.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\id_log.cpp
-# End Source File
-# Begin Source File
-
 SOURCE=.\main.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_cache.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\mix_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\multi_line.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pak_file.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\palet.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_decode.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\pcx_file_write.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\string_conversion.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_dirs.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\xcc_registry.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
 # End Source File
 # End Target
 # End Project

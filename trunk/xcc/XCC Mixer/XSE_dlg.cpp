@@ -119,7 +119,7 @@ BOOL CXSE_dlg::OnInitDialog()
 	if (error)
 	{
 		Cmix_file language;
-		error = language.open(xcc_dirs::get_ra2_dir() + language_fname);
+		error = language.open(language_fname);
 		if (!error)
 		{
 			error = m_csf_f.open(csf_fname, language);
@@ -154,7 +154,7 @@ BOOL CXSE_dlg::OnInitDialog()
 	{
 		CWaitCursor wait;
 		Cmix_file language;
-		error = language.open(xcc_dirs::get_ra2_dir() + language_fname);
+		error = language.open(language_fname);
 		if (!error)
 		{
 			Cmix_file audio;
