@@ -233,6 +233,8 @@ void Cvqa_decode::decode_vqfl_chunk(const byte* s, int cb_s)
 
 void Cvqa_decode::decode_vqfr_chunk(const byte* in_raw, byte* out, t_palet palet)
 {
+	if (!in_raw)
+		return;
 	bool cbf_compressed;
 	const byte* in;
 	byte* in_decoded = m_in_decoded;

@@ -321,11 +321,7 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 											else
 												skip_chunk();
 										}
-										int cb_data = get_chunk_size();
-										byte* data = new byte[cb_data];
-										read_chunk(data);
-										vqa_d.decode_vqfr_chunk(data, frame, NULL);
-										delete[] data;
+										vqa_d.decode_vqfr_chunk(read_chunk(), frame, NULL);
 										flip_frame(frame, frame_flipped, cx, cy, 3);
 										// xcc_log::write_line("Writing frame " + n(i));
 										if (AVIStreamWrite(vc, i, 1, frame_flipped, 3 * cx * cy, 0, NULL, NULL))
@@ -374,11 +370,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 		{
 			while (!is_video_chunk())
 				skip_chunk();
-			int cb_data = get_chunk_size();
-			byte* data = new byte[cb_data];
-			read_chunk(data);
-			vqa_d.decode_vqfr_chunk(data, frame, palet);
-			delete[] data;
+			vqa_d.decode_vqfr_chunk(read_chunk(), frame, palet);
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
 			error = image_file_write(t, ft, frame, palet, cx, cy);
@@ -400,11 +392,8 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 		{
 			if (get_chunk_id() == vqa_vqfl_id)
 			{
-				int cb_data = get_chunk_size();
-				byte* data = new byte[cb_data];
-				read_chunk(data);
-				vqa_d.decode_vqfl_chunk(data, cb_data);
-				delete[] data;
+				Cvirtual_binary data = read_chunk();
+				vqa_d.decode_vqfl_chunk(data, data.size());
 			}
 			while (!is_video_chunk())
 				skip_chunk();
