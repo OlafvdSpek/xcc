@@ -109,6 +109,11 @@ public:
 		return m_enable_compression;
 	}
 
+	bool fix_shadows() const
+	{
+		return m_fix_shadows;
+	}
+
 	const t_mix_map_list& mix_map_list() const
 	{
 		return m_mix_map_list;
@@ -151,6 +156,7 @@ protected:  // control bar embedded members
 	bool m_convert_from_td;
 	bool m_convert_from_ra;
 	bool m_enable_compression;
+	bool m_fix_shadows;
 	bool m_remap_team_colors;
 	bool m_split_shadows;
 	bool m_use_palet_for_conversion;
@@ -265,6 +271,8 @@ protected:
 	afx_msg void OnLaunchXSTE_GR_ZH();
 	afx_msg void OnUpdateLaunchXSTE_GR_ZH(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSTE_Open();
+	afx_msg void OnConversionFixShadows();
+	afx_msg void OnUpdateConversionFixShadows(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

@@ -267,6 +267,7 @@
 #define ID_LAUNCH_XSTE_GR               33124
 #define ID_LAUNCH_XSTE_GR_ZH            33125
 #define ID_LAUNCH_XSTE_OPEN             33126
+#define ID_CONVERSION_FIX_SHADOWS       33127
 #define ID_VIEW_PALET_PAL000            40000
 #define ID_VIEW_PALET_PAL001            40001
 #define ID_VIEW_PALET_PAL002            40002
@@ -1274,7 +1275,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        141
-#define _APS_NEXT_COMMAND_VALUE         33127
+#define _APS_NEXT_COMMAND_VALUE         33128
 #define _APS_NEXT_CONTROL_VALUE         1036
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
