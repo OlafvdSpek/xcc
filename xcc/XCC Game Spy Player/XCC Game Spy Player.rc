@@ -190,9 +190,13 @@ CAPTION "Open"
 FONT 8, "MS Sans Serif"
 BEGIN
     CONTROL         "List1",IDC_REPLAYS,"SysListView32",LVS_REPORT | 
-                    LVS_SINGLESEL | WS_BORDER | WS_TABSTOP,7,7,60,50
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,119,7,60,50
     DEFPUSHBUTTON   "OK",IDOK,75,74,50,14,WS_DISABLED
     PUSHBUTTON      "Cancel",IDCANCEL,129,74,50,14
+    CONTROL         "List1",IDC_PLAYERS,"SysListView32",LVS_REPORT | 
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
+                    WS_TABSTOP,7,7,60,50
 END
 
 

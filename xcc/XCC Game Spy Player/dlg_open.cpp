@@ -35,6 +35,7 @@ void Cdlg_open::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(Cdlg_open)
+	DDX_Control(pDX, IDC_PLAYERS, m_players);
 	DDX_Control(pDX, IDOK, m_ok);
 	DDX_Control(pDX, IDC_REPLAYS, m_replays);
 	//}}AFX_DATA_MAP
@@ -47,20 +48,27 @@ BEGIN_MESSAGE_MAP(Cdlg_open, ETSLayoutDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_REPLAYS, OnItemchangedReplays)
 	ON_NOTIFY(NM_DBLCLK, IDC_REPLAYS, OnDblclkReplays)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_REPLAYS, OnColumnclickReplays)
+	ON_NOTIFY(LVN_GETDISPINFO, IDC_PLAYERS, OnGetdispinfoPlayers)
+	ON_NOTIFY(LVN_ITEMCHANGED, IDC_PLAYERS, OnItemchangedPlayers)
+	ON_NOTIFY(LVN_COLUMNCLICK, IDC_PLAYERS, OnColumnclickPlayers)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // Cdlg_open message handlers
 
-static int c_colums = 4;
+static int c_players_columns = 2;
+static int c_replays_columns = 4;
 
 BOOL Cdlg_open::OnInitDialog() 
 {
 	ETSLayoutDialog::OnInitDialog();
 	
 	CreateRoot(VERTICAL)
-		<< item(IDC_REPLAYS, GREEDY)
+		<< (pane(HORIZONTAL, GREEDY)
+			<< item(IDC_PLAYERS, GREEDY)
+			<< item(IDC_REPLAYS, GREEDY)
+			)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< itemGrowing(HORIZONTAL)
 			<< item(IDOK, NORESIZE)
@@ -68,22 +76,21 @@ BOOL Cdlg_open::OnInitDialog()
 			);
 	UpdateLayout();
 	
+	m_players.SetExtendedStyle(m_players.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_replays.SetExtendedStyle(m_replays.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 
-	static char* column_label[] = {"GID", "Size", "Players", "Scenario"};
-	static int column_alignment[] = {LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT};
-	for (int i = 0; i < c_colums; i++)
-		m_replays.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
+	insert_players_columns();
+	insert_replays_columns();
 	string dir = xcc_dirs::get_dir(game_ra2) + "replays/";
 	WIN32_FIND_DATA fd;
 	HANDLE fh = FindFirstFile((dir + "game replay *.xif").c_str(), &fd);
 	if (fh != INVALID_HANDLE_VALUE)
 	{
 		CWaitCursor wc;
+		set<string> old_players;
 		do
 		{
 			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				// && strlen(fd.cFileName) == 24)
 			{
 				for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
 				{
@@ -92,41 +99,52 @@ BOOL Cdlg_open::OnInitDialog()
 					{
 						e.size = fd.nFileSizeLow;
 						m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
+						insert_players(e.players, i->first);
 						break;
 					}
 				}
-				if (i != m_map.end())
-					continue;
-				t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
-				e.dir = dir;
-				e.name = fd.cFileName;
-				e.gid = atoi(fd.cFileName + 12);
-				e.size = fd.nFileSizeLow;
+				if (i == m_map.end())
 				{
-					Cxif_key_r key;
-					if (!key.import(Cvirtual_binary(e.dir + e.name)))
+					t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
+					e.dir = dir;
+					e.name = fd.cFileName;
+					e.gid = atoi(fd.cFileName + 12);
+					e.size = fd.nFileSizeLow;
 					{
-						Cgame_state game_state;
-						Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
-						i++;
-						game_state.import_diff(i->second);
-						e.scenario = game_state.scenario;
-						for (Cgame_state::t_players::const_iterator p = game_state.players.begin(); p != game_state.players.end(); p++)
+						Cxif_key_r key;
+						if (!key.import(Cvirtual_binary(e.dir + e.name)))
 						{
-							const Cplayer& player = p->second;
-							if (player.color != 5)
-								e.players.insert(player.name);
+							Cgame_state game_state;
+							Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
+							i++;
+							game_state.import_diff(i->second);
+							e.scenario = game_state.scenario;
+							for (Cgame_state::t_players::const_iterator p = game_state.players.begin(); p != game_state.players.end(); p++)
+							{
+								const Cplayer& player = p->second;
+								if (player.color != 5)
+									e.players.insert(player.name);
+							}
 						}
 					}
+					m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), m_map.rbegin()->first);
+					insert_players(e.players, m_map.rbegin()->first);
 				}
-				m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), m_map.rbegin()->first);
 			}
 		}
 		while (FindNextFile(fh, &fd));
 		FindClose(fh);
 	}
 	{
-		for (int i = 0; i < c_colums; i++)
+		for (t_reverse_player_map::const_iterator i = m_reverse_player_map.begin(); i != m_reverse_player_map.end(); i++)
+			m_players.SetItemData(m_players.InsertItem(m_players.GetItemCount(), LPSTR_TEXTCALLBACK), i->second);
+	}
+	{
+		for (int i = 0; i < c_players_columns; i++)
+			m_players.SetColumnWidth(i, LVSCW_AUTOSIZE);
+	}
+	{
+		for (int i = 0; i < c_replays_columns; i++)
 			m_replays.SetColumnWidth(i, LVSCW_AUTOSIZE);
 	}
 	sort_replays(0, true);
@@ -164,8 +182,26 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 	}
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
+	if (--m_buffer_w < 0)
+		m_buffer_w += 4;
+	*pResult = 0;
+}
+
+void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
+	const t_player_map_entry& e = m_player_map.find(pDispInfo->item.lParam)->second;
+	switch (pDispInfo->item.iSubItem)
+	{
+	case 0:
+		m_buffer[m_buffer_w] = e.player;
+		break;
+	case 1:
+		m_buffer[m_buffer_w] = n(e.replays.size());
+		break;
+	}
+	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
+	if (--m_buffer_w < 0)
 		m_buffer_w += 4;
 	*pResult = 0;
 }
@@ -173,13 +209,27 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 void Cdlg_open::OnItemchangedReplays(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	int i = m_replays.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
 	if (pNMListView->uNewState & LVIS_FOCUSED)
 	{
-		const t_map_entry& e = m_map.find(m_replays.GetItemData(i))->second;
+		const t_map_entry& e = m_map.find(pNMListView->lParam)->second;
 		m_fname = e.dir + e.name;
+		m_ok.EnableWindow(true);
 	}
-	m_ok.EnableWindow(i != -1);	
+	else
+		m_ok.EnableWindow(false);	
+	*pResult = 0;
+}
+
+void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
+	if (pNMListView->uNewState & LVIS_FOCUSED)
+	{
+		m_replays.DeleteAllItems();
+		const t_player_map_entry& e = m_player_map.find(pNMListView->lParam)->second;
+		for (t_replay_set::const_iterator i = e.replays.begin(); i != e.replays.end(); i++)
+			m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), *i);
+	}
 	*pResult = 0;
 }
 
@@ -248,13 +298,19 @@ void Cdlg_open::OnColumnclickReplays(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
+void Cdlg_open::OnColumnclickPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	sort_players(reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem);	
+	*pResult = 0;
+}
+
 template<class T>
 int compare(T a, T b)
 {
 	return a < b ? -1 : a != b;
 }
 
-int Cdlg_open::compare(int id_a, int id_b)
+int Cdlg_open::replay_compare(int id_a, int id_b)
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
@@ -274,9 +330,28 @@ int Cdlg_open::compare(int id_a, int id_b)
 	return 0;
 }
 
+int Cdlg_open::player_compare(int id_a, int id_b)
+{
+	const t_player_map_entry& a = m_player_map.find(id_a)->second;
+	const t_player_map_entry& b = m_player_map.find(id_b)->second;
+	switch (m_players_sort_column)
+	{
+	case 0:
+		return ::compare(a.player, b.player);
+	case 1:
+		return ::compare(b.replays.size(), a.replays.size());
+	}
+	return 0;
+}
+
 static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
 {
-	return reinterpret_cast<Cdlg_open*>(lParamSort)->compare(lParam1, lParam2);
+	return reinterpret_cast<Cdlg_open*>(lParamSort)->replay_compare(lParam1, lParam2);
+}
+
+static int CALLBACK PlayerCompare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)
+{
+	return reinterpret_cast<Cdlg_open*>(lParamSort)->player_compare(lParam1, lParam2);
 }
 
 void Cdlg_open::sort_replays(int i, bool reverse)
@@ -284,4 +359,43 @@ void Cdlg_open::sort_replays(int i, bool reverse)
 	m_sort_column = i;
 	m_sort_reverse = reverse;
 	m_replays.SortItems(Compare, reinterpret_cast<dword>(this));
+}
+
+void Cdlg_open::sort_players(int i)
+{
+	m_players_sort_column = i;
+	m_players.SortItems(PlayerCompare, reinterpret_cast<dword>(this));
+}
+
+void Cdlg_open::insert_players(const t_player_set& players, int replay)
+{
+	for (t_player_set::const_iterator i = players.begin(); i != players.end(); i++)
+		insert_player(*i, replay);
+}
+
+void Cdlg_open::insert_player(const string& player, int replay)
+{
+	if (m_reverse_player_map.find(player) == m_reverse_player_map.end())
+	{
+		int i = m_reverse_player_map[player] = m_player_map.size();
+		m_player_map[i].player = player;
+		m_player_map[i].replays.insert(replay);
+	}
+	else
+		m_player_map[m_reverse_player_map.find(player)->second].replays.insert(replay);
+}
+
+void Cdlg_open::insert_players_columns()
+{
+	const char* column_label[] = {"Player", "Replays"};
+	for (int i = 0; i < c_players_columns; i++)
+		m_players.InsertColumn(i, column_label[i], LVCFMT_RIGHT, -1, i);
+}
+
+void Cdlg_open::insert_replays_columns()
+{
+	const char* column_label[] = {"GID", "Size", "Players", "Scenario"};
+	const int column_alignment[] = {LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT};
+	for (int i = 0; i < c_replays_columns; i++)
+		m_replays.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
 }
