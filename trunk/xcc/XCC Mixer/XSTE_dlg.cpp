@@ -6,6 +6,7 @@
 #include "XSTE_dlg.h"
 #include "XSTE_edit_dlg.h"
 
+#include "SearchStringDlg.h"
 #include "mix_file.h"
 #include "string_conversion.h"
 #include "xcc_dirs.h"
@@ -54,6 +55,8 @@ BEGIN_MESSAGE_MAP(CXSTE_dlg, ETSLayoutDialog)
 	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST, OnGetdispinfoList)
 	ON_NOTIFY(LVN_COLUMNCLICK, IDC_LIST, OnColumnclickList)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_CAT_LIST, OnItemchangedCatList)
+	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
+	ON_BN_CLICKED(IDC_SEARCH, OnSearch)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -73,6 +76,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 			)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< itemGrowing(HORIZONTAL)
+			<< item(IDC_SEARCH, NORESIZE)
 			<< item(IDC_INSERT, NORESIZE)
 			<< item(IDC_EDIT, NORESIZE)
 			<< item(IDC_DELETE, NORESIZE)
@@ -81,7 +85,9 @@ BOOL CXSTE_dlg::OnInitDialog()
 			);
 	UpdateLayout();
 	SetRedraw(false);
-	ListView_SetExtendedListViewStyle(m_list.m_hWnd, ListView_GetExtendedListViewStyle(m_list.m_hWnd) | LVS_EX_FULLROWSELECT);
+	m_cat_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_list.SetExtendedStyle(m_cat_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
+	m_cat_list.InsertColumn(0, "");
 	LV_COLUMN lvc;
 	lvc.mask = LVCF_TEXT | LVCF_SUBITEM;
 	for (int i = 0; i < c_colums; i++)
@@ -134,6 +140,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 			m_cat_list.SetItemData(m_cat_list.InsertItem(m_cat_list.GetItemCount(), i->second.c_str()), i->first);
 		m_f.close();
 	}	
+	m_cat_list.SetColumnWidth(0, LVSCW_AUTOSIZE);
 	check_selection();
 	sort_list(0, false);
 	SetRedraw(true);
@@ -151,14 +158,8 @@ static string get_cat(const string& name)
 	int a = name.find(':');
 	int b = name.find('_');
 	if (a == string::npos)
-	{
-		if (b == string::npos)
-			return "Other";
-		return to_upper(name.substr(0, b));
-	}
-	if (b == string::npos)
-		return to_upper(name.substr(0, a));
-	return to_upper(name.substr(0, min(a, b)));
+		return b == string::npos ? "Other" : to_upper(name.substr(0, b));
+	return to_upper(b == string::npos ? name.substr(0, a) : name.substr(0, min(a, b)));
 }
 
 int CXSTE_dlg::get_cat_id(const string& name) const
@@ -214,17 +215,13 @@ void CXSTE_dlg::check_selection()
 void CXSTE_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult) 
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	// if (pNMListView->uNewState & LVIS_FOCUSED)
 	check_selection();
 	*pResult = 0;
 }
 
 int CXSTE_dlg::get_free_id()
 {
-	int id = 0;
-	while (m_map.find(id) != m_map.end())
-		id++;
-	return id;
+	return m_map.empty() ? 0 : m_map.rbegin()->first + 1;
 }
 
 void CXSTE_dlg::set_map_entry(int id, const string& name)
@@ -247,7 +244,7 @@ void CXSTE_dlg::OnEdit()
 {
 	int index = get_current_index();
 	CXSTE_edit_dlg dlg;
-	string name = m_list.GetItemText(index, 0);
+	string name = m_map.find(m_list.GetItemData(index))->second.i->first;
 	Ccsf_file::t_map::const_iterator i = m_f.get_map().find(name);
 	dlg.set(i->first, Ccsf_file::convert2string(i->second.value), i->second.extra_value);
 	if (dlg.DoModal() == IDOK)
@@ -260,12 +257,12 @@ void CXSTE_dlg::OnEdit()
 void CXSTE_dlg::OnDelete() 
 {
 	SetRedraw(false);
-	while (1)
+	int index;
+	while ((index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED)) != -1)
 	{
-		int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
-		if (index == -1)
-			break;
-		m_f.erase_value(static_cast<string>(m_list.GetItemText(index, 0)));
+		int id = m_list.GetItemData(index);
+		m_f.erase_value(m_map.find(id)->second.i->first);
+		m_map.erase(m_list.GetItemData(index));
 		m_list.DeleteItem(index);
 	}
 	check_selection();
@@ -282,8 +279,7 @@ void CXSTE_dlg::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		if (m_f.get_map().find(t) != m_f.get_map().end())
 			return;
-		int id = pDispInfo->item.lParam;
-		t_map_entry& f = m_map[id++];
+		t_map_entry& f = m_map[pDispInfo->item.lParam];
 		string old_name = f.i->first;
 		Ccsf_file::t_map_entry e = m_f.get_map().find(old_name)->second;
 		m_f.erase_value(old_name);
@@ -293,7 +289,14 @@ void CXSTE_dlg::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		if (old_name.empty())
 			check_selection();
 		*pResult = true;
-	}	
+	}
+	else if (m_map.find(pDispInfo->item.lParam)->second.i->first.empty())
+	{
+		m_f.erase_value("");
+		m_map.erase(pDispInfo->item.lParam);
+		m_list.DeleteItem(pDispInfo->item.iItem);
+		check_selection();
+	}
 }
 
 void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -323,6 +326,7 @@ void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 void CXSTE_dlg::OnOK() 
 {
 	ETSLayoutDialog::OnOK();
+	m_f.erase_value("");
 	m_f.write().export(m_fname);
 }
 
@@ -333,14 +337,9 @@ void CXSTE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-static int compare_string(string a, string b)
+static int compare_string(const string& a, const string& b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CXSTE_dlg::compare(int id_a, int id_b) const
@@ -401,9 +400,32 @@ void CXSTE_dlg::OnItemchangedCatList(NMHDR* pNMHDR, LRESULT* pResult)
 				m_list.SetColumnWidth(j, LVSCW_AUTOSIZE);
 		}
 	}
-	// else if (pNMListView->uOldState & LVIS_SELECTED)
-		
 	SetRedraw(true);
 	Invalidate();
 	*pResult = 0;
+}
+
+void CXSTE_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+{
+	OnEdit();
+}
+
+void CXSTE_dlg::OnSearch() 
+{
+	CSearchStringDlg dlg;
+	dlg.set(&m_f);
+	if (IDOK == dlg.DoModal())
+	{
+		LVFINDINFO lfi;
+		lfi.flags = LVFI_PARAM;
+		lfi.lParam = m_reverse_cat_map.find(get_cat(dlg.m_selected))->second;
+		int i = m_cat_list.FindItem(&lfi, -1);
+		m_cat_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+		m_cat_list.EnsureVisible(i, false);
+		lfi.flags = LVFI_STRING;
+		lfi.psz = dlg.m_selected.c_str();
+		i = m_list.FindItem(&lfi, -1);
+		m_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
+		m_list.EnsureVisible(i, false);
+	}
 }

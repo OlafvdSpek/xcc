@@ -62,6 +62,8 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnItemchangedCatList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnSearch();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

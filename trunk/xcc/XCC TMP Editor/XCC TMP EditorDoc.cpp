@@ -71,7 +71,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 		Cvirtual_binary d;
 		byte* w = d.write_start(256 << 10);
 
-		*reinterpret_cast<t_tmp_ts_header*>(w) = m_header;;
+		*reinterpret_cast<t_tmp_ts_header*>(w) = m_header;
 		w += sizeof(t_tmp_ts_header);
 		int* index = reinterpret_cast<int*>(w);
 		w += 4 * m_header.cblocks_x * m_header.cblocks_y;
@@ -142,7 +142,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 					e.z_data = Cvirtual_binary(f.get_z_image(i), cb_diamond);
 				if (header.has_extra_data)
 				{
-					int cb_extra_data = f.get_cb_extra_data(i);;
+					int cb_extra_data = f.get_cb_extra_data(i);
 					e.extra_data = Cvirtual_binary(f.get_extra_data(i), cb_extra_data);
 					if (has_z_data)
 						e.extra_z_data = Cvirtual_binary(f.get_extra_z_data(i), cb_extra_data);

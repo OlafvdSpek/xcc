@@ -9,18 +9,19 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-// #include "xif_key.h"
 #include "xif_key_r.h"
 
 class CXCCGameSpyPlayerDoc : public CDocument
 {
 protected: // create from serialization only
-	CXCCGameSpyPlayerDoc();
 	DECLARE_DYNCREATE(CXCCGameSpyPlayerDoc)
 
 // Attributes
 public:
-	const Cxif_key_r& key() const;
+	const Cxif_key_r& key() const
+	{
+		return m_key;
+	}
 
 // Operations
 public:
@@ -29,13 +30,11 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCGameSpyPlayerDoc)
 	public:
-	virtual BOOL OnNewDocument();
 	virtual void Serialize(CArchive& ar);
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
-	virtual ~CXCCGameSpyPlayerDoc();
 
 protected:
 

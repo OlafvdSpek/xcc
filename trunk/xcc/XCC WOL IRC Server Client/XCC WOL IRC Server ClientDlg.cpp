@@ -142,7 +142,7 @@ void CXCCWOLIRCServerClientDlg::OnSet()
 	a = htonl(a);
 	if (update_hosts(a ? inet_ntoa(*reinterpret_cast<in_addr*>(&a)) : ""))
 		::MessageBox(NULL, "Your hosts file could not be updated.", NULL, MB_ICONERROR);
-	Sleep(250);
+	Sleep(25);
 	update_ipa2();
 }
 
@@ -150,7 +150,7 @@ void CXCCWOLIRCServerClientDlg::OnReset()
 {
 	if (update_hosts(""))
 		::MessageBox(NULL, "Your hosts file could not be updated.", NULL, MB_ICONERROR);
-	Sleep(250);
+	Sleep(25);
 	update_ipa2();
 }
 

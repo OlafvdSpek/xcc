@@ -23,27 +23,6 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerDoc, CDocument)
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerDoc construction/destruction
-
-CXCCGameSpyPlayerDoc::CXCCGameSpyPlayerDoc()
-{
-}
-
-CXCCGameSpyPlayerDoc::~CXCCGameSpyPlayerDoc()
-{
-}
-
-BOOL CXCCGameSpyPlayerDoc::OnNewDocument()
-{
-	if (!CDocument::OnNewDocument())
-		return FALSE;
-
-	return TRUE;
-}
-
-
-
-/////////////////////////////////////////////////////////////////////////////
 // CXCCGameSpyPlayerDoc serialization
 
 void CXCCGameSpyPlayerDoc::Serialize(CArchive& ar)
@@ -58,8 +37,3 @@ void CXCCGameSpyPlayerDoc::Serialize(CArchive& ar)
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCGameSpyPlayerDoc commands
-
-const Cxif_key_r& CXCCGameSpyPlayerDoc::key() const
-{
-	return m_key;
-}
