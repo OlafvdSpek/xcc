@@ -55,7 +55,8 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		Cvirtual_binary d = m_mod.save(false).vdata();
+		m_mod.compact();
+		Cvirtual_binary d = m_mod.save(false, -1).vdata();
 		ar.Write(d.data(), d.size());
 	}
 	else
@@ -88,11 +89,12 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 
 int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
 {
+	int error;
 	if (exe.data())
 	{
-		Cvirtual_binary mod = m_mod.save(true).vdata();
+		Cvirtual_binary mod = m_mod.save(true, -1).vdata();
 		Cfile32 f;
-		int error = f.open_write(fname);
+		error = f.open_write(fname);
 		if (!error)
 			error = f.write(exe.data(), exe.size());
 		if (!error)
@@ -100,9 +102,12 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe)
 		if (!error)
 			error = f.write(mod.size());
 		f.close();
-		return error;
 	}
-	return m_mod.save(true).vdata().export(fname);
+	else
+		error = m_mod.save(true, -1).vdata().export(fname);
+	if (!error)
+		error = m_mod.save_modules(fname);
+	return error;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -150,13 +155,15 @@ bool CXCCModCreatorDoc::contains(Cxcc_mod::t_category_type category, string fnam
 int CXCCModCreatorDoc::insert(Cxcc_mod::t_category_type category, string fname)
 {
 	SetModifiedFlag();
+	UpdateAllViews(NULL);
 	return m_mod.insert(category, fname);
 }
 
 void CXCCModCreatorDoc::remove(Cxcc_mod::t_category_type category, string fname)
 {
-	SetModifiedFlag();
 	m_mod.remove(category, fname);
+	SetModifiedFlag();
+	UpdateAllViews(NULL);
 }
 
 Cxcc_mod::t_category_file_list CXCCModCreatorDoc::category_file_list(Cxcc_mod::t_category_type category)
@@ -171,19 +178,21 @@ Cxcc_mod::t_options CXCCModCreatorDoc::options() const
 
 void CXCCModCreatorDoc::options(Cxcc_mod::t_options options)
 {
-	SetModifiedFlag();
 	m_mod.options(options);
+	SetModifiedFlag();
 }
 
-void CXCCModCreatorDoc::activate()
+int CXCCModCreatorDoc::activate()
 {
-	m_mod.activate();
+	return m_mod.activate();
 }
 
-void CXCCModCreatorDoc::launch()
+int CXCCModCreatorDoc::launch()
 {
-	m_mod.activate();
-	m_mod.launch_game(false);
+	int error = m_mod.activate();
+	if (!error)
+		m_mod.launch_game(false);
+	return error;
 }
 
 void CXCCModCreatorDoc::deactivate()
@@ -199,4 +208,26 @@ void CXCCModCreatorDoc::clear_game_dir() const
 void CXCCModCreatorDoc::report(string fname) const
 {
 	m_mod.report(fname);
+}
+
+Cxcc_mod::t_file_properties CXCCModCreatorDoc::file_properties(Cxcc_mod::t_category_type category, string fname) const
+{
+	return m_mod.file_properties(category, fname);
+}
+
+void CXCCModCreatorDoc::file_properties(Cxcc_mod::t_category_type category, string fname, Cxcc_mod::t_file_properties properties)
+{
+	m_mod.file_properties(category, fname, properties);
+	SetModifiedFlag();
+	UpdateAllViews(NULL);
+}
+
+int CXCCModCreatorDoc::add_mode(string name)
+{
+	return m_mod.add_mode(name);
+}
+
+int CXCCModCreatorDoc::add_module(string name)
+{
+	return m_mod.add_module(name);
 }

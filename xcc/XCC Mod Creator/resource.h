@@ -8,11 +8,14 @@
 #define IDR_MAINFRAME                   128
 #define IDR_XCCMODTYPE                  129
 #define IDD_OPTIONS                     130
+#define IDD_PROPERTIES                  133
 #define IDC_INI_DIFF_COMPRESSION        1000
 #define IDC_CSF_DIFF_COMPRESSION        1001
 #define IDC_CUSTOM_BUTTON_TEXT          1002
 #define IDC_XHP_BUTTON                  1003
+#define IDC_MODE                        1003
 #define IDC_EXIT_BUTTON                 1004
+#define IDC_MODULE                      1004
 #define IDC_NAME                        1005
 #define IDC_MAIL                        1006
 #define IDC_LINK_TITLE                  1007
@@ -54,15 +57,16 @@
 #define ID_LAUNCH_RAGE                  32810
 #define ID_MOD_REPORT                   32900
 #define ID_FILE_IMPORT                  32901
+#define ID_POPUP_PROPERTIES             32902
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
-#define _APS_NEXT_RESOURCE_VALUE        133
-#define _APS_NEXT_COMMAND_VALUE         32902
-#define _APS_NEXT_CONTROL_VALUE         1003
+#define _APS_NEXT_RESOURCE_VALUE        134
+#define _APS_NEXT_COMMAND_VALUE         32903
+#define _APS_NEXT_CONTROL_VALUE         1004
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif

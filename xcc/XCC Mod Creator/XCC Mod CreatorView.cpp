@@ -7,6 +7,7 @@
 #include "XCC Mod CreatorDoc.h"
 #include "XCC Mod CreatorView.h"
 #include "options_dlg.h"
+#include "properties_dlg.h"
 #include "resource.h"
 
 #include "fname.h"
@@ -38,6 +39,8 @@ BEGIN_MESSAGE_MAP(CXCCModCreatorView, CListView)
 	ON_NOTIFY_REFLECT(LVN_COLUMNCLICK, OnColumnclick)
 	ON_COMMAND(ID_POPUP_EXPLORE, OnPopupExplore)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_EXPLORE, OnUpdatePopupExplore)
+	ON_COMMAND(ID_POPUP_PROPERTIES, OnPopupProperties)
+	ON_UPDATE_COMMAND_UI(ID_POPUP_PROPERTIES, OnUpdatePopupProperties)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -69,15 +72,15 @@ void CXCCModCreatorView::OnDraw(CDC* pDC)
 	ASSERT_VALID(pDoc);
 }
 
-static int c_colums = 3;
+static int c_colums = 5;
 
 void CXCCModCreatorView::OnInitialUpdate()
 {
-	char* column_label[] = {"Name", "Size", "Type"};
-	int column_alignment[] = {LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT};
+	char* column_label[] = {"Name", "Size", "Type", "Mode", "Module"};
+	int column_alignment[] = {LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT};
 
 	CListCtrl& lc = GetListCtrl();
-	ListView_SetExtendedListViewStyleEx(lc.m_hWnd, LVS_EX_FULLROWSELECT, LVS_EX_FULLROWSELECT);
+	lc.SetExtendedStyle(lc.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	for (int i = 0; i < c_colums; i++)
 		lc.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
 
@@ -196,7 +199,7 @@ void CXCCModCreatorView::sync()
 	{
 		int index = lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK);
 		int id = get_free_id();
-		m_map[id] = create_map_entry(*i);
+		m_map[id] = create_map_entry(i->first);
 		lc.SetItemData(index, id);
 	}
 	if (lc.GetItemCount())
@@ -256,6 +259,20 @@ void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 	case 2:
 		if (e.size != -1)
 			m_buffer[m_buffer_w] = ft_name[e.ft];
+		break;
+	case 3:
+		{
+			int mode = GetDocument()->file_properties(m_category, e.fname).mode;
+			if (mode != -1)
+				m_buffer[m_buffer_w] = GetDocument()->mod().get_mode(mode);
+		}		
+		break;
+	case 4:
+		{
+			int module = GetDocument()->file_properties(m_category, e.fname).module;
+			if (module != -1)
+				m_buffer[m_buffer_w] = GetDocument()->mod().get_module(module);
+		}
 		break;
 	}	
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
@@ -347,7 +364,7 @@ void CXCCModCreatorView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 void CXCCModCreatorView::OnPopupExplore() 
 {
 	CListCtrl& lc = GetListCtrl();
-	int index = lc.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+	int index = focus();
 	string dir = Cfname(m_map.find(lc.GetItemData(index))->second.fname).get_path();;
 	dir.erase(dir.length() - 1);
 	ShellExecute(m_hWnd, "open", dir.c_str(), NULL, NULL, SW_SHOW);	
@@ -355,8 +372,29 @@ void CXCCModCreatorView::OnPopupExplore()
 
 void CXCCModCreatorView::OnUpdatePopupExplore(CCmdUI* pCmdUI) 
 {
+	pCmdUI->Enable(focus() != -1);
+}
+
+void CXCCModCreatorView::OnPopupProperties() 
+{
 	CListCtrl& lc = GetListCtrl();
-	pCmdUI->Enable(lc.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED) != -1);
+	int index = focus();
+	string fname = m_map.find(lc.GetItemData(focus()))->second.fname;
+	Cproperties_dlg dlg;
+	dlg.mod(GetDocument()->mod());
+	dlg.properties(GetDocument()->file_properties(m_category, fname));
+	if (IDOK == dlg.DoModal())
+	{
+		Cxcc_mod::t_file_properties properties;
+		properties.mode = GetDocument()->add_mode(dlg.mode());
+		properties.module = GetDocument()->add_module(dlg.module());
+		GetDocument()->file_properties(m_category, fname, properties);
+	}
+}
+
+void CXCCModCreatorView::OnUpdatePopupProperties(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(focus() != -1);
 }
 
 void CXCCModCreatorView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
@@ -423,7 +461,6 @@ void CXCCModCreatorView::export()
 {
 	Cvirtual_binary exe;
 	Cxcc_apps apps;
-	apps.init();
 	string export_filter;
 	string export_ext = ".xmlf";
 	Cfname fname = static_cast<string>(GetDocument()->GetPathName());
@@ -475,7 +512,8 @@ void CXCCModCreatorView::options()
 void CXCCModCreatorView::launch()
 {
 	CWaitCursor wait;
-	GetDocument()->launch();
+	if (GetDocument()->launch())
+		MessageBox("Error launching mod.", NULL, MB_ICONERROR);
 }
 
 void CXCCModCreatorView::clear_game_dir()
@@ -483,3 +521,7 @@ void CXCCModCreatorView::clear_game_dir()
 	GetDocument()->clear_game_dir();
 }
 
+int CXCCModCreatorView::focus() const
+{
+	return GetListCtrl().GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED);
+}

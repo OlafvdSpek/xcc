@@ -33,11 +33,15 @@ public:
 
 // Implementation
 public:
-	void deactivate();
-	void activate();
+	int add_mode(string name);
+	int add_module(string name);
+	int activate();
 	void clear_game_dir() const;
-	void launch();
+	void deactivate();
+	int launch();
 	bool contains(Cxcc_mod::t_category_type category, string fname);
+	Cxcc_mod::t_file_properties file_properties(Cxcc_mod::t_category_type category, string fname) const;
+	void file_properties(Cxcc_mod::t_category_type category, string fname, Cxcc_mod::t_file_properties properties);
 	int export(string fname, Cvirtual_binary exe);
 	int insert(Cxcc_mod::t_category_type category, string fname);
 	Cxcc_mod::t_options options() const;
@@ -47,6 +51,11 @@ public:
 	Cxcc_mod::t_category_file_list category_file_list(Cxcc_mod::t_category_type category);
 	void SetModifiedFlag(BOOL bModified = true);
 	virtual ~CXCCModCreatorDoc();
+
+	const Cxcc_mod& mod() const
+	{
+		return m_mod;
+	}
 #ifdef _DEBUG
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;

@@ -127,7 +127,8 @@ void CChildFrame::OnViewRefresh()
 void CChildFrame::OnModActivate() 
 {
 	CWaitCursor wait;
-	GetRightPane()->GetDocument()->activate();
+	if (GetRightPane()->GetDocument()->activate())
+		MessageBox("Error activating mod.", NULL, MB_ICONERROR);
 }
 
 void CChildFrame::OnViewLaunch() 

@@ -10,6 +10,7 @@
 #include "LeftView.h"
 
 #include "xcc_dirs.h"
+#include "xcc_log.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -61,6 +62,7 @@ BOOL CXCCModCreatorApp::InitInstance()
 	LoadStdProfileSettings(16);  // Load standard INI file options (including MRU)
 
 	xcc_dirs::load_from_registry();
+	xcc_log::attach_file("XCC Mod Creator log.txt");
 
 	// Register document templates
 

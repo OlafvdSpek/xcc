@@ -116,6 +116,10 @@ SOURCE=.\options_dlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=.\properties_dlg.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\StdAfx.cpp
 # ADD CPP /Yc"stdafx.h"
 # End Source File
@@ -166,6 +170,10 @@ SOURCE=.\MainFrm.h
 # Begin Source File
 
 SOURCE=.\options_dlg.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\properties_dlg.h
 # End Source File
 # Begin Source File
 
