@@ -118,8 +118,6 @@ private:
 
 	typedef map<int, t_index_entry> t_index;
 
-	string m_buffer[4];
-	int m_buffer_w;
 	t_index m_index;
 	int m_sort_column;
 	bool m_sort_reverse;

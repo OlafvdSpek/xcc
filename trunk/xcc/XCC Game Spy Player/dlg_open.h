@@ -88,8 +88,6 @@ private:
 	void insert_player(const string& player, int replay);
 	void insert_players(const t_player_set& players, int replay);
 
-	string m_buffer[4];
-	int m_buffer_w;
 	string m_fname;
 	t_map m_map;
 	t_player_map m_player_map;

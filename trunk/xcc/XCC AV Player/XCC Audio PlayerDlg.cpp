@@ -27,7 +27,6 @@ CXCCAudioPlayerDlg::CXCCAudioPlayerDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_buffer_w = 0;
 }
 
 
@@ -708,30 +707,27 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
-	m_buffer[m_buffer_w].erase();
+	string& buffer = m_list.get_buffer();
 	const t_index_entry&  e = m_index.find(id)->second;
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
-		m_buffer[m_buffer_w] = nh(8, id);
+		buffer = nh(8, id);
 		break;
 	case 2:
-		m_buffer[m_buffer_w] = n(e.size);
+		buffer = n(e.size);
 		break;
 	case 3:
-		m_buffer[m_buffer_w] = e.length;
+		buffer = e.length;
 		break;
 	case 4:
-		m_buffer[m_buffer_w] = e.name;
+		buffer = e.name;
 		break;
 	case 5:
-		m_buffer[m_buffer_w] = e.description;
+		buffer = e.description;
 		break;
 	}
-	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
-	m_buffer_w--;
-	if (m_buffer_w < 0)
-		m_buffer_w += 4;
+	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
 	*pResult = 0;
 }
 
