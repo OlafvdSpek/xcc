@@ -80,7 +80,6 @@
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 	<link rel=stylesheet href="/xcl.css">
-	<meta http-equiv=content-type content="text/html; charset=us-ascii">
 	<title>XCC Community Ladder<?php if (gmdate("d") == 1) echo (" (frozen)") ?></title>
 <table width="100%">
 	<tr>
@@ -91,7 +90,7 @@
 			<a href="/xwi/">Clans</a> |
 			<a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> |
 			<a href="http://xwis.net:4005/">Online</a> |
-			<a href="http://strike-team.net/nuke/html/modules.php?op=modload&name=News&file=article&sid=13">Rules</a> |
+			<a href="http://strike-team.net/nuke/html/modules.php?op=modload;name=News;file=article;sid=13">Rules</a> |
 			<a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> |
 			<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>
 			<a href="?hof=" title="Hall of Fame">HoF</a> |
@@ -579,7 +578,7 @@
 ?>
 <center>
 	<table>
-		<form>
+		<form action="<?php echo $_SERVER[SCRIPT_NAME]; ?>">
 			<input type=hidden name=lid value=<?php echo($lid) ?>>
 			<tr>
 				<td>Player:
