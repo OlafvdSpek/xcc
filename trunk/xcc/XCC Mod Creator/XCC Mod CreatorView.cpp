@@ -63,16 +63,7 @@ BOOL CXCCModCreatorView::PreCreateWindow(CREATESTRUCT& cs)
 	return CListView::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorView drawing
-
-void CXCCModCreatorView::OnDraw(CDC* pDC)
-{
-	CXCCModCreatorDoc* pDoc = GetDocument();
-	ASSERT_VALID(pDoc);
-}
-
-static int c_colums = 5;
+static int c_columns = 5;
 
 void CXCCModCreatorView::OnInitialUpdate()
 {
@@ -81,33 +72,12 @@ void CXCCModCreatorView::OnInitialUpdate()
 
 	CListCtrl& lc = GetListCtrl();
 	lc.SetExtendedStyle(lc.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
-	for (int i = 0; i < c_colums; i++)
+	for (int i = 0; i < c_columns; i++)
 		lc.InsertColumn(i, column_label[i], column_alignment[i], -1, i);
 
 	autosize_colums();
 	CListView::OnInitialUpdate();
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorView diagnostics
-
-#ifdef _DEBUG
-void CXCCModCreatorView::AssertValid() const
-{
-	CListView::AssertValid();
-}
-
-void CXCCModCreatorView::Dump(CDumpContext& dc) const
-{
-	CListView::Dump(dc);
-}
-
-CXCCModCreatorDoc* CXCCModCreatorView::GetDocument() // non-debug version is inline
-{
-	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CXCCModCreatorDoc)));
-	return (CXCCModCreatorDoc*)m_pDocument;
-}
-#endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////
 // CXCCModCreatorView message handlers
@@ -227,7 +197,7 @@ int CXCCModCreatorView::remove(string fname)
 void CXCCModCreatorView::autosize_colums()
 {
 	CListCtrl& lc = GetListCtrl();
-	for (int i = 0; i < c_colums; i++)
+	for (int i = 0; i < c_columns; i++)
 		lc.SetColumnWidth(i, LVSCW_AUTOSIZE);
 }
 

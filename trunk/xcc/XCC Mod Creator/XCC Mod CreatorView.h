@@ -22,7 +22,10 @@ protected: // create from serialization only
 
 // Attributes
 public:
-	CXCCModCreatorDoc* GetDocument();
+	CXCCModCreatorDoc* GetDocument()
+	{ 
+		return (CXCCModCreatorDoc*)m_pDocument; 
+	}
 
 // Operations
 public:
@@ -31,7 +34,6 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCModCreatorView)
 	public:
-	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
@@ -55,10 +57,6 @@ public:
 	void autosize_colums();
 	int insert(string fname);
 	virtual ~CXCCModCreatorView();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:
 
@@ -100,11 +98,6 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 };
-
-#ifndef _DEBUG  // debug version in XCC Mod CreatorView.cpp
-inline CXCCModCreatorDoc* CXCCModCreatorView::GetDocument()
-   { return (CXCCModCreatorDoc*)m_pDocument; }
-#endif
 
 /////////////////////////////////////////////////////////////////////////////
 
