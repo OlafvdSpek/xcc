@@ -51,6 +51,11 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	if (gr.get_int("dura") < 90
 		|| !gr.get_int("trny"))
 		return;
+	Csql_query q(*this);
+	q.write("select count(*) from xcl_games where ws_gid = %s");
+	q.p(gr.get_int("idno"));
+	if (q.execute().fetch_row())
+		return;
 	int pids[4];
 	Cxcl_player players[4];
 	int pc[4];
@@ -61,7 +66,6 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 		players[i] = player(pids[i]);
 	for (i = 0; i < 2; i++)
 		pc[i] = gr.get_int("oosy") ? update_player(pids[i], gr.get_int("cmp", i), players[i], players[1 - i]) : 0;
-	Csql_query q(*this);
 	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
 	q.p(gr.get_int("afps"));
 	q.p(gr.get_int("dura"));
