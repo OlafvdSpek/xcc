@@ -8,7 +8,6 @@
 //
 
 #include <string>
-#include "vartypes.h"
 
 using namespace std;
 
@@ -31,12 +30,12 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(Clist_ctrl_extension)
 	protected:
+	virtual void PreSubclassWindow();
 	//}}AFX_VIRTUAL
 
 // Implementation
 public:
 	int get_focused_item() const;
-	void set_full_row_selection();
 	void add_column(const string& text, int index, int format = LVCFMT_LEFT);
 	void add_item(const string& text, int index, int user_parameter = 0);
 	void set_item(const string& text, int index, int subindex);

@@ -57,7 +57,6 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	ETSLayoutDialog::OnInitDialog();
 	m_list.SetRedraw(false);
 	m_list.set_fixed_width_font();
-	m_list.set_full_row_selection();
 
 	m_list.add_column("ID", 0, 80);
 	m_list.add_column("Name", 1, 100);

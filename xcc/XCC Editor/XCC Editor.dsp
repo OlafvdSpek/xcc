@@ -156,6 +156,10 @@ SOURCE=.\energy_status_dlg.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\ETSLayout.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=.\list_ctrl_extension.cpp
 # End Source File
 # Begin Source File
@@ -310,6 +314,10 @@ SOURCE=.\MainFrm.h
 # Begin Source File
 
 SOURCE=.\object_selection.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\open_from_mix_dlg.h
 # End Source File
 # Begin Source File
 

@@ -58,8 +58,6 @@ BOOL Cedit_waypoints_dlg::OnInitDialog()
 			);
 	ETSLayoutDialog::OnInitDialog();
 
-	m_list.set_full_row_selection();
-
 	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 	m_list.add_column("Cell", 1);	
 
