@@ -1,14 +1,13 @@
 /********************************************************************
  *                                                                  *
  * THIS FILE IS PART OF THE OggVorbis SOFTWARE CODEC SOURCE CODE.   *
- * USE, DISTRIBUTION AND REPRODUCTION OF THIS SOURCE IS GOVERNED BY *
- * THE GNU LESSER/LIBRARY PUBLIC LICENSE, WHICH IS INCLUDED WITH    *
- * THIS SOURCE. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.        *
+ * USE, DISTRIBUTION AND REPRODUCTION OF THIS LIBRARY SOURCE IS     *
+ * GOVERNED BY A BSD-STYLE SOURCE LICENSE INCLUDED WITH THIS SOURCE *
+ * IN 'COPYING'. PLEASE READ THESE TERMS BEFORE DISTRIBUTING.       *
  *                                                                  *
- * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2000             *
- * by Monty <monty@xiph.org> and the XIPHOPHORUS Company            *
- * http://www.xiph.org/                                             *
- *                                                                  *
+ * THE OggVorbis SOURCE CODE IS (C) COPYRIGHT 1994-2001             *
+ * by the XIPHOPHORUS Company http://www.xiph.org/                  *
+
  ********************************************************************
 
  function: libvorbis codec headers
@@ -24,7 +23,7 @@ extern "C"
 {
 #endif /* __cplusplus */
 
-#include <ogg.h>
+#include <ogg/ogg.h>
 
 typedef struct vorbis_info{
   int version;
@@ -116,6 +115,8 @@ typedef struct vorbis_block{
   long floor_bits;
   long res_bits;
 
+  void *internal;
+
 } vorbis_block;
 
 /* vorbis_block is a single block of data to be processed as part of
@@ -178,6 +179,7 @@ extern void     vorbis_dsp_clear(vorbis_dsp_state *v);
 /* Vorbis PRIMITIVES: analysis/DSP layer ****************************/
 
 extern int      vorbis_analysis_init(vorbis_dsp_state *v,vorbis_info *vi);
+extern int      vorbis_commentheader_out(vorbis_comment *vc, ogg_packet *op);
 extern int      vorbis_analysis_headerout(vorbis_dsp_state *v,
 					  vorbis_comment *vc,
 					  ogg_packet *op,
