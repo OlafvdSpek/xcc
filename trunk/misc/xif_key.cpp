@@ -3,9 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "file32.h"
 #include "xif_key.h"
 
+#include "file32.h"
 #include "string_conversion.h"
 
 static void dump_spaces(ostream& os, int count)
@@ -96,6 +96,36 @@ int Cxif_key::save(string fname)
 }
 */
 
+int Cxif_key::load_key(const byte* data, int size)
+{
+	const byte* read_p = data;
+	const t_xif_header& header = *reinterpret_cast<const t_xif_header*>(read_p);
+	if (header.id != file_id ||
+		header.version != file_version_old && header.version != file_version_new)
+		return 1;
+	int error = 0;
+	if (header.version == file_version_old)
+	{
+		read_p += sizeof(t_xif_header) - 4;
+		load_old(read_p);
+		error = size != read_p - data;
+	}
+	else
+	{
+		unsigned long cb_d = header.size_uncompressed;
+		byte* d = new byte[header.size_uncompressed];
+		error = uncompress(d, &cb_d, data + sizeof(t_xif_header), size - sizeof(t_xif_header)) != Z_OK;
+		if (!error)
+		{
+			read_p = d;
+			load_new(read_p);
+			error = header.size_uncompressed != read_p - d;
+		}
+		delete[] d;
+	}
+	return error;
+}
+
 Cvirtual_binary Cxif_key::vdata() const
 {
 	Cvirtual_binary d;
@@ -111,4 +141,3 @@ Cvirtual_binary Cxif_key::vdata() const
 	d.size(sizeof(t_xif_header) + cb_d);
 	return d;
 }
-

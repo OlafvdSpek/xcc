@@ -24,14 +24,6 @@ public:
 		m_type = vt_unknown;
 	}
 
-	/*
-	Cxif_value(const Cxif_value& v):
-		m_type(v.m_type)
-	{
-		m_data = v.m_data;
-	}
-	*/
-
 	Cxif_value(t_vt type, int v)
 	{
 		m_type = type;
@@ -44,34 +36,11 @@ public:
 		m_data = v;
 	}	
 
-	/*
-	Cxif_value(const void* v, int size):
-		m_type(vt_binary)
-	{
-		memcpy(m_data.write_start(size), v, size);
-	}	
-	*/
-
 	Cxif_value(const string& v)
 	{
 		m_type = vt_string;
 		memcpy(m_data.write_start(v.length() + 1), v.c_str(), v.length() + 1);
 	}	
-
-	/*
-	Cxif_value& operator=(const Cxif_value& v)
-	{
-		if (&v != this)
-		{
-			// delete[] m_data;
-			// m_size = v.m_size;
-			m_type = v.m_type;
-			m_data = v.m_data;
-			// memcpy(m_data, v.m_data, m_size);
-		}
-		return *this;
-	}
-	*/
 
 	Cvirtual_binary get_vdata() const
 	{
@@ -94,10 +63,20 @@ public:
 		return *reinterpret_cast<const __int32*>(get_data());
 	}
 
+	int get_int(int v) const
+	{
+		return get_size() ? *reinterpret_cast<const __int32*>(get_data()) : v;
+	}
+
 	string get_string() const
 	{
 		assert(get_size());
 		return reinterpret_cast<const char*>(get_data());
+	}
+
+	string get_string(const string& v) const
+	{
+		return get_size() ? reinterpret_cast<const char*>(get_data()) : v;
 	}
 
 	t_vt get_type() const

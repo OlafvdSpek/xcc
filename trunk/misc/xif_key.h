@@ -17,7 +17,7 @@
 
 using namespace std;
 
-const static __int32 file_id = *reinterpret_cast<const __int32*>("XIF\x1a");
+const static __int32 file_id = 0x1a464958; // *reinterpret_cast<const __int32*>("XIF\x1a");
 const static int file_version_old = 0;
 const static int file_version_new = 1;
 
@@ -141,27 +141,26 @@ public:
 
 	const Cxif_key& get_key(int id) const
 	{
+		static Cxif_key z;
 		t_xif_key_map::iterator i = m_keys.find(id);
-		/*
-		if (i == m_keys.end())
-			throw Cxif_key_not_found();
-		*/
-		return i->second;
+		return i == m_keys.end() ? z : i->second;
 	}
 
 	const Cxif_value& get_value(int id) const
 	{
+		static Cxif_value z;
 		t_xif_value_map::iterator i = m_values.find(id);
-		/*
-		if (i == m_values.end())
-			throw Cxif_value_not_found();
-		*/
-		return i->second;
+		return i == m_values.end() ? z : i->second;
 	}
 
 	int get_value_int(int id) const
 	{
 		return get_value(id).get_int();
+	}
+
+	int get_value_int(int id, int v) const
+	{
+		return get_value(id).get_int(v);
 	}
 
 	__int64 get_value_int64(int id) const
@@ -172,6 +171,11 @@ public:
 	string get_value_string(int id) const
 	{
 		return get_value(id).get_string();
+	}
+
+	string get_value_string(int id, const string& v) const
+	{
+		return get_value(id).get_string(v);
 	}
 
 	bool exists_key(int id) const
@@ -192,36 +196,6 @@ public:
 	int c_values() const
 	{
 		return m_values.size();
-	}
-
-	int load_key(const byte* data, int size)
-	{
-		const byte* read_p = data;
-		const t_xif_header& header = *reinterpret_cast<const t_xif_header*>(read_p);
-		if (header.id != file_id ||
-			header.version != file_version_old && header.version != file_version_new)
-			return 1;
-		int error = 0;
-		if (header.version == file_version_old)
-		{
-			read_p += sizeof(t_xif_header) - 4;
-			load_old(read_p);
-			error = size != read_p - data;
-		}
-		else
-		{
-			unsigned long cb_d = header.size_uncompressed;
-			byte* d = new byte[header.size_uncompressed];
-			error = uncompress(d, &cb_d, data + sizeof(t_xif_header), size - sizeof(t_xif_header)) != Z_OK;
-			if (!error)
-			{
-				read_p = d;
-				load_new(read_p);
-				error = header.size_uncompressed != read_p - d;
-			}
-			delete[] d;
-		}
-		return error;
 	}
 
 	int load_key(const Cvirtual_binary data)
@@ -285,6 +259,7 @@ public:
 	void dump(ostream& os, bool show_ratio, int depth = 0, Cvirtual_binary* t = NULL) const;
 	void dump_ratio(ostream& os, Cvirtual_binary* t) const;
 	// int save(string fname);
+	int load_key(const byte* data, int size);
 	Cvirtual_binary vdata() const;
 
 	t_xif_key_map& m_keys;
@@ -369,6 +344,7 @@ private:
 		return size;
 	}
 
+	/*
 	void save_key(byte* data) const
 	{
 		byte* write_p = data;
@@ -379,6 +355,7 @@ private:
 		write_p += sizeof(t_xif_header);
 		save(write_p);
 	}
+	*/
 
 	void save(byte*& data) const
 	{
