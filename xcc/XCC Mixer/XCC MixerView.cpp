@@ -538,22 +538,12 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 
 static int compare_int(int a, int b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
-static int compare_string(string a, string b)
+static int compare_string(const string& a, const string& b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CXCCMixerView::compare(int id_a, int id_b) const
