@@ -209,7 +209,7 @@ void CXCCMapEncoderDlg::convert(string _fname, Ccc_file& f)
 	{
 		fname.set_ext(".pkt");
 		string pkt = get_pkt(fname, false, title, description, ir.max_players(), static_cast<string>(m_gamemode));
-		Cmix_file_write mmx_f;
+		Cmix_file_write mmx_f(game_ra2);
 		mmx_f.add_file(title + ".map", Cvirtual_binary(s.str(), s.pcount()));
 		mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.c_str(), pkt.length()));
 		fname.set_ext(".mmx");

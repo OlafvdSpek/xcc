@@ -109,6 +109,10 @@ SOURCE=..\misc\avi_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\big_file.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\bink_file.cpp
 # End Source File
 # Begin Source File
@@ -245,6 +249,10 @@ SOURCE=..\misc\mix_rg_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_rg_file_write.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\mix_sfl.cpp
 # End Source File
 # Begin Source File
@@ -305,6 +313,10 @@ SOURCE=..\misc\png_file.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\wol\ra2_names.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\riff_file.cpp
 # End Source File
 # Begin Source File
@@ -350,7 +362,19 @@ SOURCE=.\StdAfx.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\stream_reader.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\stream_writer.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\string_conversion.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\tga_file.cpp
 # End Source File
 # Begin Source File
 
@@ -418,6 +442,10 @@ SOURCE=..\..\misc\wav_header.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\win_handle.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\wsa_dune2_file.cpp
 # End Source File
 # Begin Source File
@@ -455,6 +483,14 @@ SOURCE=..\misc\xcc_registry.cpp
 # Begin Source File
 
 SOURCE=..\..\misc\xif_key.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\xif_key_r.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\xif_key_r.h
 # End Source File
 # Begin Source File
 
@@ -574,10 +610,6 @@ SOURCE=..\misc\fs_ini_file.h
 # End Source File
 # Begin Source File
 
-SOURCE="..\..\xhp\cgi-bin\misc\html.h"
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\hva_file.h
 # End Source File
 # Begin Source File
@@ -658,6 +690,10 @@ SOURCE=..\misc\mix_rg_edit.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\mix_rg_file_write.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\mix_sfl.h
 # End Source File
 # Begin Source File
@@ -722,6 +758,10 @@ SOURCE=..\misc\png_file.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\misc\wol\ra2_names.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\riff_file.h
 # End Source File
 # Begin Source File
@@ -778,11 +818,23 @@ SOURCE=.\StdAfx.h
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\stream_reader.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\stream_writer.h
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\misc\string_conversion.h
 # End Source File
 # Begin Source File
 
 SOURCE=..\misc\text_file.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\misc\tga_file.h
 # End Source File
 # Begin Source File
 
@@ -871,6 +923,10 @@ SOURCE=..\..\misc\wav_header.h
 # Begin Source File
 
 SOURCE=..\..\misc\wav_structures.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\win_handle.h
 # End Source File
 # Begin Source File
 
@@ -978,20 +1034,8 @@ SOURCE=..\misc\xif_file.h
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\misc\xif_key.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xif_value.h
-# End Source File
-# Begin Source File
-
 SOURCE=..\misc\XSTE.h
 # End Source File
 # End Group
-# Begin Source File
-
-SOURCE=.\Readme.txt
-# End Source File
 # End Target
 # End Project
