@@ -5,7 +5,9 @@
 #include "stdafx.h"
 #include "socket.h"
 
-#ifndef WIN32
+#ifdef WIN32
+#pragma comment(lib, "ws2_32.lib")
+#else
 #include <netdb.h>
 #endif
 
