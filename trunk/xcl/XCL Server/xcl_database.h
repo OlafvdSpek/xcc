@@ -23,6 +23,7 @@ public:
 	void insert_game(const Cgame_result& gr);
 	void insert_game(const Cvirtual_binary&);
 	int pid(int lid, const string& name);
+	int pid(int lid, int cid);
 	int update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b);
 };
 
