@@ -17,6 +17,22 @@ static string get_env(const string& name)
 	return p ? p : "";
 }
 
+static void send_mail(const string& from, const string& to, const string& subject, const string& body)
+{
+#ifndef _MSC_VER
+	FILE* mail = popen("/usr/sbin/sendmail -oi -t", "w");
+	if (mail)
+	{
+		fprintf(mail, "Content-Type: text/html\n");
+		fprintf(mail, "From: %s\n", from.c_str());
+		fprintf(mail, "To: %s\n", to.c_str());
+		fprintf(mail, "Subject: %s\n", subject.c_str());
+		fputs(body.c_str(), mail);
+		pclose(mail);
+	}
+#endif
+}
+
 void process(const Cvirtual_binary& s)
 {
 	try
@@ -34,6 +50,7 @@ void process(const Cvirtual_binary& s)
 	}
 	catch (Cxcc_error error)
 	{
+		send_mail("XCL@XCC.TMFWeb.NL", "PHP@XCC.TMFWeb.NL", "Error in XCL server", error.message());
 	}
 }
 
