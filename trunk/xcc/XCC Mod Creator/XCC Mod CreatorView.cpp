@@ -439,16 +439,18 @@ void CXCCModCreatorView::export()
 	if (apps.is_available(app_xml) && !exe.import(apps.get_exe(app_xml)))
 	{
 		export_filter += "BZ EXE files (*.exe)|*.exe|"
-			"GZ EXE files (*.exe)|*.exe|";
+			"GZ EXE files (*.exe)|*.exe|"
+			"EXE files (*.exe)|*.exe|";
 		export_ext = "exe";
 	}
 	export_filter += "BZ XMLF files (*.xmlf)|*.xmlf|"
-		"GZ XMLF files (*.xmlf)|*.xmlf|";
+		"GZ XMLF files (*.xmlf)|*.xmlf|"
+		"XMLF files (*.xmlf)|*.xmlf|";
 	CFileDialog dlg(false, export_ext, NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, export_filter.c_str(), NULL);
 	if (IDOK == dlg.DoModal())
 	{
 		CWaitCursor wait;
-		GetDocument()->export(static_cast<string>(dlg.GetPathName()), dlg.m_ofn.nFilterIndex < 3 ? exe : Cvirtual_binary(), ~dlg.m_ofn.nFilterIndex & 1);
+		GetDocument()->export(static_cast<string>(dlg.GetPathName()), dlg.m_ofn.nFilterIndex < 4 ? exe : Cvirtual_binary(), dlg.m_ofn.nFilterIndex % 3);
 	}
 }
 
