@@ -20,7 +20,7 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#pragma warning(disable: 4503 4554 4786 4800)
+#pragma warning(disable: 4503 4554 4786 4800 4804)
 
 #include <cassert>
 #include <climits>

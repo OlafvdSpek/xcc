@@ -97,12 +97,13 @@ public:
 
 // Implementation
 public:
+	int resize(int id);
 	void open_item(int id);
 	string report() const;
 	void autosize_colums();
 	BOOL OnIdle(LONG lCount);
 	t_game get_game();
-	virtual ~CXCCMixerView();
+	~CXCCMixerView();
 
 protected:
 
