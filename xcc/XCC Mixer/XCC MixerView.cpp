@@ -2770,21 +2770,15 @@ void CXCCMixerView::OnPopupResize()
 						else
 							downsample_image(d32, d8 + global_cx_d * global_cy_d * i, global_cx_d, global_cy_d, palet);
 					}
-					Cfile32 g;
-					error = g.open_write(fname);
-					if (!error)
-					{
-						byte* d = new byte[sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + global_cx_d * global_cy_d) * c_images];
-						error = g.write(d, shp_ts_file_write(d8, d, global_cx_d, global_cy_d, c_images));
-						delete[] d;
-						g.close();
-					}
+					f.close();
+					Cvirtual_binary d;
+					shp_ts_file_write(d8, d.write_start(sizeof(t_shp_ts_header) + (sizeof(t_shp_ts_image_header) + global_cx_d * global_cy_d) * c_images), global_cx_d, global_cy_d, c_images);
+					error = d.export(fname);
 					delete[] image32;
 					delete[] image8;
 					delete[] d32;
 					delete[] d8;
 				}
-				f.close();
 			}
 		}
 		break;

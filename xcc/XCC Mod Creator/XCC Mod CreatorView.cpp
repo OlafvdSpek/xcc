@@ -335,7 +335,7 @@ void CXCCModCreatorView::OnPopupExplore()
 {
 	CListCtrl& lc = GetListCtrl();
 	int index = focus();
-	string dir = Cfname(m_map.find(lc.GetItemData(index))->second.fname).get_path();;
+	string dir = Cfname(m_map.find(lc.GetItemData(index))->second.fname).get_path();
 	dir.erase(dir.length() - 1);
 	ShellExecute(m_hWnd, "open", dir.c_str(), NULL, NULL, SW_SHOW);	
 }

@@ -596,7 +596,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cpcx_file f;
 				f.load(m_data);
-				const int c_planes = f.get_c_planes();;
+				const int c_planes = f.get_c_planes();
 				const int cx = f.get_cx();
 				const int cy = f.get_cy();
 				draw_info("Bits/pixel:", n(8 * c_planes));
@@ -1000,7 +1000,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 														image_z[ofs] = d_pixel.z;
 													}
 													else
-														r += 2;;
+														r += 2;
 													z++;
 												}
 												r++;
