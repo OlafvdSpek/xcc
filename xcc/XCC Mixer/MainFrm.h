@@ -238,10 +238,6 @@ protected:
 	afx_msg void OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXOE_TS();
 	afx_msg void OnUpdateLaunchXOE_TS(CCmdUI* pCmdUI);
-	afx_msg void OnLaunchXSTE();
-	afx_msg void OnUpdateLaunchXSTE(CCmdUI* pCmdUI);
-	afx_msg void OnLaunchXSE();
-	afx_msg void OnUpdateLaunchXSE(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchFA();
 	afx_msg void OnUpdateLaunchFA(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchRAGE();
@@ -273,6 +269,11 @@ protected:
 	afx_msg void OnLaunchXSTE_Open();
 	afx_msg void OnConversionFixShadows();
 	afx_msg void OnUpdateConversionFixShadows(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSE_RA2();
+	afx_msg void OnUpdateLaunchXSE_RA2(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSE_RA2_YR();
+	afx_msg void OnUpdateLaunchXSE_RA2_YR(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXSE_Open();
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

@@ -109,8 +109,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_RA2, OnUpdateLaunchXOE_RA2)
 	ON_COMMAND(ID_LAUNCH_XOE_TS, OnLaunchXOE_TS)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_TS, OnUpdateLaunchXOE_TS)
-	ON_COMMAND(ID_LAUNCH_XSE, OnLaunchXSE)
-	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE, OnUpdateLaunchXSE)
 	ON_COMMAND(ID_LAUNCH_FA, OnLaunchFA)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_FA, OnUpdateLaunchFA)
 	ON_COMMAND(ID_LAUNCH_RAGE, OnLaunchRAGE)
@@ -142,6 +140,11 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND(ID_LAUNCH_XSTE_OPEN, OnLaunchXSTE_Open)
 	ON_COMMAND(ID_CONVERSION_FIX_SHADOWS, OnConversionFixShadows)
 	ON_UPDATE_COMMAND_UI(ID_CONVERSION_FIX_SHADOWS, OnUpdateConversionFixShadows)
+	ON_COMMAND(ID_LAUNCH_XSE_OPEN, OnLaunchXSE_Open)
+	ON_COMMAND(ID_LAUNCH_XSE_RA2, OnLaunchXSE_RA2)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE_RA2, OnUpdateLaunchXSE_RA2)
+	ON_COMMAND(ID_LAUNCH_XSE_RA2_YR, OnLaunchXSE_RA2_YR)
+	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE_RA2_YR, OnUpdateLaunchXSE_RA2_YR)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -1166,15 +1169,30 @@ void CMainFrame::OnLaunchXSTE_Open()
 	}
 }
 
-void CMainFrame::OnLaunchXSE() 
+void CMainFrame::OnLaunchXSE_RA2() 
 {
-	CXSE_dlg dlg(Cfname(xcc_dirs::get_main_mix(game_ra2_yr)).exists() ? game_ra2_yr : game_ra2);
+	CXSE_dlg dlg(game_ra2);
 	dlg.DoModal();
 }
 
-void CMainFrame::OnUpdateLaunchXSE(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateLaunchXSE_RA2(CCmdUI* pCmdUI) 
 {
-	pCmdUI->Enable(!xcc_dirs::get_dir(game_ra2).empty());	
+	pCmdUI->Enable(Cfname(xcc_dirs::get_language_mix(game_ra2)).exists());
+}
+
+void CMainFrame::OnLaunchXSE_RA2_YR() 
+{
+	CXSE_dlg dlg(game_ra2_yr);
+	dlg.DoModal();
+}
+
+void CMainFrame::OnUpdateLaunchXSE_RA2_YR(CCmdUI* pCmdUI) 
+{
+	pCmdUI->Enable(Cfname(xcc_dirs::get_language_mix(game_ra2_yr)).exists());	
+}
+
+void CMainFrame::OnLaunchXSE_Open() 
+{
 }
 
 void CMainFrame::OnDestroy() 
@@ -1470,4 +1488,3 @@ void CMainFrame::OnUpdateViewPaletAutoSelect(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_file_info_pane->can_auto_select());
 }
-
