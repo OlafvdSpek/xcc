@@ -136,6 +136,7 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 
 void Cdlg_login::OnOK() 
 {
+	CWaitCursor wc;
 	m_edit.Empty();
 	SOCKET s = socket(PF_INET, SOCK_STREAM, 0);
 	if (s == -1)
@@ -145,7 +146,7 @@ void Cdlg_login::OnOK()
 		sockaddr_in d_address;
 		d_address.sin_family = AF_INET;
 		d_address.sin_port = htons(4005);
-		d_address.sin_addr.s_addr = htonl(m_ipa);;
+		d_address.sin_addr.s_addr = m_ipa;
 		if (connect(s, reinterpret_cast<const sockaddr*>(&d_address), sizeof(sockaddr_in)))
 			m_edit += "unable to connect: " + n(WSAGetLastError());
 		else
@@ -161,6 +162,12 @@ void Cdlg_login::OnOK()
 				<< "serial " << game.serial << endl
 				<< "user UserName e e e" << endl
 				<< "quit" << endl;
+			m_edit += "server: ";
+			m_edit += inet_ntoa(d_address.sin_addr);
+			m_edit += "\r\n";
+			m_edit += "nick: ";
+			m_edit += nick.name.c_str();
+			m_edit += "\r\n";
 			if (msg.pcount() != send(s, msg.str(), msg.pcount(), 0))
 				m_edit += "unable to send: " + n(WSAGetLastError());
 			else

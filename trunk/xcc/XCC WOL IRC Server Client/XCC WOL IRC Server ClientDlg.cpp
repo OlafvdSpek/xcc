@@ -174,10 +174,11 @@ void CXCCWOLIRCServerClientDlg::update_ipa2()
 
 void CXCCWOLIRCServerClientDlg::OnTest() 
 {
+	hostent* e = gethostbyname("servserv.westwood.com");
+	if (!e || e->h_addrtype != 2 || e->h_length != sizeof(in_addr))
+		return;
 	Cdlg_login dlg;
-	DWORD a;
-	m_ipa.GetAddress(a);
-	dlg.ipa(a);
+	dlg.ipa(*reinterpret_cast<int*>(*e->h_addr_list));
 	dlg.DoModal();
 }
 
