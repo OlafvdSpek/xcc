@@ -13,15 +13,14 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
 	convert_palet_18_to_24(palet);
-	int error = 0;
 	const t_vxl_section_tailer& section_tailer = *get_section_tailer(0);
 	const int cx = section_tailer.cx;
 	const int cy = section_tailer.cy;
 	const int cz = section_tailer.cz;
-	byte* s = new byte[cx * cy];
+	Cvirtual_binary s;
 	for (int i = 0; i < cz; i++)
 	{
-		memset(s, 0, cx * cy);
+		memset(s.write_start(cx * cy), 0, cx * cy);
 		int j = 0;
 		for (int y = 0; y < cy; y++)
 		{
@@ -38,7 +37,7 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 						while (c--)
 						{
 							if (i == z)
-								s[x + cx * y] = *r;
+								s.data_edit()[x + cx * y] = *r;
 							r += 2;
 							z++;
 						}
@@ -50,11 +49,11 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 		}
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		if (error = image_file_write(t, ft, s, palet, cx, cy))
-			break;
+		int error = image_file_write(t, ft, s, palet, cx, cy);
+		if (error)
+			return error;
 	}
-	delete[] s;
-	return error;
+	return 0;
 }
 
 int Cvxl_file::extract_as_text(ostream& os) const

@@ -3,9 +3,9 @@
 //////////////////////////////////////////////////////////////////////
 
 #include "stdafx.h"
-#include "pcx_decode.h"
-#include "pcx_file_write.h"
 #include "tmp_ts_file.h"
+
+#include "image_file.h"
 
 void Ctmp_ts_file::get_rect(int& x, int& y, int& cx, int& cy) const
 {
@@ -109,32 +109,16 @@ void Ctmp_ts_file::draw(byte* d) const
 	}
 }
 
-int Ctmp_ts_file::extract_as_pcx(const string& name, const t_palet _palet) const
+Cvirtual_file Ctmp_ts_file::extract_as_pcx(t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	memcpy(palet, _palet, sizeof(t_palet));
 	convert_palet_18_to_24(palet);
 	int global_x, global_y, global_cx, global_cy;
 	get_rect(global_x, global_y, global_cx, global_cy);
-	byte* image = new byte[global_cx * global_cy];
-	draw(image);
-	byte* d = new byte[global_cx * global_cy * 2];
-	int cb_d = pcx_encode(image, d, global_cx, global_cy, 1);
-	Cpcx_file_write f;
-	int error = f.open_write(name);
-	if (!error)
-	{
-		f.set_size(global_cx, global_cy, 1);
-		error = f.write_header();
-		if (!error)
-			error = f.write_image(d, cb_d);
-		if (!error)
-			error = f.write_palet(palet);
-		f.close();
-	}
-	delete[] d;
-	delete[] image;
-	return error;
+	Cvirtual_binary image;
+	draw(image.write_start(global_cx * global_cy));
+	return image_file_write(ft, image, palet, global_cx, global_cy);
 }
 
 int decode_tile(const byte* s, byte* d, int cx_d)

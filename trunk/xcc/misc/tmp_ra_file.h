@@ -9,15 +9,16 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <cc_file_sh.h>
-#include <cc_structures.h>
+#include "cc_file_sh.h"
+#include "cc_structures.h"
 #include "fname.h"
+#include "image_file.h"
 #include "palet.h"
 
 class Ctmp_ra_file: public Ccc_file_sh<t_tmp_ra_header>
 {
 public:
-	int extract_as_pcx(const Cfname& name, const t_palet _palet) const;
+	Cvirtual_file extract_as_pcx(t_file_type ft, const t_palet _palet) const;
 
 	bool is_valid() const
 	{

@@ -17,7 +17,7 @@
 class Cshp_dune2_file: public Ccc_file_sh<t_shp_dune2_header>  
 {
 public:
-	int extract_as_pcx(const Cfname& name, const t_palet _palet) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
 
 	bool is_valid() const
 	{

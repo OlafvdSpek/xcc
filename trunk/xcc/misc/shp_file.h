@@ -19,7 +19,7 @@ const int shp_o_mask = 0x0fffffff;
 class Cshp_file: public Ccc_file_sh<t_shp_header>  
 {
 public:
-	int extract_as_pcx(const Cfname& name, const t_palet palet) const;
+	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet) const;
 
 	bool is_valid() const
 	{

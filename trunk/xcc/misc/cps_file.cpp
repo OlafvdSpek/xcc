@@ -1,15 +1,14 @@
 #include "stdafx.h"
 #include "cps_file.h"
+
 #include "shp_decode.h"
-#include "pcx_decode.h"
-#include "pcx_file_write.h"
 
 void Ccps_file::decode(void* d) const
 {
 	decode80(get_image(), reinterpret_cast<byte*>(d));
 }
 
-int Ccps_file::extract_as_pcx(const string& name, const t_palet _palet) const
+Cvirtual_file Ccps_file::extract_as_pcx(t_file_type ft, const t_palet _palet) const
 {
 	t_palet palet;
 	if (has_palet())
@@ -17,25 +16,9 @@ int Ccps_file::extract_as_pcx(const string& name, const t_palet _palet) const
 	else
 		memcpy(palet, _palet, sizeof(t_palet));
 	convert_palet_18_to_24(palet);
-	byte* image = new byte[320 * 200];
-	decode80(get_image(), image);
-	byte* d = new byte[320 * 200 * 2];
-	int cb_d = pcx_encode(image, d, 320, 200, 1);
-	Cpcx_file_write f;
-	int error = f.open_write(name);
-	if (!error)
-	{
-		f.set_size(320, 200, 1);
-		error = f.write_header();
-	}
-	if (!error)
-		error = f.write_image(d, cb_d);
-	if (!error)
-		error = f.write_palet(palet);
-	f.close();
-	delete[] d;
-	delete[] image;
-	return error;
+	Cvirtual_binary image;
+	decode80(get_image(), image.write_start(320 * 200));
+	return image_file_write(ft, image, palet, 320, 200);
 }
 
 Cvirtual_binary cps_file_write(const byte* s, const t_palet_entry* palet)
