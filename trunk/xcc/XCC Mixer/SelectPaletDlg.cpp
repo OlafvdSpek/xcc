@@ -41,7 +41,6 @@ BEGIN_MESSAGE_MAP(CSelectPaletDlg, ETSLayoutDialog)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE, OnSelchangedTree)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
-	ON_WM_SIZE()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -68,10 +67,8 @@ BOOL CSelectPaletDlg::OnInitDialog()
 			<< item(IDCANCEL, NORESIZE)
 			);
 	ETSLayoutDialog::OnInitDialog();
-	m_list.SetExtendedStyle(m_list.GetExtendedStyle() | LVS_EX_FULLROWSELECT);
 	m_list.InsertColumn(0, "Name");
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
-	m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
+	m_list.auto_size();
 	insert_tree_entry(-1, TVI_ROOT);
 	return true;
 }
@@ -154,11 +151,4 @@ void CSelectPaletDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 	if (m_current_palet != -1)
 		EndDialog(IDOK);	
 	*pResult = 0;
-}
-
-void CSelectPaletDlg::OnSize(UINT nType, int cx, int cy) 
-{
-	ETSLayoutDialog::OnSize(nType, cx, cy);
-	if (m_list.GetSafeHwnd())
-		m_list.SetColumnWidth(0, LVSCW_AUTOSIZE_USEHEADER);
 }

@@ -8,6 +8,7 @@
 // SearchStringDlg.h : header file
 //
 
+#include "ListCtrlEx.h"
 #include "csf_file.h"
 #include "resource.h"
 
@@ -24,7 +25,7 @@ public:
 // Dialog Data
 	//{{AFX_DATA(CSearchStringDlg)
 	enum { IDD = IDD_SEARCH_STRING };
-	CListCtrl	m_list;
+	CListCtrlEx	m_list;
 	static CString	m_name;
 	//}}AFX_DATA
 
@@ -43,7 +44,6 @@ protected:
 	// Generated message map functions
 	//{{AFX_MSG(CSearchStringDlg)
 	virtual BOOL OnInitDialog();
-	afx_msg void OnSize(UINT nType, int cx, int cy);
 	afx_msg void OnSearch();
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
 	//}}AFX_MSG
