@@ -53,7 +53,8 @@ public:
 		Cvirtual_binary data;
 		m_f.read_chunk(data.write_start(m_f.get_chunk_size()));
 		m_vqa_d.decode_vqfr_chunk(data, m_frame.write_start(cb_image()), m_palet);
-		m_frame.read(d);
+		if (d)
+			m_frame.read(d);
 		m_frame_i++;
 		return 0;
 	}
@@ -65,15 +66,20 @@ public:
 
 	int seek(int f)
 	{
-		m_frame_i = f;
+		if (f == m_frame_i)
+			return 0;
+		m_f.seek(m_begin_offset);
+		m_vqa_d.start_decode(*m_f.get_header());
+		for (m_frame_i = 0; m_frame_i < f - 1 && !decode(NULL); )
+			;
 		return 0;
 	}
 
 	Cvqa_decoder(const Cvqa_file& f)
 	{
 		m_f.load(f);
-		m_frame_i = 0;
-		m_vqa_d.start_decode(*m_f.get_header());
+		m_begin_offset = m_f.get_p();
+		seek(0);
 	}
 private:
 	Cvqa_decode m_vqa_d;
@@ -81,6 +87,7 @@ private:
 	Cvirtual_binary m_frame;
 	int m_frame_i;
 	t_palet m_palet;
+	int m_begin_offset;
 };
 
 Cvideo_decoder* Cvqa_file::decoder()
