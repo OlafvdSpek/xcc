@@ -2,7 +2,6 @@
 <table width="100%">
 	<tr>
 		<td valign=top>
-			<a href="http://champ-site.com/">Champ Site</a> |
 			<a href="http://communityteam.de/">Community Team</a> |
 			<a href="http://dune2k.com/">FED2k</a> |
 			<a href="http://strike-team.net/">Strike Team</a> |
@@ -26,4 +25,17 @@
 				</noscript>
 			<p>
 				<a href="http://communityteam.de/"><img src="http://communityteam.de/images/banner/ct_banner.gif" alt="Community Team"></a>
+			<p>
+				<script type="text/javascript">
+				<!--
+					google_ad_client = "pub-1982327992445962";
+					google_ad_width = 728;
+					google_ad_height = 90;
+					google_ad_format = "728x90_as";
+					google_ad_channel ="4775308317";
+					google_alternate_ad_url = "http://strike-team.net/forums/uploads/post-13-1096106502.gif";
+				//-->
+				</script>
+				<script type="text/javascript" src="http://pagead2.googlesyndication.com/pagead/show_ads.js">
+				</script>
 </table>
