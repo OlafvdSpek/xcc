@@ -7,16 +7,30 @@
 
 #include <cmath>
 
-int Cxcl_database::pid(const string& name)
+static int gsku2lid(int gsku)
+{
+	switch (gsku)
+	{
+	case 0x2100:
+		return 1;
+	case 0x2900:
+		return 3;
+	}
+	return 0;
+}
+
+int Cxcl_database::pid(int lid, const string& name)
 {
 	Csql_query q(*this);
-	q.write("select pid from xcl_players where name = %s");
+	q.write("select pid from xcl_players where lid = %s and name = %s");
+	q.p(lid);
 	q.pe(name);
 	Csql_result result = q.execute();
 	Csql_row row;
 	if (row = result.fetch_row())
 		return row.f_int(0);
-	q.write("insert into xcl_players (name) values (lcase(%s))");
+	q.write("insert into xcl_players (lid, name) values (%s, lcase(%s))");
+	q.p(lid);
 	q.pe(name);
 	q.execute();
 	return mysql_insert_id(&handle());
@@ -24,18 +38,7 @@ int Cxcl_database::pid(const string& name)
 
 int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl_player& a, const Cxcl_player& b)
 {
-	int ladder;
-	switch (gsku)
-	{
-	case 0x2100:
-		ladder = 1;
-		break;
-	case 0x2900:
-		ladder = 2;
-		break;
-	default:
-		ladder = 0;
-	}
+	int ladder = gsku2lid(gsku) >> 1;;
 	int points_win = 64 * (1 - 1 / (powf(10, static_cast<float>(b.points - a.points) / 400) + 1));
 	int points_loss = min(64 - points_win, a.points / 10);
 	Csql_query q(*this);
@@ -71,6 +74,7 @@ int Cxcl_database::update_player(int pid, int cmp, int cty, int gsku, const Cxcl
 void Cxcl_database::insert_game(const Cgame_result& _gr)
 {
 	Cgame_result gr = _gr;
+	int lid = gsku2lid(gr.get_int("gsku"));
 	if (gr.get_int("dura") < 90
 		|| gr.get_int("trny") != 1)
 		return;
@@ -94,10 +98,11 @@ void Cxcl_database::insert_game(const Cgame_result& _gr)
 	Cxcl_player players[4];
 	int pc[4];
 	int i;
-	pids[0] = pid(gr.get_string("nam0"));
-	pids[1] = pid(gr.get_string("nam1"));
 	for (i = 0; i < 2; i++)
+	{
+		pids[i] = pid(lid, gr.get_string("nam", i));
 		players[i] = player(pids[i]);
+	}
 	for (i = 0; i < 2; i++)
 		pc[i] = update_player(pids[i], gr.get_int("cmp", i), gr.get_int("cty", i), gr.get_int("gsku"), players[i], players[1 - i]);
 	q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, a_pid, a_cmp, a_col, a_cty, a_pc, b_pid, b_cmp, b_col, b_cty, b_pc, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
