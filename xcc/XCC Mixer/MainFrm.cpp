@@ -234,8 +234,8 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	m_left_mix_pane->set_other_panes(m_file_info_pane, m_right_mix_pane);
 	m_right_mix_pane->set_other_panes(m_file_info_pane, m_left_mix_pane);
 
-	m_left_mix_pane->set_reg_key("left_mix_pame");
-	m_right_mix_pane->set_reg_key("right_mix_pame");
+	m_left_mix_pane->set_reg_key("left_mix_pane");
+	m_right_mix_pane->set_reg_key("right_mix_pane");
 
 	SetActiveView(reinterpret_cast<CView*>(m_left_mix_pane));
 
