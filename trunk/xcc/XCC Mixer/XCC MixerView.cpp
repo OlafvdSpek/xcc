@@ -3024,13 +3024,13 @@ string CXCCMixerView::report() const
 	string page;
 	ULARGE_INTEGER available, total, free;
 	if (GetDiskFreeSpaceEx(m_dir.c_str(), &available, &total, &free))
-		page += tr(td(m_dir) + td(n(*reinterpret_cast<__int64*>(&available))) + td(n(*reinterpret_cast<__int64*>(&total))));
-	page += tr(th("Name") + th("Type") + th("Size"));
+		page += tr(td(m_dir) + td(n(*reinterpret_cast<__int64*>(&available)), "align=right") + td(n(*reinterpret_cast<__int64*>(&total)), "align=right") + td("&nbsp;"));
+	page += tr(th("Name") + th("Type") + th("Size") + th("Description"));
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < lc.GetItemCount(); i++)
 	{
 		const t_index_entry& e = m_index.find(lc.GetItemData(i))->second;
-		page += tr(td(e.name) + td(ft_name[e.ft]) + td(e.size == -1 ? "&nbsp;" : n(e.size), "align=right"));
+		page += tr(td(e.name) + td(ft_name[e.ft]) + td(e.size == -1 ? "&nbsp;" : n(e.size), "align=right") + td(e.description.empty() ? "&nbsp;" : e.description));
 	}
 	return table(page, "border=1 width=100%");
 }
