@@ -43,7 +43,7 @@ public:
 	void decode_vqfr_chunk(const byte* in, byte* out, t_palet palet);
 	void write_block(byte* out, int v, int count, int& x, int y) const;
 	Cvqa_decode();
-	virtual ~Cvqa_decode();
+	~Cvqa_decode();
 };
 
 #endif // !defined(AFX_vqa_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)

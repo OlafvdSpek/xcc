@@ -68,7 +68,8 @@ public:
 	{
 		if (f == m_frame_i)
 			return 0;
-		m_f.seek(m_begin_offset);
+		m_f.seek(sizeof(t_vqa_header));
+		m_f.read_chunk_header();
 		m_vqa_d.start_decode(*m_f.get_header());
 		for (m_frame_i = 0; m_frame_i < f - 1 && !decode(NULL); )
 			;
@@ -78,7 +79,6 @@ public:
 	Cvqa_decoder(const Cvqa_file& f)
 	{
 		m_f.load(f);
-		m_begin_offset = m_f.get_p();
 		seek(0);
 	}
 private:
@@ -87,7 +87,6 @@ private:
 	Cvirtual_binary m_frame;
 	int m_frame_i;
 	t_palet m_palet;
-	int m_begin_offset;
 };
 
 Cvideo_decoder* Cvqa_file::decoder()
