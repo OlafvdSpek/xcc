@@ -21,6 +21,7 @@ enum t_game
 	game_gr_zh, 
 	game_ebfd,
 	game_nox,
+	game_bfme,
 	game_unknown
 };
 
@@ -103,6 +104,7 @@ struct t_big_index_entry
 };
 
 const int big_id = 'FGIB';
+const int big4_id = '4GIB';
 
 struct t_cps_header
 {
