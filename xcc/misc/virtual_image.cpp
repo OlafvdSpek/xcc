@@ -20,7 +20,32 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet)
+Cvirtual_image::Cvirtual_image()
+{
+	m_cx = 0;
+	m_cy = 0;
+	mcb_pixel = 0;
+}
+
+Cvirtual_image::Cvirtual_image(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate)
+{
+	load(image, cx, cy, cb_pixel, palet, inflate);
+}
+
+const Cvirtual_image& Cvirtual_image::palet(const t_palet_entry* palet, bool inflate)
+{
+	if (palet)
+	{
+		memcpy(m_palet.write_start(sizeof(t_palet)), palet, sizeof(t_palet));
+		if (inflate)
+			convert_palet_18_to_24(reinterpret_cast<t_palet_entry*>(m_palet.data_edit()));
+	}
+	else
+		m_palet.clear();
+	return *this;
+}
+
+void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* p, bool inflate)
 {
 	assert(cb_pixel == 1 || cb_pixel == 3 || cb_pixel == 4);
 	m_cx = cx;
@@ -29,13 +54,10 @@ void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const
 	m_image.write_start(cb_image());
 	if (image)
 		memcpy(m_image.data_edit(), image, cb_image());
-	if (palet)
-		memcpy(m_palet.write_start(sizeof(t_palet)), palet, sizeof(t_palet));
-	else
-		m_palet.clear();
+	palet(p, inflate);
 }
 
-int Cvirtual_image::load(const Cvirtual_binary s)
+int Cvirtual_image::load(const Cvirtual_binary& s)
 {
 	int error = 0;
 	Cdds_file dds_f;
@@ -56,7 +78,7 @@ int Cvirtual_image::load(const Cvirtual_binary s)
 	else 
 #endif
 	if (pcx_f.load(s), pcx_f.is_valid())
-		pcx_f.decode(*this);
+		*this = pcx_f.vimage();
 #ifdef PNG_SUPPORT
 	else if (png_f.load(s), png_f.is_valid())
 		error = png_f.decode(*this);
@@ -95,18 +117,6 @@ int Cvirtual_image::load_as_jpeg(const string& fname)
 	return error;
 }
 #endif
-
-int Cvirtual_image::load_as_pcx(const string& fname)
-{
-	Cpcx_file f;
-	int error = f.open(fname);
-	if (!error)
-	{
-		f.decode(*this);
-		f.close();
-	}
-	return error;
-}
 
 int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
 {
@@ -456,86 +466,6 @@ int Cvirtual_image::set_clipboard() const
 	}
 	return error;
 }
-
-#if 0
-int Cvirtual_image::set_clipboard(const Cvirtual_image& image)
-{
-	int error = 0;
-	int cb_line = image.cx() * image.cb_pixel();
-	void* h_mem = GlobalAlloc(GMEM_MOVEABLE | GMEM_DDESHARE, sizeof(BITMAPINFOHEADER) + 256 * sizeof(RGBQUAD) + (cb_line + 3 & ~3) * image.cy());
-	if (!h_mem)
-		error = 0x100;
-	else
-	{
-		byte* mem = reinterpret_cast<byte*>(GlobalLock(h_mem));
-		if (!mem)
-			error = 0x101;
-		else
-		{
-			// image.flip();
-			/*
-			if (image.cb_pixel() == 3)
-				image.swap_rb();
-			*/
-			BITMAPINFOHEADER* header = reinterpret_cast<BITMAPINFOHEADER*>(mem);
-			ZeroMemory(header, sizeof(BITMAPINFOHEADER));
-			header->biSize = sizeof(BITMAPINFOHEADER);
-			header->biWidth = image.cx();
-			header->biHeight = image.cy();
-			header->biPlanes = 1;
-			header->biBitCount = image.cb_pixel() << 3;
-			header->biCompression = BI_RGB;
-			RGBQUAD* palet = reinterpret_cast<RGBQUAD*>(mem + sizeof(BITMAPINFOHEADER));
-			if (image.cb_pixel() == 1)
-			{
-				for (int i = 0; i < 256; i++)
-				{
-					palet->rgbBlue = image.palet()[i].b;
-					palet->rgbGreen = image.palet()[i].g;
-					palet->rgbRed = image.palet()[i].r;
-					palet->rgbReserved = 0;
-					palet++;
-				}
-			}
-			const byte* r = image.image() + image.cb_image();
-			byte* w = reinterpret_cast<byte*>(palet);
-			for (int y = 0; y < image.cy(); y++)
-			{
-				r -= cb_line;
-				if (image.cb_pixel() == 3)
-				{
-					for (int x = 0; x < image.cx(); x++)
-					{
-						const t_palet_entry* v = reinterpret_cast<const t_palet_entry*>(r) + x;
-						*w++ = v->b;
-						*w++ = v->g;
-						*w++ = v->r;
-					}
-					w -= cb_line;
-				}
-				else
-					memcpy(w, r, cb_line);
-				w += cb_line + 3 & ~3;
-			}
-			// memcpy(palet, image.image(), image.cb_image());
-			GlobalUnlock(h_mem);
-			if (!OpenClipboard(NULL))
-				error = 0x102;
-			else
-			{
-				if (EmptyClipboard() && SetClipboardData(CF_DIB, h_mem))
-					h_mem = NULL;
-				else
-					error = 0x103;
-				CloseClipboard();
-			}
-		}
-		if (h_mem)
-			GlobalFree(h_mem);
-	}
-	return error;
-}
-#endif
 
 int Cvirtual_image::load()
 {

@@ -109,18 +109,6 @@ void Ctmp_ts_file::draw(byte* d) const
 	}
 }
 
-Cvirtual_file Ctmp_ts_file::extract_as_pcx(t_file_type ft, const t_palet _palet) const
-{
-	t_palet palet;
-	memcpy(palet, _palet, sizeof(t_palet));
-	convert_palet_18_to_24(palet);
-	int global_x, global_y, global_cx, global_cy;
-	get_rect(global_x, global_y, global_cx, global_cy);
-	Cvirtual_binary image;
-	draw(image.write_start(global_cx * global_cy));
-	return image_file_write(ft, image, palet, global_cx, global_cy);
-}
-
 int decode_tile(const byte* s, byte* d, int cx_d)
 {
 	int cy = cx_d >> 1;
@@ -174,58 +162,8 @@ int encode_tile(const byte* s, byte* d, int cx_s)
 	return w - d;
 }
 
-int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy)
+void Ctmp_ts_file::decode(void* d) const
 {
-	return 0x200;
-	if (cx != 48 || cy != 24)
-		return 0;
-	for (int x = 0; x < cx; x++)
-	{
-		if (s[x])
-			break;
-	}
-	if (x % 24 != 22)
-		return 0;
-	x -= 22;
-	int cblocks_x = 1; // (cx - x - 24 + 23) / 24;
-	int cblocks_y = 1; // (x + 24 + 23) / 24;
-	int c_tiles = cblocks_x * cblocks_y;
-	byte* w = d;
-	t_tmp_ts_header& header = *reinterpret_cast<t_tmp_ts_header*>(w);
-	header.cblocks_x = cblocks_x;
-	header.cblocks_y = cblocks_y;
-	header.cx = 48;
-	header.cy = 24;
-	w += sizeof(t_tmp_ts_header);
-	int* index = reinterpret_cast<int*>(w);
-	w += 4 * c_tiles;
-	for (int y = 0; y < cblocks_y; y++)
-	{
-		for (int x = 0; x < cblocks_x; x++)
-		{
-			*index++ = w - d;
-			t_tmp_image_header& image_header = *reinterpret_cast<t_tmp_image_header*>(w);
-			image_header.x = 24 * x - 24 * y;
-			image_header.y = 12 * x + 12 * y;
-			/*
-			image_header.x_extra = 0;
-			image_header.y_extra = 0;
-			image_header.cx_extra = 0;
-			image_header.cy_extra = 0;
-			*/
-			image_header.has_extra_data = 0;
-			image_header.has_z_data = 1;
-			image_header.has_damaged_data = 0;
-			image_header.height = 0;
-			image_header.terrain_type = 0xf;
-			image_header.ramp_type = 0;
-			// image_header.unknown2 = 0;
-			w += sizeof(t_tmp_image_header);
-			encode_tile(s, w, 48);
-			w += 576;
-			memset(w, 0, 576);
-			w += 576;
-		}
-	}
-	return w - d;
+	draw(reinterpret_cast<byte*>(d));
 }
+

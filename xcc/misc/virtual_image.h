@@ -13,9 +13,10 @@
 #include "palet.h"
 #include "virtual_file.h"
 
-class Cvirtual_image  
+class Cvirtual_image
 {
 public:
+	const Cvirtual_image& palet(const t_palet_entry* palet, bool inflate = false);
 	void remove_alpha();
 	void add_alpha();
 	void decrease_color_depth(int cb_pixel, const t_palet_entry* palet = NULL);
@@ -26,12 +27,11 @@ public:
 	int set_clipboard() const;
 	int load();
 	int save() const;
-	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet);
-	int load(const Cvirtual_binary s);
+	void load(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate = false);
+	int load(const Cvirtual_binary& s);
 	int load(const Cvirtual_file& f);
 	int load(const string& fname);
 	int load_as_jpeg(const string& fname);
-	int load_as_pcx(const string& fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
 	Cvirtual_file save(t_file_type ft) const;
 	int save(const string& fname, t_file_type ft) const;
@@ -42,6 +42,8 @@ public:
 	int save_as_png(Cvirtual_file& f) const;
 	int save_as_png(const string& fname) const;
 	void swap_rb();
+	Cvirtual_image();
+	Cvirtual_image(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);
 
 	const byte* image() const
 	{

@@ -352,11 +352,11 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Ccps_file f;
 				f.load(m_data);
-				draw_info("Palet:", f.has_palet() ? "yes" : "no");
+				draw_info("Palet:", f.palet() ? "yes" : "no");
 				m_y += m_y_inc;
 				byte* image = new byte[320 * 200];
 				decode80(f.get_image(), image);
-				load_color_table(f.has_palet() ? f.get_palet() : get_default_palet(), true);
+				load_color_table(f.palet() ? f.palet() : get_default_palet(), true);
 				draw_image8(image, 320, 200, pDC, 0, m_y);
 				m_y += 200 + m_y_inc;
 				delete[] image;
@@ -595,7 +595,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cpcx_file f;
 				f.load(m_data);
-				const int c_planes = f.get_c_planes();
+				const int c_planes = f.cb_pixel();
 				const int cx = f.cx();
 				const int cy = f.cy();
 				draw_info("Bits/pixel:", n(8 * c_planes));

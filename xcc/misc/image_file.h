@@ -23,8 +23,14 @@ class Cimage_file: public Cvideo_file<T>
 {
 public:
 	virtual void decode(void*) const = 0;
-	virtual Cvirtual_image vimage() const = 0;
-
+	
+	virtual Cvirtual_image vimage() const
+	{
+		Cvirtual_binary image;
+		decode(image.write_start(cb_image()));
+		return Cvirtual_image(image, cx(), cy(), cb_pixel(), palet());
+	}
+	
 	int cf() const
 	{
 		return 1;
