@@ -17,21 +17,7 @@ class Ctga_file: public Ccc_file_sh<t_tga_header>
 {
 public:
 	int decode(Cvirtual_image& d) const;
-
-	bool is_valid() const
-	{
-		const t_tga_header& header = *get_header();
-		int size = get_size();
-		return !(sizeof(t_tga_header) > size
-			|| header.map_t
-			|| header.image_t != 2 && header.image_t != 3
-			|| header.map_first
-			|| header.map_size
-			|| header.map_entry_size
-			|| header.cb_pixel != 8 && header.cb_pixel != 16 && header.cb_pixel != 24 && header.cb_pixel != 32
-			|| get_header()->horizontal
-			|| sizeof(t_tga_header) + cx() * cy() * cb_pixel() > size);
-	}
+	bool is_valid() const;
 
 	int cx() const
 	{
