@@ -92,7 +92,6 @@
 			while ($result = mysql_fetch_array($results))
 				$sids[] = $result[sid];
 			db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid in (%s)", $dura, addslashes(implode(",", $sids))));
-			update_bl();
 		}
 		?>
 <table>
@@ -159,8 +158,6 @@
 	}
 	else
 	{
-		if ($_GET[a] == "update_bl")
-			update_bl();
 		$cname = trim($_GET[cname]);
 		$pid = $_GET[pid];
 		$pname = trim($_GET[pname]);
