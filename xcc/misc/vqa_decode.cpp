@@ -166,7 +166,7 @@ void Cvqa_decode::decode_vpt_chunk(const byte* in, byte* out)
 	}
 }
 
-void Cvqa_decode::decode_cbf_chunk(const byte* s,  int cb_s)
+void Cvqa_decode::decode_cbf_chunk(const byte* s, int cb_s)
 {
 	const __int16* r = reinterpret_cast<const __int16*>(s);
 	int count = cb_s >> 1;
@@ -213,22 +213,20 @@ void Cvqa_decode::decode_cbf_chunk(const byte* s,  int cb_s)
 
 void Cvqa_decode::decode_vqfl_chunk(const byte* s, int cb_s)
 {
-	const byte* in;
-	int cb_in;
 	if (s[3] == 'Z')
 	{
-		if (s[8])
-			cb_in = decode80(s + 8, m_in_decoded);
-		else
-			cb_in = decode80r(s + 9, m_in_decoded);
-		in = m_in_decoded;
+		int cb_in = s[8]
+			? decode80(s + 8, m_in_decoded)
+			: decode80r(s + 9, m_in_decoded);
+		decode_cbf_chunk(m_in_decoded, cb_in);
 	}
 	else
-	{
-		in = s + 8;
-		cb_in = cb_s - 8;
-	}
-	decode_cbf_chunk(in, cb_in);
+		decode_cbf_chunk(s + 8, cb_s - 8);	
+}
+
+void Cvqa_decode::decode_vqfl_chunk(const Cvirtual_binary& s)
+{
+	decode_vqfl_chunk(s, s.size());
 }
 
 void Cvqa_decode::decode_vqfr_chunk(const byte* in_raw, byte* out, t_palet palet)
