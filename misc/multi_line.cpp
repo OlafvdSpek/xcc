@@ -66,3 +66,9 @@ string Cmulti_line::get_next_line(const string& separator, bool remove_ws)
 		trim(r);
 	return r;
 }
+
+int Cmulti_line::get_next_int(const string& separator)
+{
+	return atoi(get_next_line(separator, true).c_str());
+}
+
