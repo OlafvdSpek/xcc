@@ -46,6 +46,7 @@ public:
 	void find_mixs(const string& dir, t_game game);
 	void find_paks(const string& dir, t_game game);
 	void initialize_lists();
+	void launch_xtw(t_game game);
 
 	// Overrides
 	// ClassWizard generated virtual function overrides
@@ -232,6 +233,8 @@ protected:
 	afx_msg void OnUpdateLaunchXSTE_RA2(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSTE_RA2_YR();
 	afx_msg void OnUpdateLaunchXSTE_RA2_YR(CCmdUI* pCmdUI);
+	afx_msg void OnLaunchXTW_RA2_YR();
+	afx_msg void OnUpdateLaunchXTW_RA2_YR(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	afx_msg void OnViewPalet(dword ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);

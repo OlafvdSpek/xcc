@@ -34,7 +34,7 @@ public:
 	void read_idx_file(const Caudio_idx_file& f);
 	void write_idx_file();
 	int compare(int id_a, int id_b) const;
-	CXSE_dlg(t_game game, bool expansion, CWnd* pParent = NULL);   // standard constructor
+	CXSE_dlg(t_game game, CWnd* pParent = NULL);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CXSE_dlg)

@@ -246,10 +246,11 @@
 #define ID_LAUNCH_XMC                   33112
 #define ID_LAUNCH_XML                   33113
 #define ID_VIEW_REPORT                  33114
-#define ID_LAUNCH_XSE_RA2		33115
-#define ID_LAUNCH_XSE_RA2_YR		33116
-#define ID_LAUNCH_XSTE_RA2		33117
-#define ID_LAUNCH_XSTE_RA2_YR		33118
+#define ID_LAUNCH_XSE_RA2               33115
+#define ID_LAUNCH_XSE_RA2_YR            33116
+#define ID_LAUNCH_XSTE_RA2              33117
+#define ID_LAUNCH_XSTE_RA2_YR           33118
+#define ID_LAUNCH_XTW_RA2_YR            33119
 #define ID_VIEW_PALET_PAL000            40000
 #define ID_VIEW_PALET_PAL001            40001
 #define ID_VIEW_PALET_PAL002            40002
@@ -1257,7 +1258,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        138
-#define _APS_NEXT_COMMAND_VALUE         33119
+#define _APS_NEXT_COMMAND_VALUE         33120
 #define _APS_NEXT_CONTROL_VALUE         1028
 #define _APS_NEXT_SYMED_VALUE           103
 #endif

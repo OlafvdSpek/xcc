@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE DISCARDABLE
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE DISCARDABLE
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE DISCARDABLE
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -73,7 +73,7 @@ IDR_XCCMIXTYPE          ICON    DISCARDABLE     "res\\XCC MixerDoc.ico"
 // Menu
 //
 
-IDR_MAINFRAME MENU PRELOAD DISCARDABLE 
+IDR_MAINFRAME MENU PRELOAD DISCARDABLE
 BEGIN
     POPUP "&File"
     BEGIN
@@ -159,6 +159,7 @@ BEGIN
         BEGIN
             MENUITEM "&Tiberian Sun",               ID_LAUNCH_XTW_TS
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XTW_RA2
+            MENUITEM "&Red Alert 2 YR",             ID_LAUNCH_XTW_RA2_YR
         END
         MENUITEM SEPARATOR
         MENUITEM "&FinalSun",                   ID_UTILITIES_FS
@@ -176,7 +177,7 @@ BEGIN
     END
 END
 
-CG_IDR_POPUP_MIX_VIEW MENU DISCARDABLE 
+CG_IDR_POPUP_MIX_VIEW MENU DISCARDABLE
 BEGIN
     POPUP "_POPUP_"
     BEGIN
@@ -248,7 +249,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE 
+IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
 BEGIN
     27,             ID_VIEW_PALET_PREV,     ASCII,  NOINVERT
     29,             ID_VIEW_PALET_NEXT,     ASCII,  NOINVERT
@@ -334,7 +335,7 @@ CAPTION "XCC Object Extractor"
 FONT 8, "MS Sans Serif"
 BEGIN
     PUSHBUTTON      "Close",IDOK,109,142,50,14
-    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_LIST | 
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_LIST |
                     LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,152,68
     LTEXT           "Name:",IDC_NAME_STATIC,7,83,22,12
     LTEXT           "Mail:",IDC_MAIL_STATIC,7,102,16,12
@@ -357,14 +358,14 @@ FONT 8, "MS Sans Serif"
 BEGIN
     PUSHBUTTON      "OK",IDOK,166,115,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,237,115,50,14
-    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
-                    LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER | 
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT |
+                    LVS_SHOWSELALWAYS | LVS_EDITLABELS | WS_BORDER |
                     WS_TABSTOP,133,7,154,99
     DEFPUSHBUTTON   "&Edit",IDC_EDIT,60,115,50,14,WS_DISABLED
     PUSHBUTTON      "&Insert",IDC_INSERT,7,115,50,14
     PUSHBUTTON      "&Delete",IDC_DELETE,113,115,50,14,WS_DISABLED
-    CONTROL         "List1",IDC_CAT_LIST,"SysListView32",LVS_LIST | 
-                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING | 
+    CONTROL         "List1",IDC_CAT_LIST,"SysListView32",LVS_LIST |
+                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_SORTASCENDING |
                     LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,69,99
 END
 
@@ -376,7 +377,7 @@ BEGIN
     DEFPUSHBUTTON   "OK",IDOK,7,135,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,69,135,50,14
     EDITTEXT        IDC_NAME,7,7,112,15,ES_AUTOHSCROLL | ES_READONLY
-    EDITTEXT        IDC_VALUE,7,30,112,73,ES_MULTILINE | ES_AUTOVSCROLL | 
+    EDITTEXT        IDC_VALUE,7,30,112,73,ES_MULTILINE | ES_AUTOVSCROLL |
                     ES_WANTRETURN
     EDITTEXT        IDC_EXTRA_VALUE,7,111,112,15,ES_AUTOHSCROLL
 END
@@ -386,7 +387,7 @@ STYLE WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 CAPTION "XCC Sound Editor"
 FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT |
                     LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,334,87,
                     WS_EX_ACCEPTFILES
     DEFPUSHBUTTON   "&Play",IDC_PLAY,63,118,50,14
@@ -422,7 +423,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO DISCARDABLE
 BEGIN
     IDD_RESIZE, DIALOG
     BEGIN
@@ -445,18 +446,18 @@ END
 // String Table
 //
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE PRELOAD DISCARDABLE
 BEGIN
-    IDR_MAINFRAME           "XCC Mixer 1.14\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
+    IDR_MAINFRAME           "XCC Mixer 1.15\n\nXCCMix\n\n\nXCCMixer.Document\nXCCMix Document"
 END
 
-STRINGTABLE PRELOAD DISCARDABLE 
+STRINGTABLE PRELOAD DISCARDABLE
 BEGIN
     AFX_IDS_APP_TITLE       "XCC Mixer"
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_INDICATOR_EXT        "EXT"
     ID_INDICATOR_CAPS       "CAP"
@@ -466,7 +467,7 @@ BEGIN
     ID_INDICATOR_REC        "REC"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_FILE_NEW             "Create a new document\nNew"
     ID_FILE_OPEN            "Open an existing document\nOpen"
@@ -475,24 +476,24 @@ BEGIN
     ID_FILE_SAVE_AS         "Save the active document with a new name\nSave As"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_APP_ABOUT            "Display program information, version number and copyright\nAbout"
     ID_APP_EXIT             "Quit the application; prompts to save documents\nExit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_NEXT_PANE            "Switch to the next window pane\nNext Pane"
     ID_PREV_PANE            "Switch back to the previous window pane\nPrevious Pane"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_WINDOW_SPLIT         "Split the active window into panes\nSplit"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_EDIT_CLEAR           "Erase the selection\nErase"
     ID_EDIT_CLEAR_ALL       "Erase everything\nErase All"
@@ -507,13 +508,13 @@ BEGIN
     ID_EDIT_REDO            "Redo the previously undone action\nRedo"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     ID_VIEW_TOOLBAR         "Show or hide the toolbar\nToggle ToolBar"
     ID_VIEW_STATUS_BAR      "Show or hide the status bar\nToggle StatusBar"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     AFX_IDS_SCSIZE          "Change the window size"
     AFX_IDS_SCMOVE          "Change the window position"
@@ -524,7 +525,7 @@ BEGIN
     AFX_IDS_SCCLOSE         "Close the active window and prompts to save the documents"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE DISCARDABLE
 BEGIN
     AFX_IDS_SCRESTORE       "Restore the window to normal size"
     AFX_IDS_SCTASKLIST      "Activate Task List"
