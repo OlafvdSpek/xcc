@@ -385,8 +385,8 @@ while ($data2 = mysql_fetch_array($query6)) {
 <td width="100%" height="35px"><font face="VERDANA,ARIAL,HELVETICA" size="2">
 <?
 $Jahr = substr($data2[mtime],0,4);
-$Monat = substr ($data2[mtime],4,2);
-$Tag = substr ($data2[mtime],6,2);
+$Monat = substr ($data2[mtime],5,2);
+$Tag = substr ($data2[mtime],8,2);
 if($Monat == 1) { $month = "Jan"; }
 if($Monat == 2) { $month = "Feb"; }
 if($Monat == 3) { $month = "Mar"; }
@@ -581,8 +581,8 @@ while ($data2 = mysql_fetch_array($query7)) {
 <td width="100%" height="35px"><font face="VERDANA,ARIAL,HELVETICA" size="2">
 <?
 $Jahr = substr($data2[mtime],0,4);
-$Monat = substr ($data2[mtime],4,2);
-$Tag = substr ($data2[mtime],6,2);
+$Monat = substr ($data2[mtime],5,2);
+$Tag = substr ($data2[mtime],8,2);
 if($Monat == 1) { $month = "Jan"; }
 if($Monat == 2) { $month = "Feb"; }
 if($Monat == 3) { $month = "Mar"; }
