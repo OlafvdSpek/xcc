@@ -3,7 +3,6 @@
 // Used by XCC Audio Player.rc
 //
 #define IDOPENMIX                       3
-#define IDSETDIRECTORIES                4
 #define IDPLAY                          5
 #define IDSTOP                          6
 #define IDINFO                          7
@@ -14,7 +13,6 @@
 #define IDOPENVQA                       12
 #define IDD_XCCAUDIOPLAYER_DIALOG       102
 #define IDR_MAINFRAME                   128
-#define IDD_XCCDIRECTORIES              129
 #define IDD_INFO                        130
 #define IDC_STATUSBAR                   1000
 #define IDC_LIST1                       1001

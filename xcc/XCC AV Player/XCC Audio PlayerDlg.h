@@ -88,7 +88,6 @@ protected:
 	afx_msg void OnDblclkList1(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnExtract();
 	afx_msg void OnOpenmix();
-	afx_msg void OnSetdirectories();
 	afx_msg void OnPlay();
 	afx_msg void OnStop();
 	afx_msg void OnInfo();

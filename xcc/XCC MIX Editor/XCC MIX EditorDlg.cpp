@@ -294,26 +294,14 @@ void CXCCMIXEditorDlg::add_file(const string& name)
 void CXCCMIXEditorDlg::add_entry(int id) 
 {
 	t_index::const_iterator i = m_index.find(id);
-	char* name = make_c_str(static_cast<Cfname>(i->second.fname).get_fname());
-	char* type = make_c_str(ft_name[i->second.ft]);
-	char* description = make_c_str(mix_database::get_description(m_game, id));
-	char* id_s = make_c_str(nh(8, id));
-	char* offset = make_c_str(n(i->second.offset));
-	char* size = make_c_str(n(i->second.size));
 	int j = m_list.GetItemCount();
-	m_list.InsertItem(j, name);
+	m_list.InsertItem(j, static_cast<Cfname>(i->second.fname).get_fname().c_str());
 	m_list.SetItemData(j, id);
-	m_list.SetItemText(j, 1, type);
-	m_list.SetItemText(j, 2, description);
-	m_list.SetItemText(j, 3, id_s);
-	m_list.SetItemText(j, 4, offset);
-	m_list.SetItemText(j, 5, size);
-	delete[] size;
-	delete[] offset;
-	delete[] id_s;
-	delete[] description;
-	delete[] type;
-	delete[] name;
+	m_list.SetItemText(j, 1, ft_name[i->second.ft]);
+	m_list.SetItemText(j, 2, mix_database::get_description(m_game, id).c_str());
+	m_list.SetItemText(j, 3, nh(8, id).c_str());
+	m_list.SetItemText(j, 4, n(i->second.offset).c_str());
+	m_list.SetItemText(j, 5, n(i->second.size).c_str());
 }
 
 int CXCCMIXEditorDlg::read_mix(const string& name)
@@ -422,14 +410,13 @@ int CXCCMIXEditorDlg::save_mix()
 			if (!i->second.fname.empty())
 				g.add_fname(static_cast<Cfname>(i->second.fname).get_fname());
 		}
-		byte* lmd_data;
-		int cb_lmd_data = g.write(lmd_data, m_game);
+		Cvirtual_binary lmd_data = g.write(m_game);
 		const int lmd_id = Cmix_file::get_id(m_game, "local mix database.dat");
 		t_index_entry e;
 		e.fname = "local mix database.dat";
 		e.ft = ft_xcc_lmd;
 		e.offset = 0;
-		e.size = cb_lmd_data;
+		e.size = lmd_data.size();
 		m_index[lmd_id] = e;
 		const int body_start = get_header_size();
 		int max_offset = body_start;
@@ -469,10 +456,9 @@ int CXCCMIXEditorDlg::save_mix()
 				{
 					max_offset = (max_offset - body_start + 0xf & ~0xf) + body_start;
 					f.seek(max_offset);
-					f.write(lmd_data, cb_lmd_data);
-					delete[] lmd_data;
+					f.write(lmd_data.data(), lmd_data.size());
 					i->second.offset = max_offset;
-					max_offset += cb_lmd_data;
+					max_offset += lmd_data.size();
 				}
 				else
 				{
@@ -717,6 +703,8 @@ void CXCCMIXEditorDlg::OnButtonInsert()
 void CXCCMIXEditorDlg::autosize_colums()
 {
 	for (int i = 0; i < c_colums; i++)
+		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
+	return;
 	{
 		m_list.SetColumnWidth(i, LVSCW_AUTOSIZE_USEHEADER);
 		int cx = m_list.GetColumnWidth(i);

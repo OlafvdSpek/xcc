@@ -535,6 +535,7 @@ void CMainFrame::initialize_lists()
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dat");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.dbs");
 	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.mix");
+	find_mixs(xcc_dirs::get_dir(game_rg) + "data\\", game_rg, "*.pkg");
 
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();

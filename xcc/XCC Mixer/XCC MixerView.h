@@ -155,7 +155,7 @@ protected:
 	afx_msg void OnUpdatePopupCopyAsHVA(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsPAL();
 	afx_msg void OnUpdatePopupCopyAsPAL(CCmdUI* pCmdUI);
-	afx_msg void OnPopupCopyAsShHP_TS();
+	afx_msg void OnPopupCopyAsSHP_TS();
 	afx_msg void OnUpdatePopupCopyAsSHP_TS(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsTMP_TS();
 	afx_msg void OnUpdatePopupCopyAsTMP_TS(CCmdUI* pCmdUI);
@@ -203,6 +203,8 @@ protected:
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnPopupCompact();
 	afx_msg void OnUpdatePopupCompact(CCmdUI* pCmdUI);
+	afx_msg void OnPopupCopyAsTga();
+	afx_msg void OnUpdatePopupCopyAsTga(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

@@ -152,14 +152,6 @@ SOURCE=..\misc\xcc_dsb.cpp
 
 SOURCE=.\XCCAUDIOPLAYERINFODlg.cpp
 # End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xfile32.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=..\..\misc\xstring.cpp
-# End Source File
 # End Group
 # Begin Group "Header Files"
 
@@ -190,10 +182,6 @@ SOURCE=..\misc\vqa_file.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\vqa_play.h
-# End Source File
-# Begin Source File
-
 SOURCE=".\XCC Audio Player.h"
 # End Source File
 # Begin Source File
@@ -207,10 +195,6 @@ SOURCE=..\misc\xcc_dsb.h
 # Begin Source File
 
 SOURCE=.\XCCAUDIOPLAYERINFODlg.h
-# End Source File
-# Begin Source File
-
-SOURCE=..\misc\XCCSetDirectoriesDlg.h
 # End Source File
 # End Group
 # Begin Group "Resource Files"
