@@ -1371,11 +1371,11 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 {
 	dword min_distance = -1;
 	if (m_MemDCValid && in_level(cell))
-	for (int b = 0; b < 3; b++)
+	for (int b = -1; b < 2; b++)
 	{
-		for (int a = 0; a < 3; a++)
+		for (int a = -1; a < 2; a++)
 		{
-			Cxcc_cell area_cell = cell + Cxcc_cell(a - 1 << 10, b - 1 << 10);
+			Cxcc_cell area_cell = cell + Cxcc_cell(a << 10, b << 10);
 			if (!in_level(area_cell.get_x() >> 8, area_cell.get_y() >> 8))
 				continue;
 			const xcc_cell_manager::t_cell_info* ci = xcc_cell_manager::get_cell_info(area_cell);
