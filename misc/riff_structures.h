@@ -28,7 +28,7 @@ struct t_riff_wave_fact_chunk
 	unsigned __int32 c_samples;
 };
 
-struct t_dvi_adpcm_block_header
+struct t_ima_adpcm_chunk_header
 {
 	__int16 sample;
 	unsigned __int8 index;
