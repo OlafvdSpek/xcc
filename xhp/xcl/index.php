@@ -544,7 +544,7 @@
 				echo("<hr>");
 				$results = db_query("
 					select distinct t1.*, ifnull(t4.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
-					from bl inner join xcl_players p using (name) inner join xcl_games_players t2 on p.pid = t2.cid inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
+					from bl inner join xcl_players p using (name) inner join xcl_games_players t2 on p.pid = t2.pid inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
 					");
