@@ -118,7 +118,7 @@ t_config_entry config[] =
 	{"news_date_limit", ci_news_date_limit, "30"},
 	{"news_size_limit", ci_news_size_limit, "100"},
 	{"ssi", ci_ssi, "0"},
-	{"base_url", ct_base_url, "http://xcc.tiberian.com/"},
+	{"base_url", ct_base_url, "http://xccu.sourceforge.net/"},
 	{"css_url", ct_css_url, "/forum.css"},
 	{"forum_mail", ct_forum_mail, "Forum"},
 	{"forum_title", ct_forum_title, "Forum"},
