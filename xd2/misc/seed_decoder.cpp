@@ -29,35 +29,13 @@ int seed;
 
 static int random()
 {
-   unsigned char* s = (unsigned char* )&seed, a, b, x, y;
-
-   a = *(s+0);
-   x = (a & 0x2) >> 1;
-   a >>= 2;
-   b = *(s+2);
-   y = (b & 0x80) >> 7;
-   b <<= 1;
-   b |= x;
-   *(s+2) = b;
-   b = *(s+1);
-   x = (b & 0x80) >> 7;
-   b <<= 1;
-   b |= y;
-   *(s+1) = b;
-   x = 1 - x;
-   b = *(s+0);
-   a -= b + x;
-   x = a & 0x1;
-   a >>= 1;
-   b = *(s+0);
-   b >>= 1;
-   b |= (x << 7);
-   *(s+0) = b;
-   a = *(s+0);
-   b = *(s+1);
-   a = (a | b) & (~(a & b));
-   a &= 0xFF;
-   return a;
+	unsigned char* s = reinterpret_cast<unsigned char*>(&seed);
+	char t[3];
+	t[0] = ~(s[0] >> 2 ^ s[0] ^ s[1] >> 7) << 7 | s[0] >> 1;
+	t[1] = s[1] << 1 | s[2] >> 7;
+	t[2] = s[2] << 1 | s[0] >> 1 & 1;
+	memcpy(&seed, t, 3);
+	return s[0] ^ s[1];
 }
 
 /*
@@ -66,9 +44,9 @@ static int random()
  * The technique is similiar to --> balanceMap
  */
 
-static void scanRegions(short map[64][64])
+static void scanRegions(byte map[64][64])
 {
-	short prevln[64], currln[64];
+	byte prevln[64], currln[64];
 	for (int i = 0; i < 64; i++)
 		currln[i] = map[0][i];
 	for (int y = 0; y < 64; y++)
@@ -115,7 +93,7 @@ static void scanRegions(short map[64][64])
  * creates terrain regions by replacing numbers within specified range
  */
 
-static void createRegions(short map[64][64])
+static void createRegions(byte map[64][64])
 {
    int rock = min(max(random() & 0xf, 8), 0xc);
    int mountains = rock + 4;
@@ -141,16 +119,16 @@ static void createRegions(short map[64][64])
 }
 
 /*
- * Replaces each short with arithmetic mean of itself
+ * Replaces each byte with arithmetic mean of itself
  * and all eight neighbours.
  * As the new numbers are stored in the same array
  * the original line is stored in 'currln' and then copied
  * to 'prevln'.
  */
 
-static void balanceMap(short map[64][64])
+static void balanceMap(byte map[64][64])
 {
-   short prevln[64], currln[64];
+   byte prevln[64], currln[64];
    for (int i = 0; i < 64; i++)
       currln[i] = 0;
    for (int y = 0; y < 64; y++)
@@ -187,14 +165,14 @@ const int offsets2[] =
 };
 
 /*
- * "spreads" the matrix by replacing empty shorts with arithmetic
+ * "spreads" the matrix by replacing empty bytes with arithmetic
  * mean of two neighbors. Offsets needed to locate neighbors
  * are stored in 'offsets2' array.
  * in this part the generator has a tend to use 65 row of the map.
- * also the right border shorts are inproperly calculated.
+ * also the right border bytes are inproperly calculated.
  */
 
-static void spreadMatrix(short map[64][64])
+static void spreadMatrix(byte map[64][64])
 {
    int diag = 0;
    for (int y = 0; y < 64; y += 4)
@@ -225,7 +203,7 @@ static void spreadMatrix(short map[64][64])
  * (the generator has a tend to use that extra row in spreadMatrix :)
  */
 
-static void copyMatrix(char* matrix, short map[65][64])
+static void copyMatrix(char* matrix, byte map[65][64])
 {
 	for (int y = 0; y < 65; y++)
 	{
@@ -306,7 +284,7 @@ void Cseed_decoder::decode(int seed, byte* _map)
 	addNoise1(matrix);
 	addNoise2(matrix);
 
-	short map[65][64];
+	byte map[65][64];
 	copyMatrix(matrix, map);
 	spreadMatrix(map);
 
@@ -314,6 +292,5 @@ void Cseed_decoder::decode(int seed, byte* _map)
 	createRegions(map);
 	scanRegions(map);
 
-	for (int i = 0; i < 0x1000; i++)
-		_map[i] = map[i >> 6][i & 0x3f];
+	memcpy(_map, map, 0x1000);
 }
