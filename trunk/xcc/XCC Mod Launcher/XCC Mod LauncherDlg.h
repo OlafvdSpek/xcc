@@ -17,12 +17,16 @@ class CXCCModLauncherDlg : public CDialog
 {
 // Construction
 public:
+	int download_update(string link, string fname);
 	void set_mod_fname(string mod_fname);
 	CXCCModLauncherDlg(CWnd* pParent = NULL);	// standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CXCCModLauncherDlg)
 	enum { IDD = IDD_XCCMODLAUNCHER_DIALOG };
+	CButton	m_update;
+	CButton	m_xhp;
+	CButton	m_cancel;
 	CStatic	m_banner;
 	CButton	m_ok;
 	CButton	m_site;
@@ -48,12 +52,17 @@ protected:
 	afx_msg void OnButtonSite();
 	virtual void OnOK();
 	afx_msg void OnButtonManual();
+	afx_msg void OnButtonUpdate();
+	afx_msg void OnMailAuthor();
+	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+	afx_msg void OnUninstall();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:
 	string m_mod_fname;
 	Cxif_key m_key;
 	Cxcc_mod m_mod;
+	string m_uninstall_exe;
 };
 
 //{{AFX_INSERT_LOCATION}}

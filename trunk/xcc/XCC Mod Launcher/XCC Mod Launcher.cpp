@@ -49,33 +49,28 @@ BOOL CXCCModLauncherApp::InitInstance()
 
 	xcc_dirs::load_from_registry();
 
-	CXCCModLauncherDlg dlg;
-
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
-	if (0)
-	{
-		CXCCModLauncherDlg dlg;
-		dlg.set_mod_fname("redstorm.xmlf");		
-		m_pMainWnd = &dlg;
-		dlg.DoModal();
-		return false;
-	}
+
 	string fname = cmdInfo.m_strFileName;
-	if (cmdInfo.m_strFileName.IsEmpty())
+	if (fname.empty())
+	{
+		Cfname exe_fname = GetModuleFileName();
+		exe_fname.set_ext(".xmlf");
+		if (exe_fname.exists())
+			fname = exe_fname;
+	}
+	if (fname.empty())
 	{
 		const char* xmlf_filter = "XMLF files (*.xmlf)|*.xmlf|";
 		CFileDialog file_dlg(true, NULL, 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, xmlf_filter, NULL);
 		if (IDOK == file_dlg.DoModal())
-		{
-			dlg.set_mod_fname(static_cast<string>(file_dlg.GetPathName()));		
-			m_pMainWnd = &dlg;
-			dlg.DoModal();
-		}
+			fname = file_dlg.GetPathName();
 	}
-	else
+	if (!fname.empty())
 	{
-		dlg.set_mod_fname(static_cast<string>(cmdInfo.m_strFileName));
+		CXCCModLauncherDlg dlg;
+		dlg.set_mod_fname(fname);
 		m_pMainWnd = &dlg;
 		dlg.DoModal();
 	}

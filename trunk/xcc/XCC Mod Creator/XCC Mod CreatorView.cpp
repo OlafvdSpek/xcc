@@ -179,6 +179,7 @@ int CXCCModCreatorView::insert(string fname)
 		if (!count)
 			autosize_colums();
 	}
+	m_sort_column = -1;
 	return error;
 }
 
@@ -467,3 +468,4 @@ void CXCCModCreatorView::clear_game_dir()
 {
 	GetDocument()->clear_game_dir();
 }
+

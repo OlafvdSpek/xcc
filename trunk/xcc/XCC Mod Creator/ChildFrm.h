@@ -50,11 +50,12 @@ protected:
 	afx_msg void OnEditSelectAll();
 	afx_msg void OnEditInvertSelection();
 	afx_msg void OnViewRefresh();
-	afx_msg void OnViewOptions();
 	afx_msg void OnViewLaunch();
 	afx_msg void OnModClearGameDirectory();
 	afx_msg void OnModActivate();
 	afx_msg void OnModDeactivate();
+	afx_msg void OnModOptions();
+	afx_msg void OnModReport();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

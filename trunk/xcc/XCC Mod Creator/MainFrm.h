@@ -9,6 +9,8 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
+#include "xcc_apps.h"
+
 class CMainFrame : public CMDIFrameWnd
 {
 	DECLARE_DYNAMIC(CMainFrame)
@@ -47,7 +49,11 @@ protected:
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
+	afx_msg void OnLaunchApp(DWORD ID);
+	afx_msg void OnUpdateLaunchApp(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
+private:
+	Cxcc_apps m_apps;
 };
 
 /////////////////////////////////////////////////////////////////////////////

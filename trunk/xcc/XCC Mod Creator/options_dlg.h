@@ -30,6 +30,17 @@ public:
 	CString	m_mail;
 	CString	m_name;
 	CString	m_mod_name;
+	BOOL	m_ini_diff_compression;
+	BOOL	m_csf_diff_compression;
+	BOOL	m_exit_button;
+	BOOL	m_manual_button;
+	BOOL	m_site_button;
+	BOOL	m_xhp_button;
+	BOOL	m_custom_button_text;
+	CString	m_mod_ucf;
+	CString	m_mod_version;
+	BOOL	m_update_button;
+	BOOL	m_confirm_deactivate;
 	//}}AFX_DATA
 
 
