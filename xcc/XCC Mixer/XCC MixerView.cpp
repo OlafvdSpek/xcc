@@ -815,7 +815,18 @@ static bool can_convert(t_file_type s, t_file_type d)
 	case ft_tmp_ra:
 	case ft_tmp_ts:
 	case ft_wsa:
-		return d == ft_clipboard || d == ft_cps || d == ft_jpeg || d == ft_map_ts_preview || d == ft_pal || d == ft_pcx || d == ft_png || d == ft_shp || d == ft_shp_ts || d == ft_tga || d == ft_vxl;
+		return d == ft_clipboard 
+			|| d == ft_cps 
+			|| d == ft_jpeg 
+			|| d == ft_map_ts_preview 
+			|| d == ft_pal 
+			|| d == ft_pal_jasc
+			|| d == ft_pcx 
+			|| d == ft_png 
+			|| d == ft_shp 
+			|| d == ft_shp_ts 
+			|| d == ft_tga 
+			|| d == ft_vxl;
 	case ft_hva:
 		return d == ft_csv;
 	case ft_pal:
@@ -824,21 +835,52 @@ static bool can_convert(t_file_type s, t_file_type d)
 		return d == ft_text;
 	case ft_shp_dune2:
 	case ft_wsa_dune2:
-		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga;
+		return d == ft_jpeg 
+			|| d == ft_pcx 
+			|| d == ft_png 
+			|| d == ft_tga;
 	case ft_shp:
-		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_shp_ts || d == ft_tga;
+		return d == ft_jpeg 
+			|| d == ft_pcx 
+			|| d == ft_png 
+			|| d == ft_shp_ts 
+			|| d == ft_tga;
 	case ft_shp_ts:
-		return d == ft_clipboard || d == ft_jpeg || d == ft_jpeg_single || d == ft_pcx || d == ft_pcx_single || d == ft_png || d == ft_png_single || d == ft_tga || d == ft_tga_single;
+		return d == ft_clipboard 
+			|| d == ft_jpeg 
+			|| d == ft_jpeg_single 
+			|| d == ft_pcx 
+			|| d == ft_pcx_single 
+			|| d == ft_png 
+			|| d == ft_png_single 
+			|| d == ft_tga 
+			|| d == ft_tga_single;
 	case ft_text:
-		return d == ft_html || d == ft_hva || d == ft_vxl;
+		return d == ft_html 
+			|| d == ft_hva 
+			|| d == ft_vxl;
 	case ft_vqa:
-		return d == ft_avi || d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_tga || d == ft_wav_pcm;
+		return d == ft_avi 
+			|| d == ft_jpeg 
+			|| d == ft_pcx 
+			|| d == ft_png 
+			|| d == ft_tga 
+			|| d == ft_wav_pcm;
 	case ft_vxl:
-		return d == ft_jpeg || d == ft_pcx || d == ft_png || d == ft_text || d == ft_tga || d == ft_xif;
+		return d == ft_jpeg 
+			|| d == ft_pcx 
+			|| d == ft_png 
+			|| d == ft_text 
+			|| d == ft_tga 
+			|| d == ft_xif;
 	case ft_wav:
-		return d == ft_aud || d == ft_wav_ima_adpcm || d == ft_wav_pcm;
+		return d == ft_aud 
+			|| d == ft_wav_ima_adpcm 
+			|| d == ft_wav_pcm;
 	case ft_xif:
-		return d == ft_html || d == ft_text || d == ft_vxl;
+		return d == ft_html 
+			|| d == ft_text 
+			|| d == ft_vxl;
 	}
 	return false;
 }
@@ -1181,10 +1223,13 @@ int CXCCMixerView::copy_as_pal(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 {
-	fname.set_ext(".pal");
+	Cvirtual_image image = get_vimage(i);
+	if (!image.palet())
+		return 1;
 	Cpal_file f;
-	int error = open_f_index(f, i);
-	return error ? error : f.extract_as_pal_jasc(ofstream(fname.get_all().c_str())).fail();
+	f.load(Cvirtual_binary(image.palet(), sizeof(t_palet)));
+	fname.set_ext(".pal");
+	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str())).fail();
 }
 
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
