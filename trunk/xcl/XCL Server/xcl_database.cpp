@@ -89,10 +89,18 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 		gid = row.f_int(0);
 	else
 	{
+		bool bl = false;
 		int cmp[8];
 		Cxcl_player players[8];
 		int pc[8];
 		int i;
+		for (i = 0; i < gr.plrs(); i++)
+		{
+			q.write("select count(*) from bl where name = %s");
+			q.pe(gr.nam(i));
+			if (q.execute().fetch_row().f_int(0))
+				bl = true;
+		}
 		for (i = 0; i < gr.plrs(); i++)
 		{
 			cmp[i] = gr.oosy() ? 0 : gr.cmp(i);
@@ -111,8 +119,8 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 			}
 			if (won == -1 || lost == -1)
 				return;
-			pc[won] = update_player(cmp[won], won_cty, players[won], players[lost]);
-			pc[lost] = update_player(cmp[lost], lost_cty, players[lost], players[won]);
+			pc[won] = update_player(bl ? 0 : cmp[won], won_cty, players[won], players[lost]);
+			pc[lost] = update_player(bl ? 0 : cmp[lost], lost_cty, players[lost], players[won]);
 			for (i = 0; i < gr.plrs(); i++)
 				pc[i] = gr.cid(i) == gr.cid(won) ? pc[won] : pc[lost];
 		}
@@ -132,7 +140,7 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 				}
 			}
 			for (i = 0; i < gr.plrs(); i++)
-				pc[i] = update_player(cmp[i], 1 << gr.cty(i), players[i], players[1 - i]);
+				pc[i] = update_player(bl ? 0 : cmp[i], 1 << gr.cty(i), players[i], players[1 - i]);
 		}
 		q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s)");
 		q.p(gr.get_int("afps"));
