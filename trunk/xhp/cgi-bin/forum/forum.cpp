@@ -8,13 +8,15 @@
 #include <map>
 #include <set>
 #include <time.h>
-#ifndef _MSC_VER
+#ifdef _MSC_VER
+#include <fcntl.h>
+#include <io.h>
+#include <minmax.h>
+#else
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <netdb.h>
 #include <unistd.h>
-#else
-#include <minmax.h>
 #endif
 #include "cgi.h"
 #include "crc.h"
@@ -26,6 +28,7 @@
 #include "strings.h"
 #include "user_preferences.h"
 #include "web_tools.h"
+#include "xcc_z.h"
 
 string config_file = "forum.ini";
 string topics_file = "topics.dat";
@@ -37,7 +40,7 @@ enum t_action
 	a_none, a_admin_login, a_admin_logout, a_ban_ip, a_disable_html_msg, a_edit_msg, a_enable_html_msg, a_import_into_cookie, a_post_msg,
 	a_post_msg_submit, a_preferences_submit, a_set_msg_score, a_set_user_score, a_show_banned_msgs, a_show_index,
 	a_show_ip, a_show_ladder, a_show_msg, a_show_newest_msgs, a_show_news, a_show_preferences, a_show_removed_msgs, 
-	a_show_user, a_unban_ip, a_lock_msg, a_unlock_msg
+	a_show_user, a_unban_ip, a_lock_msg, a_unlock_msg, a_search
 };
 
 enum t_config_text
@@ -89,6 +92,7 @@ enum t_config_text
 	ht_new_msg,
 	ht_important_msg,
 	ht_newest_msgs,
+	ht_search,
 	ht_unknown
 };
 
@@ -145,9 +149,10 @@ t_config_entry config[] =
 	{"ht_top", ht_top, ""},
 	{"ht_bottom", ht_bottom, ""},
 	{"ht_field_error", ht_field_error, "<img src=/forum/error.gif>"},
-	{"ht_new_msg", ht_new_msg, "<font color=yellow>(new)<font>"},
-	{"ht_important_msg", ht_important_msg, "<font color=yellow>(important)<font>"},
+	{"ht_new_msg", ht_new_msg, "<span class=message>(new)</span>"},
+	{"ht_important_msg", ht_important_msg, "<span class=message>(important)</span>"},
 	{"ht_newest_msgs", ht_newest_msgs, "Newest messages"},
+	{"ht_search", ht_search, "Search"},
 };
 
 int config_int[ci_unknown];
@@ -194,9 +199,7 @@ string get_host_name(int ip)
 
 time_t get_time()
 {
-	time_t r;
-	time(&r);
-	return r;
+	return time(NULL);
 }
 
 struct t_topic
@@ -571,18 +574,6 @@ bool bad_upper(const string& v, int limit)
 	return c << 1 > v.length();
 }
 
-/*
-string remove_cr(string v)
-{
-	int i;
-	while (i = v.find('\r'), i != string::npos)
-	{
-		v.erase(i);
-	}
-	return v;
-}
-*/
-
 int get_c_lines(const string& v, bool ignore_quotes = false)
 {
 	int r = 0;
@@ -600,7 +591,6 @@ int get_c_lines(const string& v, bool ignore_quotes = false)
 			line = v.substr(l, p - l);
 		if (ignore_quotes)
 		{
-			// line = remove_cr(line);
 			trim(line);
 			if (!line.empty() && line.find(">") != 0)
 				r++;
@@ -608,6 +598,172 @@ int get_c_lines(const string& v, bool ignore_quotes = false)
 		else
 			r++;
 		l = p + 1;
+	}
+	return r;
+}
+
+string encode_field(string v, t_smily_map smily_map)
+{
+	string r;
+	int i = 0;
+	while (i < v.length())
+	{
+		if (string_equal_ip(v.c_str() + i, "ftp.")
+			|| string_equal_ip(v.c_str() + i, "ftp://")
+			|| string_equal_ip(v.c_str() + i, "http://")
+			|| string_equal_ip(v.c_str() + i, "mailto:")
+			|| string_equal_ip(v.c_str() + i, "www."))
+		{
+			int p = i;
+			while (p < v.length()
+				&& v[p] != ' '
+				&& v[p] != '\"'
+				&& v[p] != '<'
+				&& v[p] != '>')
+			{
+				p++;
+			}
+			if (v[p - 1] == ',' || v[p - 1] == '.' || v[p - 1] == '?')
+				p--;
+			if (v[p - 1] == ')')
+				p--;
+			string url = v.substr(i, p - i);
+			if (string_equal_ip(v.c_str() + i, "ftp."))
+				r += web_link(url, "ftp://" + url);
+			else if (string_equal_ip(v.c_str() + i, "www."))
+				r += web_link(url, "http://" + url);
+			else
+				r += string_equal_ip(v.c_str() + i, "mailto:") ? web_link(url.substr(7), url) : web_link(url, url);
+			i = p;
+		}
+		else 
+		{
+			bool done = false;
+			for (t_smily_map::const_iterator j = smily_map.begin(); j != smily_map.end(); j++)					
+			{
+				if (string_equal_ip(v.c_str() + i, j->first))
+				{
+					r += "<img src=\"/forum/" + j->second + "\">";
+					i += j->first.length();
+					done = true;
+					break;
+				}
+			}
+			if (!done)
+			{
+				char c = v[i++];
+				switch (c)
+				{
+				case '<':
+					r += "&lt;";
+					break;
+				case '>':
+					r += "&gt;";
+					break;
+				case '&':
+					r += "&amp;";
+					break;
+				case '"':
+					r += "&quot;";
+					break;
+				default:
+					r += c;
+				}
+			}
+		}
+	}
+	return r;
+}
+
+string encode_text(string v, t_smily_map smily_map, bool add_br, bool add_span, bool remove_html)
+{
+	string r;
+	int i = 0;
+	while (i < v.length())
+	{
+		int p = v.find('\n', i);
+		if (p == string::npos)
+			p = v.length();
+		string line = v.substr(i, p - i);
+		if (add_span && string_equal_ip(line, "> "))
+			r += html_span(remove_html ? encode_field(line, smily_map) : line, "class=quote");
+		else
+			r += remove_html ? encode_field(line, smily_map) : line;
+		if (add_br)
+			r += "<br>";
+		i = p + 1;
+	}
+	return r;
+}
+
+string trim_field(string v)
+{
+	string r;
+	bool copy_white = false;
+	for (int i = 0; i < v.length(); i++)
+	{
+		if (is_white(v[i]))
+			copy_white = true;
+		else 
+		{
+			if (copy_white)
+			{
+				if (!r.empty())
+					r += ' ';				
+				copy_white = false;
+			}
+			r += v[i];
+		}
+	}
+	return r;
+}
+
+int text_cy(string v, bool ignore_quotes)
+{
+	int r = 0;
+	int i = 0;
+	while (i < v.length())
+	{
+		int p = v.find('\n', i);
+		if (p == string::npos)
+			p = v.length();
+		if (ignore_quotes)
+		{
+			string line = v.substr(i, p - i);
+			if (!line.empty() && !string_equal_ip(line, "> "))
+				r++;
+		}
+		else
+			r++;
+		i = p + 1;
+	}
+	return r;
+}
+
+string trim_text(string v)
+{
+	string r;
+	bool copy_white = false;
+	int i = 0;
+	while (i < v.length())
+	{
+		int p = v.find('\n', i);
+		if (p == string::npos)
+			p = v.length();
+		string line = trim_field(v.substr(i, p - i));
+		if (line.empty())
+			copy_white = true;
+		else
+		{
+			if (copy_white)
+			{
+				if (!r.empty())
+					r += '\n';
+				copy_white = false;
+			}
+			r += line + '\n';
+		}
+		i = p + 1;
 	}
 	return r;
 }
@@ -793,9 +949,9 @@ Chtml head_forum(bool use_base = false)
 {
 	Chtml h;
 	if (use_base)
-		h += "<base href=" + config_string[ct_base_url] + ">\n";
+		h += "<base href=\"" + config_string[ct_base_url] + "\">\n";
 	return head(h
-		+ "<link rel=stylesheet href=" + config_string[ct_css_url] + ">\n"
+		+ "<link rel=stylesheet href=\"" + config_string[ct_css_url] + "\">\n"
 		+ title(config_string[ct_forum_title]));
 }
 
@@ -1071,17 +1227,19 @@ int read_config()
 
 Chtml an_self(const string& title, t_action action, const string& elements = "")
 {
-	return a(title, "href=" + cgi.get_url() + "?action=" + n(action) + "&" + elements);
+	if (config_int[ci_ssi])
+		return a(title, "href=\"" + cgi.get_url() + "?action=" + n(action) + "&amp;" + elements + "\"");
+	return a(title, "href=\"?action=" + n(action) + "&amp;" + elements + "\"");
 }
 
 Chtml an_set_msg_score(const string& title, int slot, int score)
 {
-	return an_self(title, a_set_msg_score, "slot=" + n(slot) + "&score=" + n(score));
+	return an_self(title, a_set_msg_score, "slot=" + n(slot) + "&amp;score=" + n(score));
 }
 
 Chtml an_set_user_score(const string& title, const string& name, int score)
 {
-	return an_self(title, a_set_user_score, "score=" + n(score) + "&user=" + web_encode(name));
+	return an_self(title, a_set_user_score, "score=" + n(score) + "&amp;user=" + web_encode(name));
 }
 
 Chtml an_show_msg(const string& title, int slot)
@@ -1101,7 +1259,7 @@ Chtml get_subject(const string& subject, int parent)
 
 Chtml get_icq_link(int uin, int indicator_type)
 {
-	return uin ? a("<img border=0 src=http://wwp.icq.com/scripts/online.dll?icq=" + n(uin) + "&img=" + n(indicator_type) + ">", "target=_top href=http://wwp.icq.com/" + n(uin)) : "";
+	return uin ? a("<img border=0 src=http://wwp.icq.com/scripts/online.dll?icq=" + n(uin) + "&amp;img=" + n(indicator_type) + ">", "target=_top href=http://wwp.icq.com/" + n(uin)) : "";
 }
 
 Chtml get_link(const string& link_title, const string& link)
@@ -1158,8 +1316,8 @@ Chtml get_links()
 
 Chtml get_links2()
 {
-	return
-		an_self("Newest messages", a_show_newest_msgs);
+	return an_self("Newest messages", a_show_newest_msgs)
+		+ " | " + an_self("Search", a_search);
 }
 
 Chtml get_top(t_config_text title)
@@ -1171,7 +1329,7 @@ Chtml get_top(t_config_text title)
 			r += br(get_admin_links ());
 		r += br(get_links2()) + br(get_links());
 	}
-	return config_string[ht_top] + table(tr(td(html_span(config_string[title], "class=page_title"), "valign=bottom") + td(br(config_string[ct_forum_title]) + r, "align=right valign=bottom")), "width=100%") + hr();
+	return config_string[ht_top] + table(tr(td(html_span(config_string[title], "class=page_title"), "valign=bottom") + td(br(config_string[ct_forum_title]) + r, "align=right valign=bottom")), "width=\"100%\"") + hr();
 }
 
 Chtml get_bottom(Chtml text)
@@ -1183,7 +1341,7 @@ Chtml get_bottom(Chtml text)
 		if (admin)
 			r += br(get_admin_links ());
 	}	
-	return hr() + table(tr(td(text, "valign=top") + td(r + br(config_string[ct_forum_title]) + "<a href=\"mailto:Webmaster <XCC@XCC.TMFWeb.NL>\">Olaf van der Spek</a>'s <a href=\"http://xcc.tiberian.com/show_frame.php?src=/downloads/\">Forum</a> v0.92", "align=right valign=top")), "width=100%") + config_string[ht_bottom];
+	return hr() + table(tr(td(text, "valign=top") + td(r + br(config_string[ct_forum_title]) + "<a href=\"mailto:Webmaster <XCC@XCC.TMFWeb.NL>\">Olaf van der Spek</a>'s <a href=\"http://xcc.tiberian.com/show_frame.php?src=/downloads/\">Forum</a> v0.93", "align=right valign=top")), "width=\"100%\"") + config_string[ht_bottom];
 }
 
 Chtml thread_header(bool no_parent)
@@ -1325,7 +1483,7 @@ Chtml page_bad_upper(Cstrings& strings, int limit)
 		o += subject.length() + 1;
 		page += tr(bad_upper(subject, limit) ? td("&nbsp;") + td(subject) : td(subject) + td("&nbsp;"));
 	}
-	return table(tr(th("Good") + th("Bad")) + page, "border=1 width=100%");
+	return table(tr(th("Good") + th("Bad")) + page, "border=1 width=\"100%\"");
 }
 
 Chtml ladder()
@@ -1566,13 +1724,17 @@ Chtml show_msg(int slot, bool allow_reply)
 		if (read_topics())
 			return "Error: unable to read topics\n";
 	}
-	msg.parent = topics[slot].parent;
+	t_topics::const_iterator i = topics.find(slot);
+	msg.parent = i->second.parent;
+	/*
 	string body = fix_endl(msg.body);
 	if (!topics.find(slot)->second.news())
 		body = msg.flags & mf_allow_html ? fix_br(body) : web_magic_anchors(web_encode(body));
 	if (config_int[ci_use_smilies] && msg.flags & mf_enable_smilies && user_preferences.show_smilies)
 		body = web_magic_smilies(body);
 	body = web_magic_quotes(body);
+	*/
+	string body = encode_text(msg.body, config_int[ci_use_smilies] && msg.flags & mf_enable_smilies && user_preferences.show_smilies ? smily_map : t_smily_map(), true, true, !i->second.news() && ~msg.flags & mf_allow_html);
 	Chtml r =
 		br(get_name(msg.name, msg.mail) + " posted a message about " + html_span(web_encode(msg.subject), "class=subject") + (msg.parent ? " in reply to " + get_subject(topics[msg.parent].subject(), msg.parent) : "")) +
 		p(body);
@@ -1596,8 +1758,8 @@ Chtml show_msg(int slot, bool allow_reply)
 			d += an_self("Unlock", a_unlock_msg, "slot=" + n(slot));
 		else
 			d += an_self("Lock", a_lock_msg, "slot=" + n(slot));
-		int score = topics[slot].score;
-		r += p(table(tr(td(br("Host: " + web_encode(get_host_name(msg.remote_addr))) + br("IP: " + ip2a(msg.remote_addr)) + br("Score: " + n(score) + " " + an_set_msg_score("+", slot, score + 1) + " " + an_set_msg_score("-", slot, score - 1)), "valign=bottom") + td(an_self("Edit", a_edit_msg, "slot=" + n(slot)) + " | " + d + " | " + an_self("Index", a_show_user, "name=" + uri_encode(msg.name)), "align=right valign=bottom")), "width=100%"));
+		int score = i->second.score;
+		r += p(table(tr(td(br("Host: " + web_encode(get_host_name(msg.remote_addr))) + br("IP: " + ip2a(msg.remote_addr)) + br("Score: " + n(score) + " " + an_set_msg_score("+", slot, score + 1) + " " + an_set_msg_score("-", slot, score - 1)), "valign=bottom") + td(an_self("Edit", a_edit_msg, "slot=" + n(slot)) + " | " + d + " | " + an_self("Index", a_show_user, "name=" + uri_encode(msg.name)), "align=right valign=bottom")), "width=\"100%\""));
 	}
 	else if (allow_reply && !cookie.has_value("name"))
 		r += p("If this is your post, click " + an_self("here", a_import_into_cookie, "slot=" + n(slot)) + " to import name, mail, signature and link into your cookie.");
@@ -1715,12 +1877,9 @@ Chtml post_msg_submit()
 	{
 		t_msg old_msg;
 		if (!read_msg(slot, old_msg))
-
 		{
-
 			msg.remote_addr = old_msg.remote_addr;
 			msg.flags |= old_msg.flags & (mf_allow_html | mf_locked);
-
 		}
 	}
 	else
@@ -1763,7 +1922,7 @@ Chtml post_msg_submit()
 			if (config_int[ci_use_icq_notification] && parent_msg.uin && parent_msg.flags & mf_notify_icq)
 			{
 				string icq_msg = msg.name + " replied to " + parent_msg.subject + " on " + config_string[ct_forum_title] + "\n"
-					+ "<a href=" + cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(slot) + ">msg</a>";
+					+ "<a href=" + cgi.get_url() + "?action=" + n(a_show_msg) + "&amp;slot=" + n(slot) + ">msg</a>";
 				// send_icq_msg("", 0, "", "");
 				// send_mail(forum_mail, n(parent_msg.uin) + "@pager.icq.com", "Forum reply notification", icq_msg);
 				// send_mail(forum_mail, "OvdSpek@LIACS.NL", "Forum reply notification", icq_msg);
@@ -1882,15 +2041,103 @@ Chtml page_show_news()
 				t.r("link_once", msg.link_once);
 				t.r("link_title", msg.link_title);
 				t.r("link", msg.link);
-				t.r("show_message", cgi.get_url() + "?action=" + n(a_show_msg) + "&slot=" + n(i->first));
+				t.r("show_message", cgi.get_url() + "?action=" + n(a_show_msg) + "&amp;slot=" + n(i->first));
 				t.r("c_comments", n(get_thread_size(i->first) - 1));
 				page += static_cast<string>(t);
 			}
 			else
-				page += table(tr(td("<img src=/Image2.gif> " + msg.subject) + td("Posted by " + get_name(msg.name, msg.mail) + " on " + cnv_date(i->second.date, true), "align=right")), "width=100%") + html_ul(msg.body + p(an_self("Comments", a_show_msg, "slot=" + n(i->first))) + " (" + n(get_thread_size(i->first) - 1) + ")");
+				// a("Comments", "href=\"" + cgi.get_url() + "?action=" + n(a_show_msg) + "&amp;slot=" + n(i->first) + "\"");
+				// page += table(tr(td("<img src=/Image2.gif> " + msg.subject) + td("Posted by " + get_name(msg.name, msg.mail) + " on " + cnv_date(i->second.date, true), "align=right")), "width=\"100%\"") + html_ul(msg.body + p(a("Comments", "href=\"" + cgi.get_url() + "?action=" + n(a_show_msg) + "&amp;slot=" + n(i->first) + "\"")) + " (" + n(get_thread_size(i->first) - 1) + ")");
+				page += table(tr(td("<img src=/Image2.gif> " + msg.subject) + td("Posted by " + get_name(msg.name, msg.mail) + " on " + cnv_date(i->second.date, true), "align=right")), "width=\"100%\"") + html_ul(msg.body + p(an_show_msg("Comments", i->first)) + " (" + n(get_thread_size(i->first) - 1) + ")");
 		}
 	}
 	return page;
+}
+
+static string strip_quotes(string v)
+{
+	string r;
+	int i = 0;
+	while (i < v.length())
+	{
+		int p = v.find('\n', i);
+		string line;
+		if (p == string::npos)
+		{
+			line = v.substr(i) + '\n';
+			p = v.length();
+		}
+		else
+			line = v.substr(i, p - i + 1);
+		if (!string_equal_ip(line, "> "))
+			r += line;
+		i = p + 1;
+	}
+	return r;
+}
+
+float words_filter(string v, string filter)
+{
+	int count = 0;
+	int sum = 0;
+	int i = 0;
+	while (i < filter.length())
+	{
+		int j = filter.find(' ', i);
+		if (j == string::npos)
+			j = filter.length();
+		string w = filter.substr(i, j - i);
+		if (v.find(w) != string::npos)
+			sum++;
+		count++;
+		i = j + 1;
+	}
+	return count ? static_cast<float>(sum) / count : 0;
+}
+
+Chtml page_search()
+{
+	open_topic_f(false);
+	if (read_topics())
+		return "Error: unable to read topics\n";
+	Chtml page;
+	if (cgi.has_value("name") || cgi.has_value("subject"))
+	{
+		bool show_body = true;
+		Chtml t;
+		if (!show_body)
+			t += tr(config_string[ht_subject] + config_string[ht_name] + config_string[ht_date]);
+		t_msg search = get_msg_input();
+		string name = to_lower(search.name);
+		string subject = to_lower(search.subject);
+		for (t_topics::const_iterator i = topics.begin(); i != topics.end(); i++)
+		{
+			if (!name.empty() && words_filter(to_lower(i->second.name()), name) < 0.7)
+				continue;
+			if (!subject.empty() && words_filter(to_lower(i->second.subject()), subject) < 0.7)
+				continue;
+			t += tr(td(an_show_msg(web_encode(i->second.subject()), i->first)) 
+				+ td(i->second.name()) 
+				+ td(cnv_date(i->second.date)));
+			t_msg msg;
+			if (show_body && !read_msg(i->first, msg))
+				t += tr(td(encode_text(trim_text(strip_quotes(msg.body)), config_int[ci_use_smilies] && msg.flags & mf_enable_smilies && user_preferences.show_smilies ? smily_map : t_smily_map(), true, true, !i->second.news() && ~msg.flags & mf_allow_html) + hr(), "colspan=3"));
+		}	
+		page += table(t); // + hr();
+	}
+	page += table(form(
+			"<input type=hidden name=action value=" + n(a_search) + ">\n"
+			+ tr(td("Name:", "align=right") + td("<input type=text name=name size=" + n(get_field_length()) + " maxlength=31>"))
+			+ tr(td("Subject:", "align=right") + td("<input type=text name=subject size=" + n(get_field_length()) + " maxlength=63>"))
+			+ tr(td("") + td("<input type=submit value=Submit>")),
+			"action=" + cgi.get_url() + " method=get"));
+	return get_top(ht_search)
+		+ page
+		+ get_bottom(br("Count messages: " + n(static_cast<int>(topics.size())))
+		+ br("Count threads: " + n(static_cast<int>(reverse_topics[0].size())))
+		+ br("Current time: " + cnv_date(get_time()))
+		+ br("Last msg time: " + cnv_date(get_thread_date(0)))
+		+ br(html_size_stats()));
 }
 
 int main()
@@ -1989,6 +2236,9 @@ int main()
 				break;
 			case a_preferences_submit:
 				page = page_preferences_submit();
+				break;
+			case a_search:
+				page = page_search();
 				break;
 			case a_show_ladder:
 				page = ladder();
@@ -2101,10 +2351,35 @@ int main()
 	}
 	else
 	{
-		cout << "Content-type: text/html" << endl
-			<< cookie
-			<< endl
-			<< (config_int[ci_ssi] ? page : html(head_forum() + body(page)));
+		cout // << "Content-Style-Type: text/css" << endl
+			<< "Content-Type: text/html" << endl
+			<< cookie;
+		if (!config_int[ci_ssi])
+			page = html(head_forum() + body(page));
+		if (get_env("HTTP_ACCEPT_ENCODING").find("gzip") == string::npos)
+		{
+			cout << endl
+				<< page;
+		}
+		else
+		{
+			cout // << "Cache-Control: no-cache" << endl
+				<< "Connection: Close" << endl
+				<< "Content-Encoding: gzip" << endl
+				// << "Content-Length: " << d.size() << endl
+				// << "Vary: Accept-Encoding" << endl
+				<< endl;
+			cout.flush();
+#ifdef _MSC_VER
+			_setmode(stdout->_file, _O_BINARY);
+#endif
+#if 0
+			Cvirtual_binary d = xcc_z::gzip("<!-- gzip -->" + page);
+			fwrite(reinterpret_cast<const char*>(d.data()), d.size(), 1, stdout);
+#else
+			xcc_z::gzip_out("<!-- gzip_out -->" + page);
+#endif
+		}
 	}
 	return 0;
 }
