@@ -23,6 +23,7 @@ public:
 	void normal(bool v);
 	void scenario(int v);
 	void side(string v);
+	void sound(string v);
 	void repeat(bool v);
 
 	string name() const
@@ -50,6 +51,11 @@ public:
 		return m_side;
 	}
 
+	string sound() const
+	{
+		return m_sound;
+	}
+
 	bool repeat() const
 	{
 		return m_repeat;
@@ -59,6 +65,7 @@ private:
 	float m_length;
 	bool m_normal;
 	int m_scenario;
+	string m_sound;
 	string m_side;
 	bool m_repeat;
 };
@@ -67,7 +74,7 @@ class Ctheme_ts_ini_reader: public Cini_reader
 {
 public:
 	enum t_section_id {sei_themes, sei_unknown};
-	enum t_theme_id {thi_name, thi_length, thi_normal, thi_scenario, thi_side, thi_repeat, thi_unknown};
+	enum t_theme_id {thi_name, thi_length, thi_normal, thi_scenario, thi_side, thi_sound, thi_repeat, thi_unknown};
 	typedef map<string, Ctheme_data> t_theme_list;
 
 	Ctheme_ts_ini_reader();
