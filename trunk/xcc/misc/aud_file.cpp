@@ -48,6 +48,40 @@ const byte* Caud_file::get_chunk_data(int i)
 	return reinterpret_cast<const byte*>(get_chunk_header(i)) + sizeof(t_aud_chunk_header);
 }
 
+Cvirtual_binary Caud_file::decode()
+{
+	Cvirtual_binary d;
+	int cb_audio = get_cb_sample() * get_c_samples();
+	switch (get_header()->compression)
+	{
+	case 1:
+		{		
+			byte* w = d.write_start(cb_audio);
+			for (int chunk_i = 0; w != d.data_end(); chunk_i++)
+			{				
+				const t_aud_chunk_header& header = *get_chunk_header(chunk_i);
+				aud_decode_ws_chunk(get_chunk_data(chunk_i), reinterpret_cast<char*>(w), header.size_in, header.size_out);
+				w += header.size_out;
+			}
+		}
+		break;
+	case 0x63:
+		{
+			aud_decode decode;
+			decode.init();
+			byte* w = d.write_start(cb_audio);
+			for (int chunk_i = 0; w != d.data_end(); chunk_i++)
+			{				
+				const t_aud_chunk_header& header = *get_chunk_header(chunk_i);
+				decode.decode_chunk(get_chunk_data(chunk_i), reinterpret_cast<short*>(w), header.size_out / get_cb_sample());
+				w += header.size_out;
+			}
+		}
+		break;
+	}
+	return d;
+}
+
 int Caud_file::extract_as_wav(const string& name)
 {
 	int error = 0;

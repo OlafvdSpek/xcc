@@ -11,12 +11,14 @@
 
 #include "cc_file.h"
 #include "cc_structures.h"
+#include "virtual_binary.h"
 
 class Caud_file: public Ccc_file
 {
 public:
 	const t_aud_chunk_header* get_chunk_header(int i);
 	const byte* get_chunk_data(int i);
+	Cvirtual_binary decode();
 	int extract_as_wav(const string& name);
 	bool is_valid();
 
@@ -25,7 +27,7 @@ public:
 	{
 	}
 
-    int post_open()
+	int post_open()
 	{
 		return read(&m_header, sizeof(t_aud_header));
 	}

@@ -154,41 +154,7 @@ int Cxap::play(bool start_thread)
 				{
 					Caud_file f;
 					f.load(s);
-					switch (f.get_header()->compression)
-					{
-					case 1:
-						{
-							int chunk_i = 0;
-							int cs_remaining = c_samples;
-							byte* w = reinterpret_cast<byte*>(p1);
-							while (cs_remaining)
-							{				
-								const t_aud_chunk_header& header = *f.get_chunk_header(chunk_i);
-								int cs_chunk = header.size_out / cb_sample;
-								aud_decode_ws_chunk(f.get_chunk_data(chunk_i++), reinterpret_cast<char*>(w), header.size_in, header.size_out);
-								w += cb_sample * cs_chunk;
-								cs_remaining -= cs_chunk;
-							}
-						}
-						break;
-					case 0x63:
-						{
-							int chunk_i = 0;
-							int cs_remaining = c_samples;
-							aud_decode decode;
-							decode.init();
-							byte* w = reinterpret_cast<byte*>(p1);
-							while (cs_remaining)
-							{				
-								const t_aud_chunk_header& header = *f.get_chunk_header(chunk_i);
-								int cs_chunk = header.size_out / cb_sample;
-								decode.decode_chunk(f.get_chunk_data(chunk_i++), reinterpret_cast<short*>(w), cs_chunk);
-								w += cb_sample * cs_chunk;
-								cs_remaining -= cs_chunk;
-							}
-						}
-						break;
-					}
+					f.decode().read(p1);
 					break;
 				}
 			case ft_ogg:
