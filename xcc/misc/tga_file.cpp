@@ -11,6 +11,20 @@ static char THIS_FILE[]=__FILE__;
 #define new DEBUG_NEW
 #endif
 
+bool Ctga_file::is_valid() const
+{
+	const t_tga_header& header = *get_header();
+	int size = get_size();
+	return !(sizeof(t_tga_header) > size
+		|| header.map_t
+		|| header.image_t != 2 && header.image_t != 3
+		|| header.map_first
+		|| header.map_size
+		|| header.cb_pixel != 8 && header.cb_pixel != 16 && header.cb_pixel != 24 && header.cb_pixel != 32
+		|| get_header()->horizontal
+		|| sizeof(t_tga_header) + cx() * cy() * cb_pixel() > size);
+}
+
 int Ctga_file::decode(Cvirtual_image& d) const
 {
 	switch (cb_pixel())
