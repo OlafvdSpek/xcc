@@ -46,7 +46,7 @@ int Cxcl_database::update_player(int cmp, int cty, const Cxcl_player& a, const C
 	case 0x100:
 		q.write("update xcl_players set win_count = win_count + 1, points = points + %s, points_max = greatest(points_max, points), countries = countries | %s where pid = %s");
 		q.p(points_win);
-		q.p(1 << cty);
+		q.p(cty);
 		q.p(a.pid);
 		q.execute();
 		return points_win;
@@ -55,13 +55,13 @@ int Cxcl_database::update_player(int cmp, int cty, const Cxcl_player& a, const C
 	case 0x220:
 		q.write("update xcl_players set loss_count = loss_count + 1, points = points - %s, countries = countries | %s where pid = %s");
 		q.p(points_loss);
-		q.p(1 << cty);
+		q.p(cty);
 		q.p(a.pid);
 		q.execute();
 		return -points_loss;
 	}
 	q.write("update xcl_players set countries = countries | %s where pid = %s");
-	q.p(1 << cty);
+	q.p(cty);
 	q.p(a.pid);
 	q.execute();
 	return 0;
@@ -74,62 +74,85 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 	int trny = gr.get_int("trny");
 	if (gr.get_int("dura") < 90
 		|| !lid
-		|| gr.get_int("plrs") != 2
+		|| gr.plrs() < 2 || gr.plrs() > (trny == 1 ? 2 : 8)
 		|| trny < 1 || trny > 2)
 		return;
 	if (trny == 2)
 		lid++;
-	query("lock tables xcl_clans write, xcl_games write, xcl_players write, xcl_sid_input write");
+	query("lock tables bl read, xcl_clans write, xcl_games write, xcl_games_players write, xcl_players write, xcl_sid_input write");
 	Csql_query q(*this);
 	q.write("select gid from xcl_games where ws_gid = %s");
-	q.p(gr.get_int("idno"));
+	q.p(gr.idno());
 	Csql_result result = q.execute();
 	Csql_row row;
 	if (row = result.fetch_row())
 		gid = row.f_int(0);
 	else
 	{
-		int cmp[4];
-		Cxcl_player players[4];
-		int pc[4];
+		int cmp[8];
+		Cxcl_player players[8];
+		int pc[8];
 		int i;
-		for (i = 0; i < 2; i++)
+		for (i = 0; i < gr.plrs(); i++)
 		{
-			cmp[i] = gr.get_int("oosy") ? 0 : gr.get_int("cmp", i);
-			players[i] = trny == 2 ? player(lid, gr.get_int("cid", i)) : player(lid, gr.get_string("nam", i));
+			cmp[i] = gr.oosy() ? 0 : gr.cmp(i);
+			players[i] = trny == 2 ? player(lid, gr.cid(i)) : player(lid, gr.nam(i));
 		}
-		if (cmp[0] == 2 && cmp[1] == 2)
+		if (gr.plrs() > 2)
 		{
-			if (gr.get_int("spid"))
+			int won = -1;
+			int lost = -1;
+			int won_cty = 0;
+			int lost_cty = 0;
+			for (i = 0; i < gr.plrs(); i++)
 			{
-				cmp[0] = 0x220;
-				cmp[1] = 0x100;
+				(gr.cmp(i) == 0x100 ? won : lost) = i;
+				(gr.cmp(i) == 0x100 ? won_cty : lost_cty) |= 1 << gr.cty(i);
 			}
-			else
-			{
-				cmp[0] = 0x100;
-				cmp[1] = 0x220;
-			}
+			if (won == -1 || lost == -1)
+				return;
+			pc[won] = update_player(cmp[won], won_cty, players[won], players[lost]);
+			pc[lost] = update_player(cmp[lost], lost_cty, players[lost], players[won]);
+			for (i = 0; i < gr.plrs(); i++)
+				pc[i] = gr.cid(i) == gr.cid(won) ? pc[won] : pc[lost];
 		}
-		for (i = 0; i < 2; i++)
-			pc[i] = update_player(cmp[i], gr.get_int("cty", i), players[i], players[1 - i]);
-		q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, "
-			"a_pid, a_cid, a_cmp, a_col, a_cty, a_pc, a_ipa, a_inb, a_unb, a_plb, a_blb, a_inl, a_unl, a_pll, a_bll, a_ink, a_unk, a_plk, a_blk, a_blc, "
-			"b_pid, b_cid, b_cmp, b_col, b_cty, b_pc, b_ipa, b_inb, b_unb, b_plb, b_blb, b_inl, b_unl, b_pll, b_bll, b_ink, b_unk, b_plk, b_blk, b_blc, "
-			"ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+		else 
+		{
+			if (cmp[0] == 2 && cmp[1] == 2)
+			{
+				if (gr.get_int("spid"))
+				{
+					cmp[0] = 0x220;
+					cmp[1] = 0x100;
+				}
+				else
+				{
+					cmp[0] = 0x100;
+					cmp[1] = 0x220;
+				}
+			}
+			for (i = 0; i < gr.plrs(); i++)
+				pc[i] = update_player(cmp[i], 1 << gr.cty(i), players[i], players[1 - i]);
+		}
+		q.write("insert into xcl_games (afps, dura, gsku, oosy, scen, trny, ws_gid) values (%s, %s, %s, %s, lcase(%s), %s, %s)");
 		q.p(gr.get_int("afps"));
 		q.p(gr.get_int("dura"));
 		q.p(gr.get_int("gsku") & ~0xff);
-		q.p(gr.get_int("oosy"));
+		q.p(gr.oosy());
 		q.pe(gr.get_string("scen"));
 		q.p(trny);
-		for (i = 0; i < 2; i++)
+		q.p(gr.idno());
+		q.execute();
+		gid = insert_id();
+		for (i = 0; i < gr.plrs(); i++)
 		{
-			q.p(trny == 2 ? pid(lid - 1, gr.get_string("nam", i)) : players[i].pid);
+			q.write("insert into xcl_games_players (gid, pid, cid, cmp, col, cty, pc, ipa, inb, unb, plb, blb, inl, unl, pll, bll, ink, unk, plk, blk, blc) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)");
+			q.p(gid);
+			q.p(trny == 2 ? pid(lid - 1, gr.nam(i)) : players[i].pid);
 			q.p(trny == 2 ? players[i].pid : 0);
 			q.p(cmp[i]);
 			q.p(gr.get_int("col", i));
-			q.p(gr.get_int("cty", i));
+			q.p(gr.cty(i));
 			q.p(pc[i]);
 			q.p(gr.get_int("ipa", i)); 
 			q.p(gr.get_int("inb", i)); 
@@ -145,10 +168,8 @@ void Cxcl_database::insert_game(const Cgame_result& gr)
 			q.p(gr.get_int("plk", i)); 
 			q.p(gr.get_int("blk", i)); 
 			q.p(gr.get_int("blc", i)); 
+			q.execute();
 		}
-		q.p(gr.get_int("idno"));
-		q.execute();
-		gid = insert_id();
 	}
 	q.write("insert into xcl_sid_input (gid, spid, sid) values (%s, %s, %s)");
 	q.p(gid);
@@ -223,6 +244,7 @@ void Cxcl_database::drop_tables()
 {
 	query("drop table if exists xcl_clans");
 	query("drop table if exists xcl_games");
+	query("drop table if exists xcl_games_players");
 	query("drop table if exists xcl_input");
 	query("drop table if exists xcl_maps");
 	query("drop table if exists xcl_players");
@@ -235,8 +257,7 @@ void Cxcl_database::insert_maps()
 	{
 		const char* name;
 		const char* value;
-	};
-	t_key map_names[] = 
+	} map_names[] = 
 	{
 		"mp01du.map", "South Pacific",
 		"mp01t4.map", "South Pacific",
