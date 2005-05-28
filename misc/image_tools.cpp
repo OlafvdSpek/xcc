@@ -127,7 +127,7 @@ void resize_image_up(const byte* s, byte* d, int cx, int cy, int c_planes, int c
 	for (int x = 0; x < cx_d; x++)
 	{
 		for (int p = 0; p < c_planes; p++)
-			*w++ = get_color_bilinear_x(s + p, static_cast<float>(x * (cx - 1)) / (cx_d - 1), static_cast<float>(y * (cy - 1)) / (cy_d - 1), cx, cy, c_planes);
+			*w++ = get_color_bilinear_x(s + p, static_cast<float>(x * (cx - 1)) / (cx_d - 1), cy - 1, cx, cy, c_planes);
 	}
 }
 
@@ -274,6 +274,6 @@ void resize_image_up(const t_palet32entry* s, t_palet32entry* d, int cx, int cy,
 	}
 	for (int x = 0; x < cx_d; x++)
 	{
-		*w++ = get_color_bilinear_x(s, static_cast<float>(x * (cx - 1)) / (cx_d - 1), static_cast<float>(y * (cy - 1)) / (cy_d - 1), cx, cy);
+		*w++ = get_color_bilinear_x(s, static_cast<float>(x * (cx - 1)) / (cx_d - 1), cy - 1, cx, cy);
 	}
 }
