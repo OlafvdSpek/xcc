@@ -466,7 +466,8 @@ void CXSE_dlg::add_file(const string& name)
 					if (!m_bag_f.write(s, cb_s))
 					{
 						int i;
-						for (t_map::const_iterator j = m_map.begin(); j != m_map.end(); j++)
+						t_map::const_iterator j;
+						for (j = m_map.begin(); j != m_map.end(); j++)
 						{
 							if (e.extra_value == j->second.extra_value)
 							{

@@ -635,7 +635,7 @@ void CMainFrame::OnUpdateViewPaletAuto(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_palet_i == -1);
 }
 
-void CMainFrame::OnViewPalet(dword ID) 
+void CMainFrame::OnViewPalet(UINT ID) 
 {
 	set_palet(ID - ID_VIEW_PALET_PAL000);
 }
@@ -885,7 +885,7 @@ void CMainFrame::OnUtilitiesXccMixEditor()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_mix_editor_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
-void CMainFrame::OnLaunchApp(dword ID) 
+void CMainFrame::OnLaunchApp(UINT ID) 
 {
 	t_app app = static_cast<t_app>(app_xmc + ID - ID_LAUNCH_XMC);
 	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
@@ -1068,7 +1068,8 @@ void CMainFrame::OnFileCreateSFL()
 {
 	CWaitCursor wait;
 	mix_sfl::clear(game_ts);
-	for (int i = m_mix_i[game_ra]; i < m_mix_i[game_ts]; i++)
+	int i;
+	for (i = m_mix_i[game_ra]; i < m_mix_i[game_ts]; i++)
 	{
 		Cmix_file f;
 		if (!f.open(m_mix_list[i]))
@@ -1264,7 +1265,8 @@ void CMainFrame::OnLaunchXTW_TS()
 					g << "[Themes]" << endl;
 					// "1=INTRO" << endl;
 					int j = 51;
-					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
+					t_theme_list::const_iterator i;
+					for (i = theme_list.begin(); i != theme_list.end(); i++)
 						g << n(j++) << '=' << to_upper(i->first) << endl;
 					g << endl;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)
@@ -1363,7 +1365,8 @@ void CMainFrame::launch_xtw(t_game game)
 					ofstream g((dir + theme_ini_fname).c_str());
 					g << "[Themes]" << endl;
 					int j = 51;
-					for (t_theme_list::const_iterator i = theme_list.begin(); i != theme_list.end(); i++)
+					t_theme_list::const_iterator i;
+					for (i = theme_list.begin(); i != theme_list.end(); i++)
 						g << n(j++) << '=' << to_upper(i->first) << endl;
 					g << endl;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)

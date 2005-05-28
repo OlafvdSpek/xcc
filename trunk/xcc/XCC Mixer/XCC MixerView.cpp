@@ -267,19 +267,19 @@ void CXCCMixerView::OnFileNew()
 		switch (dlg.m_ofn.nFilterIndex)
 		{
 		case 1:
-			error = Cmix_file_write(game_ra).write().export(name);
+			error = Cmix_file_write(game_ra).write().save(name);
 			break;
 		case 2:
-			error = Cmix_file_write(game_ts).write().export(name);
+			error = Cmix_file_write(game_ts).write().save(name);
 			break;
 		case 3:
-			error = Cmix_file_write(game_ra2).write().export(name);
+			error = Cmix_file_write(game_ra2).write().save(name);
 			break;
 		case 4:
-			error = Cmix_rg_file_write().write().export(name);
+			error = Cmix_rg_file_write().write().save(name);
 			break;
 		case 5:
-			error = Cbig_file_write().write().export(name);
+			error = Cbig_file_write().write().save(name);
 			break;
 		default:
 			assert(false);
@@ -660,7 +660,7 @@ void CXCCMixerView::OnContextMenu(CWnd*, CPoint point)
 			pWndPopupOwner);
 }
 
-void CXCCMixerView::OnFileFound(dword ID)
+void CXCCMixerView::OnFileFound(UINT ID)
 {
 	close_all_locations();
 	open_location_mix(GetMainFrame()->get_mix_name(ID - ID_FILE_FOUND_MIX000));
@@ -1119,7 +1119,7 @@ int CXCCMixerView::copy_as_cps(int i, Cfname fname) const
 		memcpy(palet, get_default_palet(), sizeof(t_palet));
 	if (image.cb_pixel() != 1)
 		image.decrease_color_depth(1, palet);
-	return cps_file_write(image.image(), palet).export(fname);
+	return cps_file_write(image.image(), palet).save(fname);
 }
 
 int CXCCMixerView::copy_as_csv(int i, Cfname fname) const
@@ -1185,7 +1185,7 @@ int CXCCMixerView::copy_as_hva(int i, Cfname fname) const
 	fname.set_ext(".hva");
 	Ctext_file f;
 	int error = open_f_index(f, i);
-	return error ? error : hva_file_write(f.get_data(), f.get_size()).export(fname);
+	return error ? error : hva_file_write(f.get_data(), f.get_size()).save(fname);
 }
 
 int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
@@ -1267,7 +1267,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 	case ft_tga:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
-		return get_vimage(i).save(ft).export(fname);
+		return get_vimage(i).save(ft).save(fname);
 	case ft_shp_dune2:
 		{
 			Cshp_dune2_file f;
@@ -1285,13 +1285,13 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			switch (ft)
 			{
 			case ft_jpeg_single:
-				return get_vimage(i).save(ft_jpeg).export(fname);
+				return get_vimage(i).save(ft_jpeg).save(fname);
 			case ft_pcx_single:
-				return get_vimage(i).save(ft_pcx).export(fname);
+				return get_vimage(i).save(ft_pcx).save(fname);
 			case ft_png_single:
-				return get_vimage(i).save(ft_png).export(fname);
+				return get_vimage(i).save(ft_png).save(fname);
 			case ft_tga_single:
-				return get_vimage(i).save(ft_tga).export(fname);
+				return get_vimage(i).save(ft_tga).save(fname);
 			}
 			Cshp_ts_file f;
 			f.load(get_vdata(i));
@@ -1391,7 +1391,8 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	int cy = image.cy();
 	int c_images = 0;
 	int index[1000];
-	for (int i = 0; i < 1000; i++)
+	int i;
+	for (i = 0; i < 1000; i++)
 		index[i] = -1;
 	for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 	{
@@ -1425,7 +1426,7 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	}
 	trim(base_name);
 	fname.set_title(base_name);
-	return shp_file_write(s, cx, cy, c_images).export(fname);
+	return shp_file_write(s, cx, cy, c_images).save(fname);
 }
 
 int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
@@ -1482,7 +1483,8 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		cy = image.cy();
 		c_images = 0;
 		int index[10000];
-		for (int i = 0; i < 10000; i++)
+		int i;
+		for (i = 0; i < 10000; i++)
 			index[i] = -1;
 		for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 		{
@@ -1553,7 +1555,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	}
 	trim(base_name);
 	fname.set_title(base_name);
-	return shp_ts_file_write(s, cx, cy, c_images, GetMainFrame()->enable_compression()).export(fname);
+	return shp_ts_file_write(s, cx, cy, c_images, GetMainFrame()->enable_compression()).save(fname);
 }
 
 int CXCCMixerView::copy_as_text(int i, Cfname fname) const
@@ -1601,7 +1603,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			Cvirtual_tfile f;
 			f.load_data(get_vdata(i));
 			Cvirtual_binary d = vxl_file_write(f);
-			return d.size() ? d.export(fname) : 1;
+			return d.size() ? d.save(fname) : 1;
 		}
 	case ft_xif:
 		{
@@ -1610,7 +1612,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			if (error)
 				return error;
 			Cvirtual_binary d = vxl_file_write(k);
-			return d.size() ? d.export(fname) : 1;
+			return d.size() ? d.save(fname) : 1;
 		}
 	default:
 		{
@@ -1622,7 +1624,8 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			int cy = image.cy();
 			Cvirtual_binary s;
 			int index[256];
-			for (int i = 0; i < 256; i++)
+			int i;
+			for (i = 0; i < 256; i++)
 				index[i] = -1;
 			for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
 			{
@@ -1648,7 +1651,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			Cvirtual_binary d = vxl_file_write(s, NULL, cx, cy, c_images);
 			trim(base_name);
 			fname.set_title(base_name);
-			return d.size() ? d.export(fname) : 1;
+			return d.size() ? d.save(fname) : 1;
 		}
 	}
 	return error;
@@ -1687,7 +1690,7 @@ int CXCCMixerView::copy_as_wav_ima_adpcm(int i, Cfname fname) const
 			byte* w = d.write_start(cb_d);
 			w += wav_ima_adpcm_file_write_header(w, cb_audio, c_samples, format_chunk.samplerate, c_channels);
 			memcpy(w, encode.data(), cb_audio);
-			return d.export(fname);				
+			return d.save(fname);				
 		}
 	}
 	return 0;
@@ -1744,7 +1747,7 @@ int CXCCMixerView::copy_as_wav_pcm(int i, Cfname fname) const
 			Cima_adpcm_wav_decode decode;
 			decode.load(s, cb_s, c_channels, 512 * c_channels);
 			memcpy(w, decode.data(), cb_audio);
-			return d.export(fname);
+			return d.save(fname);
 		}
 	}
 	return 0;
@@ -2037,7 +2040,7 @@ int big_insert_dir(Cbig_edit& f, const string& dir, const string& name_prefix)
 			else
 			{
 				Cvirtual_binary d;
-				if (!d.import(fname))
+				if (!d.load(fname))
 					error = error ? f.insert(name_prefix + fd.cFileName, d) : f.insert(name_prefix + fd.cFileName, d), error;
 			}
 		}
@@ -2072,7 +2075,7 @@ void CXCCMixerView::OnDropFiles(HDROP hDropInfo)
 						if (file_attributes == INVALID_FILE_ATTRIBUTES || ~file_attributes & FILE_ATTRIBUTE_DIRECTORY)
 						{
 							Cvirtual_binary d;
-							if (!d.import(fname))
+							if (!d.load(fname))
 								error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
 						}
 						else
@@ -2093,7 +2096,7 @@ void CXCCMixerView::OnDropFiles(HDROP hDropInfo)
 					{
 						DragQueryFile(hDropInfo, i, fname, MAX_PATH);
 						Cvirtual_binary d;
-						if (!d.import(fname))
+						if (!d.load(fname))
 							error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
 					}
 					error = error ? f.write_index(), error : f.write_index();
@@ -2110,7 +2113,7 @@ void CXCCMixerView::OnDropFiles(HDROP hDropInfo)
 				{
 					DragQueryFile(hDropInfo, i, fname, MAX_PATH);
 					Cvirtual_binary d;
-					if (!d.import(fname))
+					if (!d.load(fname))
 						error = error ? f.insert(Cfname(fname).get_fname(), d) : f.insert(Cfname(fname).get_fname(), d), error;
 				}
 				error = error ? f.write_index(), error : f.write_index();
@@ -2455,7 +2458,7 @@ int CXCCMixerView::resize(int id)
 			delete[] image32;
 			delete[] d32;
 			f.close();
-			return shp_ts_file_write(d8, global_cx_d, global_cy_d, c_images).export(fname);
+			return shp_ts_file_write(d8, global_cx_d, global_cy_d, c_images).save(fname);
 		}
 	}
 	return 1;
@@ -2588,7 +2591,7 @@ void CXCCMixerView::paste_as_image(t_file_type ft, const char* extension, const 
 		string fname;
 		if (get_paste_fname(fname, ft, extension, filter))
 			return;
-		image.save(ft).export(fname);
+		image.save(ft).save(fname);
 		update_list();
 	}
 }
@@ -2676,7 +2679,7 @@ void CXCCMixerView::OnPopupClipboardPasteAsShpTs()
 					shp_split_shadows(image);
 					c_blocks <<= 1;
 				}
-				shp_ts_file_write(image.image(), dlg.get_cx(), dlg.get_cy(), c_blocks, GetMainFrame()->enable_compression()).export(fname);
+				shp_ts_file_write(image.image(), dlg.get_cx(), dlg.get_cy(), c_blocks, GetMainFrame()->enable_compression()).save(fname);
 				update_list();
 			}
 		}

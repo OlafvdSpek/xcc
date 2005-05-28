@@ -90,7 +90,7 @@ BOOL CXCCObjectExtractorDlg::OnInitDialog()
 	CWaitCursor wait;
 	m_extract_object.open_default(m_game);
 	m_extract_object.load();
-	Cextract_object::t_object_type_list::const_iterator i;
+	Crules_ts_ini_reader::t_object_type_list::const_iterator i;
 	int j = 0;
 	for (i = m_extract_object.get_rir().get_aircraft_type_list().begin(); i != m_extract_object.get_rir().get_aircraft_type_list().end(); i++)
 		add(j++, i->first);
@@ -133,7 +133,7 @@ void CXCCObjectExtractorDlg::OnExtract()
 			credits.link_title = m_link_title;
 			credits.link = m_link;
 			Cextract_object::set_credits(k, credits);
-			if (k.vdata().export(path + name + ".xif"))
+			if (k.vdata().save(path + name + ".xif"))
 				MessageBox("Error writing file.", NULL, MB_ICONERROR);
 			index = m_list.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 		}
