@@ -110,7 +110,7 @@ protected:
 // Generated message map functions
 protected:
 	afx_msg void OnContextMenu(CWnd*, CPoint point);
-	afx_msg void OnFileFound(dword ID);
+	afx_msg void OnFileFound(UINT ID);
 	//{{AFX_MSG(CXCCMixerView)
 	afx_msg void OnFileOpen();
 	afx_msg void OnFileClose();

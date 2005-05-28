@@ -310,7 +310,7 @@ void CXSTE_dlg::OnOK()
 {
 	ETSLayoutDialog::OnOK();
 	m_f.erase_value("");
-	m_f.write().export(m_fname);
+	m_f.write().save(m_fname);
 }
 
 void CXSTE_dlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 

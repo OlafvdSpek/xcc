@@ -739,7 +739,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Count themes:", n(tl.size()));
 				m_y += m_y_inc;
 				int column_size[] = {0, 6, 3, 0};
-				for (Ctheme_ts_ini_reader::t_theme_list::const_iterator i = tl.begin(); i != tl.end(); i++)
+				Ctheme_ts_ini_reader::t_theme_list::const_iterator i;
+				for (i = tl.begin(); i != tl.end(); i++)
 				{
 					const Ctheme_data& td = i->second;
 					column_size[0] = max(column_size[0], td.name().length());
@@ -1011,7 +1012,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 									{
 										int min_z = INT_MAX;
 										int max_z = INT_MIN;
-										for (int o = 1; o < c_pixels; o++)
+										int o;
+										for (o = 1; o < c_pixels; o++)
 										{
 											int v = image_z[o];
 											if (v == CHAR_MIN)
@@ -1200,7 +1202,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					{
 						string line = nwzl(5, r) + ' ';
 						int line_data[16];
-						for (int c = 0; c < 16; c++)
+						int c;
+						for (c = 0; c < 16; c++)
 						{
 							line_data[c] = r < m_data.size() ? m_data.data()[r] : -1;
 							r++;

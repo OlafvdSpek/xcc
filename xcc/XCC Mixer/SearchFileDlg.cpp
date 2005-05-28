@@ -160,7 +160,7 @@ void CSearchFileDlg::open_mix(int id)
 void CSearchFileDlg::OnDestroy() 
 {
 	ETSLayoutDialog::OnDestroy();
-	m_filename = AfxGetApp()->WriteProfileString(m_reg_key, "file_name", m_filename);
+	AfxGetApp()->WriteProfileString(m_reg_key, "file_name", m_filename);
 }
 
 void CSearchFileDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult) 

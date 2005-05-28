@@ -275,9 +275,9 @@ protected:
 	afx_msg void OnUpdateLaunchXSE_RA2_YR(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSE_Open();
 	//}}AFX_MSG
-	afx_msg void OnViewPalet(dword ID);
+	afx_msg void OnViewPalet(UINT ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
-	afx_msg void OnLaunchApp(dword ID);
+	afx_msg void OnLaunchApp(UINT ID);
 	afx_msg void OnUpdateLaunchApp(CCmdUI* pCmdUI);
 	afx_msg void OnConversionRemapTeamColors();
 	afx_msg void OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI);
