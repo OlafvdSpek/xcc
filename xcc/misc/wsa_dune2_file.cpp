@@ -117,7 +117,7 @@ int Cwsa_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_
 			decode40(s, frame.data_edit());
 		}
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		int error = image_file_write(ft, frame, palet, cx(), cy()).export(t);
+		int error = image_file_write(ft, frame, palet, cx(), cy()).save(t);
 		if (error)
 			return error;
 	}

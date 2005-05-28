@@ -17,8 +17,8 @@ using namespace std;
 class Cvirtual_file  
 {
 public:
-	int export(string fname) const;
-	int import(string fname);
+	int save(const string& fname) const;
+	int load(const string& fname);
 	void clear();
 	void compact();
 	const byte* data() const;

@@ -61,8 +61,8 @@ class Cvirtual_binary
 {
 public:
 	Cvirtual_binary sub_bin(int offset, int size) const;
-	int export(const string& fname) const;
-	int import(const string& fname, bool use_mm = true);
+	int save(const string& fname) const;
+	int load(const string& fname, bool use_mm = true);
 	void clear();
 	void memset(int v);
 	int read(void* d) const;

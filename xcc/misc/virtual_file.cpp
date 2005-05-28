@@ -49,7 +49,7 @@ int Cvirtual_file::size() const
 	return r;
 }
 
-int Cvirtual_file::export(string fname) const
+int Cvirtual_file::save(const string& fname) const
 {
 	Cfile32 f;
 	int error = f.open_write(fname);
@@ -62,11 +62,11 @@ int Cvirtual_file::export(string fname) const
 	return error;
 }
 
-int Cvirtual_file::import(string fname)
+int Cvirtual_file::load(const string& fname)
 {
 	clear();
 	Cvirtual_binary t;
-	int error = t.import(fname);
+	int error = t.load(fname);
 	if (!error)
 		write(t);
 	return error;

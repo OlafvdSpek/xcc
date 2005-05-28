@@ -150,7 +150,8 @@ int Cvxl_file::extract_as_xif(const string& name) const
 	Cxif_key k;
 	Cxif_key& header = k.open_key_write(vi_header);
 	Cxif_key& palet = header.open_key_write(vi_palet);
-	for (int i = 0; i < 256; i++)
+	int i;
+	for (i = 0; i < 256; i++)
 	{
 		Cxif_key& palet_entry = palet.open_key_write(i);
 		palet_entry.set_value_int(vi_red, get_palet()[i].r);
@@ -208,7 +209,7 @@ int Cvxl_file::extract_as_xif(const string& name) const
 		tailer.set_value_int(vi_cy, cy);
 		tailer.set_value_int(vi_cz, cz);
 	}
-	return k.vdata().export(name);
+	return k.vdata().save(name);
 }
 
 Cvirtual_binary vxl_file_write(const Cxif_key& s)
@@ -228,7 +229,8 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s)
 	header.c_section_tailers = c_sections;
 	header.unknown = 0x1f10;
 	const Cxif_key& palet_key = header_key.open_key_read(vi_palet);
-	for (int i = 0; i < 256; i++)
+	int i;
+	for (i = 0; i < 256; i++)
 	{
 		const Cxif_key& palet_entry_key = palet_key.open_key_read(i);
 		header.palet[i].r = palet_entry_key.get_value_int(vi_red);

@@ -80,7 +80,7 @@ Cvirtual_binary::Cvirtual_binary(const void* d, int cb_d, Csmart_ref_base* sourc
 Cvirtual_binary::Cvirtual_binary(const string& fname, bool use_mm)
 {
 	m_source = NULL;
-	import(fname, use_mm);
+	load(fname, use_mm);
 }
 
 Cvirtual_binary::~Cvirtual_binary()
@@ -98,23 +98,19 @@ const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 	return *this;
 }
 
-int Cvirtual_binary::export(const string& fname) const
+int Cvirtual_binary::save(const string& fname) const
 {
 	return file32_write(fname, data(), size());
 }
 
-int Cvirtual_binary::import(const string& fname, bool use_mm)
+int Cvirtual_binary::load(const string& fname, bool use_mm)
 {
 	if (use_mm)
 		*this = file32_read(fname);
+	else if (Cvirtual_binary d = file32_read(fname))
+		*this = Cvirtual_binary(d.data(), d.size());
 	else
-	{
-		Cvirtual_binary d = file32_read(fname);
-		if (d)
-			*this = Cvirtual_binary(d.data(), d.size());
-		else
-			clear();
-	}
+		clear();
 	return !data();
 }
 

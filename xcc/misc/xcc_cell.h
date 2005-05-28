@@ -117,7 +117,7 @@ public:
 
 	int subcell() const
 	{
-		static subcell_mask[24][24];
+		static int subcell_mask[24][24];
 		static bool subcell_mask_created = false;
 		if (!subcell_mask_created)
 		{
@@ -178,7 +178,7 @@ public:
 
 	unsigned int distance() const
 	{
-		return static_cast<unsigned int>(sqrt(x * x + y * y));
+		return static_cast<unsigned int>(sqrt(static_cast<float>(x * x + y * y)));
 	}
 
 	Cxcc_cell operator*(int v) const
@@ -217,12 +217,12 @@ public:
 		return *this;
 	}
 
-	operator==(const Cxcc_cell& v) const
+	bool operator==(const Cxcc_cell& v) const
 	{
 		return (x == v.x && y == v.y);
 	}
 
-	operator!=(const Cxcc_cell& v) const
+	bool operator!=(const Cxcc_cell& v) const
 	{
 		return (x != v.x || y != v.y);
 	}
