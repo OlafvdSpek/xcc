@@ -2707,7 +2707,7 @@ BOOL ETSLayoutPropertySheet::OnInitDialog()
 	pPage->GetClientRect(&rcPage);
 
 	CreateRoot(VERTICAL);
-	ASSERT(m_RootPane);
+	ASSERT(m_RootPane.IsValid());
 
 	// Add Tabcontrol to root pane
 	m_ItemTab = item( GetTabControl(), GREEDY, 0, 0, 0, 0);
