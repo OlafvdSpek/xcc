@@ -184,7 +184,8 @@ int move_file(string s, string d)
 
 bool fname_filter(const string& fname, const string& filter)
 {
-	for (int i = 0; i < filter.length(); i++)
+	int i;
+	for (i = 0; i < filter.length(); i++)
 	{
 		char c = filter[i];
 		if (c == '*')
