@@ -77,7 +77,8 @@ void Cima_adpcm_wav_encode::load(const short* s, int cb_s, int c_channels)
 			{
 				int cs_v = min(cs_chunk, 8);
 				short left_t[8], right_t[8];
-				for (int i = 0; i < cs_v; i++)
+				int i = 0;
+				for (; i < cs_v; i++)
 				{
 					left_t[i] = *r++;
 					right_t[i] = *r++;

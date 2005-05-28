@@ -116,7 +116,7 @@ int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 		{
 			// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=td_icons/" + name.get_fname() + "></td></tr>");
 			t.set_title(name.get_ftitle() + " " + nwzl(3, i));
-			if (error = image_file_write(ft, shp_images::get_shp(p, i), palet, cx, cy).export(t))
+			if (error = image_file_write(ft, shp_images::get_shp(p, i), palet, cx, cy).save(t))
 				break;
 		}
 		shp_images::destroy_shp(p);
