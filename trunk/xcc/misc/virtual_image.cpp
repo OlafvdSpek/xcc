@@ -116,7 +116,7 @@ int Cvirtual_image::load(const Cvirtual_file& f)
 int Cvirtual_image::load(const string& fname)
 {
 	Cvirtual_binary s;
-	int error = s.import(fname);
+	int error = s.load(fname);
 	if (!error)
 		error = load(s);
 	return error;

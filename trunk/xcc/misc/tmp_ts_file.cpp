@@ -70,7 +70,8 @@ void Ctmp_ts_file::draw(byte* d) const
 			byte* w_line = d + get_x(i) - global_x + global_cx * (get_y(i) - global_y + (height * (get_cy() / 2)));
 			int x = get_cx() / 2;
 			int cx = 0;
-			for (int y = 0; y < get_cy() / 2; y++)
+			int y = 0;
+			for (; y < get_cy() / 2; y++)
 			{
 				cx += 4;
 				x -= 2;
@@ -117,7 +118,8 @@ int decode_tile(const byte* s, byte* d, int cx_d)
 	byte* w = d;
 	int x = cx_d / 2;
 	int cx = 0;
-	for (int y = 0; y < cy / 2; y++)
+	int y = 0;
+	for (; y < cy / 2; y++)
 	{
 		cx += 4;
 		x -= 2;
@@ -143,7 +145,8 @@ int encode_tile(const byte* s, byte* d, int cx_s)
 	byte* w = d;
 	int x = cx_s / 2;
 	int cx = 0;
-	for (int y = 0; y < cy / 2; y++)
+	int y = 0;
+	for (; y < cy / 2; y++)
 	{
 		cx += 4;
 		x -= 2;

@@ -130,7 +130,7 @@ Cvirtual_file wav_ima_adpcm_file_write(const void* s, int cb_s, int c_samples, i
 
 int wav_ima_adpcm_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
-	return wav_ima_adpcm_file_write(s, cb_s, c_samples, samplerate, c_channels).export(fname);
+	return wav_ima_adpcm_file_write(s, cb_s, c_samples, samplerate, c_channels).save(fname);
 }
 
 Cvirtual_file wav_pcm_file_write(const void* s, int cb_s, int samplerate, int cb_sample, int c_channels)
@@ -144,5 +144,5 @@ Cvirtual_file wav_pcm_file_write(const void* s, int cb_s, int samplerate, int cb
 
 int wav_pcm_file_write(string fname, const void* s, int cb_s, int samplerate, int cb_sample, int c_channels)
 {
-	return wav_pcm_file_write(s, cb_s, samplerate, cb_sample, c_channels).export(fname);
+	return wav_pcm_file_write(s, cb_s, samplerate, cb_sample, c_channels).save(fname);
 }

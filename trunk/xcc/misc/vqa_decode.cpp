@@ -1,3 +1,4 @@
+
 // Cvqa_decode.cpp: implementation of the Cvqa_decode class.
 //
 //////////////////////////////////////////////////////////////////////
@@ -96,7 +97,7 @@ void Cvqa_decode::decode_vpt_chunk(const byte* in, byte* out)
 		const byte* r = in;
 		for (int y = 0; y < cy_b; y++)
 		{
-			for (int x = 0; x < cx_b;)
+			for (int x = 0; x < cx_b; )
 			{
 				int v = *r++;
 				v |= *r++ << 8;
@@ -123,9 +124,7 @@ void Cvqa_decode::decode_vpt_chunk(const byte* in, byte* out)
 					break;
 				}
 			}
-			assert(x == cx_b);
 		}
-		assert(y == cy_b);
 	}
 	else
 	{

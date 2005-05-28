@@ -20,7 +20,8 @@ void Cxcc_lmd_file_write::add_fname(const string& fname)
 Cvirtual_binary Cxcc_lmd_file_write::write(t_game game) const
 {
 	int size = sizeof(t_xcc_header) + sizeof(t_xcc_lmd_header);
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+	t_index::const_iterator i;
+	for (i = m_index.begin(); i != m_index.end(); i++)
 		size += i->length() + 1;
 	Cvirtual_binary data;
 	byte* w = data.write_start(size);
