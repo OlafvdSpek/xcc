@@ -113,7 +113,7 @@ int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* pa
 	if (!error)
 	{
 		Cvirtual_binary s;
-		error = f.import(temp_fname);
+		error = f.load(temp_fname);
 	}
 	delete_file(temp_fname);
 	return error;

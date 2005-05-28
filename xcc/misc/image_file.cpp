@@ -59,8 +59,8 @@ int image_file_write(const string& name, t_file_type ft, const byte* image, cons
 		return pcx_file_write(name, image, palet, cx, cy);
 	case ft_tga:
 		return palet
-			? tga_file_write(image, cx, cy, palet).export(name)
-			: tga_file_write(image, cx, cy, 3).export(name);
+			? tga_file_write(image, cx, cy, palet).save(name)
+			: tga_file_write(image, cx, cy, 3).save(name);
 	default:
 #ifdef PNG_SUPPORT
 		return png_file_write(name, image, palet, cx, cy);
