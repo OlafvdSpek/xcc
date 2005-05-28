@@ -107,7 +107,7 @@ int png_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* pal
 	int error = png_file_write(temp_fname, image, palet, cx, cy);
 	if (!error)
 	{
-		error = f.import(temp_fname);
+		error = f.load(temp_fname);
 	}
 	delete_file(temp_fname);
 	return error;

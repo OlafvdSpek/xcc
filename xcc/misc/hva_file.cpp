@@ -80,7 +80,7 @@ Cvirtual_binary hva_file_write(const byte* s, int cb_s)
 		for (int y = 0; y < 3; y++)
 		{
 			l = f.read_line();
-			for (i = 0; i < c_sections; i++)
+			for (int i = 0; i < c_sections; i++)
 			{
 				for (int x = 0; x < 4; x++)
 				{

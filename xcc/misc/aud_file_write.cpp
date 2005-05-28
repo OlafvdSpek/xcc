@@ -95,5 +95,5 @@ Cvirtual_file aud_file_write(const void* s, int cb_s, int c_samples, int sampler
 
 int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels)
 {
-	return aud_file_write(s, cb_s, c_samples, samplerate, c_channels).export(fname);
+	return aud_file_write(s, cb_s, c_samples, samplerate, c_channels).save(fname);
 }

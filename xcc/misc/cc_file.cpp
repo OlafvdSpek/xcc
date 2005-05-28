@@ -521,7 +521,7 @@ int Ccc_file::extract(const string& name)
 {
 	assert(is_open());
 	if (get_data())
-		return get_vdata().export(name);
+		return get_vdata().save(name);
 	seek(0);
 	Cfile32 f;
 	int error = f.open_write(name);

@@ -912,7 +912,7 @@ int Cextract_object::insert(const Cxif_key& k)
 			if (!error)
 			{
 				close_all();
-				error = expand_mix.write().export(xcc_dirs::get_dir(m_game) + "expand99.mix");
+				error = expand_mix.write().save(xcc_dirs::get_dir(m_game) + "expand99.mix");
 			}
 		}
 	}
