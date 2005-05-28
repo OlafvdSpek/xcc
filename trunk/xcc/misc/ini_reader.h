@@ -19,7 +19,7 @@ class Cini_reader
 {
 public:
 	Cini_reader();
-	static int find_id(string s, const char* t[], int count);
+	static int find_id(const string& s, const char* t[], int count);
 	int process(const byte* s, int cb_s);
 	int process(const Cvirtual_binary s);
 	int process_line(string line);

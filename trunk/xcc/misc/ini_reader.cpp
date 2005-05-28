@@ -14,13 +14,11 @@ Cini_reader::Cini_reader()
 	m_skip_errors = false;
 }
 
-int Cini_reader::find_id(string s, const char* t[], int count)
+int Cini_reader::find_id(const string& s, const char* t[], int count)
 {
-	for (int i = 0; i < count; i++)
-	{
-		if (s == t[i])
-			break;
-	}
+	int i = 0;
+	while (i < count && t[i] != s)
+		i++;
 	return i;
 }
 

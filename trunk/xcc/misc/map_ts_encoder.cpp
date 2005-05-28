@@ -640,7 +640,7 @@ int Cmap_ts_encoder::write_map(string fname, const string& ini)
 	k.set_value_binary(vi_preview_pack, preview_pack());
 	k.set_value_int(vi_cx, m_header.cx);
 	k.set_value_int(vi_cy, m_header.cy);
-	return k.vdata().export(fname);
+	return k.vdata().save(fname);
 }
 
 static int get_y(int a, int b, int cx)
@@ -729,7 +729,7 @@ static const t_palet_entry* get_radar_colors(Cvirtual_binary& s, int tile, int s
 Cvirtual_image Cmap_ts_encoder::create_preview() const
 {
 	Cvirtual_binary s;
-	s.import("d:/temp/snow_colormap.bin");
+	s.load("d:/temp/snow_colormap.bin");
 	Cvirtual_image image;
 	image.load(NULL, m_header.cx << 1, m_header.cy, 3, NULL);
 	const t_iso_map_pack_entry4* r = reinterpret_cast<const t_iso_map_pack_entry4*>(m_iso_map_pack.data());
