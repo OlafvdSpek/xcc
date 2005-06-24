@@ -37,6 +37,12 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerView, CView)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_NON_HUMAN_OBJECTS, OnUpdateViewNonHumanObjects)
 	ON_COMMAND(ID_VIEW_OBJECT_SUMMARY, OnViewObjectSummary)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_OBJECT_SUMMARY, OnUpdateViewObjectSummary)
+	ON_COMMAND(ID_VIEW_TERRAIN, OnViewTerrain)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_TERRAIN, OnUpdateViewTerrain)
+	ON_COMMAND(ID_VIEW_NAMES, OnViewNames)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_NAMES, OnUpdateViewNames)
+	ON_COMMAND(ID_VIEW_HISTORY, OnViewHistory)
+	ON_UPDATE_COMMAND_UI(ID_VIEW_HISTORY, OnUpdateViewHistory)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
@@ -463,26 +469,11 @@ void CXCCGameSpyPlayerView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		m_mem_dc_valid = false;
 		Invalidate();
 		break;
-	case 'h':
-		m_show_history = !m_show_history;
-		m_mem_dc_valid = false;
-		Invalidate();
-		break;
-	case 'n':
-		m_show_names = !m_show_names;
-		m_mem_dc_valid = false;
-		Invalidate();
-		break;
 	case 'r':
 		if (live)
 			m_object_types = Cobject_types(h);
 		else
 			rewind();
-		break;
-	case 't':
-		m_show_terrain = !m_show_terrain;
-		m_mem_dc_valid = false;
-		Invalidate();
 		break;
 	case ',':
 		m_auto_forward = false;
@@ -651,4 +642,40 @@ void CXCCGameSpyPlayerView::OnViewObjectSummary()
 void CXCCGameSpyPlayerView::OnUpdateViewObjectSummary(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_view_object_summary);	
+}
+
+void CXCCGameSpyPlayerView::OnViewTerrain() 
+{
+	m_show_terrain = !m_show_terrain;
+	m_mem_dc_valid = false;
+	Invalidate();
+}
+
+void CXCCGameSpyPlayerView::OnUpdateViewTerrain(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_show_terrain);
+}
+
+void CXCCGameSpyPlayerView::OnViewNames() 
+{
+	m_show_names = !m_show_names;
+	m_mem_dc_valid = false;
+	Invalidate();
+}
+
+void CXCCGameSpyPlayerView::OnUpdateViewNames(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_show_names);	
+}
+
+void CXCCGameSpyPlayerView::OnViewHistory() 
+{
+	m_show_history = !m_show_history;
+	m_mem_dc_valid = false;
+	Invalidate();
+}
+
+void CXCCGameSpyPlayerView::OnUpdateViewHistory(CCmdUI* pCmdUI) 
+{
+	pCmdUI->SetCheck(m_show_history);	
 }

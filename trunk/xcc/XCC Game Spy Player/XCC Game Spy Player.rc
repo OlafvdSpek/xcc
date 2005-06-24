@@ -61,8 +61,11 @@ BEGIN
     END
     POPUP "&View"
     BEGIN
+        MENUITEM "History\tH",                  ID_VIEW_HISTORY
+        MENUITEM "Names\tN",                    ID_VIEW_NAMES
         MENUITEM "Non-human objects\tC",        ID_VIEW_NON_HUMAN_OBJECTS
-        MENUITEM "&Object &summary\tS",         ID_VIEW_OBJECT_SUMMARY
+        MENUITEM "Object summary\tS",           ID_VIEW_OBJECT_SUMMARY
+        MENUITEM "Terrain\tT",                  ID_VIEW_TERRAIN
     END
     POPUP "&Window"
     BEGIN
@@ -83,8 +86,11 @@ IDR_MAINFRAME ACCELERATORS PRELOAD MOVEABLE PURE
 BEGIN
     "C",            ID_VIEW_NON_HUMAN_OBJECTS, VIRTKEY, NOINVERT
     "C",            ID_EDIT_COPY,           VIRTKEY, CONTROL, NOINVERT
+    "H",            ID_VIEW_HISTORY,        VIRTKEY, NOINVERT
+    "N",            ID_VIEW_NAMES,          VIRTKEY, NOINVERT
     "O",            ID_FILE_OPEN,           VIRTKEY, CONTROL, NOINVERT
     "S",            ID_VIEW_OBJECT_SUMMARY, VIRTKEY, NOINVERT
+    "T",            ID_VIEW_TERRAIN,        VIRTKEY, NOINVERT
     "V",            ID_EDIT_PASTE,          VIRTKEY, CONTROL, NOINVERT
     VK_BACK,        ID_EDIT_UNDO,           VIRTKEY, ALT, NOINVERT
     VK_DELETE,      ID_EDIT_CUT,            VIRTKEY, SHIFT, NOINVERT

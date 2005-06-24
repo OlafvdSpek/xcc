@@ -60,6 +60,12 @@ protected:
 	afx_msg void OnUpdateViewNonHumanObjects(CCmdUI* pCmdUI);
 	afx_msg void OnViewObjectSummary();
 	afx_msg void OnUpdateViewObjectSummary(CCmdUI* pCmdUI);
+	afx_msg void OnViewTerrain();
+	afx_msg void OnUpdateViewTerrain(CCmdUI* pCmdUI);
+	afx_msg void OnViewNames();
+	afx_msg void OnUpdateViewNames(CCmdUI* pCmdUI);
+	afx_msg void OnViewHistory();
+	afx_msg void OnUpdateViewHistory(CCmdUI* pCmdUI);
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 private:

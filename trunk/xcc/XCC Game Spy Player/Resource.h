@@ -11,6 +11,9 @@
 #define IDC_PLAYERS                     1001
 #define ID_VIEW_NON_HUMAN_OBJECTS       32771
 #define ID_VIEW_OBJECT_SUMMARY          32772
+#define ID_VIEW_TERRAIN                 32773
+#define ID_VIEW_HISTORY                 32774
+#define ID_VIEW_NAMES                   32775
 
 // Next default values for new objects
 // 
@@ -18,7 +21,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        131
-#define _APS_NEXT_COMMAND_VALUE         32773
+#define _APS_NEXT_COMMAND_VALUE         32776
 #define _APS_NEXT_CONTROL_VALUE         1002
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
