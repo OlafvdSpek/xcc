@@ -116,7 +116,7 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 		if (ERROR_SUCCESS == RegQueryValueEx(key, "Serial", NULL, NULL, reinterpret_cast<byte*>(b), &cb_b))
 		{
 			Cvirtual_binary s;
-			if (!s.import(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key") && cb_b == 23 && !b[22])
+			if (!s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key") && cb_b == 23 && !b[22])
 			{
 				string serial = b;
 				for (int i = 0, j = 0; i < s.size(); i++)
