@@ -1,7 +1,3 @@
-// multi_line.cpp: implementation of the Cmulti_line class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "multi_line.h"
 #include "string_conversion.h"
