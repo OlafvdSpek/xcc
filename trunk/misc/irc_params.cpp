@@ -1,7 +1,3 @@
-// irc_params.cpp: implementation of the Circ_params class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "irc_params.h"
 
