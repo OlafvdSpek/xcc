@@ -256,6 +256,7 @@ string js_encode(const string& v)
 	{
 		switch (v[i])
 		{
+		case '\"':
 		case '\'':
 		case '\\':
 			r += '\\';
