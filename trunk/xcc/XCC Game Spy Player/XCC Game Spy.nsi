@@ -1,7 +1,7 @@
-!define VERSION "0.0.0"
+!define VERSION "0.0.1"
 
 Name "XCC Game Spy ${VERSION}"
-Outfile "XCC_Game Spy-${VERSION}.exe"
+Outfile "XCC_Game_Spy-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\XCC\Game Spy"
 InstallDirRegKey HKLM "Software\XCC\Game Spy" "InstallDir"
 Page directory
