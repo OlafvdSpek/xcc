@@ -57,6 +57,9 @@ function gsku2a(v)
 		return 'RG';
 	case 0xe:
 		return 'D2k';
+	case 0x10:
+	case 0x25:
+		return 'Nox';
 	case 0x12:
 		return 'TS';
 	case 0x15:
@@ -67,8 +70,6 @@ function gsku2a(v)
 		return 'EBFD';
 	case 0x21:
 		return 'RA2';
-	case 0x25:
-		return 'Nox';
 	case 0x29:
 		return 'RA2 YR';
 	}
@@ -84,14 +85,14 @@ function page_xwis_top()
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC WOL IRC Server</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table>');
 }
 
 function page_top(frozen)
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC Community Ladder', frozen ? ' (frozen)' : '', '</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table><hr>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table><hr>');
 }
 
 function page_bottom(date)
@@ -119,7 +120,16 @@ function page_search(lid)
 
 function page_ladders()
 {
-	document.write('<center><table><tr><td align=right>Tiberian Sun<td><a href="?lid=ts">Player</a><td><a href="?lid=ts_clan">Clan</a><tr><td align=right>Red Alert 2<td><a href="?lid=ra2">Player</a><td><a href="?lid=ra2_clan">Clan</a><tr><td align=right>Yuri\'s Revenge<td><a href="?lid=ra2_yr">Player</a><td><a href="?lid=ra2_yr_clan">Clan</a><tr><td align=center colspan=3><a href="ra2">Westwood Studios Style Ladder</a></table></center>');
+	document.write('<center><table>');
+	document.write('<tr><td align=right>Tiberian Dawn<td><td><td><td><a href="/td/online">Online</a>');
+	document.write('<tr><td align=right>Red Alert<td><td><td><td><a href="/ra/online">Online</a>');
+	document.write('<tr><td align=right>Tiberian Sun<td><a href="http://c.xwis.net/xcl/?lid=ts">Player</a><td><a href="http://c.xwis.net/xcl/?lid=ts_clan">Clan</a><td><a href="http://c.xwis.net/xwi/">Clan Manager</a><td><a href="/ts/online">Online</a>');
+	document.write('<tr><td align=right>Red Alert 2<td><a href="?lid=ra2">Player</a><td><a href="?lid=ra2_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/ra2/online">Online</a>');
+	document.write('<tr><td align=right>Yuri\'s Revenge<td><a href="?lid=ra2_yr">Player</a><td><a href="?lid=ra2_yr_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/yr/online">Online</a>');
+	document.write('<tr><td align=right>Renegade<td><td><td><td><a href="/rg/online">Online</a>');
+	document.write('<tr><td align=right>Nox<td><td><td><td><a href="/nox/online">Online</a>');
+	document.write('<tr><td align=center colspan=5><a href="ra2">Westwood Studios Style Ladder</a>');
+	document.write('</table></center>');
 }
 
 function get_country_name(i)
@@ -386,7 +396,7 @@ function tr6(gsku, a, b, c)
 
 function t6(v)
 {
-	document.write('<table><tr><th><th>Player<th>Clan');
+	document.write('<table><caption>Games</caption><tr><th><th>Player<th>Clan');
 	for (var i = 0; i + 4 <= v.length; i += 4)
 		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
 	document.write('</table><hr>');
@@ -402,7 +412,7 @@ function tr7(gsku, a, b, c)
 
 function t7(v)
 {
-	document.write('<table><tr><th><th>Player<th>Clan');
+	document.write('<table><caption>Players</caption><tr><th><th>Player<th>Clan');
 	for (var i = 0; i + 4 <= v.length; i += 4)
 		tr7(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
 	document.write('</table><hr>');
