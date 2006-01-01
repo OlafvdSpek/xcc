@@ -381,25 +381,10 @@ while ($data2 = mysql_fetch_array($query6)) {
 <tr>
 <td width="100%" height="35px"><font size="2">
 <?
-$Jahr = substr($data2[mtime],0,4);
-$Monat = substr ($data2[mtime],5,2);
-$Tag = substr ($data2[mtime],8,2);
-if($Monat == 1) { $month = "Jan"; }
-if($Monat == 2) { $month = "Feb"; }
-if($Monat == 3) { $month = "Mar"; }
-if($Monat == 4) { $month = "Apr"; }
-if($Monat == 5) { $month = "May"; }
-if($Monat == 6) { $month = "Jun"; }
-if($Monat == 7) { $month = "Jul"; }
-if($Monat == 8) { $month = "Aug"; }
-if($Monat == 9) { $month = "Sep"; }
-if($Monat == 10) { $month = "Oct"; }
-if($Monat == 11) { $month = "Nov"; }
-if($Monat == 12) { $month = "Dez"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
-echo "$month $Tag, $Jahr";
-?> - <?=$matchtext?> in game# <a href="?laddertype=1&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
+printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
+?>in game# <a href="?laddertype=1&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
 
 
@@ -575,25 +560,10 @@ while ($data2 = mysql_fetch_array($query7)) {
 <tr>
 <td width="100%" height="35px"><font size="2">
 <?
-$Jahr = substr($data2[mtime],0,4);
-$Monat = substr ($data2[mtime],5,2);
-$Tag = substr ($data2[mtime],8,2);
-if($Monat == 1) { $month = "Jan"; }
-if($Monat == 2) { $month = "Feb"; }
-if($Monat == 3) { $month = "Mar"; }
-if($Monat == 4) { $month = "Apr"; }
-if($Monat == 5) { $month = "May"; }
-if($Monat == 6) { $month = "Jun"; }
-if($Monat == 7) { $month = "Jul"; }
-if($Monat == 8) { $month = "Aug"; }
-if($Monat == 9) { $month = "Sep"; }
-if($Monat == 10) { $month = "Oct"; }
-if($Monat == 11) { $month = "Nov"; }
-if($Monat == 12) { $month = "Dez"; }
 $map = explode(".", $data2[scen]);
 $map = $map[0];
-echo "$month $Tag, $Jahr";
-?> - <?=$matchtext?> in game# <a href="?mode=showmatch&laddertype=1&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
+printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
+?>in game# <a href="?mode=showmatch&laddertype=1&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
 
 
