@@ -33,7 +33,7 @@
 		$where = sprintf(" where l.sid = %d", $sid);
 	else
 		$where = "";
-	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials using (sid)%s order by time desc%s", $where, $where ? "" : " limit 250"));
+	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by time desc%s", $where, $where ? "" : " limit 250"));
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
 	{
@@ -46,7 +46,7 @@
 		$results = db_query(sprintf("select ipa, count(*) c from xwi_logins l inner join xwi_players using (pid)%s group by ipa", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td>%s<td>%s", $result[c], long2ip($result[ipa]), gethostbyaddr(long2ip($result[ipa])));
+			printf("<tr><td align=right>%d<td>%s<td>%s", $result[c], long2ip($result[ipa]), ''); // gethostbyaddr(long2ip($result[ipa])));
 		echo("</table>");
 		$results = db_query(sprintf("select gsku, count(*) c from xwi_logins l inner join xwi_players using (pid) %s group by gsku", $where));
 		echo("<hr><table>");
