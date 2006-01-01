@@ -84,3 +84,6 @@
 	}
 	include('../bottom.php');
 ?>
+<center>
+	Made by Kanexxz and Stefor
+</center>
