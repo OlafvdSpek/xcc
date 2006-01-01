@@ -249,14 +249,14 @@
 		{
 			if ($gid)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
+					select t1.*, ifnull(t3.name, t1.scen) scen
 					from xcl_games t1 left join xcl_maps t3 on (t1.scen = t3.fname)
 					where t1.gid = %d
 					order by gid desc
 					", $gid));
 			else if ($recent_games)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
+					select t1.*, ifnull(t3.name, t1.scen) scen
 					from xcl_games t1 left join xcl_maps t3 on (t1.scen = t3.fname)
 					order by gid desc
 					limit 25
@@ -264,7 +264,7 @@
 			else if ($unfair_games)
 			{
 				$results = db_query("
-					select distinct t1.*, ifnull(t4.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
+					select distinct t1.*, ifnull(t4.name, t1.scen) scen
 					from bl inner join xcl_players using (name) inner join xcl_games_players t2 using (pid) inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
 					where t2.pid != t3.pid and not t3.cid and t3.pc < 0
 					order by gid desc
@@ -272,7 +272,7 @@
 				echo_games($results, 0, 0, true);
 				echo("document.write('<hr>');");
 				$results = db_query("
-					select distinct t1.*, ifnull(t4.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
+					select distinct t1.*, ifnull(t4.name, t1.scen) scen
 					from bl inner join xcl_players p using (name) inner join xcl_games_players t2 on p.pid = t2.pid inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
@@ -280,14 +280,14 @@
 			}
 			else if ($wash_games)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
+					select t1.*, ifnull(t3.name, t1.scen) scen
 					from xcl_games t1 left join xcl_maps t3 on (t1.scen = t3.fname)
 					where oosy
 					order by gid desc
 					"));
 			else
 			{
-				$results = db_query(sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where pid = %d", $cid ? $cid : $pid));
+				$results = db_query(sprintf("select xcl_players.* from xcl_players where pid = %d", $cid ? $cid : $pid));
 				if ($result = mysql_fetch_assoc($results))
 				{
 					echo("t15(new Array(");
@@ -299,8 +299,8 @@
 					echo("0));");
 				}
 				$results = db_query($cid
-					? sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime from xcl_games t1 inner join xcl_games_players t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where t2.cid = %d order by gid desc", $cid)
-					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime from xcl_games t1 inner join xcl_games_players t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $pid));
+					? sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from xcl_games t1 inner join xcl_games_players t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where t2.cid = %d order by gid desc", $cid)
+					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from xcl_games t1 inner join xcl_games_players t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $pid));
 			}
 			echo_games($results, $pid, $cid, $unfair_games);
 			if ($cid || $pid)
@@ -365,9 +365,9 @@
 				$cty = $_REQUEST['cty'] ? sprintf("and !(xcl_players.countries & %d)", $_REQUEST['cty']) : '';
 				$results = db_query($pname
 					? $lid
-					? sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and xcl_players.name like '%s' order by points desc, rank limit 250", $lid, AddSlashes($pname))
-					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.name like '%s' order by points desc, rank limit 250", AddSlashes($pname))
-					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points %s order by points desc, rank limit 250", $lid, $cty));
+					? sprintf("select * from xcl_players where lid = %d and name like '%s' order by points desc, rank limit 250", $lid, AddSlashes($pname))
+					: sprintf("select * from xcl_players where name like '%s' order by points desc, rank limit 250", AddSlashes($pname))
+					: sprintf("select * from xcl_players where lid = %d and points %s order by points desc, rank limit 250", $lid, $cty));
 				echo('t0(new Array(');
 				while ($result = mysql_fetch_assoc($results))
 					printf("%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,", $result['rank'], $result['lid'], $result['pid'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], $result['points_max'], $result['mtime'], $result['countries']);
