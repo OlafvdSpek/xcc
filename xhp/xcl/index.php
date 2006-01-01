@@ -1,6 +1,7 @@
 <?php
 	require("../xcc_common.php");
 
+	header('refresh: 300');
 	ob_start("ob_gzhandler");
 	db_connect();
 
@@ -191,28 +192,40 @@
 		}
 		$game = $games[-1];
 		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
+		$d = array();
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		while ($result = mysql_fetch_assoc($results))
-			printf("%d,%d,", $result['count'], $result['cty']);
+			$d[$result['cty']][$result['gsku']][$result['trny']] = $result['count'];
+		foreach($d as $cty => $d0)
+			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $cty, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$results = db_query("select lid, name, count from xcl_stats_games order by count desc");
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,'%s',", $result['count'], $result['lid'], $result['name']);
 		echo("0),new Array(");
-		$results = db_query("select scen, count from xcl_stats_maps order by count desc");
+		$d = array();
+		$results = db_query("select * from xcl_stats_maps order by count desc");
 		while ($result = mysql_fetch_assoc($results))
-			printf("%d,'%s',", $result['count'], js_encode($result['scen']));
+			$d[$result['scen']][$result['gsku']][$result['trny']] = $result['count'];
+		foreach($d as $scen => $d0)
+			printf("'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,", js_encode($scen), $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
+		$d = array();
 		$results = db_query("select * from xcl_stats_dura order by dura");
 		while ($result = mysql_fetch_assoc($results))
-			printf("%d,%d,", $result['count'], $result['dura']);
+			$d[$result['dura']][$result['gsku']][$result['trny']] = $result['count'];
+		foreach($d as $dura => $d0)
+			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $dura, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
+		$d = array();
 		$results = db_query("select * from xcl_stats_afps order by afps");
 		while ($result = mysql_fetch_assoc($results))
-			printf("%d,%d,", $result['count'], $result['afps']);
+			$d[$result['afps']][$result['gsku']][$result['trny']] = $result['count'];
+		foreach($d as $afps => $d0)
+			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $afps, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$games = array();
-		$results = db_query("select * from xcl_stats_time");
+		$results = db_query("select d, h, sum(c) c from xcl_stats_time group by d, h");
 		while ($result = mysql_fetch_assoc($results))
 			$games[$result['d']][$result['h']] = $result['c'];
 		foreach ($games as $d => $hours)
@@ -260,7 +273,7 @@
 				echo("document.write('<hr>');");
 				$results = db_query("
 					select distinct t1.*, ifnull(t4.name, t1.scen) scen, unix_timestamp(t1.mtime) mtime
-					from bl inner join xcl_players using (name) inner join xcl_games_players t2 using (pid) inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
+					from bl inner join xcl_players p using (name) inner join xcl_games_players t2 on p.pid = t2.pid inner join xcl_games t1 using (gid) inner join xcl_games_players t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
 					");
@@ -349,11 +362,12 @@
 			printf("page_search(%d);", $lid);
 			if ($lid || $pname)
 			{
+				$cty = $_REQUEST['cty'] ? sprintf("and !(xcl_players.countries & %d)", $_REQUEST['cty']) : '';
 				$results = db_query($pname
 					? $lid
 					? sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and xcl_players.name like '%s' order by points desc, rank limit 250", $lid, AddSlashes($pname))
 					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.name like '%s' order by points desc, rank limit 250", AddSlashes($pname))
-					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points order by points desc, rank limit 250", $lid));
+					: sprintf("select xcl_players.*, unix_timestamp(xcl_players.mtime) mtime from xcl_players where xcl_players.lid = %d and points %s order by points desc, rank limit 250", $lid, $cty));
 				echo('t0(new Array(');
 				while ($result = mysql_fetch_assoc($results))
 					printf("%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,", $result['rank'], $result['lid'], $result['pid'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], $result['points_max'], $result['mtime'], $result['countries']);
