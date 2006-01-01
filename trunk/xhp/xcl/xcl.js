@@ -40,6 +40,11 @@ function dura2a(v)
 	return r;
 }
 
+function eiz(v)
+{
+	return v ? v : '';
+}
+
 function gsku2a(v)
 {
 	switch (v)
@@ -85,14 +90,14 @@ function page_xwis_top()
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC WOL IRC Server</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table>');
 }
 
 function page_top(frozen)
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC Community Ladder', frozen ? ' (frozen)' : '', '</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table><hr>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table><hr>');
 }
 
 function page_bottom(date)
@@ -115,7 +120,30 @@ function page_bottom(date)
 
 function page_search(lid)
 {
-	document.write('<center><form><table><tr><td>Player:<input type=hidden name=lid value=', lid, '><td><input type=text name=pname size=9><td><input type=submit value="Search"></tr></table></form></center><hr>');
+	document.write('<center><form><table><tr>');
+	document.write('<td>Player:<input type=hidden name=lid value=', lid, '><td><input type=text name=pname size=9>');
+	if (lid)
+	{
+		document.write('<td>Countries:<select name=cty>');
+		document.write('<option value=0>All</option>');
+		document.write('<option value=992>Allied</option>');
+		document.write('<option value=543>Soviet</option>');
+		if (lid == 3 || lid == 4)
+			document.write('<option value=511>Yuri</option>');
+		document.write('<option value=1022>America</option>');
+		document.write('<option value=1021>Korea</option>');
+		document.write('<option value=1019>France</option>');
+		document.write('<option value=1015>Germany</option>');
+		document.write('<option value=1007>Great Britain</option>');
+		document.write('<option value=991>Libya</option>');
+		document.write('<option value=959>Iraq</option>');
+		document.write('<option value=895>Cuba</option>');
+		document.write('<option value=767>Russia</option>');
+		if (lid == 3 || lid == 4)
+			document.write('<option value=511>Yuri</option>');
+		document.write('</select>');
+	}
+	document.write('<td><input type=submit value="Search"></tr></table></form></center><hr>');
 }
 
 function page_ladders()
@@ -123,10 +151,10 @@ function page_ladders()
 	document.write('<center><table>');
 	document.write('<tr><td align=right>Tiberian Dawn<td><td><td><td><a href="/td/online">Online</a>');
 	document.write('<tr><td align=right>Red Alert<td><td><td><td><a href="/ra/online">Online</a>');
-	document.write('<tr><td align=right>Tiberian Sun<td><a href="http://c.xwis.net/xcl/?lid=ts">Player</a><td><a href="http://c.xwis.net/xcl/?lid=ts_clan">Clan</a><td><a href="http://c.xwis.net/xwi/">Clan Manager</a><td><a href="/ts/online">Online</a>');
+	document.write('<tr><td align=right>Tiberian Sun<td><a href="http://xwis.net/ts/xcl/?lid=ts">Player</a><td><a href="http://xwis.net/ts/xcl/?lid=ts_clan">Clan</a><td><a href="http://xwis.net/ts/xwi/">Clan Manager</a><td><a href="/ts/online">Online</a>');
 	document.write('<tr><td align=right>Red Alert 2<td><a href="?lid=ra2">Player</a><td><a href="?lid=ra2_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/ra2/online">Online</a>');
 	document.write('<tr><td align=right>Yuri\'s Revenge<td><a href="?lid=ra2_yr">Player</a><td><a href="?lid=ra2_yr_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/yr/online">Online</a>');
-	document.write('<tr><td align=right>Renegade<td><td><td><td><a href="/rg/online">Online</a>');
+	document.write('<tr><td align=right>Renegade<td><td><td><a href="/rg/xwi/">Clan Manager</a><td><a href="/rg/online">Online</a>');
 	document.write('<tr><td align=right>Nox<td><td><td><td><a href="/nox/online">Online</a>');
 	document.write('<tr><td align=center colspan=5><a href="ra2">Westwood Studios Style Ladder</a>');
 	document.write('</table></center>');
@@ -430,55 +458,71 @@ function p6(a6, a7, a8, a18, a9, a10, a11, a12)
 	t12(a12);
 }
 
-function tr8(count, cty)
+function tr8(cty, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
-	document.write('<tr><td align=right>', count, '<td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '">');
+	document.write('<tr><td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '">');
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
+	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
+	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 }
 
 function t8(v)
 {
-	document.write('<table><tr><th>Count<th>Country');
-	for (var i = 0; i + 2 <= v.length; i += 2)
-		tr8(v[i + 0], v[i + 1]);
+	document.write('<table><tr><th>Country<th colspan=4>TS<th colspan=4>RA2<th colspan=4>RA2 YR<th>Total<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>');
+	for (var i = 0; i + 10 <= v.length; i += 10)
+		tr8(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7], v[i + 8], v[i + 9]);
 	document.write('</table><hr>');
 }
 
-function tr9(count, scen)
+function tr9(scen, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
-	document.write('<tr><td align=right>', count, '<td>', scen);
+	document.write('<tr><td>', scen);
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
+	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
+	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 }
 
 function t9(v)
 {
-	document.write('<table><tr><th>Count<th>Scenario');
-	for (var i = 0; i + 2 <= v.length; i += 2)
-		tr9(v[i + 0], v[i + 1]);
-	document.write('</table><hr>');
+	document.write('<table><tr><th>Scenario<th colspan=4>TS<th colspan=4>RA2<th colspan=4>RA2 YR<th>Total<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>');
+	for (var i = 0; i + 10 <= v.length; i += 10)
+		tr9(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7], v[i + 8], v[i + 9]);
+	document.write('</table>');
 }
 
-function tr10(count, dura)
+function tr10(dura, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
-	document.write('<tr><td align=right>', count, '<td align=right>', dura ? (dura - 5) + ' - ' + (dura + 5) : '< 5');
+	document.write('<tr><td align=right>', dura ? (dura - 5) + ' - ' + (dura + 5) : '< 5');
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
+	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
+	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 }
 
 function t10(v)
 {
-	document.write('<table><tr><th>Count<th>Duration');
-	for (var i = 0; i + 2 <= v.length; i += 2)
-		tr10(v[i + 0], v[i + 1]);
+	document.write('<table><tr><th>Duration<th colspan=4>TS<th colspan=4>RA2<th colspan=4>RA2 YR<th>Total<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>');
+	for (var i = 0; i + 10 <= v.length; i += 10)
+		tr10(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7], v[i + 8], v[i + 9]);
 	document.write('</table><hr>');
 }
 
-function tr11(count, afps)
+function tr11(afps, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
-	document.write('<tr><td align=right>', count, '<td align=right>', afps);
+	document.write('<tr><td align=right>', afps);
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
+	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
+	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 }
 
 function t11(v)
 {
-	document.write('<table><tr><th>Count<th>Average FPS');
-	for (var i = 0; i + 2 <= v.length; i += 2)
-		tr11(v[i + 0], v[i + 1]);
+	document.write('<table><tr><th>Average FPS<th colspan=4>TS<th colspan=4>RA2<th colspan=4>RA2 YR<th>Total<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>');
+	for (var i = 0; i + 10 <= v.length; i += 10)
+		tr11(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7], v[i + 8], v[i + 9]);
 	document.write('</table><hr>');
 }
 
