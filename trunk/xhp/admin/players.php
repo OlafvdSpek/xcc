@@ -77,7 +77,7 @@
 		$name = $result[name];
 		$link = $_GET[link];
 		$reason = $_GET[reason];
-		$dura = $_GET[dura] ? $_GET[dura] : 4;
+		$dura = $_GET[dura] ? $_GET[dura] : 16;
 		if ($_GET['a'] == "bl_insert_submit" && $name && $reason)
 		{
 			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
@@ -189,6 +189,26 @@
 			echo('<hr>');
 			include('templates/edit_warning_insert_ipa.php');
 		}
+		break;
+	case 'washers':
+		$results = db_query("select pid, name, win_count, loss_count, points, count(*) c from xcl_games_players inner join xcl_players using (pid) where gid in (select gid from xcl_games where oosy) and points group by pid having c >= 4 order by c desc, points desc");
+		echo('<table>');
+		printf('<tr>');
+		printf('<th>Name');
+		printf('<th>Washes');
+		printf('<th>Wins');
+		printf('<th>Losses');
+		printf('<th>Points');
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr>');
+			printf('<td><a href="http://xwis.net/xcl/?pid=%d">%s</a>', $result['pid'], htmlspecialchars($result['name']));
+			printf('<td align=right>%d', $result['c']);
+			printf('<td align=right>%d', $result['win_count']);
+			printf('<td align=right>%d', $result['loss_count']);
+			printf('<td align=right>%d', $result['points']);
+		}
+		echo('</table>');
 		break;
 	default:
 		$cname = trim($_GET[cname]);
