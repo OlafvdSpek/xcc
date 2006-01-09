@@ -436,7 +436,7 @@ function tr6(gsku, a, b, c, d, e, f)
 function t6(v)
 {
 	document.write('<table>');
-	document.write('<tr><th>Country<th colspan=4>Games<th colspan=4>Players<th>Clans');
+	document.write('<tr><th>Game<th colspan=4>Games<th colspan=4>Players<th>Clans');
 	document.write('<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Clan');
 	for (var i = 0; i + 7 <= v.length; i += 7)
 		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6]);
