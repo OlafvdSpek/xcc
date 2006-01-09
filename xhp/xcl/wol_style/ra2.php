@@ -699,25 +699,6 @@ if($clansh != "") { $alink = "<a href=\"?mode=showclan&laddertype=1&id=$data3[ci
 <tr>
 <td width="20%"><font size="2">Planes Killed/Bought/Left:</b>
 <td width="80%"><font size="2"><font color="#D7D7D7"><?=$data3[plk]?>/<?=$data3[plb]?>/<?=$data3[pll]?></font>
-
-<tr>
-<td width="20%"><font size="2">IP:</b>
-<td width="80%"><font size="2"><font color="#D7D7D7">
-<?
-$ipdd = long2ip($data3[ipa]);
-$ip_crypt_1 = "";
-$ip_crypt_2 = "";
-$ip_crypt = explode(".", $ipdd);
-$count_cryptip_2 = strlen ($ip_crypt[3]);
-$count_cryptip_1 = strlen ($ip_crypt[2])-1;
-for($i = 0; $i < $count_cryptip_2; $i++) { $ip_crypt_2 .= "X"; }
-$ip_crypt_1x = substr($ip_crypt[2], 0,$count_cryptip_1);
-$ip_crypt_1 = $ip_crypt_1x."X";
-$ip_show = $ip_crypt[0].".".$ip_crypt[1].".".$ip_crypt_1.".".$ip_crypt_2;
-echo $ip_show;
-?></font>
-
-
 </table><br>
 <?
 }
