@@ -192,6 +192,22 @@
 		}
 		$game = $games[-1];
 		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
+		$games = array();
+		$results = db_query("select * from xcl_stats_clans order by count desc");
+		while ($result = mysql_fetch_assoc($results))
+		{
+			$games[$result['gsku']][$result['trny']] = $result['count'];
+			$games[$result['gsku']][-1] += $result['count'];
+			$games[-1][$result['trny']] += $result['count'];
+			$games[-1][-1] += $result['count'];
+		}
+		foreach ($games as $gsku => $game)
+		{
+			if ($gsku != -1)
+				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
+		}
+		$game = $games[-1];
+		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
 		$d = array();
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		while ($result = mysql_fetch_assoc($results))
