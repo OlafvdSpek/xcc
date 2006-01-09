@@ -126,21 +126,29 @@ function page_search(lid)
 	{
 		document.write('<td>Countries:<select name=cty>');
 		document.write('<option value=0>All</option>');
-		document.write('<option value=992>Allied</option>');
-		document.write('<option value=543>Soviet</option>');
-		if (lid == 3 || lid == 4)
-			document.write('<option value=511>Yuri</option>');
-		document.write('<option value=1022>America</option>');
-		document.write('<option value=1021>Korea</option>');
-		document.write('<option value=1019>France</option>');
-		document.write('<option value=1015>Germany</option>');
-		document.write('<option value=1007>Great Britain</option>');
-		document.write('<option value=991>Libya</option>');
-		document.write('<option value=959>Iraq</option>');
-		document.write('<option value=895>Cuba</option>');
-		document.write('<option value=767>Russia</option>');
-		if (lid == 3 || lid == 4)
-			document.write('<option value=511>Yuri</option>');
+		if (lid == 7 || lid == 8)
+		{
+			document.write('<option value=2>GDI</option>');
+			document.write('<option value=1>Nod</option>');
+		}
+		else
+		{
+			document.write('<option value=992>Allied</option>');
+			document.write('<option value=543>Soviet</option>');
+			if (lid == 3 || lid == 4)
+				document.write('<option value=511>Yuri</option>');
+			document.write('<option value=1022>America</option>');
+			document.write('<option value=1021>Korea</option>');
+			document.write('<option value=1019>France</option>');
+			document.write('<option value=1015>Germany</option>');
+			document.write('<option value=1007>Great Britain</option>');
+			document.write('<option value=991>Libya</option>');
+			document.write('<option value=959>Iraq</option>');
+			document.write('<option value=895>Cuba</option>');
+			document.write('<option value=767>Russia</option>');
+			if (lid == 3 || lid == 4)
+				document.write('<option value=511>Yuri</option>');
+		}
 		document.write('</select>');
 	}
 	document.write('<td><input type=submit value="Search"></tr></table></form></center><hr>');
