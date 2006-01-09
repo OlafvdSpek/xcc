@@ -422,51 +422,51 @@ function t5(v)
 	document.write('</table>');
 }
 
-function tr6(gsku, a, b, c)
+function tr6(gsku, a, b)
 {
 	document.write('<tr><td>');
 	if (gsku)
 		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', c);
+	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
 }
 
 function t6(v)
 {
 	document.write('<table><caption>Games</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 4 <= v.length; i += 4)
-		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
+	for (var i = 0; i + 3 <= v.length; i += 3)
+		tr6(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table><hr>');
 }
 
-function tr7(gsku, a, b, c)
+function tr7(gsku, a, b)
 {
 	document.write('<tr><td>');
 	if (gsku)
 		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', c);
+	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
 }
 
 function t7(v)
 {
 	document.write('<table><caption>Players</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 4 <= v.length; i += 4)
-		tr7(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
+	for (var i = 0; i + 3 <= v.length; i += 3)
+		tr7(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table><hr>');
 }
 
-function tr19(gsku, a, b, c)
+function tr19(gsku, a, b)
 {
 	document.write('<tr><td>');
 	if (gsku)
 		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', c);
+	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
 }
 
 function t19(v)
 {
 	document.write('<table><caption>Clans</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 4 <= v.length; i += 4)
-		tr7(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
+	for (var i = 0; i + 3 <= v.length; i += 3)
+		tr7(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table><hr>');
 }
 
