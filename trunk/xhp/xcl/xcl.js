@@ -456,7 +456,7 @@ function p6(a6, a8, a18, a9, a10, a11, a12)
 function tr8(cty, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
 	document.write('<tr><td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '">');
-	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2));
 	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
 	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
@@ -473,7 +473,7 @@ function t8(v)
 function tr9(scen, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
 	document.write('<tr><td>', scen);
-	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0) + eiz(count_ts_1) + eiz(count_ts_2));
+	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2));
 	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
 	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
 	document.write('<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2 + count_ra2_0 + count_ra2_1 + count_ra2_2 + count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
