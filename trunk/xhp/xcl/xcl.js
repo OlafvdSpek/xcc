@@ -454,10 +454,27 @@ function t7(v)
 	document.write('</table><hr>');
 }
 
-function p6(a6, a7, a8, a18, a9, a10, a11, a12)
+function tr19(gsku, a, b, c)
+{
+	document.write('<tr><td>');
+	if (gsku)
+		document.write(gsku2a(gsku));
+	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', c);
+}
+
+function t19(v)
+{
+	document.write('<table><caption>Clans</caption><tr><th><th>Player<th>Clan');
+	for (var i = 0; i + 4 <= v.length; i += 4)
+		tr7(v[i + 0], v[i + 1], v[i + 2], v[i + 3]);
+	document.write('</table><hr>');
+}
+
+function p6(a6, a7, a19, a8, a18, a9, a10, a11, a12)
 {
 	t6(a6);
 	t7(a7);
+	t19(a19);
 	t8(a8);
 	t18(a18);
 	t9(a9);
