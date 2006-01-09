@@ -80,7 +80,7 @@
 		$dura = $_GET[dura] ? $_GET[dura] : 16;
 		if ($_GET['a'] == "bl_insert_submit" && $name && $reason)
 		{
-			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
+			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp(), unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
 			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
 			$sids = array($sid);
 			while ($result = mysql_fetch_array($results))
