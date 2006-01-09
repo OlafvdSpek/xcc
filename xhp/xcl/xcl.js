@@ -422,59 +422,29 @@ function t5(v)
 	document.write('</table>');
 }
 
-function tr6(gsku, a, b)
+function tr6(gsku, a, b, c, d, e, f)
 {
 	document.write('<tr><td>');
 	if (gsku)
 		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
+	document.write('<td align=right>', 0, '<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
+	document.write('<td align=right>', 0, '<td align=right>', c, '<td align=right>', d, '<td align=right>', c + d);
+	document.write('<td align=right>', f);
 }
 
 function t6(v)
 {
-	document.write('<table><caption>Games</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 3 <= v.length; i += 3)
-		tr6(v[i + 0], v[i + 1], v[i + 2]);
+	document.write('<table>');
+	document.write('<tr><th>Country<th colspan=4>Games<th colspan=4>Players<th>Clans');
+	document.write('<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Clan');
+	for (var i = 0; i + 7 <= v.length; i += 7)
+		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6]);
 	document.write('</table><hr>');
 }
 
-function tr7(gsku, a, b)
-{
-	document.write('<tr><td>');
-	if (gsku)
-		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
-}
-
-function t7(v)
-{
-	document.write('<table><caption>Players</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 3 <= v.length; i += 3)
-		tr7(v[i + 0], v[i + 1], v[i + 2]);
-	document.write('</table><hr>');
-}
-
-function tr19(gsku, a, b)
-{
-	document.write('<tr><td>');
-	if (gsku)
-		document.write(gsku2a(gsku));
-	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
-}
-
-function t19(v)
-{
-	document.write('<table><caption>Clans</caption><tr><th><th>Player<th>Clan');
-	for (var i = 0; i + 3 <= v.length; i += 3)
-		tr7(v[i + 0], v[i + 1], v[i + 2]);
-	document.write('</table><hr>');
-}
-
-function p6(a6, a7, a19, a8, a18, a9, a10, a11, a12)
+function p6(a6, a8, a18, a9, a10, a11, a12)
 {
 	t6(a6);
-	t7(a7);
-	t19(a19);
 	t8(a8);
 	t18(a18);
 	t9(a9);
