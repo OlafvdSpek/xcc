@@ -636,7 +636,7 @@ function t14(v)
 {
 	document.write('<center><table><tr><th>Name');
 	for (var i = 0; i < v.length && v[i]; i++)
-		document.write('<tr><td>', v[i]);
+		document.write('<tr><td><a href="?pname=', v[i], '">', v[i], '</a>');
 	document.write('</table></center>');
 }
 
