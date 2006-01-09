@@ -42,11 +42,11 @@
 		return addcslashes($v, '\'');
 	}
 
-	$cid = isset($_GET['cid']) ? $_GET['cid'] : 0;
-	$lid = isset($_GET['lid']) ? a2lid($_GET['lid']) : 0;
-	$pid = isset($_GET['pid']) ? $_GET['pid'] : 0;
-	$pname = isset($_GET['pname']) ? $_GET['pname'] : "";
-	if (isset($_GET['js']))
+	$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
+	$lid = isset($_REQUEST['lid']) ? a2lid($_REQUEST['lid']) : 0;
+	$pid = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
+	$pname = isset($_REQUEST['pname']) ? $_REQUEST['pname'] : "";
+	if (isset($_REQUEST['js']))
 	{
 		$pnames = explode(",", $pname);
 		foreach ($pnames as $key => $pname)
@@ -56,7 +56,7 @@
 			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points']);
 		return;
 	}
-	else if (isset($_GET['pure']))
+	else if (isset($_REQUEST['pure']))
 	{
 		if ($cid)
 		{
@@ -69,7 +69,7 @@
 			if ($pid)
 				$results = db_query(sprintf("select * from xcl_players where pid = %d", $pid));
 			else if ($pname)
-				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_GET['pname'])));
+				$results = db_query(sprintf("select * from xcl_players where lid = %d and name = \"%s\"", $lid, AddSlashes($_REQUEST['pname'])));
 			else
 				$results = db_query(sprintf("select * from xcl_players where lid = %d and points", $lid));
 			while ($result = mysql_fetch_assoc($results))
@@ -123,7 +123,7 @@
 		echo("tr1h();");
 	}
 
-	if (isset($_GET['hof']))
+	if (isset($_REQUEST['hof']))
 	{
 		echo("t13a();");
 		echo_hof(1);
@@ -149,7 +149,7 @@
 			printf("0));");
 		}
 	}
-	else if (isset($_GET['hos']))
+	else if (isset($_REQUEST['hos']))
 	{
 		echo("t14(new Array(");
 		$results = db_query("select distinct xcl_players.name from xcl_players inner join bl using (name) order by xcl_players.name");
@@ -157,7 +157,7 @@
 			printf("'%s',", $result['name']);
 		echo("0));");
 	}
-	else if (isset($_GET['stats']))
+	else if (isset($_REQUEST['stats']))
 	{
 		$games = array();
 		$results = db_query("select * from xcl_stats_gsku");
@@ -224,13 +224,13 @@
 	}
 	else
 	{
-		$cid = isset($_GET['cid']) ? $_GET['cid'] : 0;
-		$gid = isset($_GET['gid']) ? $_GET['gid'] : 0;
-		$pid = isset($_GET['pid']) ? $_GET['pid'] : 0;
-		$pname = isset($_GET['pname']) ? trim($_GET['pname']) : "";
-		$recent_games = isset($_GET['recent_games']) ? $_GET['recent_games'] : 0;
-		$unfair_games = isset($_GET['unfair_games']) ? $_GET['unfair_games'] : 0;
-		$wash_games = isset($_GET['wash_games']) ? $_GET['wash_games'] : 0;
+		$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
+		$gid = isset($_REQUEST['gid']) ? $_REQUEST['gid'] : 0;
+		$pid = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
+		$pname = isset($_REQUEST['pname']) ? trim($_REQUEST['pname']) : "";
+		$recent_games = isset($_REQUEST['recent_games']);
+		$unfair_games = isset($_REQUEST['unfair_games']);
+		$wash_games = isset($_REQUEST['wash_games']) ? $_REQUEST['wash_games'] : 0;
 		if ($cid || $gid || $pid || $recent_games || $unfair_games || $wash_games)
 		{
 			if ($gid)
@@ -245,7 +245,7 @@
 					select t1.*, ifnull(t3.name, t1.scen) scen
 					from xcl_games t1 left join xcl_maps t3 on (t1.scen = t3.fname)
 					order by gid desc
-					limit 25
+					limit 100
 					"));
 			else if ($unfair_games)
 			{

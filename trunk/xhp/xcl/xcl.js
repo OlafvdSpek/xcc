@@ -90,14 +90,14 @@ function page_xwis_top()
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC WOL IRC Server</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?recent_games=">Recent</a> | <a href="?stats=">Stats</a></table>');
 }
 
 function page_top(frozen)
 {
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC Community Ladder', frozen ? ' (frozen)' : '', '</title>');
-	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?stats=">Stats</a></table><hr>');
+	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom><a href="?">Clans</a> | <a href="http://strike-team.net/forums/">Forum</a> | <a href="?">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="?hof=" title="Hall of Fame">HoF</a> | <a href="?hos=" title="Hall of Shame">HoS</a> | <a href="?">Home</a> | <a href="?recent_games=">Recent</a> | <a href="?stats=">Stats</a></table><hr>');
 }
 
 function page_bottom(date)
@@ -165,6 +165,7 @@ function page_ladders()
 	document.write('<tr><td align=right>Renegade<td><td><td><a href="/rg/xwi/">Clan Manager</a><td><a href="/rg/online">Online</a>');
 	document.write('<tr><td align=right>Nox<td><td><td><td><a href="/nox/online">Online</a>');
 	document.write('<tr><td align=center colspan=5><a href="ra2">Westwood Studios Style Ladder</a>');
+	document.write('<tr><td align=center colspan=5><a href="prev.php">Previous Month</a>');
 	document.write('</table></center>');
 }
 
