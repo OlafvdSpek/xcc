@@ -10,7 +10,7 @@
 	{
 		while ($result = mysql_fetch_array($results))
 		{
-			printf('<tr><td><a href="?pid=%d">%s</a><td>%s<td>%s<td><a href="logins.php?pid=%d">L</a><td><a href="/xcl/?pname=%s">P</a><td><a href="/xcl/?pname=%s">C</a><td align=right><a href="?sid=%d">%d</a><td>', $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
+			printf('<tr><td><a href="?pid=%d">%s</a><td>%s<td>%s<td><a href="logins.php?pid=%d">L</a><td><a href="http://xwis.net/xcl/?pname=%s">P</a><td><a href="http://xwis.net/xcl/?pname=%s">C</a><td align=right><a href="?sid=%d">%d</a><td>', $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
 			printf('<a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
 			printf('<td><a href="?a=rb_insert&pid=%d">-&gt;RB</a>', $result[pid]);
 			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
@@ -112,7 +112,7 @@
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 		{
-			printf('<tr><td align=right><a href="/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a><td>%s<td>%s',
+			printf('<tr><td align=right><a href="http://xwis.net/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a><td>%s<td>%s',
 				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid'], $result['name'], $result['cname']);
 		}
 		echo('</table>');
@@ -202,7 +202,7 @@
 		while ($result = mysql_fetch_array($results))
 		{
 			printf('<tr>');
-			printf('<td><a href="http://xwis.net/xcl/?pid=%d">%s</a>', $result['pid'], htmlspecialchars($result['name']));
+			printf('<td><a href="?pname=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);
