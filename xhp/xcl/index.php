@@ -160,54 +160,40 @@
 	else if (isset($_GET['stats']))
 	{
 		$games = array();
-		$results = db_query("select * from xcl_stats_gsku order by count desc");
+		$players = array();
+		$clans = array();
+		$results = db_query("select * from xcl_stats_gsku");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			$games[$result['gsku']][$result['trny']] = $result['count'];
-			$games[$result['gsku']][-1] += $result['count'];
-			$games[-1][$result['trny']] += $result['count'];
-			$games[-1][-1] += $result['count'];
+			$games[$result['gsku']][$result['trny']] = $result['games'];
+			$games[-1][$result['trny']] += $result['games'];
+			$players[$result['gsku']][$result['trny']] = $result['players'];
+			$players[-1][$result['trny']] += $result['players'];
+			$clans[$result['gsku']][$result['trny']] = $result['clans'];
+			$clans[-1][$result['trny']] += $result['clans'];
 		}
 		echo("p6(new Array(");
 		foreach ($games as $gsku => $game)
 		{
 			if ($gsku != -1)
-				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
+				printf("%d,%d,%d,", $gsku, $game[1], $game[2]);
 		}
 		$game = $games[-1];
-		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
-		$games = array();
-		$results = db_query("select * from xcl_stats_players order by count desc");
-		while ($result = mysql_fetch_assoc($results))
-		{
-			$games[$result['gsku']][$result['trny']] = $result['count'];
-			$games[$result['gsku']][-1] += $result['count'];
-			$games[-1][$result['trny']] += $result['count'];
-			$games[-1][-1] += $result['count'];
-		}
-		foreach ($games as $gsku => $game)
+		printf("0,%d,%d),new Array(", $game[1], $game[2]);
+		foreach ($players as $gsku => $player)
 		{
 			if ($gsku != -1)
-				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
+				printf("%d,%d,%d,", $gsku, $player[1], $player[2]);
 		}
-		$game = $games[-1];
-		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
-		$games = array();
-		$results = db_query("select * from xcl_stats_clans order by count desc");
-		while ($result = mysql_fetch_assoc($results))
-		{
-			$games[$result['gsku']][$result['trny']] = $result['count'];
-			$games[$result['gsku']][-1] += $result['count'];
-			$games[-1][$result['trny']] += $result['count'];
-			$games[-1][-1] += $result['count'];
-		}
-		foreach ($games as $gsku => $game)
+		$player = $players[-1];
+		printf("0,%d,%d),new Array(", $player[1], $player[2]);
+		foreach ($clans as $gsku => $clan)
 		{
 			if ($gsku != -1)
-				printf("%d,%d,%d,%d,", $gsku, $game[1], $game[2], $game[-1]);
+				printf("%d,%d,%d,", $gsku, $clan[1], $clan[2]);
 		}
-		$game = $games[-1];
-		printf("0,%d,%d,%d),new Array(", $game[1], $game[2], $game[-1]);
+		$clan = $clans[-1];
+		printf("0,%d,%d),new Array(", $clan[1], $clan[2]);
 		$d = array();
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		while ($result = mysql_fetch_assoc($results))
