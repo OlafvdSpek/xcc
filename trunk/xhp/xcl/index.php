@@ -160,40 +160,24 @@
 	else if (isset($_GET['stats']))
 	{
 		$games = array();
-		$players = array();
-		$clans = array();
 		$results = db_query("select * from xcl_stats_gsku");
 		while ($result = mysql_fetch_assoc($results))
 		{
-			$games[$result['gsku']][$result['trny']] = $result['games'];
-			$games[-1][$result['trny']] += $result['games'];
-			$players[$result['gsku']][$result['trny']] = $result['players'];
-			$players[-1][$result['trny']] += $result['players'];
-			$clans[$result['gsku']][$result['trny']] = $result['clans'];
-			$clans[-1][$result['trny']] += $result['clans'];
+			$games[$result['gsku']][$result['trny']]['games'] = $result['games'];
+			$games[-1][$result['trny']]['games'] += $result['games'];
+			$games[$result['gsku']][$result['trny']]['players'] = $result['players'];
+			$games[-1][$result['trny']]['players'] += $result['players'];
+			$games[$result['gsku']][$result['trny']]['clans'] = $result['clans'];
+			$games[-1][$result['trny']]['clans'] += $result['clans'];
 		}
 		echo("p6(new Array(");
 		foreach ($games as $gsku => $game)
 		{
 			if ($gsku != -1)
-				printf("%d,%d,%d,", $gsku, $game[1], $game[2]);
+				printf("%d,%d,%d,%d,%d,%d,%d,", $gsku, $game[1]['games'], $game[2]['games'], $game[1]['players'], $game[2]['players'], $game[1]['clans'], $game[2]['clans']);
 		}
 		$game = $games[-1];
-		printf("0,%d,%d),new Array(", $game[1], $game[2]);
-		foreach ($players as $gsku => $player)
-		{
-			if ($gsku != -1)
-				printf("%d,%d,%d,", $gsku, $player[1], $player[2]);
-		}
-		$player = $players[-1];
-		printf("0,%d,%d),new Array(", $player[1], $player[2]);
-		foreach ($clans as $gsku => $clan)
-		{
-			if ($gsku != -1)
-				printf("%d,%d,%d,", $gsku, $clan[1], $clan[2]);
-		}
-		$clan = $clans[-1];
-		printf("0,%d,%d),new Array(", $clan[1], $clan[2]);
+		printf("0,%d,%d,%d,%d,%d,%d),new Array(", $game[1]['games'], $game[2]['games'], $game[1]['players'], $game[2]['players'], $game[1]['clans'], $game[2]['clans']);
 		$d = array();
 		$results = db_query("select * from xcl_stats_countries order by count desc");
 		while ($result = mysql_fetch_assoc($results))
