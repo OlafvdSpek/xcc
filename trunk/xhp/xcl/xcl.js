@@ -243,6 +243,11 @@ function get_country_flag_url(i)
 	return country_flag_urls[i & 0xff];
 }
 
+function get_country_img(i)
+{
+	return '<img src="' + get_country_flag_url(i) + '" alt="' + get_country_name(i) + '" title="' + get_country_name(i) + '">';
+}
+
 function lid2a(v)
 {
 	names = new Array("", "ra2", "ra2 c", "yr", "yr c", "ebfd", "ebfd c", "ts", "ts clan");
@@ -257,17 +262,17 @@ function tr0(rank, lid, pid, name, wins, losses, points, points_max, date, count
 	document.write('<td align=right>', rank, '<td>');
 	if (lid & 1)
 	{
-		document.write('<img src="images/cooperat.png" alt="XCL Founder">');
+		document.write('<img src="images/cooperat.png" alt="XCL Founder" title="XCL Founder">');
 		if (points_max > 1500)
-			document.write(' <img src="images/stargen.png" alt="&gt; 1500p">');
+			document.write(' <img src="images/stargen.png" alt="&gt; 1500p" title="&gt; 1500p">');
 		else if (points_max > 1000)
-			document.write(' <img src="images/general.png"  alt="&gt; 1000p">');
+			document.write(' <img src="images/general.png" alt="&gt; 1000p" title="&gt; 1000p">');
 		else if (points_max > 500)
-			document.write(' <img src="images/briggenr.png" alt="&gt; 500p">');
+			document.write(' <img src="images/briggenr.png" alt="&gt; 500p" title="&gt; 500p">');
 		if (rank == 1)
-			document.write(' <img src="images/comchief.png" alt="#1">');
+			document.write(' <img src="images/comchief.png" alt="#1" title="#1">');
 		else if (rank && rank < 26)
-			document.write(' <img src="images/colonel.png" alt="< #26">');
+			document.write(' <img src="images/colonel.png" alt="< #26" title="< #26">');
 	}
 	document.write('<td><a href="?', (lid & 1 ? 'pid=' : 'cid='), pid, '">', name, '</a>');
 	document.write('<td align=right>', wins);
@@ -277,24 +282,23 @@ function tr0(rank, lid, pid, name, wins, losses, points, points_max, date, count
 	document.write('<td>', i2(date.getHours()), ':', i2(date.getMinutes()), ' ', i2(date.getDate()), '-', i2(date.getMonth() + 1), '-', date.getFullYear());
 	for (var i = 0; i < 10; i++)
 	{
+		document.write('<td>');
 		if (countries & 1 << i)
 		{
 			switch (lid)
 			{
 			case 5:
 			case 6:
-				document.write('<td><img src="', get_country_flag_url(0x100 | i), '" alt="', get_country_name(0x100 | i), '">');
+				document.write(get_country_img(0x100 | i));
 				break;
 			case 7:
 			case 8:
-				document.write('<td><img src="', get_country_flag_url(0x200 | i), '" alt="', get_country_name(0x200 | i), '">');
+				document.write(get_country_img(0x200 | i));
 				break;
 			default:
-				document.write('<td><img src="', get_country_flag_url(i), '" alt="', get_country_name(i), '">');
+				document.write(get_country_img(i));
 			}
 		}
-		else
-			document.write('<td>');
 	}
 }
 
@@ -333,7 +337,7 @@ function tr1b(rank, pid, name, wins, losses, points, crank, cid, cname, cwins, c
 	document.write('<a href="?pid=', pid, '" title="#', rank, ' ', wins, ' / ', losses, ' ', points, 'p">', name, '</a>');
 	if (cid != 0)
 		document.write('<td><a href="?cid=', cid, '" title="#', crank, ' ', cwins, ' / ', closses, ' ', cpoints, 'p">', cname, '</a>');
-	document.write('<td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '"><td>', cmp2a(cmp), '<td align=right>', pc2a(pc));
+	document.write('<td align=center>', get_country_img(cty), '<td>', cmp2a(cmp), '<td align=right>', pc2a(pc));
 }
 
 function tr1bv(v)
@@ -382,7 +386,7 @@ function t2(v)
 
 function tr3(count, cty)
 {
-	document.write('<tr><td align=right>', count, '<td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '">');
+	document.write('<tr><td align=right>', count, '<td align=center>', get_country_img(cty));
 }
 
 function t3(v)
@@ -436,7 +440,7 @@ function tr6(gsku, a, b, c, d, e, f)
 function t6(v)
 {
 	document.write('<table>');
-	document.write('<tr><th>Game<th colspan=4>Games<th colspan=4>Players<th>Clans');
+	document.write('<tr><th><th colspan=4>Games<th colspan=4>Players<th>Clans');
 	document.write('<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Clan');
 	for (var i = 0; i + 7 <= v.length; i += 7)
 		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6]);
@@ -456,7 +460,7 @@ function p6(a6, a8, a18, a9, a10, a11, a12)
 
 function tr8(cty, count_ts_0, count_ts_1, count_ts_2, count_ra2_0, count_ra2_1, count_ra2_2, count_ra2_yr_0, count_ra2_yr_1, count_ra2_yr_2)
 {
-	document.write('<tr><td align=center><img src="', get_country_flag_url(cty), '" alt="', get_country_name(cty), '">');
+	document.write('<tr><td align=center>', get_country_img(cty));
 	document.write('<td align=right>', eiz(count_ts_0), '<td align=right>', eiz(count_ts_1), '<td align=right>', eiz(count_ts_2), '<td align=right>', eiz(count_ts_0 + count_ts_1 + count_ts_2));
 	document.write('<td align=right>', eiz(count_ra2_0), '<td align=right>', eiz(count_ra2_1), '<td align=right>', eiz(count_ra2_2), '<td align=right>', eiz(count_ra2_0 + count_ra2_1 + count_ra2_2));
 	document.write('<td align=right>', eiz(count_ra2_yr_0), '<td align=right>', eiz(count_ra2_yr_1), '<td align=right>', eiz(count_ra2_yr_2), '<td align=right>', eiz(count_ra2_yr_0 + count_ra2_yr_1 + count_ra2_yr_2));
@@ -646,7 +650,7 @@ function t15(v)
 
 function tr16(name, topic, gsku)
 {
-	document.write('<tr><td>',  name, '<td>', topic, '<td>', gsku2a(gsku));
+	document.write('<tr><td>', name, '<td>', topic, '<td>', gsku2a(gsku));
 }
 
 function t16(v)
@@ -660,10 +664,10 @@ function t16(v)
 function tr17(rank, name, wins, losses, points, cname, channel, gsku)
 {
 	document.write('<tr>');
-	document.write('<td><a href="?pname=',  name, '">', name, '</a>');
+	document.write('<td><a href="?pname=', name, '">', name, '</a>');
 	document.write('<td>');
 	if (cname)
-		document.write('<a href="?pname=',  cname, '">', cname, '</a>');
+		document.write('<a href="?pname=', cname, '">', cname, '</a>');
 	if (wins || losses)
 		document.write('<td align=right>', rank, '<td align=right>', wins, '<td align=right>', losses, '<td align=right>', points);
 	else
