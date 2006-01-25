@@ -318,7 +318,7 @@
 					echo('0));');
 				}
 				$results = db_query($cid
-					? sprintf("select ifnull(m, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
+					? sprintf("select ifnull(m.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
 					: sprintf("select ifnull(m.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where not cid and pid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
 				if ($result = mysql_fetch_assoc($results))
 				{
