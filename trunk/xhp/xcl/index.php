@@ -1,5 +1,5 @@
 <?php
-	require("../xcc_common.php");
+	require('../xcc_common.php');
 
 	header('refresh: 300');
 	db_connect();
@@ -8,29 +8,29 @@
 	{
 		switch ($v)
 		{
-		case "1":
-		case "ra2":
+		case '1':
+		case 'ra2':
 			return 1;
-		case "2":
-		case "ra2_clan":
+		case '2':
+		case 'ra2_clan':
 			return 2;
-		case "3":
-		case "ra2_yr":
+		case '3':
+		case 'ra2_yr':
 			return 3;
-		case "4":
-		case "ra2_yr_clan":
+		case '4':
+		case 'ra2_yr_clan':
 			return 4;
-		case "5":
-		case "ebfd":
+		case '5':
+		case 'ebfd':
 			return 5;
-		case "6":
-		case "ebfd_clan":
+		case '6':
+		case 'ebfd_clan':
 			return 6;
-		case "7":
-		case "ts":
+		case '7':
+		case 'ts':
 			return 7;
-		case "8":
-		case "ts_clan":
+		case '8':
+		case 'ts_clan':
 			return 8;
 		}
 		return 0;
@@ -60,10 +60,10 @@
 	$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
 	$lid = isset($_REQUEST['lid']) ? a2lid($_REQUEST['lid']) : 0;
 	$pid = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
-	$pname = isset($_REQUEST['pname']) ? $_REQUEST['pname'] : "";
+	$pname = isset($_REQUEST['pname']) ? $_REQUEST['pname'] : '';
 	if (isset($_REQUEST['js']))
 	{
-		$pnames = explode(",", $pname);
+		$pnames = explode(',', $pname);
 		foreach ($pnames as $key => $pname)
 			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
 		$results = db_query(sprintf("select * from %s where name in (%s)", $tables['players'], implode(",", $pnames)));
