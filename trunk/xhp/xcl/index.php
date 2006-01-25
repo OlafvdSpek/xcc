@@ -2,7 +2,6 @@
 	require("../xcc_common.php");
 
 	header('refresh: 300');
-	ob_start("ob_gzhandler");
 	db_connect();
 
 	function a2lid($v)

@@ -2,7 +2,22 @@
 <link rel=stylesheet href="/egx.css">
 <script type="text/javascript" src="/xcl/xcl.js"></script>
 <title>XCC Clans</title>
-<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Clans<td align=right valign=bottom><a href="/xwi/">Clans</a> | <a href="http://xccu.sourceforge.net/cgi-bin/forum.cgi">Forum</a> | <a href="http://xwis.net:4005/">Online</a> | <a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | <a href="http://xccu.sourceforge.net/utilities/XGS.zip" title="XCC Game Spy">XGS</a> | <a href="/downloads/XWISB.zip" title="XCC WOL IRC Server Beeper">XWISB</a> | <a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br><a href="/xcl/?hof=" title="Hall of Fame">HoF</a> | <a href="/xcl/?hos=" title="Hall of Shame">HoS</a> | <a href="/xcl/?">Home</a> | <a href="/xcl/?stats=">Stats</a></table>
+<table width="100%">
+	<tr>
+		<td valign=bottom><p class=page_title>XCC Clans
+		<td align=right valign=bottom>
+			<a href="/xcl/">Clans</a> |
+			<a href="http://strike-team.net/forums/">Forum</a> |
+			<a href="/xcl/?">Online</a> |
+			<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> |
+			<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> |
+			<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>
+			<a href="/xcl/?hof=" title="Hall of Fame">HoF</a> |
+			<a href="/xcl/?hos=" title="Hall of Shame">HoS</a> |
+			<a href="/xcl/">Home</a> |
+			<a href="/xcl/?recent_games=">Recent</a> |
+			<a href="/xcl/?stats=">Stats</a>
+</table>
 <hr>
 <a href="?a=create">Create</a> |
 <a href="?">Home</a> |
