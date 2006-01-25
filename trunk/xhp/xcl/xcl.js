@@ -126,7 +126,12 @@ function page_top(frozen)
 
 function page_bottom(date)
 {
-	document.write('<hr><table width="100%"><tr><td valign=top><a href="http://communityteam.de/">Community Team</a> | <a href="http://dune2k.com/">FED2k</a> | <a href="http://strike-team.net/">Strike Team</a> | <a href="http://xccu.sourceforge.net/">XCC Home Page</a><td align=right valign=top>', date2a(date));
+	document.write('<hr><table width="100%"><tr><td valign=top>');
+	document.write('<a href="http://communityteam.de/">Community Team</a> | ');
+	document.write('<a href="http://dune2k.com/">FED2k</a> | ');
+	document.write('<a href="http://strike-team.net/">Strike Team</a> | ');
+	document.write('<a href="http://xccu.sourceforge.net/">XCC Home Page</a>');
+	document.write('<td align=right valign=top>', date2a(date));
 	document.write('<tr><td align=center colspan=3>');
 	document.write('<p><a href="https://www.paypal.com/xclick/business=st_xcl%40hotmail.com&amp;item_name=XCL+Fund&amp;image_url=http%3A//xccu.sourceforge.net/button.gif&amp;no_shipping=1&amp;no_note=1&amp;cs=1&amp;tax=0&amp;currency_code=GBP"><img src="https://www.paypal.com/images/x-click-but04.gif" alt="PayPal Donate"></a>');
 	document.write('<p>');
