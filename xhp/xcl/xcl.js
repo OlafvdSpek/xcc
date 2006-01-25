@@ -154,7 +154,7 @@ function page_search(lid)
 	document.write('<td><input type=submit value="Search"></tr></table></form></center><hr>');
 }
 
-function page_ladders()
+function page_ladders(frozen)
 {
 	document.write('<center><table>');
 	document.write('<tr><td align=right>Tiberian Dawn<td><td><td><td><a href="/td/online">Online</a>');
@@ -165,7 +165,10 @@ function page_ladders()
 	document.write('<tr><td align=right>Renegade<td><td><td><a href="/rg/xwi/">Clan Manager</a><td><a href="/rg/online">Online</a>');
 	document.write('<tr><td align=right>Nox<td><td><td><td><a href="/nox/online">Online</a>');
 	document.write('<tr><td align=center colspan=5><a href="ra2">Westwood Studios Style Ladder</a>');
-	document.write('<tr><td align=center colspan=5><a href="prev.php">Previous Month</a>');
+	if (frozen)
+		document.write('<tr><td align=center colspan=5><a href=".">Current Month</a>');
+	else
+		document.write('<tr><td align=center colspan=5><a href="prev.php">Previous Month</a>');
 	document.write('</table></center>');
 }
 
