@@ -45,7 +45,16 @@
 	(
 		'games' => 'xcl_games',
 		'games_players' => 'xcl_games_players',
+		'hof' => 'xcl_hof',
+		'maps' => 'xcl_maps',
 		'players' => 'xcl_players',
+		'stats_afps' => 'xcl_stats_afps',
+		'stats_countries' => 'xcl_stats_countries',
+		'stats_dura' => 'xcl_stats_dura',
+		'stats_games' => 'xcl_stats_games',
+		'stats_gsku' => 'xcl_stats_gsku',
+		'stats_maps' => 'xcl_stats_maps',
+		'stats_time' => 'xcl_stats_time',
 	);
 
 	$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
@@ -140,7 +149,7 @@
 		echo_hof(7);
 		echo_hof(8);
 		echo("t13c();");
-		$results = db_query("select * from xcl_hof order by date desc, lid, rank");
+		$results = db_query(sprintf("select * from %s order by date desc, lid, rank", $tables['hof']));
 		while ($result = mysql_fetch_assoc($results))
 			$v[$result['date']][$result['lid']][] = $result['name'];
 		foreach ($v as $date => $w)
@@ -167,7 +176,7 @@
 	else if (isset($_REQUEST['stats']))
 	{
 		$games = array();
-		$results = db_query("select * from xcl_stats_gsku");
+		$results = db_query(sprintf("select * from %s", $tables['stats_gsku']));
 		while ($result = mysql_fetch_assoc($results))
 		{
 			$games[$result['gsku']][$result['trny']]['games'] = $result['games'];
@@ -186,39 +195,39 @@
 		$game = $games[-1];
 		printf("0,%d,%d,%d,%d,%d,%d),new Array(", $game[1]['games'], $game[2]['games'], $game[1]['players'], $game[2]['players'], $game[1]['clans'], $game[2]['clans']);
 		$d = array();
-		$results = db_query("select * from xcl_stats_countries order by count desc");
+		$results = db_query(sprintf("select * from %s order by count desc", $tables['stats_countries']));
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['cty']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $cty => $d0)
 			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $cty, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
-		$results = db_query("select lid, name, count from xcl_stats_games order by count desc");
+		$results = db_query(sprintf("select lid, name, count from %s order by count desc", $tables['stats_games']));
 		while ($result = mysql_fetch_assoc($results))
 			printf("%d,%d,'%s',", $result['count'], $result['lid'], $result['name']);
 		echo("0),new Array(");
 		$d = array();
-		$results = db_query("select * from xcl_stats_maps order by count desc");
+		$results = db_query(sprintf("select * from %s order by count desc", $tables['stats_maps']));
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['scen']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $scen => $d0)
 			printf("'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,", js_encode($scen), $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$d = array();
-		$results = db_query("select * from xcl_stats_dura order by dura");
+		$results = db_query(sprintf("select * from %s order by dura", $tables['stats_dura']));
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['dura']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $dura => $d0)
 			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $dura, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$d = array();
-		$results = db_query("select * from xcl_stats_afps order by afps");
+		$results = db_query(sprintf("select * from %s order by afps", $tables['stats_afps']));
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['afps']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $afps => $d0)
 			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $afps, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$games = array();
-		$results = db_query("select d, h, sum(c) c from xcl_stats_time group by d, h");
+		$results = db_query(sprintf("select d, h, sum(c) c from %s group by d, h", $tables['stats_time']));
 		while ($result = mysql_fetch_assoc($results))
 			$games[$result['d']][$result['h']] = $result['c'];
 		foreach ($games as $d => $hours)
@@ -243,43 +252,43 @@
 			if ($gid)
 				$results = db_query(sprintf("
 					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join xcl_maps t3 on (t1.scen = t3.fname)
+					from %s t1 left join %s t3 on (t1.scen = t3.fname)
 					where t1.gid = %d
 					order by gid desc
-					", $tables['games'], $gid));
+					", $tables['games'], $tables['maps'], $gid));
 			else if ($recent_games)
 				$results = db_query(sprintf("
 					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join xcl_maps t3 on (t1.scen = t3.fname)
+					from %s t1 left join %s t3 on (t1.scen = t3.fname)
 					order by gid desc
 					limit 100
-					", $tables['games']));
+					", $tables['games'], $tables['maps']));
 			else if ($unfair_games)
 			{
 				$results = db_query(sprintf("
 					select distinct t1.*, ifnull(t4.name, t1.scen) scen
-					from bl inner join %s using (name) inner join %s t2 using (pid) inner join %s t1 using (gid) inner join %s t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
+					from bl inner join %s using (name) inner join %s t2 using (pid) inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 on (t1.scen = t4.fname)
 					where t2.pid != t3.pid and not t3.cid and t3.pc < 0
 					order by gid desc
 					limit 250
-					", $tables['players'], $tables['games_players'], $tables['games'], $tables['games_players']));
+					", $tables['players'], $tables['games_players'], $tables['games'], $tables['games_players'], $tables['maps']));
 				echo_games($results, 0, 0, true);
 				echo("document.write('<hr>');");
 				$results = db_query(sprintf("
 					select distinct t1.*, ifnull(t4.name, t1.scen) scen
-					from bl inner join %s p using (name) inner join %s t2 on p.pid = t2.pid inner join %s t1 using (gid) inner join %s t3 using (gid) left join xcl_maps t4 on (t1.scen = t4.fname)
+					from bl inner join %s p using (name) inner join %s t2 on p.pid = t2.pid inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 on (t1.scen = t4.fname)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
 					limit 100
-					", $tables['players'], $tables['games_players'], $tables['games'], $tables['games_players']));
+					", $tables['players'], $tables['games_players'], $tables['games'], $tables['games_players'], $tables['maps']));
 			}
 			else if ($wash_games)
 				$results = db_query(sprintf("
 					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join xcl_maps t3 on (t1.scen = t3.fname)
+					from %s t1 left join %s t3 on (t1.scen = t3.fname)
 					where oosy
 					order by gid desc
-					", $tables['games']));
+					", $tables['games'], $tables['maps']));
 			else
 			{
 				$results = db_query(sprintf("select * from %s where pid = %d", $tables['players'], $cid ? $cid : $pid));
@@ -294,8 +303,8 @@
 					echo("0));");
 				}
 				$results = db_query($cid
-					? sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where t2.cid = %d order by gid desc", $tables['games'], $tables['games_players'], $cid)
-					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join xcl_maps t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $tables['games'], $tables['games_players'], $pid));
+					? sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join %s t3 on (t1.scen = t3.fname) where t2.cid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
+					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join %s t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
 			}
 			echo_games($results, $pid, $cid, $unfair_games);
 			if ($cid || $pid)
@@ -324,8 +333,8 @@
 					echo('0));');
 				}
 				$results = db_query($cid
-					? sprintf("select ifnull(xcl_maps.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join xcl_maps on g.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $cid)
-					: sprintf("select ifnull(xcl_maps.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join xcl_maps on g.scen = xcl_maps.fname where not cid and pid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $pid));
+					? sprintf("select ifnull(m, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
+					: sprintf("select ifnull(m.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where not cid and pid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
 				if ($result = mysql_fetch_assoc($results))
 				{
 					echo('t4(new Array(');
