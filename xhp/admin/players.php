@@ -191,7 +191,7 @@
 		}
 		break;
 	case 'washers':
-		$results = db_query("select pid, name, win_count, loss_count, points, count(*) c from xcl_games_players inner join xcl_players using (pid) where gid in (select gid from xcl_games where oosy) and points group by pid having c >= 4 order by c desc, points desc");
+		$results = db_query("select pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players using (gid) inner join xcl_players using (pid) where oosy and points group by pid having c >= 4 order by c desc, points desc");
 		echo('<table>');
 		printf('<tr>');
 		printf('<th>Name');
