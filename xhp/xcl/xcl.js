@@ -156,12 +156,21 @@ function page_search(lid)
 
 function page_ladders(frozen)
 {
+	ts_prefix = '/ts/xcl/';
+	ra2_prefix = '/xcl/';
+	ra2_yr_prefix = '/xcl/';
+	if (frozen)
+	{
+		ts_prefix += 'prev.php';
+		ra2_prefix += 'prev.php';
+		ra2_yr_prefix += 'prev.php';
+	}
 	document.write('<center><table>');
 	document.write('<tr><td align=right>Tiberian Dawn<td><td><td><td><a href="/td/online">Online</a>');
 	document.write('<tr><td align=right>Red Alert<td><td><td><td><a href="/ra/online">Online</a>');
-	document.write('<tr><td align=right>Tiberian Sun<td><a href="http://xwis.net/ts/xcl/?lid=ts">Player</a><td><a href="http://xwis.net/ts/xcl/?lid=ts_clan">Clan</a><td><a href="http://xwis.net/ts/xwi/">Clan Manager</a><td><a href="/ts/online">Online</a>');
-	document.write('<tr><td align=right>Red Alert 2<td><a href="?lid=ra2">Player</a><td><a href="?lid=ra2_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/ra2/online">Online</a>');
-	document.write('<tr><td align=right>Yuri\'s Revenge<td><a href="?lid=ra2_yr">Player</a><td><a href="?lid=ra2_yr_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/yr/online">Online</a>');
+	document.write('<tr><td align=right>Tiberian Sun<td><a href="', ts_prefix, '?lid=ts">Player</a><td><a href="', ts_prefix, '?lid=ts_clan">Clan</a><td><a href="http://xwis.net/ts/xwi/">Clan Manager</a><td><a href="/ts/online">Online</a>');
+	document.write('<tr><td align=right>Red Alert 2<td><a href="', ra2_prefix, '?lid=ra2">Player</a><td><a href="', ra2_prefix, '?lid=ra2_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/ra2/online">Online</a>');
+	document.write('<tr><td align=right>Yuri\'s Revenge<td><a href="', ra2_yr_prefix, '?lid=ra2_yr">Player</a><td><a href="', ra2_yr_prefix, '?lid=ra2_yr_clan">Clan</a><td><a href="/xwi/">Clan Manager</a><td><a href="/yr/online">Online</a>');
 	document.write('<tr><td align=right>Renegade<td><td><td><a href="/rg/xwi/">Clan Manager</a><td><a href="/rg/online">Online</a>');
 	document.write('<tr><td align=right>Nox<td><td><td><td><a href="/nox/online">Online</a>');
 	document.write('<tr><td align=center colspan=5><a href="ra2">Westwood Studios Style Ladder</a>');
