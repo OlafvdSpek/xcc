@@ -217,31 +217,31 @@ function get_country_name(i)
 	case 0x100:
 		country_names = new Array
 		(
-			"Atreides",
-			"Harkonnen",
-			"Ordos"
+			'Atreides',
+			'Harkonnen',
+			'Ordos'
 		);
 		break;
 	case 0x200:
 		country_names = new Array
 		(
-			"GDI",
-			"Nod"
+			'GDI',
+			'Nod'
 		);
 		break;
 	default:
 		country_names = new Array
 		(
-			"America",
-			"Korea",
-			"France",
-			"Germany",
-			"Great Britain",
-			"Libya",
-			"Iraq",
-			"Cuba",
-			"Russia",
-			"Yuri"
+			'America',
+			'Korea',
+			'France',
+			'Germany',
+			'Great Britain',
+			'Libya',
+			'Iraq',
+			'Cuba',
+			'Russia',
+			'Yuri'
 		);
 	}
 	return country_names[i & 0xff];
@@ -254,31 +254,31 @@ function get_country_flag_url(i)
 	case 0x100:
 		country_flag_urls = new Array
 		(
-			"images/atreides.png",
-			"images/harkonnen.png",
-			"images/ordos.png"
+			'images/atreides.png',
+			'images/harkonnen.png',
+			'images/ordos.png'
 		);
 		break;
 	case 0x200:
 		country_flag_urls = new Array
 		(
-			"images/gdi.png",
-			"images/nod.png"
+			'images/gdi.png',
+			'images/nod.png'
 		);
 		break;
 	default:
 		country_flag_urls = new Array
 		(
-			"images/usai.png",
-			"images/japi.png",
-			"images/frai.png",
-			"images/geri.png",
-			"images/gbri.png",
-			"images/djbi.png",
-			"images/arbi.png",
-			"images/lati.png",
-			"images/rusi.png",
-			"images/yrii.png"
+			'images/usai.png',
+			'images/japi.png',
+			'images/frai.png',
+			'images/geri.png',
+			'images/gbri.png',
+			'images/djbi.png',
+			'images/arbi.png',
+			'images/lati.png',
+			'images/rusi.png',
+			'images/yrii.png'
 		);
 	}
 	return country_flag_urls[i & 0xff];
@@ -291,7 +291,7 @@ function get_country_img(i)
 
 function lid2a(v)
 {
-	names = new Array("", "ra2", "ra2 c", "yr", "yr c", "ebfd", "ebfd c", "ts", "ts clan");
+	names = new Array('', 'ra2', 'ra2 clan', 'yr', 'yr clan', 'ebfd', 'ebfd clan', 'ts', 'ts clan');
 	return names[v];
 }
 
