@@ -702,6 +702,7 @@ function tr16(name, topic, gsku)
 function t16(v)
 {
 	document.write('<hr><table align=center>');
+	document.write('<tr><th colspan=3 align=center>', (v.length - 1) / 3, ' games');
 	for (var i = 0; i + 3 <= v.length; i += 3)
 		tr16(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table>');
@@ -727,6 +728,7 @@ function tr17(rank, name, wins, losses, points, cname, channel, gsku)
 function t17(v)
 {
 	document.write('<hr><table align=center>');
+	document.write('<tr><th colspan=8 align=center>', (v.length - 1) / 8, ' players');
 	for (var i = 0; i + 8 <= v.length; i += 8)
 		tr17(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7]);
 	document.write('</table>');
