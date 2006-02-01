@@ -37,7 +37,7 @@
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
 	{
-		printf('<tr><td><a href="?pname=%s">%s<td><a href="players.php?pname=%s">P<td><a href="?ipa=%d">%s</a><td>%d<td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s",
+		printf('<tr><td><a href="?pname=%s">%s<td><a href="players.php?pname=%s">P<td><a href="?ipa=%d">%s</a><td>%d<td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s',
 			$result[name], $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
 	}
 	echo("</table>");
