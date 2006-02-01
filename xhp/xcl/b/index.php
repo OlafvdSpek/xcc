@@ -175,10 +175,10 @@
 		foreach ($games as $gsku => $game)
 		{
 			if ($gsku != -1)
-				printf("%d,%d,%d,%d,%d,%d,%d,", $gsku, $game[1]['games'], $game[2]['games'], $game[1]['players'], $game[2]['players'], $game[1]['clans'], $game[2]['clans']);
+				printf("%d,%d,%d,%d,%d,%d,%d,%d,", $gsku, $game[0]['games'], $game[1]['games'], $game[2]['games'], $game[0]['players'], $game[1]['players'], $game[2]['players'], $game[2]['clans']);
 		}
 		$game = $games[-1];
-		printf("0,%d,%d,%d,%d,%d,%d),new Array(", $game[1]['games'], $game[2]['games'], $game[1]['players'], $game[2]['players'], $game[1]['clans'], $game[2]['clans']);
+		printf("0,%d,%d,%d,%d,%d,%d,%d),new Array(", $game[0]['games'], $game[1]['games'], $game[2]['games'], $game[0]['players'], $game[1]['players'], $game[2]['players'], $game[2]['clans']);
 		$d = array();
 		$results = db_query(sprintf("select * from %s order by count desc", $tables['stats_countries']));
 		while ($result = mysql_fetch_assoc($results))
