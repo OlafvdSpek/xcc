@@ -85,7 +85,7 @@
 			$sids = array($sid);
 			while ($result = mysql_fetch_array($results))
 				$sids[] = $result[sid];
-			db_query(sprintf("update xwi_serials set wtime = from_days(to_days(now()) + %d) where sid in (%s)", $dura, addslashes(implode(",", $sids))));
+			db_query(sprintf("update xwi_serials set wtime = unix_timestamp() + %d where sid in (%s)", 24 * 60 * 60 * $dura, addslashes(implode(",", $sids))));
 		}
 		require('templates/bl_insert.php');
 		echo('<hr>');
