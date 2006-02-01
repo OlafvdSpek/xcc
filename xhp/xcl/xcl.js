@@ -291,7 +291,12 @@ function get_country_img(i)
 
 function lid2a(v)
 {
-	names = new Array('', 'ra2', 'ra2 clan', 'yr', 'yr clan', 'ebfd', 'ebfd clan', 'ts', 'ts clan');
+	names = new Array
+	(
+		'', 'ra2', 'ra2 clan', 'yr', 'yr clan', 'ebfd', 'ebfd clan', 'ts', 'ts clan',
+		'', '', '', '', '', '', '', '',
+		'', 'ra2 free', '', 'yr free', '', '', '', 'ts free', ''
+	);
 	return names[v];
 }
 
@@ -468,14 +473,14 @@ function t5(v)
 	document.write('</table>');
 }
 
-function tr6(gsku, a, b, c, d, e, f)
+function tr6(gsku, a, b, c, d, e, f, g)
 {
 	document.write('<tr><td>');
 	if (gsku)
 		document.write(gsku2a(gsku));
-	document.write('<td align=right>', 0, '<td align=right>', a, '<td align=right>', b, '<td align=right>', a + b);
-	document.write('<td align=right>', 0, '<td align=right>', c, '<td align=right>', d, '<td align=right>', c + d);
-	document.write('<td align=right>', f);
+	document.write('<td align=right>', a, '<td align=right>', b, '<td align=right>', c, '<td align=right>', a + b + c);
+	document.write('<td align=right>', d, '<td align=right>', e, '<td align=right>', f, '<td align=right>', d + e + f);
+	document.write('<td align=right>', g);
 }
 
 function t6(v)
@@ -483,8 +488,8 @@ function t6(v)
 	document.write('<table>');
 	document.write('<tr><th><th colspan=4>Games<th colspan=4>Players<th>Clans');
 	document.write('<tr><th><th>Free<th>Player<th>Clan<th>Total<th>Free<th>Player<th>Clan<th>Total<th>Clan');
-	for (var i = 0; i + 7 <= v.length; i += 7)
-		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6]);
+	for (var i = 0; i + 8 <= v.length; i += 8)
+		tr6(v[i + 0], v[i + 1], v[i + 2], v[i + 3], v[i + 4], v[i + 5], v[i + 6], v[i + 7]);
 	document.write('</table><hr>');
 }
 
