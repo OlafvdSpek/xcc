@@ -61,12 +61,12 @@
 	}
 
 	include('templates/top.php');
-	require("../xcc_common.php");
+	require('../xcc_common.php');
 
 	db_connect();
 
-	$name = trim($_POST['name']);
-	$pass = trim($_POST['pass']);
+	$name = trim($_REQUEST['name']);
+	$pass = trim($_REQUEST['pass']);
 
 	switch ($_REQUEST['a'])
 	{
@@ -77,10 +77,10 @@
 			{
 				if ($clan = mysql_fetch_array(db_query(sprintf("select * from xwi_clans where cid = %d and pass = md5('%s')", $cid, addslashes($pass)))))
 				{
-					$icq = trim($_POST['icq']);
-					$mail = trim($_POST['mail']);
-					$msn = trim($_POST['msn']);
-					$site = trim($_POST['site']);
+					$icq = trim($_REQUEST['icq']);
+					$mail = trim($_REQUEST['mail']);
+					$msn = trim($_REQUEST['msn']);
+					$site = trim($_REQUEST['site']);
 					db_query(sprintf("update xwi_clans set icq = %d, mail = '%s', msn = '%s', site = '%s', mtime = unix_timestamp() where cid = %d", $icq, addslashes($mail), addslashes($msn), addslashes($site), $clan['cid']));
 				}
 				else
@@ -92,12 +92,12 @@
 		break;
 	case "create":
 		{
-			$cabbrev = trim($_POST['cabbrev']);
-			$cname = trim($_POST['cname']);
-			$icq = trim($_POST['icq']);
-			$mail = trim($_POST['mail']);
-			$msn = trim($_POST['msn']);
-			$site = trim($_POST['site']);
+			$cabbrev = trim($_REQUEST['cabbrev']);
+			$cname = trim($_REQUEST['cname']);
+			$icq = trim($_REQUEST['icq']);
+			$mail = trim($_REQUEST['mail']);
+			$msn = trim($_REQUEST['msn']);
+			$site = trim($_REQUEST['site']);
 			if (!$site)
 				$site = "http://";
 			if ($name || $pass || $cname)
@@ -213,7 +213,7 @@
 		break;
 	case "join":
 		{
-			$cpass = trim($_POST['cpass']);
+			$cpass = trim($_REQUEST['cpass']);
 			if ($name || $pass || $cpass)
 			{
 				if (get_player($name))
@@ -286,8 +286,8 @@
 		}
 		break;
 	case 'reset_pass':
-		$cname = trim($_POST['cname']);
-		$mail = trim($_POST['mail']);
+		$cname = trim($_REQUEST['cname']);
+		$mail = trim($_REQUEST['mail']);
 		$pass = trim($_REQUEST['pass']);
 		if ($pass)
 		{
@@ -387,16 +387,7 @@
 		}
 		else
 		{
-			?>
-			<table>
-				<form action="?" method=get>
-					<tr>
-						<td><input type=text name=text>
-						<td><input type=submit value="Search">
-				</form>
-			</table>
-			<hr>
-			<?php
+			include('templates/search.php');
 			$text = $_REQUEST['text'];
 			if ($text)
 				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by name", addslashes($text), addslashes($text)));
