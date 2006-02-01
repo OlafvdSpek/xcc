@@ -3,7 +3,7 @@
 
 	function select_players($where)
 	{
-		return db_query(sprintf("select p.sid, p.pid, p.pass, p.name as pname, p.flags, c.name as cname, motd, unix_timestamp(p.mtime) as mtime, unix_timestamp(p.ctime) as ctime from xwi_serials s inner join xwi_players p using (sid) left join xwi_clans c using (cid)%s order by p.name", $where));
+		return db_query(sprintf("select p.sid, p.pid, p.pass, p.name as pname, p.flags, c.name as cname, motd, p.mtime, p.ctime from xwi_serials s inner join xwi_players p using (sid) left join xwi_clans c using (cid)%s order by p.name", $where));
 	}
 
 	function echo_players($results)
@@ -36,7 +36,7 @@
 	echo('<hr>');
 	require('templates/search.php');
 	echo('<hr>');
-	$pname = trim($_GET[pname]);
+	$pname = trim($_REQUEST[pname]);
 	switch ($_REQUEST['a'])
 	{
 	case 'chat':
@@ -51,15 +51,15 @@
 		break;
 	case 'motd':
 	case 'motd_submit':
-		$pid = $_GET[pid];
+		$pid = $_REQUEST[pid];
 		$results = db_query(sprintf("select p.*, s.motd from xwi_players p inner join xwi_serials s using (sid) where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
 		$name = $result[name];
 		$sid = $result['sid'];
 
-		if ($_GET['a'] == "motd_submit" && name)
+		if ($_REQUEST['a'] == "motd_submit" && name)
 		{
-			$motd = $_GET[motd];
+			$motd = $_REQUEST[motd];
 			db_query(sprintf("update xwi_logins l inner join xwi_serials s using (sid) set s.motd = '%s' where l.pid = %d", addslashes($motd), $pid));
 			db_query(sprintf("update xwi_serials set motd = '%s' where sid = %d", addslashes($motd), $sid));
 			echo("<b>Updated!</b><hr>");
@@ -70,15 +70,15 @@
 		break;
 	case 'bl_insert':
 	case 'bl_insert_submit':
-		$pid = $_GET[pid];
+		$pid = $_REQUEST[pid];
 		$results = db_query(sprintf("select * from xwi_players where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
 		$sid = $result[sid];
 		$name = $result[name];
-		$link = $_GET[link];
-		$reason = $_GET[reason];
-		$dura = $_GET[dura] ? $_GET[dura] : 16;
-		if ($_GET['a'] == "bl_insert_submit" && $name && $reason)
+		$link = $_REQUEST[link];
+		$reason = $_REQUEST[reason];
+		$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
+		if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 		{
 			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp(), unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
 			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
@@ -94,7 +94,7 @@
 		echo('</table>');
 		break;
 	case 'rb_insert':
-		$pid = $_GET[pid];
+		$pid = $_REQUEST[pid];
 		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
 		echo('<table>');
 		echo_players(select_players(sprintf(" where pid = %d", $pid)));
@@ -211,15 +211,15 @@
 		echo('</table>');
 		break;
 	default:
-		$cname = trim($_GET[cname]);
-		$pid = $_GET[pid];
-		$sid = $_GET[sid];
+		$cname = trim($_REQUEST[cname]);
+		$pid = $_REQUEST[pid];
+		$sid = $_REQUEST[sid];
 		if (is_numeric($pname))
 		{
 			$sid = $pname;
 			unset($pname);
 		}
-		if ($_GET['a'] == "motds")
+		if ($_REQUEST['a'] == "motds")
 			$where = " where motd != ''";
 		else if ($cname)
 			$where = sprintf(" where c.name like '%s'", addslashes($cname));
@@ -230,13 +230,13 @@
 		else if ($sid)
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
-			$where = " where ~flags & 2 and wtime > now()";
+			$where = " where ~flags & 2 and wtime > unix_timestamp()";
 		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th><th><th align=right>SID<th><th><th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
 		echo('</table>');
 		if ($sid)
 		{
-			$results = db_query(sprintf("select *, unix_timestamp(ctime) ctime, unix_timestamp(mtime) mtime, unix_timestamp(wtime) wtime from xwi_serials where sid = %d", $sid));
+			$results = db_query(sprintf("select * from xwi_serials where sid = %d", $sid));
 			if ($result = mysql_fetch_array($results))
 			{
 				echo("<br><table><tr><th align=right>SID<th align=right>GSKU<th align=right>Valid<th align=left>Wtime<th align=left>Mtime<th align=left>Ctime");
@@ -247,7 +247,7 @@
 				while ($result = mysql_fetch_array($results));
 				echo('</table>');
 			}
-			$results = db_query(sprintf("select *, unix_timestamp(xbl.mtime) mtime from xbl where sid = %d", $sid));
+			$results = db_query(sprintf("select * from xbl where sid = %d", $sid));
 			if ($result = mysql_fetch_array($results))
 			{
 				echo("<br><table>");
