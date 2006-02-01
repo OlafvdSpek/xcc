@@ -295,7 +295,7 @@ function lid2a(v)
 	(
 		'', 'ra2', 'ra2 clan', 'yr', 'yr clan', 'ebfd', 'ebfd clan', 'ts',
 		'ts clan', '', '', '', '', '', '', '',
-		'', 'ra2 free', '', 'yr free', '', '', '', 'ts free'
+		'', 'ra2 non-tournament', '', 'yr non-tournament', '', '', '', 'ts non-tournament'
 	);
 	return names[v];
 }
