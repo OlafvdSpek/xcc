@@ -6,10 +6,10 @@
 	echo('<hr>');
 	require('templates/search.php');
 	echo('<hr>');
-	$ipa = $_GET[ipa];
-	$pid = $_GET[pid];
-	$pname = trim($_GET[pname]);
-	$sid = $_GET[sid];
+	$ipa = $_REQUEST[ipa];
+	$pid = $_REQUEST[pid];
+	$pname = trim($_REQUEST[pname]);
+	$sid = $_REQUEST[sid];
 	if (strlen($pname) && ip2long($pname) != -1)
 		$ipa = ip2long($pname);
 	if ($ipa)
@@ -28,7 +28,7 @@
 	else if ($pid)
 		$where = sprintf(" where l.pid = %d", $pid);
 	else if ($pname)
-		$where = sprintf(" where name like \"%s\"", AddSlashes($pname));
+		$where = sprintf(" where name like '%s'", AddSlashes($pname));
 	else if ($sid)
 		$where = sprintf(" where l.sid = %d", $sid);
 	else
@@ -37,7 +37,7 @@
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
 	{
-		printf("<tr><td><a href=\"?pname=%s\">%s<td><a href=\"players.php?pname=%s\">P<td><a href=\"?ipa=%d\">%s</a><td>%d<td align=right>%x<td align=right><a href=\"?sid=%d\">%d</a><td>%s",
+		printf('<tr><td><a href="?pname=%s">%s<td><a href="players.php?pname=%s">P<td><a href="?ipa=%d">%s</a><td>%d<td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s",
 			$result[name], $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
 	}
 	echo("</table>");
@@ -53,10 +53,10 @@
 		while ($result = mysql_fetch_array($results))
 			printf("<tr><td align=right>%d<td align=right>%x", $result[c], $result[gsku]);
 		echo("</table>");
-		$results = db_query(sprintf("select xwi_serials.*, unix_timestamp(xwi_serials.mtime) as mtime, unix_timestamp(xwi_serials.wtime) as wtime, count(*) c from xwi_serials inner join xwi_logins l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
+		$results = db_query(sprintf("select xwi_serials.*, count(*) c from xwi_serials inner join xwi_logins l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td align=right><a href=\"?sid=%d\">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s", $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
+			printf('<tr><td align=right>%d<td align=right><a href="?sid=%d">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s', $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
 		echo("</table>");
 	}
 	echo('<hr>');
