@@ -37,6 +37,7 @@
 	require('templates/search.php');
 	echo('<hr>');
 	$pname = trim($_REQUEST[pname]);
+	$remote_user = $_SERVER['REMOTE_USER'];
 	switch ($_REQUEST['a'])
 	{
 	case 'chat':
@@ -71,21 +72,26 @@
 	case 'bl_insert':
 	case 'bl_insert_submit':
 		$pid = $_REQUEST[pid];
-		$results = db_query(sprintf("select * from xwi_players where pid = %d", $pid));
-		$result = mysql_fetch_array($results);
-		$sid = $result[sid];
-		$name = $result[name];
-		$link = $_REQUEST[link];
-		$reason = $_REQUEST[reason];
-		$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
-		if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
+		if ($result = mysql_fetch_array(db_query(sprintf("select * from xwi_players where pid = %d", $pid))))
 		{
-			db_query(sprintf("insert into xbl (admin, sid, name, link, reason, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', unix_timestamp(), unix_timestamp())", addslashes($_SERVER['REMOTE_USER']), $sid, $name, addslashes($link), addslashes($reason)));
-			$results = db_query(sprintf("select distinct l.sid from xwi_logins l inner join xwi_players using (pid) where name = '%s'", addslashes($name)));
-			$sids = array($sid);
-			while ($result = mysql_fetch_array($results))
-				$sids[] = $result[sid];
-			db_query(sprintf("update xwi_serials set wtime = unix_timestamp() + %d where sid in (%s)", 24 * 60 * 60 * $dura, addslashes(implode(",", $sids))));
+			$sid = $result[sid];
+			$name = $result[name];
+			$link = $_REQUEST[link];
+			$reason = $_REQUEST[reason];
+			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
+			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
+			{
+				db_query(sprintf("insert into xbl (admin, sid, name, link, reason, duration, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
+					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), $dura));
+				$wid = mysql_insert_id();
+				db_query(sprintf("insert ignore into xbl_serials (wid, sid, creator, ctime) select %d, sid, 'xwis', unix_timestamp() from xwi_logins where pid = %d",
+					$wid, $pid));
+				$results = db_query(sprintf("select distinct sid from xwi_logins where pid = '%d'", $pid));
+				$sids = array($sid);
+				while ($result = mysql_fetch_array($results))
+					$sids[] = $result[sid];
+				// db_query(sprintf("update xwi_serials set wtime = unix_timestamp() + %d where sid in (%s)", 24 * 60 * 60 * $dura, addslashes(implode(",", $sids))));
+			}
 		}
 		require('templates/bl_insert.php');
 		echo('<hr>');
@@ -157,17 +163,35 @@
 		break;
 	case 'edit_warning_delete_ipa_submit':
 	case 'edit_warning_insert_ipa_submit':
+	case 'edit_warning_delete_serial_submit':
+	case 'edit_warning_insert_serial_submit':
 	case 'show_warning':
 		$wid = $_REQUEST['wid'];
 		$results = db_query(sprintf("select * from xbl where wid = %d", $wid));
 		if ($row = mysql_fetch_array($results))
 		{
-			if ($_REQUEST['a'] == 'edit_warning_delete_ipa_submit')
-				db_query(sprintf("delete from xbl_ipas where ipa = %d and wid = %d", $_REQUEST['ipa'], $wid));
-			else if ($_REQUEST['a'] == 'edit_warning_insert_ipa_submit')
-				db_query(sprintf("insert into xbl_ipas (wid, ipa, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, ip2long($_REQUEST['ipa']), addslashes($_SERVER['REMOTE_USER'])));
+			$ipa = $_REQUEST['ipa'];
+			$sid = 0 + $_REQUEST['sid'];
+			switch ($_REQUEST['a'])
+			{
+			case 'edit_warning_delete_ipa_submit':
+				db_query(sprintf("delete from xbl_ipas where ipa = %d and wid = %d", $ipa, $wid));
+				break;
+			case 'edit_warning_insert_ipa_submit':
+				if ($ipa)
+					db_query(sprintf("insert ignore into xbl_ipas (wid, ipa, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, ip2long($ipa), addslashes($remote_user)));
+				break;
+			case 'edit_warning_delete_serial_submit':
+				db_query(sprintf("delete from xbl_serials where sid = %d and wid = %d", $sid, $wid));
+				break;
+			case 'edit_warning_insert_serial_submit':
+				if ($sid)
+					db_query(sprintf("insert ignore into xbl_serials (wid, sid, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, $sid, addslashes($remote_user)));
+				break;
+			}
 			$creator = $row['admin'];
 			$ctime = gmdate("H:i d-m-Y", $row['ctime']);
+			$duration = $row['duration'];
 			$link = htmlspecialchars($row['link']);
 			$mtime = gmdate("H:i d-m-Y", $row['mtime']);
 			$name = htmlspecialchars($row['name']);
@@ -188,6 +212,20 @@
 			echo('</table>');
 			echo('<hr>');
 			include('templates/edit_warning_insert_ipa.php');
+			echo('<hr>');
+			echo('<table>');
+			$results = db_query(sprintf("select * from xbl_serials where wid = %d", $wid));
+			while ($row = mysql_fetch_array($results))
+			{
+				echo('<tr>');
+				printf('<td align=right><a href="?sid=%d">%d</a>', $row['sid'], $row['sid']);
+				printf('<td>%s', $row['creator']);
+				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
+				printf('<td><a href="?a=edit_warning_delete_serial_submit&amp;sid=%d&amp;wid=%d">delete</a>', $row['sid'], $wid);
+			}
+			echo('</table>');
+			echo('<hr>');
+			include('templates/edit_warning_insert_serial.php');
 		}
 		break;
 	case 'washers':
