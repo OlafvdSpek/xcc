@@ -23,7 +23,7 @@
 
 	function get_clan($cid)
 	{
-		return mysql_fetch_array(db_query(sprintf("select * from xwi_clans where cid = %d", $cid)));
+		return mysql_fetch_array(db_query(sprintf("select c.*, p0.name creator_name, p1.name leader_name from xwi_clans c left join xwi_players p0 on c.creator = p0.pid left join xwi_players p1 on c.leader = p1.pid where c.cid = %d", $cid)));
 	}
 
 	function get_player($name)
@@ -121,9 +121,10 @@
 								$result = mysql_fetch_array($results);
 							}
 							while ($result['0']);
-							db_query(sprintf("insert into xwi_clans (name, full_name, pass, icq, mail, msn, site, mtime, ctime) values (lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), unix_timestamp(), unix_timestamp())", addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
+							db_query(sprintf("insert into xwi_clans (creator, leader, name, full_name, pass, icq, mail, msn, site, mtime, ctime) values (%d, %d, lcase('%s'), '%s', md5('%s'), %d, lcase('%s'), lcase('%s'), lcase('%s'), unix_timestamp(), unix_timestamp())",
+								$player['pid'], $player['pid'], addslashes($cabbrev), addslashes($cname), $cpass, $icq, addslashes($mail), addslashes($msn), addslashes($site)));
 							$cid = mysql_insert_id();
-							db_query(sprintf("update xwi_players set cid = %d where pid = %d", $cid, $player['pid']));
+							db_query(sprintf("update xwi_players set cid = %d, mtime = unix_timestamp() where pid = %d", $cid, $player['pid']));
 							$clan = get_clan($cid);
 							printf("Player %s created clan %s<br>", $player['name'], $clan['name']);
 							printf("The clan admin pass is %s", $cpass);
@@ -155,13 +156,14 @@
 							printf("Player %s is already in ladder", $player['name']);
 						else
 						{
-							$results = db_query(sprintf("select to_days(now()) - to_days(ctime) from xwi_players where pid = %d", $player['pid']));
+							$results = db_query(sprintf("select unix_timestamp() - ctime from xwi_players where pid = %d", $player['pid']));
 							$result = mysql_fetch_array($results);
+							$result['0'] /= 24 * 60 * 60;
 							if ($result['0'] < 32)
 								printf("Only players that were created more than 32 days ago can be deleted. Player %s was created %d days ago", $player['name'], $result['0']);
 							else
 							{
-								db_query(sprintf("update xwi_players set flags = flags | 2 where pid = %d", $player['pid']));
+								db_query(sprintf("update xwi_players set flags = flags | 2, mtime = unix_timestamp() where pid = %d", $player['pid']));
 								printf("Player %s has been deleted", $player['name']);
 							}
 						}
@@ -220,7 +222,7 @@
 				{
 					if ($player = get_player2($name, $pass))
 					{
-						db_query("delete from xwi_clan_invites where unix_timestamp(now()) - unix_timestamp(ctime) > 3 * 24 * 60 * 60");
+						db_query("delete from xwi_clan_invites where unix_timestamp(ctime) < unix_timestamp() - 3 * 24 * 60 * 60");
 						if ($player['cid'])
 						{
 							$clan = get_clan($player['cid']);
@@ -231,7 +233,7 @@
 							if ($clan_invite['pid'] == $player['pid'])
 							{
 								db_query(sprintf("delete from xwi_clan_invites where pid = %d and cid = %d", $player['pid'], $clan_invite['cid']));
-								db_query(sprintf("update xwi_players set cid = %d where pid = %d", $clan_invite['cid'], $player['pid']));
+								db_query(sprintf("update xwi_players set cid = %d, mtime = unix_timestamp() where pid = %d", $clan_invite['cid'], $player['pid']));
 								$clan = get_clan($clan_invite['cid']);
 								printf("Player %s joined clan %s<br>", $player['name'], $clan['name']);
 							}
@@ -263,7 +265,7 @@
 						{
 							if ($player['cid'] == $clan['cid'])
 							{
-								db_query(sprintf("update xwi_players set cid = 0 where pid = %d", $player['pid']));
+								db_query(sprintf("update xwi_players set cid = 0, mtime = unix_timestamp() where pid = %d", $player['pid']));
 								printf("Player %s left clan %s", $player['name'], $clan['name']);
 								$result = mysql_fetch_array(db_query(sprintf("select count(*) from xwi_players where cid = %d", $player['cid'])));
 								if (!$result['0'])
@@ -295,7 +297,7 @@
 			if ($result = mysql_fetch_assoc($results))
 			{
 				$cpass = new_security_code();
-				db_query(sprintf("update xwi_clans set pass = md5('%s') where cid = %d", $cpass, $result['cid']));
+				db_query(sprintf("update xwi_clans set pass = md5('%s'), mtime = unix_timestamp() where cid = %d", $cpass, $result['cid']));
 				db_query(sprintf("delete from xwi_clan_reset_pass_requests where id = %d", $result['id']));
 				printf("The new clan admin pass is %s", $cpass);
 
@@ -337,7 +339,7 @@
 					{
 						if ($player['cid'])
 						{
-							db_query(sprintf("update xwi_players set cid = 0 where pid = %d", $player['pid']));
+							db_query(sprintf("update xwi_players set cid = 0, mtime = unix_timestamp() where pid = %d", $player['pid']));
 							$clan = get_clan($player['cid']);
 							printf("Player %s left clan %s", $player['name'], $clan['name']);
 							$result = mysql_fetch_array(db_query(sprintf("select count(*) from xwi_players where cid = %d", $player['cid'])));
@@ -364,6 +366,10 @@
 			echo("<table>");
 			printf("<tr><th align=right>Abbreviation<td>%s", $clan['name']);
 			printf("<tr><th align=right>Name<td>%s", $clan['full_name']);
+			if ($clan['creator_name'])
+				printf('<tr><th align=right>Creator<td>%s', htmlspecialchars($clan['creator_name']));
+			if ($clan['leader_name'])
+				printf('<tr><th align=right>Leader<td>%s', htmlspecialchars($clan['leader_name']));
 			if ($clan['icq'])
 				printf('<tr><th align=right>ICQ<td><a href="http://wwp.icq.com/%d"><img src="http://wwp.icq.com/scripts/online.dll?icq=%d&img=2"></a>', $clan['icq'], $clan['icq']);
 			if ($clan['mail'])
