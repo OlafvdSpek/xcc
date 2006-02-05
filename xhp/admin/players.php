@@ -10,11 +10,12 @@
 	{
 		while ($result = mysql_fetch_array($results))
 		{
+			$motd = trim($result['motd']);
 			printf('<tr><td><a href="?pid=%d">%s</a><td>%s<td>%s<td><a href="logins.php?pid=%d">L</a><td><a href="http://xwis.net/xcl/?pname=%s">P</a><td><a href="http://xwis.net/xcl/?pname=%s">C</a><td align=right><a href="?sid=%d">%d</a><td>', $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
 			printf('<a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
 			printf('<td><a href="?a=rb_insert&pid=%d">-&gt;RB</a>', $result[pid]);
 			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
-			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result[pid], $result[motd] ? nl2br(htmlspecialchars(substr($result[motd], 0, 80))) : "motd");
+			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result['pid'], $motd ? nl2br(htmlspecialchars(substr($motd, 0, 80))) : 'motd');
 		}
 	}
 
@@ -60,7 +61,7 @@
 
 		if ($_REQUEST['a'] == "motd_submit" && name)
 		{
-			$motd = $_REQUEST[motd];
+			$motd = trim($_REQUEST['motd']);
 			db_query(sprintf("update xwi_logins l inner join xwi_serials s using (sid) set s.motd = '%s' where l.pid = %d", addslashes($motd), $pid));
 			db_query(sprintf("update xwi_serials set motd = '%s' where sid = %d", addslashes($motd), $sid));
 			echo("<b>Updated!</b><hr>");
@@ -76,20 +77,13 @@
 		{
 			$sid = $result[sid];
 			$name = $result[name];
-			$link = $_REQUEST[link];
-			$reason = $_REQUEST[reason];
+			$link = trim($_REQUEST['link']);
+			$reason = trim($_REQUEST['reason']);
 			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
 			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 			{
 				db_query(sprintf("insert into xbl (admin, sid, name, link, reason, duration, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
 					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), $dura));
-				$wid = mysql_insert_id();
-				db_query(sprintf("insert ignore into xbl_serials (wid, sid, creator, ctime) select %d, sid, 'xwis', unix_timestamp() from xwi_logins where pid = %d",
-					$wid, $pid));
-				$results = db_query(sprintf("select distinct sid from xwi_logins where pid = '%d'", $pid));
-				$sids = array($sid);
-				while ($result = mysql_fetch_array($results))
-					$sids[] = $result[sid];
 				// db_query(sprintf("update xwi_serials set wtime = unix_timestamp() + %d where sid in (%s)", 24 * 60 * 60 * $dura, addslashes(implode(",", $sids))));
 			}
 		}
@@ -161,12 +155,22 @@
 			printf('<tr><td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s<td>%s', $result['gsku'], $result['sid'], $result['sid'], nl2br(htmlspecialchars($result['msg'])), gmdate("H:i d-m-Y", $result['time']));
 		echo('</table>');
 		break;
+	case 'edit_warning_submit':
 	case 'edit_warning_delete_ipa_submit':
 	case 'edit_warning_insert_ipa_submit':
 	case 'edit_warning_delete_serial_submit':
 	case 'edit_warning_insert_serial_submit':
 	case 'show_warning':
 		$wid = $_REQUEST['wid'];
+		if ($_REQUEST['a'] == 'edit_warning_submit')
+		{
+			$duration = $_REQUEST['duration'];
+			$link = trim($_REQUEST['link']);
+			$motd = trim($_REQUEST['motd']);
+			$reason = trim($_REQUEST['reason']);
+			db_query(sprintf("update xbl set duration = %d, motd = '%s', link = '%s', reason = '%s', mtime = unix_timestamp() where wid = %d",
+				$duration, addslashes($motd), addslashes($link), addslashes($reason), $wid));
+		}
 		$results = db_query(sprintf("select * from xbl where wid = %d", $wid));
 		if ($row = mysql_fetch_array($results))
 		{
@@ -191,9 +195,10 @@
 			}
 			$creator = $row['admin'];
 			$ctime = gmdate("H:i d-m-Y", $row['ctime']);
-			$duration = $row['duration'];
+			$duration = htmlspecialchars($row['duration']);
 			$link = htmlspecialchars($row['link']);
 			$mtime = gmdate("H:i d-m-Y", $row['mtime']);
+			$motd = htmlspecialchars($row['motd']);
 			$name = htmlspecialchars($row['name']);
 			$reason = htmlspecialchars($row['reason']);
 			$sid = $row['sid'];
