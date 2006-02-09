@@ -3,10 +3,11 @@
 
 	function update_hof($date, $lid)
 	{
-		$rows = db_query(sprintf("select name from xcl_prev_players where lid = %d order by points desc, pid limit 10", $lid));
+		$rows = db_query(sprintf("select name, points, countries from xcl_prev_players where lid = %d order by points desc, pid limit 10", $lid));
 		$rank = 1;
 		while ($row = mysql_fetch_assoc($rows))
-			db_query(sprintf("insert into xcl_hof (date, lid, rank, name) values ('%s', %d, %d, '%s')", $date, $lid, $rank++, $row['name']));
+			db_query(sprintf("insert into xcl_hof (date, lid, rank, name, points, countries) values ('%s', %d, %d, '%s', %d, %d)",
+				$date, $lid, $rank++, addslashes($row['name']), $row['points'], $row['countries']));
 	}
 
 	$year = gmdate('Y');
