@@ -195,7 +195,10 @@
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['scen']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $scen => $d0)
-			printf("'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,", js_encode($scen), $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
+		{
+			if ($d0[18][0] + $d0[18][1] + $d0[18][2] + $d0[33][0] + $d0[33][1] + $d0[33][2] + $d0[41][0] + $d0[41][1] + $d0[41][2] >= 100)
+				printf("'%s',%d,%d,%d,%d,%d,%d,%d,%d,%d,", js_encode($scen), $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
+		}
 		echo("0),new Array(");
 		$d = array();
 		$results = db_query(sprintf("select * from %s order by dura", $tables['stats_dura']));
@@ -205,7 +208,7 @@
 			printf("%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,", $dura, $d0[18][0], $d0[18][1], $d0[18][2], $d0[33][0], $d0[33][1], $d0[33][2], $d0[41][0], $d0[41][1], $d0[41][2]);
 		echo("0),new Array(");
 		$d = array();
-		$results = db_query(sprintf("select * from %s order by afps", $tables['stats_afps']));
+		$results = db_query(sprintf("select * from %s where afps < 60 order by afps", $tables['stats_afps']));
 		while ($result = mysql_fetch_assoc($results))
 			$d[$result['afps']][$result['gsku']][$result['trny']] = $result['count'];
 		foreach($d as $afps => $d0)
