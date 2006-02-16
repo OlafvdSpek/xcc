@@ -41,10 +41,11 @@
 		return addcslashes($v, '\'');
 	}
 
-	$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
-	$lid = isset($_REQUEST['lid']) ? a2lid($_REQUEST['lid']) : 0;
-	$pid = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
-	$pname = isset($_REQUEST['pname']) ? $_REQUEST['pname'] : '';
+	$cid = isset($_REQUEST['cid']) ? 0 + $_REQUEST['cid'] : 0;
+	$gid = isset($_REQUEST['gid']) ? 0 + $_REQUEST['gid'] : 0;
+	$lid = isset($_REQUEST['lid']) ? 0 + a2lid($_REQUEST['lid']) : 0;
+	$pid = isset($_REQUEST['pid']) ? 0 + $_REQUEST['pid'] : 0;
+	$pname = isset($_REQUEST['pname']) ? trim($_REQUEST['pname']) : '';
 	if (isset($_REQUEST['js']))
 	{
 		$pnames = explode(',', $pname);
@@ -228,9 +229,6 @@
 	}
 	else
 	{
-		$cid = isset($_REQUEST['cid']) ? $_REQUEST['cid'] : 0;
-		$gid = isset($_REQUEST['gid']) ? $_REQUEST['gid'] : 0;
-		$pid = isset($_REQUEST['pid']) ? $_REQUEST['pid'] : 0;
 		$pname = isset($_REQUEST['pname']) ? trim($_REQUEST['pname']) : "";
 		$recent_games = isset($_REQUEST['recent_games']);
 		$unfair_games = isset($_REQUEST['unfair_games']);
@@ -358,7 +356,7 @@
 				$results = db_query($pname
 					? $lid
 					? sprintf("select * from %s where lid = %d and name like '%s' order by points desc, rank limit 250", $tables['players'], $lid, AddSlashes($pname))
-					: sprintf("select * from %s where name like '%s' order by points desc, rank limit 250", $tables['players'], AddSlashes($pname))
+					: sprintf("select * from %s where lid < 17 and name like '%s' order by points desc, rank limit 250", $tables['players'], AddSlashes($pname))
 					: sprintf("select * from %s where lid = %d and points %s order by points desc, rank limit 250", $tables['players'], $lid, $cty));
 				echo('t0(new Array(');
 				while ($result = mysql_fetch_assoc($results))

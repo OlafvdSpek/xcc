@@ -91,9 +91,9 @@ function page_xwis_top()
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC WOL IRC Server</title>');
 	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC WOL IRC Server<td align=right valign=bottom>');
-	document.write('<a href="?">Clans</a> | ');
+	// document.write('<a href="?">Clans</a> | ');
 	document.write('<a href="http://strike-team.net/forums/">Forum</a> | ');
-	document.write('<a href="?">Online</a> | ');
+	// document.write('<a href="?">Online</a> | ');
 	document.write('<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | ');
 	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | ');
 	document.write('<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>');
@@ -110,9 +110,9 @@ function page_top(frozen)
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC Community Ladder', frozen ? ' (frozen)' : '', '</title>');
 	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom>');
-	document.write('<a href="?">Clans</a> | ');
+	// document.write('<a href="?">Clans</a> | ');
 	document.write('<a href="http://strike-team.net/forums/">Forum</a> | ');
-	document.write('<a href="?">Online</a> | ');
+	// document.write('<a href="?">Online</a> | ');
 	document.write('<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | ');
 	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | ');
 	document.write('<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>');
@@ -134,8 +134,6 @@ function page_bottom(date)
 	document.write('<td align=right valign=top>', date2a(date));
 	document.write('<tr><td align=center colspan=3>');
 	document.write('<p><a href="https://www.paypal.com/xclick/business=st_xcl%40hotmail.com&amp;item_name=XCL+Fund&amp;image_url=http%3A//xccu.sourceforge.net/button.gif&amp;no_shipping=1&amp;no_note=1&amp;cs=1&amp;tax=0&amp;currency_code=GBP"><img src="https://www.paypal.com/images/x-click-but04.gif" alt="PayPal Donate"></a>');
-	document.write('<p>');
-	nedstatbasic("ACYaRA5mKkSNw9DcBlC+vYnGi83A", 0);
 	document.write('<p><a href="http://communityteam.de/"><img src="http://communityteam.de/images/banner/ct_banner.gif" alt="Community Team"></a>');
 	document.write('<p>');
 	google_ad_client = "pub-1982327992445962";
@@ -293,7 +291,7 @@ function lid2a(v)
 {
 	names = new Array
 	(
-		'', 'ra2', 'ra2 clan', 'yr', 'yr clan', 'ebfd', 'ebfd clan', 'ts',
+		'', 'ra2 player', 'ra2 clan', 'yr player', 'yr clan', 'ebfd player', 'ebfd clan', 'ts player',
 		'ts clan', '', '', '', '', '', '', '',
 		'', 'ra2 non-tournament', '', 'yr non-tournament', '', '', '', 'ts non-tournament'
 	);
