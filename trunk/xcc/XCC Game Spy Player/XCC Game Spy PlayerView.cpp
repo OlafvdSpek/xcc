@@ -578,7 +578,7 @@ void CXCCGameSpyPlayerView::read_map(string name)
 	{
 		Cvirtual_binary s = mix_f.get_vdata(name);
 		mix_f.close();
-		if (!s && s.import(xcc_dirs::get_dir(game_ra2) + name))
+		if (!s && s.load(xcc_dirs::get_dir(game_ra2) + name))
 		{
 			name = static_cast<Cfname>(name).get_ftitle();
 			if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
@@ -592,7 +592,7 @@ void CXCCGameSpyPlayerView::read_map(string name)
 		Cmap_ts_ini_reader ir;
 		ir.fast(true);
 		ir.process(s);
-		m_terrain_colormap.import(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
+		m_terrain_colormap.load(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
 		strstream ini;
 		Cmap_ts_encoder encoder(ini, true);
 		Cmap_ts_encoder::t_header header;

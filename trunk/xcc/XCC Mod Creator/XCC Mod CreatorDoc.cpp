@@ -115,7 +115,7 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe, int compression
 		f.close();
 	}
 	else
-		error = compress(m_mod.save(true, -1), compression).export(fname);
+		error = compress(m_mod.save(true, -1), compression).save(fname);
 	if (!error)
 		error = m_mod.save_modules(fname);
 	return error;

@@ -436,7 +436,7 @@ void CXCCModCreatorView::export()
 	string export_filter;
 	const char* export_ext = "xmlf";
 	Cfname fname = static_cast<string>(GetDocument()->GetPathName());
-	if (apps.is_available(app_xml) && !exe.import(apps.get_exe(app_xml)))
+	if (apps.is_available(app_xml) && !exe.load(apps.get_exe(app_xml)))
 	{
 		export_filter += "BZ EXE files (*.exe)|*.exe|"
 			"GZ EXE files (*.exe)|*.exe|"

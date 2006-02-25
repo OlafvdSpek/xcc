@@ -123,7 +123,7 @@ int CXCCUniversalContainerReaderApp::ExitInstance()
 		Cxif_key key;
 		key.open_key_write(ki_formats) = formats().export();
 		key.open_key_write(ki_library) = library().export();
-		key.vdata().export(data_fname());
+		key.vdata().save(data_fname());
 	}
 	return CWinApp::ExitInstance();
 }

@@ -13,7 +13,7 @@
 
 #include "resource.h"
 
-class CDirectoriesDlg : public CDialog
+class CDirectoriesDlg: public ETSLayoutDialog
 {
 // Construction
 public:
@@ -49,6 +49,7 @@ protected:
 	virtual void OnOK();
 	afx_msg void OnResetCd();
 	afx_msg void OnResetData();
+	virtual BOOL OnInitDialog();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

@@ -1,6 +1,3 @@
-// DirectoriesDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "DirectoriesDlg.h"
 
@@ -17,7 +14,7 @@ static char THIS_FILE[] = __FILE__;
 
 
 CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
-	: CDialog(CDirectoriesDlg::IDD, pParent)
+	: ETSLayoutDialog(CDirectoriesDlg::IDD, pParent, "directories_dlg")
 {
 	//{{AFX_DATA_INIT(CDirectoriesDlg)
 	m_edit_dune2 = xcc_dirs::get_dune2_dir().c_str();
@@ -35,7 +32,7 @@ CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 
 void CDirectoriesDlg::DoDataExchange(CDataExchange* pDX)
 {
-	CDialog::DoDataExchange(pDX);
+	ETSLayoutDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CDirectoriesDlg)
 	DDX_Text(pDX, IDC_DUNE2, m_edit_dune2);
 	DDX_Text(pDX, IDC_DUNE2000, m_edit_dune2000);
@@ -50,7 +47,7 @@ void CDirectoriesDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CDirectoriesDlg, CDialog)
+BEGIN_MESSAGE_MAP(CDirectoriesDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CDirectoriesDlg)
 	ON_BN_CLICKED(IDC_RESET_CD, OnResetCd)
 	ON_BN_CLICKED(IDC_RESET_DATA, OnResetData)
@@ -62,7 +59,7 @@ END_MESSAGE_MAP()
 
 void CDirectoriesDlg::OnOK() 
 {
-	CDialog::OnOK();
+	ETSLayoutDialog::OnOK();
 	xcc_dirs::set_dir(game_dune2, static_cast<string>(m_edit_dune2));
 	xcc_dirs::set_dir(game_td, static_cast<string>(m_edit_td_primary));
 	xcc_dirs::set_td_secondary_dir(static_cast<string>(m_edit_td_secondary));
@@ -88,4 +85,41 @@ void CDirectoriesDlg::OnResetData()
 	xcc_dirs::reset_data_dir();
 	m_edit_data = xcc_dirs::get_data_dir().c_str();
 	UpdateData(false);
+}
+
+BOOL CDirectoriesDlg::OnInitDialog() 
+{
+	ETSLayoutDialog::OnInitDialog();
+	CreateRoot(HORIZONTAL)
+		<< (pane(VERTICAL, ABSOLUTE_VERT)
+			<< item(IDC_DUNE2_STATIC, NORESIZE)
+			<< item(IDC_TD_PRIMARY_STATIC, NORESIZE)
+			<< item(IDC_TD_SECONDARY_STATIC, NORESIZE)
+			<< item(IDC_RA_STATIC, NORESIZE)
+			<< item(IDC_DUNE2000_STATIC, NORESIZE)
+			<< item(IDC_TS_STATIC, NORESIZE)
+			<< item(IDC_RA2_STATIC, NORESIZE)
+			<< item(IDC_DATA_STATIC, NORESIZE)
+			<< item(IDC_CD_STATIC, NORESIZE)
+			)
+		<< (pane(VERTICAL, ABSOLUTE_VERT)
+			<< item(IDC_DUNE2, ABSOLUTE_VERT)
+			<< item(IDC_TD_PRIMARY, ABSOLUTE_VERT)
+			<< item(IDC_TD_SECONDARY, ABSOLUTE_VERT)
+			<< item(IDC_RA, ABSOLUTE_VERT)
+			<< item(IDC_DUNE2000, ABSOLUTE_VERT)
+			<< item(IDC_TS, ABSOLUTE_VERT)
+			<< item(IDC_RA2, ABSOLUTE_VERT)
+			<< item(IDC_DATA, ABSOLUTE_VERT)
+			<< item(IDC_CD, ABSOLUTE_VERT)
+			)
+		<< (pane(VERTICAL, ABSOLUTE_VERT)
+			<< item(IDOK, NORESIZE)
+			<< item(IDCANCEL, NORESIZE)
+			<< itemGrowing(VERTICAL)
+			<< item(IDC_RESET_DATA, NORESIZE)
+			<< item(IDC_RESET_CD, NORESIZE)
+			);
+	UpdateLayout();
+	return true;
 }

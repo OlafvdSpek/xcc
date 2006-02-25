@@ -104,7 +104,7 @@ void CXCCGameSpyPlayerApp::OnFileOpen()
 		dlg.import_cache(key);
 	if (IDOK == dlg.DoModal())
 		OpenDocumentFile(dlg.fname().c_str());
-	dlg.export_cache().vdata().export(data_fname());
+	dlg.export_cache().vdata().save(data_fname());
 }
 
 string CXCCGameSpyPlayerApp::data_fname()

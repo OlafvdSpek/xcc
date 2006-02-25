@@ -329,6 +329,10 @@ SOURCE=..\misc\wol\ra2_names.cpp
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\misc\reg_key.cpp
+# End Source File
+# Begin Source File
+
 SOURCE=..\misc\riff_file.cpp
 # End Source File
 # Begin Source File
@@ -791,6 +795,10 @@ SOURCE=..\misc\png_file.h
 # Begin Source File
 
 SOURCE=..\misc\wol\ra2_names.h
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\misc\reg_key.h
 # End Source File
 # Begin Source File
 
