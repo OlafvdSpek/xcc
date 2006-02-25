@@ -1059,8 +1059,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				if (!f.process())
 				{
 					const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
-					draw_info("Audio:", n(format_chunk.samplerate) + " hz, " + n(format_chunk.cbits_sample) + " bit, " + (format_chunk.c_channels == 1 ? "mono" : "stereo"));
-					draw_info("Count samples:", n(format_chunk.tag == 1 ? f.get_data_header().size * 8 / (format_chunk.cbits_sample * format_chunk.c_channels) : f.get_fact_chunk().c_samples));
+					// draw_info("Audio:", n(format_chunk.samplerate) + " hz, " + n(format_chunk.cbits_sample) + " bit, " + (format_chunk.c_channels == 1 ? "mono" : "stereo"));
+					// draw_info("Count samples:", n(format_chunk.tag == 1 ? f.get_data_header().size * 8 / (format_chunk.cbits_sample * format_chunk.c_channels) : f.get_fact_chunk().c_samples));
 					draw_info("Format:", nh(4, format_chunk.tag));
 				}
 				break;

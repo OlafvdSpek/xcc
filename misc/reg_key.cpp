@@ -62,8 +62,13 @@ LONG Creg_key::query_value(const string& name, string& value)
 		return result;
 	vector<BYTE> d(cb_d);
 	result = RegQueryValueEx(m_h, name.c_str(), NULL, NULL, &d.front(), &cb_d);
-	if (result == ERROR_SUCCESS && cb_d)
-		value.assign(reinterpret_cast<char*>(&d.front()), cb_d - 1);
+	if (result == ERROR_SUCCESS)
+	{
+		if (cb_d)
+			value.assign(reinterpret_cast<char*>(&d.front()), cb_d - 1);
+		else
+			value.erase();
+	}
 	return result;
 }
 

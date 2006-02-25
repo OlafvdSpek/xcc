@@ -64,6 +64,15 @@
 #define IDC_FRAME                       1033
 #define IDC_SEARCH                      1034
 #define IDC_FIX_SHADOWS                 1036
+#define IDC_DUNE2_STATIC                1038
+#define IDC_TD_PRIMARY_STATIC           1039
+#define IDC_TD_SECONDARY_STATIC         1040
+#define IDC_RA_STATIC                   1041
+#define IDC_DUNE2000_STATIC             1042
+#define IDC_TS_STATIC                   1043
+#define IDC_RA2_STATIC                  1044
+#define IDC_DATA_STATIC                 1045
+#define IDC_CD_STATIC                   1046
 #define ID_VIEW_WSA                     32778
 #define ID_POPUP_DELETE                 32780
 #define ID_POPUP_EXTRACT                32781
@@ -1381,7 +1390,7 @@
 #define _APS_3D_CONTROLS                     1
 #define _APS_NEXT_RESOURCE_VALUE        141
 #define _APS_NEXT_COMMAND_VALUE         33132
-#define _APS_NEXT_CONTROL_VALUE         1038
+#define _APS_NEXT_CONTROL_VALUE         1047
 #define _APS_NEXT_SYMED_VALUE           103
 #endif
 #endif
