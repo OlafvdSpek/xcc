@@ -64,10 +64,6 @@ void CDirectoriesDlg::OnOK()
 	xcc_dirs::set_dir(game_td, static_cast<string>(m_edit_td_primary));
 	xcc_dirs::set_td_secondary_dir(static_cast<string>(m_edit_td_secondary));
 	xcc_dirs::set_dir(game_ra, static_cast<string>(m_edit_ra));
-	xcc_dirs::set_dir(game_dune2000, static_cast<string>(m_edit_dune2000));
-	xcc_dirs::set_dir(game_ts, static_cast<string>(m_edit_ts));
-	xcc_dirs::set_dir(game_ra2, static_cast<string>(m_edit_ra2));
-	xcc_dirs::set_data_dir(static_cast<string>(m_edit_data));
 	xcc_dirs::set_cd_dir(static_cast<string>(m_edit_cd));
 }
 
