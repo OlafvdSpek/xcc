@@ -12,6 +12,7 @@ UninstPage instfiles
 Section "Install"
 	SetShellVarContext all
 	SetOutPath "$INSTDIR"
+	File "..\data\global mix database.dat"
 	File "..\xcc av player\release\xcc av player.exe"
 	File "..\xcc editor\release\xcc editor.exe"
 	File "..\xcc mix editor\release\xcc mix editor.exe"
