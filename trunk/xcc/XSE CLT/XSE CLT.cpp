@@ -13,7 +13,7 @@ using namespace std;
 
 int main(int c_args, char** arg)
 {
-	cerr << " XSE CLT, Copyright (C) Olaf van der Spek 2000                XCC@XCC.TMFWeb.NL" << endl
+	cerr << " XSE CLT, Copyright (C) Olaf van der Spek 2000             OlafvdSpek@GMail.Com" << endl
 		<< endl;
 	if (c_args != 2)
 	{

@@ -431,7 +431,8 @@ int Cmix_file::get_id(t_game game, string name)
 
 int Cmix_file::get_index(unsigned int id) const
 {
-    assert(is_open());
+	if (!is_open())
+		return -1;
 	t_id_index::const_iterator i = m_id_index.find(id);
 	return i == m_id_index.end() ? -1 : i->second;
 }

@@ -104,7 +104,7 @@ int xcc_structures::save_data()
 			sk.set_value_int(vi_sd_power_out, sd.power_out);
 		structure_i++;
 	}
-	return structures_key.vdata().export(xcc_dirs::get_data_dir() + structures_xif_fname);
+	return structures_key.vdata().save(xcc_dirs::get_data_dir() + structures_xif_fname);
 }
 
 int xcc_structures::load_images(t_theater_id theater, bool load_icons)

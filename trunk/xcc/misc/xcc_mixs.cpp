@@ -19,12 +19,18 @@ int Cxcc_mixs::open()
 	if (is_open)
 		return 0;
 	is_open = true;
-	mixf[conquer_mix].open("conquer.mix");
-	mixf[desert_mix].open("desert.mix");
-	mixf[general_mix].open("general.mix");
-	mixf[temperate_mix].open("temperat.mix");
-	mixf[winter_mix].open("winter.mix");
-	return 0;
+	int error = mixf[conquer_mix].open("conquer.mix");
+	if (!error)
+		error = mixf[desert_mix].open("desert.mix");
+	if (!error)
+		error = mixf[general_mix].open("general.mix");
+	if (!error)
+		error = mixf[temperate_mix].open("temperat.mix");
+	if (!error)
+		error = mixf[winter_mix].open("winter.mix");
+	if (error)
+		close();
+	return error;
 }
 
 int Cxcc_mixs::close()

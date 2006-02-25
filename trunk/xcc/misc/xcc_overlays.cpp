@@ -185,7 +185,7 @@ int Cxcc_overlays::save_data()
 				tk.set_value_int(vi_td_blocked, td.blocked);
 		}
 	}
-	return base_key.vdata().export(xcc_dirs::get_data_dir() + overlays_xif_fname);
+	return base_key.vdata().save(xcc_dirs::get_data_dir() + overlays_xif_fname);
 }
 
 bool Cxcc_overlays::terrain_in(int v, t_theater_id theater)
