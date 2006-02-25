@@ -1,17 +1,10 @@
-// xcc_dirs.cpp: implementation of the xcc_dirs class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_dirs.h"
 
 #include <windows.h>
+#include "reg_key.h"
 #include "string_conversion.h"
 #include "xcc_registry.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 bool g_enable_log = false;
 bool xcc_dirs::m_use_external_files = true;
@@ -304,135 +297,116 @@ void xcc_dirs::reset_data_dir()
 
 void xcc_dirs::load_from_registry()
 {
-	HKEY kh_base;
-	char s[256];
-	dword size;
+	Creg_key kh_base;
+	string s;
 	if (!Cxcc_registry::get_base_key(kh_base))
 	{
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dune2_dir", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("dune2_dir", s))
 			set_dir(game_dune2, s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dir1", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("dir1", s))
 			set_dir(game_td, s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "dir2", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("dir2", s))
 			set_td_secondary_dir(s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "ra_dir", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("ra_dir", s))
 			set_dir(game_ra, s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "cddir", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("cddir", s))
 			set_cd_dir(s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "datadir", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("datadir", s))
 			set_data_dir(s);
-		if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "enable_log", 0, 0, (byte*)s, &(size = 256)))
+		if (ERROR_SUCCESS == kh_base.query_value("enable_log", s))
 			g_enable_log = true;
-		RegCloseKey(kh_base);
 	}
 	if (cd_dir.empty())
 		reset_cd_dir();
 	if (data_dir.empty())
 		reset_data_dir();
-	HKEY kh_westwood;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Westwood", 0, KEY_QUERY_VALUE, &kh_westwood))
+	Creg_key kh_westwood;
+	if (ERROR_SUCCESS == kh_westwood.open(HKEY_LOCAL_MACHINE, "Software\\Westwood", KEY_QUERY_VALUE))
 	{
-		if (td_primary_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Command & Conquer Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
+		Creg_key kh_base;
+		if (td_primary_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Command & Conquer Windows 95 Edition", KEY_QUERY_VALUE) 
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_td, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_td, static_cast<Cfname>(s).get_path());
 		}
-		if (ra_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert Windows 95 Edition", 0, KEY_QUERY_VALUE, &kh_base))
+		if (ra_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Red Alert Windows 95 Edition", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_ra, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_ra, static_cast<Cfname>(s).get_path());
 		}
-		if (dune2000_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Dune 2000", 0, KEY_QUERY_VALUE, &kh_base))
+		if (dune2000_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Dune 2000", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_dune2000, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_dune2000, static_cast<Cfname>(s).get_path());
 		}
-		if (ts_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Tiberian Sun", 0, KEY_QUERY_VALUE, &kh_base))
+		if (ts_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Tiberian Sun", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_ts, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_ts, static_cast<Cfname>(s).get_path());
 		}
-		if (ra2_dir.empty() &&
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Red Alert 2", 0, KEY_QUERY_VALUE, &kh_base))
+		if (ra2_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Red Alert 2", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_ra2, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_ra2, static_cast<Cfname>(s).get_path());
 		}
-		if (nox_dir.empty() &&
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Nox", 0, KEY_QUERY_VALUE, &kh_base))
+		if (nox_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Nox", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_nox, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_nox, static_cast<Cfname>(s).get_path());
 		}
-		if (rg_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Renegade", 0, KEY_QUERY_VALUE, &kh_base))
+		if (rg_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Renegade", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_rg, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_rg, static_cast<Cfname>(s).get_path());
 		}
-		if (ebfd_dir.empty() &&		
-			ERROR_SUCCESS == RegOpenKeyEx(kh_westwood, "Emperor", 0, KEY_QUERY_VALUE, &kh_base))
+		if (ebfd_dir.empty() 
+			&& ERROR_SUCCESS == kh_base.open(kh_westwood, "Emperor", KEY_QUERY_VALUE)
+			&& ERROR_SUCCESS == kh_base.query_value("InstallPath", s))
 		{
-			if (ERROR_SUCCESS == RegQueryValueEx(kh_base, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-				set_dir(game_ebfd, static_cast<Cfname>(s).get_path());
-			RegCloseKey(kh_base);
+			set_dir(game_ebfd, static_cast<Cfname>(s).get_path());
 		}
-		RegCloseKey(kh_westwood);
 	}
-	HKEY kh_gr;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Generals", 0, KEY_QUERY_VALUE, &kh_gr))
+	Creg_key kh_gr;
+	if (gr_dir.empty() 
+		&& ERROR_SUCCESS == kh_gr.open(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Generals", KEY_QUERY_VALUE)
+		&& ERROR_SUCCESS == kh_gr.query_value("InstallPath", s))
 	{
-		if (gr_dir.empty() &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_gr, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-			set_dir(game_gr, static_cast<Cfname>(s).get_path());
-		RegCloseKey(kh_gr);
+		set_dir(game_gr, static_cast<Cfname>(s).get_path());
 	}
-	HKEY kh_gr_zh;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Command and Conquer Generals Zero Hour", 0, KEY_QUERY_VALUE, &kh_gr_zh))
+	Creg_key kh_gr_zh;
+	if (gr_zh_dir.empty() 
+		&& ERROR_SUCCESS == kh_gr_zh.open(HKEY_LOCAL_MACHINE, "Software\\Electronic Arts\\EA Games\\Command and Conquer Generals Zero Hour", KEY_QUERY_VALUE)
+		&& ERROR_SUCCESS == kh_gr_zh.query_value("InstallPath", s))
 	{
-		if (gr_zh_dir.empty() &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_gr_zh, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-			set_dir(game_gr_zh, static_cast<Cfname>(s).get_path());
-		RegCloseKey(kh_gr_zh);
+		set_dir(game_gr_zh, static_cast<Cfname>(s).get_path());
 	}
-	HKEY kh_bfme;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Electronic Arts\\EA Games\\The Battle for Middle-earth", 0, KEY_QUERY_VALUE, &kh_bfme))
+	Creg_key kh_bfme;
+	if (bfme_dir.empty() 
+		&& ERROR_SUCCESS == kh_bfme.open(HKEY_LOCAL_MACHINE, "SOFTWARE\\Electronic Arts\\EA Games\\The Battle for Middle-earth", KEY_QUERY_VALUE)
+		&& ERROR_SUCCESS == kh_bfme.query_value("InstallPath", s))
 	{
-		if (bfme_dir.empty() &&
-			ERROR_SUCCESS == RegQueryValueEx(kh_bfme, "InstallPath", 0, 0, (byte*)s, &(size = 256)))
-			set_dir(game_bfme, static_cast<Cfname>(s).get_path());
-		RegCloseKey(kh_bfme);
+		set_dir(game_bfme, static_cast<Cfname>(s).get_path());
 	}
 }
 
-static int RegSetValueEx(HKEY hKey, LPCTSTR lpValueName, string data)
-{
-	return RegSetValueEx(hKey, lpValueName, 0, REG_SZ, (byte*)data.c_str(), data.length() + 1);
-};
-
 void xcc_dirs::save_to_registry()
 {
-	HKEY kh_base;
+	Creg_key kh_base;
 	if (Cxcc_registry::get_base_key(kh_base))
 		return;
-	RegSetValueEx(kh_base, "dune2_dir", dune2_dir);
-	RegSetValueEx(kh_base, "dir1", 0, REG_SZ, (byte*)td_primary_dir.c_str(), td_primary_dir.length() + 1);
-	RegSetValueEx(kh_base, "dir2", 0, REG_SZ, (byte*)td_secondary_dir.c_str(), td_secondary_dir.length() + 1);
-	RegSetValueEx(kh_base, "ra_dir", ra_dir);
-	RegSetValueEx(kh_base, "cddir", 0, REG_SZ, (byte*)cd_dir.c_str(), cd_dir.length() + 1);
-	RegSetValueEx(kh_base, "datadir", 0, REG_SZ, (byte*)data_dir.c_str(), data_dir.length() + 1);
-	RegCloseKey(kh_base);
+	kh_base.set_value("dune2_dir", dune2_dir);
+	kh_base.set_value("dir1", td_primary_dir);
+	kh_base.set_value("dir2", td_secondary_dir);
+	kh_base.set_value("ra_dir", ra_dir);
+	kh_base.set_value("cddir", cd_dir);
+	kh_base.set_value("datadir", data_dir);
 };
 
 string xcc_dirs::find_file(Cfname s)
