@@ -205,12 +205,12 @@ static void scan_dir(string in_dir, string out_dir, string postfix, ofstream& f)
 			{
 				string title = to_lower(Cfname(fd.cFileName).get_ftitle());
 				Cvirtual_binary fdata;
-				fdata.import(in_dir + fd.cFileName);
+				fdata.load(in_dir + fd.cFileName);
 				Cxif_key k;
 				Cxif_key& l = k.open_key_write(0);
 				l.set_value_string(vi_fname, to_lower(fd.cFileName));
 				l.set_value_binary(vi_fdata, fdata);
-				k.vdata().export(out_dir + title + ".xmuf");
+				k.vdata().save(out_dir + title + ".xmuf");
 				f << title << "=,http://xccu.sourceforge.net/ra2_maps/" << title << ".xmuf" << endl;
 			}
 		}

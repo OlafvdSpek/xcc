@@ -145,7 +145,7 @@ void CXCCMapDecoderDlg::convert(string _fname)
 				Cmap_ts_encoder::write_pkt(pkt, k, fname.get_ftitle());
 				mmx_f.add_file(title + ".map", Cvirtual_binary(ini.str(), ini.pcount()));
 				mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.str(), pkt.pcount()));
-				error = mmx_f.write().export(fname);
+				error = mmx_f.write().save(fname);
 			}
 			else
 			{

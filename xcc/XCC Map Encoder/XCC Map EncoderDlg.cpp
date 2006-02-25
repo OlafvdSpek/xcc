@@ -213,7 +213,7 @@ void CXCCMapEncoderDlg::convert(string _fname, Ccc_file& f)
 		mmx_f.add_file(title + ".map", Cvirtual_binary(s.str(), s.pcount()));
 		mmx_f.add_file(title + ".pkt", Cvirtual_binary(pkt.c_str(), pkt.length()));
 		fname.set_ext(".mmx");
-		error = mmx_f.write().export(fname);
+		error = mmx_f.write().save(fname);
 	}
 	else
 		error = file32_write(_fname, s.str(), s.pcount());			
