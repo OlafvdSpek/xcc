@@ -81,7 +81,7 @@ int xcc_infantry::save_data()
 		ik.set_value_int(vi_id_flags, id.flags);
 		infantry_i++;
 	}
-	return infantry_key.vdata().export(xcc_dirs::get_data_dir() + infantry_xif_fname);
+	return infantry_key.vdata().save(xcc_dirs::get_data_dir() + infantry_xif_fname);
 }
 
 int xcc_infantry::load_images(bool load_icons)

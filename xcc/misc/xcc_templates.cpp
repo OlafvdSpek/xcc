@@ -103,7 +103,7 @@ int Cxcc_templates::save_data()
 		if (td.flags)
 			template_key.set_value_int(vi_td_flags, td.flags);
 	}
-	return base_key.vdata().export(xcc_dirs::get_data_dir() + theater_xif_fname);
+	return base_key.vdata().save(xcc_dirs::get_data_dir() + theater_xif_fname);
 }
 
 int Cxcc_templates::load_images(t_theater_id theater)

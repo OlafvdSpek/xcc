@@ -97,7 +97,7 @@ int xcc_units::save_data()
 		uk.set_value_int(vi_ud_c_rotations, ud.c_rotations);
 		unit_i++;
 	}
-	return units_key.vdata().export(xcc_dirs::get_data_dir() + units_xif_fname);
+	return units_key.vdata().save(xcc_dirs::get_data_dir() + units_xif_fname);
 }
 
 int xcc_units::load_images(bool load_icons)
