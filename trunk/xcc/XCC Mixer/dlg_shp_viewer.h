@@ -1,21 +1,15 @@
 #if !defined(AFX_DLG_SHP_VIEWER_H__D99E8B49_1425_11D6_B606_A7F956E6466D__INCLUDED_)
 #define AFX_DLG_SHP_VIEWER_H__D99E8B49_1425_11D6_B606_A7F956E6466D__INCLUDED_
 
-#include "virtual_image.h"	// Added by ClassView
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
 
-// dlg_shp_viewer.h : header file
-//
-
 #include "resource.h"
 #include "video_decoder.h"
+#include "virtual_image.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_shp_viewer dialog
-
-class Cdlg_shp_viewer : public ETSLayoutDialog
+class Cdlg_shp_viewer: public ETSLayoutDialog
 {
 // Construction
 public:
@@ -59,6 +53,5 @@ private:
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_DLG_SHP_VIEWER_H__D99E8B49_1425_11D6_B606_A7F956E6466D__INCLUDED_)
