@@ -599,7 +599,7 @@ void Cdlg_ccr::OnOK()
 				MapiRecipDesc recipDesc;
 				memset(&recipDesc, 0, sizeof(MapiRecipDesc));
 				recipDesc.ulRecipClass = MAPI_TO;
-				recipDesc.lpszAddress = "SMTP:XCRF@XCC.TMFWeb.NL";
+				recipDesc.lpszAddress = "SMTP:OlafvdSpek@GMail.Com";
 
 				string title = static_cast<CString>(game_name[key.get_value_int(vi_game)]) + " XCRF: " + nickname + " (r) vs " + cheater + " (c) in game " + n(m_game_id).c_str();
 

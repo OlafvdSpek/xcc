@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv[])
 {
-	cerr << " XCC MIX CLT, Copyright (C) Olaf van der Spek 2002            XCC@XCC.TMFWeb.NL" << endl
+	cerr << " XCC MIX CLT, Copyright (C) Olaf van der Spek 2002         OlafvdSpek@GMail.Com" << endl
 		<< endl;
 	if (argc < 2)
 	{

@@ -49,7 +49,7 @@ void sub_section(const string& name, const Cneat_key_list& a, const Cneat_key_li
 
 int main(int c_args, char** arg)
 {
-	cerr << " XCC INI CLT, Copyright (C) Olaf van der Spek 2000            XCC@XCC.TMFWeb.NL" << endl
+	cerr << " XCC INI CLT, Copyright (C) Olaf van der Spek 2002         OlafvdSpek@GMail.Com" << endl
 		<< endl;
 	if (c_args != 5)
 	{
