@@ -74,7 +74,7 @@ BEGIN
                     IDC_STATIC,7,29,148,8
     LTEXT           "This app uses DirectX 3. You'll need to install it if you don't have it.",
                     IDC_STATIC,7,51,209,8
-    LTEXT           "Author: Olaf van der Spek (XCC@XCC.TMFWeb.NL)",
+    LTEXT           "Author: Olaf van der Spek (OlafvdSpek@GMail.Com)",
                     IDC_STATIC,7,73,168,8
 END
 

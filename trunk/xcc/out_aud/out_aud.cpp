@@ -99,7 +99,7 @@ void about(HWND hwnd)
 {
 	MessageBox(hwnd, PI_TITLE "\n"
 		"Copyright (C) Olaf van der Spek 2000\n"
-		"XCC@XCC.TMFWeb.NL", "About", MB_OK);
+		"OlafvdSpek@GMail.Com", "About", MB_OK);
 }
 
 void init()

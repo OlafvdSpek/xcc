@@ -28,7 +28,7 @@ CXCCMIXEditorDlg::CXCCMIXEditorDlg(CWnd* pParent /*=NULL*/):
 	ETSLayoutDialog(CXCCMIXEditorDlg::IDD, pParent, "XCCMIXEditorDlg")
 {
 	//{{AFX_DATA_INIT(CXCCMIXEditorDlg)
-	m_edit_status = _T("Author: Olaf van der Spek <XCC@XCC.TMFWeb.NL>");
+	m_edit_status = _T("Author: Olaf van der Spek <OlafvdSpek@GMail.Com>");
 	//}}AFX_DATA_INIT
 	m_current_id = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
