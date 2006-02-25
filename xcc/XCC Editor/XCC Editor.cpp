@@ -67,7 +67,7 @@ BOOL CXCCEditorApp::InitInstance()
 	xcc_dirs::load_from_registry();
 	if (Cxcc_mixs::open())
 	{
-		AfxMessageBox("Unable to open all mix files, insert a C&C cd or see readme.txt for details", MB_ICONEXCLAMATION);
+		AfxMessageBox("Unable to open all mix files, insert a C&C CD or see readme.txt for details", MB_ICONEXCLAMATION);
 		return false;
 	}
 	if (Cxcc_overlays::load_data() ||

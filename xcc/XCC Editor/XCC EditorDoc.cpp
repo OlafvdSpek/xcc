@@ -68,7 +68,7 @@ void CXCCEditorDoc::Serialize(CArchive& ar)
 	{
 		level.save(bin_data, ini_data);
 		ar.Write(ini_data.data(), ini_data.size());
-		bin_data.export(fname);
+		bin_data.save(fname);
 	}
 	else
 	{
