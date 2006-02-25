@@ -56,6 +56,8 @@ public:
 		m_use_external_files = v;
 	}
 private:
+	static void read_dir(const string& key, const string& value, t_game game);
+
 	static bool m_use_external_files;
 };
 
