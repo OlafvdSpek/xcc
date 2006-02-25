@@ -146,7 +146,7 @@ const char* ft_name[] =
 Ccc_file::Ccc_file(bool read_on_open):
     m_read_on_open(read_on_open)
 {
-    m_is_open = false;
+	m_is_open = false;
 }
 
 #define test_fail(res) { int v = res; if (v) { close(); return v; }}
@@ -154,17 +154,16 @@ Ccc_file::Ccc_file(bool read_on_open):
 #ifndef NO_MIX_SUPPORT
 int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 {
-	assert(!is_open());
 	if (mix_f.get_index(id) == -1)
 		return -1;
-    m_mix_f = &mix_f;
+	m_mix_f = &mix_f;
 	m_offset = m_mix_f->get_offset(id);
 	m_size = m_mix_f->get_size(id);
 	m_p = 0;
-    m_is_open = true;
+	m_is_open = true;
 	m_data = mix_f.get_vdata(id);
-    test_fail(post_open())
-    return 0;
+	test_fail(post_open())
+		return 0;
 }
 
 int Ccc_file::open(const string& name, Cmix_file& mix_f)
