@@ -1,10 +1,8 @@
-// XCC Map EncoderDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC Map Encoder.h"
 #include "XCC Map EncoderDlg.h"
 
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <strstream>
 #include "cc_file.h"
@@ -20,14 +18,13 @@
 #include "xcc_map.h"
 #include "xste.h"
 
+using namespace boost;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMapEncoderDlg dialog
 
 CXCCMapEncoderDlg::CXCCMapEncoderDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCMapEncoderDlg::IDD, pParent)
@@ -63,9 +60,6 @@ BEGIN_MESSAGE_MAP(CXCCMapEncoderDlg, CDialog)
 	ON_BN_CLICKED(IDC_CREATE_MMX, OnCreateMmx)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMapEncoderDlg message handlers
 
 BOOL CXCCMapEncoderDlg::OnInitDialog()
 {
@@ -197,7 +191,7 @@ void CXCCMapEncoderDlg::convert(string _fname, Ccc_file& f)
 		char b[MAX_PATH];
 		int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
 		if (length > 0 && length < MAX_PATH)
-			fname = to_lower(b);
+			fname = to_lower_copy(string(b));
 	}
 	string title = fname.get_ftitle();
 	if (m_create_xmmf)
