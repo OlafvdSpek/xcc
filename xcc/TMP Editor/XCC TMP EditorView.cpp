@@ -57,7 +57,8 @@ void CXCCTMPEditorView::load_color_table(const t_palet p)
 void CXCCTMPEditorView::load_grey_table(int c_colors)
 {
 	t_palet32bgr_entry* color_table = reinterpret_cast<t_palet32bgr_entry*>(m_color_table);
-	for (int i = 0; i < c_colors; i++)
+	int i = 0;
+	for (; i < c_colors; i++)
 	{
 		color_table[i].r = color_table[i].g = color_table[i].b = i * 255 / (c_colors - 1);
 	}

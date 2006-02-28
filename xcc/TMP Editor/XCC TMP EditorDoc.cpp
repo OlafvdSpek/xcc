@@ -78,7 +78,8 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 		{
 			for (int x = 0; x < cblocks_x; x++)
 			{
-				for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+				t_map::iterator i;
+				for (i = m_map.begin(); i != m_map.end(); i++)
 				{
 					t_map_entry& e = i->second;
 					if (e.header.x == half_cx * (x - y) && e.header.y == half_cy * (x + y))
@@ -469,7 +470,8 @@ void CXCCTMPEditorDoc::draw(byte* d, int outline, bool view_true_height) const
 		byte* w_line = get_p(d, header.x - global.x, header.y - global.y - header.height * half_cy, global_cx, global_cy);
 		int x = m_header.cx / 2;
 		int cx = 0;
-		for (int y = 0; y < half_cy; y++)
+		int y = 0;
+		for (; y < half_cy; y++)
 		{
 			cx += 4;
 			x -= 2;
@@ -531,7 +533,8 @@ void CXCCTMPEditorDoc::draw_reverse(const byte* d)
 		const byte* w_line = get_p(d, header.x - global.x, header.y - global.y - header.height * half_cy, global_cx, global_cy);
 		int x = m_header.cx / 2;
 		int cx = 0;
-		for (int y = 0; y < half_cy; y++)
+		int y = 0;
+		for (; y < half_cy; y++)
 		{
 			cx += 4;
 			x -= 2;
