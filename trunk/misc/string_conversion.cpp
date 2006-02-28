@@ -108,14 +108,7 @@ string nh(int l, __int64 v)
 	return s;
 }
 
-string to_normal0(string s)
-{
-	if (!s.empty())
-		s[0] = toupper(s[0]);
-	return s;
-}
-
-string nwp0(int l, unsigned int v)
+string nwp(int l, unsigned int v)
 {
 	string r;
 	string s = n(v);
