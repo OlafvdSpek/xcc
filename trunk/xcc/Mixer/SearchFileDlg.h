@@ -5,17 +5,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-// SearchFileDlg.h : header file
-//
-
 #include <string>
 #include "ListCtrlEx.h"
 #include "resource.h"
 
 using namespace std;
-
-/////////////////////////////////////////////////////////////////////////////
-// CSearchFileDlg dialog
 
 class CSearchFileDlg : public ETSLayoutDialog
 {

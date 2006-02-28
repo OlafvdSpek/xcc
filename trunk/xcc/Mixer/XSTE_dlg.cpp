@@ -1,24 +1,20 @@
-// XSTE_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XSTE_dlg.h"
 #include "XSTE_edit_dlg.h"
 
+#include <boost/algorithm/string.hpp>
 #include "SearchStringDlg.h"
 #include "mix_file.h"
 #include "string_conversion.h"
 #include "xcc_dirs.h"
+
+using namespace boost;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSTE_dlg dialog
-
 
 CXSTE_dlg::CXSTE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSTE_dlg::IDD, pParent, "XSTE_dlg")
@@ -145,8 +141,8 @@ static string get_cat(const string& name)
 	int a = name.find(':');
 	int b = name.find('_');
 	if (a == string::npos)
-		return b == string::npos ? "Other" : to_upper(name.substr(0, b));
-	return to_upper(b == string::npos ? name.substr(0, a) : name.substr(0, min(a, b)));
+		return b == string::npos ? "Other" : to_upper_copy(name.substr(0, b));
+	return to_upper_copy(b == string::npos ? name.substr(0, a) : name.substr(0, min(a, b)));
 }
 
 int CXSTE_dlg::get_cat_id(const string& name) const

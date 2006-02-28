@@ -49,7 +49,7 @@
 				Optimization="2"
 				InlineFunctionExpansion="1"
 				AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc,..\..\xhp\cgi-bin\misc"
-				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT"
+				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -145,7 +145,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc,..\..\xhp\cgi-bin\misc"
-				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT"
+				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
@@ -350,28 +350,6 @@
 			</File>
 			<File
 				RelativePath="..\misc\ListCtrlEx.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\misc\log_window.cpp"
 				>
 				<FileConfiguration
 					Name="Release|Win32"

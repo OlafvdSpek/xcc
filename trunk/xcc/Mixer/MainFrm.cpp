@@ -1,6 +1,3 @@
-// MainFrm.cpp : implementation of the CMainFrame class
-//
-
 #include "stdafx.h"
 #include "XCC Mixer.h"
 
@@ -10,6 +7,7 @@
 #include "XSE_dlg.h"
 #include "XSTE_dlg.h"
 
+#include <boost/algorithm/string.hpp>
 #include <cassert>
 #include <fstream>
 #include "aud_file.h"
@@ -27,6 +25,8 @@
 #include "xcc_log.h"
 #include "xccobjectextractordlg.h"
 #include "xste.h"
+
+using namespace boost;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -412,7 +412,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 			{
 				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 				{
-					const string fname = to_lower(fd.cFileName);
+					const string fname = to_lower_copy(string(fd.cFileName));
 					xcc_log::write_line("finds: " + fname, 1);
 					Cmix_file f;
 					if (!f.open(dir + fname))
@@ -1252,7 +1252,7 @@ void CMainFrame::OnLaunchXTW_TS()
 										Ctheme_data e;
 										e.name(Cfname(fd.cFileName).get_ftitle());
 										e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
-										theme_list[to_upper(Cfname(b).get_ftitle())] = e;
+										theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
 									}
 									f.close();
 								}
@@ -1267,12 +1267,12 @@ void CMainFrame::OnLaunchXTW_TS()
 					int j = 51;
 					t_theme_list::const_iterator i;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)
-						g << n(j++) << '=' << to_upper(i->first) << endl;
+						g << n(j++) << '=' << to_upper_copy(i->first) << endl;
 					g << endl;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)
 					{
 						const Ctheme_data& e = i->second;
-						g << '[' << to_upper(i->first) << ']' << endl
+						g << '[' << to_upper_copy(i->first) << ']' << endl
 							<< "Name=" << e.name() << endl;
 						if (e.normal())
 							g << "Length=" << e.length() << endl;
@@ -1344,7 +1344,7 @@ void CMainFrame::launch_xtw(t_game game)
 											Ctheme_data e;
 											e.name("THEME:" + Cfname(b).get_ftitle());
 											e.sound(Cfname(b).get_ftitle());
-											theme_list[to_upper(Cfname(b).get_ftitle())] = e;
+											theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
 											if (xste_open)
 												xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
 
@@ -1367,12 +1367,12 @@ void CMainFrame::launch_xtw(t_game game)
 					int j = 51;
 					t_theme_list::const_iterator i;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)
-						g << n(j++) << '=' << to_upper(i->first) << endl;
+						g << n(j++) << '=' << to_upper_copy(i->first) << endl;
 					g << endl;
 					for (i = theme_list.begin(); i != theme_list.end(); i++)
 					{
 						const Ctheme_data& e = i->second;
-						g << '[' << to_upper(i->first) << ']' << endl;
+						g << '[' << to_upper_copy(i->first) << ']' << endl;
 						if (!e.name().empty())
 							g << "Name=" << e.name() << endl;
 						if (!e.normal())
