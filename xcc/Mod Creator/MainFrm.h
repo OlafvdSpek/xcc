@@ -42,7 +42,7 @@ protected:
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	//}}AFX_MSG
-	afx_msg void OnLaunchApp(DWORD ID);
+	afx_msg void OnLaunchApp(UINT ID);
 	afx_msg void OnUpdateLaunchApp(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
 private:

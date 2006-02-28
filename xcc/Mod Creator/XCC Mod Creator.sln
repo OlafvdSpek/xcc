@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual Studio 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mod Creator", "XCC Mod Creator.vcproj", "{263CF2A6-0334-4FFE-8BA7-F482185585AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{73AA5F82-8E3C-44DC-A292-71B26F18BB76} = {73AA5F82-8E3C-44DC-A292-71B26F18BB76}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcproj", "{73AA5F82-8E3C-44DC-A292-71B26F18BB76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{263CF2A6-0334-4FFE-8BA7-F482185585AF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{263CF2A6-0334-4FFE-8BA7-F482185585AF}.Debug|Win32.Build.0 = Debug|Win32
+		{263CF2A6-0334-4FFE-8BA7-F482185585AF}.Release|Win32.ActiveCfg = Release|Win32
+		{263CF2A6-0334-4FFE-8BA7-F482185585AF}.Release|Win32.Build.0 = Release|Win32
+		{73AA5F82-8E3C-44DC-A292-71B26F18BB76}.Debug|Win32.ActiveCfg = Debug|Win32
+		{73AA5F82-8E3C-44DC-A292-71B26F18BB76}.Debug|Win32.Build.0 = Debug|Win32
+		{73AA5F82-8E3C-44DC-A292-71B26F18BB76}.Release|Win32.ActiveCfg = Release|Win32
+		{73AA5F82-8E3C-44DC-A292-71B26F18BB76}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

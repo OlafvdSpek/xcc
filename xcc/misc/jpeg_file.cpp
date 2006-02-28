@@ -7,10 +7,7 @@
 
 #include "fname.h"
 
-extern "C" 
-{
-#include "jpeglib.h"
-}
+#include <jpeglib.h>
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction

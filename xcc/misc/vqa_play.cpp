@@ -180,7 +180,7 @@ bool Cvqa_play::run()
 	if (error)
 		return false;
 	error = true;
-	const cb_sb = 2 * f->get_c_channels() * f->get_samplerate();
+	const int cb_sb = 2 * f->get_c_channels() * f->get_samplerate();
 	while (1)
 	{
 		if (f->get_chunk_id() == vqa_vqfl_id)
