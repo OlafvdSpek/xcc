@@ -3,7 +3,7 @@ Microsoft Developer Studio Workspace File, Format Version 6.00
 
 ###############################################################################
 
-Project: "XCC Library"="..\XCC Library\XCC Library.dsp" - Package Owner=<4>
+Project: "XCC Library"="..\Library\XCC Library.dsp" - Package Owner=<4>
 
 Package=<5>
 {{{
