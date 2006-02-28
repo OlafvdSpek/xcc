@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "shp_decode.h"
 
+#include <minilzo/minilzo.h>
 #include <cassert>
 #include "shp_decode.h"
-#include <minilzo.h>
 #include <memory>
 #include <minmax.h>
 #include "cc_structures.h"
@@ -391,7 +391,7 @@ inline static void write_v80(byte v, int count, byte*& d)
 	}
 }
 
-void get_same(const byte* s, const byte* r, const byte* s_end, const byte*& p, int& cb_p)
+void get_same(const byte* s, const byte* r, const byte* s_end, byte*& p, int& cb_p)
 {
 	_asm
 	{
@@ -1079,8 +1079,7 @@ int encode5s(const byte* s, byte* d, int cb_s)
 {
 	lzo_init();
 	static Cvirtual_binary t;
-	// static byte* t = new byte[LZO1X_1_MEM_COMPRESS];
-	unsigned int cb_d;
+	lzo_uint cb_d;
 	if (LZO_E_OK != lzo1x_1_compress(s, cb_s, d, &cb_d, t.write_start(LZO1X_1_MEM_COMPRESS)))
 		cb_d = 0;
 	return cb_d;
@@ -1102,7 +1101,7 @@ int encode5s_z(const byte* s, byte* d, int cb_s)
 int decode5s(const byte* s, byte* d, int cb_s)
 {
 	lzo_init();
-	unsigned int cb_d;
+	lzo_uint cb_d;
 	if (LZO_E_OK != lzo1x_decompress(s, cb_s, d, &cb_d, NULL))
 		return 0;
 	return cb_d;

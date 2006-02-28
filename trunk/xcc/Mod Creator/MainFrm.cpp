@@ -68,7 +68,7 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 /////////////////////////////////////////////////////////////////////////////
 // CMainFrame message handlers
 
-void CMainFrame::OnLaunchApp(DWORD ID) 
+void CMainFrame::OnLaunchApp(UINT ID) 
 {
 	t_app app = static_cast<t_app>(ID - ID_LAUNCH_XAP);
 	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
