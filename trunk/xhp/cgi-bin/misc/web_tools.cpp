@@ -1,15 +1,16 @@
 #include "stdafx.h"
+#include "web_tools.h"
+
+#include <boost/algorithm/string.hpp>
 #include "cgi.h"
 #include "multi_line.h"
 #include "string_conversion.h"
-#include "web_tools.h"
+
+using namespace boost;
 
 bool web_is_protocol_name(string v)
 {
-	v = to_lower(v);
-	if (v != "ftp" && v != "http")
-		return false;
-	return true;
+	return iequals(v, "ftp") || iequals(v, "http");
 }
 
 bool web_is_server_name(const string& v)
