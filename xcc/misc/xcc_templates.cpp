@@ -139,7 +139,7 @@ int Cxcc_templates::load_images(t_theater_id theater)
 	image_data = new byte[576 * write_i];
 	write_i = 0;
 	byte* write_p = image_data;
-	for (i = 0; i < 0xd8; i++)
+	for (int i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
 		const int c_images = td.c_images >> (theater << 3) & 0xff;
