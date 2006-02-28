@@ -1506,13 +1506,13 @@ void CXCCEditorView::OnPopupDelete()
 		}
 		break;
 	case oi_infantry:
-		level().infantry_data.erase(&level().infantry_data[m_current_object]);
+		level().infantry_data.erase(level().infantry_data.begin() + m_current_object);
 		break;
 	case oi_structure:
-		level().structure_data.erase(&level().structure_data[m_current_object]);
+		level().structure_data.erase(level().structure_data.begin() + m_current_object);
 		break;
 	case oi_unit:
-		level().unit_data.erase(&level().unit_data[m_current_object]);
+		level().unit_data.erase(level().unit_data.begin() + m_current_object);
 		break;
 	}
 	OnUpdate();

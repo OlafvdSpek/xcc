@@ -134,7 +134,7 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 		{
 			add_object(i);
 		}
-		for (i = 0; i < d.c_actions; i++)
+		for (int i = 0; i < d.c_actions; i++)
 		{
 			add_action(i);
 		}
