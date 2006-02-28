@@ -1,14 +1,14 @@
-// XCC Mod CreatorDoc.cpp : implementation of the CXCCModCreatorDoc class
-//
-
 #include "stdafx.h"
 
 #include "mainfrm.h"
 #include "XCC Mod CreatorDoc.h"
 
+#include <boost/algorithm/string.hpp>
 #include "file32.h"
 #include "fname.h"
 #include "string_conversion.h"
+
+using namespace boost;
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -16,18 +16,12 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorDoc
-
 IMPLEMENT_DYNCREATE(CXCCModCreatorDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CXCCModCreatorDoc, CDocument)
 	//{{AFX_MSG_MAP(CXCCModCreatorDoc)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorDoc construction/destruction
 
 CXCCModCreatorDoc::CXCCModCreatorDoc()
 {
@@ -47,9 +41,6 @@ BOOL CXCCModCreatorDoc::OnNewDocument()
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorDoc serialization
-
 void CXCCModCreatorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
@@ -61,7 +52,7 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 	else
 	{
 		Cfname fname = static_cast<string>(ar.m_strFileName);
-		bool import = to_lower(fname.get_fext()) == ".xmlf";
+		bool import = to_lower_copy(fname.get_fext()) == ".xmlf";
 		if (import)
 		{
 			fname.set_ext(".xmcf");

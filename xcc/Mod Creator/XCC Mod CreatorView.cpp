@@ -1,8 +1,6 @@
-// XCC Mod CreatorView.cpp : implementation of the CXCCModCreatorView class
-//
-
 #include "stdafx.h"
 
+#include <boost/algorithm/string.hpp>
 #include "XCC Mod CreatorDoc.h"
 #include "XCC Mod CreatorView.h"
 #include "options_dlg.h"
@@ -13,14 +11,13 @@
 #include "string_conversion.h"
 #include "xcc_apps.h"
 
+using namespace boost;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorView
 
 IMPLEMENT_DYNCREATE(CXCCModCreatorView, CListView)
 
@@ -42,9 +39,6 @@ BEGIN_MESSAGE_MAP(CXCCModCreatorView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_PROPERTIES, OnUpdatePopupProperties)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorView construction/destruction
 
 CXCCModCreatorView::CXCCModCreatorView()
 {
@@ -78,8 +72,6 @@ void CXCCModCreatorView::OnInitialUpdate()
 	CListView::OnInitialUpdate();
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorView message handlers
 void CXCCModCreatorView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStruct)
 {
 }
@@ -91,7 +83,7 @@ void CXCCModCreatorView::OnDropFiles(HDROP hDropInfo)
 	for (int i = 0; i < c_files; i++)
 	{
 		DragQueryFile(hDropInfo, i, fname, MAX_PATH);
-		insert(to_lower(fname));
+		insert(to_lower_copy(string(fname)));
 	}
 	DragFinish(hDropInfo);
 }
