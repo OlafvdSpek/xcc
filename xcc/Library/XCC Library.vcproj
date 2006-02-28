@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="XCC Library"
-	ProjectGUID="{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+	ProjectGUID="{73AA5F82-8E3C-44DC-A292-71B26F18BB76}"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -2906,11 +2906,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\misc\stdafx.h"
+				RelativePath="StdAfx.h"
 				>
 			</File>
 			<File
-				RelativePath="StdAfx.h"
+				RelativePath="..\..\misc\stdafx.h"
 				>
 			</File>
 			<File
