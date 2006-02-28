@@ -1,10 +1,8 @@
-// XCC Map DecoderDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC Map Decoder.h"
 #include "XCC Map DecoderDlg.h"
 
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <strstream>
 #include "cc_file.h"
@@ -13,14 +11,13 @@
 #include "mix_file_write.h"
 #include "string_conversion.h"
 
+using namespace boost;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMapDecoderDlg dialog
 
 CXCCMapDecoderDlg::CXCCMapDecoderDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCMapDecoderDlg::IDD, pParent)
@@ -137,7 +134,7 @@ void CXCCMapDecoderDlg::convert(string _fname)
 				char b[MAX_PATH];
 				int length = GetShortPathName(static_cast<string>(fname).c_str(), b, MAX_PATH);
 				if (length > 0 && length < MAX_PATH)
-					fname = to_lower(b);
+					fname = to_lower_copy(string(b));
 				string title = fname.get_ftitle();
 				strstream ini, pkt;
 				Cmix_file_write mmx_f(game_ra2);
