@@ -1,6 +1,3 @@
-// log_window.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "log_window.h"
 
@@ -9,9 +6,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Clog_window
 
 Clog_window::Clog_window()
 {
@@ -26,10 +20,6 @@ BEGIN_MESSAGE_MAP(Clog_window, CWnd)
 	//{{AFX_MSG_MAP(Clog_window)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-
-/////////////////////////////////////////////////////////////////////////////
-// Clog_window message handlers
 
 bool Clog_window::create()
 {
