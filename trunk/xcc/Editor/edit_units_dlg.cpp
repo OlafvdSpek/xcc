@@ -85,7 +85,7 @@ BOOL Cedit_units_dlg::OnInitDialog()
 		if (ud.flags & ud_flags_in_use)
 			last_i = i;
 	}
-	for (i = 0; i <= last_i; i++)
+	for (int i = 0; i <= last_i; i++)
 	{
 		add_item(i);
 	}

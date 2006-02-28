@@ -106,7 +106,7 @@ BOOL Cedit_structures_dlg::OnInitDialog()
 		if (sd.flags & sd_flags_in_use)
 			last_i = i;
 	}
-	for (i = 0; i <= last_i; i++)
+	for (int i = 0; i <= last_i; i++)
 	{
 			add_item(i);
 	}

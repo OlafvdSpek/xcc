@@ -80,7 +80,7 @@ BOOL Cedit_infantry_dlg::OnInitDialog()
 		if (id.flags & id_flags_in_use)
 			last_i = i;
 	}
-	for (i = 0; i <= last_i; i++)
+	for (int i = 0; i <= last_i; i++)
 	{
 		add_item(i);
 	}

@@ -163,7 +163,7 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 	}
 	m_list.set_item(s, i, 2);
 	s.erase();
-	for (j = 0; j < d.c_actions; j++)
+	for (int j = 0; j < d.c_actions; j++)
 	{
 		int v = d.action_list[j];
 		if (j)
