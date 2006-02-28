@@ -1,6 +1,3 @@
-// XCC MixerView.cpp : implementation of the CXCCMixerView class
-//
-
 #include "stdafx.h"
 #include "XCC Mixer.h"
 
@@ -10,6 +7,7 @@
 #include "XCC MixerView.h"
 #include "resource.h"
 
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <strstream>
 #include <id_log.h>
@@ -62,14 +60,13 @@
 #include "wsa_file.h"
 #include "xif_file.h"
 
+using namespace boost;
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerView
 
 IMPLEMENT_DYNCREATE(CXCCMixerView, CListView)
 
@@ -546,7 +543,7 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 	switch (m_sort_column)
 	{
 	case 0:
-		return ::compare(to_lower(a.name), to_lower(b.name));
+		return ::compare(to_lower_copy(a.name), to_lower_copy(b.name));
 	case 1:
 		return ::compare(a.ft, b.ft);
 	case 2:
