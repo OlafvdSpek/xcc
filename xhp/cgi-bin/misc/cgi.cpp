@@ -1,13 +1,13 @@
-// cgi_input.cpp: implementation of the Ccgi_input class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include <iostream>
 #include "cgi.h"
+
+#include <boost/algorithm/string.hpp>
+#include <iostream>
 #include "crc.h"
 #include "multi_line.h"
 #include "string_conversion.h"
+
+using namespace boost;
 
 const char* cgi_error_text[] = {
 	"Error: none",
@@ -26,32 +26,20 @@ string get_env(const string& name)
 
 static t_request_method get_request_method()
 {
-	const string v = to_lower(get_env("REQUEST_METHOD"));
-	if (v == "get")
+	const string v = get_env("REQUEST_METHOD");
+	if (iequals(v, "get"))
 		return rm_get;
-	else if (v == "post")
+	if (iequals(v, "post"))
 		return rm_post;
 	return rm_unknown;
 }
 
 static t_content_type get_content_type()
 {
-	const string v = to_lower(get_env("CONTENT_TYPE"));
-	if (v == "application/x-www-form-urlencoded")
+	const string v = get_env("CONTENT_TYPE");
+	if (iequals(v, "application/x-www-form-urlencoded"))
 		return ct_application;
-	/*
-	Cmulti_line l = v;
-	if (l.get_next_line(';') == "multipart/form-data")
-		return ct_multipart;
-	*/
 	return ct_unknown;
-}
-
-static string get_boundary()
-{
-	Cmulti_line l = to_lower(get_env("CONTENT_TYPE"));;
-	l.get_next_line("boundary=");
-	return l.get_next_line(';');
 }
 
 static int hex_decode(char v)
@@ -192,7 +180,7 @@ string web_decode(const string& v)
 		{
 			const char* a = v.c_str() + i + 1;
 			int j = v.find(';', i + 1);
-			if (string_equal_ip(a, "nbsp;"))
+			if (istarts_with(a, "nbsp;"))
 			{
 				i = j;
 				r += ' ';
