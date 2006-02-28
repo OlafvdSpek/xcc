@@ -494,7 +494,7 @@ int CXCCMIXEditorDlg::save_mix()
 		header->c_files = m_index.size();
 		header->size = max_offset - body_start;
 		t_mix_index_entry* index = reinterpret_cast<t_mix_index_entry*>(reinterpret_cast<byte*>(header) + sizeof(t_mix_header));
-		for (i = m_index.begin(); i != m_index.end(); i++)
+		for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
 		{
 			index->id = i->first;
 			index->offset = i->second.offset - body_start;
@@ -544,7 +544,7 @@ int CXCCMIXEditorDlg::compact_mix()
 				int min_offset = body_start;
 				for (t_ofs_list::const_iterator i = ofs_list.begin(); i != ofs_list.end(); i++)
 				{
-					j = m_index.find(i->second);
+					t_index::iterator j = m_index.find(i->second);
 					if (m_game == game_ts)
 						min_offset = (min_offset - body_start + 0xf & ~0xf) + body_start;
 					if (j->second.offset > min_offset)
