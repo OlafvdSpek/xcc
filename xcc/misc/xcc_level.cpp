@@ -787,7 +787,7 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 	}
 	d.c_actions = get_value(line.get_next_line(), 0, 64);
 	ZeroMemory(d.action_list, sizeof(d.action_list));
-	for (i = 0; i < d.c_actions; i++)
+	for (int i = 0; i < d.c_actions; i++)
 	{
 		Cmulti_line c = line.get_next_line();
 		const int z = get_action_id(c.get_next_line(':'));
@@ -1054,7 +1054,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 					':' + n(v & 0xff) + ',');
 			}
 			f.write(n(d.c_actions) + ',');
-			for (i = 0; i < d.c_actions; i++)
+			for (int i = 0; i < d.c_actions; i++)
 			{
 				int v = d.action_list[i];
 				f.write(static_cast<string>(action_code[v >> 8]) + ':' + n(v & 0xff) + ',');
@@ -1287,7 +1287,8 @@ void Cxcc_level::process()
 		// base
 		for (t_base_data::const_iterator i = base_data.begin(); i != base_data.end(); i++)
 		{
-			for (t_structure_data::iterator j = structure_data.begin(); j < structure_data.end(); j++)
+			t_structure_data::iterator j;
+			for (j = structure_data.begin(); j < structure_data.end(); j++)
 			{
 				if (i->first == j->cell.get_xcc() && i->second == j->t)
 				{
