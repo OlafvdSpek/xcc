@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "irc_params.h"
 
+#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
+
+using namespace boost;
 
 void Circ_params::clear()
 {
@@ -102,7 +105,7 @@ const string& Circ_params::p(int i) const
 
 bool Circ_params::p_equal(int i, const string& v) const
 {
-	return string_equal_i(p(i), v);
+	return iequals(p(i), v);
 }
 
 int Circ_params::p_int(int i) const

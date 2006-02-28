@@ -108,56 +108,14 @@ string nh(int l, __int64 v)
 	return s;
 }
 
-bool is_white(char v)
-{
-	switch (v)
-	{
-	case '\t':
-	case '\n':
-	case '\r':
-	case ' ':
-		return true;
-	default:
-		return false;
-	}
-}
-
-void ltrim(string& s)
-{
-	while (!s.empty() && is_white(s[0]))
-		s.erase(0, 1);
-}
-
-void rtrim(string& s)
-{
-	while (!s.empty() && is_white(s[s.length() - 1]))
-		s.erase(s.length() - 1, 1);
-}
-
-string to_lower(const string& s)
-{
-	string r;
-	for (int i = 0; i < s.length(); i++)
-		r += tolower(s[i]);
-	return r;
-}
-
-string to_normal(string s)
+string to_normal0(string s)
 {
 	if (!s.empty())
 		s[0] = toupper(s[0]);
 	return s;
 }
 
-string to_upper(const string& s)
-{
-	string r;
-	for (int i = 0; i < s.length(); i++)
-		r += toupper(s[i]);
-	return r;
-}
-
-string nwp(int l, unsigned int v)
+string nwp0(int l, unsigned int v)
 {
 	string r;
 	string s = n(v);
@@ -210,32 +168,6 @@ string tabs2spaces(const string& v)
 			r += c;
 	}
 	return r;
-}
-
-bool string_equal_i(const char* a, const char* b)
-{
-	while (1)
-	{
-		if (*a != *b && tolower(*a) != tolower(*b))
-			return false;
-		if (!*a)
-			return true;
-		a++;
-		b++;
-	}
-}
-
-bool string_equal_ip(const char* a, const char* b)
-{
-	while (1)
-	{
-		if (!*b)
-			return true;
-		if (*a != *b && tolower(*a) != tolower(*b))
-			return false;
-		a++;
-		b++;
-	}
 }
 
 string time2a(time_t v)
