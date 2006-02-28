@@ -1,6 +1,3 @@
-// download_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "download_dlg.h"
 
@@ -11,10 +8,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdownload_dlg dialog
-
 
 Cdownload_dlg::Cdownload_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cdownload_dlg::IDD, pParent)
