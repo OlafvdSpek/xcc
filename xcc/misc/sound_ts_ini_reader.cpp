@@ -1,10 +1,9 @@
-// sound_ts_ini_reader.cpp: implementation of the Csound_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "string_conversion.h"
 #include "sound_ts_ini_reader.h"
+
+#include <boost/algorithm/string.hpp>
+
+using namespace boost;
 
 Csound_data::Csound_data()
 {
@@ -56,7 +55,7 @@ int Csound_ts_ini_reader::process_key(const string& name, const string& value)
 	switch (m_section)
 	{
 	case sei_sounds:
-		m_sound_list[to_lower(value)];
+		m_sound_list[to_lower_copy(value)];
 		break;
 	case sei_unknown:
 		switch (find_id(name, sound_code, soi_unknown))

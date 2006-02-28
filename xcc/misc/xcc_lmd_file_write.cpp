@@ -1,20 +1,15 @@
-// xcc_lmd_file_write.cpp: implementation of the Cxcc_lmd_file_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "cc_structures.h"
-#include "string_conversion.h"
-#include "xcc_file.h"
 #include "xcc_lmd_file_write.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <boost/algorithm/string.hpp>
+#include "cc_structures.h"
+#include "xcc_file.h"
+
+using namespace boost;
 
 void Cxcc_lmd_file_write::add_fname(const string& fname)
 {
-	m_index.push_back(to_lower(fname));
+	m_index.push_back(to_lower_copy(fname));
 }
 
 Cvirtual_binary Cxcc_lmd_file_write::write(t_game game) const

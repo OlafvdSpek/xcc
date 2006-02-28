@@ -1,11 +1,9 @@
-// extract_object.cpp: implementation of the Cextract_object class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
+#include "extract_object.h"
+
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include "aud_file.h"
-#include "extract_object.h"
 #include "file31.h"
 #include "fname.h"
 #include "mix_file_write.h"
@@ -16,9 +14,7 @@
 #include "web_tools.h"
 #include "xcc_dirs.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+using namespace boost;
 
 Cextract_object::Cextract_object()
 {
@@ -238,14 +234,14 @@ void Cextract_object::store_file(string name, Cxif_key& k, int& n)
 	if (mix_sfl::contains(m_game, Cmix_file::get_id(m_game, name)))
 	{
 		Cxif_key& l = k.open_key_edit(ki_files).open_key_write(n++);
-		l.set_value_string(vi_name, to_lower(name));
+		l.set_value_string(vi_name, to_lower_copy(name));
 		return;
 	}
 	Ccc_file f(true);
 	if (!open(f, name))
 	{
 		Cxif_key& l = k.open_key_edit(ki_files).open_key_write(n++);
-		l.set_value_string(vi_name, to_lower(name));
+		l.set_value_string(vi_name, to_lower_copy(name));
 		l.set_value_binary(vi_value, f.get_vdata());
 		f.close();
 	}
@@ -318,9 +314,9 @@ void Cextract_object::add_one(string name, t_object_type ot)
 			const t_object_type_list& tl = get_object_type_list(ot);
 			if (tl.find(name) == tl.end())
 			{
-				if (tl.find(to_upper(name)) != tl.end())
+				if (tl.find(to_upper_copy(name)) != tl.end())
 				{
-					add_one(to_upper(name), ot);
+					add_one(to_upper_copy(name), ot);
 					return;
 				}
 				if (ot != ot_animation)

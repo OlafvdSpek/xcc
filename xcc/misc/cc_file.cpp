@@ -1,10 +1,7 @@
-// cc_file.cpp: implementation of the Ccc_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "cc_file.h"
 
+#include <boost/algorithm/string.hpp>
 #include "art_ts_ini_reader.h"
 #include "aud_file.h"
 #include "avi_file.h"
@@ -59,9 +56,7 @@
 #include "xcc_lmd_file.h"
 #include "xif_file.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+using namespace boost;
 
 const char* ft_name[] = 
 {
@@ -188,7 +183,7 @@ int Ccc_file::open(const string& name)
     if (m_read_on_open)
         m_f.close();
 #ifndef NO_FT_SUPPORT
-	Cfname fname = to_lower(name);
+	Cfname fname = to_lower_copy(name);
 	if (fname.get_fext() == ".mmx")
 	{
 		fname.set_ext(".map");

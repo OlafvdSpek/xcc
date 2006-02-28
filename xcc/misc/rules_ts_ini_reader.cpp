@@ -1,11 +1,10 @@
-// rules_ts_ini_reader.cpp: implementation of the Crules_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "multi_line.h"
 #include "rules_ts_ini_reader.h"
-#include "string_conversion.h"
+
+#include <boost/algorithm/string.hpp>
+#include "multi_line.h"
+
+using namespace boost;
 
 static const char* section_code[] = 
 {
@@ -39,7 +38,7 @@ void Crules_ts_ini_reader::erase()
 int Crules_ts_ini_reader::process_section_start(const string& line)
 {
 	m_current_entry = NULL;
-	m_section = static_cast<t_section_id>(find_id(to_lower(line), section_code, sei_unknown));
+	m_section = static_cast<t_section_id>(find_id(to_lower_copy(line), section_code, sei_unknown));
 	if (m_section == sei_unknown)
 	{
 		m_current_entry = &m_rules_list[line];

@@ -1,10 +1,7 @@
-// mix_file.cpp: implementation of the Cmix_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include <stdafx.h>
 #include "mix_file.h"
 
+#include <boost/algorithm/string.hpp>
 #include "big_file.h"
 #include "blowfish.h"
 #include "crc.h"
@@ -16,13 +13,10 @@
 #include "string_conversion.h"
 #include "xcc_lmd_file.h"
 
+using namespace boost;
 using namespace std;
 
 bool Cmix_file::m_ft_support = false;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cmix_file::Cmix_file():
     Ccc_file(false)
@@ -383,7 +377,7 @@ t_file_type Cmix_file::get_type(int id)
 
 int Cmix_file::get_id(t_game game, string name)
 {
-	name = to_upper(name);
+	to_upper(name);
 	for (int i = 0; i < name.length(); i++)
 	{
 		if (name[i] == '/')
