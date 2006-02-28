@@ -1,11 +1,11 @@
-// ini_reader.cpp: implementation of the Cini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ini_reader.h"
+
+#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
 #include "virtual_tfile.h"
+
+using namespace boost;
 
 Cini_reader::Cini_reader()
 {
@@ -27,10 +27,8 @@ static int split_key_now(const string& key, string& name, string& value)
 	int i = key.find('=');
 	if (i == string::npos)
 		return 1;
-	name = key.substr(0, i);
-	value = key.substr(i + 1);
-	rtrim(name);
-	ltrim(value);
+	name = trim_copy(key.substr(0, i));
+	value = trim_copy(key.substr(i + 1));
 	return 0;
 }
 
@@ -81,7 +79,7 @@ int Cini_reader::process_line(string line)
 				process_section_end();
 			m_section_open = true;
 			line = line.substr(first_non_ws, last_non_ws - first_non_ws);
-			return process_section_start(m_lower_case ? to_lower(line) : line);
+			return process_section_start(m_lower_case ? to_lower_copy(line) : line);
 		default:
 			if (!process_section())
 				return 0;
@@ -99,7 +97,7 @@ int Cini_reader::process_line(string line)
 					{
 						string name = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
 						if (m_lower_case)
-							name = to_lower(name);
+							to_lower(name);
 						i++;
 						while (i < line.length())
 						{

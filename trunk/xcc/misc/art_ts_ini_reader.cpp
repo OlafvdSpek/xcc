@@ -1,10 +1,9 @@
-// art_ts_ini_reader.cpp: implementation of the Cart_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "art_ts_ini_reader.h"
-#include "string_conversion.h"
+
+#include <boost/algorithm/string.hpp>
+
+using namespace boost;
 
 static const char* section_code[] = {"movies", "unknown"};
 
@@ -230,7 +229,7 @@ void Cart_ts_ini_reader::erase()
 
 int Cart_ts_ini_reader::process_section_start(const string& line)
 {
-	m_section = static_cast<t_section_id>(find_id(to_lower(line), section_code, sei_unknown));
+	m_section = static_cast<t_section_id>(find_id(to_lower_copy(line), section_code, sei_unknown));
 	if (m_section == sei_unknown)
 	{
 		t_art_list::iterator i = m_art_list.find(line);
@@ -252,7 +251,7 @@ int Cart_ts_ini_reader::process_key(const string& name, const string& value)
 	switch (m_section)
 	{
 	case sei_movies:
-		m_movie_list.insert(to_lower(value));
+		m_movie_list.insert(to_lower_copy(value));
 		break;
 	case sei_unknown:
 		if (m_fast)

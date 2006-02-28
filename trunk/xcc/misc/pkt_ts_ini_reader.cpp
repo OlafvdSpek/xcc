@@ -1,14 +1,13 @@
-// pkt_ts_ini_reader.cpp: implementation of the Cpkt_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "pkt_ts_ini_reader.h"
 
+#include <boost/algorithm/string.hpp>
 #include "html.h"
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "xste.h"
+
+using namespace boost;
 
 static const char* section_code[] = {"multimaps", "unknown"};
 static const char* map_code[] = {"description", "cd", "minplayers", "maxplayers", "gamemode", "unknown"};
@@ -52,7 +51,7 @@ int Cpkt_ts_ini_reader::process_key(const string& name, const string& value)
 	switch (m_section)
 	{
 	case sei_multi_maps:
-		m_map_list[to_lower(value)];
+		m_map_list[to_lower_copy(value)];
 		break;
 	case sei_unknown:
 		switch (find_id(name, map_code, mai_unknown))
@@ -110,8 +109,8 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 		if (xste_available)
 		{
 			Ccsf_file& csf_f = xste.csf_f();
-			if (csf_f.has_name(to_lower(description)))
-				description = csf_f.get_converted_value(to_lower(description));
+			if (csf_f.has_name(to_lower_copy(description)))
+				description = csf_f.get_converted_value(to_lower_copy(description));
 		}
 		os << "<tr><td>" + a(i->first, "href=" + i->first + ".html") + "<td>" + description + "<td>" + i->second.m_gamemode + "<td><img src=" + i->first + "_pv.png>";
 		// page += "\"" + i->first + "\", " + "\"" + description + "\",\n";

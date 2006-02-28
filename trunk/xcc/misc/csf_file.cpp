@@ -1,11 +1,9 @@
-// csf_file.cpp: implementation of the Ccsf_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "csf_file.h"
 
-#include "string_conversion.h"
+#include <boost/algorithm/string.hpp>
+
+using namespace boost;
 
 int read_int(const byte*& r)
 {
@@ -23,7 +21,7 @@ void write_int(byte*& w, int v)
 string read_string(const byte*& r)
 {
 	int cb_s = read_int(r);
-	string s = to_lower(string(reinterpret_cast<const char*>(r), cb_s));
+	string s = to_lower_copy(string(reinterpret_cast<const char*>(r), cb_s));
 	r += cb_s;
 	return s;
 }
