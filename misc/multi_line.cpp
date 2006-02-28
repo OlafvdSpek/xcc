@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "multi_line.h"
-#include "string_conversion.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <boost/algorithm/string.hpp>
+
+using namespace boost;
 
 Cmulti_line::Cmulti_line()
 {
