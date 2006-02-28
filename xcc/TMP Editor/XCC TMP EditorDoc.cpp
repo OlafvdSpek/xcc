@@ -1,10 +1,8 @@
-// XCC TMP EditorDoc.cpp : implementation of the CXCCTMPEditorDoc class
-//
-
 #include "stdafx.h"
 
 #include "XCC TMP EditorDoc.h"
 
+#include <boost/algorithm/string.hpp>
 #include "mix_file.h"
 #include "pal_file.h"
 #include "string_conversion.h"
@@ -16,8 +14,7 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorDoc
+using namespace boost;
 
 IMPLEMENT_DYNCREATE(CXCCTMPEditorDoc, CDocument)
 
@@ -25,9 +22,6 @@ BEGIN_MESSAGE_MAP(CXCCTMPEditorDoc, CDocument)
 	//{{AFX_MSG_MAP(CXCCTMPEditorDoc)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorDoc construction/destruction
 
 CXCCTMPEditorDoc::CXCCTMPEditorDoc()
 {
@@ -148,7 +142,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 						e.extra_z_data = Cvirtual_binary(f.get_extra_z_data(i), cb_extra_data);
 				}
 			}
-			string ext = to_lower(Cfname(static_cast<string>(ar.m_strFileName)).get_fext());
+			string ext = to_lower_copy(Cfname(static_cast<string>(ar.m_strFileName)).get_fext());
 			if (ext == ".des")
 				load_desert_palet(false);
 			else if (ext == ".lun")
