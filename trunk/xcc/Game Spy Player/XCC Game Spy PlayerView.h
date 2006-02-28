@@ -1,7 +1,3 @@
-// XCC Game Spy PlayerView.h : interface of the CXCCGameSpyPlayerView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_XCCGAMESPYPLAYERVIEW_H__E4CF5DA8_AEB9_4886_9D47_C175EF7FE098__INCLUDED_)
 #define AFX_XCCGAMESPYPLAYERVIEW_H__E4CF5DA8_AEB9_4886_9D47_C175EF7FE098__INCLUDED_
 
@@ -9,7 +5,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "../xcc game spy/game_state.h"
+#include "../game spy/game_state.h"
 #include "map_ts_encoder.h"
 
 class CXCCGameSpyPlayerView : public CView
