@@ -80,11 +80,10 @@
 			$link = trim($_REQUEST['link']);
 			$reason = trim($_REQUEST['reason']);
 			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
-			$dura *= 24 * 60 * 60;
 			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 			{
 				db_query(sprintf("insert into xbl (admin, sid, name, link, reason, duration, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
-					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), $dura));
+					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
 			}
 		}
 		require('templates/bl_insert.php');
@@ -169,7 +168,7 @@
 			$motd = trim($_REQUEST['motd']);
 			$reason = trim($_REQUEST['reason']);
 			db_query(sprintf("update xbl set duration = %d, motd = '%s', link = '%s', reason = '%s', mtime = unix_timestamp() where wid = %d",
-				$duration, addslashes($motd), addslashes($link), addslashes($reason), $wid));
+				24 * 60 * 60 * $duration, addslashes($motd), addslashes($link), addslashes($reason), $wid));
 		}
 		$results = db_query(sprintf("select * from xbl where wid = %d", $wid));
 		if ($row = mysql_fetch_array($results))
@@ -195,7 +194,7 @@
 			}
 			$creator = $row['admin'];
 			$ctime = gmdate("H:i d-m-Y", $row['ctime']);
-			$duration = htmlspecialchars($row['duration']);
+			$duration = htmlspecialchars(ceil($row['duration'] / (24 * 60 * 60)));
 			$link = htmlspecialchars($row['link']);
 			$mtime = gmdate("H:i d-m-Y", $row['mtime']);
 			$motd = htmlspecialchars($row['motd']);
