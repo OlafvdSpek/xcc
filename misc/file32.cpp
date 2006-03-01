@@ -1,7 +1,3 @@
-// file32.cpp: implementation of the Cfile32 class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "file32.h"
 
