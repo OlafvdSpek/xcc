@@ -95,8 +95,7 @@ function page_xwis_top()
 	document.write('<a href="http://strike-team.net/forums/">Forum</a> | ');
 	// document.write('<a href="?">Online</a> | ');
 	document.write('<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | ');
-	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | ');
-	document.write('<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>');
+	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a><br>');
 	document.write('<a href="?hof=" title="Hall of Fame">HoF</a> | ');
 	document.write('<a href="?hos=" title="Hall of Shame">HoS</a> | ');
 	document.write('<a href="?">Home</a> | ');
@@ -114,8 +113,7 @@ function page_top(frozen)
 	document.write('<a href="http://strike-team.net/forums/">Forum</a> | ');
 	// document.write('<a href="?">Online</a> | ');
 	document.write('<a href="http://strike-team.net/nuke/html/modules.php?op=modload&amp;name=News&amp;file=article&amp;sid=13">Rules</a> | ');
-	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a> | ');
-	document.write('<a href="/downloads/XWISC.exe" title="XCC WOL IRC Server Client">XWISC</a><br>');
+	document.write('<a href="http://xccu.sourceforge.net/utilities/XGS.exe" title="XCC Game Spy">XGS</a><br>');
 	document.write('<a href="?hof=" title="Hall of Fame">HoF</a> | ');
 	document.write('<a href="?hos=" title="Hall of Shame">HoS</a> | ');
 	document.write('<a href="?">Home</a> | ');
