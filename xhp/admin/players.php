@@ -80,11 +80,11 @@
 			$link = trim($_REQUEST['link']);
 			$reason = trim($_REQUEST['reason']);
 			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
+			$dura *= 24 * 60 * 60;
 			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 			{
 				db_query(sprintf("insert into xbl (admin, sid, name, link, reason, duration, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
 					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), $dura));
-				// db_query(sprintf("update xwi_serials set wtime = unix_timestamp() + %d where sid in (%s)", 24 * 60 * 60 * $dura, addslashes(implode(",", $sids))));
 			}
 		}
 		require('templates/bl_insert.php');
