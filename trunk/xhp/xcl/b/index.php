@@ -50,10 +50,10 @@
 	{
 		$pnames = explode(',', $pname);
 		foreach ($pnames as $key => $pname)
-			$pnames[$key] = sprintf("\"%s\"", AddSlashes(trim($pname)));
+			$pnames[$key] = sprintf("'%s'", AddSlashes(trim($pname)));
 		$results = db_query(sprintf("select * from %s where name in (%s)", $tables['players'], implode(",", $pnames)));
 		while ($result = mysql_fetch_assoc($results))
-			printf("document.write(\"<a href=\\\"http://xwis.net/xcl/?%s=%d\\\">%s</a>: #%d %d / %d %dp<br>\");", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points']);
+			printf("document.write('<a href=\"http://xwis.net/xcl/?%s=%d\">%s</a>: #%d %d / %d %dp<br>');", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points']);
 		return;
 	}
 	else if (isset($_REQUEST['pure']))
@@ -69,7 +69,7 @@
 			if ($pid)
 				$results = db_query(sprintf("select * from %s where pid = %d", $tables['players'], $pid));
 			else if ($pname)
-				$results = db_query(sprintf("select * from %s where lid = %d and name = \"%s\"", $lid, $tables['players'], AddSlashes($_REQUEST['pname'])));
+				$results = db_query(sprintf("select * from %s where lid = %d and name = '%s'", $tables['players'], $lid, AddSlashes($_REQUEST['pname'])));
 			else
 				$results = db_query(sprintf("select * from %s where lid = %d and points", $tables['players'], $lid));
 			while ($result = mysql_fetch_assoc($results))
