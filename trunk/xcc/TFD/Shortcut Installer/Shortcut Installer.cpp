@@ -131,7 +131,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		try
 		{
 			Cgame gr(key_tfd, "gr_");
-			Creg_key(key_ea_games, "Generals", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", gr.m_folder + "\\" + gr.m_executable);
+			Creg_key(key_ea_games, "Generals", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", gr.m_folder + "\\");
 			create_shortcut(gr.m_folder + "\\" + gr.m_executable, gr.m_args, common_programs + "\\Generals.lnk");
 		}
 		catch (exception&)
