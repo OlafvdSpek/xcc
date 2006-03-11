@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Shortcut Installer", "Shortcut Installer.vcproj", "{3E487B73-253E-45D7-923F-2712C8AA20AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3E487B73-253E-45D7-923F-2712C8AA20AA}.Debug|Win32.ActiveCfg = Debug|Win32
+		{3E487B73-253E-45D7-923F-2712C8AA20AA}.Debug|Win32.Build.0 = Debug|Win32
+		{3E487B73-253E-45D7-923F-2712C8AA20AA}.Release|Win32.ActiveCfg = Release|Win32
+		{3E487B73-253E-45D7-923F-2712C8AA20AA}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
