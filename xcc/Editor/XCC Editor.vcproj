@@ -1213,14 +1213,6 @@
 				>
 			</File>
 		</Filter>
-		<File
-			RelativePath="ReadMe.txt"
-			>
-		</File>
-		<File
-			RelativePath="XCC Editor.reg"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>
