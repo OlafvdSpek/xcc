@@ -1,16 +1,15 @@
-// xcc_level.cpp: implementation of the Cxcc_level class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_level.h"
 
+#include <boost/algorithm/string.hpp>
 #include "virtual_tfile_write.h"
 #include "xcc_log.h"
 #include "xcc_infantry.h"
 #include "xcc_structures.h"
 #include "xcc_templates.h"
 #include "xcc_units.h"
+
+using namespace boost;
 
 const char* section_code[] = 
 {
@@ -867,7 +866,7 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 		if (pos != -1)
 			s.erase(pos, s.npos);
 		trim(s);
-		s = to_lower(s);
+		to_lower(s);
 		if (s.empty())
 			continue;
 		try
