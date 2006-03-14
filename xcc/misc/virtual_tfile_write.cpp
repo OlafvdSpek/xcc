@@ -1,25 +1,21 @@
-// virtual_tfile_write.cpp: implementation of the Cvirtual_tfile_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "virtual_tfile_write.h"
 
-#include "string_conversion.h"
+#include <boost/algorithm/string.hpp>
+
+using namespace boost;
 
 Cvirtual_binary Cvirtual_tfile_write::save()
 {
-	Cvirtual_binary d;
-	memcpy(d.write_start(m_v.pcount()), m_v.str(), m_v.pcount());
-	return d;
+	return Cvirtual_binary(m_v.str(), m_v.pcount());
 }
 
 void Cvirtual_tfile_write::write(const string& s)
 {
-	m_v << to_upper(s);
+	m_v << to_upper_copy(s);
 }
 
 void Cvirtual_tfile_write::write_line(const string& s)
 {
-	m_v << to_upper(s) << endl;
+	m_v << to_upper_copy(s) << endl;
 }
