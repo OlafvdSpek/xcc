@@ -20,7 +20,7 @@
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="2"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			>
@@ -52,7 +52,7 @@
 				AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc,..\..\xhp\cgi-bin\misc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -76,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zdll.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib"
 				OutputFile=".\Release/XCC TMP Editor.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

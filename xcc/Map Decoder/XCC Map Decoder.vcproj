@@ -175,7 +175,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbz2.lib libpng.lib zdll.lib"
+				AdditionalDependencies="libbz2.lib libpng.lib zlib_static.lib"
 				OutputFile=".\Release/XCC Map Decoder.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
