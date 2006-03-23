@@ -10,7 +10,7 @@ using namespace std;
 static CRITICAL_SECTION g_lock;
 bool g_lock_inited = false;
 static ofstream log_f;
-static int log_t = time(NULL);
+static time_t log_t = time(NULL);
 static int log_x = 0;
 
 #ifdef __AFX_H__

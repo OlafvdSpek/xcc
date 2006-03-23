@@ -102,7 +102,7 @@ void Cdlg_shp_viewer::OnTimer(UINT nIDEvent)
 	if (m_timer_id == nIDEvent)
 	{
 		int frame = m_slider.GetPos();
-		int t = time(NULL);
+		time_t t = time(NULL);
 		if (m_frame != frame)
 		{
 			m_last_access = t;
@@ -130,7 +130,8 @@ Cvirtual_image Cdlg_shp_viewer::decode_image(int i) const
 	if (m_decoder->palet())
 	{
 		const t_palet_entry* p = m_decoder->palet();
-		for (int i = 0; i < 256; i++)
+		int i = 0;
+		for (; i < 256; i++)
 		{
 			if ((p[i].r | p[i].g | p[i].b) & 0xc0)
 				break;
