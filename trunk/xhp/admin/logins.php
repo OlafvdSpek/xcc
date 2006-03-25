@@ -1,15 +1,15 @@
 <?php
 	require_once('common.php');
 
-	header("refresh: 60");
+	header('refresh: 60');
 	require('templates/links.php');
 	echo('<hr>');
 	require('templates/search.php');
 	echo('<hr>');
-	$ipa = $_REQUEST[ipa];
-	$pid = $_REQUEST[pid];
-	$pname = trim($_REQUEST[pname]);
-	$sid = $_REQUEST[sid];
+	$ipa = $_REQUEST['ipa'];
+	$pid = $_REQUEST['pid'];
+	$pname = trim($_REQUEST['pname']);
+	$sid = $_REQUEST['sid'];
 	if (strlen($pname) && ip2long($pname) != -1)
 		$ipa = ip2long($pname);
 	if ($ipa)
@@ -34,7 +34,7 @@
 	else
 		$where = " where 0 = 1";
 	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, l.count, l.mtime, l.ctime from xwi_players inner join xwi_logins1 l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by mtime desc%s", $where, $where ? "" : " limit 250"));
-	echo("<table>");
+	echo('<table>');
 	while ($result = mysql_fetch_array($results))
 	{
 		printf('<tr>');
@@ -53,18 +53,36 @@
 		$results = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by ipa", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%dx<td>%s<td>%s", $result[c], long2ip($result[ipa]), ''); // gethostbyaddr(long2ip($result[ipa])));
+		{
+			printf('<tr>');
+			printf('<td align=right>%dx', $result['c']);
+			printf('<td>%s', long2ip($result['ipa']));
+			printf('<td>%s', gethostbyaddr(long2ip($result['ipa'])));
+		}
 		echo("</table>");
 		$results = db_query(sprintf("select gsku, sum(count) c from xwi_logins1 l inner join xwi_players using (pid) %s group by gsku", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%dx<td align=right>%x", $result[c], $result[gsku]);
-		echo("</table>");
+		{
+			printf('<tr>');
+			printf('<td align=right>%dx', $result['c']);
+			printf('<td align=right>%x', $result['gsku']);
+		}
+		echo('</table>');
 		$results = db_query(sprintf("select xwi_serials.*, sum(count) c from xwi_serials inner join xwi_logins1 l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
-		echo("<hr><table>");
+		echo('<hr><table>');
 		while ($result = mysql_fetch_array($results))
-			printf('<tr><td align=right>%dx<td align=right><a href="?sid=%d">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s', $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
-		echo("</table>");
+		{
+			printf('<tr>');
+			printf('<td align=right>%dx', $result['c']);
+			printf('<td align=right><a href="?sid=%d">%d</a>', $result['sid'], $result['sid']);
+			printf('<td align=right>%x', $result['gsku']);
+			printf('<td align=right>%d', $result['valid']);
+			printf('<td>%s', gmdate('H:i d-m-Y', $result['mtime']));
+			if ($result['wtime'])
+				printf('<td>%s', gmdate('H:i d-m-Y', $result['wtime']));
+		}
+		echo('</table>');
 	}
 	echo('<hr>');
 	require('templates/links.php');
