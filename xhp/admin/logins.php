@@ -32,31 +32,38 @@
 	else if ($sid)
 		$where = sprintf(" where l.sid = %d", $sid);
 	else
-		$where = "";
-	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, time from xwi_players inner join xwi_logins l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by time desc%s", $where, $where ? "" : " limit 250"));
+		$where = " where 0 = 1";
+	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, l.count, l.mtime, l.ctime from xwi_players inner join xwi_logins1 l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by mtime desc%s", $where, $where ? "" : " limit 250"));
 	echo("<table>");
 	while ($result = mysql_fetch_array($results))
 	{
-		printf('<tr><td><a href="?pname=%s">%s<td><a href="players.php?pname=%s">P<td><a href="?ipa=%d">%s</a><td>%d<td align=right>%x<td align=right><a href="?sid=%d">%d</a><td>%s',
-			$result[name], $result[name], $result[name], $result[ipa], long2ip($result[ipa]), $result[valid], $result[gsku], $result[sid], $result[sid], gmdate("H:i:s d-m-Y", $result[time]));
+		printf('<tr>');
+		printf('<td align=right>%dx', $result['count']);
+		printf('<td><a href="?pname=%s">%s', $result['name'], $result['name']);
+		printf('<td><a href="players.php?pname=%s">P', $result['name']);
+		printf('<td><a href="?ipa=%d">%s</a>', $result['ipa'], long2ip($result['ipa']));
+		printf('<td>%d<td align=right>%x', $result['gsku'], $result['gsku']);
+		printf('<td align=right><a href="?sid=%d">%d</a>', $result['sid'], $result['sid']);
+		printf('<td>%s', gmdate("H:i:s d-m-Y", $result['mtime']));
+		printf('<td>%s', gmdate("H:i:s d-m-Y", $result['ctime']));
 	}
 	echo("</table>");
 	if ($where)
 	{
-		$results = db_query(sprintf("select ipa, count(*) c from xwi_logins l inner join xwi_players using (pid)%s group by ipa", $where));
+		$results = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by ipa", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td>%s<td>%s", $result[c], long2ip($result[ipa]), ''); // gethostbyaddr(long2ip($result[ipa])));
+			printf("<tr><td align=right>%dx<td>%s<td>%s", $result[c], long2ip($result[ipa]), ''); // gethostbyaddr(long2ip($result[ipa])));
 		echo("</table>");
-		$results = db_query(sprintf("select gsku, count(*) c from xwi_logins l inner join xwi_players using (pid) %s group by gsku", $where));
+		$results = db_query(sprintf("select gsku, sum(count) c from xwi_logins1 l inner join xwi_players using (pid) %s group by gsku", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td align=right>%x", $result[c], $result[gsku]);
+			printf("<tr><td align=right>%dx<td align=right>%x", $result[c], $result[gsku]);
 		echo("</table>");
-		$results = db_query(sprintf("select xwi_serials.*, count(*) c from xwi_serials inner join xwi_logins l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
+		$results = db_query(sprintf("select xwi_serials.*, sum(count) c from xwi_serials inner join xwi_logins1 l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
-			printf('<tr><td align=right>%d<td align=right><a href="?sid=%d">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s', $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
+			printf('<tr><td align=right>%dx<td align=right><a href="?sid=%d">%d</a><td align=right>%x<td align=right>%d<td>%s<td>%s', $result[c], $result[sid], $result[sid], $result[gsku], $result[valid], gmdate("H:i d-m-Y", $result[mtime]), $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "");
 		echo("</table>");
 	}
 	echo('<hr>');
