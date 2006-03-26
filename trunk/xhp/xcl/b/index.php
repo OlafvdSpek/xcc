@@ -107,7 +107,19 @@
 		{
 			do
 			{
-				$players_result = db_query(sprintf("select t1.*, t2.*, t4.rank, t5.rank crank, t3.name cname, t3.win_count cwin_count, t3.loss_count closs_count, t3.points cpoints from %s t1 inner join %s t2 using (pid) left join %s t4 using (pid) left join %s t3 on (t1.cid = t3.pid) left join %s t5 on (t3.pid = t5.pid) where gid = %d order by %s", $tables['games_players'], $tables['players'], $tables['players_rank'], $tables['players'], $tables['players_rank'], $result[gid], $cid ? sprintf("cid != %d, t2.pid", $cid) : ($pid ? sprintf("t2.pid != %d", $pid) : "cid, t2.pid")));
+				$players_result = db_query(sprintf("
+					select t1.*, t2.*, t4.rank, t5.rank crank, t3.name cname, t3.win_count cwin_count, t3.loss_count closs_count, t3.points cpoints
+					from %s t1 inner join %s t2 using (pid) left join %s t4 using (pid) left join %s t3 on (t1.cid = t3.pid) left join %s t5 on (t3.pid = t5.pid)
+					where gid = %d
+					order by %s
+					",
+					$tables['games_players'],
+					$tables['players'],
+					$tables['players_rank'],
+					$tables['players'],
+					$tables['players_rank'],
+					$result[gid],
+					$cid ? sprintf("cid != %d, t2.pid", $cid) : ($pid ? sprintf("t2.pid != %d", $pid) : "cid, t2.pid")));
 				$plrs = mysql_num_rows($players_result) / 2;
 				for ($player_i = 0; $players[$player_i] = mysql_fetch_assoc($players_result); $player_i++)
 					;
