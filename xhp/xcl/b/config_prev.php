@@ -7,6 +7,7 @@
 		'hof' => 'xcl_hof',
 		'maps' => 'xcl_maps',
 		'players' => 'xcl_prev_players',
+		'players_rank' => 'xcl_prev_players_rank',
 		'stats_afps' => 'xcl_prev_stats_afps',
 		'stats_countries' => 'xcl_prev_stats_countries',
 		'stats_dura' => 'xcl_prev_stats_dura',

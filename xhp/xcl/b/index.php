@@ -51,7 +51,7 @@
 		$pnames = explode(',', $pname);
 		foreach ($pnames as $key => $pname)
 			$pnames[$key] = sprintf("'%s'", AddSlashes(trim($pname)));
-		$results = db_query(sprintf("select * from %s where name in (%s)", $tables['players'], implode(",", $pnames)));
+		$results = db_query(sprintf("select * from %s left join %s using (pid) where name in (%s)", $tables['players'], $tables['players_rank'], implode(",", $pnames)));
 		while ($result = mysql_fetch_assoc($results))
 			printf("document.write('<a href=\"http://xwis.net/xcl/?%s=%d\">%s</a>: #%d %d / %d %dp<br>');", $result['lid'] & 1 ? "pid" : "cid", $result['pid'], $result['name'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points']);
 		return;
@@ -67,11 +67,11 @@
 		else if ($lid || $pid)
 		{
 			if ($pid)
-				$results = db_query(sprintf("select * from %s where pid = %d", $tables['players'], $pid));
+				$results = db_query(sprintf("select * from %s left join %s using (pid) where pid = %d", $tables['players'], $tables['players_rank'], $pid));
 			else if ($pname)
-				$results = db_query(sprintf("select * from %s where lid = %d and name = '%s'", $tables['players'], $lid, AddSlashes($_REQUEST['pname'])));
+				$results = db_query(sprintf("select * from %s left join %s using (pid) where lid = %d and name = '%s'", $tables['players'], $tables['players_rank'], $lid, AddSlashes($pname)));
 			else
-				$results = db_query(sprintf("select * from %s where lid = %d and points", $tables['players'], $lid));
+				$results = db_query(sprintf("select * from %s left join %s using (pid) where lid = %d and points", $tables['players'], $tables['players_rank'], $lid));
 			while ($result = mysql_fetch_assoc($results))
 				printf("%d %d %d %d %s\n", $result['rank'], $result['win_count'], $result['loss_count'], $result['points'], $result['name']);
 		}
@@ -107,7 +107,7 @@
 		{
 			do
 			{
-				$players_result = db_query(sprintf("select t1.*, t2.*, t3.rank crank, t3.name cname, t3.win_count cwin_count, t3.loss_count closs_count, t3.points cpoints from %s t1 inner join %s t2 using (pid) left join %s t3 on (t1.cid = t3.pid) where gid = %d order by %s", $tables['games_players'], $tables['players'], $tables['players'], $result[gid], $cid ? sprintf("cid != %d, t2.pid", $cid) : ($pid ? sprintf("t2.pid != %d", $pid) : "cid, t2.pid")));
+				$players_result = db_query(sprintf("select t1.*, t2.*, t4.rank, t5.rank crank, t3.name cname, t3.win_count cwin_count, t3.loss_count closs_count, t3.points cpoints from %s t1 inner join %s t2 using (pid) left join %s t4 using (pid) left join %s t3 on (t1.cid = t3.pid) left join %s t5 on (t3.pid = t5.pid) where gid = %d order by %s", $tables['games_players'], $tables['players'], $tables['players_rank'], $tables['players'], $tables['players_rank'], $result[gid], $cid ? sprintf("cid != %d, t2.pid", $cid) : ($pid ? sprintf("t2.pid != %d", $pid) : "cid, t2.pid")));
 				$plrs = mysql_num_rows($players_result) / 2;
 				for ($player_i = 0; $players[$player_i] = mysql_fetch_assoc($players_result); $player_i++)
 					;
@@ -277,7 +277,7 @@
 					", $tables['games'], $tables['maps']));
 			else
 			{
-				$results = db_query(sprintf("select * from %s where pid = %d", $tables['players'], $cid ? $cid : $pid));
+				$results = db_query(sprintf("select * from %s left join %s using (pid) where pid = %d", $tables['players'], $tables['players_rank'], $cid ? $cid : $pid));
 				if ($result = mysql_fetch_assoc($results))
 				{
 					echo("t15(new Array(");
@@ -355,9 +355,9 @@
 				$cty = $_REQUEST['cty'] ? sprintf("and !(countries & %d)", $_REQUEST['cty']) : '';
 				$results = db_query($pname
 					? $lid
-					? sprintf("select * from %s where lid = %d and name like '%s' order by points desc, rank limit 250", $tables['players'], $lid, AddSlashes($pname))
-					: sprintf("select * from %s where lid < 17 and name like '%s' order by points desc, rank limit 250", $tables['players'], AddSlashes($pname))
-					: sprintf("select * from %s where lid = %d and points %s order by points desc, rank limit 250", $tables['players'], $lid, $cty));
+					? sprintf("select * from %s left join %s using (pid) where lid = %d and name like '%s' order by points desc, rank limit 250", $tables['players'], $tables['players_rank'], $lid, AddSlashes($pname))
+					: sprintf("select * from %s left join %s using (pid) where lid < 17 and name like '%s' order by points desc, rank limit 250", $tables['players'], $tables['players_rank'], AddSlashes($pname))
+					: sprintf("select * from %s left join %s using (pid) where lid = %d and points %s order by points desc, rank limit 250", $tables['players'], $tables['players_rank'], $lid, $cty));
 				echo('t0(new Array(');
 				while ($result = mysql_fetch_assoc($results))
 					printf("%d,%d,%d,'%s',%d,%d,%d,%d,%d,%d,", $result['rank'], $result['lid'], $result['pid'], $result['name'], $result['win_count'], $result['loss_count'], $result['points'], $result['points_max'], $result['mtime'], $result['countries']);
