@@ -14,7 +14,7 @@ if($ladr == "") { $ladr = "player"; }
 
 if($mode == "searchsubmit" && $id != "" && $lid != "") {
 
-$result=db_query("SELECT * FROM xcl_players WHERE name LIKE '%$id%' AND lid='$lid' OR rank LIKE '$id' AND lid='$lid'");
+$result=db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE name LIKE '%$id%' AND lid='$lid' OR rank LIKE '$id' AND lid='$lid'");
 $total=mysql_num_rows($result);
 if($total == 0) {
 ?>
@@ -105,7 +105,7 @@ function jumpTo(URL_List){
 <br>
 <table width="72%" cellspacing="0" cellpadding="3" align="center">
 <?
-$query = db_query("SELECT * FROM xcl_players WHERE name LIKE '%$id%' AND lid='$lid' AND points!='0' OR rank LIKE '$id' AND lid='$lid' AND points!='0' ORDER BY points DESC");
+$query = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE name LIKE '%$id%' AND lid='$lid' AND points!='0' OR rank LIKE '$id' AND lid='$lid' AND points!='0' ORDER BY points DESC, pid");
 while ($data = mysql_fetch_array($query)) {
 
 if(get_side($data[countries]) == 1) {
@@ -157,7 +157,7 @@ if($data[points] < 150 && $data[points] > 0) { $button = "<img src=\"images/ra2/
 if($mode == "showclan" && $id != "") {
 $cid = $id;
 $id = addslashes($id);
-$query = db_query("SELECT * FROM xcl_players WHERE pid='$id' AND lid='$clan_lid'");
+$query = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$id' AND lid='$clan_lid'");
 while ($data = mysql_fetch_array($query)) {
 ?>
 
@@ -263,23 +263,23 @@ $gameid2 = $data3[gid]+1;
 if($used[$gameid] != 1) {
 $used[$gameid] = 1;
 
-$query1 = db_query("SELECT name, points, pid FROM xcl_players WHERE pid='$data3[cid]'");
+$query1 = db_query("SELECT name, points, pid FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[cid]'");
 $rows1 = mysql_fetch_array($query1);
 
 $query5 = db_query("SELECT cid, pc FROM xcl_games_players WHERE gid='$data3[gid]' AND cid!='$data3[cid]'");
 $rows3 = mysql_fetch_array($query5);
 
-$query2 = db_query("SELECT name, points, pid FROM xcl_players WHERE pid='$rows3[cid]'");
+$query2 = db_query("SELECT name, points, pid FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$rows3[cid]'");
 $rows2 = mysql_fetch_array($query2);
 
 
 $clanid1 = $rows1["pid"];
-$query_1_1 = db_query("SELECT DISTINCT gid, cid, SUM(pc) as summe FROM xcl_games_players WHERE cid='$clanid1' AND gid<'$gameid2' AND cid!='0' GROUP BY 'bla1'");
+$query_1_1 = db_query("SELECT SUM(pc) as summe FROM xcl_games_players WHERE cid='$clanid1' AND gid<'$gameid2' AND cid!='0'");
 $rows_1_1 = mysql_fetch_array($query_1_1);
 $pts_clan1 = $rows_1_1[summe];
 
 $clanid2 = $rows2["pid"];
-$query_2_1 = db_query("SELECT DISTINCT gid, cid, SUM(pc) as summe FROM xcl_games_players WHERE cid='$clanid2' AND gid<'$gameid2' AND cid!='0' GROUP BY 'bla2'");
+$query_2_1 = db_query("SELECT SUM(pc) as summe FROM xcl_games_players WHERE cid='$clanid2' AND gid<'$gameid2' AND cid!='0'");
 $rows_2_1 = mysql_fetch_array($query_2_1);
 $pts_clan2 = $rows_2_1[summe];
 
@@ -336,7 +336,7 @@ printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
 if($mode == "showplayer" && $id != "") {
 $pid = $id;
 $id = addslashes($id);
-$query = db_query("SELECT * FROM xcl_players WHERE pid='$id' AND lid='$player_lid'");
+$query = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$id' AND lid='$player_lid'");
 while ($data = mysql_fetch_array($query)) {
 ?>
 <table class="maintitle" width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#000000">
@@ -440,22 +440,22 @@ $gameid2 = $data3[gid]+1;
 if($used[$gameid] != 1) {
 $used[$gameid] = 1;
 
-$query1 = db_query("SELECT name, points, pid FROM xcl_players WHERE pid='$data3[pid]'");
+$query1 = db_query("SELECT name, points, pid FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[pid]'");
 $rows1 = mysql_fetch_array($query1);
 
 $query6 = db_query("SELECT pid, pc FROM xcl_games_players WHERE gid='$data3[gid]' AND pid!='$data3[pid]'");
 $rows3 = mysql_fetch_array($query6);
 
-$query2 = db_query("SELECT name, points, pid FROM xcl_players WHERE pid='$rows3[pid]'");
+$query2 = db_query("SELECT name, points, pid FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$rows3[pid]'");
 $rows2 = mysql_fetch_array($query2);
 
 $clanid1 = $rows1["pid"];
-$query_1_1 = db_query("SELECT DISTINCT gid, cid, SUM(pc) as summe FROM xcl_games_players WHERE pid='$clanid1' AND gid<'$gameid2' AND cid='0' GROUP BY 'bla1'");
+$query_1_1 = db_query("SELECT SUM(pc) as summe FROM xcl_games_players WHERE pid='$clanid1' AND gid<'$gameid2' AND cid='0'");
 $rows_1_1 = mysql_fetch_array($query_1_1);
 $pts_clan1 = $rows_1_1[summe];
 
 $clanid2 = $rows2["pid"];
-$query_2_1 = db_query("SELECT DISTINCT gid, cid, SUM(pc) as summe FROM xcl_games_players WHERE pid='$clanid2' AND gid<'$gameid2' AND cid='0' GROUP BY 'bla2'");
+$query_2_1 = db_query("SELECT SUM(pc) as summe FROM xcl_games_players WHERE pid='$clanid2' AND gid<'$gameid2' AND cid='0'");
 $rows_2_1 = mysql_fetch_array($query_2_1);
 $pts_clan2 = $rows_2_1[summe];
 
@@ -542,7 +542,7 @@ if($data_match1[cid] != 0) {
 
 $team2 = $data_match1[cid];
 if($did[$team2] != 1) {
-$query_match2 = db_query("SELECT * FROM xcl_players WHERE pid='$data_match1[cid]' GROUP BY 'bla1'");
+$query_match2 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data_match1[cid]'");
 while ($data_match2 = mysql_fetch_array($query_match2)) {
 $cc++;
 $team = $data_match2[pid];
@@ -555,7 +555,7 @@ $clan[$cc] = $data_match2[name];
 
 $team2 = $data_match1[pid];
 if($did[$team2] != 1) {
-$query_match2 = db_query("SELECT * FROM xcl_players WHERE pid='$data_match1[pid]' GROUP BY 'bla1'");
+$query_match2 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data_match1[pid]'");
 while ($data_match2 = mysql_fetch_array($query_match2)) {
 $cc++;
 $team = $data_match2[pid];
@@ -604,7 +604,7 @@ $clancid = $data3[cid];
 
 if($gotclan[$clancid] != 1) {
 $gotclan[$clancid] = 1;
-$query_nick1 = db_query("SELECT * FROM xcl_players WHERE pid='$data3[cid]'");
+$query_nick1 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[cid]'");
 while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
@@ -618,7 +618,7 @@ echo "<tr><td width=\"10%\" valign=\"top\"><font size=\"2\"><b>$data_nick1[name]
 $query3 = db_query("SELECT * FROM xcl_games_players WHERE gid='$id'");
 while ($data3 = mysql_fetch_array($query3)) {
 
-$query_nick1 = db_query("SELECT * FROM xcl_players WHERE pid='$data3[pid]'");
+$query_nick1 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[pid]'");
 while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 if($data3[pc] > 0) { $col = "<font color=\"#00DF00\">"; $show = "+".$data3[pc]; }
 if($data3[pc] < 1) { $col = "<font color=\"#FF0000\">"; $show = $data3[pc]; }
@@ -653,13 +653,13 @@ while ($data3 = mysql_fetch_array($query3)) {
 
 $clansh = "";
 if($data3[cid] != 0) {
-$query_nick3 = db_query("SELECT * FROM xcl_players WHERE pid='$data3[cid]'");
+$query_nick3 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[cid]'");
 while ($data_nick3 = mysql_fetch_array($query_nick3)) {
 $clansh = "[".$data_nick3[name]."]";
 }
 }
 
-$query_nick1 = db_query("SELECT * FROM xcl_players WHERE pid='$data3[pid]'");
+$query_nick1 = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE pid='$data3[pid]'");
 while ($data_nick1 = mysql_fetch_array($query_nick1)) {
 
 if($data3[pc] > 0) { $result = "Won"; } else { $result = "Lost"; }
@@ -789,7 +789,7 @@ if($ladr == "player") { $ladderc = $player_lid; }
 
  $prosite = 50;
 
- $result = mysql_query("SELECT * FROM xcl_players WHERE lid='$ladderc' AND points!='0'");
+ $result = mysql_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE lid='$ladderc' AND points!='0'");
  $number = mysql_num_rows($result);
  $seiten = floor($number/$prosite)+1;
  $seiten_a = floor($number/$prosite);
@@ -823,7 +823,7 @@ if($ladr == "player") { $ladderc = $player_lid; }
 
 
 // BEGIN LIST CLAN RANKINGS
-$query = db_query("SELECT * FROM xcl_players WHERE lid='$ladderc' AND points!='0' ORDER BY rank ASC LIMIT $start,$prosite");
+$query = db_query("SELECT * FROM xcl_players left join xcl_players_rank using (pid) WHERE lid='$ladderc' AND points!='0' ORDER BY points desc, pid LIMIT $start,$prosite");
 while ($data = mysql_fetch_array($query)) {
 
 if(get_side($data[countries]) == 1) {
