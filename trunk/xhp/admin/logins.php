@@ -42,7 +42,7 @@
 		printf('<td><a href="?pname=%s">%s', $result['name'], $result['name']);
 		printf('<td><a href="players.php?pname=%s">P', $result['name']);
 		printf('<td><a href="?ipa=%d">%s</a>', $result['ipa'], long2ip($result['ipa']));
-		printf('<td>%d<td align=right>%x', $result['gsku'], $result['gsku']);
+		printf('<td align=right>%x', $result['gsku']);
 		printf('<td align=right><a href="?sid=%d">%d</a>', $result['sid'], $result['sid']);
 		printf('<td>%s', gmdate("H:i:s d-m-Y", $result['mtime']));
 		printf('<td>%s', gmdate("H:i:s d-m-Y", $result['ctime']));
@@ -50,17 +50,27 @@
 	echo("</table>");
 	if ($where)
 	{
-		$results = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by ipa", $where));
+		$results = db_query(sprintf("select name, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by name order by c desc", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $result['c']);
-			printf('<td>%s', long2ip($result['ipa']));
+			printf('<td><a href="?pname=%s">%s', $result['name'], $result['name']);
+			printf('<td><a href="players.php?pname=%s">P', $result['name']);
+		}
+		echo("</table>");
+		$results = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by ipa order by c desc", $where));
+		echo("<hr><table>");
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr>');
+			printf('<td align=right>%dx', $result['c']);
+			printf('<td><a href="?ipa=%d">%s</a>', $result['ipa'], long2ip($result['ipa']));
 			printf('<td>%s', gethostbyaddr(long2ip($result['ipa'])));
 		}
 		echo("</table>");
-		$results = db_query(sprintf("select gsku, sum(count) c from xwi_logins1 l inner join xwi_players using (pid) %s group by gsku", $where));
+		$results = db_query(sprintf("select gsku, sum(count) c from xwi_logins1 l inner join xwi_players using (pid) %s group by gsku order by c desc", $where));
 		echo("<hr><table>");
 		while ($result = mysql_fetch_array($results))
 		{
@@ -69,7 +79,7 @@
 			printf('<td align=right>%x', $result['gsku']);
 		}
 		echo('</table>');
-		$results = db_query(sprintf("select xwi_serials.*, sum(count) c from xwi_serials inner join xwi_logins1 l using (sid) inner join xwi_players using (pid) %s group by sid", $where));
+		$results = db_query(sprintf("select xwi_serials.*, sum(count) c from xwi_serials inner join xwi_logins1 l using (sid) inner join xwi_players using (pid) %s group by sid order by c desc", $where));
 		echo('<hr><table>');
 		while ($result = mysql_fetch_array($results))
 		{
