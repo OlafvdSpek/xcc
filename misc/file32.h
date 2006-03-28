@@ -1,7 +1,3 @@
-// file32.h: interface for the Cfile32 class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_FILE32_H__DB898AD3_D338_11D3_867E_0000F81AF605__INCLUDED_)
 #define AFX_FILE32_H__DB898AD3_D338_11D3_867E_0000F81AF605__INCLUDED_
 
