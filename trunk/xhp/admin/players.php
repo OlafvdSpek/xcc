@@ -42,6 +42,7 @@
 	switch ($_REQUEST['a'])
 	{
 	case 'chat':
+		/*
 		$results = db_query(sprintf("select * from xwi_chat where `from` like '%s' or `to` like '%s' order by time desc limit 10000", addslashes($pname), addslashes($pname)));
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
@@ -50,6 +51,39 @@
 				gmdate("H:i:s d-m-Y", $result['time']), urlencode($result['from']), htmlspecialchars($result['from']), htmlspecialchars($result['msg']), urlencode($result['to']), htmlspecialchars($result['to']));
 		}
 		echo('</table>');
+		*/
+		$nids = array(0);
+		$rows = db_query(sprintf("select nid from xwi_names where name like '%s'", addslashes($pname)));
+		while ($row = mysql_fetch_assoc($rows))
+		{
+			// printf('%d<br>', $row['nid']);
+			$nids[] = $row['nid'];
+		}
+		$chat_ids = array(0);
+		$rows = db_query(sprintf("select chat_id from xwi_chat_to where nid in (%s) limit 10000", implode(',', $nids)));
+		while ($row = mysql_fetch_assoc($rows))
+		{
+			// printf('%d<br>', $row['chat_id']);
+			$chat_ids[] = $row['chat_id'];
+		}
+		$rows = db_query(sprintf("select c.*, name from xwi_chat1 c left join xwi_names on `from` = nid where chat_id in (%s) or `from` in (%s) order by time desc", implode(',', $chat_ids), implode(',', $nids)));
+		printf('<table>');
+		while ($row = mysql_fetch_assoc($rows))
+		{
+			$to = '';
+			$rows1 = db_query(sprintf("select name from xwi_chat_to inner join xwi_names using (nid) where chat_id = %d", $row['chat_id']));
+			while ($row1 = mysql_fetch_assoc($rows1))
+			{
+				$to .= sprintf('%s<br>', htmlspecialchars($row1['name']));
+			}
+			printf('<tr');
+			printf('<td align=right>%d', $row['chat_id']);
+			printf('<td>%s', htmlspecialchars($row['name']));
+			printf('<td>%s', $to);
+			printf('<td>%s', htmlspecialchars($row['msg']));
+			printf('<td>%s', gmdate('H:i:s d-m-Y', $row['time']));
+		}
+		printf('</table');
 		break;
 	case 'motd':
 	case 'motd_submit':
