@@ -1,9 +1,7 @@
-// dlg_login.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "dlg_login.h"
 
+#include "reg_key.h"
 #include "socket.h"
 #include "virtual_binary.h"
 #include "xcc_dirs.h"
@@ -13,10 +11,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_login dialog
-
 
 Cdlg_login::Cdlg_login(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_login::IDD, pParent)
@@ -42,9 +36,6 @@ BEGIN_MESSAGE_MAP(Cdlg_login, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cdlg_login)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_login message handlers
 
 static CString n(int v)
 {
@@ -78,24 +69,13 @@ BOOL Cdlg_login::OnInitDialog()
 	for (int i = 1; i < 26; i++)
 	{
 		t_nick e;
-		HKEY key;
-		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, "Wchat\\Nick" + n(i) + "\\Nick", 0, KEY_READ, &key))
-		{
-			char b[16];
-			DWORD cb_b = 16;
-			if (ERROR_SUCCESS == RegQueryValueEx(key, NULL, NULL, NULL, reinterpret_cast<byte*>(b), &cb_b))
-				e.name = b;
-			RegCloseKey(key);
-		}
-		if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CLASSES_ROOT, "Wchat\\Nick" + n(i) + "\\Pass", 0, KEY_READ, &key))
-		{
-			char b[16];
-			DWORD cb_b = 16;
-			if (ERROR_SUCCESS == RegQueryValueEx(key, NULL, NULL, NULL, reinterpret_cast<byte*>(b), &cb_b))
-				e.password = b;
-			RegCloseKey(key);
-		}
-		if (!e.name.empty() && e.password.length() == 8)
+		Creg_key key;
+		if (ERROR_SUCCESS == key.open(HKEY_CLASSES_ROOT, string("Wchat\\Nick" + n(i) + "\\Nick"), KEY_READ)
+			&& ERROR_SUCCESS == key.query_value("", e.name)
+			&& ERROR_SUCCESS == key.open(HKEY_CLASSES_ROOT, string("Wchat\\Nick" + n(i) + "\\Pass"), KEY_READ)
+			&& ERROR_SUCCESS == key.query_value("", e.password)
+			&& !e.name.empty() 
+			&& e.password.length() == 8)
 		{
 			m_user.SetItemData(m_user.AddString(e.name.c_str()), m_nicks.size());
 			m_nicks.push_back(e);
@@ -108,31 +88,25 @@ BOOL Cdlg_login::OnInitDialog()
 
 void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 {
-	HKEY key;
-	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, reg_key.c_str(), 0, KEY_READ, &key))
+	Creg_key key;
+	string serial;
+	Cvirtual_binary s;
+	if (ERROR_SUCCESS == key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_READ)
+		&& ERROR_SUCCESS == key.query_value("Serial", serial)
+		&& serial.size() == 22 
+		&& !s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key"))
 	{
-		char b[32];
-		DWORD cb_b = 32;
-		if (ERROR_SUCCESS == RegQueryValueEx(key, "Serial", NULL, NULL, reinterpret_cast<byte*>(b), &cb_b))
+		for (int i = 0, j = 0; i < s.size(); i++, j++)
 		{
-			Cvirtual_binary s;
-			if (!s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key") && cb_b == 23 && !b[22])
-			{
-				string serial = b;
-				for (int i = 0, j = 0; i < s.size(); i++)
-				{
-					serial[j++] = (1000 - s.data()[i] % 10 + (serial[j] - '0')) % 10 + '0';
-					if (j == serial.length()) 
-						j = 0;
-				}
-				t_game e;
-				e.gsku = gsku;
-				e.serial = serial;
-				m_game.SetItemData(m_game.AddString(game_name[game]), m_games.size());
-				m_games.push_back(e);			
-			}
+			if (j == serial.length()) 
+				j = 0;
+			serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
 		}
-		RegCloseKey(key);		
+		t_game e;
+		e.gsku = gsku;
+		e.serial = serial;
+		m_game.SetItemData(m_game.AddString(game_name[game]), m_games.size());
+		m_games.push_back(e);			
 	}
 }
 
@@ -166,6 +140,12 @@ void Cdlg_login::OnOK()
 		m_edit += "nick: ";
 		m_edit += nick.name.c_str();
 		m_edit += "\r\n";
+		if (0)
+		{
+			m_edit += "serial: ";
+			m_edit += game.serial.c_str();
+			m_edit += "\r\n";
+		}
 		if (msg.pcount() != s.send(msg.str(), msg.pcount()))
 			m_edit += "unable to send: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
 		else
