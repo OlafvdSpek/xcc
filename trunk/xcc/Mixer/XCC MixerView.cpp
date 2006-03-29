@@ -526,20 +526,17 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 		swap(id_a, id_b);
 	const t_index_entry& a = m_index.find(id_a)->second;
 	const t_index_entry& b = m_index.find(id_b)->second;
-	if (a.ft == ft_drive)
+	if (a.ft != b.ft)
 	{
-		if (b.ft != ft_drive)
+		if (a.ft == ft_drive)
 			return -1;
-	}
-	else if (b.ft == ft_drive)
-		return 1;
-	if (a.ft == ft_dir)
-	{
-		if (b.ft != ft_dir)
+		if (b.ft == ft_drive)
+			return 1;
+		if (a.ft == ft_dir)
 			return -1;
+		if (b.ft == ft_dir)
+			return 1;
 	}
-	else if (b.ft == ft_dir)
-		return 1;
 	switch (m_sort_column)
 	{
 	case 0:
