@@ -161,8 +161,8 @@ void Cfile32::close()
 Cvirtual_binary Cfile32::get_mm()
 {
 	int size = get_size();
-	if (size < 1)
-		return Cvirtual_binary();
+	if (!size)
+		return Cvirtual_binary(NULL, 0);
 	Cmemory_map mm(*this);
 	return Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm));
 }

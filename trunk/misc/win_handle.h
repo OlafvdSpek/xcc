@@ -19,7 +19,7 @@ public:
 	{
 	}
 
-	Cwin_handle(HANDLE h): m_source(h, CloseHandle)
+	Cwin_handle(HANDLE h): m_source(h == INVALID_HANDLE_VALUE ? NULL : h, CloseHandle)
 	{
 	}
 
