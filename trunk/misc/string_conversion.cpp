@@ -66,7 +66,7 @@ string n(__int64 v)
 
 string swsl(int l, string s)
 {
-	while (s.length()<l)
+	while (s.length() < l)
 		s = ' '+ s;
 	return s;
 }
@@ -148,7 +148,7 @@ void split_key(const string& key, string& name, string& value)
 string tabs2spaces(const string& v)
 {
 	string r;
-	for (int i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.length(); i++)
 	{
 		char c = v[i];
 		if (c == '\t')
@@ -177,7 +177,7 @@ string time2a(time_t v)
 string js_encode(const string& v)
 {
 	string r;
-	for (int i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.length(); i++)
 	{
 		switch (v[i])
 		{
@@ -197,7 +197,7 @@ string trim_field(const string& v)
 {
 	string r;
 	bool copy_white = false;
-	for (int i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.length(); i++)
 	{
 		if (isspace(v[i]))
 			copy_white = true;
@@ -219,7 +219,7 @@ string trim_text(const string& v)
 {
 	string r;
 	bool copy_white = false;
-	for (int i = 0; i < v.length(); )
+	for (size_t i = 0; i < v.length(); )
 	{
 		int p = v.find('\n', i);
 		if (p == string::npos)
