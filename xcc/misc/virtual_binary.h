@@ -1,7 +1,3 @@
-// virtual_binary.h: interface for the Cvirtual_binary class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_)
 #define AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_
 
@@ -19,7 +15,7 @@ using namespace std;
 class Cvirtual_binary_source
 {
 public:
-	Cvirtual_binary_source(const void* d, int cb_d, Csmart_ref_base* source = NULL);
+	Cvirtual_binary_source(const void* d, size_t cb_d, Csmart_ref_base* source = NULL);
 	Cvirtual_binary_source* attach();
 	void detach();
 	Cvirtual_binary_source* pre_edit();
@@ -40,19 +36,19 @@ public:
 		return m_data;
 	}
 
-	int size() const
+	size_t size() const
 	{
 		return m_size;
 	}
 
-	void size(int v)
+	void size(size_t v)
 	{
 		assert(mc_references == 1 && !m_source && v <= m_size);
 		m_size = v;
 	}
 private:
 	byte* m_data;
-	int m_size;
+	size_t m_size;
 	int mc_references;
 	Csmart_ref_base* m_source;
 };
@@ -60,19 +56,19 @@ private:
 class Cvirtual_binary  
 {
 public:
-	Cvirtual_binary sub_bin(int offset, int size) const;
+	Cvirtual_binary sub_bin(size_t offset, size_t size) const;
 	int save(const string& fname) const;
 	int load(const string& fname, bool use_mm = true);
 	void clear();
 	void memset(int v);
-	int read(void* d) const;
-	byte* write_start(int cb_d);
-	void write(const void* d, int cb_d);
+	size_t read(void* d) const;
+	byte* write_start(size_t cb_d);
+	void write(const void* d, size_t cb_d);
 	const Cvirtual_binary& operator=(const Cvirtual_binary& v);
 	Cvirtual_binary();
 	Cvirtual_binary(const Cvirtual_binary& v);
-	Cvirtual_binary(const void* d, int cb_d);
-	Cvirtual_binary(const void* d, int cb_d, Csmart_ref_base* source);
+	Cvirtual_binary(const void* d, size_t cb_d);
+	Cvirtual_binary(const void* d, size_t cb_d, Csmart_ref_base* source);
 	explicit Cvirtual_binary(const string& fname, bool use_mm = true);
 	~Cvirtual_binary();
 
@@ -93,12 +89,12 @@ public:
 		return m_source->data_edit();
 	}
 
-	int size() const
+	size_t size() const
 	{
 		return m_source ? m_source->size() : 0;
 	}
 
-	void size(int v)
+	void size(size_t v)
 	{
 		assert(m_source);
 		m_source = m_source->pre_edit();
