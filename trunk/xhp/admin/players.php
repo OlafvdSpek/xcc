@@ -42,16 +42,6 @@
 	switch ($_REQUEST['a'])
 	{
 	case 'chat':
-		/*
-		$results = db_query(sprintf("select * from xwi_chat where `from` like '%s' or `to` like '%s' order by time desc limit 10000", addslashes($pname), addslashes($pname)));
-		echo('<table>');
-		while ($result = mysql_fetch_array($results))
-		{
-			printf('<tr><td nowrap>%s<td><a href="?a=chat&amp;pname=%s">%s<td>%s<td><a href="?a=chat&amp;pname=%s">%s',
-				gmdate("H:i:s d-m-Y", $result['time']), urlencode($result['from']), htmlspecialchars($result['from']), htmlspecialchars($result['msg']), urlencode($result['to']), htmlspecialchars($result['to']));
-		}
-		echo('</table>');
-		*/
 		$nids = array(0);
 		$rows = db_query(sprintf("select nid from xwi_names where name like '%s'", addslashes($pname)));
 		while ($row = mysql_fetch_assoc($rows))

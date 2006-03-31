@@ -5,5 +5,5 @@
 
 	db_connect();
 ?>
-<link rel=stylesheet href="/xcc.css">
+<link rel=stylesheet href="/xcc1.css">
 <title>XWI Admin</title>
