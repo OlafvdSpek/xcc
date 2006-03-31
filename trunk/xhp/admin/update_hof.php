@@ -25,12 +25,13 @@
 			die('hof exists already');
 		db_query(sprintf("delete from xcl_hof where date = '%s'", $date));
 	}
+	db_query("update xcl_prev_players inner join bl using (name) set points = 0 where lid & 1 and points");
 	update_hof($date, 1);
 	update_hof($date, 2);
 	update_hof($date, 3);
 	update_hof($date, 4);
 	update_hof($date, 7);
 	update_hof($date, 8);
-	db_query("insert ignore into xcl_high_scores (name, points, rank) select name, points, rank from xcl_prev_players where lid = 3 and points");
-	db_query("update xcl_high_scores h inner join xcl_prev_players p using (name) set h.points = greatest(h.points, p.points), h.rank = least(h.rank, p.rank) where lid = 3");
+	db_query("insert ignore into xcl_high_scores (name, points, rank) select name, points, rank from xcl_prev_players inner join xcl_prev_players_rank using (pid) where lid = 3 and points");
+	db_query("update xcl_high_scores h inner join xcl_prev_players p using (name) inner join xcl_prev_players_rank pr using (pid) set h.points = greatest(h.points, p.points), h.rank = least(h.rank, pr.rank) where lid = 3");
 ?>
