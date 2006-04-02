@@ -97,6 +97,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			Cgame ts(key_tfd, "ts_");
 			Creg_key(key_westwood, "Tiberian Sun", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", ts.m_folder + "\\" + ts.m_executable);
 			create_shortcut(ts.m_folder + "\\" + ts.m_executable, ts.m_args, common_programs + "\\Tiberian Sun.lnk");
+			DeleteFile((ts.m_folder + "\\woldata.key").c_str());
 		}
 		catch (exception&)
 		{
@@ -106,6 +107,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			Cgame ra2(key_tfd, "r2_");
 			Creg_key(key_westwood, "Red Alert 2", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", ra2.m_folder + "\\" + ra2.m_executable);
 			create_shortcut(ra2.m_folder + "\\" + ra2.m_executable, ra2.m_args, common_programs + "\\Red Alert 2.lnk");
+			DeleteFile((ra2.m_folder + "\\woldata.key").c_str());
 		}
 		catch (exception&)
 		{
@@ -115,6 +117,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			Cgame ra2_yr(key_tfd, "yr_");
 			Creg_key(key_westwood, "Yuri's Revenge", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", ra2_yr.m_folder + "\\" + ra2_yr.m_executable);
 			create_shortcut(ra2_yr.m_folder + "\\" + ra2_yr.m_executable, ra2_yr.m_args, common_programs + "\\Yuri's Revenge.lnk");
+			DeleteFile((ra2_yr.m_folder + "\\woldata.key").c_str());
 		}
 		catch (exception&)
 		{
@@ -124,6 +127,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			Cgame rg(key_tfd, "rn_");
 			Creg_key(key_westwood, "Renegade", KEY_QUERY_VALUE | KEY_SET_VALUE).set_value("InstallPath", rg.m_folder + "\\" + rg.m_executable);
 			create_shortcut(rg.m_folder + "\\" + rg.m_executable, rg.m_args, common_programs + "\\Renegade.lnk");
+			DeleteFile((rg.m_folder + "\\woldata.key").c_str());
 		}
 		catch (exception&)
 		{
