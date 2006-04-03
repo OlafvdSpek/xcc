@@ -12,12 +12,14 @@ Creg_key::Creg_key()
 
 Creg_key::Creg_key(HKEY key, const string& name, REGSAM sam_desired)
 {
+	m_h = NULL;
 	if (open(key, name, sam_desired) != ERROR_SUCCESS)
 		throw exception();
 }
 
 Creg_key::Creg_key(const Creg_key& key, const string& name, REGSAM sam_desired)
 {
+	m_h = NULL;
 	if (open(key.m_h, name, sam_desired) != ERROR_SUCCESS)
 		throw exception();
 }
