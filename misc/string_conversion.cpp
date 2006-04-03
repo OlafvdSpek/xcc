@@ -182,6 +182,8 @@ string js_encode(const string& v)
 		switch (v[i])
 		{
 		case '<':
+			r += "&lt;";
+			break;
 		case '\"':
 		case '\'':
 		case '\\':
