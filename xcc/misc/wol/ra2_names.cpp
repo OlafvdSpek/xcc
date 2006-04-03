@@ -1,7 +1,10 @@
 #include "stdafx.h"
 #include "ra2_names.h"
 
+#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
+
+using namespace boost;
 
 string get_country_name(int i)
 {
@@ -18,7 +21,7 @@ string get_country_name(int i)
 		"Russia",
 		"Yuri"
 	};
-	return i < 10 ? country_names[i] : n(i);
+	return i >=0 && i < 10 ? country_names[i] : n(i);
 }
 
 string get_map_name(const string& v)
@@ -262,7 +265,7 @@ string get_map_name(const string& v)
 	};
 	for (t_key* i = map_names; i->name; i++)
 	{
-		if (!stricmp(i->name, v.c_str()))
+		if (iequals(i->name, v))
 			return i->value;
 	}
 	return v;
