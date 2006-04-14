@@ -1,7 +1,9 @@
 <?php
-	require_once('common.php');
+	require_once('b/config.php');
+	require_once('b/common.php');
 
-	header('refresh: 60');
+	db_connect();
+	require('templates/top.php');
 	require('templates/links.php');
 	echo('<hr>');
 	require('templates/search.php');

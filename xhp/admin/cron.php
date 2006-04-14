@@ -1,6 +1,6 @@
 <?php
-	chdir('/home/olaf/xwis.net/php/admin');
-	require_once('../xcc_common.php');
+	require('b/config.php');
+	require('b/index.php');
 
 	function update_xbl_serials()
 	{

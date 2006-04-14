@@ -1,5 +1,6 @@
 <?php
-	require_once('common.php');
+	require_once('b/config.php');
+	require_once('b/common.php');
 
 	function select_players($where)
 	{
@@ -33,6 +34,8 @@
 			echo_warning($result);
 	}
 
+	db_connect();
+	require('templates/top.php');
 	require('templates/links.php');
 	echo('<hr>');
 	require('templates/search.php');
