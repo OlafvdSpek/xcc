@@ -114,36 +114,54 @@
 			$where = sprintf(" where l.sid = %d", $sid);
 		else
 			return;
-		$rows = db_query(sprintf("select sid, sum(count) c from xwi_logins1 l%s group by sid order by c desc", $where));
+		$rows = db_query(sprintf("select sid, sum(count) c, max(mtime) mtime, min(ctime) ctime from xwi_logins1 l%s group by sid order by mtime desc", $where));
 		printf('<table>');
-		// printf('<tr><th colspan=2>serials');
+		printf('<tr>');
+		printf('<th>count');
+		printf('<th>sid');
+		printf('<th>modified');
+		printf('<th>created');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
+			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
+			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 		}
 		printf('</table>');
-		$rows = db_query(sprintf("select pid, p.name, sum(count) c from xwi_logins1 l left join xwi_players p using (pid)%s group by pid order by c desc", $where));
+		$rows = db_query(sprintf("select pid, p.name, sum(count) c, max(mtime) mtime, min(ctime) ctime from xwi_logins1 l left join xwi_players p using (pid)%s group by pid order by mtime desc", $where));
 		printf('<table>');
-		// printf('<tr><th colspan=2>players');
+		printf('<tr>');
+		printf('<th>count');
+		printf('<th>name');
+		printf('<th>modified');
+		printf('<th>created');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
 			// printf('<td align=right><a href="?a=edit_player;pid=%d">%d</a>', $row['pid'], $row['pid']);
 			printf('<td><a href="?a=edit_player;pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
+			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
+			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 		}
 		printf('</table>');
-		$rows = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l%s group by ipa order by c desc", $where));
+		$rows = db_query(sprintf("select ipa, sum(count) c, max(mtime) mtime, min(ctime) ctime from xwi_logins1 l%s group by ipa order by mtime desc", $where));
 		printf('<table>');
-		// printf('<tr><th colspan=3>ipas');
+		printf('<tr>');
+		printf('<th>count');
+		printf('<th>ipa');
+		printf('<th>modified');
+		printf('<th>created');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
-			if (isset($_REQUEST['resolv']))
+			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
+			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
+			if (isset($_REQUEST['resolve']))
 				printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], gethostbyaddr(long2ip($row['ipa'])));
 		}
 		printf('</table>');
@@ -229,6 +247,7 @@
 		printf('<th>modified');
 		printf('<th>created');
 		printf('<th>motd');
+		printf('<th>names');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
@@ -282,6 +301,8 @@
 			printf('<th>admin');
 			printf('<th>duration');
 			printf('<th>modified');
+			printf('<th>ipas');
+			printf('<th>sids');
 			do
 			{
 				printf('<tr>');
