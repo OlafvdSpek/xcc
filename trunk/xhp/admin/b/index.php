@@ -125,8 +125,8 @@
 		printf('<th>name');
 		printf('<th>ipa');
 		printf('<th>gsku');
-		printf('<th>mtime');
-		printf('<th>ctime');
+		printf('<th>modified');
+		printf('<th>created');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
@@ -153,8 +153,8 @@
 		printf('<th>name');
 		printf('<th>clan');
 		printf('<th align=right>flags');
-		printf('<th>mtime');
-		printf('<th>ctime');
+		printf('<th>modified');
+		printf('<th>created');
 		printf('<th>sids');
 		while ($row = mysql_fetch_assoc($rows))
 		{
@@ -189,8 +189,8 @@
 		printf('<th align=right>valid');
 		printf('<th>ipa');
 		printf('<th>wtime');
-		printf('<th>mtime');
-		printf('<th>ctime');
+		printf('<th>modified');
+		printf('<th>created');
 		printf('<th>motd');
 		while ($row = mysql_fetch_assoc($rows))
 		{
@@ -241,7 +241,7 @@
 			printf('<th>reason');
 			printf('<th>admin');
 			printf('<th>duration');
-			printf('<th>mtime');
+			printf('<th>modified');
 			do
 			{
 				printf('<tr>');
@@ -281,8 +281,8 @@
 		printf('<tr><th>full name<td>%s', htmlspecialchars($row['full_name']));
 		printf('<tr><th>mail<td><a href="mailto:%s">%s</a>', htmlspecialchars($row['mail']), htmlspecialchars($row['mail']));
 		printf('<tr><th>pass<td>');
-		printf('<tr><th>mtime<td>%s', gmdate('Y-m-d', $row['mtime']));
-		printf('<tr><th>ctime<td>%s', gmdate('Y-m-d', $row['ctime']));
+		printf('<tr><th>modified<td>%s', gmdate('Y-m-d', $row['mtime']));
+		printf('<tr><th>created<td>%s', gmdate('Y-m-d', $row['ctime']));
 		printf('</table>');
 		$pids = array();
 		$rows = db_query(sprintf("select pid from xwi_players where cid = %d", $cid, $cid));
@@ -306,8 +306,8 @@
 		}
 		printf('<tr><th>pass<td>');
 		printf('<tr><th>flags<td>%d', $row['flags']);
-		printf('<tr><th>mtime<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
-		printf('<tr><th>ctime<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
+		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('</table>');
 		$sids = array();
 		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d) union (select sid from xwi_players where pid = %d)", $pid, $pid));
@@ -332,8 +332,8 @@
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
 			printf('%s', gmdate('Y-m-d H:i:s', $row['wtime']));
-		printf('<tr><th>mtime<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
-		printf('<tr><th>ctime<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
+		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('<tr><th>motd<td>%s', nl2br(htmlspecialchars($row['motd'])));
 		printf('</table>');
 		$pids = array();
