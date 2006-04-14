@@ -1,6 +1,6 @@
 <?php
 	require('b/config.php');
-	require('b/index.php');
+	require('b/common.php');
 
 	function update_xbl_serials()
 	{

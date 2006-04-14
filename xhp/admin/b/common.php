@@ -20,6 +20,55 @@
 		return mysql_fetch_assoc(db_query($query));
 	}
 
+	function flags2a($v)
+	{
+		$d = '';
+		if ($v & 1)
+		{
+			$d .= 'administrator ';
+			$v &=~1;
+		}
+		if ($v & 2)
+		{
+			$d .= 'deleted ';
+			$v &=~2;
+		}
+		if ($v & 4)
+		{
+			$d .= 'moderator ';
+			$v &=~4;
+		}
+		if ($v)
+			$d .= $v;
+		return 0 + $d;
+	}
+
+	function lid2a($v)
+	{
+		switch ($v)
+		{
+		case 1:
+			return 'RA2';
+		case 2:
+			return 'RA2 C';
+		case 3:
+			return 'YR';
+		case 4:
+			return 'YR C';
+		case 7:
+			return 'TS';
+		case 8:
+			return 'TS C';
+		case 17:
+			return 'RA2 F';
+		case 19:
+			return 'YR F';
+		case 23:
+			return 'TS F';
+		}
+		return 0 + $v;
+	}
+
 	function gsku2a($v)
 	{
 		switch ($v)
