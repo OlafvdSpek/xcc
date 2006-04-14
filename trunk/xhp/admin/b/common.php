@@ -39,8 +39,8 @@
 			$v &=~4;
 		}
 		if ($v)
-			$d .= $v;
-		return 0 + $d;
+			$d .= 0 + $v;
+		return $d;
 	}
 
 	function lid2a($v)

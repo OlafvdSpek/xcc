@@ -63,6 +63,7 @@
 
 	function table_ladder($names)
 	{
+		global $config;
 		if (!count($names))
 			return;
 		$rows = db_query(sprintf("select * from xcl_players left join xcl_players_rank using (pid) where name in ('%s') order by points desc", implode("','", $names)));
@@ -83,7 +84,7 @@
 			printf('<tr>');
 			printf('<td>%s', lid2a($row['lid']));
 			printf('<td align=right>%d', $row['rank']);
-			printf('<td align><a href="http://xwis.net/xcl/?pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
+			printf('<td align><a href="%s?pid=%d">%s</a>', $config['ladder_url'], $row['pid'], htmlspecialchars($row['name']));
 			printf('<td align=right>%d', $row['win_count']);
 			printf('<td align=right>%d', $row['loss_count']);
 			printf('<td align=right>%d', $row['points']);
