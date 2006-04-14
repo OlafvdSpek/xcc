@@ -1,4 +1,5 @@
 <a href="logins.php">Logins</a> |
+<a href=".">New</a> |
 <a href="players.php?">Players</a> |
 <a href="players.php?a=bad_passes">Bad passes</a> |
 <a href="players.php?a=invalid_serials">Invalid serials</a> |
