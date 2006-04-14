@@ -61,6 +61,37 @@
 		}
 	}
 
+	function table_ladder($names)
+	{
+		if (!count($names))
+			return;
+		$rows = db_query(sprintf("select * from xcl_players left join xcl_players_rank using (pid) where name in ('%s') order by points desc", implode("','", $names)));
+		if (!mysql_num_rows($rows))
+			return;
+		printf('<table>');
+		printf('<tr>');
+		printf('<th>Ladder');
+		printf('<th align=right>Rank');
+		printf('<th align>Name');
+		printf('<th align=right>Wins');
+		printf('<th align=right>Losses');
+		printf('<th align=right>Points');
+		printf('<th>Modified');
+		while ($row = mysql_fetch_assoc($rows))
+		{
+			$sids[] = $row['sid'];
+			printf('<tr>');
+			printf('<td>%s', lid2a($row['lid']));
+			printf('<td align=right>%d', $row['rank']);
+			printf('<td align><a href="http://xwis.net/xcl/?pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
+			printf('<td align=right>%d', $row['win_count']);
+			printf('<td align=right>%d', $row['loss_count']);
+			printf('<td align=right>%d', $row['points']);
+			printf('<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
+		}
+		printf('</table>');
+	}
+
 	function table_logins($ipa, $pid, $sid)
 	{
 		if ($ipa)
@@ -146,19 +177,22 @@
 	{
 		$sids = array();
 		$rows = db_query(sprintf("select p.*, c.name cname from xwi_players p left join xwi_clans c using (cid) where p.pid in (%s) order by p.name", count($pids) ? implode(',', $pids) : '0'));
+		$names = array();
 		printf('<table>');
 		printf('<tr>');
 		// printf('<th align=right>pid');
 		printf('<th align=right>sid');
 		printf('<th>name');
 		printf('<th>clan');
-		printf('<th align=right>flags');
+		printf('<th>flags');
 		printf('<th>modified');
 		printf('<th>created');
 		printf('<th>sids');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			$sids[] = $row['sid'];
+			$names[] = $row['name'];
+			$names[] = $row['cname'];
 			printf('<tr>');
 			// printf('<td align=right><a href="?a=edit_player;pid=%d">%d</a>', $row['pid'], $row['pid']);
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
@@ -166,9 +200,9 @@
 			printf('<td>');
 			if ($row['cid'])
 				printf('<a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
-			printf('<td align=right>');
+			printf('<td>');
 			if ($row['flags'])
-				printf('%d', $row['flags']);
+				printf('%s', flags2a($row['flags']));
 			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 			printf('<td>');
@@ -177,11 +211,13 @@
 				printf('<a href="?a=edit_serial;sid=%d">%d</a> ', $row1['sid'], $row1['sid']);
 		}
 		printf('</table>');
+		table_ladder($names);
 	}
 
 	function table_serials($sids)
 	{
 		$rows = db_query(sprintf("select * from xwi_serials where sid in (%s) order by sid", count($sids) ? implode(',', $sids) : '0'));
+		$names = array();
 		printf('<table>');
 		printf('<tr>');
 		printf('<th align=right>sid');
@@ -199,7 +235,6 @@
 			printf('<td>%s', gsku2a($row['gsku']));
 			printf('<td align=right>%d', $row['valid']);
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
-
 			printf('<td>');
 			if ($row['wtime'])
 				printf('%s', gmdate('Y-m-d', $row['wtime']));
@@ -216,9 +251,13 @@
 			// $rows1 = db_query(sprintf("select pid, name from xwi_players where pid in (select pid from xwi_logins1 where sid = %d) or sid = %d order by name", $row['sid'], $row['sid']));
 			$rows1 = db_query(sprintf("select pid, name from xwi_players where pid in (%s) or sid = %d order by name", count($pids) ? implode(',', $pids) : '0', $row['sid']));
 			while ($row1 = mysql_fetch_assoc($rows1))
+			{
+				$names[] = $row1['name'];
 				printf('<a href="?a=edit_player;pid=%d">%s</a> ', $row1['pid'], htmlspecialchars($row1['name']));
+			}
 		}
 		printf('</table>');
+		table_ladder($names);
 	}
 
 	function table_warnings($ipas, $sids)
@@ -305,7 +344,7 @@
 			printf('<tr><th>clan<td><a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
 		}
 		printf('<tr><th>pass<td>');
-		printf('<tr><th>flags<td>%d', $row['flags']);
+		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('</table>');
