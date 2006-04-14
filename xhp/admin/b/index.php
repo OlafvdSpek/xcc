@@ -71,13 +71,13 @@
 			return;
 		printf('<table>');
 		printf('<tr>');
-		printf('<th>Ladder');
-		printf('<th align=right>Rank');
-		printf('<th align>Name');
-		printf('<th align=right>Wins');
-		printf('<th align=right>Losses');
-		printf('<th align=right>Points');
-		printf('<th>Modified');
+		printf('<th>ladder');
+		printf('<th align=right>rank');
+		printf('<th align>name');
+		printf('<th align=right>wins');
+		printf('<th align=right>losses');
+		printf('<th align=right>points');
+		printf('<th>modified');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			$sids[] = $row['sid'];
