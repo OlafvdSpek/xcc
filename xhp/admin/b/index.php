@@ -3,10 +3,8 @@
 <?php
 	function page_search($search)
 	{
-		printf('<form>');
-		printf('<input type=text name=search value="%s">', htmlspecialchars($search));
-		printf('<input type=submit value=Search>');
-		printf('</form>');
+		$search = htmlspecialchars($search);
+		include(dirname(__FILE__) . '/templates/search.php');
 	}
 
 	function page_search_results($search)
@@ -347,11 +345,11 @@
 		table_logins(0, 0, $sid);
 	}
 
-	require_once('common.php');
+	require_once(dirname(__FILE__) . '/common.php');
 	db_connect();
 	$a = $_REQUEST['a'];
 	$ipa = $_REQUEST['ipa'];
-	$search = $_REQUEST['search'];
+	$search = trim($_REQUEST['search']);
 	page_search($search);
 	if (strlen($search))
 	{
