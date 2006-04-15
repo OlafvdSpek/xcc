@@ -307,7 +307,7 @@
 			{
 				printf('<tr>');
 				printf('<td align=right><a href="../players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
-				printf('<td><a href="?pname=%s">%s</a>', $row['name'], $row['name']);
+				printf('<td><a href="?search=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>');
 				if ($row['link'])
 					printf('<a href="%s">link</a>', htmlspecialchars($row['link']));
