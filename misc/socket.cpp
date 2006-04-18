@@ -6,6 +6,7 @@
 #else
 #include <sys/ioctl.h>
 #include <sys/socket.h>
+#include <fcntl.h>
 #include <netdb.h>
 #include <unistd.h>
 #endif
@@ -18,9 +19,7 @@ const int INADDR_NONE = -1;
 const int MSG_NOSIGNAL = 0;
 #endif
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+static bool g_start_up_done = false;
 
 Csocket_source::Csocket_source(SOCKET s)
 {
@@ -68,9 +67,22 @@ const Csocket& Csocket::operator=(const Csocket& v)
 	return *this;
 }
 
-int Csocket::bind(int h, int p)
+int Csocket::accept(int& h, int& p)
 {
 	sockaddr_in a;
+	socklen_t cb_a = sizeof(sockaddr_in);
+	a.sin_family = AF_INET;
+	int r = ::accept(*this, reinterpret_cast<sockaddr*>(&a), &cb_a);
+	if (r == INVALID_SOCKET)
+		return r;
+	h = a.sin_addr.s_addr;
+	p = a.sin_port;
+	return 0;
+}
+
+int Csocket::bind(int h, int p)
+{
+	sockaddr_in a = {0};
 	a.sin_family = AF_INET;
 	a.sin_addr.s_addr = h;
 	a.sin_port = p;
@@ -79,8 +91,12 @@ int Csocket::bind(int h, int p)
 
 int Csocket::blocking(bool v)
 {
+#ifdef FIONBIO
 	unsigned long p = !v;
 	return ioctlsocket(*this, FIONBIO, &p);
+#else
+	return fcntl(*this, F_SETFL, v ? 0 : O_NONBLOCK) == -1;
+#endif
 }
 
 void Csocket::close()
@@ -90,7 +106,7 @@ void Csocket::close()
 
 int Csocket::connect(int h, int p)
 {
-	sockaddr_in a;
+	sockaddr_in a = {0};
 	a.sin_family = AF_INET;
 	a.sin_addr.s_addr = h;
 	a.sin_port = p;
@@ -104,8 +120,9 @@ int Csocket::listen()
 
 const Csocket& Csocket::open(int t, bool _blocking)
 {
+	start_up();
 	*this = socket(AF_INET, t, 0);
-	if (!_blocking && blocking(false))
+	if (*this != INVALID_SOCKET && !_blocking && blocking(false))
 		close();
 	return *this;
 }
@@ -161,20 +178,26 @@ string Csocket::error2a(int v)
 {
 	switch (v)
 	{
+	case WSAEACCES: return "EACCES";
 	case WSAEADDRINUSE: return "EADDRINUSE";
 	case WSAEADDRNOTAVAIL: return "EADDRNOTAVAIL";
 	case WSAEAFNOSUPPORT: return "EAFNOSUPPORT";
 	case WSAEALREADY: return "EALREADY";
+	case WSAEBADF: return "EBADF";
 	case WSAECONNABORTED: return "ECONNABORTED";
 	case WSAECONNREFUSED: return "ECONNREFUSED";
 	case WSAECONNRESET: return "ECONNRESET";
 	case WSAEDESTADDRREQ: return "EDESTADDRREQ";
 	case WSAEDQUOT: return "EDQUOT";
+	case WSAEFAULT: return "EFAULT";
 	case WSAEHOSTDOWN: return "EHOSTDOWN";
 	case WSAEHOSTUNREACH: return "EHOSTUNREACH";
 	case WSAEINPROGRESS: return "EINPROGRESS";
+	case WSAEINTR: return "EINTR";
+	case WSAEINVAL: return "EINVAL";
 	case WSAEISCONN: return "EISCONN";
 	case WSAELOOP: return "ELOOP";
+	case WSAEMFILE: return "EMFILE";
 	case WSAEMSGSIZE: return "EMSGSIZE";
 	case WSAENAMETOOLONG: return "ENAMETOOLONG";
 	case WSAENETDOWN: return "ENETDOWN";
@@ -197,6 +220,23 @@ string Csocket::error2a(int v)
 	case WSAETOOMANYREFS: return "ETOOMANYREFS";
 	case WSAEUSERS: return "EUSERS";
 	case WSAEWOULDBLOCK: return "EWOULDBLOCK";
+#ifdef WIN32
+	case WSAECANCELLED: return "ECANCELLED";
+	case WSAEDISCON: return "EDISCON";
+	case WSAEINVALIDPROCTABLE: return "EINVALIDPROCTABLE";
+	case WSAEINVALIDPROVIDER: return "EINVALIDPROVIDER";
+	case WSAENOMORE: return "ENOMORE";
+	case WSAEPROVIDERFAILEDINIT: return "EPROVIDERFAILEDINIT";
+	case WSAEREFUSED: return "EREFUSED";
+	case WSANOTINITIALISED: return "NOTINITIALISED";
+	case WSASERVICE_NOT_FOUND: return "SERVICE_NOT_FOUND";
+	case WSASYSCALLFAILURE: return "SYSCALLFAILURE";
+	case WSASYSNOTREADY: return "SYSNOTREADY";
+	case WSATYPE_NOT_FOUND: return "TYPE_NOT_FOUND";
+	case WSAVERNOTSUPPORTED: return "VERNOTSUPPORTED";
+	case WSA_E_CANCELLED: return "E_CANCELLED";
+	case WSA_E_NO_MORE: return "E_NO_MORE";
+#endif
 	}
 	char b[12];
 	sprintf(b, "%d", v);
@@ -208,4 +248,17 @@ string Csocket::inet_ntoa(int v)
 	in_addr a;
 	a.s_addr = v;
 	return ::inet_ntoa(a);
+}
+
+int Csocket::start_up()
+{
+	if (g_start_up_done)
+		return 0;
+	g_start_up_done = true;
+#ifdef WIN32
+	WSADATA wsadata;
+	if (WSAStartup(MAKEWORD(2, 0), &wsadata))
+		return 1;
+#endif
+	return 0;
 }
