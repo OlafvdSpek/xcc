@@ -1,7 +1,3 @@
-// socket.h: interface for the Csocket class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_SOCKET_H__7FCC2721_54CD_4609_8737_92478B4090EA__INCLUDED_)
 #define AFX_SOCKET_H__7FCC2721_54CD_4609_8737_92478B4090EA__INCLUDED_
 
@@ -20,25 +16,32 @@ typedef int socklen_t;
 #else
 #include <arpa/inet.h>
 #include <netinet/in.h>
+#include <errno.h>
 
 #define closesocket close
 #define ioctlsocket ioctl
 #define WSAGetLastError() errno
 
+#define WSAEACCES EACCES
 #define WSAEADDRINUSE EADDRINUSE
 #define WSAEADDRNOTAVAIL EADDRNOTAVAIL
 #define WSAEAFNOSUPPORT EAFNOSUPPORT
 #define WSAEALREADY EALREADY
+#define WSAEBADF EBADF
 #define WSAECONNABORTED ECONNABORTED
 #define WSAECONNREFUSED ECONNREFUSED
 #define WSAECONNRESET ECONNRESET
 #define WSAEDESTADDRREQ EDESTADDRREQ
 #define WSAEDQUOT EDQUOT
+#define WSAEFAULT EFAULT
 #define WSAEHOSTDOWN EHOSTDOWN
 #define WSAEHOSTUNREACH EHOSTUNREACH
 #define WSAEINPROGRESS EINPROGRESS
+#define WSAEINTR EINTR
+#define WSAEINVAL EINVAL
 #define WSAEISCONN EISCONN
 #define WSAELOOP ELOOP
+#define WSAEMFILE EMFILE
 #define WSAEMSGSIZE EMSGSIZE
 #define WSAENAMETOOLONG ENAMETOOLONG
 #define WSAENETDOWN ENETDOWN
@@ -90,6 +93,7 @@ public:
 	static string error2a(int v);
 	static int get_host(const string& name);
 	static string inet_ntoa(int h);
+	static int start_up();
 	int accept(int& h, int& p);
 	int bind(int h, int p);
 	int blocking(bool v);
