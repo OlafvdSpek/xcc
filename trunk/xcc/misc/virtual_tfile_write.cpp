@@ -17,5 +17,5 @@ void Cvirtual_tfile_write::write(const string& s)
 
 void Cvirtual_tfile_write::write_line(const string& s)
 {
-	m_v << to_upper_copy(s) << endl;
+	m_v << to_upper_copy(s) << '\r' << endl;
 }
