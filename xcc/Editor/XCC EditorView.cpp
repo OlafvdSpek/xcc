@@ -205,7 +205,6 @@ inline static bool in_level(const Cxcc_cell& v)
 
 void CXCCEditorView::OnInitialUpdate()
 {
-	main_frame()->m_log_window.write_line("CXCCEditorView::OnInitialUpdate()");
 	CScrollView::OnInitialUpdate();
 	CSize sizeTotal;
 	sizeTotal.cx = sizeTotal.cy = 24 * 80;
@@ -223,27 +222,22 @@ void CXCCEditorView::OnInitialUpdate()
 	m_lock_template_layer = m_lock_overlay_layer = m_lock_smudge_layer = m_lock_terrain_layer = true;
 	m_lock_infantry_layer = m_lock_structure_layer = m_lock_unit_layer = false;
 
-	main_frame()->m_log_window.write_line("load overlay images");
 	if (overlays.load_images(level().map_data.theater))
 	{
 		AfxMessageBox("Overlay load failed", MB_ICONEXCLAMATION);
 	}
-	main_frame()->m_log_window.write_line("load template images");
 	if (templates.load_images(level().map_data.theater))
 	{
 		AfxMessageBox("Template load failed", MB_ICONEXCLAMATION);
 	}
-	main_frame()->m_log_window.write_line("load infantry images");
 	if (xcc_infantry::load_images(false))
 	{
 		AfxMessageBox("Infantry load failed", MB_ICONEXCLAMATION);
 	}
-	main_frame()->m_log_window.write_line("load structure images");
 	if (xcc_structures::load_images(level().map_data.theater, false))
 	{
 		AfxMessageBox("Structures load failed", MB_ICONEXCLAMATION);
 	}
-	main_frame()->m_log_window.write_line("load unit images");
 	if (xcc_units::load_images(false))
 	{
 		AfxMessageBox("Units load failed", MB_ICONEXCLAMATION);

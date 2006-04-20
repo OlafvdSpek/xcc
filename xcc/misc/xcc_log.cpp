@@ -1,9 +1,10 @@
 #include "stdafx.h"
+#include "xcc_log.h"
+
 #include <ctime>
 #include <fstream>
 #include <iomanip>
 #include "xcc_dirs.h"
-#include "xcc_log.h"
 
 using namespace std;
 
@@ -12,17 +13,6 @@ bool g_lock_inited = false;
 static ofstream log_f;
 static time_t log_t = time(NULL);
 static int log_x = 0;
-
-#ifdef __AFX_H__
-#include "log_window.h"
-
-static Clog_window* log_window = NULL;
-
-void xcc_log::attach(void* log_window)
-{
-	log_window = static_cast<Clog_window*>(log_window);
-}
-#endif
 
 void xcc_log::attach_file(const string& name)
 {
@@ -64,9 +54,5 @@ void xcc_log::write_line(const string& s, int x)
 	}
 	if (x > 0)
 		log_x += x;
-#ifdef __AFX_H__
-	if (log_window)
-		log_window->write_line(s);
-#endif
 	unlock();
 }

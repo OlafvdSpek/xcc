@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="XCC Editor"
 	ProjectGUID="{6A32AFB3-5A48-430A-B0BC-5FA39C61414A}"
+	RootNamespace="XCC Editor"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -590,28 +591,6 @@
 			</File>
 			<File
 				RelativePath="list_ctrl_extension.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\misc\log_window.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"

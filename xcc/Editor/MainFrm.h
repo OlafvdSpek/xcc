@@ -1,7 +1,3 @@
-// MainFrm.h : interface of the CMainFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-
 #if !defined(AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)
 #define AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_
 
@@ -31,7 +27,6 @@ public:
 	Cxcc_cell m_mouse_pos;
 	bool m_idle_msg_changed;
 	string m_object_name;
-	Clog_window m_log_window;
 	Cobject_selection* m_selection_pane;
 	CXCCEditorView* m_level_pane;
 
@@ -80,9 +75,6 @@ protected:
 	DECLARE_MESSAGE_MAP()
 };
 
-/////////////////////////////////////////////////////////////////////////////
-
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
 
 #endif // !defined(AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)
