@@ -132,7 +132,7 @@ function page_bottom(date)
 	document.write('<td align=right valign=top>', date2a(date));
 	document.write('<tr><td align=center colspan=3>');
 	document.write('<p><a href="https://www.paypal.com/xclick/business=st_xcl%40hotmail.com&amp;item_name=XCL+Fund&amp;image_url=http%3A//xccu.sourceforge.net/button.gif&amp;no_shipping=1&amp;no_note=1&amp;cs=1&amp;tax=0&amp;currency_code=GBP"><img src="https://www.paypal.com/images/x-click-but04.gif" alt="PayPal Donate"></a>');
-	document.write('<p><a href="http://communityteam.de/"><img src="http://communityteam.de/images/banner/ct_banner.gif" alt="Community Team"></a>');
+	document.write('<p><a href="http://communityteam.de/"><img src="http://strike-team.net/images/ct_banner.gif" alt="Community Team"></a>');
 	document.write('<p>');
 	google_ad_client = "pub-1982327992445962";
 	google_ad_width = 728;
