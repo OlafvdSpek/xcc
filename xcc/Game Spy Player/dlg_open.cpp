@@ -13,6 +13,16 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
+int get_replays_dir(string& v)
+{
+	char d[MAX_PATH];
+	if (!SHGetSpecialFolderPath(NULL, d, CSIDL_PERSONAL, true))
+		return 1;
+	v = d;
+	v += "/XGS/";
+	return 0;
+}
+
 Cdlg_open::Cdlg_open(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_open::IDD, pParent, "Open_dlg")
 {
@@ -45,9 +55,6 @@ BEGIN_MESSAGE_MAP(Cdlg_open, ETSLayoutDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_open message handlers
-
 BOOL Cdlg_open::OnInitDialog() 
 {
 	ETSLayoutDialog::OnInitDialog();
@@ -66,7 +73,8 @@ BOOL Cdlg_open::OnInitDialog()
 	
 	insert_players_columns();
 	insert_replays_columns();
-	string dir = xcc_dirs::get_dir(game_ra2) + "replays/";
+	string dir;
+	get_replays_dir(dir);
 	WIN32_FIND_DATA fd;
 	HANDLE fh = FindFirstFile((dir + "*.xif").c_str(), &fd);
 	if (fh != INVALID_HANDLE_VALUE)
@@ -232,7 +240,8 @@ enum
 
 void Cdlg_open::import_cache(const Cxif_key& key)
 {
-	string dir = xcc_dirs::get_dir(game_ra2) + "replays/";
+	string dir;
+	get_replays_dir(dir);
 	for (t_xif_key_map::const_iterator i = key.m_keys.begin(); i != key.m_keys.end(); i++)
 	{
 		t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
