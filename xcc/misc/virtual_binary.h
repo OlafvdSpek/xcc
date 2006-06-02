@@ -7,6 +7,7 @@
 
 #include <cassert>
 #include <string>
+#include "const_memory_range.h"
 #include "smart_ref.h"
 #include "vartypes.h"
 
@@ -89,6 +90,11 @@ public:
 		return m_source->data_edit();
 	}
 
+	byte* mutable_end()
+	{
+		return data_edit() + size();
+	}
+
 	size_t size() const
 	{
 		return m_source ? m_source->size() : 0;
@@ -104,6 +110,16 @@ public:
 	operator const byte*() const
 	{
 		return data();
+	}
+
+	operator const_memory_range() const
+	{
+		return const_memory_range(data(), size());
+	}
+
+	operator memory_range()
+	{
+		return memory_range(data_edit(), size());
 	}
 private:
 	Cvirtual_binary_source* m_source;
