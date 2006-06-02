@@ -127,24 +127,24 @@ const Csocket& Csocket::open(int t, bool _blocking)
 	return *this;
 }
 
-int Csocket::recv(void* d, int cb_d) const
+int Csocket::recv(memory_range d) const
 {
-	return ::recv(*this, reinterpret_cast<char*>(d), cb_d, MSG_NOSIGNAL);
+	return ::recv(*this, reinterpret_cast<char*>(d.begin), d.size(), MSG_NOSIGNAL);
 }
 
-int Csocket::recvfrom(void* d, int cb_d, sockaddr* a, socklen_t* cb_a) const
+int Csocket::recvfrom(memory_range d, sockaddr* a, socklen_t* cb_a) const
 {
-	return ::recvfrom(*this, reinterpret_cast<char*>(d), cb_d, MSG_NOSIGNAL, a, cb_a);
+	return ::recvfrom(*this, reinterpret_cast<char*>(d.begin), d.size(), MSG_NOSIGNAL, a, cb_a);
 }
 
-int Csocket::send(const void* s, int cb_s) const
+int Csocket::send(const_memory_range s) const
 {
-	return ::send(*this, reinterpret_cast<const char*>(s), cb_s, MSG_NOSIGNAL);
+	return ::send(*this, reinterpret_cast<const char*>(s.begin), s.size(), MSG_NOSIGNAL);
 }
 
-int Csocket::sendto(const void* s, int cb_s, const sockaddr* a, socklen_t cb_a) const
+int Csocket::sendto(const_memory_range s, const sockaddr* a, socklen_t cb_a) const
 {
-	return ::sendto(*this, reinterpret_cast<const char*>(s), cb_s, MSG_NOSIGNAL, a, cb_a);
+	return ::sendto(*this, reinterpret_cast<const char*>(s.begin), s.size(), MSG_NOSIGNAL, a, cb_a);
 }
 
 int Csocket::getsockopt(int level, int name, void* v, socklen_t& cb_v)
@@ -168,13 +168,13 @@ int Csocket::setsockopt(int level, int name, int v)
 	return setsockopt(level, name, &v, sizeof(int));
 }
 
-int Csocket::get_host(const string& name)
+int Csocket::get_host(const std::string& name)
 {
 	hostent* e = gethostbyname(name.c_str());
 	return e && e->h_addrtype == AF_INET && e->h_length == sizeof(in_addr) && e->h_addr_list ? *reinterpret_cast<int*>(*e->h_addr_list) : INADDR_NONE;
 }
 
-string Csocket::error2a(int v)
+std::string Csocket::error2a(int v)
 {
 	switch (v)
 	{
@@ -243,7 +243,7 @@ string Csocket::error2a(int v)
 	return b;
 }
 
-string Csocket::inet_ntoa(int v)
+std::string Csocket::inet_ntoa(int v)
 {
 	in_addr a;
 	a.s_addr = v;
