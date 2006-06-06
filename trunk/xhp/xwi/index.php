@@ -396,12 +396,12 @@
 			include('templates/search.php');
 			$text = $_REQUEST['text'];
 			if ($text)
-				$results = db_query(sprintf("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) where xwi_clans.name like '%s' or xwi_players.name like '%s' group by name order by name", addslashes($text), addslashes($text)));
+				$results = db_query(sprintf("select * from xwi_clans where name like '%s' order by name", addslashes($text)));
 			else
-				$results = db_query("select xwi_clans.*, count(xwi_players.pid) size from xwi_clans left join xwi_players using (cid) group by name having size > 1 order by name");
+				$results = db_query("select * from xwi_clans where player_count > 1 order by name");
 			echo("<table><tr><th align=left>Abbrev<th align=left>Name<th align=right>Players<th align=left>Modified<th align=left>Created");
 			while ($result = mysql_fetch_array($results))
-				printf('<tr><td><a href="?cid=%d">%s</a><td>%s<td align=right>%d<td>%s<td>%s', $result['cid'], $result['name'], $result['full_name'], $result['size'], gmdate("d-m-Y", $result['mtime']), gmdate("d-m-Y", $result['ctime']));
+				printf('<tr><td><a href="?cid=%d">%s</a><td>%s<td align=right>%d<td>%s<td>%s', $result['cid'], $result['name'], $result['full_name'], $result['player_count'], gmdate("d-m-Y", $result['mtime']), gmdate("d-m-Y", $result['ctime']));
 			echo("</table>");
 		}
 	}
