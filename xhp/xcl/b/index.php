@@ -137,6 +137,7 @@
 		echo("tr1h();");
 	}
 
+	printf("page_search(%d);", $lid);
 	if (isset($_REQUEST['hof']))
 	{
 		echo("t13a();");
@@ -361,7 +362,6 @@
 		}
 		else
 		{
-			printf("page_search(%d);", $lid);
 			if ($lid || $pname)
 			{
 				$cty = $_REQUEST['cty'] ? sprintf("and !(countries & %d)", $_REQUEST['cty']) : '';
