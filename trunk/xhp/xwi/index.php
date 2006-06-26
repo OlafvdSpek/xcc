@@ -60,6 +60,11 @@
 		return true;
 	}
 
+	function valid_mail($v)
+	{
+		return strlen($v);
+	}
+
 	include('templates/top.php');
 	require('../xcc_common.php');
 
@@ -67,6 +72,9 @@
 
 	$name = trim($_REQUEST['name']);
 	$pass = trim($_REQUEST['pass']);
+	$remote_addr = $_SERVER['REMOTE_ADDR'];
+	if ($remote_addr == '195.13.63.187')
+		$remote_addr = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
 	switch ($_REQUEST['a'])
 	{
@@ -106,6 +114,8 @@
 					echo("Invalid clan abbreviation");
 				else if (!valid_clan_name($cname))
 					echo("Invalid clan name");
+				else if (!valid_mail($mail))
+					echo("Invalid email address");
 				else if (get_player($name))
 				{
 					if ($player = get_player2($name, $pass))
@@ -129,7 +139,12 @@
 							printf("Player %s created clan %s<br>", $player['name'], $clan['name']);
 							printf("The clan admin pass is %s", $cpass);
 							if (strlen($mail))
-								mail($mail, sprintf("XWI Clan Manager: Clan %s created", $clan['name']), sprintf("Player %s created clan %s with admin pass %s from IP address %s", $player['name'], $clan['name'], $cpass, $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
+							{
+								mail($mail,
+									sprintf("XWI Clan Manager: Clan %s created", $clan['name']),
+									sprintf("Player %s created clan %s with admin pass %s from IP address %s", $player['name'], $clan['name'], $cpass, $remote_addr),
+									"from: XWIS <xwis>");
+							}
 						}
 					}
 					else
@@ -290,7 +305,7 @@
 	case 'reset_pass':
 		$cname = trim($_REQUEST['cname']);
 		$mail = trim($_REQUEST['mail']);
-		$pass = trim($_REQUEST['pass']);
+		$pass = substr(trim($_REQUEST['pass']), 0, 16);
 		if ($pass)
 		{
 			$results = db_query(sprintf("select * from xwi_clan_reset_pass_requests where pass = md5('%s')", addslashes($pass)));
@@ -319,7 +334,10 @@
 				while ($result['0']);
 				db_query(sprintf("insert into xwi_clan_reset_pass_requests (cid, pass, ctime) values (%d, md5('%s'), unix_timestamp())", $clan['cid'], $cpass));
 				printf("A link to reset the clan admin pass has been emailed to %s", htmlspecialchars($clan['mail']));
-				mail($clan['mail'], sprintf("XWI Clan Manager: Reset pass link for clan %s", $clan['name']), sprintf("To reset the clan admin pass for clan %s, click on http://xwis.net/xwi/?a=reset_pass&pass=%s. The request has been send from IP address %s", $clan['name'], $cpass, $_SERVER['REMOTE_ADDR']), "from: XWIS <xwis>");
+				mail($clan['mail'],
+					sprintf("XWI Clan Manager: Reset pass link for clan %s", $clan['name']),
+					sprintf("To reset the clan admin pass for clan %s, click on %s?a=reset_pass&pass=%s. The request has been send from IP address %s", $clan['name'], $config['clan_manager_url'], $cpass, $remote_addr),
+					"from: XWIS <xwis>");
 			}
 			else
 			{
@@ -363,9 +381,10 @@
 		$cid = $_REQUEST['cid'];
 		if ($cid && $clan = get_clan($cid))
 		{
-			echo("<table>");
-			printf("<tr><th align=right>Abbreviation<td>%s", $clan['name']);
-			printf("<tr><th align=right>Name<td>%s", $clan['full_name']);
+			echo('<table width=100%>');
+			printf('<tr><th colspan=3 align=center>%s [%s]', $clan['full_name'], $clan['name']);
+			echo('<tr><td width=40% align=left valign=top>');
+			echo('<table>');
 			if ($clan['creator_name'])
 				printf('<tr><th align=right>Creator<td>%s', htmlspecialchars($clan['creator_name']));
 			if ($clan['leader_name'])
@@ -382,14 +401,62 @@
 					$clan['site'] = "http://" . $clan['site'];
 				printf('<tr><th align=right>Site<td><a href="%s">%s</a>', htmlspecialchars($clan['site']), htmlspecialchars($clan['site']));
 			}
-			printf("<tr><th align=right>Modified<td>%s", gmdate("H:i d-m-Y", $clan['mtime']));
-			printf("<tr><th align=right>Created<td>%s", gmdate("H:i d-m-Y", $clan['ctime']));
+			printf('<tr><th align=right>Founded<td>%s', gmdate('jS F, Y', $clan['ctime']));
+			$awards = array
+			(
+				1 => 'trophy_gold.gif',
+				2 => 'trophy_silver.gif',
+				3 => 'trophy_bronze.gif',
+				4 => 'runnerup.gif',
+				5 => 'runnerup.gif',
+				6 => 'runnerup.gif',
+				7 => 'runnerup.gif',
+				8 => 'runnerup.gif',
+				9 => 'runnerup.gif',
+				10 => 'runnerup.gif',
+			);
+			$ladder = array
+			(
+				2 => 'RA2',
+				4 => 'YR',
+				8 => 'TS',
+			);
+			$results = db_query(sprintf("select * from xcl_players inner join xcl_players_rank using (pid) where name = '%s' and lid in (2, 4, 8)", $clan['name']));
+			if (mysql_num_rows($results))
+			{
+				printf('<tr><th align=right>Current Stats<td>');
+				while ($result = mysql_fetch_array($results))
+					printf('<a href="%s/xcl/?cid=%d">#%d %d / %d %dp (%s)</a><br>', $result['lid'] == 8 ? '/ts' : '', $result['pid'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points'], $ladder[$result['lid']]);
+			}
+			$results = db_query(sprintf("select date, rank, lid from xcl_hof where name = '%s' and lid in (2, 4, 8) order by rank asc", $clan['name']));
+			if (mysql_num_rows($results))
+			{
+				printf('<tr><th align=right>Awards<td>');
+				$this_row = 0;
+				while ($result = mysql_fetch_array($results))
+				{
+					if ($this_row == 5)
+					{
+						echo('<br>');
+						$this_row = 0;
+					}
+					printf('<img src="images/%s" alt="#%d" title="#%d"> ', $awards[$result['rank']], $result['rank'], $result['rank']);
+					$this_row++;
+				}
+			}
 			printf('<tr><th><td><a href="?a=edit&cid=%d">Edit</a>', $clan['cid']);
+			echo('</table>');
+			echo('<td width=20% align=left valign=top>');
 			$results = db_query(sprintf("select name from xwi_players where cid = %d order by name", $cid));
-			echo("</table><hr><table>");
 			while ($result = mysql_fetch_array($results))
-				printf('<tr><td><a href="/xcl/?pname=%s">%s</a>', $result['name'], $result['name']);
-			echo("</table>");
+				printf('<a href="/xcl/?pname=%s">%s</a><br>', $result['name'], $result['name']);
+			echo('<td width=40% align=right valign=top>');
+			echo('<table><tr><td>');
+			$results = db_query(sprintf("select date, rank, lid from xcl_hof where name = '%s' and lid in (2, 4, 8) order by date desc", $clan['name']));
+			while ($result = mysql_fetch_array($results))
+				printf('<img src="images/%s" alt="#%d" title="#%d"> #%d %s, %s<br>', $awards[$result['rank']], $result['rank'], $result['rank'], $result['rank'], $ladder[$result['lid']], gmdate("F Y", gmmktime(0, 0, 0, substr($result['date'], 5, 2), 1, substr($result['date'], 0, 4))));
+			echo('</table>');
+			echo('</table>');
 		}
 		else
 		{
@@ -401,7 +468,7 @@
 				$results = db_query("select * from xwi_clans where player_count > 1 order by name");
 			echo("<table><tr><th align=left>Abbrev<th align=left>Name<th align=right>Players<th align=left>Modified<th align=left>Created");
 			while ($result = mysql_fetch_array($results))
-				printf('<tr><td><a href="?cid=%d">%s</a><td>%s<td align=right>%d<td>%s<td>%s', $result['cid'], $result['name'], $result['full_name'], $result['player_count'], gmdate("d-m-Y", $result['mtime']), gmdate("d-m-Y", $result['ctime']));
+				printf('<tr><td><a href="?cid=%d">%s</a><td><a href="?cid=%d">%s</a><td align=right>%d<td>%s<td>%s', $result['cid'], $result['name'], $result['cid'], $result['full_name'], $result['player_count'], gmdate("d-m-Y", $result['mtime']), gmdate("d-m-Y", $result['ctime']));
 			echo("</table>");
 		}
 	}
