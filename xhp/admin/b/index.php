@@ -306,7 +306,7 @@
 			do
 			{
 				printf('<tr>');
-				printf('<td align=right><a href="../players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
+				printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
 				printf('<td><a href="?search=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>');
 				if ($row['link'])
@@ -407,6 +407,9 @@
 	}
 
 	require_once(dirname(__FILE__) . '/common.php');
+	$remote_user = $_SERVER['REMOTE_USER'];
+	if (empty($remote_user))
+		die();
 	db_connect();
 	$a = $_REQUEST['a'];
 	$ipa = $_REQUEST['ipa'];

@@ -34,6 +34,9 @@
 			echo_warning($result);
 	}
 
+	$remote_user = $_SERVER['REMOTE_USER'];
+	if (empty($remote_user))
+		die();
 	db_connect();
 	require('templates/top.php');
 	require('templates/links.php');
@@ -41,7 +44,6 @@
 	require('templates/search.php');
 	echo('<hr>');
 	$pname = trim($_REQUEST[pname]);
-	$remote_user = $_SERVER['REMOTE_USER'];
 	switch ($_REQUEST['a'])
 	{
 	case 'chat':
