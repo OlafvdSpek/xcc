@@ -21,7 +21,7 @@ string get_country_name(int i)
 		"Russia",
 		"Yuri"
 	};
-	return i >=0 && i < 10 ? country_names[i] : n(i);
+	return i >= 0 && i < 10 ? country_names[i] : n(i);
 }
 
 string get_map_name(const string& v)
@@ -269,6 +269,23 @@ string get_map_name(const string& v)
 			return i->value;
 	}
 	return v;
+}
+
+string get_mode_name(int i)
+{
+	const char* names[] =
+	{
+		"",
+		"Battle",
+		"Free For All",
+		"Cooperative",
+		"Unholy Alliance",
+		"Megawealth",
+		"Land Rush",
+		"Meat Grinder",
+		"Naval War",
+	};
+	return i >= 1 && i < 9 ? names[i] : n(i);
 }
 
 string get_ra2_building_name(int v)
