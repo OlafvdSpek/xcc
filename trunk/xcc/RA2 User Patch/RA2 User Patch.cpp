@@ -58,9 +58,8 @@ int write_patch(FILE* f, const int* p)
 	{
 		if (fseek(f, *r++, SEEK_SET)
 			|| fread(&b, 1, 1, f) != 1
-			|| b != *r++)
+			|| b != *r++ && b != *r++)
 			return 1;
-		r++;
 	}
 	r = p;
 	while (*r != -1)
@@ -75,7 +74,7 @@ int write_patch(FILE* f, const int* p)
 
 int main()
 {
-	return read_patch(fopen("d:/games/ra2/game.exe", "rb"), fopen("d:/games/ra2/game.exe.bak", "rb")), 0;
+	// return read_patch(fopen("c:/games/ra2/game.exe", "rb"), fopen("c:/games/ra2/game.exe.bak", "rb")), 0;
 	char b[MAX_PATH];
 	if (GetModuleFileName(NULL, b, MAX_PATH))
 	{
