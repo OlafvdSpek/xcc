@@ -123,6 +123,9 @@
 		break;
 	case 'rb_insert':
 		$pid = $_REQUEST[pid];
+		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
+		db_query(sprintf("insert into xwi_admin_log (administrator, pid, message, time) values ('%s', %d, '%sdeleted player %s', unix_timestamp())", 
+			addslashes($remote_user), $pid, $row['flags'] & 2 ? 'un' : '', addslashes($row['name'])));
 		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
 		echo('<table>');
 		echo_players(select_players(sprintf(" where pid = %d", $pid)));
@@ -301,7 +304,7 @@
 		else if ($sid)
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
-			$where = " where ~flags & 2 and wtime > unix_timestamp()";
+			$where = " where 0";
 		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th><th><th align=right>SID<th><th><th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
 		echo('</table>');
