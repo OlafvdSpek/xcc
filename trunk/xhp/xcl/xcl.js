@@ -752,5 +752,3 @@ function t18(v)
 		tr18(v[i + 0], v[i + 1], v[i + 2]);
 	document.write('</table><hr>');
 }
-
-document.write('<script type="text/javascript" src="http://m1.nedstatbasic.net/basic.js"></script>');
