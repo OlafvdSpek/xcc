@@ -46,6 +46,11 @@
 	$lid = isset($_REQUEST['lid']) ? 0 + a2lid($_REQUEST['lid']) : 0;
 	$pid = isset($_REQUEST['pid']) ? 0 + $_REQUEST['pid'] : 0;
 	$pname = isset($_REQUEST['pname']) ? trim($_REQUEST['pname']) : '';
+	$s = isset($_REQUEST['s']) ? trim($_REQUEST['s']) : '';
+	if (0 + $s)
+		$gid = $s;
+	else if (empty($pname))
+		$pname = $s;
 	if (isset($_REQUEST['js']))
 	{
 		$pnames = explode(',', $pname);
@@ -242,7 +247,6 @@
 	}
 	else
 	{
-		$pname = isset($_REQUEST['pname']) ? trim($_REQUEST['pname']) : "";
 		$recent_games = isset($_REQUEST['recent_games']);
 		$unfair_games = isset($_REQUEST['unfair_games']);
 		$wash_games = isset($_REQUEST['wash_games']) ? $_REQUEST['wash_games'] : 0;
