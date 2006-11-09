@@ -106,6 +106,7 @@ function page_xwis_top()
 
 function page_top(frozen)
 {
+	document.write('<link rel=search type="application/opensearchdescription+xml" title="XCL" href="xcl_opensearch.xml">');
 	document.write('<link rel=stylesheet href="/egx.css">');
 	document.write('<title>XCC Community Ladder', frozen ? ' (frozen)' : '', '</title>');
 	document.write('<table width="100%"><tr><td valign=bottom><p class=page_title>XCC Community Ladder<td align=right valign=bottom>');
@@ -146,7 +147,7 @@ function page_bottom(date)
 function page_search(lid)
 {
 	document.write('<center><form><table><tr>');
-	document.write('<td>Player:<input type=hidden name=lid value=', lid, '><td><input type=text name=pname size=9>');
+	document.write('<td>Player:<input type=hidden name=lid value=', lid, '><td><input type=text name=s size=9>');
 	if (lid)
 	{
 		document.write('<td>Countries:<select name=cty>');

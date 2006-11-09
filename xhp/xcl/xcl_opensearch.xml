@@ -1,0 +1,5 @@
+<OpenSearchDescription xmlns="http://a9.com/-/spec/opensearch/1.1/">
+	<ShortName>XCL</ShortName>
+	<Description>XCC Community Ladder</Description>
+	<Url type="text/html" template="http://xwis.net/xcl/?s={searchTerms}"/>
+</OpenSearchDescription>
