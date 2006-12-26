@@ -369,6 +369,10 @@
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		if ($row['flags'] & 2)
+			printf('<tr><th><td><a href="?a=undelete_player&amp;pid=%d">Undelete</a>', $row['pid']);
+		else
+			printf('<tr><th><td><a href="?a=delete_player&amp;pid=%d">Delete</a>', $row['pid']);
 		printf('</table>');
 		$sids = array();
 		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d) union (select sid from xwi_players where pid = %d)", $pid, $pid));
@@ -406,6 +410,35 @@
 		table_logins(0, 0, $sid);
 	}
 
+	function insert_admin_log($pid, $sid, $message)
+	{
+		global $remote_user;
+		db_query(sprintf("insert into xwi_admin_log (administrator, pid, sid, message, time) values ('%s', %d, %d, '%s', unix_timestamp())",
+			addslashes($remote_user), $pid, $sid, addslashes($message)));
+	}
+
+	function page_delete_player($pid)
+	{
+		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
+		if ($row && !($row['flags'] & 2))
+		{
+			insert_admin_log($pid, 0, 'deleted player ' . $row['name']);
+			db_query(sprintf("update xwi_players set flags = flags | 2 where pid = %d", $pid));
+		}
+		header(sprintf('location: ?a=edit_player&pid=%d', $pid));
+	}
+
+	function page_undelete_player($pid)
+	{
+		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
+		if ($row && $row['flags'] & 2)
+		{
+			insert_admin_log($pid, 0, 'undeleted player ' . $row['name']);
+			db_query(sprintf("update xwi_players set flags = flags & ~2 where pid = %d", $pid));
+		}
+		header(sprintf('location: ?a=edit_player&pid=%d', $pid));
+	}
+
 	require_once(dirname(__FILE__) . '/common.php');
 	$remote_user = $_SERVER['REMOTE_USER'];
 	if (empty($remote_user))
@@ -413,6 +446,7 @@
 	db_connect();
 	$a = $_REQUEST['a'];
 	$ipa = $_REQUEST['ipa'];
+	$pid = 0 + $_REQUEST['pid'];
 	$search = trim($_REQUEST['search']);
 	page_search($search);
 	if (strlen($search))
@@ -427,11 +461,17 @@
 	}
 	switch ($a)
 	{
+	case 'delete_player':
+		page_delete_player($pid);
+		break;
+	case 'undelete_player':
+		page_undelete_player($pid);
+		break;
 	case 'edit_clan':
 		page_edit_clan($_REQUEST['cid']);
 		break;
 	case 'edit_player':
-		page_edit_player($_REQUEST['pid']);
+		page_edit_player($pid);
 		break;
 	case 'edit_serial':
 		page_edit_serial($_REQUEST['sid']);
@@ -443,13 +483,4 @@
 		table_logins($ipa, 0, 0);
 		break;
 	}
-
-	/*
-	alter table xwi_players add mtime0 int not null, add ctime0 int not null;
-	update xwi_players set mtime0 = unix_timestamp(mtime), ctime0 = unix_timestamp(ctime), mtime = mtime;
-	alter table xwi_players drop mtime, drop ctime, change mtime0 mtime int not null, change ctime0 ctime int not null;
-	alter table xwi_serials add wtime0 int not null, add mtime0 int not null, add ctime0 int not null;
-	update xwi_serials set wtime0 = unix_timestamp(wtime), mtime0 = unix_timestamp(mtime), ctime0 = unix_timestamp(ctime), mtime = mtime;
-	alter table xwi_serials drop wtime, drop mtime, drop ctime, change wtime0 wtime int not null, change mtime0 mtime int not null, change ctime0 ctime int not null;
-	*/
 ?>
