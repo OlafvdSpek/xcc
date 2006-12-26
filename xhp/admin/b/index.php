@@ -369,6 +369,7 @@
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		printf('<tr><th><td><a href="players.php?a=bl_insert&amp;pid=%d">-&gt; Black List</a>', $row['pid']);
 		if ($row['flags'] & 2)
 			printf('<tr><th><td><a href="?a=undelete_player&amp;pid=%d">Undelete</a>', $row['pid']);
 		else
