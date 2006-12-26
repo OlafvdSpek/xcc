@@ -25,7 +25,7 @@
 		printf('<tr><td align=right><a href="?a=show_warning&amp;wid=%d">%d</a><td><a href="?pname=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
 		if ($result[link])
 			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
-		printf("<td>%s<td>%s<td>%s", htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
+		printf("<td align=right>%d<td>%s<td>%s<td>%s", $result['duration'] / (24 * 60 * 60), htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
 	}
 
 	function echo_warnings($results)
@@ -124,7 +124,7 @@
 	case 'rb_insert':
 		$pid = $_REQUEST[pid];
 		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
-		db_query(sprintf("insert into xwi_admin_log (administrator, pid, message, time) values ('%s', %d, '%sdeleted player %s', unix_timestamp())", 
+		db_query(sprintf("insert into xwi_admin_log (administrator, pid, message, time) values ('%s', %d, '%sdeleted player %s', unix_timestamp())",
 			addslashes($remote_user), $pid, $row['flags'] & 2 ? 'un' : '', addslashes($row['name'])));
 		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
 		echo('<table>');
