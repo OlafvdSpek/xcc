@@ -369,7 +369,7 @@ function tr1a(gid, ws_gid, v, dura, scen, date, afps, crat, oosy, trny, echo_ret
 	date = new Date(1000 * date);
 	document.write('<td align=right>', dura2a(dura), '<td>', scen);
 	document.write('<td align=right>', i2(date.getHours()), ':', i2(date.getMinutes()), ' ', i2(date.getDate()), '-', i2(date.getMonth() + 1));
-	document.write('<td align=right>', afps, '<td align=right>', crat, '<td align=right>', oosy, '<td align=right>', trny);
+	document.write('<td align=right>', afps, '<td align=right>', eiz(crat), '<td align=right>', eiz(oosy), '<td align=right>', trny);
 	if (echo_return_points)
 		document.write('<td><a href="/admin/xcl_return_points.php?gid=', gid, '">Return points</a>');
 }
