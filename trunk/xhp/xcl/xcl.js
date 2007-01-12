@@ -399,7 +399,7 @@ function tr1d(v)
 function tr1f(cid)
 {
 	document.write(cid
-		? '<table><tr><th>GID<th colspan=5>Clan A<th colspan=5>Clan B<th colspan=1>Duration<th>Scenario<th>Date'
+		? '<table><tr><th>GID<th colspan=5>Clan A<th colspan=5>Clan B'
 		: '<table><tr><th>GID<th colspan=5>Player A<th colspan=5>Player B');
 	document.write('<th colspan=1>Duration<th>Scenario<th>Date<th title="Frames per Second">FPS<th title="Crates">C<th title="Out of Sync">S<th title="Tournament">T');
 }
