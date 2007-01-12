@@ -393,7 +393,7 @@ function tr1d(v)
 {
 	document.write('<tr><td>');
 	tr1bv(v);
-	document.write('<td colspan=6>');
+	document.write('<td colspan=7>');
 }
 
 function tr1f(cid)
