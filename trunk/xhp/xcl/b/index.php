@@ -130,7 +130,7 @@
 					;
 				$player_a = 0;
 				$player_b = $plrs;
-				printf("tr1a(%d,%d,new Array(%s,%s),%d,'%s',%d,%d,%d,%d,%d);", $result[gid], $result[ws_gid], echo_player($players[$player_a++]), echo_player($players[$player_b++]),
+				printf("tr1a(%d,%d,new Array(%s,%s),%d,'%s',%d,%d,%d,%d,%d,%d);", $result[gid], $result[ws_gid], echo_player($players[$player_a++]), echo_player($players[$player_b++]),
 					$result['dura'], js_encode($result['scen']), $result['mtime'], $result['afps'], $result['crat'], $result['oosy'], $result['trny'], $unfair_games);
 				while ($player_a < $plrs)
 					printf("tr1d(new Array(%s,%s));", echo_player($players[$player_a++]), echo_player($players[$player_b++]));
