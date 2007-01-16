@@ -22,7 +22,7 @@
 
 	function echo_warning($result)
 	{
-		printf('<tr><td align=right><a href="?a=show_warning&amp;wid=%d">%d</a><td><a href="?pname=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
+		printf('<tr><td align=right><a href="?a=show_warning&amp;wid=%d">%d</a><td><a href=".?search=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
 		if ($result[link])
 			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
 		printf("<td align=right>%d<td>%s<td>%s<td>%s", $result['duration'] / (24 * 60 * 60), htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));

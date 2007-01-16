@@ -269,11 +269,14 @@
 			while ($row1 = mysql_fetch_assoc($rows1))
 				$pids[] = $row1['pid'];
 			// $rows1 = db_query(sprintf("select pid, name from xwi_players where pid in (select pid from xwi_logins1 where sid = %d) or sid = %d order by name", $row['sid'], $row['sid']));
-			$rows1 = db_query(sprintf("select pid, name from xwi_players where pid in (%s) or sid = %d order by name", count($pids) ? implode(',', $pids) : '0', $row['sid']));
+			$rows1 = db_query(sprintf("select p.pid, p.name, p.cid, c.name cname from xwi_players p left join xwi_clans c using (cid) where pid in (%s) or sid = %d order by name", count($pids) ? implode(',', $pids) : '0', $row['sid']));
 			while ($row1 = mysql_fetch_assoc($rows1))
 			{
 				$names[] = $row1['name'];
+				$names[] = $row1['cname'];
 				printf('<a href="?a=edit_player;pid=%d">%s</a> ', $row1['pid'], htmlspecialchars($row1['name']));
+				if ($row1['cid'])
+					printf('(<a href="?a=edit_clan;cid=%d">%s</a>) ', $row1['cid'], htmlspecialchars($row1['cname']));
 			}
 		}
 		printf('</table>');
