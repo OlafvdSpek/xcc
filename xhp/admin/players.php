@@ -276,7 +276,26 @@
 		while ($result = mysql_fetch_array($results))
 		{
 			printf('<tr>');
-			printf('<td><a href="?pname=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td align=right>%d', $result['c']);
+			printf('<td align=right>%d', $result['win_count']);
+			printf('<td align=right>%d', $result['loss_count']);
+			printf('<td align=right>%d', $result['points']);
+		}
+		echo('</table>');
+		echo('<hr>');
+		$results = db_query("select p.pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players gp using (gid) inner join xcl_players p on gp.cid = p.pid where lid < 17 and cmp = 2 and points group by pid having c >= 1 order by c desc, points desc");
+		echo('<table>');
+		printf('<tr>');
+		printf('<th>Name');
+		printf('<th>Washes');
+		printf('<th>Wins');
+		printf('<th>Losses');
+		printf('<th>Points');
+		while ($result = mysql_fetch_array($results))
+		{
+			printf('<tr>');
+			printf('<td><a href="http://xwis.net/xcl/?cid=%d">%s</a>', $result['pid'], htmlspecialchars($result['name']));
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);
