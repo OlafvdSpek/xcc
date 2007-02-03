@@ -12,8 +12,6 @@
 			<td>
 				<a href="players.php?a=bad_passes">Bad passes</a>
 			<td>
-				<a href="players.php?a=invalid_serials">Invalid serials</a>
-			<td>
 				<a href="players.php?a=xbl">Show BL</a>
 			<td>
 				<a href="players.php?a=motds">Show MOTDs</a>
