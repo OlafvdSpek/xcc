@@ -72,14 +72,14 @@
 			{
 				$to .= sprintf('%s<br>', htmlspecialchars($row1['name']));
 			}
-			printf('<tr');
+			printf('<tr>');
 			// printf('<td align=right>%d', $row['chat_id']);
 			printf('<td nowrap>%s', gmdate('H:i:s d-m-Y', $row['time']));
 			printf('<td>%s', htmlspecialchars($row['name']));
 			printf('<td>%s', $to);
 			printf('<td>%s', htmlspecialchars($row['msg']));
 		}
-		printf('</table');
+		printf('</table>');
 		// printf('<a href="?a=chat;pname=%s;offset=%d">Next</a>', urlencode($pname), $offset + 1000);
 		break;
 	case 'motd':
