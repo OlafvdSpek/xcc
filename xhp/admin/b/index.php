@@ -61,12 +61,14 @@
 		}
 	}
 
-	function table_ladder($names)
+	function table_ladder($names, $prev)
 	{
 		global $config;
 		if (!count($names))
 			return;
-		$rows = db_query(sprintf("select * from xcl_players left join xcl_players_rank using (pid) where name in ('%s') order by points desc", implode("','", $names)));
+		$rows = $prev
+			? db_query(sprintf("select * from xcl_prev_players left join xcl_prev_players_rank using (pid) where name in ('%s') order by points desc", implode("','", $names)))
+			: db_query(sprintf("select * from xcl_players left join xcl_players_rank using (pid) where name in ('%s') order by points desc", implode("','", $names)));
 		if (!mysql_num_rows($rows))
 			return;
 		printf('<table>');
@@ -84,7 +86,7 @@
 			printf('<tr>');
 			printf('<td>%s', lid2a($row['lid']));
 			printf('<td align=right>%d', $row['rank']);
-			printf('<td align><a href="%s?pid=%d">%s</a>', $config['ladder_url'], $row['pid'], htmlspecialchars($row['name']));
+			printf('<td align><a href="%s?pid=%d">%s</a>', $config['ladder_url'] . ($prev ? 'prev' : ''), $row['pid'], htmlspecialchars($row['name']));
 			printf('<td align=right>%d', $row['win_count']);
 			printf('<td align=right>%d', $row['loss_count']);
 			printf('<td align=right>%d', $row['points']);
@@ -230,7 +232,8 @@
 				printf('<a href="?a=edit_serial;sid=%d">%d</a> ', $row1['sid'], $row1['sid']);
 		}
 		printf('</table>');
-		table_ladder($names);
+		table_ladder($names, false);
+		table_ladder($names, true);
 	}
 
 	function table_serials($sids)
@@ -280,7 +283,8 @@
 			}
 		}
 		printf('</table>');
-		table_ladder($names);
+		table_ladder($names, false);
+		table_ladder($names, true);
 	}
 
 	function table_warnings($ipas, $sids)
