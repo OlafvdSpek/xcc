@@ -132,7 +132,7 @@
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 		}
 		printf('</table>');
-		$rows = db_query(sprintf("select pid, p.name, sum(count) c, max(mtime) mtime, min(ctime) ctime from xwi_logins1 l left join xwi_players p using (pid)%s group by pid order by mtime desc", $where));
+		$rows = db_query(sprintf("select pid, p.name, sum(count) c, max(l.mtime) mtime, min(l.ctime) ctime from xwi_logins1 l left join xwi_players p using (pid)%s group by pid order by mtime desc", $where));
 		printf('<table>');
 		printf('<tr>');
 		printf('<th>count');
