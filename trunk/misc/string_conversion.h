@@ -1,28 +1,25 @@
 #pragma once
 
 #include <string>
-#include "vartypes.h"
 
-using namespace std;
-
-int a2ip(const string& s);
-string ip2a(int v);
-int get_net_mask(int v);
-int get_net_part(int v);
-bool atob(string s);
-string btoa(bool v);
-string js_encode(const string&);
-string n(unsigned int v);
-string n(int v);
-string n(__int64 v);
-string swsl(int l, string s);
-string swsr(int l, string s);
-string nwp(int l, unsigned int v);
-string nwsl(int l, unsigned int v);
-string nwzl(int l, unsigned int v);
-string nh(int l, __int64 v);
-void split_key(const string& key, string& name, string& value);
-string tabs2spaces(const string& v);
-string time2a(time_t v);
-string trim_field(const string&);
-string trim_text(const string&);
+int a2ip(const std::string&);
+std::string ip2a(int);
+int get_net_mask(int);
+int get_net_part(int);
+bool atob(std::string);
+std::string btoa(bool);
+std::string js_encode(const std::string&);
+std::string n(unsigned int);
+std::string n(int v);
+std::string n(long long v);
+std::string swsl(int l, std::string);
+std::string swsr(int l, std::string);
+std::string nwp(int l, unsigned int);
+std::string nwsl(int l, unsigned int);
+std::string nwzl(int l, unsigned int);
+std::string nh(int l, long long v);
+void split_key(const std::string& key, std::string& name, std::string& value);
+std::string tabs2spaces(const std::string&);
+std::string time2a(time_t);
+std::string trim_field(const std::string&);
+std::string trim_text(const std::string&);
