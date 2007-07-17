@@ -187,9 +187,9 @@ function page_ladders(frozen)
 	ra2_yr_prefix = '/xcl/';
 	if (frozen)
 	{
-		ts_prefix += 'prev';
-		ra2_prefix += 'prev';
-		ra2_yr_prefix += 'prev';
+		ts_prefix += 'prev.php';
+		ra2_prefix += 'prev.php';
+		ra2_yr_prefix += 'prev.php';
 	}
 	document.write('<center><table>');
 	document.write('<tr><td align=right>Tiberian Dawn<td><td><td><td><a href="/td/online">Online</a>');
@@ -203,7 +203,7 @@ function page_ladders(frozen)
 	if (frozen)
 		document.write('<tr><td align=center colspan=5><a href=".">Current Month</a>');
 	else
-		document.write('<tr><td align=center colspan=5><a href="prev">Previous Month</a>');
+		document.write('<tr><td align=center colspan=5><a href="prev.php">Previous Month</a>');
 	document.write('</table></center>');
 }
 
