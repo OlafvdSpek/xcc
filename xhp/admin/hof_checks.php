@@ -1,8 +1,8 @@
 <link rel=stylesheet href="/xcc1.css">
 <title>XWI Admin</title>
 <?php
-	@include_once(dirname(__FILE__) . '/config.php');
-	require_once(dirname(__FILE__) . '/common.php');
+	require_once(dirname(__FILE__) . '/b/config.php');
+	require_once(dirname(__FILE__) . '/b/common.php');
 	$remote_user = $_SERVER['REMOTE_USER'];
 	if (0 && empty($remote_user))
 		die();
