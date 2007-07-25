@@ -137,7 +137,7 @@
 			printf('</table>');
 		}
 		$rows = db_query(sprintf("
-			select distinct bl.*
+			select distinct p0.name name0, bl.*
 			from xcl_prev_games_players gp0
 				inner join xcl_prev_players p0 on gp0.pid = p0.pid
 				inner join xwi_players p1 on p0.name = p1.name
@@ -153,6 +153,7 @@
 			printf('<table>');
 			printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $cid, htmlspecialchars($name));
 			printf('<tr>');
+			printf('<th>name');
 			printf('<th align=right>wid');
 			printf('<th>name');
 			printf('<th>link');
@@ -165,8 +166,9 @@
 			do
 			{
 				printf('<tr>');
+				printf('<td><a href=".?search=%s">%s</a>', $row['name0'], $row['name0']);
 				printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
-				printf('<td><a href="?search=%s">%s</a>', $row['name'], $row['name']);
+				printf('<td><a href=".?search=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>');
 				if ($row['link'])
 					printf('<a href="%s">link</a>', htmlspecialchars($row['link']));
