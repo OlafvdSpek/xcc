@@ -5,11 +5,10 @@
 	require_once(dirname(__FILE__) . '/b/config.php');
 	require_once(dirname(__FILE__) . '/b/common.php');
 
-	function check_player($row0)
+	function check_player($pid, $name)
 	{
 		global $config;
 		$ladder_url = $config['ladder_url'];
-		$pid = $row0['pid'];
 		$rows = db_query(sprintf("
 			select distinct gp0.gid, gp0.pid, gp0.cid, p0.name, gp1.gid, gp1.pid, gp1.cid, p3.name, l1.sid
 			from xcl_prev_games_players gp0
@@ -27,7 +26,7 @@
 		if ($row = mysql_fetch_row($rows))
 		{
 			printf('<table>');
-			printf('<caption><a href="%s?pid=%d">%s</a></caption>', $ladder_url, $row0['pid'], htmlspecialchars($row0['name']));
+			printf('<caption><a href="%s?pid=%d">%s</a></caption>', $ladder_url, $pid, htmlspecialchars($name));
 			printf('<tr>');
 			printf('<th align=right>gid');
 			printf('<th align=right>cid');
@@ -50,13 +49,35 @@
 			while ($row = mysql_fetch_row($rows));
 			printf('</table>');
 		}
+		$rows = db_query(sprintf("select gid from xcl_prev_games_players where pid = %d and not cid", $pid));
+		if ($row = mysql_fetch_assoc($rows))
+		{
+			do
+			{
+				$gids[] = $row['gid'];
+			}
+			while ($row = mysql_fetch_assoc($rows));
+			$row0 = db_query_first(sprintf("select count(*) c, scen from xcl_prev_games where gid in (%s) group by scen order by c desc limit 1", implode(',', $gids)));
+			$row1 = db_query_first(sprintf("select count(*) c from xcl_prev_games where gid in (%s)", implode(',', $gids)));
+			if (4 * $row0['c'] > $row1['c'])
+			{
+				printf('<table>');
+				printf('<caption><a href="%s?pid=%d">%s</a></caption>', $ladder_url, $pid, htmlspecialchars($name));
+				printf('<tr>');
+				printf('<th align=right>count');
+				printf('<th>scenario');
+				printf('<tr>');
+				printf('<td align=right>%d / %d', $row0['c'], $row1['c']);
+				printf('<td>%s', htmlspecialchars($row0['scen']));
+				printf('</table>');
+			}
+		}
 	}
 
-	function check_clan($row0)
+	function check_clan($cid, $name)
 	{
 		global $config;
 		$ladder_url = $config['ladder_url'];
-		$cid = $row0['pid'];
 		if (0)
 		{
 			$rows = db_query(sprintf("
@@ -76,7 +97,7 @@
 			if ($row = mysql_fetch_row($rows))
 			{
 				printf('<table>');
-				printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $row0['pid'], htmlspecialchars($row0['name']));
+				printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $cid, htmlspecialchars($name));
 				printf('<tr>');
 				printf('<th align=right>gid');
 				printf('<th align>name');
@@ -104,7 +125,7 @@
 		if ($row = mysql_fetch_row($rows))
 		{
 			printf('<table>');
-			printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $row0['pid'], htmlspecialchars($row0['name']));
+			printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $cid, htmlspecialchars($name));
 			printf('<tr>');
 			printf('<th align=right>gid');
 			do
@@ -130,7 +151,7 @@
 		if ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<table>');
-			printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $row0['pid'], htmlspecialchars($row0['name']));
+			printf('<caption><a href="%s?cid=%d">%s</a></caption>', $ladder_url, $cid, htmlspecialchars($name));
 			printf('<tr>');
 			printf('<th align=right>wid');
 			printf('<th>name');
@@ -176,10 +197,10 @@
 		$rows = db_query(sprintf("select pid, name from xcl_prev_players where lid = %d order by points desc limit 25", $lid));
 		while ($row = mysql_fetch_assoc($rows))
 		{
-			if (lid & 1)
-				check_player($row);
+			if ($lid & 1)
+				check_player($row['pid'], $row['name']);
 			else
-				check_clan($row);
+				check_clan($row['pid'], $row['name']);
 		}
 	}
 
