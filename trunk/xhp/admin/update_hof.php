@@ -1,5 +1,6 @@
 <?php
-	require_once('common.php');
+	require_once('b/config.php');
+	require_once('b/common.php');
 
 	function update_hof($date, $lid)
 	{
@@ -10,8 +11,10 @@
 				$date, $lid, $rank++, addslashes($row['name']), $row['points'], $row['countries']));
 	}
 
-	$year = gmdate('Y');
-	$month = gmdate('m') - 1;
+	db_connect();
+	$row = db_query_first("select mtime from xcl_games order by gid limit 1");
+	$year = gmdate('Y', $row['mtime']);
+	$month = gmdate('m', $row['mtime']) - 1;
 	if (!$month)
 	{
 		$month += 12;
