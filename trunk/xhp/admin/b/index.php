@@ -399,8 +399,6 @@
 		printf('<tr><th>serial<td>');
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
 		printf('<tr><th>valid<td>%d', $row['valid']);
-		if ($row1 = db_query_first(sprintf("select * from xwsvs_log where sid = %d", $sid)))
-			printf('<tr><th><td>%s', htmlspecialchars($row1['msg']));
 		printf('<tr><th>ipa<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
