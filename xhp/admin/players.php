@@ -106,15 +106,14 @@
 		$pid = $_REQUEST[pid];
 		if ($result = mysql_fetch_array(db_query(sprintf("select * from xwi_players where pid = %d", $pid))))
 		{
-			$sid = $result[sid];
 			$name = $result[name];
 			$link = trim($_REQUEST['link']);
 			$reason = trim($_REQUEST['reason']);
 			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
 			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 			{
-				db_query(sprintf("insert into xbl (admin, sid, name, link, reason, duration, mtime, ctime) values ('%s', %d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
-					addslashes($remote_user), $sid, $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
+				db_query(sprintf("insert into xbl (admin, name, link, reason, duration, mtime, ctime) values ('%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
+					addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
 			}
 		}
 		require('templates/bl_insert.php');
@@ -150,21 +149,8 @@
 		}
 		echo('</table>');
 		break;
-	case 'invalid_serials':
-		$results = db_query("select valid, count(*) c from xwi_serials group by valid");
-		echo('<table>');
-		while ($result = mysql_fetch_array($results))
-			printf("<tr><td align=right>%d<td align=right>%d", $result[c], $result[valid]);
-		echo('</table>');
-		echo('<hr>');
-		$results = db_query("select flags, name from xwi_players inner join xwi_serials using (sid) where ~flags & 2 and valid < 0 order by name");
-		echo('<table>');
-		while ($result = mysql_fetch_array($results))
-			printf('<tr><td><a href="?pname=%s">%s</a><td>%s', $result['name'], $result['name'], $result[flags] & 2 ? '*' : '');
-		echo('</table>');
-		break;
 	case 'xbl':
-		$results = db_query("select * from xbl order by wid desc");
+		$results = db_query("select * from xbl order by wid desc limit 1000");
 		echo('<table>');
 		echo_warnings($results);
 		echo('</table>');
