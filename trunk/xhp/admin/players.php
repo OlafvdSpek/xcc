@@ -300,7 +300,7 @@
 			unset($pname);
 		}
 		if ($_REQUEST['a'] == "motds")
-			$where = " where motd != ''";
+			$where = " where ~flags & 2 and motd != ''";
 		else if ($cname)
 			$where = sprintf(" where c.name like '%s'", addslashes($cname));
 		else if ($pid)
