@@ -5,10 +5,19 @@
 	function update_hof($date, $lid)
 	{
 		$rows = db_query(sprintf("select name, points, countries from xcl_prev_players where lid = %d order by points desc, pid limit 10", $lid));
+		if (!mysql_num_rows($rows))
+			return;
+		$first = true;
 		$rank = 1;
+		echo("insert into xcl_hof (date, lid, rank, name, points, countries) values<br>");
 		while ($row = mysql_fetch_assoc($rows))
-			db_query(sprintf("insert into xcl_hof (date, lid, rank, name, points, countries) values ('%s', %d, %d, '%s', %d, %d)",
-				$date, $lid, $rank++, addslashes($row['name']), $row['points'], $row['countries']));
+		{
+			if (!$first)
+				echo(",<br>");
+			$first = false;
+			printf("('%s', %d, %d, '%s', %d, %d)", $date, $lid, $rank++, addslashes($row['name']), $row['points'], $row['countries']);
+		}
+		echo(";<br>");
 	}
 
 	db_connect();
@@ -21,20 +30,24 @@
 		$year--;
 	}
 	$date = sprintf('%04d%02d00', $year, $month);
-	$row = db_query_first(sprintf("select count(*) c from xcl_hof where date = '%s'", $date));
-	if ($row['c'])
-	{
-		if ($_GET['force'] != 1)
-			die('hof exists already');
-		db_query(sprintf("delete from xcl_hof where date = '%s'", $date));
-	}
-	db_query("update xcl_prev_players inner join bl using (name) set points = 0 where lid & 1 and points");
+	printf("delete from xcl_hof where date = '%s';<br>", $date);
+	echo("update xcl_prev_players inner join bl using (name) set points = 0 where lid & 1 and points;<br>");
 	update_hof($date, 1);
 	update_hof($date, 2);
 	update_hof($date, 3);
 	update_hof($date, 4);
 	update_hof($date, 7);
 	update_hof($date, 8);
-	db_query("insert ignore into xcl_high_scores (name, points, rank) select name, points, rank from xcl_prev_players inner join xcl_prev_players_rank using (pid) where lid = 3 and points");
-	db_query("update xcl_high_scores h inner join xcl_prev_players p using (name) inner join xcl_prev_players_rank pr using (pid) set h.points = greatest(h.points, p.points), h.rank = least(h.rank, pr.rank) where lid = 3");
+	$rows = db_query("select name, points from xcl_prev_players where lid = 3 and points order by points desc, pid");
+	echo("insert into xcl_high_scores (name, points, rank) values<br>");
+	$first = true;
+	$rank = 1;
+	while ($row = mysql_fetch_assoc($rows))
+	{
+		if (!$first)
+			echo(",<br>");
+		$first = false;
+		printf("('%s', %d, %d)", addslashes($row['name']), $row['points'], $rank++);
+	}
+	echo("<br>on duplicate key update points = greatest(points, values(points)), rank = least(rank, values(rank));<br>");
 ?>
