@@ -9,4 +9,5 @@
 	db_query(sprintf("delete from xwi_chat_to where chat_id < %d", $row['id']));
 	db_query("delete from xwi_login_failures where time < unix_timestamp() - 7 * 24 * 60 * 60");
 	db_query("update xwi_players set cid = 0 where flags & 2");
+	db_query("update xwi_serials set motd = null where unix_timestamp() - mtime > 99 * 24 * 60 * 60");
 ?>
