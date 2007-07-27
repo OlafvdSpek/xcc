@@ -84,17 +84,16 @@
 		break;
 	case 'motd':
 	case 'motd_submit':
-		$pid = $_REQUEST[pid];
+		$pid = $_REQUEST['pid'];
 		$results = db_query(sprintf("select p.*, s.motd from xwi_players p inner join xwi_serials s using (sid) where pid = %d", $pid));
 		$result = mysql_fetch_array($results);
-		$name = $result[name];
+		$name = $result['name'];
 		$sid = $result['sid'];
-
-		if ($_REQUEST['a'] == "motd_submit" && name)
+		if ($_REQUEST['a'] == "motd_submit" && $name)
 		{
 			$motd = trim($_REQUEST['motd']);
-			db_query(sprintf("update xwi_logins l inner join xwi_serials s using (sid) set s.motd = '%s' where l.pid = %d", addslashes($motd), $pid));
-			db_query(sprintf("update xwi_serials set motd = '%s' where sid = %d", addslashes($motd), $sid));
+			db_query(sprintf("update xwi_logins1 l inner join xwi_serials s using (sid) set s.motd = '%s', s.mtime = unix_timestamp() where l.pid = %d", addslashes($motd), $pid));
+			db_query(sprintf("update xwi_serials set motd = '%s', mtime = unix_timestamp() where sid = %d", addslashes($motd), $sid));
 			echo("<b>Updated!</b><hr>");
 		}
 		else
