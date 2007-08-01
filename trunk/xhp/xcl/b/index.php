@@ -254,23 +254,23 @@
 		{
 			if ($gid)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join %s t3 on (t1.scen = t3.fname)
+					select t1.*, t3.name scen
+					from %s t1 left join %s t3 using (mid)
 					where t1.gid = %d
 					order by gid desc
 					", $tables['games'], $tables['maps'], $gid));
 			else if ($recent_games)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join %s t3 on (t1.scen = t3.fname)
+					select t1.*, t3.name scen
+					from %s t1 left join %s t3 using (mid)
 					order by gid desc
 					limit 100
 					", $tables['games'], $tables['maps']));
 			else if ($unfair_games)
 			{
 				$results = db_query(sprintf("
-					select distinct t1.*, ifnull(t4.name, t1.scen) scen
-					from bl inner join %s using (name) inner join %s t2 using (pid) inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 on (t1.scen = t4.fname)
+					select distinct t1.*, t3.name scen
+					from bl inner join %s using (name) inner join %s t2 using (pid) inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 using (mid)
 					where t2.pid != t3.pid and not t3.cid and t3.pc < 0
 					order by gid desc
 					limit 250
@@ -278,8 +278,8 @@
 				echo_games($results, 0, 0, true);
 				echo("document.write('<hr>');");
 				$results = db_query(sprintf("
-					select distinct t1.*, ifnull(t4.name, t1.scen) scen
-					from bl inner join %s p using (name) inner join %s t2 on p.pid = t2.pid inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 on (t1.scen = t4.fname)
+					select distinct t1.*, t4.name scen
+					from bl inner join %s p using (name) inner join %s t2 on p.pid = t2.pid inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 using (mid)
 					where t2.cid != t3.cid and t3.pc < 0
 					order by gid desc
 					limit 100
@@ -287,8 +287,8 @@
 			}
 			else if ($wash_games)
 				$results = db_query(sprintf("
-					select t1.*, ifnull(t3.name, t1.scen) scen
-					from %s t1 left join %s t3 on (t1.scen = t3.fname)
+					select t1.*, t3.name scen
+					from %s t1 left join %s t3 using (mid)
 					where oosy
 					order by gid desc
 					", $tables['games'], $tables['maps']));
@@ -306,8 +306,8 @@
 					echo("0));");
 				}
 				$results = db_query($cid
-					? sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join %s t3 on (t1.scen = t3.fname) where t2.cid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
-					: sprintf("select distinct t1.*, ifnull(t3.name, t1.scen) scen from %s t1 inner join %s t2 using (gid) left join %s t3 on (t1.scen = t3.fname) where not t2.cid and t2.pid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
+					? sprintf("select distinct t1.*, t3.name scen from %s t1 inner join %s t2 using (gid) left join %s t3 using (mid) where t2.cid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
+					: sprintf("select distinct t1.*, t3.name scen from %s t1 inner join %s t2 using (gid) left join %s t3 using (mid) where not t2.cid and t2.pid = %d order by gid desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
 			}
 			echo_games($results, $pid, $cid, $unfair_games);
 			if ($cid || $pid)
@@ -336,8 +336,8 @@
 					echo('0));');
 				}
 				$results = db_query($cid
-					? sprintf("select ifnull(m.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
-					: sprintf("select ifnull(m.name, g.scen) scen, count(*) count from %s g inner join %s using (gid) left join %s m on g.scen = m.fname where not cid and pid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
+					? sprintf("select m.name scen, count(*) count from %s g inner join %s using (gid) left join %s m using (mid) where cid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $cid)
+					: sprintf("select m.name scen, count(*) count from %s g inner join %s using (gid) left join %s m using (mid) where not cid and pid = %d group by scen order by count desc", $tables['games'], $tables['games_players'], $tables['maps'], $pid));
 				if ($result = mysql_fetch_assoc($results))
 				{
 					echo('t4(new Array(');
