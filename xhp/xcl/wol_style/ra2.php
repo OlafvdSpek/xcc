@@ -212,8 +212,8 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" > ".$data
 <td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
-					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
-					: sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where not cid and pid = %d group by scen order by count desc", $pid));
+					? sprintf("select xcl_maps.name scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps using (mid) where cid = %d group by scen order by count desc", $cid)
+					: sprintf("select xcl_maps.name scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps using (mid) where not cid and pid = %d group by scen order by count desc", $pid));
 				if ($result = mysql_fetch_array($results))
 				{
 					do
@@ -302,14 +302,13 @@ $matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Fo
 
 }
 
-$query6 = db_query("SELECT mtime, scen, ws_gid, gid FROM xcl_games WHERE gid='$data3[gid]' AND trny='2'");
+$query6 = db_query("SELECT mtime, name scen, ws_gid, gid FROM xcl_games inner join xcl_maps using (mid) WHERE gid='$data3[gid]' AND trny='2'");
 while ($data2 = mysql_fetch_array($query6)) {
 ?>
 <tr>
 <td width="100%" height="35px"><font size="2">
 <?
-$map = explode(".", $data2[scen]);
-$map = $map[0];
+$map = $data2[scen];
 printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
 ?>in game# <a href="?laddertype=1&mode=showmatch&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
@@ -391,8 +390,8 @@ echo "<img src=\"".get_country_flag_url($data_sides[cty])."\" alt=\"\" > ".$data
 <td width="90%" valign="top"><font size="2"><font color="#D7D7D7">
 <?
 				$results = db_query($cid
-					? sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where cid = %d group by scen order by count desc", $cid)
-					: sprintf("select ifnull(xcl_maps.name, xcl_games.scen) as scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps on xcl_games.scen = xcl_maps.fname where not cid and pid = %d group by scen order by count desc", $pid));
+					? sprintf("select xcl_maps.name scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps using (mid) where cid = %d group by scen order by count desc", $cid)
+					: sprintf("select xcl_maps.name scen, count(*) as count from xcl_games inner join xcl_games_players using (gid) left join xcl_maps using (mid) where not cid and pid = %d group by scen order by count desc", $pid));
 				if ($result = mysql_fetch_array($results))
 				{
 					do
@@ -481,14 +480,13 @@ $matchtext = "<a href=\"?mode=showplayer&laddertype=1&id=".$rows2["pid"]."\"><Fo
 
 
 
-$query7 = db_query("SELECT mtime, scen, ws_gid, gid FROM xcl_games WHERE gid='$data3[gid]' AND trny='1'");
+$query7 = db_query("SELECT mtime, name, ws_gid, gid FROM xcl_games inner join xcl_maps using (mid) WHERE gid='$data3[gid]' AND trny='1'");
 while ($data2 = mysql_fetch_array($query7)) {
 ?>
 <tr>
 <td width="100%" height="35px"><font size="2">
 <?
-$map = explode(".", $data2[scen]);
-$map = $map[0];
+$map = $data2[scen];
 printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
 ?>in game# <a href="?mode=showmatch&laddertype=1&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
@@ -512,7 +510,7 @@ printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
 // SITE MODES
 if($mode == "showmatch" && $id != "") {
 $id = addslashes($id);
-$query = db_query("SELECT * FROM xcl_games WHERE gid='$id'");
+$query = db_query("SELECT xcl_games.*, xcl_maps.name scen FROM xcl_games inner join xcl_maps using (mid) WHERE gid='$id'");
 while ($data = mysql_fetch_array($query)) {
 $gametype = $data[trny];
 ?>
@@ -575,9 +573,8 @@ echo "$clan[1] vs. $clan[2]";
 <td width="32%"><font size="2"><b>Scenario:</b>
 <td width="90%"><font size="2"><font color="#D7D7D7">
 <?
-$map = explode(".",$data[scen]);
-$mapsave = $map[0];
-echo $map[0];
+$map = $data[scen];
+echo $map;
 ?>
 
 <tr>

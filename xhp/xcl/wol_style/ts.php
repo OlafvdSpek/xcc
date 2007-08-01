@@ -485,7 +485,7 @@ while ($data2 = mysql_fetch_array($query7)) {
 <tr>
 <td width="100%" height="35px"><font size="2">
 <?
-$map = explode(".", $data2[scen]);
+$map = $data2[scen];
 printf('%s - %s ', gmdate('M d, Y', $data2['mtime']), $matchtext);
 ?>in game# <a href="?mode=showmatch&laddertype=3&id=<?=$data2[gid]?>"><font color="80FFFF"><u><?=$data2[ws_gid]?></u></font></a>
 <hr>
