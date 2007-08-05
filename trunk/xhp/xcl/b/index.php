@@ -269,7 +269,7 @@
 			else if ($unfair_games)
 			{
 				$results = db_query(sprintf("
-					select distinct t1.*, t3.name scen
+					select distinct t1.*, t4.name scen
 					from bl inner join %s using (name) inner join %s t2 using (pid) inner join %s t1 using (gid) inner join %s t3 using (gid) left join %s t4 using (mid)
 					where t2.pid != t3.pid and not t3.cid and t3.pc < 0
 					order by gid desc
