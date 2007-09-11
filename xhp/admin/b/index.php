@@ -269,9 +269,12 @@
 			$rows1 = db_query(sprintf("select distinct pid from xwi_logins1 where sid = %d", $row['sid']));
 			while ($row1 = mysql_fetch_assoc($rows1))
 				$pids[] = $row1['pid'];
-			$rows1 = db_query(sprintf("select distinct p3.name from xwi_players p0 inner join xcl_players p1 using (name) inner join xcl_games_players p2 on p1.pid = p2.pid inner join xcl_players p3 on p2.cid = p3.pid where p0.pid in (%s)", implode(',', $pids)));
-			while ($row1 = mysql_fetch_assoc($rows1))
-				$names[] = $row1['name'];
+			if (!empty($pids))
+			{
+				$rows1 = db_query(sprintf("select distinct p3.name from xwi_players p0 inner join xcl_players p1 using (name) inner join xcl_games_players p2 on p1.pid = p2.pid inner join xcl_players p3 on p2.cid = p3.pid where p0.pid in (%s)", implode(',', $pids)));
+				while ($row1 = mysql_fetch_assoc($rows1))
+					$names[] = $row1['name'];
+			}
 			// $rows1 = db_query(sprintf("select pid, name from xwi_players where pid in (select pid from xwi_logins1 where sid = %d) or sid = %d order by name", $row['sid'], $row['sid']));
 			$rows1 = db_query(sprintf("select p.pid, p.name, p.cid, c.name cname from xwi_players p left join xwi_clans c using (cid) where pid in (%s) or sid = %d order by name", count($pids) ? implode(',', $pids) : '0', $row['sid']));
 			while ($row1 = mysql_fetch_assoc($rows1))
