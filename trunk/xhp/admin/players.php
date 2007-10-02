@@ -22,7 +22,7 @@
 
 	function echo_warning($result)
 	{
-		printf('<tr><td align=right><a href="?a=show_warning&amp;wid=%d">%d</a><td><a href=".?search=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
+		printf('<tr><td align=right><a href="?a=show_warning;wid=%d">%d</a><td><a href=".?search=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
 		if ($result[link])
 			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
 		printf("<td align=right>%d<td>%s<td>%s<td>%s", $result['duration'] / (24 * 60 * 60), htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
@@ -159,7 +159,7 @@
 		while ($result = mysql_fetch_array($results))
 		{
 			printf('<tr>');
-			printf('<td align=right><a href="?a=show_warning&amp;wid=%d">%d</a>', $result['wid'], $result['wid']);
+			printf('<td align=right><a href="?a=show_warning;wid=%d">%d</a>', $result['wid'], $result['wid']);
 			printf('<td>%s', long2ip($result['ipa']));
 			printf('<td>%s', htmlspecialchars($result['creator']));
 			printf('<td>%s', gmdate("H:i d-m-Y", $result['ctime']));
@@ -230,7 +230,7 @@
 				printf('<td><a href="logins.php?ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 				printf('<td>%s', $row['creator']);
 				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
-				printf('<td><a href="?a=edit_warning_delete_ipa_submit&amp;ipa=%d&amp;wid=%d">delete</a>', $row['ipa'], $wid);
+				printf('<td><a href="?a=edit_warning_delete_ipa_submit;ipa=%d;wid=%d">delete</a>', $row['ipa'], $wid);
 			}
 			echo('</table>');
 			echo('<hr>');
@@ -244,7 +244,7 @@
 				printf('<td align=right><a href="?sid=%d">%d</a>', $row['sid'], $row['sid']);
 				printf('<td>%s', $row['creator']);
 				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
-				printf('<td><a href="?a=edit_warning_delete_serial_submit&amp;sid=%d&amp;wid=%d">delete</a>', $row['sid'], $wid);
+				printf('<td><a href="?a=edit_warning_delete_serial_submit;sid=%d;wid=%d">delete</a>', $row['sid'], $wid);
 			}
 			echo('</table>');
 			echo('<hr>');
@@ -252,10 +252,11 @@
 		}
 		break;
 	case 'washers':
-		$results = db_query("select pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players using (gid) inner join xcl_players using (pid) where lid < 17 and oosy and points group by pid having c >= 4 order by c desc, points desc");
+		$results = db_query("select pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players using (gid) inner join xcl_players using (pid) where lid < 17 and (cmp = 2 or oosy) and points group by pid having c >= 4 order by c desc, points desc");
 		echo('<table>');
 		printf('<tr>');
 		printf('<th>Name');
+		printf('<th>L');
 		printf('<th>Washes');
 		printf('<th>Wins');
 		printf('<th>Losses');
@@ -264,6 +265,7 @@
 		{
 			printf('<tr>');
 			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td><a href="%s?pid=%s">L</a>', $config['ladder_url'], $result['pid']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);
@@ -271,10 +273,11 @@
 		}
 		echo('</table>');
 		echo('<hr>');
-		$results = db_query("select p.pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players gp using (gid) inner join xcl_players p on gp.cid = p.pid where lid < 17 and cmp = 2 and points group by pid having c >= 1 order by c desc, points desc");
+		$results = db_query("select p.pid, name, win_count, loss_count, points, count(*) c from xcl_games inner join xcl_games_players gp using (gid) inner join xcl_players p on gp.cid = p.pid where lid < 17 and (cmp = 2 or oosy) and points group by pid having c >= 1 order by c desc, points desc");
 		echo('<table>');
 		printf('<tr>');
 		printf('<th>Name');
+		printf('<th>L');
 		printf('<th>Washes');
 		printf('<th>Wins');
 		printf('<th>Losses');
@@ -282,7 +285,8 @@
 		while ($result = mysql_fetch_array($results))
 		{
 			printf('<tr>');
-			printf('<td><a href="http://xwis.net/xcl/?cid=%d">%s</a>', $result['pid'], htmlspecialchars($result['name']));
+			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td><a href="%s?cid=%s">L</a>', $config['ladder_url'], $result['pid']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);

@@ -12,9 +12,11 @@
 			<td>
 				<a href="players.php?a=bad_passes">Bad passes</a>
 			<td>
-				<a href="players.php?a=xbl">Show BL</a>
+				<a href="players.php?a=xbl">Black List</a>
 			<td>
-				<a href="players.php?a=motds">Show MOTDs</a>
+				<a href="hof_checks.html">HoF Checks</a>
+			<td>
+				<a href="players.php?a=motds">MotDs</a>
 			<td>
 				<a href="players.php?a=washers">Washers</a>
 	</table>
