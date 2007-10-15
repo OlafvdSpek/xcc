@@ -28,13 +28,15 @@
 					$pids[] = $row['pid'];
 				table_players($pids);
 			}
-			table_login_failures($search);
+			table_login_failures($search, 0);
 		}
 	}
 
-	function table_login_failures($player_name)
+	function table_login_failures($player_name, $sid)
 	{
-		$rows = db_query(sprintf("select * from xwi_login_failures where name like '%s' order by time desc limit 100", addslashes($player_name)));
+		$rows = db_query($sid
+			? sprintf("select * from xwi_login_failures where sid = %d order by time desc limit 100", $sid)
+			: sprintf("select * from xwi_login_failures where name like '%s' order by time desc limit 100", addslashes($player_name)));
 		if ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<table>');
@@ -417,6 +419,7 @@
 		table_warnings(array(), array($sid));
 		table_players($pids);
 		table_logins(0, 0, $sid);
+		table_login_failures('', $sid);
 	}
 
 	function insert_admin_log($pid, $sid, $message)
