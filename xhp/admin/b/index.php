@@ -15,7 +15,7 @@
 		}
 		else
 		{
-			$rows = db_query(sprintf("select pid from xwi_players where name like '%s'", addslashes($search)));
+			$rows = db_query(sprintf("select pid from xwi_players where name like '%s' limit 100", addslashes($search)));
 			if (mysql_num_rows($rows) == 1)
 			{
 				$row = mysql_fetch_assoc($rows);
@@ -34,7 +34,7 @@
 
 	function table_login_failures($player_name)
 	{
-		$rows = db_query(sprintf("select * from xwi_login_failures where name like '%s' order by time desc", addslashes($player_name)));
+		$rows = db_query(sprintf("select * from xwi_login_failures where name like '%s' order by time desc limit 100", addslashes($player_name)));
 		if ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<table>');
