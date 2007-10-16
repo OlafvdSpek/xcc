@@ -89,7 +89,7 @@
 			printf('<tr>');
 			printf('<td>%s', lid2a($row['lid']));
 			printf('<td align=right>%d', $row['rank']);
-			printf('<td align><a href="%s?pid=%d">%s</a>', $config['ladder_url'] . ($prev ? 'prev.php' : ''), $row['pid'], htmlspecialchars($row['name']));
+			printf('<td align><a href="%s?q=%s">%s</a>', $config['ladder_url'] . ($prev ? 'prev/' : ''), htmlspecialchars($row['name']), htmlspecialchars($row['name']));
 			printf('<td align=right>%d', $row['win_count']);
 			printf('<td align=right>%d', $row['loss_count']);
 			printf('<td align=right>%d', $row['points']);
