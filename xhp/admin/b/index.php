@@ -1,5 +1,6 @@
 <link rel=stylesheet href="/xcc1.css">
 <title>XWI Admin</title>
+<body onload="document.f.search.focus();">
 <?php
 	function page_search($search)
 	{
