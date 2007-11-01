@@ -1,4 +1,4 @@
-<form action=".">
+<form action="." name=f>
 	<table>
 		<tr>
 			<td>
