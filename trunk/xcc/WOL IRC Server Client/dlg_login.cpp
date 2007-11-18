@@ -90,24 +90,23 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 {
 	Creg_key key;
 	string serial;
+	if (ERROR_SUCCESS != key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_READ)
+		|| ERROR_SUCCESS != key.query_value("Serial", serial)
+		|| serial.size() != 22)
+		return;
 	Cvirtual_binary s;
-	if (ERROR_SUCCESS == key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_READ)
-		&& ERROR_SUCCESS == key.query_value("Serial", serial)
-		&& serial.size() == 22 
-		&& !s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key"))
+	s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key");
+	for (int i = 0, j = 0; i < s.size(); i++, j++)
 	{
-		for (int i = 0, j = 0; i < s.size(); i++, j++)
-		{
-			if (j == serial.length())
-				j = 0;
-			serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
-		}
-		t_game e;
-		e.gsku = gsku;
-		e.serial = serial;
-		m_game.SetItemData(m_game.AddString(game_name[game]), m_games.size());
-		m_games.push_back(e);			
+		if (j == serial.length())
+			j = 0;
+		serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
 	}
+	t_game e;
+	e.gsku = gsku;
+	e.serial = serial;
+	m_game.SetItemData(m_game.AddString(game_name[game]), m_games.size());
+	m_games.push_back(e);			
 }
 
 void Cdlg_login::OnOK() 
