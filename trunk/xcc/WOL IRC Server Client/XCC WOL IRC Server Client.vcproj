@@ -257,6 +257,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath=".\dlg_serials.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\misc\ETSLayout.cpp"
 				>
 				<FileConfiguration
@@ -552,6 +556,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\dlg_serials.h"
+				>
+			</File>
+			<File
 				RelativePath="Resource.h"
 				>
 			</File>
@@ -583,5 +591,9 @@
 		</Filter>
 	</Files>
 	<Globals>
+		<Global
+			Name="RESOURCE_FILE"
+			Value="XCC WOL IRC Server Client.rc"
+		/>
 	</Globals>
 </VisualStudioProject>

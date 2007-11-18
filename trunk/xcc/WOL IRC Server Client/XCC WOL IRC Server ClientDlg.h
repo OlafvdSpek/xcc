@@ -48,6 +48,7 @@ protected:
 	afx_msg void OnOpen();
 	afx_msg void OnTest();
 	afx_msg void OnLadder();
+	afx_msg void OnViewSerials();
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };

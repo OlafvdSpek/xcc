@@ -1,11 +1,9 @@
-// XCC WOL IRC Server ClientDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC WOL IRC Server Client.h"
 #include "XCC WOL IRC Server ClientDlg.h"
 
 #include "dlg_login.h"
+#include "dlg_serials.h"
 #include "multi_line.h"
 #include "socket.h"
 #include "string_conversion.h"
@@ -15,9 +13,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCWOLIRCServerClientDlg dialog
 
 CXCCWOLIRCServerClientDlg::CXCCWOLIRCServerClientDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCWOLIRCServerClientDlg::IDD, pParent)
@@ -49,11 +44,9 @@ BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_OPEN, OnOpen)
 	ON_BN_CLICKED(IDC_TEST, OnTest)
 	ON_BN_CLICKED(IDC_LADDER, OnLadder)
+	ON_BN_CLICKED(IDC_VIEW_SERIALS, OnViewSerials)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCWOLIRCServerClientDlg message handlers
 
 static bool platform_nt()
 {
@@ -101,18 +94,14 @@ BOOL CXCCWOLIRCServerClientDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 	
-	return TRUE;  // return TRUE  unless you set the focus to a control
+	return TRUE;
 }
-
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
 
 void CXCCWOLIRCServerClientDlg::OnPaint() 
 {
 	if (IsIconic())
 	{
-		CPaintDC dc(this); // device context for painting
+		CPaintDC dc(this);
 
 		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
 
@@ -168,7 +157,7 @@ void CXCCWOLIRCServerClientDlg::OnSet()
 	DWORD a;
 	m_ipa.GetAddress(a);
 	a = htonl(a);
-	if (update_hosts(a ? inet_ntoa(*reinterpret_cast<in_addr*>(&a)) : ""))
+	if (update_hosts(inet_ntoa(*reinterpret_cast<in_addr*>(&a))))
 		::MessageBox(NULL, "Your hosts file could not be updated.", NULL, MB_ICONERROR);
 	Sleep(25);
 	update_ipa2();
@@ -209,4 +198,10 @@ void CXCCWOLIRCServerClientDlg::OnTest()
 void CXCCWOLIRCServerClientDlg::OnLadder() 
 {
 	ShellExecute(NULL, NULL, "http://xwis.net/ladders/", NULL, NULL, SW_SHOW);		
+}
+
+void CXCCWOLIRCServerClientDlg::OnViewSerials()
+{
+	Cdlg_serials dlg;
+	dlg.DoModal();
 }
