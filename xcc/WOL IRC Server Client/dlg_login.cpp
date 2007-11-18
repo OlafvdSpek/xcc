@@ -98,7 +98,7 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 	{
 		for (int i = 0, j = 0; i < s.size(); i++, j++)
 		{
-			if (j == serial.length()) 
+			if (j == serial.length())
 				j = 0;
 			serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
 		}
@@ -146,14 +146,14 @@ void Cdlg_login::OnOK()
 			m_edit += game.serial.c_str();
 			m_edit += "\r\n";
 		}
-		if (msg.pcount() != s.send(msg.str(), msg.pcount()))
+		if (msg.pcount() != s.send(const_memory_range(msg.str(), msg.pcount())))
 			m_edit += "unable to send: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
 		else
 		{
 			const int cb_d = 4 << 10;
 			char d[cb_d];				
 			int e;
-			while ((e = s.recv(d, cb_d)) && e != SOCKET_ERROR)
+			while ((e = s.recv(memory_range(d, cb_d))) && e != SOCKET_ERROR)
 				m_edit += CString(d, e);
 			if (e == SOCKET_ERROR)
 				m_edit += "unable to receive: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());

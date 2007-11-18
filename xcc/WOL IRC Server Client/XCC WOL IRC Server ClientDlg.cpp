@@ -77,7 +77,7 @@ static string wolapi_dll_fname()
 	if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Westwood\\WOLAPI", 0, KEY_QUERY_VALUE, &key))
 	{
 		char s[MAX_PATH];
-		dword size = MAX_PATH;
+		DWORD size = MAX_PATH;
 		if (ERROR_SUCCESS == RegQueryValueEx(key, "InstallPath", 0, 0, (byte*)s, &size))
 			dir = s;
 		RegCloseKey(key);
@@ -208,5 +208,5 @@ void CXCCWOLIRCServerClientDlg::OnTest()
 
 void CXCCWOLIRCServerClientDlg::OnLadder() 
 {
-	ShellExecute(NULL, NULL, "http://xwis.net/xcl/", NULL, NULL, SW_SHOW);		
+	ShellExecute(NULL, NULL, "http://xwis.net/ladders/", NULL, NULL, SW_SHOW);		
 }
