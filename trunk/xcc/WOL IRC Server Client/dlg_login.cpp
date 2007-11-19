@@ -45,6 +45,7 @@ static CString n(int v)
 
 BOOL Cdlg_login::OnInitDialog() 
 {
+	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
 			<< (pane(VERTICAL, GREEDY)
@@ -58,7 +59,7 @@ BOOL Cdlg_login::OnInitDialog()
 			)
 		<< item(IDC_EDIT, GREEDY)
 		;
-	ETSLayoutDialog::OnInitDialog();
+	UpdateLayout();
 	xcc_dirs::load_from_registry();
 	add_game("Software\\Westwood\\Renegade", game_rg, 0xc);
 	add_game("Software\\Westwood\\Tiberian Sun", game_ts, 0x12);
@@ -134,7 +135,8 @@ void Cdlg_login::OnOK()
 			<< "nick " << nick.name << endl
 			<< "apgar " << nick.password << " 0" << endl
 			<< "serial " << game.serial << endl
-			<< "user UserName e e e" << endl
+			<< "user" << endl
+			<< "privmsg c /names" << endl
 			<< "quit" << endl;
 		m_edit += "nick: ";
 		m_edit += nick.name.c_str();

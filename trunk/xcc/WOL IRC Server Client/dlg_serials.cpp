@@ -30,6 +30,7 @@ BOOL Cdlg_serials::OnInitDialog()
 	add_game("Software\\Westwood\\Red Alert 2", game_ra2, 0x21);
 	add_game("Software\\Westwood\\Nox", game_nox, 0x25);
 	add_game("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, 0x29);
+	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)
 		<< item(IDC_EDIT, GREEDY)
 		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
@@ -37,7 +38,7 @@ BOOL Cdlg_serials::OnInitDialog()
 				<< item(IDCANCEL, NORESIZE)
 			)
 		;
-	ETSLayoutDialog::OnInitDialog();
+	UpdateLayout();
 	return true;
 }
 
@@ -51,14 +52,14 @@ void Cdlg_serials::add_game(const string& reg_key, int game, int gsku)
 		return;
 	Cvirtual_binary s;
 	s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key");
-	for (int i = 0, j = 0; i < s.size(); i++, j++)
+	for (size_t i = 0, j = 0; i < s.size(); i++, j++)
 	{
 		if (j == serial.length())
 			j = 0;
 		serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
 	}
-	m_edit += game_name[game];
-	m_edit += ": ";
 	m_edit += serial.c_str();
+	m_edit += ": ";
+	m_edit += game_name[game];
 	m_edit += "\r\n";
 }
