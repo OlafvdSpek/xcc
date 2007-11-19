@@ -1,9 +1,4 @@
-#if !defined(AFX_STDAFX_H__B8B69E2A_5496_4527_861C_C432802A4939__INCLUDED_)
-#define AFX_STDAFX_H__B8B69E2A_5496_4527_861C_C432802A4939__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #define VC_EXTRALEAN		// Exclude rarely-used stuff from Windows headers
 
@@ -23,7 +18,3 @@
 #include "ETSLayout.h"
 
 using namespace std;
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_STDAFX_H__B8B69E2A_5496_4527_861C_C432802A4939__INCLUDED_)
