@@ -10,7 +10,10 @@ public:
 
 	enum { IDD = IDD_SERIALS };
 protected:
+	void add_game(const string& reg_key, int game, int gsku);
 	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual BOOL OnInitDialog();
 	DECLARE_MESSAGE_MAP()
+
+	CString	m_edit;
 };
