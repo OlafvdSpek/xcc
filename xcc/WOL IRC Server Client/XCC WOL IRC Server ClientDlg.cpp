@@ -8,35 +8,24 @@
 #include "socket.h"
 #include "string_conversion.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 CXCCWOLIRCServerClientDlg::CXCCWOLIRCServerClientDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCWOLIRCServerClientDlg::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(CXCCWOLIRCServerClientDlg)
 	m_hosts = _T("");
 	m_wolapi_dll = _T("");
-	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
 void CXCCWOLIRCServerClientDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(CXCCWOLIRCServerClientDlg)
 	DDX_Control(pDX, IDC_IPA2, m_ipa2);
 	DDX_Control(pDX, IDC_IPA, m_ipa);
 	DDX_Text(pDX, IDC_HOSTS, m_hosts);
 	DDX_Text(pDX, IDC_WOLAPI_DLL, m_wolapi_dll);
-	//}}AFX_DATA_MAP
 }
 
 BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientDlg, CDialog)
-	//{{AFX_MSG_MAP(CXCCWOLIRCServerClientDlg)
 	ON_WM_PAINT()
 	ON_WM_QUERYDRAGICON()
 	ON_BN_CLICKED(IDC_SET, OnSet)
@@ -45,7 +34,6 @@ BEGIN_MESSAGE_MAP(CXCCWOLIRCServerClientDlg, CDialog)
 	ON_BN_CLICKED(IDC_TEST, OnTest)
 	ON_BN_CLICKED(IDC_LADDER, OnLadder)
 	ON_BN_CLICKED(IDC_VIEW_SERIALS, OnViewSerials)
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static bool platform_nt()

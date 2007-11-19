@@ -6,35 +6,21 @@
 #include "virtual_binary.h"
 #include "xcc_dirs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 Cdlg_login::Cdlg_login(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_login::IDD, pParent)
 {
-	//{{AFX_DATA_INIT(Cdlg_login)
 	m_edit = _T("");
-	//}}AFX_DATA_INIT
 }
-
 
 void Cdlg_login::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
-	//{{AFX_DATA_MAP(Cdlg_login)
 	DDX_Control(pDX, IDC_GAME, m_game);
 	DDX_Control(pDX, IDC_USER, m_user);
 	DDX_Text(pDX, IDC_EDIT, m_edit);
-	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdlg_login, ETSLayoutDialog)
-	//{{AFX_MSG_MAP(Cdlg_login)
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static CString n(int v)
