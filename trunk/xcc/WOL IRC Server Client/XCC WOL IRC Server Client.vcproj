@@ -321,6 +321,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\..\misc\irc_params.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\misc\multi_line.cpp"
 				>
 				<FileConfiguration
