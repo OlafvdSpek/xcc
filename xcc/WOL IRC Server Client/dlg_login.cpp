@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "dlg_login.h"
 
+#include <boost/format.hpp>
+#include "irc_params.h"
+#include "multi_line.h"
 #include "reg_key.h"
 #include "socket.h"
 #include "virtual_binary.h"
@@ -8,6 +11,7 @@
 
 Cdlg_login::Cdlg_login(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_login::IDD, pParent)
+	, m_reset_passwords(false)
 {
 	m_edit = _T("");
 }
@@ -17,6 +21,7 @@ void Cdlg_login::DoDataExchange(CDataExchange* pDX)
 	ETSLayoutDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_GAME, m_game);
 	DDX_Control(pDX, IDC_USER, m_user);
+	DDX_Check(pDX, IDC_RESET_PASSWORDS, m_reset_passwords);
 	DDX_Text(pDX, IDC_EDIT, m_edit);
 }
 
@@ -37,6 +42,7 @@ BOOL Cdlg_login::OnInitDialog()
 			<< (pane(VERTICAL, GREEDY)
 				<< item(IDC_GAME, GREEDY)
 				<< item(IDC_USER, GREEDY)
+				<< item(IDC_RESET_PASSWORDS, GREEDY)
 				)
 			<< (pane(VERTICAL, GREEDY)
 				<< item(IDOK, NORESIZE)
@@ -96,55 +102,106 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 	m_games.push_back(e);			
 }
 
-void Cdlg_login::OnOK() 
+static int send_recv(const string& host, int port, const_memory_range s0, string& d)
 {
-	CWaitCursor wc;
-	m_edit = "server: ";
-	m_edit += Csocket::inet_ntoa(m_ipa).c_str();
-	m_edit += "\r\n";
 	Csocket s;
 	s.open(SOCK_STREAM, true);
 	if (s == -1)
-		m_edit += "unable to create socket: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
-	else if (s.connect(m_ipa, htons(4005)))
-		m_edit += "unable to connect: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
-	else
+	{
+		d += "unable to create socket: " + Csocket::error2a(WSAGetLastError());
+		return 1;
+	}
+	d = (boost::format("server: %s:%d (%s)\r\n") % host % port % Csocket::inet_ntoa(Csocket::get_host(host))).str();
+	if (s.connect(Csocket::get_host(host), htons(port)))
+	{
+		d += "unable to connect: " + Csocket::error2a(WSAGetLastError());
+		return 1;
+	}
+	if (s0.size() != s.send(s0))
+	{
+		d += "unable to send: " + Csocket::error2a(WSAGetLastError());
+		return 1;
+	}
+	const int cb_d = 4 << 10;
+	char d0[cb_d];
+	memory_range d1(d0, cb_d);
+	while (int e = s.recv(d1))
+	{
+		if (e == SOCKET_ERROR)
+		{
+			d += "unable to receive: " + Csocket::error2a(WSAGetLastError());
+			return 1;
+		}
+		d1 += e;
+	}
+	d.append(d0, cb_d - d1.size());
+	return 0;
+}
+
+void Cdlg_login::OnOK() 
+{
+	if (!UpdateData(true))
+		return;
+	int selected_game = m_game.GetItemData(m_game.GetCurSel());
+	int selected_nick = m_user.GetItemData(m_user.GetCurSel());
+	if (selected_game < 0 || selected_nick < 0)
+		return;
+	CWaitCursor wc;
+	const t_game& game = m_games[selected_game];
+	const t_nick& nick = m_nicks[selected_nick];
+	m_edit.Empty();
+	m_edit += "nick: ";
+	m_edit += nick.name.c_str();
+	m_edit += "\r\n";
+	if (0)
+	{
+		m_edit += "serial: ";
+		m_edit += game.serial.c_str();
+		m_edit += "\r\n";
+	}
+	string host;
+	int port = 0;
 	{
 		strstream msg;
-		int selected_game = m_game.GetItemData(m_game.GetCurSel());
-		int selected_nick = m_user.GetItemData(m_user.GetCurSel());
-		if (selected_game < 0 || selected_nick < 0)
-			return;
-		const t_game& game = m_games[selected_game];
-		const t_nick& nick = m_nicks[selected_nick];
-		msg << "cvers 0 " << (game.gsku << 8) << endl
-			<< "nick " << nick.name << endl
-			<< "apgar " << nick.password << " 0" << endl
-			<< "serial " << game.serial << endl
-			<< "user" << endl
-			<< "privmsg c /names" << endl
+		msg << "whereto 0 0 " << (game.gsku << 8) << endl
 			<< "quit" << endl;
-		m_edit += "nick: ";
-		m_edit += nick.name.c_str();
-		m_edit += "\r\n";
-		if (0)
+		string d;
+		if (send_recv("servserv.westwood.com", 4005, const_memory_range(msg.str(), msg.pcount()), d))
 		{
-			m_edit += "serial: ";
-			m_edit += game.serial.c_str();
-			m_edit += "\r\n";
+			m_edit += d.c_str();
+			UpdateData(false);
+			return;
 		}
-		if (msg.pcount() != s.send(const_memory_range(msg.str(), msg.pcount())))
-			m_edit += "unable to send: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
-		else
+		Cmulti_line l0 = d;
+		while (!l0.empty())
 		{
-			const int cb_d = 4 << 10;
-			char d[cb_d];				
-			int e;
-			while ((e = s.recv(memory_range(d, cb_d))) && e != SOCKET_ERROR)
-				m_edit += CString(d, e);
-			if (e == SOCKET_ERROR)
-				m_edit += "unable to receive: " + static_cast<CString>(Csocket::error2a(WSAGetLastError()).c_str());
+			Circ_params p;
+			p.write(l0.get_next_line('\n'));
+			if (p.p_int(0) != 605)
+				continue;
+			Cmulti_line l1 = p.p(2);
+			host = l1.get_next_line(' ');
+			port = l1.get_next_int(' ');
+			break;
 		}
 	}
+	{
+		strstream msg;
+		msg << "cvers 0 " << (game.gsku << 8) << endl
+			<< "nick " << nick.name << endl;
+		if (!m_reset_passwords)
+			msg << "apgar " << nick.password << " 0" << endl;
+		msg << "serial " << game.serial << endl
+			<< "user" << endl;
+		if (m_reset_passwords)
+			msg << "privmsg c :reset passwords" << endl;
+		else
+			msg << "privmsg c /names" << endl;
+		msg << "quit" << endl;
+		string d;
+		send_recv(host, port, const_memory_range(msg.str(), msg.pcount()), d);
+		m_edit += d.c_str();
+	}
+	m_reset_passwords = false;
 	UpdateData(false);
 }

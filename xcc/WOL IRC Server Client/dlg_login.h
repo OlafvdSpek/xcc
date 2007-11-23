@@ -41,4 +41,5 @@ private:
 	t_games m_games;
 	t_nicks m_nicks;
 	int m_ipa;
+	BOOL m_reset_passwords;
 };
