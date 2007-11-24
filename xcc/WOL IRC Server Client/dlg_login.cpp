@@ -74,6 +74,11 @@ BOOL Cdlg_login::OnInitDialog()
 			m_nicks.push_back(e);
 		}
 	}
+	if (m_nicks.empty())
+	{
+		m_user.SetItemData(m_user.AddString(""), m_nicks.size());
+		m_nicks.push_back(t_nick());
+	}
 	m_game.SetCurSel(0);
 	m_user.SetCurSel(0);	
 	return true;
