@@ -53,21 +53,18 @@ void read_patch(FILE* f, FILE* g)
 int write_patch(FILE* f, const int* p)
 {
 	int b = 0;
-	const int* r = p;
-	while (*r != -1)
+	for (const int* r = p; *r != -1; r += 3)
 	{
-		if (fseek(f, *r++, SEEK_SET)
+		if (fseek(f, r[0], SEEK_SET)
 			|| fread(&b, 1, 1, f) != 1
-			|| b != *r++ && b != *r++)
+			|| b != r[1] && b != r[2])
 			return 1;
 	}
-	r = p;
-	while (*r != -1)
+	for (const int* r = p; *r != -1; r += 3)
 	{
-		if (fseek(f, *r++, SEEK_SET)
-			|| fwrite(r + 1, 1, 1, f) != 1)
+		if (fseek(f, r[0], SEEK_SET)
+			|| fwrite(r + 2, 1, 1, f) != 1)
 			return 1;
-		r += 2;
 	}
 	return 0;
 }
