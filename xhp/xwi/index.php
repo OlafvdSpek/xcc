@@ -14,8 +14,8 @@
 
 	function new_security_code()
 	{
-		$v = "";
-		$s = "0123456789ABCDEFGHIJKLMNOPQRSTUVXWXYZabcdefghijklmnopqrstuvxwxyz";
+		$v = '';
+		$s = '0123456789ABCDEFGHIJKLMNOPQRSTUVXWXYZabcdefghijklmnopqrstuvxwxyz';
 		for ($i = 0; $i < 16; $i++)
 			$v .= $s[mt_rand(0, strlen($s) - 1)];
 		return $v;
