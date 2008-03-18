@@ -1,12 +1,4 @@
-// XCC Audio PlayerDlg.h : header file
-//
-
-#if !defined(AFX_XCCAUDIOPLAYERDLG_H__D87F6A0E_DFB1_11D2_B750_ADF86D0B2966__INCLUDED_)
-#define AFX_XCCAUDIOPLAYERDLG_H__D87F6A0E_DFB1_11D2_B750_ADF86D0B2966__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <windows.h>
 #include "aud_file.h"
@@ -23,12 +15,8 @@
 #include "xcc_dsb.h"
 #include "XCC Audio Player.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCAudioPlayerDlg dialog
-
 class CXCCAudioPlayerDlg : public ETSLayoutDialog
 {
-// Construction
 public:
 	int compare(int id_a, int id_b) const;
 	bool has_scores();
@@ -48,7 +36,6 @@ public:
 	CXCCAudioPlayerDlg(CWnd* pParent = NULL);	// standard constructor
 	~CXCCAudioPlayerDlg();
 
-// Dialog Data
 	//{{AFX_DATA(CXCCAudioPlayerDlg)
 	enum { IDD = IDD_XCCAUDIOPLAYER_DIALOG };
 	CButton	m_extract_raw_button;
@@ -59,14 +46,11 @@ public:
 	CString	m_statusbar;
 	//}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCAudioPlayerDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
-protected:
 	CFont m_listfont;
 	HICON m_hIcon;
 	t_game game;
@@ -81,7 +65,6 @@ protected:
 	aud_decode decode;
 	int current_id;
 	
-	// Generated message map functions
 	//{{AFX_MSG(CXCCAudioPlayerDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
@@ -122,8 +105,3 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCAUDIOPLAYERDLG_H__D87F6A0E_DFB1_11D2_B750_ADF86D0B2966__INCLUDED_)
