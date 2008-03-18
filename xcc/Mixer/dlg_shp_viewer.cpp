@@ -1,18 +1,5 @@
-// dlg_shp_viewer.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "dlg_shp_viewer.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_shp_viewer dialog
-
 
 Cdlg_shp_viewer::Cdlg_shp_viewer(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_shp_viewer::IDD, pParent, "shp_viewer_dlg")
@@ -20,7 +7,6 @@ Cdlg_shp_viewer::Cdlg_shp_viewer(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(Cdlg_shp_viewer)
 	//}}AFX_DATA_INIT
 }
-
 
 void Cdlg_shp_viewer::DoDataExchange(CDataExchange* pDX)
 {
@@ -32,16 +18,12 @@ void Cdlg_shp_viewer::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdlg_shp_viewer, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cdlg_shp_viewer)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDC_PLAY, OnPlay)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_shp_viewer message handlers
 
 void Cdlg_shp_viewer::write(Cvideo_decoder* decoder)
 {

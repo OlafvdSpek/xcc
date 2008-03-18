@@ -1,28 +1,15 @@
-#if !defined(AFX_SEARCHSTRINGDLG_H__AAAA3B3C_53F5_4C71_B6E3_36BA1DB487C2__INCLUDED_)
-#define AFX_SEARCHSTRINGDLG_H__AAAA3B3C_53F5_4C71_B6E3_36BA1DB487C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// SearchStringDlg.h : header file
-//
 
 #include "ListCtrlEx.h"
 #include "csf_file.h"
 #include "resource.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CSearchStringDlg dialog
-
 class CSearchStringDlg : public ETSLayoutDialog
 {
-// Construction
 public:
 	void set(const Ccsf_file* csf);
 	CSearchStringDlg(CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(CSearchStringDlg)
 	enum { IDD = IDD_SEARCH_STRING };
 	CListCtrlEx	m_list;
@@ -31,17 +18,11 @@ public:
 
 	string m_selected;
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CSearchStringDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
-
-	// Generated message map functions
 	//{{AFX_MSG(CSearchStringDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnSearch();
@@ -51,8 +32,3 @@ protected:
 private:
 	const Ccsf_file* m_csf;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_SEARCHSTRINGDLG_H__AAAA3B3C_53F5_4C71_B6E3_36BA1DB487C2__INCLUDED_)

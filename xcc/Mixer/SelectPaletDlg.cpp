@@ -1,19 +1,6 @@
-// SelectPaletDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "SelectPaletDlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CSelectPaletDlg dialog
-
 
 CSelectPaletDlg::CSelectPaletDlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CSelectPaletDlg::IDD, pParent, "select_palet_dlg")
@@ -23,7 +10,6 @@ CSelectPaletDlg::CSelectPaletDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_current_palet = -1;
 }
-
 
 void CSelectPaletDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -35,7 +21,6 @@ void CSelectPaletDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CSelectPaletDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CSelectPaletDlg)
 	ON_NOTIFY(TVN_SELCHANGED, IDC_TREE, OnSelchangedTree)
@@ -43,9 +28,6 @@ BEGIN_MESSAGE_MAP(CSelectPaletDlg, ETSLayoutDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CSelectPaletDlg message handlers
 
 void CSelectPaletDlg::set(CMainFrame* main_frame, t_pal_map_list pal_map_list, t_pal_list pal_list)
 {

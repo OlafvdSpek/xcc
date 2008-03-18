@@ -1,21 +1,8 @@
-// SearchFileDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "SearchFileDlg.h"
 
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CSearchFileDlg dialog
-
 
 CSearchFileDlg::CSearchFileDlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CSearchFileDlg::IDD, pParent, "find_file_dlg")
@@ -26,7 +13,6 @@ CSearchFileDlg::CSearchFileDlg(CWnd* pParent /*=NULL*/)
 	m_filename = AfxGetApp()->GetProfileString(m_reg_key, "file_name");
 }
 
-
 void CSearchFileDlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
@@ -36,7 +22,6 @@ void CSearchFileDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CSearchFileDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CSearchFileDlg)
 	ON_BN_CLICKED(IDOK, OnFind)
@@ -45,9 +30,6 @@ BEGIN_MESSAGE_MAP(CSearchFileDlg, ETSLayoutDialog)
 	ON_NOTIFY(LVN_GETDISPINFO, IDC_LIST, OnGetdispinfoList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CSearchFileDlg message handlers
 
 void CSearchFileDlg::set(CMainFrame* main_frame)
 {

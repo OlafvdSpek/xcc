@@ -1,18 +1,5 @@
-// XSTE_edit_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XSTE_edit_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSTE_edit_dlg dialog
-
 
 CXSTE_edit_dlg::CXSTE_edit_dlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSTE_edit_dlg::IDD, pParent, "XSTE_edit_dlg")
@@ -24,7 +11,6 @@ CXSTE_edit_dlg::CXSTE_edit_dlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-
 void CXSTE_edit_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
@@ -35,14 +21,10 @@ void CXSTE_edit_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CXSTE_edit_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CXSTE_edit_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSTE_edit_dlg message handlers
 
 void CXSTE_edit_dlg::set(const string& name, const string& value, const string& extra_value)
 {

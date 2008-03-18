@@ -1,18 +1,5 @@
-// ResizeDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "ResizeDlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CResizeDlg dialog
-
 
 CResizeDlg::CResizeDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CResizeDlg::IDD, pParent)
@@ -26,7 +13,6 @@ CResizeDlg::CResizeDlg(CWnd* pParent /*=NULL*/)
 	m_fix_shadows = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void CResizeDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -43,7 +29,6 @@ void CResizeDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CResizeDlg, CDialog)
 	//{{AFX_MSG_MAP(CResizeDlg)
 	ON_EN_UPDATE(IDC_CX, OnUpdateCX)
@@ -52,9 +37,6 @@ BEGIN_MESSAGE_MAP(CResizeDlg, CDialog)
 	ON_EN_UPDATE(IDC_RELATIVE_CY, OnUpdateRelativeCy)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CResizeDlg message handlers
 
 void CResizeDlg::set_size(int cx, int cy)
 {

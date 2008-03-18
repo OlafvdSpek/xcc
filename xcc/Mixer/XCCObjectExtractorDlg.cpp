@@ -1,20 +1,8 @@
-// XCCObjectExtractorDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCCObjectExtractorDlg.h"
+
 #include "string_conversion.h"
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCObjectExtractorDlg dialog
-
 
 CXCCObjectExtractorDlg::CXCCObjectExtractorDlg(t_game game, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXCCObjectExtractorDlg::IDD, pParent, "XOE_dlg")
@@ -25,7 +13,6 @@ CXCCObjectExtractorDlg::CXCCObjectExtractorDlg(t_game game, CWnd* pParent /*=NUL
 	m_extract_to_edit = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void CXCCObjectExtractorDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -49,9 +36,6 @@ BEGIN_MESSAGE_MAP(CXCCObjectExtractorDlg, ETSLayoutDialog)
 	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCObjectExtractorDlg message handlers
 
 BOOL CXCCObjectExtractorDlg::OnInitDialog()
 {

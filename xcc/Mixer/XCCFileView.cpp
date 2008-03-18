@@ -1,6 +1,3 @@
-// XCCFileView.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "XCCFileView.h"
@@ -9,6 +6,7 @@
 #include <fstream>
 #include <strstream>
 #include "aud_file.h"
+#include "big_file.h"
 #include "cps_file.h"
 #include "dds_file.h"
 #include "fname.h"
@@ -47,15 +45,6 @@
 #include "wsa_dune2_file.h"
 #include "wsa_file.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCFileView
-
 IMPLEMENT_DYNCREATE(CXCCFileView, CScrollView)
 
 CXCCFileView::CXCCFileView()
@@ -76,9 +65,6 @@ BEGIN_MESSAGE_MAP(CXCCFileView, CScrollView)
 	ON_UPDATE_COMMAND_UI(ID_FILE_CLOSE, OnDisable)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCFileView drawing
 
 void CXCCFileView::OnInitialUpdate()
 {
@@ -346,6 +332,20 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Audio:", n(f.get_samplerate()) + " hz, " + n(f.get_cb_sample() << 3) + " bit, " + (f.get_c_channels() == 1 ? "mono" : "stereo"));
 				draw_info("Count samples:", n(f.get_c_samples()));
 				draw_info("Compression:", nh(2, f.get_header()->compression));
+				break;
+			}
+		case ft_big:
+			{
+				Cbig_file f;
+				f.load(m_data, m_size);
+				const int c_files = f.get_c_files();
+				draw_info("Count files:", n(c_files));
+				m_y += m_y_inc;
+				for (int i = 0; i < c_files; i++)
+				{
+					string name = f.get_name(i);
+					draw_info(nwzl(4, i) + " - " + nwsl(11, f.get_size(name)) + ' ' + name, "");
+				}
 				break;
 			}
 		case ft_cps:
@@ -1231,9 +1231,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 		}
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCFileView message handlers
 
 void CXCCFileView::open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet)
 {

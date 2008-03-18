@@ -1,12 +1,4 @@
-// XCC Mixer.h : main header file for the XCC MIXER application
-//
-
-#if !defined(AFX_XCCMIXER_H__94521416_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_)
-#define AFX_XCCMIXER_H__94521416_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #ifndef __AFXWIN_H__
 	#error include 'stdafx.h' before including this file for PCH
@@ -14,11 +6,6 @@
 
 #include <string>
 #include "resource.h"       // main symbols
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerApp:
-// See XCC Mixer.cpp for the implementation of this class
-//
 
 using namespace std;
 
@@ -63,16 +50,12 @@ public:
 	bool is_ts_available() const;
 	bool is_ra2_available() const;
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCMixerApp)
 	public:
 	virtual BOOL InitInstance();
 	virtual int ExitInstance();
 	virtual BOOL OnIdle(LONG lCount);
 	//}}AFX_VIRTUAL
-
-// Implementation
 
 	//{{AFX_MSG(CXCCMixerApp)
 	//}}AFX_MSG
@@ -97,11 +80,3 @@ private:
 	string m_ts_exe;
 	string m_ra2_exe;
 };
-
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCMIXER_H__94521416_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_)

@@ -1,6 +1,3 @@
-// XCC Mixer.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC Mixer.h"
 
@@ -15,34 +12,16 @@
 #include "xcc_dirs.h"
 #include "xcc_log.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerApp
-
 BEGIN_MESSAGE_MAP(CXCCMixerApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCMixerApp)
 	//}}AFX_MSG_MAP
-	// Standard file based document commands
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// The one and only CXCCMixerApp object
-
 CXCCMixerApp theApp;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerApp initialization
 
 BOOL CXCCMixerApp::InitInstance()
 {
 	AfxEnableControlContainer();
-
-	// Standard initialization
 
 #ifdef _AFXDLL
 	Enable3dControls();			// Call this when using MFC in a shared DLL
@@ -50,7 +29,6 @@ BOOL CXCCMixerApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
-	// Change the registry key under which our settings are stored.
 	SetRegistryKey("XCC");
 
 	LoadStdProfileSettings(0);  // Load standard INI file options (including MRU)
@@ -82,8 +60,6 @@ BOOL CXCCMixerApp::InitInstance()
 	m_ts_exe = xcc_dirs::get_exe(game_ts);
 	m_ra2_exe = xcc_dirs::get_exe(game_ra2);
 
-	// Register document templates
-
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
@@ -95,11 +71,9 @@ BOOL CXCCMixerApp::InitInstance()
 	EnableShellOpen();
 	RegisterShellFileTypes();
 
-	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
@@ -107,9 +81,6 @@ BOOL CXCCMixerApp::InitInstance()
 
 	return TRUE;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerApp commands
 
 int CXCCMixerApp::ExitInstance() 
 {

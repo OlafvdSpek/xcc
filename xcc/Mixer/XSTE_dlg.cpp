@@ -10,12 +10,6 @@
 
 using namespace boost;
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 CXSTE_dlg::CXSTE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXSTE_dlg::IDD, pParent, "XSTE_dlg")
 {
@@ -24,7 +18,6 @@ CXSTE_dlg::CXSTE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_game = game;
 }
-
 
 void CXSTE_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -37,7 +30,6 @@ void CXSTE_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_LIST, m_list);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(CXSTE_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CXSTE_dlg)
@@ -53,9 +45,6 @@ BEGIN_MESSAGE_MAP(CXSTE_dlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_SEARCH, OnSearch)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSTE_dlg message handlers
 
 BOOL CXSTE_dlg::OnInitDialog() 
 {

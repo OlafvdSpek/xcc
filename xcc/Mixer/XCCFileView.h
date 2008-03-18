@@ -1,13 +1,4 @@
-// XCCFileView.h : header file
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCCFILEVIEW_H__9031C262_D8D9_11D3_9F8F_0000F81AF9BE__INCLUDED_)
-#define AFX_XCCFILEVIEW_H__9031C262_D8D9_11D3_9F8F_0000F81AF9BE__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <cc_file.h>
 #include <mix_file.h>
@@ -28,11 +19,6 @@ class CXCCFileView : public CScrollView
 protected:
 	CXCCFileView();           // protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(CXCCFileView)
-
-// Attributes
-public:
-
-// Operations
 public:
 	bool can_auto_select();
 	void auto_select();
@@ -48,18 +34,14 @@ public:
 	void open_f(const string& name);
 	void post_open(Ccc_file& f);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCFileView)
-	protected:
+protected:
 	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
 	virtual void OnInitialUpdate();     // first time after construct
 	//}}AFX_VIRTUAL
 
-// Implementation
 protected:
 	virtual ~CXCCFileView();
-	// Generated message map functions
 	//{{AFX_MSG(CXCCFileView)
 	afx_msg void OnDisable(CCmdUI* pCmdUI);
 	//}}AFX_MSG
@@ -90,10 +72,3 @@ private:
 	int				m_y;
 	int				m_y_inc;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCFILEVIEW_H__9031C262_D8D9_11D3_9F8F_0000F81AF9BE__INCLUDED_)
