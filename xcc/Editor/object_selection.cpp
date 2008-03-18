@@ -1,6 +1,3 @@
-// object_selection.cpp : implementation file
-//
-
 #include "stdafx.h"
 
 #include "MainFrm.h"
@@ -8,15 +5,6 @@
 #include "XCC EditorView.h"
 #include "resource.h"
 #include "object_selection.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cobject_selection
 
 IMPLEMENT_DYNCREATE(Cobject_selection, CScrollView)
 
@@ -66,9 +54,6 @@ BEGIN_MESSAGE_MAP(Cobject_selection, CScrollView)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// Cobject_selection drawing
-
 static CMainFrame* main_frame()
 {
 	return static_cast<CMainFrame*>(AfxGetMainWnd());
@@ -116,9 +101,6 @@ void Cobject_selection::OnDraw(CDC* pDC)
 	pDC->BitBlt(0, 0, m_mem_surface_size.cx, m_mem_surface_size.cy, &m_mem_dc, 0, 0, SRCCOPY);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// Cobject_selection diagnostics
-
 #ifdef _DEBUG
 void Cobject_selection::AssertValid() const
 {
@@ -130,9 +112,6 @@ void Cobject_selection::Dump(CDumpContext& dc) const
 	CScrollView::Dump(dc);
 }
 #endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
-// Cobject_selection message handlers
 
 void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy)
 {

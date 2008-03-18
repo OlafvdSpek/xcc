@@ -1,20 +1,7 @@
-// energy_status_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "energy_status_dlg.h"
 
 #include "xcc_structures.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cenergy_status_dlg dialog
-
 
 Cenergy_status_dlg::Cenergy_status_dlg(const Cxcc_level& level)
 	: CDialog(Cenergy_status_dlg::IDD, 0),
@@ -37,7 +24,6 @@ Cenergy_status_dlg::Cenergy_status_dlg(const Cxcc_level& level)
 		}
 	}
 }
-
 
 void Cenergy_status_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -66,11 +52,7 @@ void Cenergy_status_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_SPECIAL_OUT, m_power_out[s_special]);
 }
 
-
 BEGIN_MESSAGE_MAP(Cenergy_status_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cenergy_status_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cenergy_status_dlg message handlers

@@ -1,21 +1,8 @@
-// edit_infantry_properties_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_infantry_properties_dlg.h"
 #include "edit_triggers_dlg.h"
 #include "xcc_cell.h"
 #include "xcc_infantry.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_infantry_properties_dlg dialog
-
 
 Cedit_infantry_properties_dlg::Cedit_infantry_properties_dlg(Cxcc_level& level)
 	: CDialog(Cedit_infantry_properties_dlg::IDD, 0),
@@ -29,7 +16,6 @@ Cedit_infantry_properties_dlg::Cedit_infantry_properties_dlg(Cxcc_level& level)
 	m_edit_type = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_infantry_properties_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -48,15 +34,11 @@ void Cedit_infantry_properties_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_infantry_properties_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_infantry_properties_dlg)
 	ON_BN_CLICKED(IDC_SELECT, OnSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_infantry_properties_dlg message handlers
 
 BOOL Cedit_infantry_properties_dlg::OnInitDialog() 
 {

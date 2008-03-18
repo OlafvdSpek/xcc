@@ -1,9 +1,4 @@
-#if !defined(AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)
-#define AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "XCC EditorDoc.h"
 #include "XCC EditorView.h"
@@ -22,27 +17,18 @@ protected: // create from serialization only
 	CMainFrame();
 	DECLARE_DYNCREATE(CMainFrame)
 
-// Attributes
 public:
 	Cxcc_cell m_mouse_pos;
 	bool m_idle_msg_changed;
 	string m_object_name;
 	Cobject_selection* m_selection_pane;
 	CXCCEditorView* m_level_pane;
-
-// Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)
-	public:
+public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
-	protected:
+protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-	//}}AFX_VIRTUAL
-
-// Implementation
 public:
 	t_side_id default_side() const;
 	t_action_id default_action() const;
@@ -60,8 +46,6 @@ protected:  // control bar embedded members
 	CSplitterWnd	m_splitter;
 	CStatusBar  m_wndStatusBar;
 	CToolBar    m_wndToolBar;
-
-// Generated message map functions
 protected:
 	CDialogBar m_wndPropertyBar;
 	void OnIdleUpdateCmdUI();
@@ -74,7 +58,3 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_MAINFRM_H__4E596E2A_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)

@@ -1,18 +1,5 @@
-// edit_waypoints_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_waypoints_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_waypoints_dlg dialog
-
 
 Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wanted):
 	ETSLayoutDialog(Cedit_waypoints_dlg::IDD, 0, "edit_waypoints_dlg"),
@@ -24,7 +11,6 @@ Cedit_waypoints_dlg::Cedit_waypoints_dlg(Cxcc_level& level, bool selection_wante
 	m_selected_i = -1;
 }
 
-
 void Cedit_waypoints_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
@@ -35,7 +21,6 @@ void Cedit_waypoints_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_waypoints_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cedit_waypoints_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList1)
@@ -43,9 +28,6 @@ BEGIN_MESSAGE_MAP(Cedit_waypoints_dlg, ETSLayoutDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_waypoints_dlg message handlers
 
 BOOL Cedit_waypoints_dlg::OnInitDialog() 
 {

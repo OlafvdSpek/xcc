@@ -1,20 +1,9 @@
-// XCC EditorDoc.cpp : implementation of the CXCCEditorDoc class
-//
-
 #include "stdafx.h"
 #include "XCC EditorDoc.h"
+
 #include "bin_file.h"
 #include "edit_map_dlg.h"
 #include "fname.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorDoc
 
 IMPLEMENT_DYNCREATE(CXCCEditorDoc, CDocument)
 
@@ -44,11 +33,6 @@ BOOL CXCCEditorDoc::OnNewDocument()
 	level.clear();
 	return true;
 }
-
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorDoc serialization
 
 long CXCCEditorDoc::load(const Cvirtual_binary& bin, const Cvirtual_binary& ini)
 {
@@ -82,6 +66,3 @@ void CXCCEditorDoc::Serialize(CArchive& ar)
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorDoc commands

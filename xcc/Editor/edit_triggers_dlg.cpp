@@ -1,18 +1,5 @@
-// edit_triggers_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_triggers_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_triggers_dlg dialog
-
 
 Cedit_triggers_dlg::Cedit_triggers_dlg(Cxcc_level& level, bool selection_wanted):
 	ETSLayoutDialog(Cedit_triggers_dlg::IDD, 0, "edit_triggers_dlg"),
@@ -46,9 +33,6 @@ BEGIN_MESSAGE_MAP(Cedit_triggers_dlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_NEW, OnNew)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_triggers_dlg message handlers
 
 BOOL Cedit_triggers_dlg::OnInitDialog() 
 {

@@ -1,6 +1,3 @@
-// XCC Editor.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC Editor.h"
 
@@ -10,15 +7,6 @@
 
 #include "xcc_mixs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorApp
-
 BEGIN_MESSAGE_MAP(CXCCEditorApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCEditorApp)
 	//}}AFX_MSG_MAP
@@ -27,30 +15,16 @@ BEGIN_MESSAGE_MAP(CXCCEditorApp, CWinApp)
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorApp construction
-
 CXCCEditorApp::CXCCEditorApp()
 {
 	m_save_data = false;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// The one and only CXCCEditorApp object
-
 CXCCEditorApp theApp;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorApp initialization
 
 BOOL CXCCEditorApp::InitInstance()
 {
 	AfxEnableControlContainer();
-
-	// Standard initialization
-	// If you are not using these features and wish to reduce the size
-	//  of your final executable, you should remove from the following
-	//  the specific initialization routines you do not need.
 
 #ifdef _AFXDLL
 	Enable3dControls();			// Call this when using MFC in a shared DLL
@@ -58,7 +32,6 @@ BOOL CXCCEditorApp::InitInstance()
 	Enable3dControlsStatic();	// Call this when linking to MFC statically
 #endif
 
-	// Change the registry key under which our settings are stored.
 	SetRegistryKey("XCC");
 
 	LoadStdProfileSettings(8);  // Load standard INI file options (including MRU)
@@ -81,9 +54,6 @@ BOOL CXCCEditorApp::InitInstance()
 	}
 	m_save_data = true;
 	
-	// Register the application's document templates.  Document templates
-	//  serve as the connection between documents, frame windows and views.
-
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
@@ -92,23 +62,18 @@ BOOL CXCCEditorApp::InitInstance()
 		RUNTIME_CLASS(CXCCEditorView));
 	AddDocTemplate(pDocTemplate);
 
-	// Enable DDE Execute open
 	EnableShellOpen();
 	RegisterShellFileTypes(TRUE);
 
-	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
 
-	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 
-	// The one and only window has been initialized, so show and update it.
 	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
 
-	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
 
 	return TRUE;
@@ -134,7 +99,3 @@ int CXCCEditorApp::ExitInstance()
 	xcc_dirs::save_to_registry();
 	return CWinApp::ExitInstance();
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorApp commands
-

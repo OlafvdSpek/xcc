@@ -1,24 +1,12 @@
-#if !defined(AFX_EDIT_UNITS_DLG_H__82448C23_0DD2_11D3_B601_B04A4AC10154__INCLUDED_)
-#define AFX_EDIT_UNITS_DLG_H__82448C23_0DD2_11D3_B601_B04A4AC10154__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "list_ctrl_extension.h"
 #include "resource.h"
 #include "string_conversion.h"
 #include "xcc_units.h"
 
-// edit_units_dlg.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_units_dlg dialog
-
 class Cedit_units_dlg : public CDialog
 {
-// Construction
 public:
 	void load_controls();
 	void save_controls();
@@ -27,7 +15,6 @@ public:
 	void update_item(long i);
 	Cedit_units_dlg(CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(Cedit_units_dlg)
 	enum { IDD = IDD_EDIT_UNITS_DLG };
 	CEdit	m_editctrl_c_rotations;
@@ -50,18 +37,11 @@ public:
 	BOOL	m_check_top;
 	//}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(Cedit_units_dlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
-protected:
-
-	// Generated message map functions
 	//{{AFX_MSG(Cedit_units_dlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnNewButton();
@@ -72,8 +52,3 @@ protected:
 private:
 	long m_current_i;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_EDIT_UNITS_DLG_H__82448C23_0DD2_11D3_B601_B04A4AC10154__INCLUDED_)

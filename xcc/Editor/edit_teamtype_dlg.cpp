@@ -1,6 +1,3 @@
-// edit_teamtype_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_teamtype_dlg.h"
 #include "edit_waypoints_dlg.h"
@@ -8,16 +5,6 @@
 #include "xcc_infantry.h"
 #include "xcc_structures.h"
 #include "xcc_units.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_teamtype_dlg dialog
-
 
 Cedit_teamtype_dlg::Cedit_teamtype_dlg(Cxcc_level& level)
 	: CDialog(Cedit_teamtype_dlg::IDD, 0),
@@ -37,7 +24,6 @@ Cedit_teamtype_dlg::Cedit_teamtype_dlg(Cxcc_level& level)
 	m_teamtype_data.c_objects = m_teamtype_data.c_actions = 0;
 	m_teamtype_data_loaded = false;
 }
-
 
 void Cedit_teamtype_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -70,7 +56,6 @@ void Cedit_teamtype_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_teamtype_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_teamtype_dlg)
 	ON_BN_CLICKED(IDC_ACTION_SELECT, OnActionSelect)
@@ -82,9 +67,6 @@ BEGIN_MESSAGE_MAP(Cedit_teamtype_dlg, CDialog)
 	ON_LBN_SELCHANGE(IDC_OBJECT_LIST, OnSelchangeObjectList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_teamtype_dlg message handlers
 
 BOOL Cedit_teamtype_dlg::OnInitDialog() 
 {

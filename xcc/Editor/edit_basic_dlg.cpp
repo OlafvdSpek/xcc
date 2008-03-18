@@ -1,18 +1,5 @@
-// edit_basic_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_basic_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_basic_dlg dialog
-
 
 Cedit_basic_dlg::Cedit_basic_dlg(Cxcc_level& level)
 	: CDialog(Cedit_basic_dlg::IDD, 0),
@@ -24,7 +11,6 @@ Cedit_basic_dlg::Cedit_basic_dlg(Cxcc_level& level)
 	m_edit_carry_over_money = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_basic_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -47,14 +33,10 @@ void Cedit_basic_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_basic_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_basic_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_basic_dlg message handlers
 
 BOOL Cedit_basic_dlg::OnInitDialog() 
 {
