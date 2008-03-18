@@ -1,18 +1,5 @@
-// edit_structures_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_structures_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_structures_dlg dialog
-
 
 Cedit_structures_dlg::Cedit_structures_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cedit_structures_dlg::IDD, pParent)
@@ -84,9 +71,6 @@ BEGIN_MESSAGE_MAP(Cedit_structures_dlg, CDialog)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnItemchangedList2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_structures_dlg message handlers
 
 BOOL Cedit_structures_dlg::OnInitDialog() 
 {

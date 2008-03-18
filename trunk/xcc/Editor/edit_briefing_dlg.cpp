@@ -1,18 +1,5 @@
-// edit_briefing_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_briefing_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_briefing_dlg dialog
-
 
 Cedit_briefing_dlg::Cedit_briefing_dlg(Cxcc_level& level)
 	: CDialog(Cedit_briefing_dlg::IDD, 0),
@@ -22,7 +9,6 @@ Cedit_briefing_dlg::Cedit_briefing_dlg(Cxcc_level& level)
 	//}}AFX_DATA_INIT
 }
 
-
 void Cedit_briefing_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -31,14 +17,10 @@ void Cedit_briefing_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_briefing_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_briefing_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_briefing_dlg message handlers
 
 BOOL Cedit_briefing_dlg::OnInitDialog() 
 {

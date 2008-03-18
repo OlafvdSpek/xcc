@@ -1,20 +1,11 @@
-// XCC EditorView.h : interface of the CXCCEditorView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCCEDITORVIEW_H__4E596E2E_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)
-#define AFX_XCCEDITORVIEW_H__4E596E2E_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
+#include <windows.h>
 #include "edit_teamtypes_dlg.h"
 #include "edit_triggers_dlg.h"
 #include "edit_waypoints_dlg.h"
 #include "open_from_mix_dlg.h"
 #include "shp_images.h"
-#include "windows.h"
 #include "xcc_cell.h"
 #include "xcc_draw.h"
 #include "xcc_overlays.h"
@@ -212,8 +203,8 @@ protected:
 };
 
 inline CXCCEditorDoc* CXCCEditorView::GetDocument() const
-{ 
-	return (CXCCEditorDoc*)m_pDocument; 
+{
+	return (CXCCEditorDoc*)m_pDocument;
 }
 
 inline Cxcc_level& CXCCEditorView::level() const
@@ -225,10 +216,3 @@ inline t_side_id CXCCEditorView::main_opponent() const
 {
 	return level().basic_data.player == s_goodguy ? s_badguy : s_goodguy;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCEDITORVIEW_H__4E596E2E_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)

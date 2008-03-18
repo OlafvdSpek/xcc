@@ -1,21 +1,9 @@
-// edit_structure_properties_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_structure_properties_dlg.h"
+
 #include "edit_triggers_dlg.h"
 #include "xcc_cell.h"
 #include "xcc_structures.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_structure_properties_dlg dialog
-
 
 Cedit_structure_properties_dlg::Cedit_structure_properties_dlg(Cxcc_level& level)
 	: CDialog(Cedit_structure_properties_dlg::IDD, 0),
@@ -31,7 +19,6 @@ Cedit_structure_properties_dlg::Cedit_structure_properties_dlg(Cxcc_level& level
 	m_check_start = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_structure_properties_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -51,15 +38,11 @@ void Cedit_structure_properties_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_structure_properties_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_structure_properties_dlg)
 	ON_BN_CLICKED(IDC_SELECT, OnSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_structure_properties_dlg message handlers
 
 BOOL Cedit_structure_properties_dlg::OnInitDialog() 
 {

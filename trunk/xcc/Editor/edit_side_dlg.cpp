@@ -1,18 +1,5 @@
-// edit_side_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_side_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_side_dlg dialog
-
 
 Cedit_side_dlg::Cedit_side_dlg(t_side_data& side_data)
 	: CDialog(Cedit_side_dlg::IDD, 0),
@@ -32,7 +19,6 @@ Cedit_side_dlg::Cedit_side_dlg(t_side_data& side_data)
 	m_check_neutral = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_side_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -54,14 +40,10 @@ void Cedit_side_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_side_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_side_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_side_dlg message handlers
 
 BOOL Cedit_side_dlg::OnInitDialog() 
 {

@@ -1,18 +1,5 @@
-// edit_map_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_map_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_map_dlg dialog
-
 
 Cedit_map_dlg::Cedit_map_dlg(Cxcc_level& level)
 	: CDialog(Cedit_map_dlg::IDD, 0),
@@ -25,7 +12,6 @@ Cedit_map_dlg::Cedit_map_dlg(Cxcc_level& level)
 	m_edit_cy = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_map_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -43,14 +29,10 @@ void Cedit_map_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_map_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_map_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_map_dlg message handlers
 
 BOOL Cedit_map_dlg::OnInitDialog() 
 {

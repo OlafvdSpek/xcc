@@ -1,30 +1,14 @@
-// list_ctrl_extension.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "list_ctrl_extension.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Clist_ctrl_extension
 
 Clist_ctrl_extension::Clist_ctrl_extension()
 {
 }
 
-
 BEGIN_MESSAGE_MAP(Clist_ctrl_extension, CListCtrl)
 	//{{AFX_MSG_MAP(Clist_ctrl_extension)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Clist_ctrl_extension message handlers
 
 void Clist_ctrl_extension::set_fixed_width_font()
 {

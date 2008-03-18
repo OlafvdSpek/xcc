@@ -1,19 +1,6 @@
-// edit_trigger_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_teamtypes_dlg.h"
 #include "edit_trigger_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_trigger_dlg dialog
-
 
 Cedit_trigger_dlg::Cedit_trigger_dlg(Cxcc_level& level)
 	: CDialog(Cedit_trigger_dlg::IDD, 0),
@@ -24,7 +11,6 @@ Cedit_trigger_dlg::Cedit_trigger_dlg(Cxcc_level& level)
 	//}}AFX_DATA_INIT
 	m_trigger_data_loaded = false;
 }
-
 
 void Cedit_trigger_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -43,15 +29,11 @@ void Cedit_trigger_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_trigger_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_trigger_dlg)
 	ON_BN_CLICKED(IDC_SELECT, OnSelect)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_trigger_dlg message handlers
 
 BOOL Cedit_trigger_dlg::OnInitDialog() 
 {

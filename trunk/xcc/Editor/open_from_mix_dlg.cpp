@@ -1,20 +1,7 @@
-// open_from_mix_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "open_from_mix_dlg.h"
 
 #include "xcc_log.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Copen_from_mix_dlg dialog
-
 
 Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/):
 	ETSLayoutDialog(Copen_from_mix_dlg::IDD, pParent, "open_from_mix_dlg"),
@@ -25,7 +12,6 @@ Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/):
 	//}}AFX_DATA_INIT
 }
 
-
 void Copen_from_mix_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
@@ -35,16 +21,12 @@ void Copen_from_mix_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Copen_from_mix_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Copen_from_mix_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList1)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST1, OnDblclkList1)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Copen_from_mix_dlg message handlers
 
 BOOL Copen_from_mix_dlg::OnInitDialog() 
 {

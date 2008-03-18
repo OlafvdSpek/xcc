@@ -1,20 +1,8 @@
-// MainFrm.cpp : implementation of the CMainFrame class
-//
-
 #include "stdafx.h"
 
 #include "MainFrm.h"
 
 #include "xcc_log.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame
 
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
@@ -35,9 +23,6 @@ static UINT indicators[] =
 	ID_SEPARATOR,           // status line indicator
 	ID_INDICATOR_CELL
 };
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame construction/destruction
 
 CMainFrame::CMainFrame()
 {
@@ -116,9 +101,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return CFrameWnd::PreCreateWindow(cs);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame diagnostics
-
 #ifdef _DEBUG
 void CMainFrame::AssertValid() const
 {
@@ -131,9 +113,6 @@ void CMainFrame::Dump(CDumpContext& dc) const
 }
 
 #endif //_DEBUG
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame message handlers
 
 void CMainFrame::OnIdleUpdateCmdUI()
 {

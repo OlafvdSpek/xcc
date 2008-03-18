@@ -1,18 +1,5 @@
-// edit_units_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_units_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_units_dlg dialog
-
 
 Cedit_units_dlg::Cedit_units_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cedit_units_dlg::IDD, pParent)
@@ -30,7 +17,6 @@ Cedit_units_dlg::Cedit_units_dlg(CWnd* pParent /*=NULL*/)
 	m_check_top = FALSE;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_units_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -56,16 +42,12 @@ void Cedit_units_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_units_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_units_dlg)
 	ON_BN_CLICKED(IDC_NEW_BUTTON, OnNewButton)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnItemchangedList2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_units_dlg message handlers
 
 BOOL Cedit_units_dlg::OnInitDialog() 
 {

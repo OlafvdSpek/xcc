@@ -1,19 +1,6 @@
-// edit_teamtypes_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_teamtypes_dlg.h"
 #include "edit_teamtype_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_teamtypes_dlg dialog
-
 
 Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wanted):
 	ETSLayoutDialog(Cedit_teamtypes_dlg::IDD, 0, "edit_teamtypes_dlg"),
@@ -24,7 +11,6 @@ Cedit_teamtypes_dlg::Cedit_teamtypes_dlg(Cxcc_level& level, bool selection_wante
 	//{{AFX_DATA_INIT(Cedit_teamtypes_dlg)
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_teamtypes_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -37,7 +23,6 @@ void Cedit_teamtypes_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_teamtypes_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(Cedit_teamtypes_dlg)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST, OnItemchangedList)
@@ -47,9 +32,6 @@ BEGIN_MESSAGE_MAP(Cedit_teamtypes_dlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_DELETE, OnDelete)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_teamtypes_dlg message handlers
 
 BOOL Cedit_teamtypes_dlg::OnInitDialog() 
 {

@@ -1,6 +1,3 @@
-// XCC EditorView.cpp : implementation of the CXCCEditorView class
-//
-
 #include "stdafx.h"
 
 #include "MainFrm.h"
@@ -17,15 +14,6 @@
 #include "energy_status_dlg.h"
 #include "xcc_cell_manager.h"
 #include "windows.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView
 
 IMPLEMENT_DYNCREATE(CXCCEditorView, CScrollView)
 
@@ -120,9 +108,6 @@ BEGIN_MESSAGE_MAP(CXCCEditorView, CScrollView)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_POPUP_CLEAR_TEMPLATE_LAYER, ID_POPUP_CLEAR_WAYPOINT_LAYER, OnUpdatePopupClearLayer)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView construction/destruction
-
 CXCCEditorView::CXCCEditorView()
 {
 	m_mouse_leave_active = false;
@@ -139,14 +124,8 @@ CXCCEditorView::~CXCCEditorView()
 
 BOOL CXCCEditorView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	// TODO: Modify the Window class or styles here by modifying
-	//  the CREATESTRUCT cs
-
 	return CScrollView::PreCreateWindow(cs);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView drawing
 
 const Cxcc_cell level_topleft(8 << 8, 8 << 8);
 
@@ -250,9 +229,6 @@ void CXCCEditorView::OnInitialUpdate()
 		m_color_table[palet_index].b = palet[palet_index].b;
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorView message handlers
 
 void CXCCEditorView::draw_image(const byte* s, const byte* rp, dword* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy, dword dpitch)
 {

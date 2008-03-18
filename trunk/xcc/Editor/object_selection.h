@@ -1,11 +1,6 @@
-#if !defined(AFX_object_selection_H__EC5BE503_0EF8_11D3_B601_90474AC10154__INCLUDED_)
-#define AFX_object_selection_H__EC5BE503_0EF8_11D3_B601_90474AC10154__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
-#include "cassert"
+#include <cassert>
 #include "palet.h"
 #include "xcc_infantry.h"
 #include "xcc_level.h"
@@ -13,12 +8,6 @@
 #include "xcc_structures.h"
 #include "xcc_templates.h"
 #include "xcc_units.h"
-
-// object_selection.h : header file
-//
-
-/////////////////////////////////////////////////////////////////////////////
-// Cobject_selection view
 
 class Cobject_selection : public CScrollView
 {
@@ -44,11 +33,6 @@ private:
 protected:
 	Cobject_selection();           // protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(Cobject_selection)
-
-// Attributes
-public:
-
-// Operations
 public:
 	void draw_filter(t_palet32bgr_entry* d, int dx, int dy, int cx, int cy, int tr, int tg, int tb, int vr = 0, int vg = 0, int vb = 0) const;
 	void enable_mouse_event();
@@ -69,18 +53,14 @@ public:
 	const t_theater_id theater() const;
 	void update_mem_surface();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(Cobject_selection)
-	public:
+public:
 	virtual void OnInitialUpdate();     // first time after construct
-	protected:
+protected:
 	virtual void OnDraw(CDC* pDC);      // overridden to draw this view
 	virtual void OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint);
 	virtual LRESULT WindowProc(UINT message, WPARAM wParam, LPARAM lParam);
 	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
 	afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual ~Cobject_selection();
@@ -88,8 +68,6 @@ protected:
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-
-	// Generated message map functions
 	//{{AFX_MSG(Cobject_selection)
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
@@ -120,10 +98,3 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_object_selection_H__EC5BE503_0EF8_11D3_B601_90474AC10154__INCLUDED_)

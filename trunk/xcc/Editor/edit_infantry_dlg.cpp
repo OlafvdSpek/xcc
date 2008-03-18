@@ -1,18 +1,5 @@
-// edit_infantry_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "edit_infantry_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_infantry_dlg dialog
-
 
 Cedit_infantry_dlg::Cedit_infantry_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cedit_infantry_dlg::IDD, pParent)
@@ -28,7 +15,6 @@ Cedit_infantry_dlg::Cedit_infantry_dlg(CWnd* pParent /*=NULL*/)
 	m_edit_flags = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cedit_infantry_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -51,16 +37,12 @@ void Cedit_infantry_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cedit_infantry_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cedit_infantry_dlg)
 	ON_BN_CLICKED(IDC_NEW_BUTTON, OnNewButton)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST2, OnItemchangedList2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cedit_infantry_dlg message handlers
 
 BOOL Cedit_infantry_dlg::OnInitDialog() 
 {
