@@ -1,7 +1,3 @@
-// shp_dune2_file.cpp: implementation of the Cshp_dune2_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "shp_dune2_file.h"
 

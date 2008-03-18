@@ -1,13 +1,4 @@
-// neat_ini_reader.h: interface for the Cneat_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_NEAT_INI_READER_H__E2E4BEC1_9322_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_NEAT_INI_READER_H__E2E4BEC1_9322_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <map>
 #include <list>
@@ -52,5 +43,3 @@ private:
 };
 
 Cneat_key_list sub_section(const Cneat_key_list& a, const Cneat_key_list& b);
-
-#endif // !defined(AFX_NEAT_INI_READER_H__E2E4BEC1_9322_11D4_B606_0000B4936994__INCLUDED_)

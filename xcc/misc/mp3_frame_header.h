@@ -1,13 +1,4 @@
-// mp3_frame_header.h: interface for the Cmp3_frame_header class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MP3_FRAME_HEADER_H__37153EC1_5D90_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_MP3_FRAME_HEADER_H__37153EC1_5D90_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class Cmp3_frame_header  
 {
@@ -88,5 +79,3 @@ private:
 	bool m_valid;
 	int	m_version;
 };
-
-#endif // !defined(AFX_MP3_FRAME_HEADER_H__37153EC1_5D90_11D4_B606_0000B4936994__INCLUDED_)

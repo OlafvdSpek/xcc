@@ -1,7 +1,3 @@
-// mix_rg_edit.cpp: implementation of the Cmix_rg_edit class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "mix_rg_edit.h"
 

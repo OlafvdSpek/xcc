@@ -1,13 +1,4 @@
-// voc_file.h: interface for the Cvoc_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VOC_FILE_H__946A3FC0_72C2_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_VOC_FILE_H__946A3FC0_72C2_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -48,5 +39,3 @@ public:
 		return 1000000 / (256 - get_sound_data_header()->samplerate);
 	}
 };
-
-#endif // !defined(AFX_VOC_FILE_H__946A3FC0_72C2_11D4_B606_0000B4936994__INCLUDED_)

@@ -16,4 +16,6 @@ const char* game_name[] =
 	"Emperor Battle for Dune",
 	"Nox",
 	"Battle for Middle Earth",
+	"Battle for Middle Earth 2",
+	"Tiberium Wars",
 };

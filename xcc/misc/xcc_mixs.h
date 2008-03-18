@@ -1,13 +1,4 @@
-// xcc_mixs.h: interface for the Cxcc_mixs class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_MIXS_H__CAA61D63_FF01_11D2_B601_F02205D95EEC__INCLUDED_)
-#define AFX_XCC_MIXS_H__CAA61D63_FF01_11D2_B601_F02205D95EEC__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "mix_file.h"
 #include "xcc_level.h"
@@ -35,5 +26,3 @@ public:
 	static Cmix_file& get_theater_mix(t_theater_id theater);
 	static string get_theater_fname(t_theater_id theater);
 };
-
-#endif // !defined(AFX_XCC_MIXS_H__CAA61D63_FF01_11D2_B601_F02205D95EEC__INCLUDED_)

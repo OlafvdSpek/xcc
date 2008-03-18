@@ -1,9 +1,6 @@
-// map_ra_ini_reader.cpp: implementation of the Cmap_ra_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "map_ra_ini_reader.h"
+
 #include "multi_line.h"
 #include "string_conversion.h"
 

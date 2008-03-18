@@ -1,13 +1,4 @@
-// mix_file.h: interface for the Cmix_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MIX_FILE_H__6AA2E061_D405_11D3_8684_0000F81AF605__INCLUDED_)
-#define AFX_MIX_FILE_H__6AA2E061_D405_11D3_8684_0000F81AF605__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "cc_file.h"
 #include "cc_structures.h"
@@ -99,5 +90,3 @@ private:
 	t_file_type* m_index_ft;
 	t_id_index m_id_index;
 };
-
-#endif // !defined(AFX_MIX_FILE_H__6AA2E061_D405_11D3_8684_0000F81AF605__INCLUDED_)

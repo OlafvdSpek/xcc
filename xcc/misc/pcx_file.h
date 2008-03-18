@@ -1,13 +1,4 @@
-// pcx_file.h: interface for the Cpcx_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PCX_FILE_H__27392220_D5BC_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_PCX_FILE_H__27392220_D5BC_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
 #include "image_file.h"
@@ -52,5 +43,3 @@ public:
         return reinterpret_cast<const t_palet*>(get_data() + get_size() - sizeof(t_palet));
     }
 };
-
-#endif // !defined(AFX_PCX_FILE_H__27392220_D5BC_11D3_B604_0000B4936994__INCLUDED_)

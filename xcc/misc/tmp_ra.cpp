@@ -1,7 +1,3 @@
-// tmp_ra_file.cpp: implementation of the Ctmp_ra_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "tmp_ra_file.h"
 

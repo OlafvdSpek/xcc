@@ -1,13 +1,4 @@
-// virtual_image.h: interface for the Cvirtual_image class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VIRTUAL_IMAGE_H__6FC64BA7_CF65_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_VIRTUAL_IMAGE_H__6FC64BA7_CF65_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file.h"
 #include "palet.h"
@@ -119,5 +110,3 @@ private:
 	int m_cy;
 	int mcb_pixel;
 };
-
-#endif // !defined(AFX_VIRTUAL_IMAGE_H__6FC64BA7_CF65_11D4_A95D_0050042229FC__INCLUDED_)

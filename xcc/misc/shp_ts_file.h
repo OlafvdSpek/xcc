@@ -1,13 +1,4 @@
-// shp_file_ts.h: interface for the Cshp_file_ts class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SHP_TS_FILE_H__26D17BE0_F135_11D3_B605_0000B4936994__INCLUDED_)
-#define AFX_SHP_TS_FILE_H__26D17BE0_F135_11D3_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
 #include "fname.h"
@@ -116,5 +107,3 @@ void shp_split_frames(Cvirtual_image& image, int cblocks_x, int cblocks_y);
 void shp_split_shadows(Cvirtual_image& image);
 void shp_xor_decode_frames(Cvirtual_image& image, int c_frames);
 void shp_xor_encode_frames(Cvirtual_image& image, int c_frames);
-
-#endif // !defined(AFX_SHP_TS_FILE_H__26D17BE0_F135_11D3_B605_0000B4936994__INCLUDED_)

@@ -265,7 +265,7 @@ int Cmix_file::post_open()
 				}
 			}
 		}
-		if (get_vdata().size() == get_size())
+		if (!get_vdata() || get_vdata().size() == get_size())
 		{
 			int crc = compute_crc(m_index, m_c_files * sizeof(t_mix_index_entry));
 			const void* s = mix_cache::get_data(crc);

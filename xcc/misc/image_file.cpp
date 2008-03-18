@@ -1,7 +1,3 @@
-// image_file.cpp: implementation of the Cimage_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "image_file.h"
 

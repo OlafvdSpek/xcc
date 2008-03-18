@@ -1,13 +1,4 @@
-// xcc_cell.h: interface for the Cxcc_cell class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_CELL_H__A1984CC3_06B0_11D3_B6D9_006008B7F508__INCLUDED_)
-#define AFX_XCC_CELL_H__A1984CC3_06B0_11D3_B6D9_006008B7F508__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <math.h>
 #include "cassert"
@@ -242,5 +233,3 @@ private:
 	int x;
 	int y;
 };
-
-#endif // !defined(AFX_XCC_CELL_H__A1984CC3_06B0_11D3_B6D9_006008B7F508__INCLUDED_)

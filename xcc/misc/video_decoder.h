@@ -1,13 +1,4 @@
-// video_decoder.h: interface for the Cvideo_decoder class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VIDEO_DECODER_H__19F569DD_C810_4315_9AD7_6AE2CAD1CE1F__INCLUDED_)
-#define AFX_VIDEO_DECODER_H__19F569DD_C810_4315_9AD7_6AE2CAD1CE1F__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "palet.h"
 
@@ -33,5 +24,3 @@ public:
 		return cf() * cb_image();
 	}
 };
-
-#endif // !defined(AFX_VIDEO_DECODER_H__19F569DD_C810_4315_9AD7_6AE2CAD1CE1F__INCLUDED_)

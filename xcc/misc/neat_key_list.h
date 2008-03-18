@@ -1,13 +1,4 @@
-// neat_key_list.h: interface for the Cneat_key_list class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_NEAT_KEY_LIST_H__E2E4BEC3_9322_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_NEAT_KEY_LIST_H__E2E4BEC3_9322_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <ostream>
 #include <map>
@@ -42,5 +33,3 @@ private:
 	t_key_map m_key_map;
 	t_key_list m_key_list;
 };
-
-#endif // !defined(AFX_NEAT_KEY_LIST_H__E2E4BEC3_9322_11D4_B606_0000B4936994__INCLUDED_)

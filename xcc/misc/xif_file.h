@@ -1,13 +1,4 @@
-// xif_file.h: interface for the Cxif_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XIF_FILE_H__93731940_3FA3_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XIF_FILE_H__93731940_3FA3_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -30,5 +21,3 @@ public:
 		return key.load_key(get_data(), get_size());
 	}
 };
-
-#endif // !defined(AFX_XIF_FILE_H__93731940_3FA3_11D4_B606_0000B4936994__INCLUDED_)

@@ -1,13 +1,4 @@
-// xcc_dirs.h: interface for the xcc_dirs class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_DIRS_H__F6959245_DF79_11D2_B750_CC1D91EBCE65__INCLUDED_)
-#define AFX_XCC_DIRS_H__F6959245_DF79_11D2_B750_CC1D91EBCE65__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
 #include "cc_structures.h"
@@ -60,5 +51,3 @@ private:
 
 	static bool m_use_external_files;
 };
-
-#endif // !defined(AFX_XCC_DIRS_H__F6959245_DF79_11D2_B750_CC1D91EBCE65__INCLUDED_)

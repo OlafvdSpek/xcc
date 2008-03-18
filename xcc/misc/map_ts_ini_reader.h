@@ -1,13 +1,4 @@
-// map_ts_ini_reader.h: interface for the Cmap_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MAP_TS_INI_READER_H__06E64C81_7C49_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_MAP_TS_INI_READER_H__06E64C81_7C49_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "fname.h"
 #include "ini_reader.h"
@@ -93,5 +84,3 @@ private:
 
 	t_section_id m_section;
 };
-
-#endif // !defined(AFX_MAP_TS_INI_READER_H__06E64C81_7C49_11D4_B606_0000B4936994__INCLUDED_)

@@ -1,13 +1,4 @@
-// virtual_audio.h: interface for the Cvirtual_audio class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VIRTUAL_AUDIO_H__BDA73B00_D9D2_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_VIRTUAL_AUDIO_H__BDA73B00_D9D2_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "virtual_file.h"
 
@@ -60,5 +51,3 @@ private:
 	int mcb_sample;
 	int mc_channels;
 };
-
-#endif // !defined(AFX_VIRTUAL_AUDIO_H__BDA73B00_D9D2_11D4_A95D_0050042229FC__INCLUDED_)

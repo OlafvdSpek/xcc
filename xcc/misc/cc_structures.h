@@ -1,27 +1,24 @@
-#if !defined(AFX_CC_STRUCTURES_H__D7232160_169C_11D4_A955_0050042229FC__INCLUDED_)
-#define AFX_CC_STRUCTURES_H__D7232160_169C_11D4_A955_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "palet.h"
 
-enum t_game 
+enum t_game
 {
-	game_td, 
-	game_ra, 
-	game_ts, 
-	game_dune2, 
-	game_dune2000, 
-	game_ra2, 
-	game_ra2_yr, 
-	game_rg, 
-	game_gr, 
-	game_gr_zh, 
+	game_td,
+	game_ra,
+	game_ts,
+	game_dune2,
+	game_dune2000,
+	game_ra2,
+	game_ra2_yr,
+	game_rg,
+	game_gr,
+	game_gr_zh,
 	game_ebfd,
 	game_nox,
 	game_bfme,
+	game_bfme2,
+	game_tw,
 	game_unknown
 };
 
@@ -165,7 +162,7 @@ const char jpeg_id[] = "JFIF";
 
 union t_mix_header
 {
-	struct 
+	struct
 	{
 		__int16 c_files;
 		__int32 size;
@@ -302,7 +299,7 @@ struct t_shp_ts_image_header
 struct t_tga_header
 {
     byte id_size;
-	byte map_t;	
+	byte map_t;
 	byte image_t;
 	unsigned __int16 map_first;
 	unsigned __int16 map_size;
@@ -311,7 +308,7 @@ struct t_tga_header
 	unsigned __int16 y;
 	unsigned __int16 cx;
 	unsigned __int16 cy;
-	byte cb_pixel;	
+	byte cb_pixel;
 	byte alpha:4;
 	byte horizontal:1;
 	byte vertical:1;
@@ -539,5 +536,3 @@ struct t_xcc_lmd_header
 };
 
 #pragma pack(pop)
-
-#endif // !defined(AFX_CC_STRUCTURES_H__D7232160_169C_11D4_A955_0050042229FC__INCLUDED_)

@@ -1,7 +1,3 @@
-// map_ts_ini_reader.cpp: implementation of the Cmap_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include <fstream>
 #include "html.h"

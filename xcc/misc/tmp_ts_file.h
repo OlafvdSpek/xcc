@@ -1,13 +1,4 @@
-// tmp_ts_file.h: interface for the Ctmp_ts_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMP_TS_FILE_H__2ADB87E0_2208_11D4_B605_0000B4936994__INCLUDED_)
-#define AFX_TMP_TS_FILE_H__2ADB87E0_2208_11D4_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <cassert>
 #include <cc_file_sh.h>
@@ -200,5 +191,3 @@ public:
 int decode_tile(const byte* s, byte* d, int cx_d);
 int encode_tile(const byte* s, byte* d, int cx_s);
 int tmp_ts_file_write(const byte* s, byte* d, int cx, int cy);
-
-#endif // !defined(AFX_TMP_TS_FILE_H__2ADB87E0_2208_11D4_B605_0000B4936994__INCLUDED_)

@@ -1,13 +1,4 @@
-// bin_file.h: interface for the Cbin_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_BIN_FILE_H__307FE925_D574_11D3_A718_0000F81AF8CC__INCLUDED_)
-#define AFX_BIN_FILE_H__307FE925_D574_11D3_A718_0000F81AF8CC__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <cc_file_small.h>
 
@@ -29,5 +20,3 @@ public:
 		return true;
 	}
 };
-
-#endif // !defined(AFX_BIN_FILE_H__307FE925_D574_11D3_A718_0000F81AF8CC__INCLUDED_)

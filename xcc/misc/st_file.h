@@ -1,13 +1,4 @@
-// st_file.h: interface for the Cst_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_ST_FILE_H__2FC66021_06EE_11D4_B605_0000B4936994__INCLUDED_)
-#define AFX_ST_FILE_H__2FC66021_06EE_11D4_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <string>
 #include "cc_file_small.h"
@@ -38,5 +29,3 @@ public:
 		return reinterpret_cast<const char*>(get_data() + get_offset(i));
 	}
 };
-
-#endif // !defined(AFX_ST_FILE_H__2FC66021_06EE_11D4_B605_0000B4936994__INCLUDED_)

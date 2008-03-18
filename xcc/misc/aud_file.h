@@ -1,13 +1,4 @@
-// aud_file.h: interface for the Caud_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_AUD_FILE_H__FBD9B691_D563_11D3_A718_0000F81AF8CC__INCLUDED_)
-#define AFX_AUD_FILE_H__FBD9B691_D563_11D3_A718_0000F81AF8CC__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "cc_file.h"
 #include "cc_structures.h"
@@ -59,5 +50,3 @@ public:
 private:
 	t_aud_header m_header;
 };
-
-#endif // !defined(AFX_AUD_FILE_H__FBD9B691_D563_11D3_A718_0000F81AF8CC__INCLUDED_)

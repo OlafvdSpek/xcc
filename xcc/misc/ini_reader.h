@@ -1,13 +1,4 @@
-// ini_reader.h: interface for the Cini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_INI_READER_H__FB64E122_71EC_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_INI_READER_H__FB64E122_71EC_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <string>
 #include "vartypes.h"
@@ -36,5 +27,3 @@ protected:
 	bool m_section_open;
 	bool m_skip_errors;
 };
-
-#endif // !defined(AFX_INI_READER_H__FB64E122_71EC_11D4_B606_0000B4936994__INCLUDED_)

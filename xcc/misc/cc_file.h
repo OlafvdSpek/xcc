@@ -1,13 +1,4 @@
-// cc_file.h: interface for the Ccc_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CC_FILE_H__DB898AD2_D338_11D3_867E_0000F81AF605__INCLUDED_)
-#define AFX_CC_FILE_H__DB898AD2_D338_11D3_867E_0000F81AF605__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "file32.h"
 #include "virtual_binary.h"
@@ -167,5 +158,3 @@ private:
     const bool m_read_on_open;
     int m_size;
 };
-
-#endif // !defined(AFX_CC_FILE_H__DB898AD2_D338_11D3_867E_0000F81AF605__INCLUDED_)

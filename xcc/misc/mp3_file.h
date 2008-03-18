@@ -1,13 +1,4 @@
-// mp3_file.h: interface for the Cmp3_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MP3_FILE_H__37153EC0_5D90_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_MP3_FILE_H__37153EC0_5D90_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file.h"
 #include "cc_structures.h"
@@ -49,5 +40,3 @@ public:
 private:
 	Cmp3_frame_header m_header;
 };
-
-#endif // !defined(AFX_MP3_FILE_H__37153EC0_5D90_11D4_B606_0000B4936994__INCLUDED_)

@@ -1,17 +1,7 @@
-// big_file_write.cpp: implementation of the Cbig_file_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "big_file_write.h"
 
 #include "cc_structures.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 void Cbig_file_write::insert(const string& name, const Cvirtual_binary& d)
 {
@@ -47,7 +37,7 @@ Cvirtual_binary Cbig_file_write::write()
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
 		e.offset = reverse(w2 - d);
 		e.size = reverse(i->second.size());
-		w += sizeof(t_big_index_entry);		
+		w += sizeof(t_big_index_entry);
 		memcpy(w, i->first.c_str(), i->first.length() + 1);
 		w += i->first.length() + 1;
 		w2 += i->second.read(w2);

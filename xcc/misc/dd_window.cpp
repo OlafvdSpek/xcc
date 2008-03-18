@@ -1,17 +1,5 @@
-// dd_window.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "dd_window.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdd_window
 
 Cdd_window::Cdd_window()
 {
@@ -31,9 +19,6 @@ BEGIN_MESSAGE_MAP(Cdd_window, CWnd)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdd_window message handlers
 
 bool Cdd_window::create()
 {

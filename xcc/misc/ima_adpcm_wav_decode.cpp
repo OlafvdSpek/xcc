@@ -1,16 +1,9 @@
-// ima_adpcm_wav_decode.cpp: implementation of the Cima_adpcm_wav_decode class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "aud_decode.h"
 #include "ima_adpcm_wav_decode.h"
+
+#include "aud_decode.h"
 #include "minmax.h"
 #include "riff_structures.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cima_adpcm_wav_decode::Cima_adpcm_wav_decode()
 {

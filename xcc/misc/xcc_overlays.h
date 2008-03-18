@@ -1,13 +1,4 @@
-// xcc_overlays.h: interface for the Cxcc_overlays class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_OVERLAYS_H__059E27C5_FD8E_11D2_B601_964550F4BC6E__INCLUDED_)
-#define AFX_XCC_OVERLAYS_H__059E27C5_FD8E_11D2_B601_964550F4BC6E__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "shp_images.h"
 #include "xcc_level.h"
@@ -36,5 +27,3 @@ public:
 		return r;
 	}
 };
-
-#endif // !defined(AFX_XCC_OVERLAYS_H__059E27C5_FD8E_11D2_B601_964550F4BC6E__INCLUDED_)

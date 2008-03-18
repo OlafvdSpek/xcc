@@ -1,8 +1,5 @@
-// virtual_image.cpp: implementation of the Cvirtual_image class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
+
 #include <afx.h>
 #ifdef __AFX_H__
 #include <afxdlgs.h>
@@ -15,10 +12,6 @@
 #include "png_file.h"
 #include "tga_file.h"
 #include "virtual_image.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cvirtual_image::Cvirtual_image()
 {

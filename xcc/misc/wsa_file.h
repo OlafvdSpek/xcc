@@ -1,13 +1,4 @@
-// wsa_file.h: interface for the Cwsa_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_WSA_FILE_H__9F7E1F31_D406_11D3_8684_0000F81AF605__INCLUDED_)
-#define AFX_WSA_FILE_H__9F7E1F31_D406_11D3_8684_0000F81AF605__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "cc_structures.h"
 #include "fname.h"
@@ -96,5 +87,3 @@ public:
 		return get_index()[cf() + 1];
 	}
 };
-
-#endif // !defined(AFX_WSA_FILE_H__9F7E1F31_D406_11D3_8684_0000F81AF605__INCLUDED_)

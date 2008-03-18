@@ -1,13 +1,6 @@
-// ima_adpcm_wav_decode.h: interface for the Cima_adpcm_wav_decode class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_IMA_ADPCM_WAV_DECODE_H__66DAC660_C2E5_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_IMA_ADPCM_WAV_DECODE_H__66DAC660_C2E5_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
+
+#include "vartypes.h"
 
 class Cima_adpcm_wav_decode  
 {
@@ -35,5 +28,3 @@ private:
 	int mcb_data;
 	int mc_samples;
 };
-
-#endif // !defined(AFX_IMA_ADPCM_WAV_DECODE_H__66DAC660_C2E5_11D4_A95D_0050042229FC__INCLUDED_)

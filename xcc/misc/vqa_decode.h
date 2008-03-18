@@ -1,13 +1,4 @@
-// vqa_decode.h: interface for the vqa_decode class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_vqa_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)
-#define AFX_vqa_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "palet.h"
 #include "aud_decode.h"
@@ -47,5 +38,3 @@ public:
 	Cvqa_decode();
 	~Cvqa_decode();
 };
-
-#endif // !defined(AFX_vqa_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)

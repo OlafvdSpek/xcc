@@ -1,21 +1,8 @@
-// XCCSetDirectoriesDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
-#include "resource.h"
 #include "XCCSetDirectoriesDlg.h"
 
+#include "resource.h"
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCSetDirectoriesDlg dialog
-
 
 CXCCSetDirectoriesDlg::CXCCSetDirectoriesDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCSetDirectoriesDlg::IDD, pParent)
@@ -45,9 +32,6 @@ BEGIN_MESSAGE_MAP(CXCCSetDirectoriesDlg, CDialog)
 	//{{AFX_MSG_MAP(CXCCSetDirectoriesDlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCSetDirectoriesDlg message handlers
 
 void CXCCSetDirectoriesDlg::OnOK() 
 {

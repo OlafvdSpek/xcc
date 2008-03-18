@@ -1,22 +1,8 @@
-// xcc_apps.cpp: implementation of the Cxcc_apps class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_apps.h"
 
 #include "fname.h"
 #include "fs_ini_file.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxcc_apps::Cxcc_apps()
 {

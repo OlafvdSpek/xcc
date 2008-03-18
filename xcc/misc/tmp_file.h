@@ -1,13 +1,4 @@
-// tmp_file.h: interface for the Ctmp_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMP_FILE_H__307FE921_D574_11D3_A718_0000F81AF8CC__INCLUDED_)
-#define AFX_TMP_FILE_H__307FE921_D574_11D3_A718_0000F81AF8CC__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <cc_file_sh.h>
 #include <cc_structures.h>
@@ -45,5 +36,3 @@ public:
 		return get_data() + get_header()->index1;
 	}
 };
-
-#endif // !defined(AFX_TMP_FILE_H__307FE921_D574_11D3_A718_0000F81AF8CC__INCLUDED_)

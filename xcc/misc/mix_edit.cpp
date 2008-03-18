@@ -1,7 +1,3 @@
-// mix_edit.cpp: implementation of the Cmix_edit class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "mix_edit.h"
 

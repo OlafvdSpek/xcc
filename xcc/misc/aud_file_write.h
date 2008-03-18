@@ -1,13 +1,4 @@
-// aud_file_write.h: interface for the Caud_file_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_AUD_FILE_WRITE_H__33F65560_F820_11D3_B605_0000B4936994__INCLUDED_)
-#define AFX_AUD_FILE_WRITE_H__33F65560_F820_11D3_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
 #include "file32.h"
@@ -29,5 +20,3 @@ private:
 Cvirtual_file aud_file_write(const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 int aud_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 void audio_combine_channels(__int16* data, int c_samples);
-
-#endif // !defined(AFX_AUD_FILE_WRITE_H__33F65560_F820_11D3_B605_0000B4936994__INCLUDED_)

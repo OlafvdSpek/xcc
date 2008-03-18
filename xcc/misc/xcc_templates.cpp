@@ -1,14 +1,5 @@
-// xcc_template_images.cpp: implementation of the Cxcc_templates class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_templates.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
 
 const char* theater_xif_fname = "theater.xif";
 

@@ -1,13 +1,4 @@
-// xcc_template_images.h: interface for the Cxcc_templates class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_TEMPLATE_IMAGES_H__4E596E39_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)
-#define AFX_XCC_TEMPLATE_IMAGES_H__4E596E39_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
 #include "fname.h"
@@ -105,5 +96,3 @@ public:
 		return bib[v];
 	}
 };
-
-#endif // !defined(AFX_XCC_TEMPLATE_IMAGES_H__4E596E39_F686_11D2_B601_D35C3DCCB8F1__INCLUDED_)

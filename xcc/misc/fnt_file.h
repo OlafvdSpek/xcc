@@ -1,13 +1,4 @@
-// fnt_file.h: interface for the Cfnt_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_FNT_FILE_H__B17E6761_DC97_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_FNT_FILE_H__B17E6761_DC97_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <cc_file_sh.h>
 #include <cc_structures.h>
@@ -70,5 +61,3 @@ public:
 		return get_data() + reinterpret_cast<const word*>(get_data() + sizeof(t_fnt_header))[i];
 	}
 };
-
-#endif // !defined(AFX_FNT_FILE_H__B17E6761_DC97_11D3_B604_0000B4936994__INCLUDED_)

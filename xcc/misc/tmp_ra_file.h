@@ -1,13 +1,4 @@
-// tmp_ra_file.h: interface for the Ctmp_ra_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_TMP_RA_FILE_H__3C483120_DF9D_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_TMP_RA_FILE_H__3C483120_DF9D_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -76,5 +67,3 @@ public:
 };
 
 int tmp_ra_file_write(const byte* s, byte* d, int cx, int cy);
-
-#endif // !defined(AFX_TMP_RA_FILE_H__3C483120_DF9D_11D3_B604_0000B4936994__INCLUDED_)

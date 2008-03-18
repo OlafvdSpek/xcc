@@ -1,19 +1,5 @@
-// xcc_dsb.cpp: implementation of the Cxcc_dsb class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_dsb.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxcc_dsb::Cxcc_dsb()
 {
@@ -127,8 +113,6 @@ int Cxcc_dsb::unlock(void* p1, int s1, void* p2, int s2)
 	}	
 	return 0;
 }
-
-#pragma warning (disable: 4800)
 
 bool Cxcc_dsb::is_available()
 {

@@ -1,13 +1,4 @@
-// itc_ini_reader.h: interface for the Citc_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_ITC_INI_READER_H__FEDB2363_037C_11D5_B606_0000B4936994__INCLUDED_)
-#define AFX_ITC_INI_READER_H__FEDB2363_037C_11D5_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "ini_reader.h"
 
@@ -43,5 +34,3 @@ private:
 	t_section_id m_section;
 	t_list m_list;
 };
-
-#endif // !defined(AFX_ITC_INI_READER_H__FEDB2363_037C_11D5_B606_0000B4936994__INCLUDED_)

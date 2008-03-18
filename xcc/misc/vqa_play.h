@@ -1,13 +1,4 @@
-// vqa_play.h: interface for the Cvqa_play class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VQA_PLAY_H__B0E59D31_FB27_11D2_B601_B447A5EAEC6D__INCLUDED_)
-#define AFX_VQA_PLAY_H__B0E59D31_FB27_11D2_B601_B447A5EAEC6D__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <aud_decode.h>
 #include <dd_window.h>
@@ -61,5 +52,3 @@ private:
 	int m_color_table[256];
 	int mcb_d_pixel;
 };
-
-#endif // !defined(AFX_VQA_PLAY_H__B0E59D31_FB27_11D2_B601_B447A5EAEC6D__INCLUDED_)

@@ -1,15 +1,8 @@
-// mix_file_write.cpp: implementation of the Cmix_file_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "mix_file.h"
 #include "mix_file_write.h"
-#include "string_conversion.h"
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "mix_file.h"
+#include "string_conversion.h"
 
 Cmix_file_write::Cmix_file_write(t_game game)
 {

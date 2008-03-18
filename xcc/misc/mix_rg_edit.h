@@ -1,13 +1,4 @@
-// mix_rg_edit.h: interface for the Cmix_rg_edit class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MIX_RG_EDIT_H__6AB664E8_9EC9_4C9E_BD2E_D5E31354BAB9__INCLUDED_)
-#define AFX_MIX_RG_EDIT_H__6AB664E8_9EC9_4C9E_BD2E_D5E31354BAB9__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
 #include "file32.h"
@@ -37,5 +28,3 @@ private:
 	int m_index_size;
 	int m_tailer_size;
 };
-
-#endif // !defined(AFX_MIX_RG_EDIT_H__6AB664E8_9EC9_4C9E_BD2E_D5E31354BAB9__INCLUDED_)

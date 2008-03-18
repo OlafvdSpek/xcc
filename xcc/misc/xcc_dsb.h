@@ -1,13 +1,4 @@
-// xcc_dsb.h: interface for the Cxcc_dsb class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_DSB_H__27B8D184_E12C_11D2_B750_9D08289FB263__INCLUDED_)
-#define AFX_XCC_DSB_H__27B8D184_E12C_11D2_B750_9D08289FB263__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include "xcc_ds.h"
 
@@ -31,5 +22,3 @@ public:
 	void handle_error(const string &s) const;
 	const LPDIRECTSOUNDBUFFER get_p() const;
 };
-
-#endif // !defined(AFX_XCC_DSB_H__27B8D184_E12C_11D2_B750_9D08289FB263__INCLUDED_)

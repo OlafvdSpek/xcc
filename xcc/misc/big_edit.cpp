@@ -1,15 +1,5 @@
-// big_edit.cpp: implementation of the Cbig_edit class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "big_edit.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 static int copy_block(Cfile32& s, int s_p, Cfile32& d, int d_p, int size)
 {

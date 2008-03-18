@@ -1,7 +1,3 @@
-// xap.cpp: implementation of the Cxap class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xap.h"
 
@@ -11,12 +7,6 @@
 #include "ogg_file.h"
 #include "voc_file.h"
 #include "wav_file.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 bool Cxap::busy()
 {
