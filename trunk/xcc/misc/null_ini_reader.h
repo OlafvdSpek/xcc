@@ -1,13 +1,4 @@
-// null_ini_reader.h: interface for the Cnull_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_NULL_INI_READER_H__06E64C82_7C49_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_NULL_INI_READER_H__06E64C82_7C49_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "ini_reader.h"
 
@@ -42,5 +33,3 @@ public:
 private:
 	int mc_sections;
 };
-
-#endif // !defined(AFX_NULL_INI_READER_H__06E64C82_7C49_11D4_B606_0000B4936994__INCLUDED_)

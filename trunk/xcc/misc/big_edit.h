@@ -1,13 +1,4 @@
-// big_edit.h: interface for the Cbig_edit class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_BIG_EDIT_H__33102F41_70BB_4EF1_8065_F4CD8996B450__INCLUDED_)
-#define AFX_BIG_EDIT_H__33102F41_70BB_4EF1_8065_F4CD8996B450__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "big_file.h"
 #include "cc_structures.h"
@@ -35,5 +26,3 @@ private:
 	t_big_header m_header;
 	t_index m_index;
 };
-
-#endif // !defined(AFX_BIG_EDIT_H__33102F41_70BB_4EF1_8065_F4CD8996B450__INCLUDED_)

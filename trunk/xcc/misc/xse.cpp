@@ -1,9 +1,6 @@
-// xse.cpp: implementation of the Cxse class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xse.h"
+
 #include "ima_adpcm_wav_decode.h"
 #include "mix_file.h"
 #include "wav_structures.h"

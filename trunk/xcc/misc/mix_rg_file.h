@@ -1,13 +1,4 @@
-// mix_rg_file.h: interface for the Cmix_rg_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MIX_RG_FILE_H__7206A0C0_2457_11D6_B861_0000B4936994__INCLUDED_)
-#define AFX_MIX_RG_FILE_H__7206A0C0_2457_11D6_B861_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <vector>
 #include "cc_file.h"
@@ -58,5 +49,3 @@ private:
 	t_index m_index;
 	t_old_index m_old_index;
 };
-
-#endif // !defined(AFX_MIX_RG_FILE_H__7206A0C0_2457_11D6_B861_0000B4936994__INCLUDED_)

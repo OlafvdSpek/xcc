@@ -1,13 +1,4 @@
-// vxl_file.h: interface for the Cvxl_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VXL_FILE_H__C1E67081_DBD8_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_VXL_FILE_H__C1E67081_DBD8_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -91,5 +82,3 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s);
 Cvirtual_binary vxl_file_write(const byte* s, const byte* s_normals, int cx, int cy, int cz);
 Cvirtual_binary vxl_file_write(Cvirtual_tfile s);
 #endif
-
-#endif // !defined(AFX_VXL_FILE_H__C1E67081_DBD8_11D3_B604_0000B4936994__INCLUDED_)

@@ -1,6 +1,2 @@
-// bink_file.cpp: implementation of the Cbink_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "bink_file.h"

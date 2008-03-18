@@ -1,7 +1,3 @@
-// map_ts_encoder.cpp: implementation of the Cmap_ts_encoder class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "map_ts_encoder.h"
 
@@ -16,10 +12,6 @@
 #include "xste.h"
 
 static const int format_version = 2;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 static int get_x_inc(const Cmap_ts_encoder::t_header& header, int y)
 {

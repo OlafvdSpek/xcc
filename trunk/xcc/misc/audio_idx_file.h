@@ -1,13 +1,4 @@
-// audio_idx_file.h: interface for the Caudio_idx_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_AUDIO_IDX_FILE_H__10CE2E06_B67A_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_AUDIO_IDX_FILE_H__10CE2E06_B67A_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -39,5 +30,3 @@ public:
 int audio_idx_file_get_write_size(int c_sounds);
 int audio_idx_file_write_header(void* w, int c_sounds);
 int audio_idx_file_write_entry(void* w, string fname, int offset, int size, int samplerate, int flags, int chunk_size);
-
-#endif // !defined(AFX_AUDIO_IDX_FILE_H__10CE2E06_B67A_11D4_B606_0000B4936994__INCLUDED_)

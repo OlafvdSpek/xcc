@@ -1,13 +1,4 @@
-// map_ts_encoder.h: interface for the Cmap_ts_encoder class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MAP_TS_ENCODER_H__BF046212_FBA8_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_MAP_TS_ENCODER_H__BF046212_FBA8_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "ini_reader.h"
 #include "virtual_binary.h"
@@ -85,5 +76,3 @@ private:
 	Cvirtual_binary m_preview_pack;
 	t_header m_header;
 };
-
-#endif // !defined(AFX_MAP_TS_ENCODER_H__BF046212_FBA8_11D4_B606_0000B4936994__INCLUDED_)

@@ -1,9 +1,4 @@
-#if !defined(AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <cassert>
 #include <string>
@@ -54,7 +49,7 @@ private:
 	Csmart_ref_base* m_source;
 };
 
-class Cvirtual_binary  
+class Cvirtual_binary
 {
 public:
 	Cvirtual_binary sub_bin(size_t offset, size_t size) const;
@@ -67,9 +62,10 @@ public:
 	void write(const void* d, size_t cb_d);
 	const Cvirtual_binary& operator=(const Cvirtual_binary& v);
 	Cvirtual_binary();
-	Cvirtual_binary(const Cvirtual_binary& v);
-	Cvirtual_binary(const void* d, size_t cb_d);
-	Cvirtual_binary(const void* d, size_t cb_d, Csmart_ref_base* source);
+	Cvirtual_binary(const Cvirtual_binary&);
+	Cvirtual_binary(const_memory_range);
+	Cvirtual_binary(const void*, size_t);
+	Cvirtual_binary(const void*, size_t, Csmart_ref_base* source);
 	explicit Cvirtual_binary(const string& fname, bool use_mm = true);
 	~Cvirtual_binary();
 
@@ -124,5 +120,3 @@ public:
 private:
 	Cvirtual_binary_source* m_source;
 };
-
-#endif // !defined(AFX_VIRTUAL_BINARY_H__B59C9DC0_DB25_11D4_A95D_0050042229FC__INCLUDED_)

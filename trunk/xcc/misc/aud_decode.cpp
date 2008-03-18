@@ -1,7 +1,3 @@
-// aud_decode.cpp: implementation of the aud_decode class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "aud_decode.h"
 
@@ -195,10 +191,6 @@ void aud_encode_ima_chunk(const short* audio_in, byte* audio_out, int& index, in
 			index = 88;  
 	}
 }
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 void aud_decode::init(int index, int sample)
 {

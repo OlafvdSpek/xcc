@@ -1,13 +1,4 @@
-// wav_file.h: interface for the Cwav_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_WAV_FILE_H__310B5361_F770_11D3_B605_0000B4936994__INCLUDED_)
-#define AFX_WAV_FILE_H__310B5361_F770_11D3_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "riff_file.h"
 #include "virtual_file.h"
@@ -55,5 +46,3 @@ Cvirtual_file wav_ima_adpcm_file_write(const void* s, int cb_s, int c_samples, i
 int wav_ima_adpcm_file_write(string fname, const void* s, int cb_s, int c_samples, int samplerate, int c_channels);
 Cvirtual_file wav_pcm_file_write(const void* s, int cb_s, int samplerate, int cb_sample, int c_channels);
 int wav_pcm_file_write(string fname, const void* s, int cb_s, int samplerate, int cb_sample, int c_channels);
-
-#endif // !defined(AFX_WAV_FILE_H__310B5361_F770_11D3_B605_0000B4936994__INCLUDED_)

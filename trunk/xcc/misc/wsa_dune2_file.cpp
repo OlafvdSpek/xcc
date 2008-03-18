@@ -1,7 +1,3 @@
-// wsa_dune2_file.cpp: implementation of the Cwsa_dune2_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "wsa_dune2_file.h"
 

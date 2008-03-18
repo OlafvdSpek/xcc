@@ -1,13 +1,4 @@
-// id_log.h: interface for the id_log class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_ID_LOG_H__C92AE5C3_CFF3_11D2_99E5_F1C137763012__INCLUDED_)
-#define AFX_ID_LOG_H__C92AE5C3_CFF3_11D2_99E5_F1C137763012__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <cc_structures.h>
 #include <string>
@@ -46,5 +37,3 @@ namespace mix_database
 		return id_log::open_binary(xcc_dirs::get_data_dir() + "global mix database.dat");
 	}
 };
-
-#endif // !defined(AFX_ID_LOG_H__C92AE5C3_CFF3_11D2_99E5_F1C137763012__INCLUDED_)

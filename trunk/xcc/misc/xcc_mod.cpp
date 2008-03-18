@@ -1,7 +1,3 @@
-// xcc_mod.cpp: implementation of the Cxcc_mod class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc_mod.h"
 
@@ -29,20 +25,10 @@
 #include "xse.h"
 #include "xste.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
 #include "cc_file.h"
 
 const char* Cxcc_mod::ct_name[] = {"cameo", "hva", "ini", "map", "mix", "screen", "shp", "sound", "speech", "string table", "theme", "video", "vxl", "launcher", "manual", "interface", "tmp", "side 1", "side 2", "side 3", "unknown"};
 static const int mf_version = 2;
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxcc_mod::Cxcc_mod()
 {
@@ -145,7 +131,7 @@ static void delete_files(string fname)
 	}
 }
 
-enum 
+enum
 {
 	vi_cx,
 	vi_cy,
@@ -386,7 +372,7 @@ Cxif_key Cxcc_mod::save(bool save, int module) const
 								ir1.write(s);
 								// ir1.write("c:/temp/" + fname);
 								l.set_value_binary(vi_fdata, Cvirtual_binary(s.str(), s.pcount()));
-								l.set_value_int(vi_encoding, enc_diff);						
+								l.set_value_int(vi_encoding, enc_diff);
 							}
 						}
 						break;
@@ -594,7 +580,7 @@ int Cxcc_mod::activate(Cxif_key key, bool external_data, int mode)
 					}
 				}
 				for (t_xif_key_map::const_iterator category = key.m_keys.begin(); category != key.m_keys.end(); category++)
-				{				
+				{
 					if (error)
 						break;
 					if (category->second.m_keys.empty())

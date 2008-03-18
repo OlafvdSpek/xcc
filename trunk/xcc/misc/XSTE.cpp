@@ -1,9 +1,6 @@
-// XSTE.cpp: implementation of the CXSTE class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "XSTE.h"
+
 #include "mix_file.h"
 #include "xcc_dirs.h"
 

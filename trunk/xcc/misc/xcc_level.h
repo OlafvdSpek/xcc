@@ -1,13 +1,4 @@
-// xcc_level.h: interface for the Cxcc_level class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_LEVEL_H__C7B8CF21_EEB3_11D2_B601_8F6A43AC3071__INCLUDED_)
-#define AFX_XCC_LEVEL_H__C7B8CF21_EEB3_11D2_B601_8F6A43AC3071__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <map>
 #include <string>
@@ -359,5 +350,3 @@ class Cxcc_level_warning_illegal_char: public Cxcc_level_warning
 class Cxcc_level_warning_out_of_range: public Cxcc_level_warning
 {
 };
-
-#endif // !defined(AFX_XCC_LEVEL_H__C7B8CF21_EEB3_11D2_B601_8F6A43AC3071__INCLUDED_)

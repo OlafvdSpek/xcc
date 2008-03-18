@@ -1,13 +1,4 @@
-// aud_decode.h: interface for the aud_decode class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_AUD_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)
-#define AFX_AUD_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <vartypes.h>
 
@@ -28,5 +19,3 @@ private:
 };
 
 void aud_decode_ws_chunk(const byte* s, char* d, int cb_s, int cb_d);
-
-#endif // !defined(AFX_AUD_DECODE_H__91D272A4_CB0C_11D2_99E5_AC7708C14908__INCLUDED_)

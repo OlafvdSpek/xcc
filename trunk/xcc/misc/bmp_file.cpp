@@ -1,7 +1,3 @@
-// bmp_file.cpp: implementation of the Cbmp_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "bmp_file.h"
 

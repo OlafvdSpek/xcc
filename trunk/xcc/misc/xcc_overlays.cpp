@@ -1,15 +1,7 @@
-// xcc_overlays.cpp: implementation of the Cxcc_overlays class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "xcc_dirs.h"
 #include "xcc_overlays.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#endif
+#include "xcc_dirs.h"
 
 const char* overlay_code[] =
 {

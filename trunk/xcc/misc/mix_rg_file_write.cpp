@@ -1,7 +1,3 @@
-// mix_rg_file_write.cpp: implementation of the Cmix_rg_file_write class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "mix_rg_file_write.h"
 

@@ -1,13 +1,4 @@
-// shp_dune2_file.h: interface for the Cshp_dune2_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SHP_DUNE2_FILE_H__C3201020_41ED_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_SHP_DUNE2_FILE_H__C3201020_41ED_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file_sh.h"
 #include "cc_structures.h"
@@ -78,5 +69,3 @@ public:
 		return ~get_image_header(i)->compression & 2;
 	}
 };
-
-#endif // !defined(AFX_SHP_DUNE2_FILE_H__C3201020_41ED_11D4_B606_0000B4936994__INCLUDED_)

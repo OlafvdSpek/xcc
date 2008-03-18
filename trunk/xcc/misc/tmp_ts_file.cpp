@@ -1,7 +1,3 @@
-// tmp_ts_file.cpp: implementation of the Ctmp_ts_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "tmp_ts_file.h"
 
@@ -169,4 +165,3 @@ void Ctmp_ts_file::decode(void* d) const
 {
 	draw(reinterpret_cast<byte*>(d));
 }
-

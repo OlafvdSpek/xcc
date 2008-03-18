@@ -1,13 +1,4 @@
-// vqa_file.h: interface for the Cvqa_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VQA_FILE_H__8D085A24_D71B_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_VQA_FILE_H__8D085A24_D71B_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_file.h"
 #include "cc_structures.h"
@@ -120,5 +111,3 @@ private:
 	t_vqa_chunk_header m_chunk_header;
 	t_vqa_header m_header;
 };
-
-#endif // !defined(AFX_VQA_FILE_H__8D085A24_D71B_11D3_B604_0000B4936994__INCLUDED_)

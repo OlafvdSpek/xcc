@@ -1,13 +1,4 @@
-// art_ts_ini_reader.h: interface for the Cart_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_ART_TS_INI_READER_H__82105441_7D9E_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_ART_TS_INI_READER_H__82105441_7D9E_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <map>
 #include <set>
@@ -253,5 +244,3 @@ private:
 	t_movie_list m_movie_list;
 	t_section_id m_section;
 };
-
-#endif // !defined(AFX_ART_TS_INI_READER_H__82105441_7D9E_11D4_B606_0000B4936994__INCLUDED_)

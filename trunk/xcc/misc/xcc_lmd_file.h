@@ -1,13 +1,4 @@
-// xcc_lmd_file.h: interface for the Cxcc_lmd_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_LMD_FILE_H__5C6F2863_FDAB_11D3_B605_0000B4936994__INCLUDED_)
-#define AFX_XCC_LMD_FILE_H__5C6F2863_FDAB_11D3_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "xcc_file_sh.h"
 
@@ -34,5 +25,3 @@ public:
 		return reinterpret_cast<const char*>(get_data() + sizeof(t_xcc_header) + sizeof(t_xcc_lmd_header));
 	}
 };
-
-#endif // !defined(AFX_XCC_LMD_FILE_H__5C6F2863_FDAB_11D3_B605_0000B4936994__INCLUDED_)

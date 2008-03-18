@@ -1,13 +1,4 @@
-// xcc_mod.h: interface for the Cxcc_mod class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_MOD_H__C6F3F601_D0FC_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_XCC_MOD_H__C6F3F601_D0FC_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "cc_structures.h"
 #include "fname.h"
@@ -112,5 +103,3 @@ private:
 	t_module_list m_module_list;
 	t_options m_options;
 };
-
-#endif // !defined(AFX_XCC_MOD_H__C6F3F601_D0FC_11D4_A95D_0050042229FC__INCLUDED_)

@@ -1,13 +1,4 @@
-// pkt_ts_ini_reader.h: interface for the Cpkt_ts_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PKT_TS_INI_READER_H__27675600_FE41_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_PKT_TS_INI_READER_H__27675600_FE41_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "ini_reader.h"
 
@@ -47,5 +38,3 @@ private:
 	t_section_id m_section;
 	t_map_list m_map_list;
 };
-
-#endif // !defined(AFX_PKT_TS_INI_READER_H__27675600_FE41_11D4_B606_0000B4936994__INCLUDED_)

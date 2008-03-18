@@ -1,7 +1,3 @@
-// pcx_file.cpp: implementation of the Cpcx_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "pcx_file.h"
 

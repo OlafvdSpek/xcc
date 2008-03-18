@@ -1,13 +1,4 @@
-// hva_file.h: interface for the Chva_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_HVA_FILE_H__B17E6760_DC97_11D3_B604_0000B4936994__INCLUDED_)
-#define AFX_HVA_FILE_H__B17E6760_DC97_11D3_B604_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <cc_file_sh.h>
 #include <cc_structures.h>
@@ -40,5 +31,3 @@ public:
 };
 
 Cvirtual_binary hva_file_write(const byte* s, int cb_s);
-
-#endif // !defined(AFX_HVA_FILE_H__B17E6760_DC97_11D3_B604_0000B4936994__INCLUDED_)

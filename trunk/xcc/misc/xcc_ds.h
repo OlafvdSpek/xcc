@@ -1,13 +1,4 @@
-// xcc_ds.h: interface for the Cxcc_ds class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCC_DS_H__7DF96684_E083_11D2_B750_83F8E2CE1F65__INCLUDED_)
-#define AFX_XCC_DS_H__7DF96684_E083_11D2_B750_83F8E2CE1F65__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
 #include "vartypes.h"
@@ -19,7 +10,7 @@
 
 using namespace std;
 
-class Cxcc_ds  
+class Cxcc_ds
 {
 private:
 	LPDIRECTSOUND pds;
@@ -35,12 +26,8 @@ public:
 		return pds;
 	}
 
-#pragma warning (disable: 4800)
-
 	bool is_available() const
 	{
 		return pds;
 	}
 };
-
-#endif // !defined(AFX_XCC_DS_H__7DF96684_E083_11D2_B750_83F8E2CE1F65__INCLUDED_)

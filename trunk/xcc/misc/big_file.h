@@ -1,13 +1,4 @@
-// big_file.h: interface for the Cbig_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_BIG_FILE_H__F3E4434D_A9F6_40D7_AB78_5BA685414A17__INCLUDED_)
-#define AFX_BIG_FILE_H__F3E4434D_A9F6_40D7_AB78_5BA685414A17__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <vector>
 #include "cc_file.h"
@@ -56,5 +47,3 @@ private:
 	t_index m_index;
 	t_old_index m_old_index;
 };
-
-#endif // !defined(AFX_BIG_FILE_H__F3E4434D_A9F6_40D7_AB78_5BA685414A17__INCLUDED_)

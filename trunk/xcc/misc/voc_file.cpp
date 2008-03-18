@@ -1,9 +1,6 @@
-// voc_file.cpp: implementation of the Cvoc_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "voc_file.h"
+
 #include "wav_structures.h"
 
 int Cvoc_file::extract_as_wav(const string& name)

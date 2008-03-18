@@ -1,13 +1,4 @@
-// csf_file.h: interface for the Ccsf_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CSF_FILE_H__327575A6_BFED_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_CSF_FILE_H__327575A6_BFED_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <map>
 #include "cc_file_sh.h"
@@ -70,5 +61,3 @@ private:
 
 	t_map m_map;
 };
-
-#endif // !defined(AFX_CSF_FILE_H__327575A6_BFED_11D4_B606_0000B4936994__INCLUDED_)

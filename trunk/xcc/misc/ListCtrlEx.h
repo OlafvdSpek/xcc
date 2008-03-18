@@ -1,9 +1,4 @@
-#if !defined(AFX_LISTCTRLEX_H__1A7B4E56_9CB8_4BA4_B5AC_AF5DA38C4285__INCLUDED_)
-#define AFX_LISTCTRLEX_H__1A7B4E56_9CB8_4BA4_B5AC_AF5DA38C4285__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <string>
 
@@ -35,7 +30,3 @@ private:
 	std::string m_buffer[4];
 	int m_buffer_w;
 };
-
-//{{AFX_INSERT_LOCATION}}
-
-#endif // !defined(AFX_LISTCTRLEX_H__1A7B4E56_9CB8_4BA4_B5AC_AF5DA38C4285__INCLUDED_)

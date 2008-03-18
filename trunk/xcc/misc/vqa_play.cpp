@@ -1,20 +1,7 @@
-// vqa_play.cpp: implementation of the Cvqa_play class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
-#include "ddpf_conversion.h"
 #include "vqa_play.h"
 
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include "ddpf_conversion.h"
 
 Cvqa_play::Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds):
 	dd(dd), ds(ds), f(f),

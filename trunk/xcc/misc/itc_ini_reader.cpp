@@ -1,9 +1,6 @@
-// itc_ini_reader.cpp: implementation of the Citc_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "itc_ini_reader.h"
+
 #include "string_conversion.h"
 
 static const char* section_code[] = {"unknown"};
@@ -67,4 +64,3 @@ bool Citc_ini_reader::is_valid() const
 {
 	return m_list.size();
 }
-
