@@ -1,6 +1,3 @@
-// XCC Audio PlayerDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC Audio PlayerDlg.h"
 #include "XCCAudioPlayerInfoDlg.h"
@@ -8,16 +5,7 @@
 #include "ima_adpcm_wav_decode.h"
 #include "riff_structures.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 using namespace std;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCAudioPlayerDlg dialog
 
 CXCCAudioPlayerDlg::CXCCAudioPlayerDlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CXCCAudioPlayerDlg::IDD, pParent, "AudioPlayerDlg")
@@ -25,10 +13,8 @@ CXCCAudioPlayerDlg::CXCCAudioPlayerDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CXCCAudioPlayerDlg)
 	m_statusbar = "";
 	//}}AFX_DATA_INIT
-	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
-
 
 CXCCAudioPlayerDlg::~CXCCAudioPlayerDlg()
 {
@@ -72,9 +58,6 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	ON_WM_DESTROY()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCAudioPlayerDlg message handlers
 
 string time2str(int v)
 {
@@ -152,10 +135,6 @@ BOOL CXCCAudioPlayerDlg::OnInitDialog()
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
-
 void CXCCAudioPlayerDlg::OnPaint()
 {
 	if (IsIconic())
@@ -181,8 +160,6 @@ void CXCCAudioPlayerDlg::OnPaint()
 	}
 }
 
-// The system calls this to obtain the cursor to display while the user drags
-//  the minimized window.
 HCURSOR CXCCAudioPlayerDlg::OnQueryDragIcon()
 {
 	return (HCURSOR) m_hIcon;
