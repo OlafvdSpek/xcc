@@ -28,15 +28,6 @@
 
 using namespace boost;
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame
-
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
@@ -153,9 +144,6 @@ static UINT indicators[] =
 	ID_SEPARATOR,           // status line indicator
 };
 
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame construction/destruction
-
 CMainFrame::CMainFrame()
 {
 	m_convert_from_td = false;
@@ -205,9 +193,6 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	cs.style &= ~FWS_ADDTOTITLE;
 	return CFrameWnd::PreCreateWindow(cs);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame message handlers
 
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {

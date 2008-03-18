@@ -1,6 +1,3 @@
-// XSE_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "MainFrm.h"
 #include "XSE_dlg.h"
@@ -13,16 +10,6 @@
 #include "wav_file.h"
 #include "wav_structures.h"
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSE_dlg dialog
-
 
 static CMainFrame* GetMainFrame()
 {
@@ -40,7 +27,6 @@ CXSE_dlg::CXSE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	m_xap.ds(m_ds);
 }
 
-
 void CXSE_dlg::DoDataExchange(CDataExchange* pDX)
 {
 	ETSLayoutDialog::DoDataExchange(pDX);
@@ -53,7 +39,6 @@ void CXSE_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EXTRACT_TO_EDIT, m_extract_to_edit);
 	//}}AFX_DATA_MAP
 }
-
 
 BEGIN_MESSAGE_MAP(CXSE_dlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CXSE_dlg)
@@ -70,9 +55,6 @@ BEGIN_MESSAGE_MAP(CXSE_dlg, ETSLayoutDialog)
 	ON_NOTIFY(NM_DBLCLK, IDC_LIST, OnDblclkList)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXSE_dlg message handlers
 
 static int c_colums = 10;
 static char* column_label[] = {"Name", "Value", "Extra value", "Length", "Offset", "Size", "Samplerate", "Flags", "Chunk size", ""};

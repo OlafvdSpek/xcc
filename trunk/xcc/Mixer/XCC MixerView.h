@@ -1,13 +1,4 @@
-// XCC MixerView.h : interface of the CXCCMixerView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCCMIXERVIEW_H__9452141E_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_)
-#define AFX_XCCMIXERVIEW_H__9452141E_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <map>
 #include <mix_file.h>
@@ -232,10 +223,3 @@ private:
 	bool m_reading;
 	Cxap m_xap;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCMIXERVIEW_H__9452141E_D8CC_11D3_9F8E_0000F81AF9BE__INCLUDED_)

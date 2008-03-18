@@ -1,23 +1,11 @@
-#if !defined(AFX_XSTE_DLG_H__327575A8_BFED_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XSTE_DLG_H__327575A8_BFED_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// XSTE_dlg.h : header file
-//
 
 #include "ListCtrlEx.h"
 #include "csf_file.h"
 #include "resource.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CXSTE_dlg dialog
-
 class CXSTE_dlg: public ETSLayoutDialog
 {
-// Construction
 public:
 	void open(const string& name);
 	void create_cat_map();
@@ -31,7 +19,6 @@ public:
 	int compare(int id_a, int id_b) const;
 	CXSTE_dlg(t_game game, CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(CXSTE_dlg)
 	enum { IDD = IDD_XSTE };
 	CListCtrlEx	m_cat_list;
@@ -41,18 +28,11 @@ public:
 	CListCtrlEx	m_list;
 	//}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXSTE_dlg)
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
-
-	// Generated message map functions
 	//{{AFX_MSG(CXSTE_dlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnEdit();
@@ -88,8 +68,3 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XSTE_DLG_H__327575A8_BFED_11D4_B606_0000B4936994__INCLUDED_)

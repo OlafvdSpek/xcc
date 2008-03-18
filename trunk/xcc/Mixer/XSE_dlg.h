@@ -1,12 +1,4 @@
-#if !defined(AFX_XSE_DLG_H__D7A0CF20_C17D_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XSE_DLG_H__D7A0CF20_C17D_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// XSE_dlg.h : header file
-//
 
 #include <map>
 #include "ListCtrlEx.h"
@@ -17,12 +9,8 @@
 #include "resource.h"
 #include "xap.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CXSE_dlg dialog
-
 class CXSE_dlg : public ETSLayoutDialog
 {
-// Construction
 public:
 	void bag_file(const string&);
 	void idx_file(const string&);
@@ -39,7 +27,6 @@ public:
 	int compare(int id_a, int id_b) const;
 	CXSE_dlg(t_game game, CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(CXSE_dlg)
 	enum { IDD = IDD_XSE };
 	CButton	m_compact;
@@ -50,18 +37,11 @@ public:
 	CString	m_extract_to_edit;
 	//}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXSE_dlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
-protected:
-
-	// Generated message map functions
 	//{{AFX_MSG(CXSE_dlg)
 	virtual BOOL OnInitDialog();
 	virtual void OnOK();
@@ -108,8 +88,3 @@ private:
 	LPDIRECTSOUND m_ds;
 	Cxap m_xap;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XSE_DLG_H__D7A0CF20_C17D_11D4_B606_0000B4936994__INCLUDED_)

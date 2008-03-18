@@ -1,18 +1,5 @@
-// shp_properties_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "shp_properties_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cshp_properties_dlg dialog
-
 
 Cshp_properties_dlg::Cshp_properties_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cshp_properties_dlg::IDD, pParent)
@@ -23,7 +10,6 @@ Cshp_properties_dlg::Cshp_properties_dlg(CWnd* pParent /*=NULL*/)
 	m_c_frames = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cshp_properties_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -38,15 +24,11 @@ void Cshp_properties_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cshp_properties_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cshp_properties_dlg)
 		// NOTE: the ClassWizard will add message map macros here
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cshp_properties_dlg message handlers
 
 void Cshp_properties_dlg::set_size(int cx, int cy, int c_frames)
 {

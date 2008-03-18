@@ -189,9 +189,6 @@ const char* error_messages[] =
 	"Bad size. All images should have the same size."
 };
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerView construction/destruction
-
 static CXCCMixerApp* GetApp()
 {
 	return static_cast<CXCCMixerApp*>(AfxGetApp());
@@ -246,9 +243,6 @@ void CXCCMixerView::OnInitialUpdate()
 	GetListCtrl().InsertColumn(3, "Description", LVCFMT_LEFT);
 	update_list();
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMixerView message handlers
 
 void CXCCMixerView::OnFileNew()
 {

@@ -1,13 +1,4 @@
-// palet_filter.h: interface for the Cpalet_filter class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_PALET_FILTER_H__134A6500_124E_11D6_B85F_0000B4936994__INCLUDED_)
-#define AFX_PALET_FILTER_H__134A6500_124E_11D6_B85F_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <list>
 #include <vector>
@@ -62,5 +53,3 @@ private:
 	t_vector::const_iterator m_vector_i;
 	t_vector m_vector;
 };
-
-#endif // !defined(AFX_PALET_FILTER_H__134A6500_124E_11D6_B85F_0000B4936994__INCLUDED_)

@@ -3,16 +3,6 @@
 
 #include "xcc_dirs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CDirectoriesDlg dialog
-
-
 CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CDirectoriesDlg::IDD, pParent, "directories_dlg")
 {
@@ -28,7 +18,6 @@ CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 	m_edit_data = xcc_dirs::get_data_dir().c_str();
 	//}}AFX_DATA_INIT
 }
-
 
 void CDirectoriesDlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -46,16 +35,12 @@ void CDirectoriesDlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CDirectoriesDlg, ETSLayoutDialog)
 	//{{AFX_MSG_MAP(CDirectoriesDlg)
 	ON_BN_CLICKED(IDC_RESET_CD, OnResetCd)
 	ON_BN_CLICKED(IDC_RESET_DATA, OnResetData)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CDirectoriesDlg message handlers
 
 void CDirectoriesDlg::OnOK() 
 {
