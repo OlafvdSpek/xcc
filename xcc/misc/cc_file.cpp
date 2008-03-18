@@ -156,9 +156,10 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 	m_size = m_mix_f->get_size(id);
 	m_p = 0;
 	m_is_open = true;
-	m_data = mix_f.get_vdata(id);
+	if (m_read_on_open || mix_f.get_data())
+		m_data = mix_f.get_vdata(id);
 	test_fail(post_open())
-		return 0;
+	return 0;
 }
 
 int Ccc_file::open(const string& name, Cmix_file& mix_f)
