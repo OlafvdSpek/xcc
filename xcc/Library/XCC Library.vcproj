@@ -3,7 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="XCC Library"
-	ProjectGUID="{73AA5F82-8E3C-44DC-A292-71B26F18BB76}"
+	ProjectGUID="{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+	RootNamespace="XCC Library"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -53,7 +54,7 @@
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
+				WarningLevel="1"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -1789,28 +1790,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\misc\stream_writer.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\misc\string_conversion.cpp"
 				>
 				<FileConfiguration
@@ -1944,28 +1923,6 @@
 			</File>
 			<File
 				RelativePath="..\misc\video_decoder.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\misc\video_file.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2164,28 +2121,6 @@
 			</File>
 			<File
 				RelativePath="..\misc\vxl_file.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						AdditionalIncludeDirectories=""
-						PreprocessorDefinitions=""
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\misc\w3d_file.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -2906,11 +2841,11 @@
 				>
 			</File>
 			<File
-				RelativePath="StdAfx.h"
+				RelativePath="..\..\misc\stdafx.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\misc\stdafx.h"
+				RelativePath="StdAfx.h"
 				>
 			</File>
 			<File
