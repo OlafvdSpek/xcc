@@ -1255,7 +1255,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 	case ft_tga:
 	case ft_tmp_ra:
 	case ft_tmp_ts:
-		return get_vimage(i).save(ft).save(fname);
+		return get_vimage(i).save(fname, ft);
 	case ft_shp_dune2:
 		{
 			Cshp_dune2_file f;
