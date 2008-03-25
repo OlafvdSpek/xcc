@@ -1,9 +1,7 @@
-// XCC RA2 Map Updater.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC RA2 Map Updater.h"
 
+#include <boost/algorithm/string.hpp>
 #include <afxinet.h>
 #include <fstream>
 #include "download_dlg.h"
@@ -17,46 +15,20 @@
 #include "xcc_registry.h"
 #include "xif_key.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCRA2MapUpdaterApp
-
 BEGIN_MESSAGE_MAP(CXCCRA2MapUpdaterApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCRA2MapUpdaterApp)
 	//}}AFX_MSG
 	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCRA2MapUpdaterApp construction
-
 CXCCRA2MapUpdaterApp::CXCCRA2MapUpdaterApp()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// The one and only CXCCRA2MapUpdaterApp object
-
 CXCCRA2MapUpdaterApp theApp;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCRA2MapUpdaterApp initialization
 
 BOOL CXCCRA2MapUpdaterApp::InitInstance()
 {
-	// Standard initialization
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
 	xcc_dirs::load_from_registry();
 
 	if (Cfname(xcc_dirs::get_exe(game_ra2)).exists())
@@ -178,7 +150,7 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 					if (error)
 						break;
 					const Cxif_key& l = ki->second;
-					string fext = to_lower(Cfname(l.get_value_string(vi_fname)).get_fext());
+					string fext = to_lower_copy(Cfname(l.get_value_string(vi_fname)).get_fext());
 					if (fext != ".mmx"
 						&& (fext != ".yro") || !Cfname(xcc_dirs::get_exe(game_ra2_yr)).exists())
 						continue;
@@ -203,12 +175,12 @@ static void scan_dir(string in_dir, string out_dir, string postfix, ofstream& f)
 		{
 			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				string title = to_lower(Cfname(fd.cFileName).get_ftitle());
+				string title = to_lower_copy(Cfname(fd.cFileName).get_ftitle());
 				Cvirtual_binary fdata;
 				fdata.load(in_dir + fd.cFileName);
 				Cxif_key k;
 				Cxif_key& l = k.open_key_write(0);
-				l.set_value_string(vi_fname, to_lower(fd.cFileName));
+				l.set_value_string(vi_fname, to_lower_copy(string(fd.cFileName)));
 				l.set_value_binary(vi_fdata, fdata);
 				k.vdata().save(out_dir + title + ".xmuf");
 				f << title << "=,http://xccu.sourceforge.net/ra2_maps/" << title << ".xmuf" << endl;
