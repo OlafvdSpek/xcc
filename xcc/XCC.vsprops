@@ -7,6 +7,8 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc"
+		PreprocessorDefinitions="_CRT_SECURE_NO_WARNINGS;WINVER=0x501"
+		DisableSpecificWarnings="4018;4244;4800"
 	/>
 	<Tool
 		Name="VCLinkerTool"
