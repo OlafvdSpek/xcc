@@ -3,6 +3,8 @@
 
 #include <ctime>
 
+using namespace std;
+
 int a2ip(const string& s)
 {
 	int r = 0;
