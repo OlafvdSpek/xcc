@@ -9,11 +9,11 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class Ccrc
+class Ccrc  
 {
 public:
 	void do_block(const void* data, int size);
-
+	
 	void init()
 	{
 		m_crc = 0;
@@ -26,5 +26,7 @@ public:
 private:
 	unsigned int m_crc;
 };
+
+int compute_crc(const void* d, int cb_d);
 
 #endif // !defined(AFX_CRC_H__41310302_D0B7_11D3_B604_0000B4936994__INCLUDED_)
