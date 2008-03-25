@@ -20,7 +20,6 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -97,10 +96,10 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -2841,11 +2840,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\misc\stdafx.h"
+				RelativePath="StdAfx.h"
 				>
 			</File>
 			<File
-				RelativePath="StdAfx.h"
+				RelativePath="..\..\misc\stdafx.h"
 				>
 			</File>
 			<File
