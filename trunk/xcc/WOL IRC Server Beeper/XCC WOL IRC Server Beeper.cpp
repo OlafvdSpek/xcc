@@ -16,7 +16,7 @@ void recv(Csocket& s)
 {
 	const int cb_b = 2 << 10;
 	char b[cb_b];
-	int r = s.recv(b, cb_b);
+	int r = s.recv(memory_range(b, cb_b));
 	if (r == SOCKET_ERROR || !r)
 		return;
 	Beep(500, 100);
@@ -57,13 +57,13 @@ int main(int argc, char* argv[])
 	s.open(SOCK_DGRAM);
 	s.connect(Csocket::get_host("servserv.xwis.net"), htons(4005));
 	fd_set fd_read_set;
-	int stime = 0;
+	time_t stime = 0;
 	while (1)
 	{
 		if (time(NULL) - stime > 60)
 		{
 			char d;
-			s.send(&d, 1);
+			s.send(const_memory_range(&d, 1));
 			stime = time(NULL);
 		}
 		FD_ZERO(&fd_read_set);
