@@ -1,18 +1,5 @@
-// MIXOptions.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "MIXOptions.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CMIXOptions dialog
-
 
 CMIXOptions::CMIXOptions(CWnd* pParent /*=NULL*/)
 	: CDialog(CMIXOptions::IDD, pParent)
@@ -24,7 +11,6 @@ CMIXOptions::CMIXOptions(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-
 void CMIXOptions::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -35,14 +21,10 @@ void CMIXOptions::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(CMIXOptions, CDialog)
 	//{{AFX_MSG_MAP(CMIXOptions)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CMIXOptions message handlers
 
 void CMIXOptions::get(t_game& game, bool& encrypted, bool& checksum)
 {
