@@ -1,6 +1,3 @@
-// LeftView.cpp : implementation of the CLeftView class
-//
-
 #include "stdafx.h"
 
 #include "XCC TMP EditorDoc.h"
@@ -9,15 +6,6 @@
 #include "string_conversion.h"
 #include "properties_dlg.h"
 #include "virtual_image.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView
 
 IMPLEMENT_DYNCREATE(CLeftView, CListView)
 
@@ -64,9 +52,6 @@ BEGIN_MESSAGE_MAP(CLeftView, CListView)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView construction/destruction
-
 CLeftView::CLeftView()
 {
 }
@@ -97,9 +82,6 @@ void CLeftView::OnInitialUpdate()
 	autosize_colums();
 	CListView::OnInitialUpdate();
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView message handlers
 
 void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
 {

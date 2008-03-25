@@ -1,18 +1,5 @@
-// properties_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "properties_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cproperties_dlg dialog
-
 
 Cproperties_dlg::Cproperties_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cproperties_dlg::IDD, pParent)
@@ -27,7 +14,6 @@ Cproperties_dlg::Cproperties_dlg(CWnd* pParent /*=NULL*/)
 	m_ramp_type = 0;
 	//}}AFX_DATA_INIT
 }
-
 
 void Cproperties_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -46,15 +32,10 @@ void Cproperties_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cproperties_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cproperties_dlg)
-		// NOTE: the ClassWizard will add message map macros here
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cproperties_dlg message handlers
 
 void Cproperties_dlg::set(const t_tmp_image_header& header)
 {

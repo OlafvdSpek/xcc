@@ -1,13 +1,4 @@
-// ChildFrm.h : interface of the CChildFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CHILDFRM_H__64DA8141_F21A_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_CHILDFRM_H__64DA8141_F21A_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class CLeftView;
 class CXCCTMPEditorView;
@@ -67,10 +58,3 @@ protected:
 	//}}AFX_MSG
 	DECLARE_MESSAGE_MAP()
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_CHILDFRM_H__64DA8141_F21A_11D4_B606_0000B4936994__INCLUDED_)

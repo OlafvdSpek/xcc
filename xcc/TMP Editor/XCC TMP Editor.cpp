@@ -1,6 +1,3 @@
-// XCC TMP Editor.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC TMP Editor.h"
 
@@ -12,15 +9,6 @@
 #include "mix_cache.h"
 #include "xcc_dirs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorApp
-
 BEGIN_MESSAGE_MAP(CXCCTMPEditorApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCTMPEditorApp)
 	//}}AFX_MSG_MAP
@@ -29,40 +17,18 @@ BEGIN_MESSAGE_MAP(CXCCTMPEditorApp, CWinApp)
 	ON_COMMAND(ID_FILE_OPEN, CWinApp::OnFileOpen)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorApp construction
-
 CXCCTMPEditorApp::CXCCTMPEditorApp()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// The one and only CXCCTMPEditorApp object
-
 CXCCTMPEditorApp theApp;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorApp initialization
 
 BOOL CXCCTMPEditorApp::InitInstance()
 {
-	// Standard initialization
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
-	// Change the registry key under which our settings are stored.
 	SetRegistryKey("XCC");
-
 	LoadStdProfileSettings(16);  // Load standard INI file options (including MRU)
-
 	xcc_dirs::load_from_registry();
 	mix_cache::load();
-
-	// Register document templates
 
 	CMultiDocTemplate* pDocTemplate;
 	pDocTemplate = new CMultiDocTemplate(
@@ -97,10 +63,5 @@ BOOL CXCCTMPEditorApp::InitInstance()
 	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
 	pMainFrame->UpdateWindow();
 
-	return TRUE;
+	return true;
 }
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorApp message handlers
-
