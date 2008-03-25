@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="XCC Mixer"
 	ProjectGUID="{E032D975-C331-487B-95A6-518A0A3ED2DA}"
+	RootNamespace="XCC Mixer"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -19,9 +20,9 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -75,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile=".\Release/XCC Mixer.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -116,7 +117,6 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -154,7 +154,7 @@
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
-				WarningLevel="3"
+				WarningLevel="1"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
@@ -171,7 +171,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zdll.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile=".\Debug/XCC Mixer.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
