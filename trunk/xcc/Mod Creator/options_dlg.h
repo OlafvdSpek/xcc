@@ -1,18 +1,7 @@
-#if !defined(AFX_OPTIONS_DLG_H__9FA091C0_D599_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_OPTIONS_DLG_H__9FA091C0_D599_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// options_dlg.h : header file
-//
 
 #include "resource.h"
 #include "xcc_mod.h"
-
-/////////////////////////////////////////////////////////////////////////////
-// Coptions_dlg dialog
 
 class Coptions_dlg : public CDialog
 {
@@ -65,8 +54,3 @@ protected:
 private:
 	CString m_reg_key;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_OPTIONS_DLG_H__9FA091C0_D599_11D4_A95D_0050042229FC__INCLUDED_)

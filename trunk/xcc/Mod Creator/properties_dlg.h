@@ -1,22 +1,10 @@
-#if !defined(AFX_PROPERTIES_DLG_H__5FD7A260_22E9_11D6_B861_0000B4936994__INCLUDED_)
-#define AFX_PROPERTIES_DLG_H__5FD7A260_22E9_11D6_B861_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// properties_dlg.h : header file
-//
 
 #include "resource.h"
 #include "xcc_mod.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// Cproperties_dlg dialog
-
 class Cproperties_dlg : public CDialog
 {
-// Construction
 public:
 	void mod(const Cxcc_mod& mod);
 	void properties(Cxcc_mod::t_file_properties properties);
@@ -66,8 +54,3 @@ private:
 	string m_mode_value;
 	string m_module_value;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_PROPERTIES_DLG_H__5FD7A260_22E9_11D6_B861_0000B4936994__INCLUDED_)

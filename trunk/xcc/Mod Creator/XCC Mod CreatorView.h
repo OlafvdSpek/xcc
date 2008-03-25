@@ -1,13 +1,4 @@
-// XCC Mod CreatorView.h : interface of the CXCCModCreatorView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCCMODCREATORVIEW_H__CA392AF0_CC6E_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XCCMODCREATORVIEW_H__CA392AF0_CC6E_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "XCC Mod CreatorDoc.h"
 
@@ -20,26 +11,18 @@ protected: // create from serialization only
 	CXCCModCreatorView();
 	DECLARE_DYNCREATE(CXCCModCreatorView)
 
-// Attributes
 public:
 	CXCCModCreatorDoc* GetDocument()
 	{ 
 		return (CXCCModCreatorDoc*)m_pDocument; 
 	}
 
-// Operations
-public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCModCreatorView)
 	public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	protected:
 	virtual void OnInitialUpdate(); // called first time after construct
 	//}}AFX_VIRTUAL
-
-// Implementation
 public:
 	int focus() const;
 	void clear_game_dir();
@@ -98,10 +81,3 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCMODCREATORVIEW_H__CA392AF0_CC6E_11D4_B606_0000B4936994__INCLUDED_)

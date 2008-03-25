@@ -1,13 +1,4 @@
-// LeftView.h : interface of the CLeftView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_LEFTVIEW_H__CA392AF2_CC6E_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_LEFTVIEW_H__CA392AF2_CC6E_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "XCC Mod CreatorView.h"
 
@@ -56,10 +47,3 @@ private:
 inline CXCCModCreatorDoc* CLeftView::GetDocument()
    { return (CXCCModCreatorDoc*)m_pDocument; }
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_LEFTVIEW_H__CA392AF2_CC6E_11D4_B606_0000B4936994__INCLUDED_)

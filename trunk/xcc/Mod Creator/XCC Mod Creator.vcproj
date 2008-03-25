@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="XCC Mod Creator"
 	ProjectGUID="{263CF2A6-0334-4FFE-8BA7-F482185585AF}"
+	RootNamespace="XCC Mod Creator"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -76,7 +77,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zdll.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Debug/XCC Mod Creator.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -122,6 +123,7 @@
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -175,7 +177,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Release/XCC Mod Creator.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
