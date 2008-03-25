@@ -1,6 +1,3 @@
-// XCC Mod LauncherDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC Mod LauncherDlg.h"
 
@@ -15,15 +12,6 @@
 #include "web_tools.h"
 #include "xcc_dirs.h"
 #include "xcc_log.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherDlg dialog
 
 CXCCModLauncherDlg::CXCCModLauncherDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCModLauncherDlg::IDD, pParent)
@@ -61,9 +49,6 @@ BEGIN_MESSAGE_MAP(CXCCModLauncherDlg, CDialog)
 	ON_WM_SYSCOMMAND()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherDlg message handlers
 
 static int load_banner(Cvirtual_image& image)
 {
@@ -513,4 +498,3 @@ void CXCCModLauncherDlg::close_ds()
 		m_ds = NULL;
 	}
 }
-

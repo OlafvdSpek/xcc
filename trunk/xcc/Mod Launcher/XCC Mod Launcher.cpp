@@ -1,6 +1,3 @@
-// XCC Mod Launcher.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC Mod Launcher.h"
 #include "XCC Mod LauncherDlg.h"
@@ -10,39 +7,16 @@
 #include "xcc_log.h"
 #include "xcc_mod.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherApp
-
 BEGIN_MESSAGE_MAP(CXCCModLauncherApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCModLauncherApp)
 	//}}AFX_MSG
 	ON_COMMAND(ID_HELP, CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// The one and only CXCCModLauncherApp object
-
 CXCCModLauncherApp theApp;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherApp initialization
 
 BOOL CXCCModLauncherApp::InitInstance()
 {
-	// Standard initialization
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
 	xcc_dirs::load_from_registry();
 	xcc_log::attach_file("XCC Mod Launcher log.txt");
 

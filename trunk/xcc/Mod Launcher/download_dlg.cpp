@@ -3,12 +3,6 @@
 
 #include "string_conversion.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 Cdownload_dlg::Cdownload_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cdownload_dlg::IDD, pParent)
 {
@@ -18,7 +12,6 @@ Cdownload_dlg::Cdownload_dlg(CWnd* pParent /*=NULL*/)
 	m_size = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void Cdownload_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -31,15 +24,11 @@ void Cdownload_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdownload_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cdownload_dlg)
 		// NOTE: the ClassWizard will add message map macros here
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdownload_dlg message handlers
 
 void Cdownload_dlg::set(string source, string destination, int total_size)
 {

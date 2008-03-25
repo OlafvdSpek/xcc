@@ -1,23 +1,11 @@
-// XCC Mod LauncherDlg.h : header file
-//
-
-#if !defined(AFX_XCCMODLAUNCHERDLG_H__A69C40C5_D1B9_11D4_A95D_0050042229FC__INCLUDED_)
-#define AFX_XCCMODLAUNCHERDLG_H__A69C40C5_D1B9_11D4_A95D_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "resource.h"
 #include "xcc_mod.h"
 #include "xap.h"
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModLauncherDlg dialog
-
 class CXCCModLauncherDlg : public CDialog
 {
-// Construction
 public:
 	static HBITMAP create_bitmap(Cvirtual_image& image);
 	LPDIRECTSOUND get_ds();
@@ -30,7 +18,6 @@ public:
 	void set_mod_fname(string mod_fname);
 	CXCCModLauncherDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(CXCCModLauncherDlg)
 	enum { IDD = IDD_XCCMODLAUNCHER_DIALOG };
 	CButton	m_update;
@@ -42,13 +29,11 @@ public:
 	CButton	m_manual;
 	//}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCModLauncherDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
 protected:
 	HICON m_hIcon;
 
@@ -76,8 +61,3 @@ private:
 	string m_uninstall_exe;
 	Cxap m_xap;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCMODLAUNCHERDLG_H__A69C40C5_D1B9_11D4_A95D_0050042229FC__INCLUDED_)
