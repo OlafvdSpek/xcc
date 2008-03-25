@@ -4,7 +4,6 @@
 
 class Cdlg_serials: public ETSLayoutDialog
 {
-	DECLARE_DYNAMIC(Cdlg_serials)
 public:
 	Cdlg_serials(CWnd* pParent = NULL);
 
