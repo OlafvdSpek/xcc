@@ -4,11 +4,10 @@
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include "aud_file.h"
-#include "file31.h"
+#include "../../xhp/cgi-bin/misc/file31.h"
 #include "fname.h"
 #include "mix_file_write.h"
 #include "mix_sfl.h"
-#include "html.h"
 #include "shp_ts_file.h"
 #include "string_conversion.h"
 #include "web_tools.h"
