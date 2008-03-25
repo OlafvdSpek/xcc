@@ -18,7 +18,7 @@ public:
 
 	string get_filename() const
 	{
-		return m_filename;
+		return string(m_filename);
 	}
 
 // Dialog Data

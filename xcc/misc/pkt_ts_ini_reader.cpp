@@ -2,7 +2,6 @@
 #include "pkt_ts_ini_reader.h"
 
 #include <boost/algorithm/string.hpp>
-#include "html.h"
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "xste.h"
@@ -112,7 +111,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 			if (csf_f.has_name(to_lower_copy(description)))
 				description = csf_f.get_converted_value(to_lower_copy(description));
 		}
-		os << "<tr><td>" + a(i->first, "href=" + i->first + ".html") + "<td>" + description + "<td>" + i->second.m_gamemode + "<td><img src=" + i->first + "_pv.png>";
+		os << "<tr><td><a href=" << i->first << ".html>" << i->first << "</a><td>" << description << "<td>" << i->second.m_gamemode << "<td><img src=" << i->first << "_pv.png>";
 		// page += "\"" + i->first + "\", " + "\"" + description + "\",\n";
 	}
 	os << "</table>";
