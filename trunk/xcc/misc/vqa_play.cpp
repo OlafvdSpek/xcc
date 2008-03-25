@@ -13,31 +13,16 @@ Cvqa_play::Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds):
 	vqa_out = NULL;
 }
 
-Cvqa_play::~Cvqa_play()
-{
-}
-
 int Cvqa_play::set_videomode()
 {
-	HRESULT result;
-#ifndef _DEBUG
-	video_res = CSize(640, 480);
-#endif
-	for (int j = 0; j < 2; j++)
-	{
-		result = dd->SetDisplayMode(video_res.cx, video_res.cy, j ? 16 : 32);
-		if (result == DD_OK)
-		{
-			use16 = j;
-			break;
-		}
-	}
-	if (result != DD_OK)
-	{
-		AfxMessageBox("Unable to set proper video mode");
-		return 1;
-	}
-	return 0;
+	use16 = false;
+	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 32)))
+		return 0;
+	use16 = true;
+	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 16)))
+		return 0;
+	AfxMessageBox("Unable to set proper video mode");
+	return 1;
 }
 
 int Cvqa_play::create(Cvqa_file& _f, bool _set_videomode)
