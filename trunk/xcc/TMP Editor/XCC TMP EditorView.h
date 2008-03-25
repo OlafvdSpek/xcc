@@ -1,13 +1,4 @@
-// XCC TMP EditorView.h : interface of the CXCCTMPEditorView class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XCCTMPEDITORVIEW_H__64DA8145_F21A_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_XCCTMPEDITORVIEW_H__64DA8145_F21A_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "palet.h"
 
@@ -60,10 +51,3 @@ private:
 	int m_selected;
 	bool m_view_true_height;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCTMPEDITORVIEW_H__64DA8145_F21A_11D4_B606_0000B4936994__INCLUDED_)

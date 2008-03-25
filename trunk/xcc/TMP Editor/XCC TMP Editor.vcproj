@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="XCC TMP Editor"
 	ProjectGUID="{216D46AA-5715-4DD4-8029-1877FDE61F19}"
+	RootNamespace="XCC TMP Editor"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -23,6 +24,7 @@
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -76,7 +78,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Release/XCC TMP Editor.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -174,7 +176,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zdll.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Debug/XCC TMP Editor.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

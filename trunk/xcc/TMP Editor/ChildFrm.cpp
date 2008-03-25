@@ -1,21 +1,9 @@
-// ChildFrm.cpp : implementation of the CChildFrame class
-//
-
 #include "stdafx.h"
 
 #include "ChildFrm.h"
 #include "LeftView.h"
 #include "XCC TMP EditorView.h"
 #include "resource.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame
 
 IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd)
 
@@ -40,9 +28,6 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 	ON_UPDATE_COMMAND_UI(ID_PALET_URBAN2, OnUpdatePaletUrban2)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame construction/destruction
 
 CChildFrame::CChildFrame()
 {
@@ -82,9 +67,6 @@ void CChildFrame::ActivateFrame(int nCmdShow)
 {
 	CMDIChildWnd::ActivateFrame(SW_SHOWMAXIMIZED);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame diagnostics
 
 #ifdef _DEBUG
 void CChildFrame::AssertValid() const
@@ -204,4 +186,3 @@ void CChildFrame::OnUpdateViewTrueHeight(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(GetRightPane()->view_true_height());
 }
-
