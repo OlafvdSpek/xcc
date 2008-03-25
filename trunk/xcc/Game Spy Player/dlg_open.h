@@ -1,23 +1,11 @@
-#if !defined(AFX_DLG_OPEN_H__BA128AED_ECA0_4EA4_A0E6_48D1975F4684__INCLUDED_)
-#define AFX_DLG_OPEN_H__BA128AED_ECA0_4EA4_A0E6_48D1975F4684__INCLUDED_
-
-#include "xif_key.h"	// Added by ClassView
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// dlg_open.h : header file
-//
 
 #include "ListCtrlEx.h"
 #include "resource.h"
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_open dialog
+#include "xif_key.h"
 
 class Cdlg_open : public ETSLayoutDialog
 {
-// Construction
 public:
 	void sort_players(int i);
 	void insert_replays_columns();
@@ -30,7 +18,6 @@ public:
 	string fname();
 	Cdlg_open(CWnd* pParent = NULL);   // standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(Cdlg_open)
 	enum { IDD = IDD_OPEN };
 	CListCtrlEx	m_players;
@@ -39,17 +26,11 @@ public:
 	//}}AFX_DATA
 
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(Cdlg_open)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL
 
-// Implementation
-protected:
-
-	// Generated message map functions
 	//{{AFX_MSG(Cdlg_open)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult);
@@ -96,8 +77,3 @@ private:
 	bool m_sort_reverse;
 	int m_players_sort_column;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_DLG_OPEN_H__BA128AED_ECA0_4EA4_A0E6_48D1975F4684__INCLUDED_)
