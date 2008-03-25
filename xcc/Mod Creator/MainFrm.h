@@ -1,13 +1,4 @@
-// MainFrm.h : interface of the CMainFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_MAINFRM_H__CA392AEA_CC6E_11D4_B606_0000B4936994__INCLUDED_)
-#define AFX_MAINFRM_H__CA392AEA_CC6E_11D4_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "xcc_apps.h"
 
@@ -17,27 +8,21 @@ class CMainFrame : public CMDIFrameWnd
 public:
 	CMainFrame();
 
-// Attributes
 public:
 
-// Operations
 public:
 
-// Overrides
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CMainFrame)
-	public:
+public:
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	//}}AFX_VIRTUAL
 
-// Implementation
 public:
 	virtual ~CMainFrame();
 
 protected:  // control bar embedded members
 	CStatusBar  m_wndStatusBar;
 
-// Generated message map functions
 protected:
 	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -48,10 +33,3 @@ protected:
 private:
 	Cxcc_apps m_apps;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_MAINFRM_H__CA392AEA_CC6E_11D4_B606_0000B4936994__INCLUDED_)
