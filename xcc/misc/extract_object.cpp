@@ -4,8 +4,9 @@
 #include <boost/algorithm/string.hpp>
 #include <fstream>
 #include "aud_file.h"
-#include "../../xhp/cgi-bin/misc/file31.h"
+#include "file31.h"
 #include "fname.h"
+#include "html.h"
 #include "mix_file_write.h"
 #include "mix_sfl.h"
 #include "shp_ts_file.h"
