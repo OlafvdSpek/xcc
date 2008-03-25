@@ -13,17 +13,10 @@
 
 using namespace boost;
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 CXCCMapDecoderDlg::CXCCMapDecoderDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCMapDecoderDlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(CXCCMapDecoderDlg)
-		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
@@ -32,7 +25,6 @@ void CXCCMapDecoderDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
 	//{{AFX_DATA_MAP(CXCCMapDecoderDlg)
-		// NOTE: the ClassWizard will add DDX and DDV calls here
 	//}}AFX_DATA_MAP
 }
 
@@ -45,9 +37,6 @@ BEGIN_MESSAGE_MAP(CXCCMapDecoderDlg, CDialog)
 	ON_WM_DROPFILES()
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMapDecoderDlg message handlers
 
 BOOL CXCCMapDecoderDlg::OnInitDialog()
 {
@@ -68,10 +57,6 @@ BOOL CXCCMapDecoderDlg::OnInitDialog()
 	
 	return true;
 }
-
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
 
 void CXCCMapDecoderDlg::OnPaint() 
 {
