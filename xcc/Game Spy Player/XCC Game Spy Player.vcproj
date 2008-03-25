@@ -3,7 +3,8 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="XCC Game Spy Player"
-	ProjectGUID="{7E61B5DF-9B6C-496E-B5B2-3110C02F47B4}"
+	ProjectGUID="{DB9AE784-5CBB-49B2-8F12-A8E9BB28B0B4}"
+	RootNamespace="XCC Game Spy Player"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -19,7 +20,6 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -76,7 +76,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib vfw32.lib libjpeg.lib libpng.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib zdll.lib libbz2.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib winmm.lib"
 				OutputFile=".\Debug/XCC Game Spy Player.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -117,10 +117,10 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -174,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib vfw32.lib libjpeg.lib libpng.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib libbz2.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib winmm.lib"
 				OutputFile=".\Release/XCC Game Spy Player.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -434,10 +434,6 @@
 			</File>
 			<File
 				RelativePath="dlg_open.h"
-				>
-			</File>
-			<File
-				RelativePath="..\XCC Game Spy\game_state.h"
 				>
 			</File>
 			<File

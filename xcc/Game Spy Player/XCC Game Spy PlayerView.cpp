@@ -1,6 +1,3 @@
-// XCC Game Spy PlayerView.cpp : implementation of the CXCCGameSpyPlayerView class
-//
-
 #include "stdafx.h"
 
 #include "XCC Game Spy PlayerDoc.h"
@@ -15,17 +12,8 @@
 #include "virtual_image.h"
 #include "xcc_dirs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 const bool live = false;
 HANDLE h;
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerView
 
 IMPLEMENT_DYNCREATE(CXCCGameSpyPlayerView, CView)
 
@@ -46,9 +34,6 @@ BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerView, CView)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerView construction/destruction
-
 CXCCGameSpyPlayerView::CXCCGameSpyPlayerView()
 {
 	m_replay_time = 0;
@@ -62,9 +47,6 @@ BOOL CXCCGameSpyPlayerView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	return CView::PreCreateWindow(cs);
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerView drawing
 
 const char* mission_names[] =
 {
