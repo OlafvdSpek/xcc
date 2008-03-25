@@ -1,6 +1,3 @@
-// XIFTree.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include <windowsx.h>
 #include "resource.h"
@@ -8,15 +5,6 @@
 #include "XIFTree.h"
 #include "string_conversion.h"
 #include "xif_tools.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFTree
 
 IMPLEMENT_DYNCREATE(CXIFTree, CTreeView)
 
@@ -27,7 +15,6 @@ CXIFTree::CXIFTree()
 CXIFTree::~CXIFTree()
 {
 }
-
 
 BEGIN_MESSAGE_MAP(CXIFTree, CTreeView)
 	ON_WM_CONTEXTMENU()
@@ -42,9 +29,6 @@ BEGIN_MESSAGE_MAP(CXIFTree, CTreeView)
 	ON_NOTIFY_REFLECT(NM_RCLICK, OnRclick)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFTree message handlers
 
 void CXIFTree::OnInitialUpdate() 
 {

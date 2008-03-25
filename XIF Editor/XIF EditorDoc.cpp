@@ -1,31 +1,14 @@
-// XIF EditorDoc.cpp : implementation of the CXIFEditorDoc class
-//
-
 #include "stdafx.h"
 #include "XIF Editor.h"
 
 #include "XIF EditorDoc.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFEditorDoc
-
 IMPLEMENT_DYNCREATE(CXIFEditorDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CXIFEditorDoc, CDocument)
 	//{{AFX_MSG_MAP(CXIFEditorDoc)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFEditorDoc serialization
 
 void CXIFEditorDoc::Serialize(CArchive& ar)
 {
@@ -43,7 +26,3 @@ void CXIFEditorDoc::Serialize(CArchive& ar)
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 	}
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFEditorDoc commands
-

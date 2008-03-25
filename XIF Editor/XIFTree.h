@@ -1,19 +1,8 @@
-#if !defined(AFX_XIFTREE_H__88774601_1DF8_11D4_B605_0000B4936994__INCLUDED_)
-#define AFX_XIFTREE_H__88774601_1DF8_11D4_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
-
-// XIFTree.h : header file
-//
 
 #include <afxcview.h>
 #include "XIF EditorDoc.h"
 #include "XIFList.h"
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFTree view
 
 class CXIFTree : public CTreeView
 {
@@ -65,10 +54,3 @@ protected:
 private:
 	CXIFList* m_list;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XIFTREE_H__88774601_1DF8_11D4_B605_0000B4936994__INCLUDED_)

@@ -1,13 +1,4 @@
-// ChildFrm.h : interface of the CChildFrame class
-//
-/////////////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_CHILDFRM_H__14AD0AAA_1DC3_11D4_B605_0000B4936994__INCLUDED_)
-#define AFX_CHILDFRM_H__14AD0AAA_1DC3_11D4_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "XIFList.h"
 #include "XIFTree.h"
@@ -56,10 +47,3 @@ private:
 	CXIFList* m_list;
 	CXIFTree* m_tree;
 };
-
-/////////////////////////////////////////////////////////////////////////////
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_CHILDFRM_H__14AD0AAA_1DC3_11D4_B605_0000B4936994__INCLUDED_)

@@ -1,19 +1,6 @@
-// dlg_edit_int32.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "xif editor.h"
 #include "dlg_edit_int32.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_int32 dialog
-
 
 Cdlg_edit_int32::Cdlg_edit_int32(CWnd* pParent /*=NULL*/)
 	: CDialog(Cdlg_edit_int32::IDD, pParent)
@@ -24,7 +11,6 @@ Cdlg_edit_int32::Cdlg_edit_int32(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-
 void Cdlg_edit_int32::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -34,14 +20,10 @@ void Cdlg_edit_int32::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdlg_edit_int32, CDialog)
 	//{{AFX_MSG_MAP(Cdlg_edit_int32)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_int32 message handlers
 
 void Cdlg_edit_int32::set(const string& key, int value)
 {

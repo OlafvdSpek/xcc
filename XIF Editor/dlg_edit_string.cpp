@@ -1,19 +1,6 @@
-// dlg_edit_string.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "xif editor.h"
 #include "dlg_edit_string.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_string dialog
-
 
 Cdlg_edit_string::Cdlg_edit_string(CWnd* pParent /*=NULL*/)
 	: CDialog(Cdlg_edit_string::IDD, pParent)
@@ -24,7 +11,6 @@ Cdlg_edit_string::Cdlg_edit_string(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 }
 
-
 void Cdlg_edit_string::DoDataExchange(CDataExchange* pDX)
 {
 	CDialog::DoDataExchange(pDX);
@@ -34,14 +20,10 @@ void Cdlg_edit_string::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdlg_edit_string, CDialog)
 	//{{AFX_MSG_MAP(Cdlg_edit_string)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_string message handlers
 
 void Cdlg_edit_string::set(const string& key, const string& value)
 {

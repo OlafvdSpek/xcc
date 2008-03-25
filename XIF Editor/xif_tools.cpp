@@ -1,16 +1,6 @@
-// xif_tools.cpp: implementation of the Cxif_tools class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xif editor.h"
 #include "xif_tools.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 int str2id(const char* s)
 {
