@@ -1,6 +1,3 @@
-// XCC RA2 Radar CustomizerDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC RA2 Radar Customizer.h"
 #include "XCC RA2 Radar CustomizerDlg.h"
@@ -12,15 +9,6 @@
 #include "tmp_ts_file.h"
 #include "virtual_binary.h"
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCRA2RadarCustomizerDlg dialog
 
 CXCCRA2RadarCustomizerDlg::CXCCRA2RadarCustomizerDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXCCRA2RadarCustomizerDlg::IDD, pParent)
@@ -83,9 +71,6 @@ BEGIN_MESSAGE_MAP(CXCCRA2RadarCustomizerDlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCRA2RadarCustomizerDlg message handlers
-
 HBITMAP CXCCRA2RadarCustomizerDlg::create_bitmap(Cvirtual_image image)
 {
 	image.swap_rb();
@@ -133,10 +118,6 @@ BOOL CXCCRA2RadarCustomizerDlg::OnInitDialog()
 	update_previews();	
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
-
-// If you add a minimize button to your dialog, you will need the code below
-//  to draw the icon.  For MFC applications using the document/view model,
-//  this is automatically done for you by the framework.
 
 void CXCCRA2RadarCustomizerDlg::OnPaint() 
 {
