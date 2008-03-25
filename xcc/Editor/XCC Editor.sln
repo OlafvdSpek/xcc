@@ -6,8 +6,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Editor", "XCC Editor.vc
 		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{35A83AD1-36F0-4D5B-A5C6-CAECBEC69817}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
 EndProject
 Global
@@ -27,8 +25,5 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {35A83AD1-36F0-4D5B-A5C6-CAECBEC69817}
 	EndGlobalSection
 EndGlobal
