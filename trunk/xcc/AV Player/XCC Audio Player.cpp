@@ -14,15 +14,7 @@ CXCCAudioPlayerApp theApp;
 BOOL CXCCAudioPlayerApp::InitInstance()
 {
 	AfxEnableControlContainer();
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
 	SetRegistryKey("XCC");
-
 	CXCCAudioPlayerDlg dlg;
 	m_pMainWnd = &dlg;
 	Cmix_file::enable_ft_support();
@@ -31,6 +23,5 @@ BOOL CXCCAudioPlayerApp::InitInstance()
 	dlg.DoModal();
 	mix_cache::save();
 	xcc_dirs::save_to_registry();
-
-	return FALSE;
+	return false;
 }
