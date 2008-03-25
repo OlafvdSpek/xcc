@@ -1,27 +1,12 @@
-// mode_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "mode_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cmode_dlg dialog
-
 
 Cmode_dlg::Cmode_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cmode_dlg::IDD, pParent)
 {
 	//{{AFX_DATA_INIT(Cmode_dlg)
-		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 }
-
 
 void Cmode_dlg::DoDataExchange(CDataExchange* pDX)
 {
@@ -31,14 +16,10 @@ void Cmode_dlg::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cmode_dlg, CDialog)
 	//{{AFX_MSG_MAP(Cmode_dlg)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cmode_dlg message handlers
 
 BOOL Cmode_dlg::OnInitDialog() 
 {
