@@ -1,6 +1,7 @@
 #include "stdafx.h"
-#include <map>
+#include <fstream>
 #include <iostream>
+#include <map>
 #include <windows.h>
 #include "crc.h"
 #include "fname.h"
