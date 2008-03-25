@@ -8,6 +8,8 @@
 
 using namespace std;
 
+#pragma comment(lib, "libjpeg.lib")
+
 class Cjpeg_file: public Ccc_file_sh<t_jpeg_header>
 {
 public:

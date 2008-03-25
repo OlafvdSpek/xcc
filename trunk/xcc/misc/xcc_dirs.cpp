@@ -26,6 +26,7 @@ static string gr_dir;
 static string gr_zh_dir;
 static string ebfd_dir;
 static string bfme_dir;
+static string tw_dir;
 
 bool xcc_dirs::enable_log()
 {
@@ -71,6 +72,8 @@ string xcc_dirs::get_dir(t_game game)
 		return ebfd_dir;
 	case game_bfme:
 		return bfme_dir;
+	case game_tw:
+		return tw_dir;
 	}
 	assert(false);
 	return "";
@@ -258,6 +261,9 @@ void xcc_dirs::set_dir(t_game game, const string &s)
 	case game_bfme:
 		set_path(s, bfme_dir);
 		break;
+	case game_tw:
+		set_path(s, tw_dir);
+		break;
 	default:
 		assert(false);
 	}
@@ -311,9 +317,9 @@ void xcc_dirs::read_dir(const string& key, const string& value, t_game game)
 void xcc_dirs::load_from_registry()
 {
 	Creg_key kh_base;
-	string s;
 	if (!Cxcc_registry::get_base_key(kh_base))
 	{
+		string s;
 		if (ERROR_SUCCESS == kh_base.query_value("dune2_dir", s))
 			set_dir(game_dune2, s);
 		if (ERROR_SUCCESS == kh_base.query_value("dir1", s))
@@ -344,6 +350,7 @@ void xcc_dirs::load_from_registry()
 	read_dir("Software\\Electronic Arts\\EA Games\\Generals", "InstallPath", game_gr);
 	read_dir("Software\\Electronic Arts\\EA Games\\Command and Conquer Generals Zero Hour", "InstallPath", game_gr_zh);
 	read_dir("Software\\Electronic Arts\\EA Games\\The Battle for Middle-earth", "InstallPath", game_bfme);
+	read_dir("Software\\Electronic Arts\\Electronic Arts\\Command and Conquer 3", "InstallPath", game_tw);
 }
 
 void xcc_dirs::save_to_registry()

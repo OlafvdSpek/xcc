@@ -27,30 +27,28 @@ int Cbig_file::post_open()
 	m_old_index.clear();
 	if (!is_valid())
 		return 1;
-	if (get_data() && get_vdata().size() != get_size())
-		return 0;
 	t_big_header header;
 	seek(0);
-	int error = read(&header, sizeof(t_big_header));
+	if (int error = read(&header, sizeof(t_big_header)))
+		return error;
 	Cvirtual_binary index;
-	if (!error)
-		error = read(index.write_start(header.cb_header() - sizeof(t_big_header)), header.cb_header() - sizeof(t_big_header));
-	if (!error)
+	if (get_data() && get_vdata().size() < header.cb_header())
+		return 0;
+	if (int error = read(index.write_start(header.cb_header() - sizeof(t_big_header)), header.cb_header() - sizeof(t_big_header)))
+		return error;
+	int size = header.c_files();
+	m_old_index.reserve(size);
+	const byte* r = index;
+	while (size--)
 	{
-		int size = header.c_files();
-		m_old_index.reserve(size);
-		const byte* r = index;
-		while (size--)
-		{
-			t_big_index_entry e = *reinterpret_cast<const t_big_index_entry*>(r);
-			r += sizeof(t_big_index_entry);
-			e.offset = reverse(e.offset);
-			e.size = reverse(e.size);
-			string name = reinterpret_cast<const char*>(r);
-			m_index[name] = e;
-			m_old_index.push_back(name);
-			r += name.length() + 1;
-		}
+		t_big_index_entry e = *reinterpret_cast<const t_big_index_entry*>(r);
+		r += sizeof(t_big_index_entry);
+		e.offset = reverse(e.offset);
+		e.size = reverse(e.size);
+		string name = reinterpret_cast<const char*>(r);
+		m_index[name] = e;
+		m_old_index.push_back(name);
+		r += name.length() + 1;
 	}
-	return error;
+	return 0;
 }
