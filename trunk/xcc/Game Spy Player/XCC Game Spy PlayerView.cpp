@@ -273,7 +273,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				if (!m_show_names)
 					continue;
 				Cobject_type object_type;
-				object_type.strength = 1;
+				object_type.strength = 0;
 				{
 					Cobject_types::t_object_types::const_iterator i = m_object_types.object_types.find(object.building_type == -1 ? object.vehicle_type : object.building_type);
 					if (i == m_object_types.object_types.end())
@@ -310,9 +310,6 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				m_mem_dc.TextOut(x + 6, y + 6, type_name.c_str());
 				m_mem_dc.SetTextColor(old_color);
 				// m_mem_dc.SelectObject(old_brush);
-			}
-			{
-				int y = 144;
 			}
 		}
 		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.gid) + " " + get_map_name(game_state.scenario)).c_str());
