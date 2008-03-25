@@ -279,9 +279,11 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					if (i == m_object_types.object_types.end())
 						i = m_object_types.object_types.find(object.infantry_type);
 					if (i != m_object_types.object_types.end())
+					{
 						object_type = i->second;
-					if (player.human && m_view_object_summary)
-						objects_counts[i->first][object.owner]++;
+						if (player.human && m_view_object_summary)
+							objects_counts[i->first][object.owner]++;
+					}
 				}
 				string type_name = object_type.name;
 				if (object.building_type == -1)
@@ -296,6 +298,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					m_mem_dc.LineTo(x + 6, y + 4);
 					m_mem_dc.SelectObject(old_pen);
 				}
+				if (object_type.strength)
 				{
 					CPen pen;
 					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
