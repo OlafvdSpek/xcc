@@ -395,18 +395,17 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 			int pal_parent = pal_list_create_map(game_name[game], -1);
 			do
 			{
-				if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+				if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+					continue;
+				const string fname = to_lower_copy(string(fd.cFileName));
+				xcc_log::write_line("finds: " + fname, 1);
+				Cmix_file f;
+				if (!f.open(dir + fname))
 				{
-					const string fname = to_lower_copy(string(fd.cFileName));
-					xcc_log::write_line("finds: " + fname, 1);
-					Cmix_file f;
-					if (!f.open(dir + fname))
-					{
-						do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, mix_parent), pal_list_create_map(fname, pal_parent));
-						f.close();
-					}
-					xcc_log::indent(-1);
+					do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, mix_parent), pal_list_create_map(fname, pal_parent));
+					f.close();
 				}
+				xcc_log::indent(-1);
 			}
 			while (FindNextFile(findhandle, &fd));
 			FindClose(findhandle);

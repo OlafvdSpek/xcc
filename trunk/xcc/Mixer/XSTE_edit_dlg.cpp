@@ -41,7 +41,7 @@ void CXSTE_edit_dlg::set(const string& name, const string& value, const string& 
 
 string CXSTE_edit_dlg::get_name() const
 {
-	return m_name;
+	return string(m_name);
 }
 
 string CXSTE_edit_dlg::get_value() const
@@ -57,7 +57,7 @@ string CXSTE_edit_dlg::get_value() const
 
 string CXSTE_edit_dlg::get_extra_value() const
 {
-	return m_extra_value;
+	return string(m_extra_value);
 }
 
 BOOL CXSTE_edit_dlg::OnInitDialog() 
