@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="XCC"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib winmm.lib zlib.lib"
+	/>
+</VisualStudioPropertySheet>

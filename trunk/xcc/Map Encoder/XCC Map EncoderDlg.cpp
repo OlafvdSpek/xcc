@@ -15,7 +15,6 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 #include "virtual_image.h"
-#include "xcc_map.h"
 #include "xste.h"
 
 using namespace boost;

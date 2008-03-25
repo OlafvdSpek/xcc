@@ -20,6 +20,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -76,11 +77,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbz2.lib libpng.lib zlib.lib"
 				OutputFile=".\Debug/XCC Map Decoder.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\misc\library"
+				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/XCC Map Decoder.pdb"
 				SubSystem="2"
@@ -118,6 +119,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -175,7 +177,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="libbz2.lib libpng.lib zlib.lib"
 				OutputFile=".\Release/XCC Map Decoder.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

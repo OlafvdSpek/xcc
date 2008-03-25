@@ -20,6 +20,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -76,10 +77,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib winmm.lib"
 				OutputFile=".\Debug/XCC Game Spy Player.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/XCC Game Spy Player.pdb"
 				SubSystem="2"
@@ -117,6 +118,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -174,7 +176,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib.lib winmm.lib"
 				OutputFile=".\Release/XCC Game Spy Player.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
