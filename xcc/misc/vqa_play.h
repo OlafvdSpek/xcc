@@ -19,7 +19,6 @@ public:
 	int create(Cvqa_file& f, bool set_videomode = true);
 	bool run();
 	int destroy();
-	~Cvqa_play();
 
 	bool fail() const
 	{

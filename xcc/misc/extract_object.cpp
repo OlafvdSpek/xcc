@@ -279,9 +279,9 @@ const Cextract_object::t_object_type_list& Cextract_object::get_object_type_list
 	case ot_warhead:
 	case ot_weapon:
 		return m_rir.get_rules_list();
-	default:
-		assert(false);
 	}
+	assert(false);
+	return m_rir.get_rules_list();
 }
 
 void Cextract_object::add_one(string name, t_object_type ot)
