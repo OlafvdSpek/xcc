@@ -4,6 +4,7 @@
 	Version="8,00"
 	Name="XCC Audio Player"
 	ProjectGUID="{1E6FD097-5BBD-4889-93CA-365589631C94}"
+	RootNamespace="XCC Audio Player"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -74,7 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zdll.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile="Debug/XCC AV Player.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -119,6 +120,7 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -172,7 +174,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib libjpeg.lib libpng.lib ogg_static.lib vfw32.lib vorbis_static.lib vorbisfile_static.lib zlib_static.lib"
+				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile="Release/XCC AV Player.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
