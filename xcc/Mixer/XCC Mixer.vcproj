@@ -20,6 +20,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			WholeProgramOptimization="1"
@@ -76,7 +77,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile=".\Release/XCC Mixer.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -117,6 +117,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			>
@@ -144,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc,..\..\xhp\cgi-bin\misc"
+				AdditionalIncludeDirectories="..\..\xhp\cgi-bin\misc"
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
@@ -171,11 +172,11 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="ddraw.lib dsound.lib libbz2.lib vfw32.lib zlib.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libpng.lib libjpeg.lib"
 				OutputFile=".\Debug/XCC Mixer.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
 				AdditionalLibraryDirectories="..\..\misc\library"
+				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/XCC Mixer.pdb"
 				SubSystem="2"
