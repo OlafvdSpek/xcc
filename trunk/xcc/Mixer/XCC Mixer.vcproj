@@ -50,7 +50,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\..\misc,..\..\misc\include,..\misc,..\..\xhp\cgi-bin\misc"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="NDEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE"
 				StringPooling="true"
 				RuntimeLibrary="0"
@@ -145,7 +145,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\..\xhp\cgi-bin\misc"
+				AdditionalIncludeDirectories=""
 				PreprocessorDefinitions="_DEBUG;WIN32;_WINDOWS;JPEG_SUPPORT;PNG_SUPPORT;_CRT_NONSTDC_NO_DEPRECATE;_CRT_SECURE_NO_DEPRECATE"
 				MinimalRebuild="true"
 				RuntimeLibrary="3"
