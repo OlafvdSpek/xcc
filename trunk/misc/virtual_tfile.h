@@ -1,13 +1,4 @@
-// virtual_tfile.h: interface for the Cvirtual_tfile class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_VIRTUAL_TFILE_H__0491E503_ED81_11D2_B601_96FBFE07A371__INCLUDED_)
-#define AFX_VIRTUAL_TFILE_H__0491E503_ED81_11D2_B601_96FBFE07A371__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
 #include "assert.h"
@@ -56,5 +47,3 @@ public:
 		pos = ipos;
 	}
 };
-
-#endif // !defined(AFX_VIRTUAL_TFILE_H__0491E503_ED81_11D2_B601_96FBFE07A371__INCLUDED_)

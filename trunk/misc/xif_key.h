@@ -1,12 +1,4 @@
-#if !defined(AFX_XIF_KEY_H__99A07CE4_FA5D_11D2_B601_8B199B22657D__INCLUDED_)
-#define AFX_XIF_KEY_H__99A07CE4_FA5D_11D2_B601_8B199B22657D__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
-
-// #pragma comment(lib, "bzip_static.lib")
-// #pragma comment(lib, "z_static.lib")
 
 #include <map>
 #include <string>
@@ -15,7 +7,7 @@
 
 using namespace std;
 
-const static __int32 file_id = 0x1a464958; // *reinterpret_cast<const __int32*>("XIF\x1a");
+const static __int32 file_id = 0x1a464958;
 const static int file_version_old = 0;
 const static int file_version_new = 1;
 const static int file_version_fast = 2;
@@ -254,5 +246,3 @@ private:
 	void save(byte*& data) const;
 	void external_save(byte*& data) const;
 };
-
-#endif // !defined(AFX_XIF_KEY_H__99A07CE4_FA5D_11D2_B601_8B199B22657D__INCLUDED_)
