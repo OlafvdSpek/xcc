@@ -1,16 +1,9 @@
-// png_file.cpp: implementation of the Cpng_file class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
+#include "png_file.h"
+
 #include <setjmp.h>
 #include "fname.h"
 #include "png.h"
-#include "png_file.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 #ifdef PNG_SUPPORT
 void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
@@ -158,5 +151,20 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 	png_destroy_write_struct(&png_ptr, &info_ptr);		
 	fclose(f);
 	return 0;
+}
+#else
+int Cpng_file::decode(Cvirtual_image& d) const
+{
+	return 1;
+}
+
+int png_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy)
+{
+	return 1;
+}
+
+int png_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)
+{
+	return 1;
 }
 #endif

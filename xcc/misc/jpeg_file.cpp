@@ -158,4 +158,19 @@ int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* 
 		delete[] s;
 	return 0;
 }
+#else
+int Cjpeg_file::decode(Cvirtual_image& d) const
+{
+	return 1;
+}
+
+int jpeg_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy, int q)
+{
+	return 1;
+}
+
+int jpeg_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy, int q)
+{
+	return 1;
+}
 #endif
