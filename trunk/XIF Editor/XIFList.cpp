@@ -1,6 +1,3 @@
-// XIFList.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "string_conversion.h"
 #include "XIF Editor.h"
@@ -13,15 +10,6 @@
 #include "dlg_edit_string.h"
 #include "xif_tools.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFList
-
 IMPLEMENT_DYNCREATE(CXIFList, CListView)
 
 CXIFList::CXIFList()
@@ -31,7 +19,6 @@ CXIFList::CXIFList()
 CXIFList::~CXIFList()
 {
 }
-
 
 BEGIN_MESSAGE_MAP(CXIFList, CListView)
 	ON_WM_CONTEXTMENU()
@@ -48,9 +35,6 @@ BEGIN_MESSAGE_MAP(CXIFList, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_LOAD_VALUE_PCX, OnUpdatePopupLoadValuePcx)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXIFList message handlers
 
 BOOL CXIFList::PreCreateWindow(CREATESTRUCT& cs) 
 {

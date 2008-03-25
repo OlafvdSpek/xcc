@@ -1,21 +1,8 @@
-// dlg_edit_bin32.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XIF Editor.h"
 #include "dlg_edit_bin32.h"
 #include "string_conversion.h"
 #include "xif_tools.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_bin32 dialog
-
 
 Cdlg_edit_bin32::Cdlg_edit_bin32(CWnd* pParent /*=NULL*/)
 	: CDialog(Cdlg_edit_bin32::IDD, pParent)
@@ -25,7 +12,6 @@ Cdlg_edit_bin32::Cdlg_edit_bin32(CWnd* pParent /*=NULL*/)
 	m_value = _T("");
 	//}}AFX_DATA_INIT
 }
-
 
 void Cdlg_edit_bin32::DoDataExchange(CDataExchange* pDX)
 {
@@ -37,14 +23,10 @@ void Cdlg_edit_bin32::DoDataExchange(CDataExchange* pDX)
 	//}}AFX_DATA_MAP
 }
 
-
 BEGIN_MESSAGE_MAP(Cdlg_edit_bin32, CDialog)
 	//{{AFX_MSG_MAP(Cdlg_edit_bin32)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_bin32 message handlers
 
 void Cdlg_edit_bin32::set(const string& key, int value)
 {
