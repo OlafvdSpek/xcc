@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -147,7 +148,7 @@ void check_name(const string& name, ostream& log_f, bool check_chars = true)
 	}
 	int id = Cmix_file::get_id(game, name);
 	if (flist.find(id) != flist.end() && mix_database::get_name(game, id).empty())
-		log_f << to_lower(name) << '\t' << endl;
+		log_f << to_lower_copy(name) << '\t' << endl;
 }
 
 string find_file(const string& name)
@@ -224,7 +225,7 @@ int main()
 	for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
 		known += !mix_database::get_name(game, i->first).empty();
 	ofstream log_f("c:/log.txt");
-	for (i = flist.begin(); i != flist.end(); i++)
+	for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
 		check_name(mix_database::get_name(game, i->first), log_f);
 	if (0)
 	{
