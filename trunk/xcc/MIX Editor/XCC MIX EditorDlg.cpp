@@ -1,6 +1,3 @@
-// XCC MIX EditorDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XCC MIX EditorDlg.h"
 
@@ -14,15 +11,6 @@
 #include "string_conversion.h"
 #include "xcc_dirs.h"
 #include "xcc_lmd_file_write.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMIXEditorDlg dialog
 
 CXCCMIXEditorDlg::CXCCMIXEditorDlg(CWnd* pParent /*=NULL*/):
 	ETSLayoutDialog(CXCCMIXEditorDlg::IDD, pParent, "XCCMIXEditorDlg")

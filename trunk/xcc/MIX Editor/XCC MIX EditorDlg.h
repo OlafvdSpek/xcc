@@ -1,12 +1,4 @@
-// XCC MIX EditorDlg.h : header file
-//
-
-#if !defined(AFX_XCCMIXEDITORDLG_H__A14B9B25_F2B7_11D3_B605_0000B4936994__INCLUDED_)
-#define AFX_XCCMIXEDITORDLG_H__A14B9B25_F2B7_11D3_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <map>
 #include <string>
@@ -17,12 +9,8 @@
 
 using namespace std;
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMIXEditorDlg dialog
-
 class CXCCMIXEditorDlg : public ETSLayoutDialog
 {
-// Construction
 public:
 	void add_entry(int id);
 	void add_file(const string& name);
@@ -40,7 +28,6 @@ public:
 	void update_list();
 	CXCCMIXEditorDlg(CWnd* pParent = NULL);	// standard constructor
 
-// Dialog Data
 	//{{AFX_DATA(CXCCMIXEditorDlg)
 	enum { IDD = IDD_XCCMIXEDITOR_DIALOG };
 	CButton	m_button_insert;
@@ -56,17 +43,13 @@ public:
 	CString	m_edit_status;
 	//}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CXCCMIXEditorDlg)
-	protected:
+protected:
 	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
 	//}}AFX_VIRTUAL
-
-// Implementation
 protected:
 	HICON m_hIcon;
 
-	// Generated message map functions
 	//{{AFX_MSG(CXCCMIXEditorDlg)
 	virtual BOOL OnInitDialog();
 	afx_msg void OnPaint();
@@ -111,8 +94,3 @@ private:
 	int		m_sort_column;
 	bool	m_sort_reverse;
 };
-
-//{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
-
-#endif // !defined(AFX_XCCMIXEDITORDLG_H__A14B9B25_F2B7_11D3_B605_0000B4936994__INCLUDED_)
