@@ -1217,12 +1217,12 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	return f.save();
 }
 
-void Cxcc_level::convert_bin(word* data) const
+void Cxcc_level::convert_bin(unsigned short* data) const
 {
 	Cxcc_templates::load_images(map_data.theater);
 	for (int i = 0; i < 4096; i++)
 	{
-		word& v = data[i];
+		unsigned short& v = data[i];
 		if ((v & 0xff) > 0xd7 || !(v & 0xff))
 		{
 			int x = i & 0x3f;
@@ -1234,7 +1234,7 @@ void Cxcc_level::convert_bin(word* data) const
 	}
 }
 
-void Cxcc_level::deconvert_bin(word* data) const
+void Cxcc_level::deconvert_bin(unsigned short* data) const
 {
 	for (int i = 0; i < 4096; i++)
 		data[i] = Cxcc_templates::deconvert_bin_data(data[i]);
@@ -1247,7 +1247,7 @@ void Cxcc_level::process()
 		{
 			int x = i & 0x3f;
 			int y = i >> 6;
-			word& v = bin_data[i];
+			unsigned short& v = bin_data[i];
 			switch (v >> 8)
 			{
 			case 0:

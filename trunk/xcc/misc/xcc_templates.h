@@ -26,8 +26,8 @@ struct t_template_data_entry
 	int cx;
 	int cy;
 	int c_images;
-	qword buildable;
-	qword moveable;
+	long long buildable;
+	long long moveable;
 	int flags;
 };
 
@@ -88,7 +88,7 @@ public:
 	static void moveable(int v, bool w)
 	{
 		if (moveable(v) != w)
-			template_data[v >> 8].moveable ^= static_cast<qword>(1) << (v & 0xff);
+			template_data[v >> 8].moveable ^= static_cast<long long>(1) << (v & 0xff);
 	}
 
 	static void* get_bib(int v)
