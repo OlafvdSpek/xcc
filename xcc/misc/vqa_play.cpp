@@ -7,7 +7,7 @@ Cvqa_play::Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds):
 	dd(dd), ds(ds), f(f),
 	video_res(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN))
 {
-	audio_started = error = restore_videomode = window_created = use16 = false;
+	audio_started = error = restore_videomode = window_created = false;
 	ps = ts = 0;
 	psb = 0;
 	vqa_out = NULL;
@@ -15,10 +15,8 @@ Cvqa_play::Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds):
 
 int Cvqa_play::set_videomode()
 {
-	use16 = false;
 	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 32)))
 		return 0;
-	use16 = true;
 	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 16)))
 		return 0;
 	AfxMessageBox("Unable to set proper video mode");
@@ -67,7 +65,7 @@ int Cvqa_play::create(Cvqa_file& _f, bool _set_videomode)
 			pf.dwSize = sizeof(DDPIXELFORMAT);
 			if (DD_OK != ts->GetPixelFormat(&pf))
 				return 8;
-			mcb_d_pixel = 4 >> use16;
+			mcb_d_pixel = pf.dwRGBBitCount == 16 ? 2 : 4;
 			vqa_d.set_pf(pf, mcb_d_pixel);
 		}
 	}
@@ -220,13 +218,13 @@ bool Cvqa_play::run()
 			memcpy(line_start, out_read, cx * mcb_d_pixel);
 			out_read += cx * mcb_d_pixel;
 		}
-		else if (use16)
+		else if (ddsdesc.ddpfPixelFormat.dwRGBBitCount == 16)
 		{
-			word* pixel = reinterpret_cast<word*>(line_start);
+			__int16* pixel = reinterpret_cast<__int16*>(line_start);
 			for (int x = 0; x < cx; x++)
 				*pixel++ = m_color_table[*out_read++];
 		}
-		else
+		else if (ddsdesc.ddpfPixelFormat.dwRGBBitCount == 32)
 		{
 			int* pixel = reinterpret_cast<int*>(line_start);
 			for (int x = 0; x < cx; x++)
@@ -253,13 +251,13 @@ bool Cvqa_play::run()
 	switch (cx)
 	{
 	case 140:
-		d_rect = CRect(CPoint(d_cx * (147 - cx) / 2 / 147, 0), CSize(d_cx * cx / 147, d_cy));
+		d_rect = CRect(CPoint(d_cx * (147 - cx) / 294, 0), CSize(d_cx * cx / 147, d_cy));
 		break;
 	case 320:
-		d_rect = CRect(CPoint(0, d_cy * (200 - cy) / 2 / 200), CSize(d_cx, d_cy * cy / 200));
+		d_rect = CRect(CPoint(0, d_cy * (200 - cy) / 400), CSize(d_cx, d_cy * cy / 200));
 		break;
 	default:
-		d_rect = CRect(CPoint(0, d_cy * (400 - cy) / 2 / 400), CSize(d_cx, d_cy * cy / 400));
+		d_rect = CRect(CPoint(0, d_cy * (400 - cy) / 800), CSize(d_cx, d_cy * cy / 400));
 	}	
 	if (DD_OK != ps->Blt(d_rect, ts, s_rect, 0, 0))
 	{
