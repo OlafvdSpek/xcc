@@ -24,14 +24,12 @@ public:
 	void shuffle_aud();
 	void sort_list(int i, bool reverse);
 	bool valid_index();
-	int play_aud(dword id);
+	int play_aud(int id);
 	int play_aud(Caud_file& audf);
-	int play_vqa(dword id);
+	int play_vqa(int id);
 	int play_vqa(Cvqa_file& f);
-	int play_wav(dword id);
+	int play_wav(int id);
 	int play_wav(Cwav_file& wavf);
-	int add_column(const string &text, dword index, dword size, dword format = LVCFMT_LEFT, dword subindex = -1);
-	int add_item(const string &text, dword index, dword subindex, int param = -1);
 	int OpenMix(const string &fname);
 	CXCCAudioPlayerDlg(CWnd* pParent = NULL);	// standard constructor
 	~CXCCAudioPlayerDlg();

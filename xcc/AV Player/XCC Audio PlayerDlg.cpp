@@ -120,13 +120,11 @@ BOOL CXCCAudioPlayerDlg::OnInitDialog()
 		m_statusbar = "DirectSound unavailable";
 	}
 	UpdateData(false);
-	if (add_column("ID", 0, 80) ||
-		add_column("Index", 1, 40, LVCFMT_RIGHT) ||
-		add_column("Size", 2, 80, LVCFMT_RIGHT) ||
-		add_column("Length", 3, 80, LVCFMT_RIGHT) ||
-		add_column("Name", 4, 100) ||
-		add_column("Description", 5, 240))
-		throw;
+	m_list.InsertColumn(0, "ID", LVCFMT_LEFT);
+	m_list.InsertColumn(1, "Size", LVCFMT_RIGHT);
+	m_list.InsertColumn(2, "Length", LVCFMT_RIGHT);
+	m_list.InsertColumn(3, "Name", LVCFMT_LEFT);
+	m_list.InsertColumn(4, "Description", LVCFMT_LEFT);
 	mixf.enable_mix_expansion();
 	OpenMix("scores.mix");
 	SetTimer(0, 5 * 1000, NULL);
@@ -184,18 +182,17 @@ void CXCCAudioPlayerDlg::OnExtract()
 	char s[MAX_PATH];
 	strcpy(s, mix_database::get_description(game, current_id).c_str());
 	dlg.m_ofn.lpstrFile = s;
-	if (IDOK == dlg.DoModal())
-	{
-		string fname = dlg.GetPathName();
-		m_statusbar = ("Extracting to " + fname).c_str();
-		UpdateData(false);
+	if (IDOK != dlg.DoModal())
+		return;
+	string fname = dlg.GetPathName();
+	m_statusbar = ("Extracting to " + fname).c_str();
+	UpdateData(false);
 
-		Caud_file audf;
-		audf.open(current_id, mixf);
-		m_statusbar = audf.extract_as_wav(fname) ? "Extraction failed" : "Extraction succeeded";
-		UpdateData(false);
-		audf.close();
-	}
+	Caud_file audf;
+	audf.open(current_id, mixf);
+	m_statusbar = audf.extract_as_wav(fname) ? "Extraction failed" : "Extraction succeeded";
+	UpdateData(false);
+	audf.close();
 }
 
 void CXCCAudioPlayerDlg::OnExctractRaw()
@@ -207,18 +204,17 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 	char s[MAX_PATH];
 	strcpy(s, mix_database::get_name(game, current_id).c_str());
 	dlg.m_ofn.lpstrFile = s;
-	if (IDOK == dlg.DoModal())
-	{
-		string fname = dlg.GetPathName();
-		m_statusbar = ("Extracting to " + fname).c_str();
-		UpdateData(false);
+	if (IDOK != dlg.DoModal())
+		return;
+	string fname = dlg.GetPathName();
+	m_statusbar = ("Extracting to " + fname).c_str();
+	UpdateData(false);
 
-		Ccc_file f(false);
-		f.open(current_id, mixf);
-		m_statusbar = f.extract(fname) ? "Extraction failed" : "Extraction succeeded";
-		UpdateData(false);
-		f.close();
-	}
+	Ccc_file f(false);
+	f.open(current_id, mixf);
+	m_statusbar = f.extract(fname) ? "Extraction failed" : "Extraction succeeded";
+	UpdateData(false);
+	f.close();
 }
 
 void CXCCAudioPlayerDlg::OnOpenmix()
@@ -232,30 +228,26 @@ void CXCCAudioPlayerDlg::OnOpenmix()
 void CXCCAudioPlayerDlg::OnOpenaud()
 {
 	CFileDialog dlg(true, "aud", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, aud_filter, this);
-	if (IDOK == dlg.DoModal())
-	{
-		Caud_file f;
-		if (!f.open(static_cast<string>(dlg.GetPathName())))
-		{
-			play_aud(f);
-			f.close();
-		}
-	}
+	if (IDOK != dlg.DoModal())
+		return;
+	Caud_file f;
+	if (f.open(static_cast<string>(dlg.GetPathName())))
+		return;
+	play_aud(f);
+	f.close();
 }
 
 void CXCCAudioPlayerDlg::OnOpenvqa()
 {
 	CFileDialog dlg(true, "vqa", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, vqa_filter, this);
 	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_dir(game_td).c_str();
-	if (IDOK == dlg.DoModal())
-	{
-		Cvqa_file f;
-		if (!f.open(static_cast<string>(dlg.GetPathName())))
-		{
-			play_vqa(f);
-			f.close();
-		}
-	}
+	if (IDOK != dlg.DoModal())
+		return;
+	Cvqa_file f;
+	if (f.open(static_cast<string>(dlg.GetPathName())))
+		return;
+	play_vqa(f);
+	f.close();
 }
 
 int CXCCAudioPlayerDlg::OpenMix(const string &fname)
@@ -336,19 +328,6 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	return 0;
 }
 
-int CXCCAudioPlayerDlg::add_column(const string &text, dword index, dword size, dword format, dword subindex)
-{
-	LV_COLUMN column_data;
-	column_data.mask = LVCF_FMT | LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
-	column_data.fmt = format;
-	column_data.cx = size;
-	char s[256];
-	strcpy(s, text.c_str());
-	column_data.pszText = s;
-	column_data.iSubItem = subindex == -1 ? index : subindex;
-	return m_list.InsertColumn(index, &column_data) == -1 ? 1 : 0;
-}
-
 void CXCCAudioPlayerDlg::OnPlay()
 {
 	if (!valid_index())
@@ -398,7 +377,7 @@ void CXCCAudioPlayerDlg::OnInfo()
 	dlg.DoModal();
 }
 
-int CXCCAudioPlayerDlg::play_aud(dword id)
+int CXCCAudioPlayerDlg::play_aud(int id)
 {
 	Caud_file f;
 	if (f.open(id, mixf))
@@ -461,7 +440,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 	return error;
 }
 
-int CXCCAudioPlayerDlg::play_vqa(dword id)
+int CXCCAudioPlayerDlg::play_vqa(int id)
 {
 	Cvqa_file f;
 	if (f.open(id, mixf))
@@ -496,7 +475,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 	return error;
 }
 
-int CXCCAudioPlayerDlg::play_wav(dword id)
+int CXCCAudioPlayerDlg::play_wav(int id)
 {
 	Cwav_file f;
 	if (f.open(id, mixf))
@@ -689,16 +668,16 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 	case 0:
 		buffer = nh(8, id);
 		break;
-	case 2:
+	case 1:
 		buffer = n(e.size);
 		break;
-	case 3:
+	case 2:
 		buffer = e.length;
 		break;
-	case 4:
+	case 3:
 		buffer = e.name;
 		break;
-	case 5:
+	case 4:
 		buffer = e.description;
 		break;
 	}
