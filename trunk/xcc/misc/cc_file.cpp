@@ -528,6 +528,8 @@ int Ccc_file::extract(const string& name)
 		int cb_write = min(size, 1 << 20);
 		if (error = read(data.write_start(cb_write), cb_write))
 			return error;
+		if (error = f.write(data, cb_write))
+			return error;
 		size -= cb_write;
 	}
 	return 0;
