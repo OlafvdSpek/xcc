@@ -1,3 +1,3 @@
 <?php
-	header("location: http://xccu.sourceforge.net/cgi-bin/forum.cgi?show_news");
+	header("location: http://xhp.xwis.net/cgi-bin/forum.cgi?show_news");
 ?>

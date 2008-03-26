@@ -10,7 +10,7 @@ private:
 public:
 	void destroy();
 	bool is_available();	
-	int lock(int pos, int size, void** p1, dword* s1, void** p2, dword* s2);
+	int lock(int pos, int size, void** p1, DWORD* s1, void** p2, DWORD* s2);
 	int unlock(void* p1, int s1, void* p2, int s2);
 	int set_samplerate(int samplerate);
 	int set_pos(int pos);
