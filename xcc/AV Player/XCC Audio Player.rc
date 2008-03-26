@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -28,7 +28,7 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Audio Player.ico"
+IDR_MAINFRAME           ICON                    "res\\XCC Audio Player.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -36,25 +36,19 @@ IDR_MAINFRAME           ICON    DISCARDABLE     "res\\XCC Audio Player.ico"
 //
 
 IDD_XCCAUDIOPLAYER_DIALOG DIALOGEX 0, 0, 84, 230
-STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
-    WS_SYSMENU | WS_THICKFRAME
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_APPWINDOW
 CAPTION "XCC AV Player"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | 
-                    LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | 
-                    WS_TABSTOP,6,7,6,6
-    LTEXT           "Ready",IDC_STATUSBAR,0,219,84,11,SS_NOPREFIX | 
-                    SS_SUNKEN
-    PUSHBUTTON      "Exit",IDOK,18,7,66,14
+    CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,6,7,6,6
+    LTEXT           "Ready",IDC_STATUSBAR,0,219,84,11,SS_NOPREFIX | SS_SUNKEN
     PUSHBUTTON      "Extract...",IDEXTRACT,18,22,66,14
     PUSHBUTTON      "Extract raw...",IDEXTRACT_RAW,18,37,66,14
     PUSHBUTTON      "Open MIX...",IDOPENMIX,18,52,66,14
     DEFPUSHBUTTON   "Play",IDPLAY,18,67,66,14
     PUSHBUTTON      "Shuffle",IDSHUFFLE,18,82,66,14
     PUSHBUTTON      "Stop",IDSTOP,18,97,66,14
-    PUSHBUTTON      "Info...",IDINFO,18,112,66,14
     PUSHBUTTON      "Open movies.mix",IDC_OpenMovies,18,127,66,14
     PUSHBUTTON      "Open scores.mix",IDC_OpenScores,18,142,66,14
     PUSHBUTTON      "Open sounds.mix",IDC_OpenSounds,18,157,66,14
@@ -63,19 +57,16 @@ BEGIN
     PUSHBUTTON      "Play VQA...",IDOPENVQA,17,202,66,14
 END
 
-IDD_INFO DIALOG DISCARDABLE  0, 0, 266, 98
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION
+IDD_INFO DIALOG  0, 0, 266, 98
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
 CAPTION "Info"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,209,78,50,14
     LTEXT           "This is XCC AV Player.",IDC_STATIC,7,7,72,8
-    LTEXT           "I'll appreciate any comments you have about it.",
-                    IDC_STATIC,7,29,148,8
-    LTEXT           "This app uses DirectX 3. You'll need to install it if you don't have it.",
-                    IDC_STATIC,7,51,209,8
-    LTEXT           "Author: Olaf van der Spek (OlafvdSpek@GMail.Com)",
-                    IDC_STATIC,7,73,168,8
+    LTEXT           "I'll appreciate any comments you have about it.",IDC_STATIC,7,29,148,8
+    LTEXT           "This app uses DirectX 3. You'll need to install it if you don't have it.",IDC_STATIC,7,51,209,8
+    LTEXT           "Author: Olaf van der Spek (OlafvdSpek@GMail.Com)",IDC_STATIC,7,73,168,8
 END
 
 #endif    // English (U.S.) resources
@@ -97,18 +88,18 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"

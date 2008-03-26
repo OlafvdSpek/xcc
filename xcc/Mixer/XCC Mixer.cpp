@@ -22,17 +22,8 @@ CXCCMixerApp theApp;
 BOOL CXCCMixerApp::InitInstance()
 {
 	AfxEnableControlContainer();
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
 	SetRegistryKey("XCC");
-
-	LoadStdProfileSettings(0);  // Load standard INI file options (including MRU)
-
+	LoadStdProfileSettings(0);
 	Cmix_file::enable_ft_support();
 	xcc_dirs::load_from_registry();
 	xcc_log::attach_file("XCC Mixer log.txt");
