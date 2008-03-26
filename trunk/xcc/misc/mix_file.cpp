@@ -22,7 +22,6 @@ Cmix_file::Cmix_file():
     Ccc_file(false)
 {
 	m_mix_expansion = false;
-	m_index_ft = NULL;
 }
 
 bool Cmix_file::is_valid()
@@ -61,7 +60,7 @@ bool Cmix_file::is_valid()
 	return true;
 }
 
-#define test_fail(res) { int v = res; if (v) { clean_up(); return v; }}
+#define test_fail(res) { int v = res; if (v) { close(); return v; }}
 
 int Cmix_file::post_open()
 {
@@ -268,9 +267,9 @@ int Cmix_file::post_open()
 		{
 			int crc = compute_crc(&m_index[0], m_c_files * sizeof(t_mix_index_entry));
 			const void* s = mix_cache::get_data(crc);
-			m_index_ft = new t_file_type[m_c_files];
+			m_index_ft.resize(m_c_files);
 			if (s)
-				memcpy(m_index_ft, s, m_c_files * sizeof(t_file_type));
+				memcpy(&m_index_ft[0], s, m_c_files * sizeof(t_file_type));
 			else
 			{
 				typedef multimap<int, int> t_block_map;
@@ -287,7 +286,7 @@ int Cmix_file::post_open()
 					m_index_ft[i->second] = f.get_file_type();
 					f.close();
 				}
-				mix_cache::set_data(crc, m_index_ft, m_c_files * sizeof(t_file_type));
+				mix_cache::set_data(crc, &m_index_ft[0], m_c_files * sizeof(t_file_type));
 			}
 			for (int i = 0; i < m_c_files; i++)
 			{
@@ -333,11 +332,8 @@ int Cmix_file::post_open()
 					m_index[m_c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
 					m_index[m_c_files + j].size = f.get_size(id);
 				}
-				t_file_type* new_index_ft = new t_file_type[m_c_files + new_c_files];
-				memcpy(new_index_ft, m_index_ft, m_c_files * sizeof(t_file_type));
-				memcpy(new_index_ft + m_c_files, f.m_index_ft, new_c_files * sizeof(t_file_type));
-				delete[] m_index_ft;
-				m_index_ft = new_index_ft;
+				m_index_ft.resize(m_c_files + new_c_files);
+				memcpy(&m_index_ft[m_c_files], &f.m_index_ft[0], new_c_files * sizeof(t_file_type));
 				m_c_files += new_c_files;
 				f.close();
 			}
@@ -349,8 +345,7 @@ int Cmix_file::post_open()
 void Cmix_file::close()
 {
 	m_id_index.clear();
-	delete[] m_index_ft;
-	m_index_ft = NULL;
+	m_index_ft.clear();
     m_index.clear();
 	Ccc_file::close();
 }
@@ -366,7 +361,7 @@ string Cmix_file::get_name(int id)
 
 t_file_type Cmix_file::get_type(int id)
 {
-	assert(m_index_ft);
+	assert(!m_index_ft.empty());
 	return m_index_ft[get_index(id)];
 }
 
@@ -420,20 +415,8 @@ int Cmix_file::get_id(t_game game, string name)
 
 int Cmix_file::get_index(unsigned int id) const
 {
-	if (!is_open())
-		return -1;
 	t_id_index::const_iterator i = m_id_index.find(id);
 	return i == m_id_index.end() ? -1 : i->second;
-}
-
-void Cmix_file::clean_up()
-{
-	m_id_index.clear();
-    delete[] m_index_ft;
-    m_index_ft = NULL;
-    m_index.clear();
-    if (is_open())
-        close();
 }
 
 Cvirtual_binary Cmix_file::get_vdata(int id)

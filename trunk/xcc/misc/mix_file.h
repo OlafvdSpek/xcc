@@ -80,13 +80,12 @@ private:
 
 	static bool m_ft_support;
 
-    void clean_up();
     int m_c_files;
 	t_game m_game;
 	bool m_mix_expansion;
 	bool m_is_encrypted;
 	bool m_has_checksum;
     vector<t_mix_index_entry> m_index;
-	t_file_type* m_index_ft;
+	vector<t_file_type> m_index_ft;
 	t_id_index m_id_index;
 };

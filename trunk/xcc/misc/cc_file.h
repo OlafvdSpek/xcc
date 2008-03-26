@@ -149,8 +149,6 @@ protected:
     Cmix_file* m_mix_f;
     int m_offset;
 private:
-    void clean_up();
-
     Cvirtual_binary m_data;
     Cfile32 m_f;
     bool m_is_open;
