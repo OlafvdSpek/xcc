@@ -1836,7 +1836,7 @@ void CXCCEditorView::OnPopupFillWithWater()
 	{
 		for (int x = sel.TopLeft().x; x < sel.BottomRight().x; x++)
 		{
-			word& v = level().bin_data[Cxcc_cell(x << 8, y << 8).get_cc()];
+			unsigned short& v = level().bin_data[Cxcc_cell(x << 8, y << 8).get_cc()];
 			if (v >> 8 == 0)
 				v = 2 << 8;
 		}

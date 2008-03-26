@@ -295,7 +295,7 @@ typedef map<string, t_trigger_data_entry> t_trigger_data;
 
 typedef int t_waypoint_data[100];
 
-typedef word t_bin_data[4096];
+typedef unsigned short t_bin_data[4096];
 
 int convert_overlay_edit(int v);
 bool is_tiberium(t_overlay_id v);
@@ -331,8 +331,8 @@ public:
 	t_trigger_data trigger_data;
 	t_waypoint_data waypoint_data;
 private:
-	void convert_bin(word* data) const;
-	void deconvert_bin(word* data) const;
+	void convert_bin(unsigned short* data) const;
+	void deconvert_bin(unsigned short* data) const;
 };
 
 class Cxcc_level_warning
