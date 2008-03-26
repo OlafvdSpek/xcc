@@ -77,10 +77,9 @@ int Cmix_file::post_open()
 		{
 			m_game = game_rg;
 			m_is_encrypted = m_has_checksum = false;
-			m_c_files = f.get_c_files();
-			int cb_index = m_c_files * sizeof(t_mix_index_entry);
-			m_index.resize(m_c_files);
-			for (int i = 0; i < m_c_files; i++)
+			int c_files = f.get_c_files();
+			m_index.resize(c_files);
+			for (int i = 0; i < c_files; i++)
 			{
 				string name = f.get_name(i);
 				mix_database::add_name(m_game, name, "-");
@@ -101,10 +100,9 @@ int Cmix_file::post_open()
 			{
 				m_game = game_gr;
 				m_is_encrypted = m_has_checksum = false;
-				m_c_files = f.get_c_files();
-				int cb_index = m_c_files * sizeof(t_mix_index_entry);
-				m_index.resize(m_c_files);
-				for (int i = 0; i < m_c_files; i++)
+				int c_files = f.get_c_files();
+				m_index.resize(c_files);
+				for (int i = 0; i < c_files; i++)
 				{
 					string name = f.get_name(i);
 					mix_database::add_name(m_game, name, "-");
@@ -132,12 +130,11 @@ int Cmix_file::post_open()
 		{
 			m_game = game_dune2;
 			m_is_encrypted = m_has_checksum = false;
-			m_c_files = f.get_c_files();
-			if (m_c_files >> 12)
+			int c_files = f.get_c_files();
+			if (c_files >> 12)
 				test_fail(1);
-			int cb_index = m_c_files * sizeof(t_mix_index_entry);
-			m_index.resize(m_c_files);
-			for (int i = 0; i < m_c_files; i++)
+			m_index.resize(c_files);
+			for (int i = 0; i < c_files; i++)
 			{
 				string name = f.get_name(i);
 				mix_database::add_name(m_game, name, "-");
@@ -158,13 +155,13 @@ int Cmix_file::post_open()
 		{
 			m_game = game_td;
 			m_is_encrypted = m_has_checksum = false;
-			m_c_files = header.c_files;
-			int cb_index = m_c_files * sizeof(t_mix_index_entry);
+			int c_files = header.c_files;
+			int cb_index = c_files * sizeof(t_mix_index_entry);
 			if (header.c_files >> 12 || get_size() != 6 + cb_index + header.size)
 				test_fail(1);
-			m_index.resize(m_c_files);
+			m_index.resize(c_files);
 			test_fail(read(&m_index[0], cb_index));
-			for (int i = 0; i < m_c_files; i++)
+			for (int i = 0; i < c_files; i++)
 				m_index[i].offset += 6 + cb_index;
 		}
 		else
@@ -185,20 +182,20 @@ int Cmix_file::post_open()
 				read(e, 8);
 				bf.decipher(e, e, 8);
 				memcpy(&header, e, sizeof(t_mix_header));
-				m_c_files = header.c_files;
-				const int cb_index = m_c_files * sizeof(t_mix_index_entry);
+				int c_files = header.c_files;
+				const int cb_index = c_files * sizeof(t_mix_index_entry);
 				const int cb_f = cb_index + 5 & ~7;
 				if (get_size() != 92 + cb_f + header.size + (m_has_checksum ? 20 : 0))
 					test_fail(1);
-				if (m_c_files)
+				if (c_files)
 				{
 					Cvirtual_binary f;
 					read(f.write_start(cb_f), cb_f);
 					bf.decipher(f.data_edit(), f.data_edit(), cb_f);
-					m_index.resize(m_c_files);
+					m_index.resize(c_files);
 					memcpy(&m_index[0], e + 6, 2);
 					memcpy(reinterpret_cast<byte*>(&m_index[0]) + 2, f.data(), cb_index - 2);
-					for (int i = 0; i < m_c_files; i++)
+					for (int i = 0; i < c_files; i++)
 					{
 						if (m_index[i].offset & 0xf)
 							aligned = false;
@@ -209,13 +206,13 @@ int Cmix_file::post_open()
 			else
 			{
 				read(&header, sizeof(header));
-				m_c_files = header.c_files;
-				const int cb_index = m_c_files * sizeof(t_mix_index_entry);
+				int c_files = header.c_files;
+				const int cb_index = c_files * sizeof(t_mix_index_entry);
 				if (get_size() != 4 + sizeof(t_mix_header) + cb_index + header.size + (m_has_checksum ? 20 : 0))
 					test_fail(1);				
-				m_index.resize(m_c_files);
+				m_index.resize(c_files);
 				read(&m_index[0], cb_index);
-				for (int i = 0; i < m_c_files; i++)
+				for (int i = 0; i < c_files; i++)
 				{
 					if (m_index[i].offset & 0xf)
 						aligned = false;
@@ -265,18 +262,18 @@ int Cmix_file::post_open()
 		}
 		if (!get_vdata() || get_vdata().size() == get_size())
 		{
-			int crc = compute_crc(&m_index[0], m_c_files * sizeof(t_mix_index_entry));
+			int crc = compute_crc(&m_index[0], get_c_files() * sizeof(t_mix_index_entry));
 			const void* s = mix_cache::get_data(crc);
-			m_index_ft.resize(m_c_files);
+			m_index_ft.resize(get_c_files());
 			if (s)
-				memcpy(&m_index_ft[0], s, m_c_files * sizeof(t_file_type));
+				memcpy(&m_index_ft[0], s, get_c_files() * sizeof(t_file_type));
 			else
 			{
 				typedef multimap<int, int> t_block_map;
 
 				t_block_map block_map;
 				{
-					for (int i = 0; i < m_c_files; i++)
+					for (int i = 0; i < get_c_files(); i++)
 						block_map.insert(t_block_map::value_type(get_offset(get_id(i)), i));
 				}
 				for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
@@ -286,9 +283,9 @@ int Cmix_file::post_open()
 					m_index_ft[i->second] = f.get_file_type();
 					f.close();
 				}
-				mix_cache::set_data(crc, &m_index_ft[0], m_c_files * sizeof(t_file_type));
+				mix_cache::set_data(crc, &m_index_ft[0], get_c_files() * sizeof(t_file_type));
 			}
-			for (int i = 0; i < m_c_files; i++)
+			for (int i = 0; i < get_c_files(); i++)
 			{
 				int id = get_id(i);
 				if (get_type(id) == ft_xcc_lmd)
@@ -317,26 +314,24 @@ int Cmix_file::post_open()
 #endif
 	if (m_mix_expansion)
 	{
-		const int c_files = m_c_files;
-		for (int i = 0; i < c_files; i++)
+		for (int i = 0; i < get_c_files(); i++)
 		{
-			if (get_type(m_index[i].id) == ft_mix)
+			if (get_type(m_index[i].id) != ft_mix)
+				continue;
+			Cmix_file f;
+			f.open(m_index[i].id, *this);				
+			int c_files = get_c_files();
+			int new_c_files = f.get_c_files();
+			m_index.resize(c_files + new_c_files);
+			for (int j = 0; j < new_c_files; j++)
 			{
-				Cmix_file f;
-				f.open(m_index[i].id, *this);				
-				int new_c_files = f.get_c_files();
-				m_index.resize(m_c_files + new_c_files);
-				for (int j = 0; j < new_c_files; j++)
-				{
-					int id = m_index[m_c_files + j].id = f.get_id(j);
-					m_index[m_c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
-					m_index[m_c_files + j].size = f.get_size(id);
-				}
-				m_index_ft.resize(m_c_files + new_c_files);
-				memcpy(&m_index_ft[m_c_files], &f.m_index_ft[0], new_c_files * sizeof(t_file_type));
-				m_c_files += new_c_files;
-				f.close();
+				int id = m_index[c_files + j].id = f.get_id(j);
+				m_index[c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
+				m_index[c_files + j].size = f.get_size(id);
 			}
+			m_index_ft.resize(c_files + new_c_files);
+			memcpy(&m_index_ft[c_files], &f.m_index_ft[0], new_c_files * sizeof(t_file_type));
+			f.close();
 		}
 	}
     return 0;
