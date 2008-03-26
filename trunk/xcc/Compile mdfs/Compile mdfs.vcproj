@@ -20,6 +20,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -69,7 +70,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vfw32.lib libbz2.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Debug/Compile mdfs.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -111,6 +111,7 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -162,7 +163,6 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vfw32.lib libbz2.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib zlib.lib"
 				OutputFile=".\Release/Compile mdfs.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

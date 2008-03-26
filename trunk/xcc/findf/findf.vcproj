@@ -20,8 +20,8 @@
 			OutputDirectory=".\Release"
 			IntermediateDirectory=".\Release"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="2"
+			InheritedPropertySheets="..\XCC.vsprops"
+			UseOfMFC="1"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
 			WholeProgramOptimization="1"
@@ -71,10 +71,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libbz2.lib zlib.lib"
 				OutputFile=".\Release/findf.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
+				IgnoreDefaultLibraryNames=""
 				ProgramDatabaseFile=".\Release/findf.pdb"
 				SubSystem="1"
 				TargetMachine="1"
@@ -111,7 +111,7 @@
 			OutputDirectory=".\Debug"
 			IntermediateDirectory=".\Debug"
 			ConfigurationType="1"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			InheritedPropertySheets="..\XCC.vsprops"
 			UseOfMFC="2"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
@@ -161,10 +161,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="vfw32.lib libpng.lib libjpeg.lib ogg_static.lib vorbis_static.lib vorbisfile_static.lib libbz2.lib zlib.lib"
 				OutputFile=".\Debug/findf.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
+				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/findf.pdb"
 				SubSystem="1"
