@@ -7,7 +7,6 @@ class Cmix_file: public Ccc_file
 {
 public:
     int post_open();
-	t_file_type get_type(int id);
 	string get_name(int id);
     static int get_id(t_game game, string name);
     int get_index(unsigned int id) const;
@@ -46,6 +45,12 @@ public:
 		m_game = game;
 	}
 
+	t_file_type Cmix_file::get_type(int id)
+	{
+		assert(get_index(id) != -1);
+		return m_index_ft[get_index(id)];
+	}
+
 	int get_id(int index) const
 	{
 		return m_index[index].id;
@@ -53,11 +58,13 @@ public:
 
 	int get_offset(unsigned int id) const
     {
+		assert(get_index(id) != -1);
         return m_index[get_index(id)].offset;
     }
 
 	int get_size(unsigned int id) const
     {
+		assert(get_index(id) != -1);
         return m_index[get_index(id)].size;
     }
 

@@ -92,8 +92,8 @@ private:
 	{
 		string name;
 		t_file_type type;
+		int length;
 		int size;
-		string length;
 		string description;
 	};
 

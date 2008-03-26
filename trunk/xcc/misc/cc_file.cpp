@@ -466,7 +466,11 @@ t_file_type Ccc_file::get_file_type(bool fast)
 int Ccc_file::read()
 {
 	seek(0);
-	return read(m_data.write_start(get_size()), get_size());
+	Cvirtual_binary d;
+	if (int error = read(d.write_start(get_size()), get_size()))
+		return error;
+	m_data = d;
+	return 0;
 }
 
 int Ccc_file::read(void* data, int size)

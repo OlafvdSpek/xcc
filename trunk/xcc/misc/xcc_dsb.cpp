@@ -94,7 +94,6 @@ int Cxcc_dsb::set_samplerate(int samplerate)
 
 int Cxcc_dsb::lock(int pos, int size, void** p1, dword* s1, void** p2, dword* s2)
 {
-
 	if (DS_OK != pdsb->Lock(pos, size, p1, s1, p2, s2, 0))
 	{
 		handle_error("Lock failed");
