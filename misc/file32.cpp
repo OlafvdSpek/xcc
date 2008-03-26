@@ -162,9 +162,9 @@ Cvirtual_binary Cfile32::get_mm()
 {
 	int size = get_size();
 	if (!size)
-		return Cvirtual_binary(NULL, 0);
+		return Cvirtual_binary();
 	Cmemory_map mm(*this);
-	return Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm));
+	return mm.d() ? Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm)) : Cvirtual_binary();
 }
 
 Cvirtual_binary file32_read(const string& name)
@@ -176,13 +176,9 @@ Cvirtual_binary file32_read(const string& name)
 int file32_write(const string& name, const void* s, int cb_s)
 {
 	Cfile32 f;
-	int error = f.open_write(name);
-	if (!error)
-	{
-		error = f.write(s, cb_s);
-		f.close();
-	}
-	return error;
+	if (int error = f.open_write(name))
+		return error;
+	return f.write(s, cb_s);
 }
 
 Cmemory_map_source::Cmemory_map_source(const Cfile32& f)
