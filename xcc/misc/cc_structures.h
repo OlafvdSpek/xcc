@@ -178,6 +178,17 @@ const int cb_mix_checksum = 20;
 
 struct t_mix_index_entry
 {
+	t_mix_index_entry()
+	{
+	}
+
+	t_mix_index_entry(unsigned int id_, int offset_, int size_)
+	{
+		id = id_;
+		offset = offset_;
+		size = size_;
+	}
+
     unsigned __int32 id;
     __int32 offset;
     __int32 size;
