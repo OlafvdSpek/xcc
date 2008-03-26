@@ -151,9 +151,9 @@ int Ccc_file::open(unsigned int id, Cmix_file& mix_f)
 {
 	if (mix_f.get_index(id) == -1)
 		return -1;
-	m_mix_f = &mix_f;
-	m_offset = m_mix_f->get_offset(id);
-	m_size = m_mix_f->get_size(id);
+	m_f = mix_f.m_f;
+	m_offset = mix_f.m_offset + mix_f.get_offset(id);
+	m_size = mix_f.get_size(id);
 	m_p = 0;
 	m_is_open = true;
 	if (m_read_on_open || mix_f.get_data())
@@ -176,7 +176,7 @@ int Ccc_file::open(const string& name)
 #else
 	test_fail(m_f.open_read(xcc_dirs::find_file(name)));
 #endif
-	m_mix_f = NULL;
+	m_offset = 0;
 	m_size = m_f.get_size();
 	m_p = 0;
     m_is_open = true;
@@ -212,7 +212,7 @@ int Ccc_file::open(const Cwin_handle& h)
 {
     assert(!is_open());
 	m_f.open(h);
-	m_mix_f = NULL;
+	m_offset = 0;
 	m_size = m_f.get_size();
 	m_p = 0;
     m_is_open = true;
@@ -226,7 +226,7 @@ int Ccc_file::open(const Cwin_handle& h)
 void Ccc_file::load(const Cvirtual_binary& d, int size)
 {
 	m_data = d;
-	m_mix_f = NULL;
+	m_offset = 0;
 	m_is_open = true;
 	m_p = 0;
 	m_size = size == -1 ? d.size() : size;
@@ -484,17 +484,8 @@ int Ccc_file::read(void* data, int size)
 		return 0;
 	}
 	assert(is_open());
-    int res = 0;
-	if (m_mix_f)
-    {
-        m_mix_f->seek(m_offset + m_p);
-        res = m_mix_f->read(data, size);
-    }
-    else
-    {
-        m_f.seek(m_p);
-        res = m_f.read(data, size);
-    }
+    m_f.seek(m_offset + m_p);
+    int res = m_f.read(data, size);
     if (!res)
         skip(size);
     return res;
@@ -507,16 +498,15 @@ int Ccc_file::extract(const string& name)
 		return get_vdata().save(name);
 	seek(0);
 	Cfile32 f;
-	int error = f.open_write(name);
-	if (error)
+	if (int error = f.open_write(name))
 		return error;
 	Cvirtual_binary data;
 	for (int size = get_size(); size; )
 	{
 		int cb_write = min(size, 1 << 20);
-		if (error = read(data.write_start(cb_write), cb_write))
+		if (int error = read(data.write_start(cb_write), cb_write))
 			return error;
-		if (error = f.write(data, cb_write))
+		if (int error = f.write(data, cb_write))
 			return error;
 		size -= cb_write;
 	}

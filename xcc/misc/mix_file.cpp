@@ -397,21 +397,10 @@ Cvirtual_binary Cmix_file::get_vdata(int id)
 {
 	if (get_index(id) == -1)
 		return Cvirtual_binary();
-	int offset = get_offset(id);
-	int o = offset;
-	Cmix_file* last_p;
-	Cmix_file* p = this;
-	do
-	{
-		if (p->m_mix_f)
-			o += p->m_offset;
-		last_p = p;
-	}
-	while (p = p->m_mix_f);
-	if (last_p->get_data())
-		return Cvirtual_binary(last_p->get_data() + o, get_size(id), Csmart_ref<Cvirtual_binary>::create(last_p->get_vdata()));
+	if (get_data())
+		return get_vdata().sub_bin(get_offset(id), get_size(id));
 	Cvirtual_binary d;
-	seek(offset);
+	seek(get_offset(id));
 	int size = get_size(id);
 	if (read(d.write_start(size), size))
 		d.clear();
