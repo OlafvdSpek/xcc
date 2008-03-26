@@ -22,7 +22,6 @@ Cmix_file::Cmix_file():
     Ccc_file(false)
 {
 	m_mix_expansion = false;
-    m_index = NULL;
 	m_index_ft = NULL;
 }
 
@@ -81,7 +80,7 @@ int Cmix_file::post_open()
 			m_is_encrypted = m_has_checksum = false;
 			m_c_files = f.get_c_files();
 			int cb_index = m_c_files * sizeof(t_mix_index_entry);
-			m_index = new t_mix_index_entry[m_c_files];
+			m_index.resize(m_c_files);
 			for (int i = 0; i < m_c_files; i++)
 			{
 				string name = f.get_name(i);
@@ -105,7 +104,7 @@ int Cmix_file::post_open()
 				m_is_encrypted = m_has_checksum = false;
 				m_c_files = f.get_c_files();
 				int cb_index = m_c_files * sizeof(t_mix_index_entry);
-				m_index = new t_mix_index_entry[m_c_files];
+				m_index.resize(m_c_files);
 				for (int i = 0; i < m_c_files; i++)
 				{
 					string name = f.get_name(i);
@@ -138,7 +137,7 @@ int Cmix_file::post_open()
 			if (m_c_files >> 12)
 				test_fail(1);
 			int cb_index = m_c_files * sizeof(t_mix_index_entry);
-			m_index = new t_mix_index_entry[m_c_files];
+			m_index.resize(m_c_files);
 			for (int i = 0; i < m_c_files; i++)
 			{
 				string name = f.get_name(i);
@@ -164,8 +163,8 @@ int Cmix_file::post_open()
 			int cb_index = m_c_files * sizeof(t_mix_index_entry);
 			if (header.c_files >> 12 || get_size() != 6 + cb_index + header.size)
 				test_fail(1);
-			m_index = new t_mix_index_entry[m_c_files];
-			test_fail(read(m_index, cb_index));
+			m_index.resize(m_c_files);
+			test_fail(read(&m_index[0], cb_index));
 			for (int i = 0; i < m_c_files; i++)
 				m_index[i].offset += 6 + cb_index;
 		}
@@ -197,9 +196,9 @@ int Cmix_file::post_open()
 					Cvirtual_binary f;
 					read(f.write_start(cb_f), cb_f);
 					bf.decipher(f.data_edit(), f.data_edit(), cb_f);
-					m_index = new t_mix_index_entry[m_c_files];
-					memcpy(m_index, e + 6, 2);
-					memcpy(reinterpret_cast<byte*>(m_index) + 2, f.data(), cb_index - 2);
+					m_index.resize(m_c_files);
+					memcpy(&m_index[0], e + 6, 2);
+					memcpy(reinterpret_cast<byte*>(&m_index[0]) + 2, f.data(), cb_index - 2);
 					for (int i = 0; i < m_c_files; i++)
 					{
 						if (m_index[i].offset & 0xf)
@@ -215,8 +214,8 @@ int Cmix_file::post_open()
 				const int cb_index = m_c_files * sizeof(t_mix_index_entry);
 				if (get_size() != 4 + sizeof(t_mix_header) + cb_index + header.size + (m_has_checksum ? 20 : 0))
 					test_fail(1);				
-				m_index = new t_mix_index_entry[m_c_files];
-				read(m_index, cb_index);
+				m_index.resize(m_c_files);
+				read(&m_index[0], cb_index);
 				for (int i = 0; i < m_c_files; i++)
 				{
 					if (m_index[i].offset & 0xf)
@@ -267,7 +266,7 @@ int Cmix_file::post_open()
 		}
 		if (!get_vdata() || get_vdata().size() == get_size())
 		{
-			int crc = compute_crc(m_index, m_c_files * sizeof(t_mix_index_entry));
+			int crc = compute_crc(&m_index[0], m_c_files * sizeof(t_mix_index_entry));
 			const void* s = mix_cache::get_data(crc);
 			m_index_ft = new t_file_type[m_c_files];
 			if (s)
@@ -327,16 +326,13 @@ int Cmix_file::post_open()
 				Cmix_file f;
 				f.open(m_index[i].id, *this);				
 				int new_c_files = f.get_c_files();
-				t_mix_index_entry* new_index = new t_mix_index_entry[m_c_files + new_c_files];
-				memcpy(new_index, m_index, m_c_files * sizeof(t_mix_index_entry));
+				m_index.resize(m_c_files + new_c_files);
 				for (int j = 0; j < new_c_files; j++)
 				{
-					int id = new_index[m_c_files + j].id = f.get_id(j);
-					new_index[m_c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
-					new_index[m_c_files + j].size = f.get_size(id);
+					int id = m_index[m_c_files + j].id = f.get_id(j);
+					m_index[m_c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
+					m_index[m_c_files + j].size = f.get_size(id);
 				}
-				delete[] m_index;
-				m_index = new_index;
 				t_file_type* new_index_ft = new t_file_type[m_c_files + new_c_files];
 				memcpy(new_index_ft, m_index_ft, m_c_files * sizeof(t_file_type));
 				memcpy(new_index_ft + m_c_files, f.m_index_ft, new_c_files * sizeof(t_file_type));
@@ -355,8 +351,7 @@ void Cmix_file::close()
 	m_id_index.clear();
 	delete[] m_index_ft;
 	m_index_ft = NULL;
-    delete[] m_index;
-    m_index = NULL;
+    m_index.clear();
 	Ccc_file::close();
 }
 
@@ -436,8 +431,7 @@ void Cmix_file::clean_up()
 	m_id_index.clear();
     delete[] m_index_ft;
     m_index_ft = NULL;
-    delete[] m_index;
-    m_index = NULL;
+    m_index.clear();
     if (is_open())
         close();
 }

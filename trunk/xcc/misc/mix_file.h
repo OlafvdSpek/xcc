@@ -73,7 +73,7 @@ public:
 
 	const t_mix_index_entry* index() const
 	{
-		return m_index;
+		return &m_index[0];
 	}
 private:
 	typedef map<int, int> t_id_index;
@@ -86,7 +86,7 @@ private:
 	bool m_mix_expansion;
 	bool m_is_encrypted;
 	bool m_has_checksum;
-    t_mix_index_entry* m_index;
+    vector<t_mix_index_entry> m_index;
 	t_file_type* m_index_ft;
 	t_id_index m_id_index;
 };
