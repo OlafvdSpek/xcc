@@ -146,7 +146,6 @@ public:
         return 0;
     }
 protected:
-    Cmix_file* m_mix_f;
     int m_offset;
 private:
     Cvirtual_binary m_data;
