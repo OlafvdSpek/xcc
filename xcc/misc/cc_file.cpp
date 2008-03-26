@@ -238,6 +238,64 @@ void Ccc_file::load(const Ccc_file& f)
 	load(f.get_vdata());
 }
 
+int Ccc_file::read()
+{
+	seek(0);
+	Cvirtual_binary d;
+	if (int error = read(d.write_start(get_size()), get_size()))
+		return error;
+	m_data = d;
+	return 0;
+}
+
+int Ccc_file::read(void* data, int size)
+{
+	if (get_p() < 0 || get_p() + size > get_size())
+		return 1;
+	if (get_data())
+	{
+		memcpy(data, m_data.data() + m_p, size);
+		skip(size);
+		return 0;
+	}
+	assert(is_open());
+    m_f.seek(m_offset + m_p);
+    int res = m_f.read(data, size);
+    if (!res)
+        skip(size);
+    return res;
+}
+
+int Ccc_file::extract(const string& name)
+{
+	assert(is_open());
+	if (get_data())
+		return get_vdata().save(name);
+	seek(0);
+	Cfile32 f;
+	if (int error = f.open_write(name))
+		return error;
+	Cvirtual_binary data;
+	for (int size = get_size(); size; )
+	{
+		int cb_write = min(size, 1 << 20);
+		if (int error = read(data.write_start(cb_write), cb_write))
+			return error;
+		if (int error = f.write(data, cb_write))
+			return error;
+		size -= cb_write;
+	}
+	return 0;
+}
+
+void Ccc_file::close()
+{
+	m_data.clear();
+	m_f.close();
+	m_is_open = false;
+}
+
+
 #ifndef NO_MIX_SUPPORT
 #ifndef NO_FT_SUPPORT
 t_file_type Ccc_file::get_file_type(bool fast)
@@ -462,60 +520,3 @@ t_file_type Ccc_file::get_file_type(bool fast)
 }
 #endif
 #endif
-
-int Ccc_file::read()
-{
-	seek(0);
-	Cvirtual_binary d;
-	if (int error = read(d.write_start(get_size()), get_size()))
-		return error;
-	m_data = d;
-	return 0;
-}
-
-int Ccc_file::read(void* data, int size)
-{
-	if (get_p() < 0 || get_p() + size > get_size())
-		return 1;
-	if (get_data())
-	{
-		memcpy(data, m_data.data() + m_p, size);
-		skip(size);
-		return 0;
-	}
-	assert(is_open());
-    m_f.seek(m_offset + m_p);
-    int res = m_f.read(data, size);
-    if (!res)
-        skip(size);
-    return res;
-}
-
-int Ccc_file::extract(const string& name)
-{
-	assert(is_open());
-	if (get_data())
-		return get_vdata().save(name);
-	seek(0);
-	Cfile32 f;
-	if (int error = f.open_write(name))
-		return error;
-	Cvirtual_binary data;
-	for (int size = get_size(); size; )
-	{
-		int cb_write = min(size, 1 << 20);
-		if (int error = read(data.write_start(cb_write), cb_write))
-			return error;
-		if (int error = f.write(data, cb_write))
-			return error;
-		size -= cb_write;
-	}
-	return 0;
-}
-
-void Ccc_file::close()
-{
-	m_data.clear();
-	m_f.close();
-	m_is_open = false;
-}
