@@ -33,7 +33,7 @@ public:
 
 	int get_c_files() const
 	{
-		return m_c_files;
+		return m_index.size();
 	}
 
 	t_game get_game() const
@@ -80,7 +80,6 @@ private:
 
 	static bool m_ft_support;
 
-    int m_c_files;
 	t_game m_game;
 	bool m_mix_expansion;
 	bool m_is_encrypted;
