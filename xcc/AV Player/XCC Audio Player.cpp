@@ -22,6 +22,5 @@ BOOL CXCCAudioPlayerApp::InitInstance()
 	mix_cache::load();
 	dlg.DoModal();
 	mix_cache::save();
-	xcc_dirs::save_to_registry();
 	return false;
 }
