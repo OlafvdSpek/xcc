@@ -192,7 +192,6 @@ void CXCCAudioPlayerDlg::OnExtract()
 	audf.open(current_id, mixf);
 	m_statusbar = audf.extract_as_wav(fname) ? "Extraction failed" : "Extraction succeeded";
 	UpdateData(false);
-	audf.close();
 }
 
 void CXCCAudioPlayerDlg::OnExctractRaw()
@@ -214,7 +213,6 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 	f.open(current_id, mixf);
 	m_statusbar = f.extract(fname) ? "Extraction failed" : "Extraction succeeded";
 	UpdateData(false);
-	f.close();
 }
 
 void CXCCAudioPlayerDlg::OnOpenmix()
@@ -234,7 +232,6 @@ void CXCCAudioPlayerDlg::OnOpenaud()
 	if (f.open(static_cast<string>(dlg.GetPathName())))
 		return;
 	play_aud(f);
-	f.close();
 }
 
 void CXCCAudioPlayerDlg::OnOpenvqa()
@@ -247,7 +244,6 @@ void CXCCAudioPlayerDlg::OnOpenvqa()
 	if (f.open(static_cast<string>(dlg.GetPathName())))
 		return;
 	play_vqa(f);
-	f.close();
 }
 
 int CXCCAudioPlayerDlg::OpenMix(const string &fname)
@@ -255,8 +251,7 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 	m_shufflebutton.EnableWindow(false);
 	m_c_files = 0;
 	m_shuffle = false;
-	if (mixf.is_open())
-		mixf.close();
+	mixf.close();
 	m_list.SetRedraw(false);
 	m_list.DeleteAllItems();
 	valid_index();
@@ -291,7 +286,6 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 				Caud_file f;
 				f.open(id, mixf);
 				s = time2str(f.get_c_samples() / (f.get_samplerate() / 1000));
-				f.close();
 				break;
 			}
 		case ft_vqa:
@@ -299,7 +293,6 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 				Cvqa_file f;
 				f.open(id, mixf);
 				s = time2str(f.get_c_frames() * 1000 / 15);
-				f.close();
 				break;
 			}
 		case ft_wav:
@@ -312,7 +305,6 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 					s = "wav: compression unspported";
 				else
 					s = time2str(f.get_fact_chunk().c_samples / (format_chunk.samplerate / 1000));
-				f.close();
 				break;
 			}
 		}
@@ -380,11 +372,7 @@ void CXCCAudioPlayerDlg::OnInfo()
 int CXCCAudioPlayerDlg::play_aud(int id)
 {
 	Caud_file f;
-	if (f.open(id, mixf))
-		return 1;
-	int error = play_aud(f);
-	f.close();
-	return error;
+	return f.open(id, mixf) ? 1 : play_aud(f);
 }
 
 int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
@@ -443,11 +431,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 int CXCCAudioPlayerDlg::play_vqa(int id)
 {
 	Cvqa_file f;
-	if (f.open(id, mixf))
-		return 1;
-	int error = play_vqa(f);
-	f.close();
-	return error;
+	return f.open(id, mixf) ? 1 : play_vqa(f);
 }
 
 int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
@@ -478,11 +462,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 int CXCCAudioPlayerDlg::play_wav(int id)
 {
 	Cwav_file f;
-	if (f.open(id, mixf))
-		return 1;
-	int error = play_wav(f);
-	f.close();
-	return error;
+	return f.open(id, mixf) ? 1 : play_wav(f);
 }
 
 int CXCCAudioPlayerDlg::play_wav(Cwav_file& f)
