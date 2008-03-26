@@ -1,9 +1,11 @@
 #pragma once
 
+#include "virtual_binary.h"
+
 namespace mix_cache
 {
 	int load();
 	int save();
-	const void* get_data(int crc);
-	void set_data(int crc, const void* data, int size);
+	Cvirtual_binary get_data(int crc);
+	void set_data(int crc, const Cvirtual_binary&);
 };

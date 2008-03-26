@@ -257,9 +257,9 @@ int Cmix_file::post_open()
 		if (!get_vdata() || get_vdata().size() == get_size())
 		{
 			int crc = compute_crc(&m_index[0], get_c_files() * sizeof(t_mix_index_entry));
-			const void* s = mix_cache::get_data(crc);
+			Cvirtual_binary s = mix_cache::get_data(crc);
 			m_index_ft.resize(get_c_files());
-			if (s)
+			if (s.size() == get_c_files() * sizeof(t_file_type))
 				memcpy(&m_index_ft[0], s, get_c_files() * sizeof(t_file_type));
 			else
 			{
@@ -275,31 +275,24 @@ int Cmix_file::post_open()
 					Ccc_file f(false);
 					f.open(get_id(i->second), *this);
 					m_index_ft[i->second] = f.get_file_type();
-					f.close();
 				}
-				mix_cache::set_data(crc, &m_index_ft[0], get_c_files() * sizeof(t_file_type));
+				mix_cache::set_data(crc, Cvirtual_binary(&m_index_ft[0], get_c_files() * sizeof(t_file_type)));
 			}
 			for (int i = 0; i < get_c_files(); i++)
 			{
 				int id = get_id(i);
-				if (get_type(id) != ft_xcc_lmd)
-					continue;
 				Cxcc_lmd_file f;
-				if (f.open(id, *this))
+				if (get_type(id) != ft_xcc_lmd || f.open(id, *this) || !f.is_valid())
 					continue;
-				if (f.is_valid())
+				m_game = f.get_game();
+				int count = f.get_c_fnames();
+				const char* r = f.get_fnames();
+				while (count--)
 				{
-					m_game = f.get_game();
-					int count = f.get_c_fnames();
-					const char* r = f.get_fnames();
-					while (count--)
-					{
-						string name = r;
-						r += name.length() + 1;
-						mix_database::add_name(m_game, name, "-");
-					}
+					string name = r;
+					r += name.length() + 1;
+					mix_database::add_name(m_game, name, "-");
 				}
-				f.close();
 			}
 		}
 	}

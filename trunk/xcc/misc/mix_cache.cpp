@@ -81,13 +81,13 @@ int mix_cache::save()
 	return error;
 }
 
-const void* mix_cache::get_data(int crc)
+Cvirtual_binary mix_cache::get_data(int crc)
 {
 	t_cache::const_iterator i = cache.find(crc);
-	return i == cache.end() ? NULL : i->second.data();
+	return i == cache.end() ? Cvirtual_binary() : i->second;
 }
 
-void mix_cache::set_data(int crc, const void* data, int size)
+void mix_cache::set_data(int crc, const Cvirtual_binary& v)
 {
-	cache[crc] = Cvirtual_binary(data, size);
+	cache[crc] = v;
 }
