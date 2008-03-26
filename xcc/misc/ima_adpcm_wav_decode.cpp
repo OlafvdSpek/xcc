@@ -55,8 +55,7 @@ void Cima_adpcm_wav_decode::load(const byte* r, int cb_s, int c_channels, int ch
 			aud_decode left_d, right_d;
 			left_d.init(left_chunk_header.index, left_chunk_header.sample);
 			right_d.init(right_chunk_header.index, right_chunk_header.sample);
-			assert(!(cs_chunk & 0xf));
-			while (cs_chunk)
+			while (cs_chunk >= 16)
 			{
 				short left_t[8], right_t[8];
 				left_d.decode_chunk(r, left_t, 8);
@@ -71,6 +70,8 @@ void Cima_adpcm_wav_decode::load(const byte* r, int cb_s, int c_channels, int ch
 				cs_chunk -= 16;
 				cs_remaining -= 16;
 			}
+			if (cs_remaining < 16)
+				cs_remaining = 0;
 		}
 	}
 	mc_samples /= c_channels;
