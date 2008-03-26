@@ -274,6 +274,7 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 		t_index_entry& e = m_index[id];
 		e.name = mix_database::get_name(game, id);
 		e.type = ft;
+		e.length = 0;
 		e.size = mixf.get_size(id);
 		e.description = mix_database::get_description(game, id);
 		int index = m_list.InsertItem(m_list.GetItemCount(), LPSTR_TEXTCALLBACK);
@@ -285,14 +286,14 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 			{
 				Caud_file f;
 				f.open(id, mixf);
-				s = time2str(f.get_c_samples() / (f.get_samplerate() / 1000));
+				e.length = f.get_c_samples() * 1000ll / f.get_samplerate();
 				break;
 			}
 		case ft_vqa:
 			{
 				Cvqa_file f;
 				f.open(id, mixf);
-				s = time2str(f.get_c_frames() * 1000 / 15);
+				e.length = f.get_c_frames() * 1000ll / 15;
 				break;
 			}
 		case ft_wav:
@@ -301,14 +302,11 @@ int CXCCAudioPlayerDlg::OpenMix(const string &fname)
 				f.open(id, mixf);
 				f.process();
 				const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
-				if (format_chunk.tag != 0x11 || format_chunk.cbits_sample != 4)
-					s = "wav: compression unspported";
-				else
-					s = time2str(f.get_fact_chunk().c_samples / (format_chunk.samplerate / 1000));
+				if (format_chunk.tag == 0x11 && format_chunk.cbits_sample == 4)
+					e.length = f.get_fact_chunk().c_samples * 1000ll / format_chunk.samplerate;
 				break;
 			}
 		}
-		e.length = s;
 	}
 	m_list.auto_size();
 	sort_list(4, false);
@@ -377,55 +375,47 @@ int CXCCAudioPlayerDlg::play_aud(int id)
 
 int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 {
-	int error = 0;
 	if (!audio_output)
 		return 1;
 	int cb_sample = audf.get_cb_sample();
 	if (dsb.is_available())
 		dsb.destroy();
 	if (dsb.create(ds, cb_sample * audf.get_c_samples(), 1, audf.get_samplerate(), cb_sample << 3, DSBCAPS_GLOBALFOCUS))
-		error = 1;
-	else
+		return 1;
+	int cs_remaining = audf.get_c_samples();
+	int writeofs = 0;
+	decode.init();
+	int chunk_i = 0;
+	bool playing = false;
+	while (cs_remaining)
 	{
-		int cs_remaining = audf.get_c_samples();
-		int writeofs = 0;
-		decode.init();
-		int chunk_i = 0;
-		bool playing = false;
-		while (cs_remaining)
+		m_statusbar = n(cs_remaining / audf.get_samplerate()).c_str();
+		UpdateData(false);
+		const t_aud_chunk_header& header = *audf.get_chunk_header(chunk_i);
+		int cs_audio = header.size_out / cb_sample;
+		const byte* audio_in = audf.get_chunk_data(chunk_i++);
+		cs_remaining -= cs_audio;
+		void* p1;
+		dword s1;
+		if (dsb.lock(writeofs, cb_sample * cs_audio, &p1, &s1, 0, 0))
+			return 1;
+		if (cb_sample == 2)
+			decode.decode_chunk(audio_in, reinterpret_cast<short*>(p1), cs_audio);
+		else if (header.size_in < header.size_out)
+			aud_decode_ws_chunk(audio_in, reinterpret_cast<char*>(p1), header.size_in, header.size_out);
+		else
+			memcpy(p1, audio_in, cs_audio);
+		writeofs += cb_sample * cs_audio;
+		if (dsb.unlock(p1, s1, 0, 0))
+			return 1;
+		if (!playing)
 		{
-			m_statusbar = n(cs_remaining / audf.get_samplerate()).c_str();
-			UpdateData(false);
-			const t_aud_chunk_header& header = *audf.get_chunk_header(chunk_i);
-			int cs_audio = header.size_out / cb_sample;
-			const byte* audio_in = audf.get_chunk_data(chunk_i++);
-			cs_remaining -= cs_audio;
-			void* p1;
-			dword s1;
-			if (dsb.lock(writeofs, cb_sample * cs_audio, &p1, &s1, 0, 0))
-				error = 1;
-			else
-			{
-				if (cb_sample == 2)
-					decode.decode_chunk(audio_in, reinterpret_cast<short*>(p1), cs_audio);
-				else if (header.size_in < header.size_out)
-					aud_decode_ws_chunk(audio_in, reinterpret_cast<char*>(p1), header.size_in, header.size_out);
-				else
-					memcpy(p1, audio_in, cs_audio);
-				writeofs += cb_sample * cs_audio;
-				if (dsb.unlock(p1, s1, 0, 0))
-					error = 1;
-				else if (!playing)
-				{
-					if (dsb.play(0))
-						error = 1;
-					else
-						playing = true;
-				}
-			}
+			if (dsb.play(0))
+				return 1;
+			playing = true;
 		}
 	}
-	return error;
+	return 0;
 }
 
 int CXCCAudioPlayerDlg::play_vqa(int id)
@@ -436,12 +426,10 @@ int CXCCAudioPlayerDlg::play_vqa(int id)
 
 int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 {
-	int error = 0;
 	if (!(audio_output && video_output))
 		return 1;
 	Cvqa_play vqa_play(dd.get_p(), ds.get_p());
-	int result = vqa_play.create(f);
-	if (result)
+	if (int result = vqa_play.create(f))
 		AfxMessageBox(("Error initializing DD or DS, error code is " + n(result)).c_str(), MB_ICONEXCLAMATION);
 	else
 	{
@@ -456,7 +444,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 		}
 	}
 	vqa_play.destroy();
-	return error;
+	return 0;
 }
 
 int CXCCAudioPlayerDlg::play_wav(int id)
@@ -652,7 +640,7 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 		buffer = n(e.size);
 		break;
 	case 2:
-		buffer = e.length;
+		buffer = time2str(e.length);
 		break;
 	case 3:
 		buffer = e.name;
@@ -686,12 +674,12 @@ int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
 	case 0:
 		return compare_int(id_a, id_b);
 	case 1:
-		return compare_int(mixf.get_index(id_a), mixf.get_index(id_b));
-	case 2:
 		return compare_int(a.size, b.size);
-	case 4:
+	case 2:
+		return compare_int(a.length, b.length);
+	case 3:
 		return compare_string(a.name, b.name);
-	case 5:
+	case 4:
 		return compare_string(a.description, b.description);
 	}
 	return 0;

@@ -2792,6 +2792,7 @@ void CXCCMixerView::open_item(int id)
 		}
 	case ft_shp:
 	case ft_shp_ts:
+	case ft_vqa:
 	case ft_wsa:
 		{
 			Cvideo_decoder* decoder = NULL;
@@ -2811,6 +2812,13 @@ void CXCCMixerView::open_item(int id)
 					decoder = f.decoder(get_default_palet());
 				}
 				break;
+			case ft_vqa:
+				{
+					Cvqa_file f;
+					f.load(get_vdata_id(id));
+					decoder = f.decoder();
+				}
+				break;
 			case ft_wsa:
 				{
 					Cwsa_file f;
@@ -2819,19 +2827,6 @@ void CXCCMixerView::open_item(int id)
 				}
 				break;
 			}
-			if (!decoder)
-				break;
-			Cdlg_shp_viewer dlg;
-			dlg.write(decoder);
-			dlg.DoModal();
-			delete decoder;
-			break;
-		}
-	case ft_vqa:
-		{
-			Cvqa_file f;
-			open_f_id(f, id);
-			Cvideo_decoder* decoder = f.decoder();
 			if (!decoder)
 				break;
 			Cdlg_shp_viewer dlg;

@@ -299,7 +299,8 @@ int Cmix_file::post_open()
 #endif
 	if (m_mix_expansion)
 	{
-		for (int i = 0; i < get_c_files(); i++)
+		int c_files = get_c_files();
+		for (int i = 0; i < c_files; i++)
 		{
 			if (get_type(m_index[i].id) != ft_mix)
 				continue;
@@ -310,13 +311,12 @@ int Cmix_file::post_open()
 			m_index.resize(c_files + new_c_files);
 			for (int j = 0; j < new_c_files; j++)
 			{
-				int id = m_index[c_files + j].id = f.get_id(j);
-				m_index[c_files + j].offset = f.get_offset(id) + get_offset(m_index[i].id);
-				m_index[c_files + j].size = f.get_size(id);
+				int id = f.get_id(j);
+				m_index[c_files + j] = t_mix_index_entry(id, f.get_offset(id) + get_offset(m_index[i].id), f.get_size(id));
+				m_id_index[id] = c_files + j;
 			}
 			m_index_ft.resize(c_files + new_c_files);
 			memcpy(&m_index_ft[c_files], &f.m_index_ft[0], new_c_files * sizeof(t_file_type));
-			f.close();
 		}
 	}
     return 0;
@@ -337,12 +337,6 @@ string Cmix_file::get_name(int id)
 #else
 	return mix_database::get_name(get_game(), id);
 #endif
-}
-
-t_file_type Cmix_file::get_type(int id)
-{
-	assert(!m_index_ft.empty());
-	return m_index_ft[get_index(id)];
 }
 
 int Cmix_file::get_id(t_game game, string name)
