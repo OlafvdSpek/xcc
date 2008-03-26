@@ -367,9 +367,6 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		move_front();
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCGameSpyPlayerView message handlers
-
 void CXCCGameSpyPlayerView::read_log()
 {
 	if (live)

@@ -92,10 +92,7 @@ BOOL CXSE_dlg::OnInitDialog()
 		Cmix_file language;
 		error = language.open(language_fname);
 		if (!error)
-		{
 			error = m_csf_f.open(csf_fname, language);
-			language.close();
-		}
 	}
 	if (!error)
 	{
@@ -140,7 +137,6 @@ BOOL CXSE_dlg::OnInitDialog()
 				if (!error)
 				{
 					error = m_bag_f.write(f.get_data(), f.get_size());
-					f.close();
 					if (!error)
 					{
 						Caudio_idx_file g;
@@ -148,15 +144,11 @@ BOOL CXSE_dlg::OnInitDialog()
 						if (!error)
 						{
 							read_idx_file(g);
-							g.close();
-							if (!error)
-								write_idx_file();
+							write_idx_file();
 						}
 					}
 				}
-				audio.close();
 			}
-			language.close();
 		}
 	}
 	m_list.auto_size();
