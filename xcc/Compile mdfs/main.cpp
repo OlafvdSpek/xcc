@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <boost/algorithm/string.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -12,6 +13,7 @@
 #include "vartypes.h"
 #include "xcc_dirs.h"
 
+using namespace boost;
 using namespace std;
 
 struct t_idinfo
@@ -20,13 +22,7 @@ struct t_idinfo
 	string description;
 };
 
-typedef map<dword, t_idinfo> t_idlist;
-
-void handle_error(const string& s)
-{
-	cerr << s << endl;
-	exit(1);
-}
+typedef map<int, t_idinfo> t_idlist;
 
 bool is_valid_line(const string& line, char seperator, int c_seperators)
 {
@@ -43,26 +39,9 @@ bool is_valid_line(const string& line, char seperator, int c_seperators)
 	return tabcount == c_seperators;	
 }
 
-string g(dword v)
-{
-	return n(static_cast<unsigned int>(v));
-}
-
-string gh(long l, dword v)
-{
-	return nh(l, v);
-}
-
-void tolower(string& s)
-{
-	for (long i = 0; i < s.length(); i++)
-		s[i] = tolower(s[i]);
-}
-
 void parse_line_mm(string& line, t_idinfo& idinfo)
 {
-	tolower(line);
-	Cmulti_line mline = line;
+	Cmulti_line mline = to_lower_copy(line);
 	idinfo.name = mline.get_next_line(',');
 	mline.get_next_line(',');
 	idinfo.description = mline.get_next_line(',');
@@ -70,8 +49,7 @@ void parse_line_mm(string& line, t_idinfo& idinfo)
 
 void parse_line_rm(string& line, t_idinfo& idinfo)
 {
-	tolower(line);
-	Cmulti_line mline = line;
+	Cmulti_line mline = to_lower_copy(line);
 	mline.get_next_line(',');
 	mline.get_next_line(',');
 	idinfo.name = mline.get_next_line(',');
@@ -80,8 +58,7 @@ void parse_line_rm(string& line, t_idinfo& idinfo)
 
 void parse_line_normal(string& line, t_idinfo& idinfo)
 {
-	tolower(line);
-	Cmulti_line mline = line;
+	Cmulti_line mline = to_lower_copy(line);
 	idinfo.name = mline.get_next_line('\t');
 	idinfo.description = mline.get_next_line('\t');
 }
@@ -101,9 +78,9 @@ void add_file(t_game game, const string& fname, t_idlist& id_list)
 	while (getline(inf, line))
 	{
 		lineindex++;
-		if (!is_valid_line(line.c_str(), '\t', 1))
+		if (!is_valid_line(line, '\t', 1))
 		{
-			cerr << "Error in line " + g(lineindex) << endl;
+			cerr << "Error in line " << lineindex << endl;
 			continue;
 		}
 		parse_line_normal(line, idinfo);
@@ -127,9 +104,9 @@ void add_rm(const string& fname, t_idlist& id_list)
 	while (getline(inf, line))
 	{
 		lineindex++;
-		if (!is_valid_line(line.c_str(), ',', 3))
+		if (!is_valid_line(line, ',', 3))
 		{
-			cerr << "Error in line " + g(lineindex) << endl;
+			cerr << "Error in line " << lineindex << endl;
 			continue;
 		}
 		parse_line_rm(line, idinfo);
@@ -161,7 +138,7 @@ void write_list(t_idlist& id_list, Cfile32& f1, ofstream& f2, t_game game)
 		idinfo = i->second;
 		f1.write(idinfo.name.c_str(), idinfo.name.length() + 1); 
 		f1.write(idinfo.description.c_str(), idinfo.description.length() + 1); 
-		f2 << gh(8, Cmix_file::get_id(game, idinfo.name)) + '\t' + v_name[game] + '\t' + idinfo.name + '\t' + idinfo.description << endl;
+		f2 << nh(8, Cmix_file::get_id(game, idinfo.name)) << '\t' << v_name[game] << '\t' << idinfo.name << '\t' << idinfo.description << endl;
 	}
 }
 
@@ -172,11 +149,17 @@ void write_database(const string& ifname, t_idlist& td_list, t_idlist& ra_list, 
 	ofstream f2;
 	fname.set_ext(".dat");
 	if (f1.open(fname.get_all().c_str(), GENERIC_WRITE))
-		handle_error("error opening binary output file");
+	{
+		cerr << "error opening binary output file" << endl;
+		return;
+	}
 	fname.set_ext(".txt");
 	f2.open(fname.get_all().c_str());
 	if (f2.fail())
-		handle_error("error opening text output file");
+	{
+		cerr << "error opening text output file" << endl;
+		return;
+	}
 	write_list(td_list, f1, f2, game_td);
 	write_list(ra_list, f1, f2, game_ra);
 	write_list(ts_list, f1, f2, game_ts);
