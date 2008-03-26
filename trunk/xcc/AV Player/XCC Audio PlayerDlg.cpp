@@ -140,12 +140,12 @@ void CXCCAudioPlayerDlg::OnPaint()
 		SendMessage(WM_ICONERASEBKGND, (WPARAM) dc.GetSafeHdc(), 0);
 
 		// Center icon in client rectangle
-		dword cxIcon = GetSystemMetrics(SM_CXICON);
-		dword cyIcon = GetSystemMetrics(SM_CYICON);
+		int cxIcon = GetSystemMetrics(SM_CXICON);
+		int cyIcon = GetSystemMetrics(SM_CYICON);
 		CRect rect;
 		GetClientRect(&rect);
-		dword x = (rect.Width() - cxIcon + 1) / 2;
-		dword y = (rect.Height() - cyIcon + 1) / 2;
+		int x = (rect.Width() - cxIcon + 1) / 2;
+		int y = (rect.Height() - cyIcon + 1) / 2;
 
 		// Draw the icon
 		dc.DrawIcon(x, y, m_hIcon);
@@ -396,7 +396,7 @@ int CXCCAudioPlayerDlg::play_aud(Caud_file& audf)
 		const byte* audio_in = audf.get_chunk_data(chunk_i++);
 		cs_remaining -= cs_audio;
 		void* p1;
-		dword s1;
+		DWORD s1;
 		if (dsb.lock(writeofs, cb_sample * cs_audio, &p1, &s1, 0, 0))
 			return 1;
 		if (cb_sample == 2)
@@ -480,7 +480,7 @@ int CXCCAudioPlayerDlg::play_wav(Cwav_file& f)
 		int chunk_i = 0;
 		bool playing = false;
 		void* p1;
-		dword s1;
+		DWORD s1;
 		if (dsb.lock(writeofs, cb_sample * cs_remaining * c_channels, &p1, &s1, 0, 0))
 			error = 1;
 		else
@@ -608,7 +608,7 @@ void CXCCAudioPlayerDlg::OnTimer(UINT nIDEvent)
 {
 	if (dsb.is_available())
 	{
-		dword status;
+		DWORD status;
 		dsb.get_p()->GetStatus(&status);
 		if (~status & DSBSTATUS_PLAYING)
 			dsb.destroy();
@@ -694,6 +694,6 @@ void CXCCAudioPlayerDlg::sort_list(int i, bool reverse)
 {
 	m_sort_column = i;
 	m_sort_reverse = reverse;
-	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
+	m_list.SortItems(Compare, reinterpret_cast<DWORD>(this));
 }
 

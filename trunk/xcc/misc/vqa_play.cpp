@@ -172,7 +172,7 @@ bool Cvqa_play::run()
 			}			
 			void* p1;
 			void* p2;
-			dword s1, s2;
+			DWORD s1, s2;
 			HRESULT result;
 			if (DS_OK != (result = psb->Lock(audio_write, size << 2, &p1, &s1, &p2, &s2, 0)))
 			{
