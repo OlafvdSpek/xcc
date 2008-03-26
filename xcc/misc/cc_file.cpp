@@ -58,11 +58,11 @@
 
 using namespace boost;
 
-const char* ft_name[] = 
+const char* ft_name[] =
 {
-	"ai ini (ts)", 
-	"ai ini (ra2)", 
-	"art ini (ts)", 
+	"ai ini (ts)",
+	"ai ini (ra2)",
+	"art ini (ts)",
 	"art ini (ra2)",
 	"aud",
 	"avi",
@@ -79,7 +79,7 @@ const char* ft_name[] =
 	"drive",
 	"fnt",
 	"html",
-	"hva", 
+	"hva",
 	"ini",
 	"jpeg",
 	"jpeg (single)",
@@ -88,8 +88,8 @@ const char* ft_name[] =
 	"map (ra)",
 	"map (ts)",
 	"map (ts) preview",
-	"map (ra2)", 
-	"mix", 
+	"map (ra2)",
+	"mix",
 	"mix (rg)",
 	"mng",
 	"mp3",
@@ -257,7 +257,6 @@ t_file_type Ccc_file::get_file_type(bool fast)
 			return ft_unknown;
 		seek(0);
 	}
-	t_file_type ft = ft_unknown;
 	Caud_file aud_f;
 	Cbin_file bin_f;
 	Cbink_file bink_f;
@@ -297,184 +296,169 @@ t_file_type Ccc_file::get_file_type(bool fast)
 	Cxcc_file xcc_f;
 	Cxif_file xif_f;
 	if (aud_f.load(data, m_size), aud_f.is_valid())
-		ft = ft_aud;
-	else if (big_f.load(data, m_size), big_f.is_valid())
-		ft = ft_big;
-	else if (bin_f.load(data, m_size), bin_f.is_valid())
-		ft = ft_bin;
-	else if (bink_f.load(data, m_size), bink_f.is_valid())
-		ft = ft_bink;
-	else if (bmp_f.load(data, m_size), bmp_f.is_valid())
-		ft = ft_bmp;
-	else if (csf_f.load(data, m_size), csf_f.is_valid())
-		ft = ft_csf;
-	else if (cps_f.load(data, m_size), cps_f.is_valid())
-		ft = ft_cps;
-	else if (dds_f.load(data, m_size), dds_f.is_valid())
-		ft = ft_dds;
-	else if (fnt_f.load(data, m_size), fnt_f.is_valid())
-		ft = ft_fnt;
-	else if (hva_f.load(data, m_size), hva_f.is_valid())
-		ft = ft_hva;
-	else if (mp3_f.load(data, m_size), mp3_f.is_valid())
-		ft = ft_mp3;
-	else if (jpeg_f.load(data, m_size), jpeg_f.is_valid())
-		ft = ft_jpeg;
-	else if (ogg_f.load(data, m_size), ogg_f.is_valid())
-		ft = ft_ogg;
-	else if (pal_f.load(data, m_size), pal_f.is_valid())
-		ft = ft_pal;
-	else if (pcx_f.load(data, m_size), pcx_f.is_valid())
-		ft = ft_pcx;
-	else if (png_f.load(data, m_size), png_f.is_valid())
-		ft = ft_png;
-	else if (riff_f.load(data, m_size), riff_f.is_valid())
+		return ft_aud;
+	if (big_f.load(data, m_size), big_f.is_valid())
+		return ft_big;
+	if (bin_f.load(data, m_size), bin_f.is_valid())
+		return ft_bin;
+	if (bink_f.load(data, m_size), bink_f.is_valid())
+		return ft_bink;
+	if (bmp_f.load(data, m_size), bmp_f.is_valid())
+		return ft_bmp;
+	if (csf_f.load(data, m_size), csf_f.is_valid())
+		return ft_csf;
+	if (cps_f.load(data, m_size), cps_f.is_valid())
+		return ft_cps;
+	if (dds_f.load(data, m_size), dds_f.is_valid())
+		return ft_dds;
+	if (fnt_f.load(data, m_size), fnt_f.is_valid())
+		return ft_fnt;
+	if (hva_f.load(data, m_size), hva_f.is_valid())
+		return ft_hva;
+	if (mp3_f.load(data, m_size), mp3_f.is_valid())
+		return ft_mp3;
+	if (jpeg_f.load(data, m_size), jpeg_f.is_valid())
+		return ft_jpeg;
+	if (ogg_f.load(data, m_size), ogg_f.is_valid())
+		return ft_ogg;
+	if (pal_f.load(data, m_size), pal_f.is_valid())
+		return ft_pal;
+	if (pcx_f.load(data, m_size), pcx_f.is_valid())
+		return ft_pcx;
+	if (png_f.load(data, m_size), png_f.is_valid())
+		return ft_png;
+	if (riff_f.load(data, m_size), riff_f.is_valid())
 	{
 		Cavi_file avi_f;
 		Cwav_file wav_f;
 		avi_f.load(data, m_size);
 		wav_f.load(data, m_size);
 		if (avi_f.is_valid())
-			ft = ft_avi;
-		else if (wav_f.is_valid())
-			ft = ft_wav;
-		else
-			ft = ft_riff;
+			return ft_avi;
+		if (wav_f.is_valid())
+			return ft_wav;
+		return ft_riff;
 	}
-	else if (shp_dune2_f.load(data, m_size), shp_dune2_f.is_valid())
-		ft = ft_shp_dune2;
-	else if (shp_f.load(data, m_size), shp_f.is_valid())
-		ft = ft_shp;
-	else if (shp_ts_f.load(data, m_size), shp_ts_f.is_valid())
-		ft = ft_shp_ts;
-	else if (st_f.load(data, m_size), st_f.is_valid())
-		ft = ft_st;
-	else if (text_f.load(data, m_size), text_f.is_valid())
-	{
-		if (fast)
-			ft = ft_text;
-		else
-		{
-			Cvirtual_tfile tf;
-			tf.load_data(data);
-			Cnull_ini_reader ir;
-			int error = 0;
-			while (!error && !tf.eof())
-			{
-				error = ir.process_line(tf.read_line());
-				if (tf.eof())
-					error = 0;
-			}
-			if (!error && ir.is_valid())
-			{
-				if (!m_read_on_open && m_size != size)
-				{
-					size = m_size;
-					if (read(data.write_start(size), size))
-					{
-						return ft_unknown;
-					}
-					seek(0);
-				}
-				Cart_ts_ini_reader ir;
-				ir.fast(true);
-				if (!ir.process(data) && ir.is_valid())
-					ft = ft_art_ini_ts;
-				else
-				{
-					Cmap_td_ini_reader ir;
-					if (!ir.process(data) && ir.is_valid())
-						ft = ft_map_td;
-					else
-					{
-						Cmap_ra_ini_reader ir;
-						if (!ir.process(data) && ir.is_valid())
-							ft = ft_map_ra;
-						else
-						{
-							Cmap_ts_ini_reader ir;
-							ir.fast(true);
-							if (!ir.process(data) && ir.is_valid())
-								ft = ft_map_ts;
-							else
-							{
-								Cpkt_ts_ini_reader ir;
-								ir.fast(true);
-								if (!ir.process(data) && ir.is_valid())
-									ft = ft_pkt_ts;
-								else
-								{
-									Crules_ts_ini_reader ir;
-									ir.fast(true);
-									if (!ir.process(data) && ir.is_valid())
-										ft = ft_rules_ini_ts;
-									else
-									{
-										Csound_ts_ini_reader ir;
-										ir.fast(true);
-										if (!ir.process(data) && ir.is_valid())
-											ft = ft_sound_ini_ts;
-										else
-										{
-											Ctheme_ts_ini_reader ir;
-											if (!ir.process(data) && ir.is_valid())
-												ft = ft_theme_ini_ts;
-											else
-												ft = ft_ini;
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-			}
-			else
-				ft = ft_text;
-		}
-	}
-	else if (tga_f.load(data, m_size), tga_f.is_valid())
-		ft = ft_tga;
-	else if (tmp_f.load(data, m_size), tmp_f.is_valid())
-		ft = ft_tmp;
-	else if (tmp_ra_f.load(data, m_size), tmp_ra_f.is_valid())
-		ft = ft_tmp_ra;
-	else if (tmp_ts_f.load(data, m_size), tmp_ts_f.is_valid())
-		ft = ft_tmp_ts;
-	else if (voc_f.load(data, m_size), voc_f.is_valid())
-		ft = ft_voc;
-	else if (vqa_f.load(data, m_size), vqa_f.is_valid())
-		ft = ft_vqa;
-	else if (vqp_f.load(data, m_size), vqp_f.is_valid())
-		ft = ft_vqp;
-	else if (vxl_f.load(data, m_size), vxl_f.is_valid())
-		ft = ft_vxl;
-	else if (wsa_dune2_f.load(data, m_size), wsa_dune2_f.is_valid())
-		ft = ft_wsa_dune2;
-	else if (wsa_f.load(data, m_size), wsa_f.is_valid())
-		ft = ft_wsa;
-	else if (xcc_f.load(data, m_size), xcc_f.is_valid())
+	if (shp_dune2_f.load(data, m_size), shp_dune2_f.is_valid())
+		return ft_shp_dune2;
+	if (shp_f.load(data, m_size), shp_f.is_valid())
+		return ft_shp;
+	if (shp_ts_f.load(data, m_size), shp_ts_f.is_valid())
+		return ft_shp_ts;
+	if (st_f.load(data, m_size), st_f.is_valid())
+		return ft_st;
+	if (tga_f.load(data, m_size), tga_f.is_valid())
+		return ft_tga;
+	if (tmp_f.load(data, m_size), tmp_f.is_valid())
+		return ft_tmp;
+	if (tmp_ra_f.load(data, m_size), tmp_ra_f.is_valid())
+		return ft_tmp_ra;
+	if (tmp_ts_f.load(data, m_size), tmp_ts_f.is_valid())
+		return ft_tmp_ts;
+	if (voc_f.load(data, m_size), voc_f.is_valid())
+		return ft_voc;
+	if (vqa_f.load(data, m_size), vqa_f.is_valid())
+		return ft_vqa;
+	if (vqp_f.load(data, m_size), vqp_f.is_valid())
+		return ft_vqp;
+	if (vxl_f.load(data, m_size), vxl_f.is_valid())
+		return ft_vxl;
+	if (wsa_dune2_f.load(data, m_size), wsa_dune2_f.is_valid())
+		return ft_wsa_dune2;
+	if (wsa_f.load(data, m_size), wsa_f.is_valid())
+		return ft_wsa;
+	if (xcc_f.load(data, m_size), xcc_f.is_valid())
 	{
 		switch (xcc_f.get_ft())
 		{
 		case xcc_ft_lmd:
-			ft = ft_xcc_lmd;
-			break;
-		default:
-			ft = ft_xcc_unknown;
+			return ft_xcc_lmd;
 		}
+		return ft_xcc_unknown;
 	}
-	else if (xif_f.load(data, m_size), xif_f.is_valid())
-		ft = ft_xif;
-	else if (mix_f.load(data, m_size), mix_f.is_valid())
-		ft = ft_mix;
-	else if (mix_rg_f.load(data, m_size), mix_rg_f.is_valid())
-		ft = ft_mix_rg;
-	else if (pak_f.load(data, m_size), pak_f.is_valid())
-		ft = ft_pak;
-	else if (w3d_f.load(data, m_size), w3d_f.is_valid())
-		ft = ft_w3d;
-	return ft;
+	if (xif_f.load(data, m_size), xif_f.is_valid())
+		return ft_xif;
+	if (mix_f.load(data, m_size), mix_f.is_valid())
+		return ft_mix;
+	if (mix_rg_f.load(data, m_size), mix_rg_f.is_valid())
+		return ft_mix_rg;
+	if (pak_f.load(data, m_size), pak_f.is_valid())
+		return ft_pak;
+	if (w3d_f.load(data, m_size), w3d_f.is_valid())
+		return ft_w3d;
+	if (text_f.load(data, m_size), text_f.is_valid())
+	{
+		if (fast)
+			return ft_text;
+		Cvirtual_tfile tf;
+		tf.load_data(data);
+		Cnull_ini_reader ir;
+		int error = 0;
+		while (!error && !tf.eof())
+		{
+			error = ir.process_line(tf.read_line());
+			if (tf.eof())
+				error = 0;
+		}
+		if (!error && ir.is_valid())
+		{
+			if (!m_read_on_open && m_size != size)
+			{
+				size = m_size;
+				if (read(data.write_start(size), size))
+					return ft_unknown;
+				seek(0);
+			}
+			{
+				Cart_ts_ini_reader ir;
+				ir.fast(true);
+				if (!ir.process(data) && ir.is_valid())
+					return ft_art_ini_ts;
+			}
+			{
+				Cmap_td_ini_reader ir;
+				if (!ir.process(data) && ir.is_valid())
+					return ft_map_td;
+			}
+			{
+				Cmap_ra_ini_reader ir;
+				if (!ir.process(data) && ir.is_valid())
+					return ft_map_ra;
+			}
+			{
+				Cmap_ts_ini_reader ir;
+				ir.fast(true);
+				if (!ir.process(data) && ir.is_valid())
+					return ft_map_ts;
+			}
+			{
+				Cpkt_ts_ini_reader ir;
+				ir.fast(true);
+				if (!ir.process(data) && ir.is_valid())
+					return ft_pkt_ts;
+			}
+			{
+				Crules_ts_ini_reader ir;
+				ir.fast(true);
+				if (!ir.process(data) && ir.is_valid())
+					return ft_rules_ini_ts;
+			}
+			{
+				Csound_ts_ini_reader ir;
+				ir.fast(true);
+				if (!ir.process(data) && ir.is_valid())
+					return ft_sound_ini_ts;
+			}
+			{
+				Ctheme_ts_ini_reader ir;
+				if (!ir.process(data) && ir.is_valid())
+					return ft_theme_ini_ts;
+			}
+			return ft_ini;
+		}
+		return ft_text;
+	}
+	return ft_unknown;
 }
 #endif
 #endif
