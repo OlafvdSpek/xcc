@@ -83,9 +83,7 @@ int Cmix_file::post_open()
 			{
 				string name = f.get_name(i);
 				mix_database::add_name(m_game, name, "-");
-				m_index[i].id = get_id(get_game(), name);
-				m_index[i].offset = f.get_offset(name);
-				m_index[i].size = f.get_size(name);
+				m_index[i] = t_mix_index_entry(get_id(get_game(), name), f.get_offset(name), f.get_size(name));
 			}
 			index_read = true;
 		}
@@ -106,9 +104,7 @@ int Cmix_file::post_open()
 				{
 					string name = f.get_name(i);
 					mix_database::add_name(m_game, name, "-");
-					m_index[i].id = get_id(get_game(), name);
-					m_index[i].offset = f.get_offset(name);
-					m_index[i].size = f.get_size(name);
+					m_index[i] = t_mix_index_entry(get_id(get_game(), name), f.get_offset(name), f.get_size(name));
 				}
 				index_read = true;
 			}
@@ -138,9 +134,7 @@ int Cmix_file::post_open()
 			{
 				string name = f.get_name(i);
 				mix_database::add_name(m_game, name, "-");
-				m_index[i].id = get_id(get_game(), name);
-				m_index[i].offset = f.get_offset(name);
-				m_index[i].size = f.get_size(name);
+				m_index[i] = t_mix_index_entry(get_id(get_game(), name), f.get_offset(name), f.get_size(name));
 			}
 			index_read = true;
 		}
@@ -288,26 +282,24 @@ int Cmix_file::post_open()
 			for (int i = 0; i < get_c_files(); i++)
 			{
 				int id = get_id(i);
-				if (get_type(id) == ft_xcc_lmd)
+				if (get_type(id) != ft_xcc_lmd)
+					continue;
+				Cxcc_lmd_file f;
+				if (f.open(id, *this))
+					continue;
+				if (f.is_valid())
 				{
-					Cxcc_lmd_file f;
-					if (!f.open(id, *this))
+					m_game = f.get_game();
+					int count = f.get_c_fnames();
+					const char* r = f.get_fnames();
+					while (count--)
 					{
-						if (f.is_valid())
-						{
-							m_game = f.get_game();
-							int count = f.get_c_fnames();
-							const char* r = f.get_fnames();
-							while (count--)
-							{
-								string name = r;
-								r += name.length() + 1;
-								mix_database::add_name(m_game, name, "-");
-							}
-						}
-						f.close();
+						string name = r;
+						r += name.length() + 1;
+						mix_database::add_name(m_game, name, "-");
 					}
 				}
+				f.close();
 			}
 		}
 	}
