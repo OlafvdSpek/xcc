@@ -27,7 +27,6 @@ public:
 private:
 	int set_videomode();
 	bool restore_videomode;
-	bool use16;
 	bool window_created;
 	Cdd_window window;
 	CSize video_res;
