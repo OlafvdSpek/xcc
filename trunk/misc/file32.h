@@ -1,9 +1,4 @@
-#if !defined(AFX_FILE32_H__DB898AD3_D338_11D3_867E_0000F81AF605__INCLUDED_)
-#define AFX_FILE32_H__DB898AD3_D338_11D3_867E_0000F81AF605__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
 #include <vartypes.h>
@@ -117,5 +112,3 @@ private:
 
 Cvirtual_binary file32_read(const string& name);
 int file32_write(const string& name, const void* s, int cb_s);
-
-#endif // !defined(AFX_FILE32_H__DB898AD3_D338_11D3_867E_0000F81AF605__INCLUDED_)
