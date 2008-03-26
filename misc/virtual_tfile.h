@@ -30,7 +30,6 @@ public:
 	void write_line(const string& s);
 	void release_memory();
 	void load_data(const Cvirtual_binary s);
-	void save_data(byte*& _data, dword& _size) const;
 
 	bool eof() const
 	{
@@ -42,7 +41,7 @@ public:
 		force_upper_case = v;
 	}
 
-	void seek(dword ipos)
+	void seek(int ipos)
 	{
 		pos = ipos;
 	}

@@ -1,2 +1,2 @@
 typedef unsigned char byte;
-// typedef unsigned long dword;
+typedef unsigned long dword;
