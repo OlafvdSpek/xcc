@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8,00"
-	Name="XCC Audio Player"
+	Name="XCC AV Player"
 	ProjectGUID="{1E6FD097-5BBD-4889-93CA-365589631C94}"
-	RootNamespace="XCC Audio Player"
+	RootNamespace="XCC AV Player"
 	Keyword="MFCProj"
 	>
 	<Platforms>
@@ -40,9 +40,7 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Debug/XCC Audio Player.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -54,12 +52,10 @@
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Debug/XCC Audio Player.pch"
 				AssemblerListingLocation=".\Debug/"
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -75,13 +71,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="Debug/XCC AV Player.exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\misc\library"
 				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/XCC AV Player.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -96,8 +88,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Debug/XCC Audio Player.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -138,9 +128,7 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
-				TypeLibraryName=".\Release/XCC Audio Player.tlb"
 				HeaderFileName=""
 			/>
 			<Tool
@@ -154,12 +142,10 @@
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
-				PrecompiledHeaderFile=".\Release/XCC Audio Player.pch"
 				AssemblerListingLocation=".\Release/"
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -174,11 +160,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile="Release/XCC AV Player.exe"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\misc\library"
-				ProgramDatabaseFile=".\Release/XCC AV Player.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -193,8 +175,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/XCC Audio Player.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
