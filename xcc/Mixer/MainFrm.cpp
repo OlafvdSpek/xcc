@@ -992,7 +992,6 @@ void CMainFrame::OnLaunchRA2()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_ra2_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
-
 void CMainFrame::OnUpdateLaunchDune2(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_dune2_available());

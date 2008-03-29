@@ -20,38 +20,26 @@ CXCCGameSpyPlayerApp theApp;
 BOOL CXCCGameSpyPlayerApp::InitInstance()
 {
 	SetRegistryKey("XCC");
-	LoadStdProfileSettings(16);  // Load standard INI file options (including MRU)
+	LoadStdProfileSettings(16);
 	xcc_dirs::load_from_registry();
-
 	CMultiDocTemplate* pDocTemplate;
 	pDocTemplate = new CMultiDocTemplate(
 		IDR_XCCGAMTYPE,
 		RUNTIME_CLASS(CXCCGameSpyPlayerDoc),
-		RUNTIME_CLASS(CChildFrame), // custom MDI child frame
+		RUNTIME_CLASS(CChildFrame),
 		RUNTIME_CLASS(CXCCGameSpyPlayerView));
 	AddDocTemplate(pDocTemplate);
-
-	// create main MDI Frame window
 	CMainFrame* pMainFrame = new CMainFrame;
 	if (!pMainFrame->LoadFrame(IDR_MAINFRAME))
 		return FALSE;
 	m_pMainWnd = pMainFrame;
-
-	// Enable drag/drop open
 	m_pMainWnd->DragAcceptFiles();
-
-	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
-	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) 
-		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	ParseCommandLine(cmdInfo);
-
-	// Dispatch commands specified on the command line
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);
 	pMainFrame->UpdateWindow();
-
 	return TRUE;
 }
 
