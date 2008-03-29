@@ -4,14 +4,15 @@
 #include <string>
 #include <windows.h>
 
-class Cwin_handle
+template<class T>
+class Cwin_handle_base
 {
 public:
-	Cwin_handle()
+	Cwin_handle_base()
 	{
 	}
 
-	Cwin_handle(HANDLE h): m_source(h == INVALID_HANDLE_VALUE ? NULL : h, CloseHandle)
+	Cwin_handle_base(T h): m_source(h == INVALID_HANDLE_VALUE ? NULL : h, CloseHandle)
 	{
 	}
 
@@ -20,12 +21,14 @@ public:
 		m_source.reset();
 	}
 
-	operator HANDLE() const
+	operator T() const
 	{
-		return m_source.get();
+		return static_cast<T>(m_source.get());
 	}
 private:
 	boost::shared_ptr<void> m_source;
 };
+
+typedef Cwin_handle_base<HANDLE> Cwin_handle;
 
 int create_process(const std::string& exe_name, const std::string& _cmd_line = "", bool wait = false);
