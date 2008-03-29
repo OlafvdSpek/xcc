@@ -1,7 +1,3 @@
-// virtual_tfile.cpp: implementation of the Cvirtual_tfile class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "virtual_tfile.h"
 
