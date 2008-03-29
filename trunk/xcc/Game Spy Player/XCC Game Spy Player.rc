@@ -46,6 +46,7 @@ BEGIN
         MENUITEM SEPARATOR
         MENUITEM "E&xit",                       ID_APP_EXIT
     END
+    MENUITEM "&Window",                     65535
 END
 
 IDR_XCCGAMTYPE MENU
@@ -110,7 +111,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "XCC Game Spy Player 1.07"
+    IDR_MAINFRAME           "XCC Game Spy Player 1.08"
 END
 
 STRINGTABLE

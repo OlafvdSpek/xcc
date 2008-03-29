@@ -41,7 +41,6 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\Release/XCC Mixer.tlb"
 				HeaderFileName=""
@@ -62,7 +61,6 @@
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -77,11 +75,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile=".\Release/XCC Mixer.exe"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\misc\library"
-				ProgramDatabaseFile=".\Release/XCC Mixer.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -96,8 +90,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Release/XCC Mixer.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -137,7 +129,6 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\Debug/XCC Mixer.tlb"
 				HeaderFileName=""
@@ -156,7 +147,6 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="1"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -172,13 +162,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				OutputFile=".\Debug/XCC Mixer.exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
-				AdditionalLibraryDirectories="..\..\misc\library"
 				IgnoreDefaultLibraryNames="libcmt"
 				GenerateDebugInformation="true"
-				ProgramDatabaseFile=".\Debug/XCC Mixer.pdb"
 				SubSystem="2"
 				TargetMachine="1"
 			/>
@@ -193,8 +179,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\Debug/XCC Mixer.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"

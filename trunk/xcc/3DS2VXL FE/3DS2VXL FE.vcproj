@@ -40,7 +40,6 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="NDEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\Release/3DS2VXL FE.tlb"
 				HeaderFileName=""
@@ -61,7 +60,6 @@
 				ObjectFile=".\Release/"
 				ProgramDataBaseFileName=".\Release/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -78,7 +76,6 @@
 				Name="VCLinkerTool"
 				OutputFile=".\Release/3DS2VXL FE.exe"
 				LinkIncremental="1"
-				SuppressStartupBanner="true"
 				ProgramDatabaseFile=".\Release/3DS2VXL FE.pdb"
 				SubSystem="2"
 				TargetMachine="1"
@@ -94,7 +91,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 				OutputFile=".\Release/3DS2VXL FE.bsc"
 			/>
 			<Tool
@@ -136,7 +132,6 @@
 				Name="VCMIDLTool"
 				PreprocessorDefinitions="_DEBUG"
 				MkTypLibCompatible="true"
-				SuppressStartupBanner="true"
 				TargetEnvironment="1"
 				TypeLibraryName=".\Debug/3DS2VXL FE.tlb"
 				HeaderFileName=""
@@ -156,7 +151,6 @@
 				ObjectFile=".\Debug/"
 				ProgramDataBaseFileName=".\Debug/"
 				WarningLevel="3"
-				SuppressStartupBanner="true"
 				DebugInformationFormat="4"
 			/>
 			<Tool
@@ -174,7 +168,6 @@
 				Name="VCLinkerTool"
 				OutputFile=".\Debug/3DS2VXL FE.exe"
 				LinkIncremental="2"
-				SuppressStartupBanner="true"
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile=".\Debug/3DS2VXL FE.pdb"
 				SubSystem="2"
@@ -191,7 +184,6 @@
 			/>
 			<Tool
 				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
 				OutputFile=".\Debug/3DS2VXL FE.bsc"
 			/>
 			<Tool
