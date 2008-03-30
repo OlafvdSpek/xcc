@@ -36,6 +36,8 @@ BOOL CXCCGameSpyPlayerApp::InitInstance()
 	m_pMainWnd->DragAcceptFiles();
 	CCommandLineInfo cmdInfo;
 	ParseCommandLine(cmdInfo);
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) 
+		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	if (!ProcessShellCommand(cmdInfo))
 		return FALSE;
 	pMainFrame->ShowWindow(SW_SHOWMAXIMIZED);

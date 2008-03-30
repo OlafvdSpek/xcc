@@ -76,7 +76,7 @@ BOOL Cdlg_open::OnInitDialog()
 	string dir;
 	get_replays_dir(dir);
 	WIN32_FIND_DATA fd;
-	HANDLE fh = FindFirstFile((dir + "*.xif").c_str(), &fd);
+	HANDLE fh = FindFirstFile((dir + "*.x*").c_str(), &fd);
 	if (fh != INVALID_HANDLE_VALUE)
 	{
 		CWaitCursor wc;
