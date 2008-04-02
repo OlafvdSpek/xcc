@@ -257,7 +257,10 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				const Cobject& object = i->second;
 				if (!object.x || !object.y)
 					continue;
-				const Cplayer& player = game_state.players.find(object.owner)->second;
+				Cgame_state::t_players::const_iterator player_i = game_state.players.find(object.owner);
+				if (player_i == game_state.players.end())
+					continue;
+				const Cplayer& player = player_i->second;
 				if (!m_view_non_human_objects && !player.human)
 					continue;
 				m_history_map[object.x >> 8][object.y >> 8] = player.id;
