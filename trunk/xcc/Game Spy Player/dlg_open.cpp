@@ -103,21 +103,19 @@ BOOL Cdlg_open::OnInitDialog()
 					e.name = fd.cFileName;
 					e.gid = atoi(fd.cFileName + 12);
 					e.size = fd.nFileSizeLow;
+					Cxif_key_r key;
+					if (!key.import(Cvirtual_binary(e.dir + e.name)) && key.keys().size() >= 2)
 					{
-						Cxif_key_r key;
-						if (!key.import(Cvirtual_binary(e.dir + e.name)))
+						Cgame_state game_state;
+						Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
+						i++;
+						game_state.import_diff(i->second);
+						e.scenario = game_state.scenario;
+						for (Cgame_state::t_players::const_iterator p = game_state.players.begin(); p != game_state.players.end(); p++)
 						{
-							Cgame_state game_state;
-							Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
-							i++;
-							game_state.import_diff(i->second);
-							e.scenario = game_state.scenario;
-							for (Cgame_state::t_players::const_iterator p = game_state.players.begin(); p != game_state.players.end(); p++)
-							{
-								const Cplayer& player = p->second;
-								if (player.color != 5)
-									e.players.insert(player.name);
-							}
+							const Cplayer& player = p->second;
+							if (player.color != 5)
+								e.players.insert(player.name);
 						}
 					}
 					m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), m_map.rbegin()->first);
