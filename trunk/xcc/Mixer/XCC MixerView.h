@@ -14,7 +14,7 @@ struct t_index_entry
 	string description;
 	t_file_type ft;
 	string name;
-	int size;
+	long long size;
 };
 
 typedef map<int, t_index_entry> t_index;

@@ -65,7 +65,7 @@ private:
 	bool			m_is_open;
 	t_paletentry*	m_palet;
 	Cpalet_filter m_palet_filter;
-	int				m_size;
+	long long		m_size;
 	t_text_cache	m_text_cache;
 	bool			m_text_cache_valid;
 	int				m_x;

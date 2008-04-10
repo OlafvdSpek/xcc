@@ -22,7 +22,7 @@ public:
 	int open_read(const string& name);
 	int open_edit(const string& name);
 	int open_write(const string& name);
-    int get_size() const;
+    long long get_size() const;
 	FILETIME get_creation_time() const;
 	FILETIME get_last_access_time() const;
 	FILETIME get_last_write_time() const;

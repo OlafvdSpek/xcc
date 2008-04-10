@@ -81,13 +81,12 @@ int Cfile32::open_write(const string& name)
 #endif
 }
 
-int Cfile32::get_size() const
+long long Cfile32::get_size() const
 {
     assert(is_open());
 #ifdef _MSC_VER
-    int res = GetFileSize(h(), NULL);
-    assert(res != -1);
-    return res;
+	LARGE_INTEGER v;
+	return GetFileSizeEx(h(), &v) ? v.QuadPart : -1;
 #else
 	fstream f = m_f;
 	int pos = f.tellp();
