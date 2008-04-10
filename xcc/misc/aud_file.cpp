@@ -29,9 +29,13 @@ const t_aud_chunk_header* Caud_file::get_chunk_header(int i)
 	const byte* r = get_data() + sizeof(t_aud_header);
 	while (i--)
 	{
+		if (r + sizeof(t_aud_chunk_header) > data_end())
+			return NULL;
 		const t_aud_chunk_header* header = reinterpret_cast<const t_aud_chunk_header*>(r);
 		r += sizeof(t_aud_chunk_header) + header->size_in;
 	}
+	if (r + sizeof(t_aud_chunk_header) > data_end() || r + sizeof(t_aud_chunk_header) + reinterpret_cast<const t_aud_chunk_header*>(r)->size_in > data_end())
+		return NULL;
 	return reinterpret_cast<const t_aud_chunk_header*>(r);
 }
 
@@ -64,9 +68,11 @@ Cvirtual_binary Caud_file::decode()
 			byte* w = d.write_start(cb_audio);
 			for (int chunk_i = 0; w != d.data_end(); chunk_i++)
 			{				
-				const t_aud_chunk_header& header = *get_chunk_header(chunk_i);
-				decode.decode_chunk(get_chunk_data(chunk_i), reinterpret_cast<short*>(w), header.size_out / get_cb_sample());
-				w += header.size_out;
+				const t_aud_chunk_header* header = get_chunk_header(chunk_i);
+				if (!header)
+					break;
+				decode.decode_chunk(get_chunk_data(chunk_i), reinterpret_cast<short*>(w), header->size_out / get_cb_sample());
+				w += header->size_out;
 			}
 		}
 		break;
