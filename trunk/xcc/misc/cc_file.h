@@ -111,6 +111,11 @@ public:
         return m_data.data();
     }
 
+	const byte* data_end() const
+    {
+        return m_data.data_end();
+    }
+
     Cvirtual_binary get_vdata() const
     {
         return m_data;
