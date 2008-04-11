@@ -97,7 +97,7 @@ const Cvirtual_binary& Cvirtual_binary::operator=(const Cvirtual_binary& v)
 
 int Cvirtual_binary::save(const string& fname) const
 {
-	return file32_write(fname, data(), size());
+	return data() ? file32_write(fname, data(), size()) : 1;
 }
 
 int Cvirtual_binary::load(const string& fname, bool use_mm)
