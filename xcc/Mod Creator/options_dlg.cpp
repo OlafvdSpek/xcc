@@ -1,12 +1,6 @@
 #include "stdafx.h"
 #include "options_dlg.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 Coptions_dlg::Coptions_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Coptions_dlg::IDD, pParent)
 {

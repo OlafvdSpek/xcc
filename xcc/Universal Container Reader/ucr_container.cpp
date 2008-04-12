@@ -1,22 +1,8 @@
-// ucr_container.cpp: implementation of the Cucr_container class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ucr_container.h"
 
 #include "stream_reader.h"
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cucr_container::Cucr_container()
 {
@@ -42,7 +28,7 @@ int Cucr_container::open(const Cvirtual_binary& d, const Cucr_format& format)
 		{
 			if (i->offset)
 				sr.seek(i->offset > 0 ? i->offset : d.size() + i->offset);
-			else 
+			else
 			{
 				map<int, int>::const_iterator j = forward_block_offsets.find(i - format.blocks().begin());
 				if (j != forward_block_offsets.end())
@@ -161,7 +147,7 @@ int Cucr_container::open(const Cvirtual_binary& d, const Cucr_format& format)
 			for (t_objects::iterator i = m_objects.begin(); i != m_objects.end(); i++)
 				i->second.offset(i->second.offset() + object_offset_delta);
 		}
-		
+
 	}
 	return 0;
 }

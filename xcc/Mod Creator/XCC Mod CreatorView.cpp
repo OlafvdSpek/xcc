@@ -13,12 +13,6 @@
 
 using namespace boost;
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 IMPLEMENT_DYNCREATE(CXCCModCreatorView, CListView)
 
 BEGIN_MESSAGE_MAP(CXCCModCreatorView, CListView)
@@ -76,7 +70,7 @@ void CXCCModCreatorView::OnStyleChanged(int nStyleType, LPSTYLESTRUCT lpStyleStr
 {
 }
 
-void CXCCModCreatorView::OnDropFiles(HDROP hDropInfo) 
+void CXCCModCreatorView::OnDropFiles(HDROP hDropInfo)
 {
 	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
 	char fname[MAX_PATH];
@@ -200,7 +194,7 @@ void CXCCModCreatorView::set_category(Cxcc_mod::t_category_type category)
 	DragAcceptFiles(category != Cxcc_mod::ct_unknown);
 }
 
-void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
@@ -226,7 +220,7 @@ void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 			int mode = GetDocument()->file_properties(m_category, e.fname).mode;
 			if (mode != -1)
 				m_buffer[m_buffer_w] = GetDocument()->mod().get_mode(mode);
-		}		
+		}
 		break;
 	case 4:
 		{
@@ -235,7 +229,7 @@ void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 				m_buffer[m_buffer_w] = GetDocument()->mod().get_module(module);
 		}
 		break;
-	}	
+	}
 	pDispInfo->item.pszText = const_cast<char*>(m_buffer[m_buffer_w].c_str());
 	m_buffer_w--;
 	if (m_buffer_w < 0)
@@ -243,7 +237,7 @@ void CXCCModCreatorView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CXCCModCreatorView::OnEditInsert() 
+void CXCCModCreatorView::OnEditInsert()
 {
 	const char* all_filter = "All files (*.*)|*.*|";
 	CFileDialog dlg(true, NULL, 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, all_filter, this);
@@ -251,12 +245,12 @@ void CXCCModCreatorView::OnEditInsert()
 		insert(static_cast<string>(dlg.GetPathName()));
 }
 
-void CXCCModCreatorView::OnUpdateEditInsert(CCmdUI* pCmdUI) 
+void CXCCModCreatorView::OnUpdateEditInsert(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(m_category != Cxcc_mod::ct_unknown);
 }
 
-void CXCCModCreatorView::OnEditDelete() 
+void CXCCModCreatorView::OnEditDelete()
 {
 	CListCtrl& lc = GetListCtrl();
 	while (1)
@@ -268,7 +262,7 @@ void CXCCModCreatorView::OnEditDelete()
 	}
 }
 
-void CXCCModCreatorView::OnUpdateEditDelete(CCmdUI* pCmdUI) 
+void CXCCModCreatorView::OnUpdateEditDelete(CCmdUI* pCmdUI)
 {
 	CListCtrl& lc = GetListCtrl();
 	pCmdUI->Enable(lc.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED) != -1);
@@ -304,25 +298,25 @@ void CXCCModCreatorView::OnContextMenu(CWnd*, CPoint point)
 	}
 }
 
-void CXCCModCreatorView::OnPopupOpen() 
+void CXCCModCreatorView::OnPopupOpen()
 {
 	CListCtrl& lc = GetListCtrl();
 	int index = lc.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	while (index != -1)
-	{		
+	{
 		ShellExecute(m_hWnd, "open", m_map.find(lc.GetItemData(index))->second.fname.c_str(), NULL, NULL, SW_SHOW);
 		index = lc.GetNextItem(index, LVNI_ALL | LVNI_SELECTED);
 	}
 }
 
-void CXCCModCreatorView::OnUpdatePopupOpen(CCmdUI* pCmdUI) 
+void CXCCModCreatorView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 {
 	CListCtrl& lc = GetListCtrl();
 	pCmdUI->Enable(lc.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED) != -1);
 }
 
 
-void CXCCModCreatorView::OnPopupExplore() 
+void CXCCModCreatorView::OnPopupExplore()
 {
 	CListCtrl& lc = GetListCtrl();
 	int index = focus();
@@ -330,16 +324,16 @@ void CXCCModCreatorView::OnPopupExplore()
 	if (!dir.empty())
 	{
 		dir.erase(dir.length() - 1);
-		ShellExecute(m_hWnd, "open", dir.c_str(), NULL, NULL, SW_SHOW);	
+		ShellExecute(m_hWnd, "open", dir.c_str(), NULL, NULL, SW_SHOW);
 	}
 }
 
-void CXCCModCreatorView::OnUpdatePopupExplore(CCmdUI* pCmdUI) 
+void CXCCModCreatorView::OnUpdatePopupExplore(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(focus() != -1);
 }
 
-void CXCCModCreatorView::OnPopupProperties() 
+void CXCCModCreatorView::OnPopupProperties()
 {
 	CListCtrl& lc = GetListCtrl();
 	int index = focus();
@@ -356,12 +350,12 @@ void CXCCModCreatorView::OnPopupProperties()
 	}
 }
 
-void CXCCModCreatorView::OnUpdatePopupProperties(CCmdUI* pCmdUI) 
+void CXCCModCreatorView::OnUpdatePopupProperties(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(focus() != -1);
 }
 
-void CXCCModCreatorView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCModCreatorView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	int column = pNMListView->iSubItem;
@@ -421,7 +415,7 @@ void CXCCModCreatorView::sort_list(int i, bool reverse)
 	lc.SortItems(Compare, reinterpret_cast<dword>(this));
 }
 
-void CXCCModCreatorView::export() 
+void CXCCModCreatorView::export()
 {
 	Cvirtual_binary exe;
 	Cxcc_apps apps;

@@ -1,20 +1,6 @@
-// 3ds2vxl_fe_ini_reader.cpp: implementation of the C3ds2vxl_fe_ini_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 // #include "3DS2VXL FE.h"
 #include "3ds2vxl_fe_ini_reader.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 C3ds2vxl_fe_ini_reader::C3ds2vxl_fe_ini_reader()
 {

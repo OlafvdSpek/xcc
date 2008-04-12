@@ -1,6 +1,3 @@
-// XCC TMP EditorView.cpp : implementation of the CXCCTMPEditorView class
-//
-
 #include "stdafx.h"
 
 #include "XCC TMP EditorDoc.h"
