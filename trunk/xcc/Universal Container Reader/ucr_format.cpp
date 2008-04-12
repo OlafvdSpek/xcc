@@ -1,17 +1,7 @@
-// ucr_format.cpp: implementation of the Cucr_format class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ucr_format.h"
 
 #include "xif_key.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 float Cucr_format::t_var::read_float(Cstream_reader& sr) const
 {

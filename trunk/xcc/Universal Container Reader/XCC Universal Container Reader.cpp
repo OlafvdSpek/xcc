@@ -1,6 +1,3 @@
-// XCC Universal Container Reader.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC Universal Container Reader.h"
 
@@ -11,15 +8,6 @@
 #include "formats_dlg.h"
 
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderApp
 
 BEGIN_MESSAGE_MAP(CXCCUniversalContainerReaderApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCUniversalContainerReaderApp)
@@ -88,7 +76,7 @@ BOOL CXCCUniversalContainerReaderApp::InitInstance()
 
 	// Parse command line for standard shell commands, DDE, file open
 	CCommandLineInfo cmdInfo;
-	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew) 
+	if (cmdInfo.m_nShellCommand == CCommandLineInfo::FileNew)
 		cmdInfo.m_nShellCommand = CCommandLineInfo::FileNothing;
 	ParseCommandLine(cmdInfo);
 
@@ -117,7 +105,7 @@ string CXCCUniversalContainerReaderApp::data_fname()
 	return xcc_dirs::get_data_dir() + "xucr_data.xif";
 }
 
-int CXCCUniversalContainerReaderApp::ExitInstance() 
+int CXCCUniversalContainerReaderApp::ExitInstance()
 {
 	{
 		Cxif_key key;
@@ -128,7 +116,7 @@ int CXCCUniversalContainerReaderApp::ExitInstance()
 	return CWinApp::ExitInstance();
 }
 
-CDocument* CXCCUniversalContainerReaderApp::OpenDocumentFile(LPCTSTR lpszFileName) 
+CDocument* CXCCUniversalContainerReaderApp::OpenDocumentFile(LPCTSTR lpszFileName)
 {
 	Cformats_dlg dlg(formats());
 	{

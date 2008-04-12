@@ -1,6 +1,3 @@
-// XCC Mod Creator.cpp : Defines the class behaviors for the application.
-//
-
 #include "stdafx.h"
 #include "XCC Mod Creator.h"
 
