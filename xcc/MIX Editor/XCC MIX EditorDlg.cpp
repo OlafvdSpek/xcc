@@ -63,9 +63,6 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, ETSLayoutDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCMIXEditorDlg message handlers
-
 int c_colums = 7;
 char* column_label[] = {"Name", "Type", "Description", "ID", "Offset", "Size", ""};
 int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT};
@@ -93,7 +90,7 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 	UpdateLayout();
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	for (int i = 0; i < c_colums; i++)
 		m_list.InsertColumn(i, column_label[i], column_alignment[i]);
 	if (read_key(xcc_dirs::get_main_mix(game_ts)))
@@ -107,7 +104,7 @@ BOOL CXCCMIXEditorDlg::OnInitDialog()
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CXCCMIXEditorDlg::OnPaint() 
+void CXCCMIXEditorDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -139,7 +136,7 @@ HCURSOR CXCCMIXEditorDlg::OnQueryDragIcon()
 
 const char* mix_filter = "MIX files (*.mix)|*.mix|";
 
-void CXCCMIXEditorDlg::OnButtonNew() 
+void CXCCMIXEditorDlg::OnButtonNew()
 {
 	CFileDialog dlg(false, "mix", 0, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, mix_filter, this);
 	if (IDOK == dlg.DoModal())
@@ -153,24 +150,24 @@ void CXCCMIXEditorDlg::OnButtonNew()
 	}
 }
 
-void CXCCMIXEditorDlg::OnButtonOpen() 
+void CXCCMIXEditorDlg::OnButtonOpen()
 {
 	CFileDialog dlg(true, "mix", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, mix_filter, this);
 	if (IDOK == dlg.DoModal())
 		set_status("open mix", read_mix(static_cast<string>(dlg.GetPathName())));
 }
 
-void CXCCMIXEditorDlg::OnButtonSave() 
+void CXCCMIXEditorDlg::OnButtonSave()
 {
 	set_status("save mix", save_mix());
 }
 
-void CXCCMIXEditorDlg::OnButtonCompact() 
+void CXCCMIXEditorDlg::OnButtonCompact()
 {
 	set_status("compact mix", compact_mix());
 }
 
-void CXCCMIXEditorDlg::OnButtonClose() 
+void CXCCMIXEditorDlg::OnButtonClose()
 {
 	m_open = false;
 	m_list.DeleteAllItems();
@@ -178,15 +175,15 @@ void CXCCMIXEditorDlg::OnButtonClose()
 	update_buttons();
 }
 
-void CXCCMIXEditorDlg::OnButtonLoadKey() 
+void CXCCMIXEditorDlg::OnButtonLoadKey()
 {
 	CFileDialog dlg(true, "mix", 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, mix_filter, this);
 	if (IDOK == dlg.DoModal())
 		set_status("read key", read_key(static_cast<string>(dlg.GetPathName())));
 }
 
-void CXCCMIXEditorDlg::OnButtonDelete() 
-{	
+void CXCCMIXEditorDlg::OnButtonDelete()
+{
 	int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 	while (index != -1)
 	{
@@ -198,7 +195,7 @@ void CXCCMIXEditorDlg::OnButtonDelete()
 	set_changed(true);
 }
 
-void CXCCMIXEditorDlg::OnButtonOptions() 
+void CXCCMIXEditorDlg::OnButtonOptions()
 {
 	CMIXOptions dlg;
 	dlg.set(m_game, m_encrypted, m_checksum);
@@ -209,7 +206,7 @@ void CXCCMIXEditorDlg::OnButtonOptions()
 	}
 }
 
-void CXCCMIXEditorDlg::OnButtonXccHomePage() 
+void CXCCMIXEditorDlg::OnButtonXccHomePage()
 {
 	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
 }
@@ -232,7 +229,7 @@ int CXCCMIXEditorDlg::read_key(const string& name)
 	Cmix_file f;
 	if (f.open(name))
 		error = 1;
-	else 
+	else
 	{
 		if (f.is_encrypted())
 		{
@@ -249,7 +246,7 @@ int CXCCMIXEditorDlg::read_key(const string& name)
 	return error;
 }
 
-void CXCCMIXEditorDlg::add_file(const string& name) 
+void CXCCMIXEditorDlg::add_file(const string& name)
 {
 	if (!m_open)
 		return;
@@ -271,7 +268,7 @@ void CXCCMIXEditorDlg::add_file(const string& name)
 	add_entry(id);
 }
 
-void CXCCMIXEditorDlg::add_entry(int id) 
+void CXCCMIXEditorDlg::add_entry(int id)
 {
 	t_index::const_iterator i = m_index.find(id);
 	int j = m_list.GetItemCount();
@@ -587,7 +584,7 @@ void CXCCMIXEditorDlg::set_status(const string& msg, bool error)
 	UpdateData(false);
 }
 
-void CXCCMIXEditorDlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCMIXEditorDlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	m_current_id = pNMListView->uNewState & LVIS_FOCUSED ? m_list.GetItemData(pNMListView->iItem) : 0;
@@ -595,7 +592,7 @@ void CXCCMIXEditorDlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CXCCMIXEditorDlg::OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCMIXEditorDlg::OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	m_current_id = pNMListView->uNewState & LVIS_FOCUSED ? m_list.GetItemData(pNMListView->iItem) : 0;
@@ -603,7 +600,7 @@ void CXCCMIXEditorDlg::OnDeleteitemList(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CXCCMIXEditorDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCMIXEditorDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
 	sort_list(column, column == m_sort_column ? !m_sort_reverse : false);
@@ -672,7 +669,7 @@ void CXCCMIXEditorDlg::sort_list(int i, bool reverse)
 
 const char* all_filter = "All files (*.*)|*.*|";
 
-void CXCCMIXEditorDlg::OnButtonInsert() 
+void CXCCMIXEditorDlg::OnButtonInsert()
 {
 	CFileDialog dlg(true, NULL, 0, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, all_filter, this);
 	dlg.m_ofn.lpstrInitialDir = xcc_dirs::get_dir(game_td).c_str();
@@ -680,7 +677,7 @@ void CXCCMIXEditorDlg::OnButtonInsert()
 		add_file(static_cast<string>(dlg.GetPathName()));
 }
 
-void CXCCMIXEditorDlg::OnDropFiles(HDROP hDropInfo) 
+void CXCCMIXEditorDlg::OnDropFiles(HDROP hDropInfo)
 {
 	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
 	char fname[MAX_PATH];

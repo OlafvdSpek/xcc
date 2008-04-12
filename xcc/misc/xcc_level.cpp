@@ -11,7 +11,7 @@
 
 using namespace boost;
 
-const char* section_code[] = 
+const char* section_code[] =
 {
 	"basic",
 	"map",
@@ -42,7 +42,7 @@ const char* section_code[] =
 	"multi6"
 };
 
-const char* basic_data_code[] = 
+const char* basic_data_code[] =
 {
 	"action",
 	"brief",
@@ -80,7 +80,7 @@ const char* side_data_code[] =
 	"quota"
 };
 
-const char* edge_code[] = 
+const char* edge_code[] =
 {
 	"north",
 	"east",
@@ -88,9 +88,9 @@ const char* edge_code[] =
 	"west"
 };
 
-const char* side_code[] = 
+const char* side_code[] =
 {
-	"goodguy", 
+	"goodguy",
 	"badguy",
 	"neutral",
 	"special",
@@ -376,22 +376,22 @@ const char* cause_code[]=
 const char* event_code[]=
 {
 	"all to hunt",
-	"airstrike",       
-	"allow win",       
-	"autocreate",      
-	"create team",     
-	"dstry teams",     
+	"airstrike",
+	"allow win",
+	"autocreate",
+	"create team",
+	"dstry teams",
 	"dstry trig 'xxxx'",
 	"dstry trig 'yyyy'",
 	"dstry trig 'zzzz'",
-	"dz at 'z'",         
-	"ion cannon",      
-	"lose",            
-	"none",            
+	"dz at 'z'",
+	"ion cannon",
+	"lose",
+	"none",
 	"nuclear missile",
 	"production",
-	"reinforce.",      
-	"win"             
+	"reinforce.",
+	"win"
 };
 
 inline static bool is_section_start(const string &s)
@@ -430,12 +430,12 @@ t_map_data_id get_map_data_id(const string &s)
 
 t_side_data_id get_side_data_id(const string &s)
 {
-	return static_cast<t_side_data_id>(find_id(s, side_data_code, c_side_data_id));	
+	return static_cast<t_side_data_id>(find_id(s, side_data_code, c_side_data_id));
 }
 
 t_edge_id get_edge_id(const string &s)
 {
-	return static_cast<t_edge_id>(find_id(s, edge_code, c_edge_id));	
+	return static_cast<t_edge_id>(find_id(s, edge_code, c_edge_id));
 }
 
 t_overlay_id get_overlay_id(const string& s, bool allow_unknown = false)
@@ -455,7 +455,7 @@ t_terrain_id get_terrain_id(const string& s)
 
 t_theater_id get_theater_id(const string &s)
 {
-	return static_cast<t_theater_id>(find_id(s, theater_code, c_theater_id));	
+	return static_cast<t_theater_id>(find_id(s, theater_code, c_theater_id));
 }
 
 t_action_id get_action_id(const string& s)
@@ -554,7 +554,7 @@ static void handle_basic_section_entry(const string &a, const string &b, t_basic
 	case bdt_carry_over_money:
 		basic_data.carry_over_money = 100 * get_value(b, 0, 10000);
 		break;
-	case bdt_intro:	
+	case bdt_intro:
 		basic_data.intro = b;
 		break;
 	case bdt_lose:
@@ -596,7 +596,7 @@ static void handle_map_section_entry(const string &a, const string &b, t_map_dat
 	case mdt_x:
 		map_data.x = get_value(b, 1, 62);
 		break;
-	case mdt_y: 
+	case mdt_y:
 		map_data.y = get_value(b, 1, 62);
 		break;
 	case mdt_cx:
@@ -664,7 +664,7 @@ static void handle_side_section_entry(const string &a, const string &b, t_side_d
 }
 
 static void handle_base_section_entry(const string &a, const string &b, t_base_data &base_data)
-{	
+{
 	if (a == "count")
 		return;
 	Cmulti_line line = b;
@@ -782,7 +782,7 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 		if (z != -1)
 			d.object_list[i] = z << 8 | n;
 		else
-			d.object_list[i] = 0x8000 | xcc_units::get_id(t) << 8 | n;		
+			d.object_list[i] = 0x8000 | xcc_units::get_id(t) << 8 | n;
 	}
 	d.c_actions = get_value(line.get_next_line(), 0, 64);
 	ZeroMemory(d.action_list, sizeof(d.action_list));
@@ -793,7 +793,7 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 		if (z == -1)
 			assert(false);
 		const int n = get_value(c.get_next_line(), 0, 99);
-		d.action_list[i] = z << 8 | n;		
+		d.action_list[i] = z << 8 | n;
 	}
 	if (get_value(line.get_next_line(), 0, 1))
 		d.flags |= td_flags_replace;
@@ -820,10 +820,6 @@ static void handle_waypoints_section_entry(const string &a, const string &b, t_w
 	if (b != "-1")
 		waypoint_data[get_value(a, 0, 99)] = get_cell_value(b);
 }
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxcc_level::Cxcc_level()
 {
@@ -938,7 +934,7 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 				case si_waypoints:
 					handle_waypoints_section_entry(a, b, waypoint_data);
 					break;
-				}				
+				}
 			}
 		}
 		catch (Cxcc_level_warning_ignored&)
@@ -1024,10 +1020,10 @@ Cvirtual_binary Cxcc_level::save_ini() const
 			f.write_line("");
 		}
 	}
-	
+
 	{
 		// celltriggers
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
 		for (t_celltrigger_data::const_iterator i = celltrigger_data.begin(); i != celltrigger_data.end(); i++)
 		{
@@ -1038,18 +1034,18 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// teamtypes
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
 		for (t_teamtype_data::const_iterator i = teamtype_data.begin(); i != teamtype_data.end(); i++)
 		{
 			const t_teamtype_data_entry& d = i->second;
-			f.write(i->first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," + 
-				n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," + 
+			f.write(i->first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
+				n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," +
 				n(d.u1) + ',' + n(d.c_teams) + ",0,0," + n(d.c_objects) + ',');
 			for (int i = 0; i < d.c_objects; i++)
 			{
 				int v = d.object_list[i];
-				f.write(static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) + 
+				f.write(static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) +
 					':' + n(v & 0xff) + ',');
 			}
 			f.write(n(d.c_actions) + ',');
@@ -1065,13 +1061,13 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// triggers
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
 		for (t_trigger_data::const_iterator i = trigger_data.begin(); i != trigger_data.end(); i++)
 		{
 			const t_trigger_data_entry& d = i->second;
-			f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' + 
-				n(d.count) + ',' + (static_cast<int>(d.side) < c_side_id ? side_code[d.side] : "none") + ',' + 
+			f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
+				n(d.count) + ',' + (static_cast<int>(d.side) < c_side_id ? side_code[d.side] : "none") + ',' +
 				d.teamtype + ',' + n(d.loop));
 		}
 		f.write_line("");
@@ -1091,7 +1087,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// base
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_base] + ']');
 		int index = 0;
 		for (t_structure_data::const_iterator i = structure_data.begin(); i < structure_data.end(); i++)
@@ -1107,7 +1103,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// infantry
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_infantry] + ']');
 		int index = 0;
 		for (t_infantry_data::const_iterator i = infantry_data.begin(); i < infantry_data.end(); i++)
@@ -1130,7 +1126,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 			{
 				f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_structures::structure_data[i->t].short_name
 					+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->angle)  + ',' + i->trigger);
-				
+
 			}
 		}
 		f.write_line("");
@@ -1138,7 +1134,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// units
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
 		int index = 0;
 		for (t_unit_data::const_iterator i = unit_data.begin(); i < unit_data.end(); i++)
@@ -1152,11 +1148,11 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// sides
-		
+
 		for (int i = 0; i < c_side_id; i++)
 		{
 			f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
-			f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');	
+			f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');
 			bool first = true;
 			for (int j = 0; j < c_side_id; j++)
 			{
@@ -1187,7 +1183,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// overlay
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
 		for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
 		{
@@ -1203,7 +1199,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	{
 		// terrain
-		
+
 		f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
 		for (t_terrain_data::const_iterator i = terrain_data.begin(); i != terrain_data.end(); i++)
 		{
@@ -1278,7 +1274,7 @@ void Cxcc_level::process()
 				j = overlay_data.find(cell - 1);
 				bool left = j != overlay_data.end() && j->second >> 8 == v;
 				w = top | right << 1 | bottom << 2 | left << 3;
-			}	
+			}
 			overlay_data[cell] = v << 8 | w;
 		}
 	}

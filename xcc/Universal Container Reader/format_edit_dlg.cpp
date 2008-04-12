@@ -1,20 +1,7 @@
-// format_edit_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "format_edit_dlg.h"
 
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cformat_edit_dlg dialog
-
 
 Cformat_edit_dlg::Cformat_edit_dlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cformat_edit_dlg::IDD, pParent, "format_edit_dlg")
@@ -56,10 +43,10 @@ END_MESSAGE_MAP()
 static int c_colums_blocks = 6;
 static int c_colums_vars = 10;
 
-BOOL Cformat_edit_dlg::OnInitDialog() 
+BOOL Cformat_edit_dlg::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
-	
+
 	{
 		const char* column_label[] = {"I", "Add object", "Update object", "Count", "Offset", "Size"};
 
@@ -75,7 +62,7 @@ BOOL Cformat_edit_dlg::OnInitDialog()
 		m_blocks.SetRedraw(true);
 	}
 	{
-		const char* column_label[] = {"I", "Big endian", "Block", "Var", "ID", "Name", "Offset", "Size", "Type", "Value"}; 
+		const char* column_label[] = {"I", "Big endian", "Block", "Var", "ID", "Name", "Offset", "Size", "Type", "Value"};
 
 		m_vars.SetRedraw(false);
 		m_vars.auto_size();
@@ -98,7 +85,7 @@ BOOL Cformat_edit_dlg::OnInitDialog()
 	UpdateLayout();
 
 	m_blocks.SetItemState(0, LVNI_FOCUSED | LVNI_SELECTED, LVNI_FOCUSED | LVNI_SELECTED);
-	
+
 	return true;
 }
 
@@ -115,7 +102,7 @@ void Cformat_edit_dlg::set(const Cucr_format& v)
 	m_registry_keys = v.registry_keys_string(";").c_str();
 }
 
-void Cformat_edit_dlg::OnGetdispinfoBlocks(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cformat_edit_dlg::OnGetdispinfoBlocks(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	const Cucr_format::t_block& e = m_format.blocks()[pDispInfo->item.lParam];
@@ -149,7 +136,7 @@ void Cformat_edit_dlg::OnGetdispinfoBlocks(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void Cformat_edit_dlg::OnGetdispinfoVars(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cformat_edit_dlg::OnGetdispinfoVars(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	m_buffer[m_buffer_w].erase();
@@ -215,13 +202,13 @@ void Cformat_edit_dlg::update_vars()
 	m_vars.auto_size();
 }
 
-void Cformat_edit_dlg::OnItemchangedBlocks(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cformat_edit_dlg::OnItemchangedBlocks(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView->uChanged & LVIF_STATE)
 	{
 		m_block = pNMListView->uNewState & LVIS_FOCUSED ? &m_format.blocks()[pNMListView->lParam] : NULL;
 		update_vars();
-	}	
+	}
 	*pResult = 0;
 }

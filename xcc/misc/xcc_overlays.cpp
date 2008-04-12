@@ -84,10 +84,6 @@ void* overlay_image_list[c_overlay_id];
 void* terrain_image_list[c_terrain_id];
 
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 enum
 {
 	ki_overlay,
@@ -196,13 +192,13 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	{
 		// load overlays
 		for (int i = 0; i < c_overlay_id; i++)
-		{		
+		{
 			Cshp_file f;
 			f.open(overlay_code[i] + ext, theater_mix);
 			if (!f.is_open())
 			{
 				f.open(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix);
-				if (!f.is_open())		
+				if (!f.is_open())
 					return 1;
 			}
 			int res = shp_images::load_shp(f, overlay_image_list[i]);
@@ -214,7 +210,7 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	{
 		// load terrain
 		for (int i = 0; i < c_terrain_id; i++)
-		{		
+		{
 			Cshp_file f;
 			f.open(terrain_code[i] + ext, theater_mix);
 			if (f.is_open())

@@ -1,6 +1,3 @@
-// 3DS2VXL FEDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "3DS2VXL FE.h"
 #include "3DS2VXL FEDlg.h"
@@ -9,15 +6,6 @@
 #include <fstream>
 #include "file32.h"
 #include "fname.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CMy3DS2VXLFEDlg dialog
 
 CMy3DS2VXLFEDlg::CMy3DS2VXLFEDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CMy3DS2VXLFEDlg::IDD, pParent)
@@ -91,7 +79,7 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 	Cfname fname = GetModuleFileName();
 	fname.set_ext(".ini");
 	m_fname = fname;
-	C3ds2vxl_fe_ini_reader ir;	
+	C3ds2vxl_fe_ini_reader ir;
 	Cfile32 f;
 	if (!f.open_read(m_fname))
 	{
@@ -121,14 +109,14 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 	m_resolution = options.resolution;
 	m_scale = options.scale;
 	m_enable_viewer = options.enable_viewer;
-	
+
 	CDialog::OnInitDialog();
 
 	update_buttons();
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	{
 		// Create the ToolTip control.
 		m_tooltip.Create(this);
@@ -145,8 +133,8 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 		m_tooltip.AddTool(GetDlgItem(IDC_TEXTURES), "Working partially. Try deactivating if the model looks full of static.");
 		m_tooltip.AddTool(GetDlgItem(IDC_MATERIALS), "Deactivate this if you want the whole model to be the same default color.");
 		m_tooltip.AddTool(GetDlgItem(IDC_ENABLE_VIEWER), "Deactivate this if running from a server edition of windows.");
-		
-			
+
+
 	}
 	return true;
 }
@@ -155,7 +143,7 @@ BOOL CMy3DS2VXLFEDlg::OnInitDialog()
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CMy3DS2VXLFEDlg::OnPaint() 
+void CMy3DS2VXLFEDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -186,11 +174,11 @@ HCURSOR CMy3DS2VXLFEDlg::OnQueryDragIcon()
 }
 
 int browse_for_file(string& fname, string filter)
-{    
+{
 	return 1;
 }
 
-void CMy3DS2VXLFEDlg::OnSkyboxBrowse() 
+void CMy3DS2VXLFEDlg::OnSkyboxBrowse()
 {
 	CFileDialog dlg(true, "tga", m_skybox, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "TGA files (*.tga)|*.tga|", this);
 	if (IDOK == dlg.DoModal())
@@ -198,10 +186,10 @@ void CMy3DS2VXLFEDlg::OnSkyboxBrowse()
 		m_skybox = dlg.GetPathName();
 		UpdateData(false);
 		update_buttons();
-	}	
+	}
 }
 
-void CMy3DS2VXLFEDlg::OnSourceBrowse() 
+void CMy3DS2VXLFEDlg::OnSourceBrowse()
 {
 	CFileDialog dlg(true, "3ds", m_source, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "3DS files (*.3ds)|*.3ds|", this);
 	if (IDOK == dlg.DoModal())
@@ -209,20 +197,20 @@ void CMy3DS2VXLFEDlg::OnSourceBrowse()
 		m_source = dlg.GetPathName();
 		UpdateData(false);
 		update_buttons();
-	}	
+	}
 }
 
-void CMy3DS2VXLFEDlg::OnDestinationBrowse() 
+void CMy3DS2VXLFEDlg::OnDestinationBrowse()
 {
 	CFileDialog dlg(false, "vxl", m_destination, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, "VXL files (*.vxl)|*.vxl|", this);
 	if (IDOK == dlg.DoModal())
 	{
 		m_destination = dlg.GetPathName();
 		UpdateData(false);
-	}	
+	}
 }
 
-void CMy3DS2VXLFEDlg::OnOK() 
+void CMy3DS2VXLFEDlg::OnOK()
 {
 	UpdateData(true);
 	t_options options;

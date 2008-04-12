@@ -1,20 +1,7 @@
-// library_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "library_dlg.h"
 
 #include "directories_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Clibrary_dlg dialog
-
 
 Clibrary_dlg::Clibrary_dlg(const Cucr_formats& formats, Cucr_library& library, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Clibrary_dlg::IDD, pParent, "library_dlg"), m_formats(formats), m_library(library)
@@ -47,12 +34,12 @@ END_MESSAGE_MAP()
 /////////////////////////////////////////////////////////////////////////////
 // Clibrary_dlg message handlers
 
-BOOL Clibrary_dlg::OnInitDialog() 
+BOOL Clibrary_dlg::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
-	
+
 	update_containers();
-	
+
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, GREEDY)
 			<< item(IDC_TREE, GREEDY)
@@ -65,7 +52,7 @@ BOOL Clibrary_dlg::OnInitDialog()
 			<< item(IDCANCEL, NORESIZE)
 			);
 	UpdateLayout();
-	
+
 	return true;
 }
 
@@ -88,7 +75,7 @@ void Clibrary_dlg::insert_format(const Cucr_library::t_containers& containers)
 	}
 }
 
-void Clibrary_dlg::OnDirectories() 
+void Clibrary_dlg::OnDirectories()
 {
 	Cdirectories_dlg dlg(m_library);
 	if (IDOK != dlg.DoModal())
@@ -98,26 +85,26 @@ void Clibrary_dlg::OnDirectories()
 	update_containers();
 }
 
-void Clibrary_dlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult) 
+void Clibrary_dlg::OnSelchangedTree(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	m_ok_button.EnableWindow(m_reverse_map.find(m_tree.GetSelectedItem()) != m_reverse_map.end());
 	*pResult = 0;
 }
 
-void Clibrary_dlg::OnOK() 
+void Clibrary_dlg::OnOK()
 {
 	m_container = m_reverse_map.find(m_tree.GetSelectedItem())->second;
 	ETSLayoutDialog::OnOK();
 }
 
-void Clibrary_dlg::OnDblclkTree(NMHDR* pNMHDR, LRESULT* pResult) 
+void Clibrary_dlg::OnDblclkTree(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	t_reverse_map::const_iterator i = m_reverse_map.find(m_tree.GetSelectedItem());
 	if (i != m_reverse_map.end())
 	{
 		m_container = i->second;
-		EndDialog(IDOK);	
+		EndDialog(IDOK);
 	}
 	*pResult = 0;
 }
@@ -144,7 +131,7 @@ void Clibrary_dlg::update_containers()
 	}
 }
 
-void Clibrary_dlg::OnRefresh() 
+void Clibrary_dlg::OnRefresh()
 {
 	m_library.scan(m_formats);
 	update_containers();

@@ -1,6 +1,3 @@
-// XRG Mod LauncherDlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XRG Mod Launcher.h"
 #include "XRG Mod LauncherDlg.h"
@@ -9,15 +6,6 @@
 #include "fname.h"
 #include "rml_file.h"
 #include "xcc_dirs.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXRGModLauncherDlg dialog
 
 CXRGModLauncherDlg::CXRGModLauncherDlg(CWnd* pParent /*=NULL*/)
 	: CDialog(CXRGModLauncherDlg::IDD, pParent)
@@ -57,9 +45,9 @@ BOOL CXRGModLauncherDlg::OnInitDialog()
 
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
-	
+
 	// TODO: Add extra initialization here
-	
+
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
@@ -67,7 +55,7 @@ BOOL CXRGModLauncherDlg::OnInitDialog()
 //  to draw the icon.  For MFC applications using the document/view model,
 //  this is automatically done for you by the framework.
 
-void CXRGModLauncherDlg::OnPaint() 
+void CXRGModLauncherDlg::OnPaint()
 {
 	if (IsIconic())
 	{
@@ -97,7 +85,7 @@ HCURSOR CXRGModLauncherDlg::OnQueryDragIcon()
 	return (HCURSOR) m_hIcon;
 }
 
-void CXRGModLauncherDlg::OnConvert() 
+void CXRGModLauncherDlg::OnConvert()
 {
 	UpdateData();
 	CFileDialog dlg(true, NULL, NULL, OFN_HIDEREADONLY | OFN_FILEMUSTEXIST, "Mods (*.pkg;*.rmlf)|*.pkg;*.rmlf|", NULL);
@@ -105,7 +93,7 @@ void CXRGModLauncherDlg::OnConvert()
 		convert(static_cast<string>(dlg.GetPathName()));
 }
 
-void CXRGModLauncherDlg::OnXHP() 
+void CXRGModLauncherDlg::OnXHP()
 {
 	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
 }
@@ -118,7 +106,7 @@ void CXRGModLauncherDlg::convert(string fname)
 	Ccc_file f(true);
 	if (!f.open(fname))
 	{
-		switch (f.get_file_type())			
+		switch (f.get_file_type())
 		{
 		case ft_mix_rg:
 			d_fname.set_ext(".rmlf");
@@ -134,7 +122,7 @@ void CXRGModLauncherDlg::convert(string fname)
 	}
 }
 
-void CXRGModLauncherDlg::OnDropFiles(HDROP hDropInfo) 
+void CXRGModLauncherDlg::OnDropFiles(HDROP hDropInfo)
 {
 	UpdateData();
 	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);

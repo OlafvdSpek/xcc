@@ -1,6 +1,3 @@
-// options_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "options_dlg.h"
 
@@ -9,10 +6,6 @@
 #undef THIS_FILE
 static char THIS_FILE[] = __FILE__;
 #endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Coptions_dlg dialog
-
 
 Coptions_dlg::Coptions_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Coptions_dlg::IDD, pParent)
@@ -76,9 +69,6 @@ BEGIN_MESSAGE_MAP(Coptions_dlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// Coptions_dlg message handlers
-
 Cxcc_mod::t_options Coptions_dlg::get() const
 {
 	Cxcc_mod::t_options r;
@@ -113,7 +103,7 @@ Cxcc_mod::t_options Coptions_dlg::get() const
 	r.deactivate = m_deactivate;
 	r.mod_mfs = m_mod_mfs;
 	// r.@ = m_@;
-	return r;	
+	return r;
 }
 
 void Coptions_dlg::set(Cxcc_mod::t_options options)

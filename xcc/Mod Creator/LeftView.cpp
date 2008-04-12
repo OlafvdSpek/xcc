@@ -13,9 +13,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView
-
 IMPLEMENT_DYNCREATE(CLeftView, CTreeView)
 
 BEGIN_MESSAGE_MAP(CLeftView, CTreeView)
@@ -23,9 +20,6 @@ BEGIN_MESSAGE_MAP(CLeftView, CTreeView)
 	ON_NOTIFY_REFLECT(TVN_SELCHANGED, OnSelchanged)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView construction/destruction
 
 CLeftView::CLeftView()
 {
@@ -52,10 +46,7 @@ void CLeftView::OnInitialUpdate()
 	}
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CLeftView message handlers
-
-void CLeftView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult) 
+void CLeftView::OnSelchanged(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_TREEVIEW* pNMTreeView = (NM_TREEVIEW*)pNMHDR;
 	if (~pNMTreeView->itemOld.state & TVIS_SELECTED && pNMTreeView->itemNew.state & TVIS_SELECTED)

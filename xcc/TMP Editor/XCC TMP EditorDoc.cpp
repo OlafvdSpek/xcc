@@ -45,11 +45,6 @@ BOOL CXCCTMPEditorDoc::OnNewDocument()
 	return TRUE;
 }
 
-
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorDoc serialization
-
 void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
@@ -81,7 +76,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 						*index++ = w - d;
 						int cb_diamond = m_header.cx * m_header.cy >> 1;
 						int cb_extra_data = e.header.cx_extra * e.header.cy_extra;
-						e.header.z_ofs = cb_diamond + sizeof(t_tmp_image_header);		
+						e.header.z_ofs = cb_diamond + sizeof(t_tmp_image_header);
 						e.header.extra_ofs = 2 * cb_diamond + sizeof(t_tmp_image_header);
 						if (e.extra_data.data())
 							e.header.extra_z_ofs = 2 * cb_diamond + cb_extra_data + sizeof(t_tmp_image_header);

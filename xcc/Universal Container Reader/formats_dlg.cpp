@@ -1,18 +1,5 @@
-// formats_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "formats_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cformats_dlg dialog
-
 
 Cformats_dlg::Cformats_dlg(const Cucr_formats& formats, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cformats_dlg::IDD, pParent, "formats_dlg"), m_formats(formats)
@@ -45,10 +32,10 @@ END_MESSAGE_MAP()
 
 static int c_colums = 2;
 
-BOOL Cformats_dlg::OnInitDialog() 
+BOOL Cformats_dlg::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
-	
+
 	const char* column_label[] = {"Name", "Extensions"};
 
 	m_list.SetRedraw(false);
@@ -66,7 +53,7 @@ BOOL Cformats_dlg::OnInitDialog()
 	}
 	m_list.auto_size();
 	m_list.SetRedraw(true);
-	
+
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, GREEDY)
 			<< item(IDC_LIST, GREEDY)
@@ -81,21 +68,21 @@ BOOL Cformats_dlg::OnInitDialog()
 	return true;
 }
 
-void Cformats_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cformats_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	m_ok_button.EnableWindow(m_list.GetNextItem(-1, LVNI_SELECTED) != -1);	
+	m_ok_button.EnableWindow(m_list.GetNextItem(-1, LVNI_SELECTED) != -1);
 	*pResult = 0;
 }
 
-void Cformats_dlg::OnOK() 
+void Cformats_dlg::OnOK()
 {
 	m_format = m_list.GetNextItem(-1, LVNI_SELECTED);
 	ETSLayoutDialog::OnOK();
 }
 
-void Cformats_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cformats_dlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if ((m_format = m_list.GetNextItem(-1, LVNI_SELECTED)) != -1)
-		EndDialog(IDOK);	
+		EndDialog(IDOK);
 	*pResult = 0;
 }
