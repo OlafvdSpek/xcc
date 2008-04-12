@@ -1,6 +1,3 @@
-// XCC Universal Container ReaderView.cpp : implementation of the CXCCUniversalContainerReaderView class
-//
-
 #include "stdafx.h"
 #include "XCC Universal Container Reader.h"
 
@@ -9,15 +6,6 @@
 
 #include "fname.h"
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderView
 
 IMPLEMENT_DYNCREATE(CXCCUniversalContainerReaderView, CListView)
 
@@ -102,7 +90,7 @@ CXCCUniversalContainerReaderDoc* CXCCUniversalContainerReaderView::GetDocument()
 /////////////////////////////////////////////////////////////////////////////
 // CXCCUniversalContainerReaderView message handlers
 
-void CXCCUniversalContainerReaderView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCUniversalContainerReaderView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	const Cucr_object& e = container()[pDispInfo->item.lParam];
@@ -134,7 +122,7 @@ void CXCCUniversalContainerReaderView::auto_size()
 		lc.SetColumnWidth(i, LVSCW_AUTOSIZE);
 }
 
-void CXCCUniversalContainerReaderView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCUniversalContainerReaderView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
 	sort_items(column, column == m_sort_column ? !m_sort_reverse : false);
@@ -206,7 +194,7 @@ void CXCCUniversalContainerReaderView::OnContextMenu(CWnd*, CPoint point)
 	}
 }
 
-void CXCCUniversalContainerReaderView::OnPopupOpen() 
+void CXCCUniversalContainerReaderView::OnPopupOpen()
 {
 	string dir = get_temp_path();
 	CWaitCursor wc;
@@ -218,11 +206,11 @@ void CXCCUniversalContainerReaderView::OnPopupOpen()
 		string name = "XCC Universal Container Reader\\" + e.name();
 		create_deep_dir(dir, name);
 		e.d().export(dir + name);
-		ShellExecute(m_hWnd, "open", (dir + name).c_str(), NULL, NULL, SW_SHOW);	
+		ShellExecute(m_hWnd, "open", (dir + name).c_str(), NULL, NULL, SW_SHOW);
 	}
 }
 
-void CXCCUniversalContainerReaderView::OnUpdatePopupOpen(CCmdUI* pCmdUI) 
+void CXCCUniversalContainerReaderView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetListCtrl().GetSelectedCount());
 }
@@ -238,7 +226,7 @@ static int CALLBACK WINAPI BrowseCallbackProc(HWND hwnd, UINT uMsg, LPARAM lPara
 	return 0;
 }
 
-void CXCCUniversalContainerReaderView::OnPopupCopyTo() 
+void CXCCUniversalContainerReaderView::OnPopupCopyTo()
 {
 	BROWSEINFO bi;
 	ITEMIDLIST* idlist;
@@ -250,7 +238,7 @@ void CXCCUniversalContainerReaderView::OnPopupCopyTo()
 	bi.lpfn = BrowseCallbackProc;
 	bi.lParam = reinterpret_cast<DWORD>(m_output_dir.c_str());
 	idlist = SHBrowseForFolder(&bi);
-	if (!idlist) 
+	if (!idlist)
 		return;
 	char b[MAX_PATH];
 	if (SHGetPathFromIDList(idlist, b)) // && strlen(b))
@@ -275,12 +263,12 @@ void CXCCUniversalContainerReaderView::OnPopupCopyTo()
 	}
 }
 
-void CXCCUniversalContainerReaderView::OnUpdatePopupCopyTo(CCmdUI* pCmdUI) 
+void CXCCUniversalContainerReaderView::OnUpdatePopupCopyTo(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(GetListCtrl().GetSelectedCount());
 }
 
-void CXCCUniversalContainerReaderView::OnEditSelectAll() 
+void CXCCUniversalContainerReaderView::OnEditSelectAll()
 {
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < lc.GetItemCount(); i++)
@@ -294,8 +282,8 @@ void CXCCUniversalContainerReaderView::OnEditInvertSelection()
 		lc.SetItemState(index, ~lc.GetItemState(index, LVIS_SELECTED), LVIS_SELECTED);
 }
 
-void CXCCUniversalContainerReaderView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult) 
+void CXCCUniversalContainerReaderView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	OnPopupOpen();	
+	OnPopupOpen();
 	*pResult = 0;
 }

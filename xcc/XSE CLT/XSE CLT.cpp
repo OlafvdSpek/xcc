@@ -1,6 +1,3 @@
-// XSE CLT.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include <iostream>
 #include "mix_file.h"
@@ -56,7 +53,7 @@ int main(int c_args, char** arg)
 								error = xse.extract(s.fname, f);
 								if (!error)
 									out_f.add_file(static_cast<string>(s.fname) + ".wav", f.data(), f.size());
-								
+
 							}
 						}
 						if (!error)

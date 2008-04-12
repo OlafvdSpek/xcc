@@ -1,22 +1,8 @@
-// ucr_library.cpp: implementation of the Cucr_library class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xcc universal container reader.h"
 #include "ucr_library.h"
 
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cucr_library::Cucr_library()
 {
@@ -104,7 +90,7 @@ void Cucr_library::scan(const Cucr_format& format)
 			{
 				if (ERROR_SUCCESS == RegQueryValueEx(h, registry_key.substr(e + 1).c_str(), NULL, &type, data.write_start(cb_data), &cb_data))
 					scan(format, string(reinterpret_cast<const char*>(data.data()), data.size()));
-			}			
+			}
 			RegCloseKey(h);
 		}
 	}

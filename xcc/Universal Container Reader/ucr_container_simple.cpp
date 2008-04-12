@@ -1,21 +1,7 @@
-// ucr_container_simple.cpp: implementation of the Cucr_container_simple class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ucr_container_simple.h"
 
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cucr_container_simple::Cucr_container_simple(const Cucr_format& format):
 	m_format(format)
@@ -38,7 +24,7 @@ int Cucr_container_simple::open(const Cvirtual_binary& d)
 		{
 			if (i->offset)
 				sr.seek(i->offset > 0 ? i->offset : d.size() + i->offset);
-			else 
+			else
 			{
 				map<int, int>::const_iterator j = forward_block_offsets.find(i - m_format.blocks().begin());
 				if (j != forward_block_offsets.end())
@@ -158,7 +144,7 @@ int Cucr_container_simple::open(const Cvirtual_binary& d)
 			for (t_objects::iterator i = m_objects.begin(); i != m_objects.end(); i++)
 				i->offset(i->offset() + object_offset_delta);
 		}
-		
+
 	}
 	return 0;
 }

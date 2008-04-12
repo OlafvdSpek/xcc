@@ -1,21 +1,7 @@
-// ucr_formats.cpp: implementation of the Cucr_formats class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ucr_formats.h"
 
 #include "ucr_container_ws_ra_mix.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cucr_formats::Cucr_formats()
 {

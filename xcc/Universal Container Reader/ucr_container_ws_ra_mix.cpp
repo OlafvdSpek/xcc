@@ -1,7 +1,3 @@
-// ucr_container_ws_ra_mix.cpp: implementation of the Cucr_container_ws_ra_mix class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "ucr_container_ws_ra_mix.h"
 
@@ -10,12 +6,6 @@
 #include "pcx_file_write.h"
 #include "shp_decode.h"
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
-#define new DEBUG_NEW
-#endif
 
 int Cucr_container_ws_ra_mix::open(const Cvirtual_binary& d)
 {

@@ -1,6 +1,3 @@
-// XCC Universal Container ReaderDoc.cpp : implementation of the CXCCUniversalContainerReaderDoc class
-//
-
 #include "stdafx.h"
 #include "XCC Universal Container Reader.h"
 
@@ -8,24 +5,12 @@
 #include "formats_dlg.h"
 #include "ucr_container_ws_ra_mix.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderDoc
-
 IMPLEMENT_DYNCREATE(CXCCUniversalContainerReaderDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CXCCUniversalContainerReaderDoc, CDocument)
 	//{{AFX_MSG_MAP(CXCCUniversalContainerReaderDoc)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderDoc construction/destruction
 
 CXCCUniversalContainerReaderDoc::CXCCUniversalContainerReaderDoc()
 {
@@ -36,10 +21,7 @@ CXCCUniversalContainerReaderDoc::~CXCCUniversalContainerReaderDoc()
 {
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCUniversalContainerReaderDoc commands
-
-BOOL CXCCUniversalContainerReaderDoc::OnOpenDocument(LPCTSTR lpszPathName) 
+BOOL CXCCUniversalContainerReaderDoc::OnOpenDocument(LPCTSTR lpszPathName)
 {
 	if (m_container)
 		delete m_container;

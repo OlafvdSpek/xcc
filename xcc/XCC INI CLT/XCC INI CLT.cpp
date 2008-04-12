@@ -1,6 +1,3 @@
-// XCC INI CLT.cpp : Defines the entry point for the console application.
-//
-
 #include "stdafx.h"
 #include <fstream>
 #include <iostream>
