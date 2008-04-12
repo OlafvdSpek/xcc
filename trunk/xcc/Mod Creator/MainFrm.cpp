@@ -1,16 +1,7 @@
-// MainFrm.cpp : implementation of the CMainFrame class
-//
-
 #include "stdafx.h"
 
 #include "MainFrm.h"
 #include "resource.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
 
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 

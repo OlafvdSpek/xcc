@@ -7,12 +7,6 @@
 #include "virtual_binary.h"
 #include "xcc_dirs.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 int get_replays_dir(string& v)
 {
 	char d[MAX_PATH];
@@ -55,10 +49,10 @@ BEGIN_MESSAGE_MAP(Cdlg_open, ETSLayoutDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-BOOL Cdlg_open::OnInitDialog() 
+BOOL Cdlg_open::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
-	
+
 	CreateRoot(VERTICAL)
 		<< (pane(HORIZONTAL, GREEDY)
 			<< item(IDC_PLAYERS, GREEDY)
@@ -70,7 +64,7 @@ BOOL Cdlg_open::OnInitDialog()
 			<< item(IDCANCEL, NORESIZE)
 			);
 	UpdateLayout();
-	
+
 	insert_players_columns();
 	insert_replays_columns();
 	string dir;
@@ -138,7 +132,7 @@ BOOL Cdlg_open::OnInitDialog()
 	return true;
 }
 
-void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	string& buffer = m_replays.get_buffer();
@@ -171,7 +165,7 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	string& buffer = m_players.get_buffer();
@@ -189,7 +183,7 @@ void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void Cdlg_open::OnItemchangedReplays(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnItemchangedReplays(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView->uNewState & LVIS_FOCUSED)
@@ -199,11 +193,11 @@ void Cdlg_open::OnItemchangedReplays(NMHDR* pNMHDR, LRESULT* pResult)
 		m_ok.EnableWindow(true);
 	}
 	else
-		m_ok.EnableWindow(false);	
+		m_ok.EnableWindow(false);
 	*pResult = 0;
 }
 
-void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView->uNewState & LVIS_FOCUSED)
@@ -216,7 +210,7 @@ void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void Cdlg_open::OnDblclkReplays(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnDblclkReplays(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	if (m_replays.GetNextItem(-1, LVNI_ALL | LVNI_FOCUSED) != -1)
 		EndDialog(IDOK);
@@ -275,16 +269,16 @@ Cxif_key Cdlg_open::export_cache()
 	return key;
 }
 
-void Cdlg_open::OnColumnclickReplays(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnColumnclickReplays(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	int column = reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem;
 	sort_replays(column, column == m_sort_column ? !m_sort_reverse : false);
 	*pResult = 0;
 }
 
-void Cdlg_open::OnColumnclickPlayers(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdlg_open::OnColumnclickPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	sort_players(reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem);	
+	sort_players(reinterpret_cast<NM_LISTVIEW*>(pNMHDR)->iSubItem);
 	*pResult = 0;
 }
 

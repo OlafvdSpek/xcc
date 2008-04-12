@@ -12,12 +12,6 @@
 #include "xcc_dirs.h"
 #include "xcc_log.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
 BEGIN_MESSAGE_MAP(CXCCModCreatorApp, CWinApp)
 	//{{AFX_MSG_MAP(CXCCModCreatorApp)
 	//}}AFX_MSG_MAP
