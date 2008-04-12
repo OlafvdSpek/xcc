@@ -1,19 +1,6 @@
-// dlg_edit_key.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "XGR Editor.h"
 #include "dlg_edit_key.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_key dialog
-
 
 Cdlg_edit_key::Cdlg_edit_key(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_edit_key::IDD, pParent, "dlg_edit_key")
@@ -40,10 +27,7 @@ BEGIN_MESSAGE_MAP(Cdlg_edit_key, ETSLayoutDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// Cdlg_edit_key message handlers
-
-BOOL Cdlg_edit_key::OnInitDialog() 
+BOOL Cdlg_edit_key::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
 	CreateRoot(VERTICAL)

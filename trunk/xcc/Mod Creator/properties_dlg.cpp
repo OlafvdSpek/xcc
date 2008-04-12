@@ -1,18 +1,5 @@
-// properties_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "properties_dlg.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cproperties_dlg dialog
-
 
 Cproperties_dlg::Cproperties_dlg(CWnd* pParent /*=NULL*/)
 	: CDialog(Cproperties_dlg::IDD, pParent)
@@ -38,10 +25,7 @@ BEGIN_MESSAGE_MAP(Cproperties_dlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// Cproperties_dlg message handlers
-
-BOOL Cproperties_dlg::OnInitDialog() 
+BOOL Cproperties_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	{
@@ -67,7 +51,7 @@ BOOL Cproperties_dlg::OnInitDialog()
 	return true;
 }
 
-void Cproperties_dlg::OnOK() 
+void Cproperties_dlg::OnOK()
 {
 	if (!UpdateData())
 		return;

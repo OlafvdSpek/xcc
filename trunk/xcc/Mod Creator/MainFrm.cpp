@@ -12,9 +12,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame
-
 IMPLEMENT_DYNAMIC(CMainFrame, CMDIFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CMDIFrameWnd)
@@ -30,9 +27,6 @@ static UINT indicators[] =
 	ID_SEPARATOR,           // status line indicator
 };
 
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame construction/destruction
-
 CMainFrame::CMainFrame()
 {
 }
@@ -45,7 +39,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CMDIFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
-	
+
 	if (!m_wndStatusBar.Create(this) ||
 		!m_wndStatusBar.SetIndicators(indicators,
 		  sizeof(indicators)/sizeof(UINT)))
@@ -65,16 +59,13 @@ BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CMainFrame message handlers
-
-void CMainFrame::OnLaunchApp(UINT ID) 
+void CMainFrame::OnLaunchApp(UINT ID)
 {
 	t_app app = static_cast<t_app>(ID - ID_LAUNCH_XAP);
 	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
 }
 
-void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI) 
+void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI)
 {
 	t_app app = static_cast<t_app>(pCmdUI->m_nID - ID_LAUNCH_XAP);
 	pCmdUI->Enable(m_apps.is_available(app));

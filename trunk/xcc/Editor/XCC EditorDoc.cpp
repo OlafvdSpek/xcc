@@ -14,9 +14,6 @@ BEGIN_MESSAGE_MAP(CXCCEditorDoc, CDocument)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
-/////////////////////////////////////////////////////////////////////////////
-// CXCCEditorDoc construction/destruction
-
 CXCCEditorDoc::CXCCEditorDoc()
 {
 }

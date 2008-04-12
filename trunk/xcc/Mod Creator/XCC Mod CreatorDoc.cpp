@@ -71,7 +71,7 @@ void CXCCModCreatorDoc::Serialize(CArchive& ar)
 			if (cb_mod >= 4 && s.size() >= 4 + cb_mod && !memcmp(s.data_end() - 4 - cb_mod, "XIF\x1a", 4))
 				s = Cvirtual_binary(s.data_end() - 4 - cb_mod, cb_mod);
 		}
-		if (k.load_key(s) 
+		if (k.load_key(s)
 			|| m_mod.load(k, fname))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 	}
@@ -111,9 +111,6 @@ int CXCCModCreatorDoc::export(string fname, Cvirtual_binary exe, int compression
 		error = m_mod.save_modules(fname);
 	return error;
 }
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCModCreatorDoc commands
 
 void CXCCModCreatorDoc::SetModifiedFlag(BOOL bModified)
 {

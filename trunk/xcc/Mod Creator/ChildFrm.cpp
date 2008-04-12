@@ -16,9 +16,6 @@
 static char THIS_FILE[] = __FILE__;
 #endif
 
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame
-
 IMPLEMENT_DYNCREATE(CChildFrame, CMDIChildWnd)
 
 BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
@@ -35,9 +32,6 @@ BEGIN_MESSAGE_MAP(CChildFrame, CMDIChildWnd)
 	ON_COMMAND(ID_MOD_REPORT, OnModReport)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame construction/destruction
 
 CChildFrame::CChildFrame()
 {
@@ -73,14 +67,12 @@ BOOL CChildFrame::PreCreateWindow(CREATESTRUCT& cs)
 	return TRUE;
 }
 
-void CChildFrame::ActivateFrame(int nCmdShow) 
+void CChildFrame::ActivateFrame(int nCmdShow)
 {
 	nCmdShow = SW_SHOWMAXIMIZED;
 	CMDIChildWnd::ActivateFrame(nCmdShow);
 }
 
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame message handlers
 CXCCModCreatorView* CChildFrame::GetRightPane()
 {
 	CWnd* pWnd = m_wndSplitter.GetPane(0, 1);
@@ -88,55 +80,55 @@ CXCCModCreatorView* CChildFrame::GetRightPane()
 	return pView;
 }
 
-void CChildFrame::OnFileExport() 
+void CChildFrame::OnFileExport()
 {
 	GetRightPane()->export();
 }
 
-void CChildFrame::OnEditSelectAll() 
+void CChildFrame::OnEditSelectAll()
 {
 	GetRightPane()->select_all();
 }
 
-void CChildFrame::OnEditInvertSelection() 
+void CChildFrame::OnEditInvertSelection()
 {
 	GetRightPane()->invert_selection();
 }
 
-void CChildFrame::OnViewRefresh() 
+void CChildFrame::OnViewRefresh()
 {
 	GetRightPane()->sync();
 }
 
-void CChildFrame::OnModActivate() 
+void CChildFrame::OnModActivate()
 {
 	CWaitCursor wait;
 	if (GetRightPane()->GetDocument()->activate())
 		MessageBox("Error activating mod.", NULL, MB_ICONERROR);
 }
 
-void CChildFrame::OnViewLaunch() 
+void CChildFrame::OnViewLaunch()
 {
 	GetRightPane()->launch();
 }
 
-void CChildFrame::OnModDeactivate() 
+void CChildFrame::OnModDeactivate()
 {
 	CWaitCursor wait;
 	GetRightPane()->GetDocument()->deactivate();
 }
 
-void CChildFrame::OnModClearGameDirectory() 
+void CChildFrame::OnModClearGameDirectory()
 {
 	GetRightPane()->clear_game_dir();
 }
 
-void CChildFrame::OnModOptions() 
+void CChildFrame::OnModOptions()
 {
 	GetRightPane()->options();
 }
 
-void CChildFrame::OnModReport() 
+void CChildFrame::OnModReport()
 {
 	CWaitCursor wait;
 	string fname = get_temp_path() + GetRightPane()->GetDocument()->options().mod_name + " Report.html";

@@ -81,9 +81,6 @@ void CChildFrame::Dump(CDumpContext& dc) const
 
 #endif //_DEBUG
 
-/////////////////////////////////////////////////////////////////////////////
-// CChildFrame message handlers
-
 CLeftView* CChildFrame::GetLeftPane()
 {
 	CWnd* pWnd = m_wndSplitter.GetPane(0, 0);
@@ -98,77 +95,77 @@ CXCCTMPEditorView* CChildFrame::GetRightPane()
 	return pView;
 }
 
-void CChildFrame::OnEditSelectAll() 
+void CChildFrame::OnEditSelectAll()
 {
 	GetLeftPane()->select_all();
 }
 
-void CChildFrame::OnEditInvertSelection() 
+void CChildFrame::OnEditInvertSelection()
 {
 	GetLeftPane()->invert_selection();
 }
 
-void CChildFrame::OnPaletDesert() 
+void CChildFrame::OnPaletDesert()
 {
 	GetLeftPane()->GetDocument()->load_desert_palet(false);
 }
 
-void CChildFrame::OnUpdatePaletDesert(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletDesert(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_desert_palet(true));
 }
 
-void CChildFrame::OnPaletLunar() 
+void CChildFrame::OnPaletLunar()
 {
-	GetLeftPane()->GetDocument()->load_lunar_palet(false);	
+	GetLeftPane()->GetDocument()->load_lunar_palet(false);
 }
 
-void CChildFrame::OnUpdatePaletLunar(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletLunar(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_lunar_palet(true));	
+	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_lunar_palet(true));
 }
 
-void CChildFrame::OnPaletSnow() 
+void CChildFrame::OnPaletSnow()
 {
 	GetLeftPane()->GetDocument()->load_snow_palet(false);
 }
 
-void CChildFrame::OnUpdatePaletSnow(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletSnow(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_snow_palet(true));
 }
 
-void CChildFrame::OnPaletTemperate() 
+void CChildFrame::OnPaletTemperate()
 {
 	GetLeftPane()->GetDocument()->load_temperate_palet(false);
 }
 
-void CChildFrame::OnUpdatePaletTemperate(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletTemperate(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_temperate_palet(true));	
+	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_temperate_palet(true));
 }
 
-void CChildFrame::OnUpdatePaletUrban(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletUrban(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_urban_palet(true));	
+	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_urban_palet(true));
 }
 
-void CChildFrame::OnPaletUrban() 
+void CChildFrame::OnPaletUrban()
 {
 	GetLeftPane()->GetDocument()->load_urban_palet(false);
 }
 
-void CChildFrame::OnPaletUrban2() 
+void CChildFrame::OnPaletUrban2()
 {
-	GetLeftPane()->GetDocument()->load_urban2_palet(false);	
+	GetLeftPane()->GetDocument()->load_urban2_palet(false);
 }
 
-void CChildFrame::OnUpdatePaletUrban2(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdatePaletUrban2(CCmdUI* pCmdUI)
 {
-	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_urban2_palet(true));	
+	pCmdUI->Enable(!GetLeftPane()->GetDocument()->load_urban2_palet(true));
 }
 
-void CChildFrame::OnPaletLoad() 
+void CChildFrame::OnPaletLoad()
 {
 	const char* pal_filter = "PAL files (*.pal)|*.pal|";
 
@@ -177,12 +174,12 @@ void CChildFrame::OnPaletLoad()
 		GetLeftPane()->GetDocument()->load_palet(static_cast<string>(dlg.GetPathName()), false);
 }
 
-void CChildFrame::OnViewTrueHeight() 
+void CChildFrame::OnViewTrueHeight()
 {
 	GetRightPane()->view_true_height(!GetRightPane()->view_true_height());
 }
 
-void CChildFrame::OnUpdateViewTrueHeight(CCmdUI* pCmdUI) 
+void CChildFrame::OnUpdateViewTrueHeight(CCmdUI* pCmdUI)
 {
 	pCmdUI->SetCheck(GetRightPane()->view_true_height());
 }

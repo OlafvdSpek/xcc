@@ -1,20 +1,7 @@
-// directories_dlg.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "directories_dlg.h"
 
 #include "string_conversion.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// Cdirectories_dlg dialog
-
 
 Cdirectories_dlg::Cdirectories_dlg(const Cucr_library& library, CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdirectories_dlg::IDD, pParent, "directories_dlg"), m_library(library)
@@ -48,10 +35,10 @@ END_MESSAGE_MAP()
 
 static int c_colums = 1;
 
-BOOL Cdirectories_dlg::OnInitDialog() 
+BOOL Cdirectories_dlg::OnInitDialog()
 {
 	ETSLayoutDialog::OnInitDialog();
-	
+
 	const char* column_label[] = {"Name"};
 
 	m_list.SetRedraw(false);
@@ -80,7 +67,7 @@ BOOL Cdirectories_dlg::OnInitDialog()
 	return true;
 }
 
-void Cdirectories_dlg::OnDelete() 
+void Cdirectories_dlg::OnDelete()
 {
 	int i = -1;
 	while ((i = m_list.GetNextItem(-1, LVNI_SELECTED)) != -1)
@@ -90,14 +77,14 @@ void Cdirectories_dlg::OnDelete()
 	}
 }
 
-void Cdirectories_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult) 
+void Cdirectories_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
-	m_delete_button.EnableWindow(m_list.GetSelectedCount());	
+	m_delete_button.EnableWindow(m_list.GetSelectedCount());
 	*pResult = 0;
 }
 
-void Cdirectories_dlg::OnDropFiles(HDROP hDropInfo) 
+void Cdirectories_dlg::OnDropFiles(HDROP hDropInfo)
 {
 	int c_files = DragQueryFile(hDropInfo, 0xFFFFFFFF, NULL, 0);
 	char fname[MAX_PATH];

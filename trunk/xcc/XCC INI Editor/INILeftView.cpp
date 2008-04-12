@@ -1,20 +1,8 @@
-// INILeftView.cpp : implementation file
-//
-
 #include "stdafx.h"
 #include "xcc ini editor.h"
 #include "INILeftView.h"
 
 #include "inichildfrm.h"
-
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CINILeftView
 
 IMPLEMENT_DYNCREATE(CINILeftView, CTreeView)
 
@@ -53,7 +41,7 @@ void CINILeftView::Dump(CDumpContext& dc) const
 /////////////////////////////////////////////////////////////////////////////
 // CINILeftView message handlers
 
-void CINILeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint) 
+void CINILeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 {
 	CTreeCtrl& tc = GetTreeCtrl();
 	SetRedraw(false);
@@ -68,13 +56,13 @@ void CINILeftView::OnUpdate(CView* pSender, LPARAM lHint, CObject* pHint)
 	SetRedraw(true);
 }
 
-BOOL CINILeftView::PreCreateWindow(CREATESTRUCT& cs) 
+BOOL CINILeftView::PreCreateWindow(CREATESTRUCT& cs)
 {
-	cs.style |= TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS;	
+	cs.style |= TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS;
 	return CTreeView::PreCreateWindow(cs);
 }
 
-void CINILeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult) 
+void CINILeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	CTreeCtrl& tc = GetTreeCtrl();
 	CPoint pt(0, tc.GetItemData(tc.GetSelectedItem()));
@@ -85,10 +73,10 @@ void CINILeftView::OnDblclk(NMHDR* pNMHDR, LRESULT* pResult)
 	*pResult = 0;
 }
 
-void CINILeftView::OnSetFocus(CWnd* pOldWnd) 
+void CINILeftView::OnSetFocus(CWnd* pOldWnd)
 {
 	CTreeView::OnSetFocus(pOldWnd);
-	
+
 	if (m_bounce_focus)
 	{
 		pOldWnd->SetFocus();

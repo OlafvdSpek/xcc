@@ -6,24 +6,12 @@
 #include "XCC TMP EditorDoc.h"
 #include "XCC TMP EditorView.h"
 
-#ifdef _DEBUG
-#define new DEBUG_NEW
-#undef THIS_FILE
-static char THIS_FILE[] = __FILE__;
-#endif
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorView
-
 IMPLEMENT_DYNCREATE(CXCCTMPEditorView, CScrollView)
 
 BEGIN_MESSAGE_MAP(CXCCTMPEditorView, CScrollView)
 	//{{AFX_MSG_MAP(CXCCTMPEditorView)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
-
-/////////////////////////////////////////////////////////////////////////////
-// CXCCTMPEditorView construction/destruction
 
 CXCCTMPEditorView::CXCCTMPEditorView()
 {
@@ -77,7 +65,7 @@ void CXCCTMPEditorView::draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC,
 	mem_dc.CreateCompatibleDC(pDC);
 	HBITMAP h_dib;
 	dword* p_dib;
-	{	
+	{
 		BITMAPINFO bmi;
 		ZeroMemory(&bmi, sizeof(BITMAPINFO));
 		bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
@@ -122,9 +110,9 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 		y += cy + y_inc;
 		delete[] d;
 	}
-	
+
 	typedef CXCCTMPEditorDoc::t_map t_map;
-		
+
 	int cx = pDoc->header().cx;
 	int cy = pDoc->header().cy;
 	byte* d = new byte[cx * cy];
@@ -132,7 +120,7 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 	int selection_color = 0xffffff;
 	CBrush brush(selection_color);
 	for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
-	{		
+	{
 		const t_tmp_image_header& header = i->second.header;
 		if (i->second.extra_data.data())
 		{

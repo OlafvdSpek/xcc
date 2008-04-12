@@ -11,10 +11,6 @@ byte Cxcc_templates::shade_rp[256];
 t_template_data_entry Cxcc_templates::template_data[256];
 byte Cxcc_templates::template_list[256][64];
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
-
 Cxcc_templates::~Cxcc_templates()
 {
 	delete[] image_data;
