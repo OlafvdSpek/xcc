@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ini_reader.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "virtual_image.h"
 #include "xif_key.h"
 

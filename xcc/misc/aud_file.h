@@ -2,7 +2,7 @@
 
 #include "cc_file.h"
 #include "cc_structures.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 class Caud_file: public Ccc_file
 {

@@ -2,7 +2,7 @@
 
 #include <mmsystem.h>
 #include <dsound.h>
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 class Cxap  
 {

@@ -4,7 +4,7 @@
 #include "aud_decode.h"
 #include "cc_structures.h"
 #include "ddpf_conversion.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 class Cvqa_decode  
 {

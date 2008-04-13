@@ -9,7 +9,7 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xif_key.h"
 
 Cxif_key encode_rmlf(const string& fname, bool binary_diff_compression, bool tga_compression);

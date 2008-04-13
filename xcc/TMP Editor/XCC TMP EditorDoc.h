@@ -1,7 +1,7 @@
 #pragma once
 
 #include "tmp_ts_file.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "virtual_image.h"
 
 struct t_rect

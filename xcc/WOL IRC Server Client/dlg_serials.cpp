@@ -2,7 +2,7 @@
 #include "dlg_serials.h"
 
 #include "reg_key.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_dirs.h"
 
 Cdlg_serials::Cdlg_serials(CWnd* pParent /*=NULL*/)

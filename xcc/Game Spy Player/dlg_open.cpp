@@ -4,7 +4,7 @@
 #include "wol/ra2_names.h"
 #include "../game spy/game_state.h"
 #include "string_conversion.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_dirs.h"
 
 int get_replays_dir(string& v)

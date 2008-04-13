@@ -6,7 +6,7 @@
 #include "multi_line.h"
 #include "reg_key.h"
 #include "socket.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_dirs.h"
 
 Cdlg_login::Cdlg_login(CWnd* pParent /*=NULL*/)
