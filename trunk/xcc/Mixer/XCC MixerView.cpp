@@ -2296,7 +2296,7 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 void CXCCMixerView::OnUpdatePopupOpenWithFinalsun(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1 &&
-		m_index.find(get_current_id())->second.ft == ft_map_ts || m_index.find(get_current_id())->second.ft == ft_text &&
+		(m_index.find(get_current_id())->second.ft == ft_map_ts || m_index.find(get_current_id())->second.ft == ft_text) &&
 		GetApp()->is_fs_available());
 }
 
@@ -2314,7 +2314,7 @@ void CXCCMixerView::OnPopupOpenWithFinalalert()
 void CXCCMixerView::OnUpdatePopupOpenWithFinalalert(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1 &&
-		m_index.find(get_current_id())->second.ft == ft_map_ra2 || m_index.find(get_current_id())->second.ft == ft_text &&
+		(m_index.find(get_current_id())->second.ft == ft_map_ra2 || m_index.find(get_current_id())->second.ft == ft_text) &&
 		GetApp()->is_fa_available());
 }
 
