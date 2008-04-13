@@ -1,7 +1,3 @@
-// seed_decoder.cpp: implementation of the Cseed_decoder class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "seed_decoder.h"
 
@@ -132,13 +128,13 @@ static void balanceMap(byte map[64][64])
          int lu = prevln[x-1],   u = prevln[x],   ru = prevln[x+1];
          int l  = currln[x-1],   c = currln[x],   r  = currln[x+1];
          int rd = map[y+1][x+1], d = map[y+1][x], ld = map[y+1][x-1];
-         if (!x)  
+         if (!x)
 			 lu = l = ld = c; /* left edge */
-         else if (x == 63) 
+         else if (x == 63)
 			 ru = r = rd = c; /* right edge */
-         if (!y)  
+         if (!y)
 			 lu = u = ru = c; /* top edge*/
-         else if (y == 63) 
+         else if (y == 63)
 			 ld = d = rd = c; /* bottom edge */
          map[y][x] = (lu + u + ru + r + rd + d + ld + l + c) / 9;
       }

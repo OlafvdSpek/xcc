@@ -1,13 +1,5 @@
-// object.cpp: implementation of the Cobject class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "object.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cobject::Cobject()
 {
@@ -21,7 +13,7 @@ Cobject::~Cobject()
 void Cobject::load(t_object_data d)
 {
 	m_destination = m_l = Clocation(d.x << 8 | 0x80, d.y << 8 | 0x80);
-	m_health = d.health;	
+	m_health = d.health;
 	m_p = d.p;
 	m_t = d.t;
 	m_target = NULL;
@@ -61,7 +53,7 @@ void Cobject::tick()
 		case 8:
 			m_l.y(max(m_destination.y(), m_l.y() - m_t->speed()));
 			break;
-		}	
+		}
 		if (m_l.xh() != old_l.xh() || m_l.yh() != old_l.yh())
 		{
 		}

@@ -1,13 +1,4 @@
-// xd2_files.h: interface for the Cxd2_files class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XD2_FILES_H__07830A80_534B_11D7_B607_0000C006A2C2__INCLUDED_)
-#define AFX_XD2_FILES_H__07830A80_534B_11D7_B607_0000C006A2C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "xd2_animation.h"
 #include "xd2_audio.h"
@@ -137,7 +128,7 @@ struct t_unit_type
 
 #pragma pack(pop)
 
-class Cxd2_files  
+class Cxd2_files
 {
 public:
 	const Cxd2_shape& shapes2() const;
@@ -205,5 +196,3 @@ private:
 	Cvirtual_binary m_building_types;
 	Cvirtual_binary m_unit_types;
 };
-
-#endif // !defined(AFX_XD2_FILES_H__07830A80_534B_11D7_B607_0000C006A2C2__INCLUDED_)

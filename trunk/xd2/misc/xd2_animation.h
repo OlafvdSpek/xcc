@@ -1,18 +1,9 @@
-// xd2_animation.h: interface for the Cxd2_animation class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XD2_ANIMATION_H__8368B5EB_F681_11D6_B606_0000C006A2C2__INCLUDED_)
-#define AFX_XD2_ANIMATION_H__8368B5EB_F681_11D6_B606_0000C006A2C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "virtual_binary.h"
 #include "xd2_file_map.h"
 
-class Cxd2_animation  
+class Cxd2_animation
 {
 public:
 	Cxif_key save() const;
@@ -47,5 +38,3 @@ private:
 };
 
 typedef Cxd2_file_map<Cxd2_animation> Cxd2_animation_map;
-
-#endif // !defined(AFX_XD2_ANIMATION_H__8368B5EB_F681_11D6_B606_0000C006A2C2__INCLUDED_)

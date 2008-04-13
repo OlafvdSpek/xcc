@@ -1,15 +1,6 @@
-// location.h: interface for the Clocation class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_LOCATION_H__DC5A4277_71FB_4773_A331_603A9D857AC6__INCLUDED_)
-#define AFX_LOCATION_H__DC5A4277_71FB_4773_A331_603A9D857AC6__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-class Clocation  
+class Clocation
 {
 public:
 	int x() const
@@ -49,5 +40,3 @@ private:
 	int m_x;
 	int m_y;
 };
-
-#endif // !defined(AFX_LOCATION_H__DC5A4277_71FB_4773_A331_603A9D857AC6__INCLUDED_)

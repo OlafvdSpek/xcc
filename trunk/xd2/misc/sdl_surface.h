@@ -1,13 +1,4 @@
-// sdl_surface.h: interface for the Csdl_surface class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_SDL_SURFACE_H__212BAE40_65D1_11D7_B607_0000C006A2C2__INCLUDED_)
-#define AFX_SDL_SURFACE_H__212BAE40_65D1_11D7_B607_0000C006A2C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 class Csdl_surface
 {
@@ -38,5 +29,3 @@ public:
 protected:
 	SDL_Surface* m_source;
 };
-
-#endif // !defined(AFX_SDL_SURFACE_H__212BAE40_65D1_11D7_B607_0000C006A2C2__INCLUDED_)
