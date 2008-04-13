@@ -31,7 +31,7 @@
 #include <vector>
 #include "ETSLayout.h"
 #include "ListCtrlEx.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 using namespace ETSLayout;
 using namespace std;

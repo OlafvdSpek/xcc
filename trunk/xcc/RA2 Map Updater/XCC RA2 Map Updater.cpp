@@ -8,7 +8,7 @@
 #include "file32.h"
 #include "multi_line.h"
 #include "string_conversion.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "virtual_file.h"
 #include "virtual_tfile.h"
 #include "xcc_dirs.h"

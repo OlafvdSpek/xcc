@@ -1,7 +1,7 @@
 #pragma once
 
 #include "cc_file.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 class CXCCMapEncoderDlg : public CDialog
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 class Cbig_file_write  
 {

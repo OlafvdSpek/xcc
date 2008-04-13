@@ -3,7 +3,7 @@
 #include <map>
 #include <string>
 #include "cc_structures.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_lmd_file_write.h"
 
 using namespace std;

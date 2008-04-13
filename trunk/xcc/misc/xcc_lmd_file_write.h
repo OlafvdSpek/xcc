@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "cc_structures.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 using namespace std;
 

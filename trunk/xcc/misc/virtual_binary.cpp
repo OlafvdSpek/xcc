@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 #include "file32.h"
 

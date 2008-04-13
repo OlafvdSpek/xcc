@@ -8,7 +8,7 @@
 #include <minmax.h>
 #include "cc_structures.h"
 #include "string_conversion.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_log.h"
 
 static const char* encode64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";

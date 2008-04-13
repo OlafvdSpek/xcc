@@ -2,7 +2,7 @@
 
 #include <string>
 #include "vartypes.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 using namespace std;
 

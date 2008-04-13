@@ -1,7 +1,7 @@
 #pragma once
 
 #include "file32.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 
 enum t_file_type
 {

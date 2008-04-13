@@ -7,7 +7,7 @@
 #include "mix_file.h"
 #include "itc_ini_reader.h"
 #include "tmp_ts_file.h"
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xcc_dirs.h"
 
 CXCCRA2RadarCustomizerDlg::CXCCRA2RadarCustomizerDlg(CWnd* pParent /*=NULL*/)
