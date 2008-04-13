@@ -1,9 +1,9 @@
 #include "stdafx.h"
-#include <minmax.h>
-#include <zlib.h>
 #include "xif_value.h"
 
-#include "string_conversion.h"
+#include <minmax.h>
+#include <string_conversion.h>
+#include <zlib.h>
 
 template <class T>
 static T read(const byte*& r)

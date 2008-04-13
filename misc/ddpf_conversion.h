@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ddraw.h"
+#include <ddraw.h>
 
 class Cddpf_conversion
 {

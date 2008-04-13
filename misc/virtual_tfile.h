@@ -1,13 +1,13 @@
 #pragma once
 
+#include <cassert>
 #include <string>
-#include "assert.h"
-#include "vartypes.h"
-#include "virtual_binary.h"
+#include <vartypes.h>
+#include <virtual_binary.h>
 
 using namespace std;
 
-class Cvirtual_tfile  
+class Cvirtual_tfile
 {
 private:
 	Cvirtual_binary m_data;
