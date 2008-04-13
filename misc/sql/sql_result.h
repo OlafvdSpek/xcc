@@ -1,9 +1,4 @@
-#if !defined(AFX_SQL_RESULT_H__EA1254C8_2222_11D5_B606_0000B4936994__INCLUDED_)
-#define AFX_SQL_RESULT_H__EA1254C8_2222_11D5_B606_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <boost/intrusive_ptr.hpp>
 #include <boost/utility.hpp>
@@ -13,7 +8,7 @@
 #else
 #include <mysql/mysql.h>
 #endif
-#include "const_memory_range.h"
+#include <const_memory_range.h>
 
 class Csql_result_source: boost::noncopyable
 {
@@ -95,14 +90,14 @@ private:
 	int m_size;
 };
 
-class Csql_row  
+class Csql_row
 {
 public:
+	Csql_row(MYSQL_ROW, unsigned long* sizes, boost::intrusive_ptr<Csql_result_source>);
+
 	Csql_row()
 	{
 	}
-
-	Csql_row(MYSQL_ROW, unsigned long* sizes, boost::intrusive_ptr<Csql_result_source>);
 
 	operator bool() const
 	{
@@ -119,7 +114,7 @@ private:
 	boost::intrusive_ptr<Csql_result_source> m_source;
 };
 
-class Csql_result  
+class Csql_result
 {
 public:
 	Csql_row fetch_row() const;
@@ -127,6 +122,11 @@ public:
 	Csql_result(MYSQL_RES* h)
 	{
 		m_source = new Csql_result_source(h);
+	}
+
+	operator bool() const
+	{
+		return c_rows();
 	}
 
 	int c_fields() const
@@ -151,5 +151,3 @@ private:
 
 	boost::intrusive_ptr<Csql_result_source> m_source;
 };
-
-#endif // !defined(AFX_SQL_RESULT_H__EA1254C8_2222_11D5_B606_0000B4936994__INCLUDED_)
