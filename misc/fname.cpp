@@ -1,13 +1,5 @@
-// fname.cpp: implementation of the Cfname class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "fname.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cfname::Cfname()
 {
@@ -96,7 +88,7 @@ void Cfname::set_path(const string &s)
 {
 	path = s;
 	if (!path.empty() && path[path.length() - 1] != '\\')
-		path += '\\';	
+		path += '\\';
 }
 
 void Cfname::use_default_path(const string &s)
@@ -130,7 +122,7 @@ const Cfname& Cfname::operator=(const string &s)
 	long p2 = s.rfind('.');
 	char t[MAX_PATH];
 	if (p1 != string::npos)
-	{	
+	{
 		//copy last \ also
 		t[s.copy(t, p1 + 1)] = 0;
 		path = t;

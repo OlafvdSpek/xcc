@@ -1,17 +1,8 @@
-// irc_params.h: interface for the Circ_params class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_IRC_PARAMS_H__74135060_212F_11D5_A95E_0050042229FC__INCLUDED_)
-#define AFX_IRC_PARAMS_H__74135060_212F_11D5_A95E_0050042229FC__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include <vector>
 
-class Circ_params  
+class Circ_params
 {
 public:
 	void clear();
@@ -38,5 +29,3 @@ private:
 	string m_prefix;
 	t_params m_params;
 };
-
-#endif // !defined(AFX_IRC_PARAMS_H__74135060_212F_11D5_A95E_0050042229FC__INCLUDED_)
