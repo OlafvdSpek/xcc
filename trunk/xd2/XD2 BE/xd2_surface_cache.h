@@ -1,13 +1,4 @@
-// xd2_surface_cache.h: interface for the Cxd2_surface_cache class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XD2_SURFACE_CACHE_H__34CC5F80_6496_11D7_B607_0000C006A2C2__INCLUDED_)
-#define AFX_XD2_SURFACE_CACHE_H__34CC5F80_6496_11D7_B607_0000C006A2C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "xd2_animation.h"
 #include "xd2_shape.h"
@@ -71,5 +62,3 @@ private:
 
 	t_map m_map;
 };
-
-#endif // !defined(AFX_XD2_SURFACE_CACHE_H__34CC5F80_6496_11D7_B607_0000C006A2C2__INCLUDED_)
