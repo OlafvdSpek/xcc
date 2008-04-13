@@ -1,6 +1,6 @@
 #pragma once
 
-#include "vartypes.h"
+#include <vartypes.h>
 
 #pragma pack(push, 1)
 
@@ -21,7 +21,7 @@ struct t_wav_format_chunk
 	__int16 cbits_sample;
 };
 
-struct t_wav_header  
+struct t_wav_header
 {
 	t_wav_chunk_header file_header;
 	int form_type;
@@ -48,7 +48,7 @@ struct t_wav_fact_chunk
 	int c_samples;
 };
 
-struct t_wav_ima_adpcm_header  
+struct t_wav_ima_adpcm_header
 {
 	t_wav_chunk_header file_header;
 	int form_type;

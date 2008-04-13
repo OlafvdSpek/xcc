@@ -1,11 +1,6 @@
-#if !defined(AFX_PALET_H__2BA979E0_160D_11D4_B605_0000B4936994__INCLUDED_)
-#define AFX_PALET_H__2BA979E0_160D_11D4_B605_0000B4936994__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
-#include "vartypes.h"
+#include <vartypes.h>
 
 #pragma pack(push, 1)
 
@@ -62,5 +57,3 @@ int find_color(int r, int g, int b, const t_palet p);
 int find_color_t(int r, int g, int b, const t_palet p);
 
 #pragma pack(pop)
-
-#endif // !defined(AFX_PALET_H__2BA979E0_160D_11D4_B605_0000B4936994__INCLUDED_)

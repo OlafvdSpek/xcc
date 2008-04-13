@@ -2,7 +2,7 @@
 
 #include <map>
 #include <string>
-#include "virtual_binary.h"
+#include <virtual_binary.h>
 #include "xif_value.h"
 
 using namespace std;
@@ -102,13 +102,13 @@ public:
 		m_values[id] = Cxif_value();
 		return m_values[id];
 	}
-	
+
 	Cxif_value& set_value(int id)
 	{
 		m_values[id] = Cxif_value();
 		return m_values[id];
 	}
-	
+
 	void set_value_bin(int id, int v)
 	{
 		m_values[id] = Cxif_value(vt_bin32, v);

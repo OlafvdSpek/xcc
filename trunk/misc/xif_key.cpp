@@ -2,8 +2,8 @@
 #include "xif_key.h"
 
 #include <bzip/bzlib.h>
+#include <string_conversion.h>
 #include <zlib.h>
-#include "string_conversion.h"
 
 template <class T>
 static T read(const byte*& r)
@@ -118,7 +118,7 @@ int Cxif_key::get_external_size() const
 	int size = 0;
 	{
 		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			size += i->second.get_external_size();			
+			size += i->second.get_external_size();
 	}
 	{
 		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
@@ -297,7 +297,7 @@ Cvirtual_binary Cxif_key::vdata(bool fast) const
 	{
 		t_xif_header_fast& header = *reinterpret_cast<t_xif_header_fast*>(d.write_start(sizeof(t_xif_header_fast) + size + external_size));
 		header.id = file_id;
-		header.version = file_version_fast;		
+		header.version = file_version_fast;
 		header.size_uncompressed = 0;
 		header.size_compressed = size;
 		header.size_external = external_size;

@@ -2,8 +2,8 @@
 
 #include <string>
 #include <vartypes.h>
-#include "smart_ref.h"
-#include "virtual_binary.h"
+#include <smart_ref.h>
+#include <virtual_binary.h>
 #ifdef _MSC_VER
 #include "win_handle.h"
 #else
@@ -12,7 +12,7 @@
 
 using namespace std;
 
-class Cfile32  
+class Cfile32
 {
 public:
 	Cvirtual_binary get_mm();
@@ -36,7 +36,7 @@ public:
 	{
 		return m_p >= get_size();
 	}
-	
+
 	const Cwin_handle& h() const
 	{
 		return m_h;

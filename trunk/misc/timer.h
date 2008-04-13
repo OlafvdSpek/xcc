@@ -1,7 +1,7 @@
 #pragma once
 
-#include "assert.h"
-#include "windows.h"
+#include <cassert>
+#include <windows.h>
 
 class Ctimer
 {
