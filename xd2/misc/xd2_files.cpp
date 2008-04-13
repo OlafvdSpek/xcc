@@ -1,7 +1,3 @@
-// xd2_files.cpp: implementation of the Cxd2_files class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xd2_files.h"
 
@@ -12,10 +8,6 @@
 #include "shp_dune2_file.h"
 #include "voc_file.h"
 #include "wsa_dune2_file.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxd2_files::Cxd2_files()
 {
@@ -67,7 +59,7 @@ Cxif_key Cxd2_files::save() const
 int Cxd2_files::load(const string& dir)
 {
 	Cvirtual_binary exe(dir + "dune2.exe");
-	if (exe.size() != 367794)
+	if (0 && exe.size() != 367794)
 		return 1;
 	m_data_map.set("dune2 building types.bin", Cvirtual_binary(exe + 193930, 19 * 96));
 	m_data_map.set("dune2 unit types.bin", Cvirtual_binary(exe + 195760, 27 * 90));

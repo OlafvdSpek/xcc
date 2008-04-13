@@ -1,7 +1,2 @@
-// sdl_rect.cpp: implementation of the Csdl_rect class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "sdl_rect.h"
-
