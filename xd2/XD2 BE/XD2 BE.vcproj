@@ -23,6 +23,7 @@
 			UseOfMFC="0"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
+			WholeProgramOptimization="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -52,7 +53,7 @@
 				AdditionalIncludeDirectories="..\misc"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				StringPooling="true"
-				RuntimeLibrary="2"
+				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
 				UsePrecompiledHeader="2"
 				PrecompiledHeaderThrough="stdafx.h"
@@ -76,7 +77,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib"
+				AdditionalDependencies="sdl.lib sdlmain.lib ws2_32.lib"
 				OutputFile=".\Release/XD2 BE.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
@@ -171,7 +172,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="sdl.lib sdlmain.lib"
+				AdditionalDependencies="sdl.lib sdlmain.lib ws2_32.lib"
 				OutputFile=".\Debug/XD2 BE.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"

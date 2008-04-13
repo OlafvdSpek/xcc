@@ -1,6 +1,3 @@
-// XD2 BE.cpp : Defines the entry point for the application.
-//
-
 #include "stdafx.h"
 #include <algorithm>
 #include "mix_file.h"
@@ -261,19 +258,6 @@ Cvirtual_binary create_minimap(const Cxd2_animation& icons, const byte* s)
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {	
-	if (0)
-	{
-		if (!SDL_Init(SDL_INIT_VIDEO))
-		{
-			SDL_Surface* screen = SDL_SetVideoMode(1280, 960, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN);
-			time_t t = time(NULL);
-			for (int i = 0; i < 1000; i++)
-				SDL_Flip(screen);
-			t = time(NULL) - t;
-			SDL_Quit();
-		}
-		return 0;
-	}
 	xcc_dirs::load_from_registry();
 	{
 		Cxif_key_r key;
@@ -284,7 +268,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	{
 		SDL_WM_SetCaption("XD2", NULL);
 #ifdef NDEBUG
-		g_screen = SDL_SetVideoMode(1280, 960, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN);
+		g_screen = SDL_SetVideoMode(1280, 960, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
 #else
 		g_screen = SDL_SetVideoMode(800, 600, 32, 0);
 #endif
@@ -321,7 +305,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			show_fps();
 			SDL_Flip(g_screen);
 		}
-		// SDL_Quit();
+		SDL_Quit();
 	}
 	return 0;
 }

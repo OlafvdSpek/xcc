@@ -1,13 +1,5 @@
-// xd2_surface_cache.cpp: implementation of the Cxd2_surface_cache class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xd2_surface_cache.h"
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cxd2_animation_surface::Cxd2_animation_surface()
 {
@@ -122,8 +114,7 @@ const Cxd2_animation_surface& Cxd2_surface_cache::set(const Cxd2_animation& anim
 	if (*surface)
 	{
 		m_map[&animation] = surface.get();
-		surface.release();
-		return *surface;
+		return *surface.release();
 	}
 	static Cxd2_animation_surface z;
 	return z;
@@ -137,8 +128,7 @@ const Cxd2_shape_surface& Cxd2_surface_cache::set(const Cxd2_shape& shape, SDL_C
 	if (*surface)
 	{
 		m_map[&shape] = surface.get();
-		surface.release();
-		return *surface;
+		return *surface.release();
 	}
 	static Cxd2_shape_surface z;
 	return z;
