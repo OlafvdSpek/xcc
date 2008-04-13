@@ -1,7 +1,3 @@
-// icon_form_decoder.cpp: implementation of the Cicon_form_decoder class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "icon_form_decoder.h"
 
@@ -20,10 +16,6 @@ struct t_form_chunk_header
 		return ntohl(m_size);
 	}
 };
-
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
 
 Cicon_form_decoder::Cicon_form_decoder(const Cvirtual_binary& s):
 	m_s(s)
