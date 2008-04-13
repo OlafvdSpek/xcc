@@ -1,13 +1,4 @@
-// xd2_file_map.h: interface for the Cxd2_file_map class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_XD2_FILE_MAP_H__8368B5EA_F681_11D6_B606_0000C006A2C2__INCLUDED_)
-#define AFX_XD2_FILE_MAP_H__8368B5EA_F681_11D6_B606_0000C006A2C2__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "virtual_binary.h"
 #include "xif_key.h"
@@ -70,7 +61,7 @@ private:
 		m_map[key.get_value_string(vi_name)] = T(key.get_key(vi_value));
 	}
 
-	static Cxif_key save(t_map::const_iterator i)
+	static Cxif_key save(typename t_map::const_iterator i)
 	{
 		Cxif_key key;
 		key.set_value_string(vi_name, i->first);
@@ -95,5 +86,3 @@ Cxif_key Cxd2_file_map<Cvirtual_binary>::save(Cxd2_file_map<Cvirtual_binary>::t_
 }
 
 typedef Cxd2_file_map<Cvirtual_binary> Cxd2_data_map;
-
-#endif // !defined(AFX_XD2_FILE_MAP_H__8368B5EA_F681_11D6_B606_0000C006A2C2__INCLUDED_)

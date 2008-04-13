@@ -40,7 +40,7 @@ static void scanRegions(byte map[64][64])
 		currln[i] = map[0][i];
 	for (int y = 0; y < 64; y++)
 	{
-		for (i = 0; i < 64; i++)
+		for (int i = 0; i < 64; i++)
 		{
 			prevln[i] = currln[i];
 			currln[i] = map[y][i];
@@ -122,7 +122,7 @@ static void balanceMap(byte map[64][64])
       currln[i] = 0;
    for (int y = 0; y < 64; y++)
    {
-      for (i = 0; i < 64; i++)
+      for (int i = 0; i < 64; i++)
       {
          prevln[i] = currln[i];
          currln[i] = map[y][i];
@@ -214,7 +214,7 @@ static void copyMatrix(char* matrix, byte map[65][64])
 			map[y][x] = 0;
 	}
 	int i = 0;
-	for (y = 0; y < 64; y += 4)
+	for (int y = 0; y < 64; y += 4)
 	{
 		for (int x = 0; x < 64; x += 4)
 			map[y][x] = matrix[i++];
@@ -228,7 +228,7 @@ static void createMatrix(char* matrix)
 		int v = random();
 		matrix[i] = min(v & 0xf, 10);
 	}
-	matrix[i] = 0;
+	matrix[272] = 0;
 }
 
 const int offsets[] =

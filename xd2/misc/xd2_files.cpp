@@ -108,9 +108,9 @@ int Cxd2_files::load_audio_pak(const string& name)
 
 static Cxd2_animation load_animation(const Cwsa_dune2_file& f)
 {
-	const int cf = f.get_c_frames();
-	const int cx = f.get_cx();
-	const int cy = f.get_cy();
+	const int cf = f.cf();
+	const int cx = f.cx();
+	const int cy = f.cy();
 	Cvirtual_binary image;
 	Cvirtual_binary s;
 	byte* w = image.write_start(cf * cx * cy);
