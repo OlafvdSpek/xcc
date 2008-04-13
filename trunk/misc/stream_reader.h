@@ -1,17 +1,8 @@
-// stream_reader.h: interface for the Cstream_reader class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_STREAM_READER_H__FC96F4EB_360D_4836_9D31_2C0D0D0377A8__INCLUDED_)
-#define AFX_STREAM_READER_H__FC96F4EB_360D_4836_9D31_2C0D0D0377A8__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "virtual_binary.h"
 
-class Cstream_reader  
+class Cstream_reader
 {
 public:
 	const byte* d() const
@@ -85,5 +76,3 @@ private:
 	Cvirtual_binary m_d;
 	const byte* m_r;
 };
-
-#endif // !defined(AFX_STREAM_READER_H__FC96F4EB_360D_4836_9D31_2C0D0D0377A8__INCLUDED_)

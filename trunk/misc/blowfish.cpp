@@ -1,14 +1,7 @@
-// blowfish.cpp: implementation of the Cblowfish class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include <blowfish.h>
-#include <memory.h>
 
-//////////////////////////////////////////////////////////////////////
-// Construction/Destruction
-//////////////////////////////////////////////////////////////////////
+#include <memory.h>
 
 const t_bf_p p = {
 	0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
@@ -284,33 +277,33 @@ void Cblowfish::set_key(const byte* key, int cb_key)
 
 	memcpy(m_p, p, sizeof(t_bf_p));
 	memcpy(m_s, s, sizeof(t_bf_s));
-	
+
 	j = 0;
-	for (i = 0; i < 18; i++) 
+	for (i = 0; i < 18; i++)
 	{
-		int a = key[j++]; j %= cb_key;		
-		int b = key[j++]; j %= cb_key;		
-		int c = key[j++]; j %= cb_key;		
-		int d = key[j++]; j %= cb_key;		
+		int a = key[j++]; j %= cb_key;
+		int b = key[j++]; j %= cb_key;
+		int c = key[j++]; j %= cb_key;
+		int d = key[j++]; j %= cb_key;
 		m_p[i] ^= a << 24 | b << 16 | c << 8 | d;
 	}
-	
+
 	datal = datar = 0;
-	
-	for (i = 0; i < 18;) 
+
+	for (i = 0; i < 18;)
 	{
 		encipher(datal, datar);
-		
+
 		m_p[i++] = datal;
 		m_p[i++] = datar;
 	}
-	
-	for (i = 0; i < 4; i++) 
+
+	for (i = 0; i < 4; i++)
 	{
-		for (j = 0; j < 256;) 
-		{		  
+		for (j = 0; j < 256;)
+		{
 			encipher(datal, datar);
-			
+
 			m_s[i][j++] = datal;
 			m_s[i][j++] = datar;
 		}
@@ -336,7 +329,7 @@ void Cblowfish::encipher(dword& xl, dword& xr) const
 {
 	dword Xl = xl;
 	dword Xr = xr;
-	
+
 	Xl ^= m_p[0];
 	ROUND (Xr, Xl, 1);  ROUND (Xl, Xr, 2);
 	ROUND (Xr, Xl, 3);  ROUND (Xl, Xr, 4);
@@ -347,7 +340,7 @@ void Cblowfish::encipher(dword& xl, dword& xr) const
 	ROUND (Xr, Xl, 13); ROUND (Xl, Xr, 14);
 	ROUND (Xr, Xl, 15); ROUND (Xl, Xr, 16);
 	Xr ^= m_p[17];
-	
+
 	xr = Xl;
 	xl = Xr;
 }
@@ -356,7 +349,7 @@ void Cblowfish::decipher(dword& xl, dword& xr) const
 {
 	dword  Xl = xl;
 	dword  Xr = xr;
-		
+
 	Xl ^= m_p[17];
 	ROUND (Xr, Xl, 16);  ROUND (Xl, Xr, 15);
 	ROUND (Xr, Xl, 14);  ROUND (Xl, Xr, 13);
@@ -367,7 +360,7 @@ void Cblowfish::decipher(dword& xl, dword& xr) const
 	ROUND (Xr, Xl, 4);   ROUND (Xl, Xr, 3);
 	ROUND (Xr, Xl, 2);   ROUND (Xl, Xr, 1);
 	Xr ^= m_p[0];
-	
+
 	xl = Xr;
 	xr = Xl;
 }

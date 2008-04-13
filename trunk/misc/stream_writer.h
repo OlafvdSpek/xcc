@@ -1,17 +1,8 @@
-// stream_writer.h: interface for the Cstream_writer class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_STREAM_WRITER_H__283B8C8E_68DD_4E16_9122_42ADD010E634__INCLUDED_)
-#define AFX_STREAM_WRITER_H__283B8C8E_68DD_4E16_9122_42ADD010E634__INCLUDED_
-
-#if _MSC_VER > 1000
 #pragma once
-#endif // _MSC_VER > 1000
 
 #include "virtual_binary.h"
 
-class Cstream_writer  
+class Cstream_writer
 {
 public:
 	/*
@@ -83,5 +74,3 @@ private:
 	// Cvirtual_binary m_d;
 	byte* m_w;
 };
-
-#endif // !defined(AFX_STREAM_WRITER_H__283B8C8E_68DD_4E16_9122_42ADD010E634__INCLUDED_)

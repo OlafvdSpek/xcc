@@ -1,16 +1,7 @@
-// fname.h: interface for the Cfname class.
-//
-//////////////////////////////////////////////////////////////////////
-
-#if !defined(AFX_FNAME_H__1987B1E4_E4E6_11D2_B750_444553540000__INCLUDED_)
-#define AFX_FNAME_H__1987B1E4_E4E6_11D2_B750_444553540000__INCLUDED_
-
-#if _MSC_VER >= 1000
 #pragma once
-#endif // _MSC_VER >= 1000
 
 #include <string>
-#include "windows.h"
+#include <windows.h>
 
 using namespace std;
 
@@ -55,5 +46,3 @@ string get_temp_fname(string path);
 string get_temp_path();
 string get_temp_fname();
 string operator+(const string& a, const Cfname& b);
-
-#endif // !defined(AFX_FNAME_H__1987B1E4_E4E6_11D2_B750_444553540000__INCLUDED_)

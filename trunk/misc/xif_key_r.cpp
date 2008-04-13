@@ -1,7 +1,3 @@
-// xif_key_r.cpp: implementation of the Cxif_key_r class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include "xif_key_r.h"
 
@@ -23,7 +19,7 @@ int Cxif_key_r::import(Cvirtual_binary s)
 	const t_xif_header_fast& h = *reinterpret_cast<const t_xif_header_fast*>(s.data());
 	if (s.size() < sizeof(t_xif_header_fast) + 8
 		|| h.id != file_id
-		|| h.version != file_version_fast)		
+		|| h.version != file_version_fast)
 		return 1;
 	unsigned long cb_d = h.size_uncompressed;
 	if (cb_d)

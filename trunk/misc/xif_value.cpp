@@ -1,7 +1,3 @@
-// xif_value.cpp: implementation of the Cxif_value class.
-//
-//////////////////////////////////////////////////////////////////////
-
 #include "stdafx.h"
 #include <minmax.h>
 #include <zlib.h>
@@ -49,7 +45,7 @@ t_vt Cxif_value::get_type() const
 		}
 		if (c == -1)
 			return vt_string;
-	}	
+	}
 	if (size == 4)
 		return vt_int32;
 	return vt_binary;
@@ -178,7 +174,7 @@ void Cxif_value::dump(ostream& os, int depth) const
 	switch (get_type())
 	{
 	case vt_binary:
-		{			
+		{
 			int count = min(get_size(), 32);
 			const byte* r = get_data();
 			while (count--)
