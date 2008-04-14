@@ -578,6 +578,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\misc\virtual_image_mfc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\misc\xap.cpp"
 				>
 				<FileConfiguration

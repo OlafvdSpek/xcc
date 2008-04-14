@@ -331,6 +331,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\misc\virtual_image_mfc.cpp"
+				>
+			</File>
+			<File
 				RelativePath="XCC TMP Editor.cpp"
 				>
 				<FileConfiguration
