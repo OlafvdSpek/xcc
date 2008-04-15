@@ -362,8 +362,6 @@ void xcc_dirs::save_to_registry()
 	kh_base.set_value("dir1", td_primary_dir);
 	kh_base.set_value("dir2", td_secondary_dir);
 	kh_base.set_value("ra_dir", ra_dir);
-	kh_base.set_value("cddir", cd_dir);
-	// kh_base.set_value("datadir", data_dir);
 };
 
 string xcc_dirs::find_file(Cfname s)
