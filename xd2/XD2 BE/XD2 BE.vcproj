@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="Windows-1252"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="9,00"
+	Version="8,00"
 	Name="XD2 BE"
 	ProjectGUID="{E4CDE2E5-495B-429D-BDAD-4A77ED0C8636}"
 	TargetFrameworkVersion="0"

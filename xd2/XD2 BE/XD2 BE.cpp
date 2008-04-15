@@ -118,13 +118,12 @@ void show_fps()
 
 void show_map(const Cxd2_animation& icons, const byte* _map)
 {
-	for (int y = 0; y < g_screen->h >> 4; y++)
+	SDL_FillRect(g_screen, NULL, SDL_MapRGB(g_screen->format, 0, 0, 0));
+	for (int y = 0; y < 64; y++)
 	{
-		for (int x = 0; x < g_screen->w >> 4; x++)
+		for (int x = 0; x < 64; x++)
 			draw(icons, _map[x | y << 6], x << 4, y << 4);
 	}
-	if (g_screen->w > 64 << 4)
-		SDL_FillRect(g_screen, &Csdl_rect(64 << 4, 0, g_screen->w - (64 << 4), g_screen->h), SDL_MapRGB(g_screen->format, 0, 0, 0));
 }
 
 void draw_buildings(const Cxd2_animation& icons)
@@ -268,9 +267,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	{
 		SDL_WM_SetCaption("XD2", NULL);
 #ifdef NDEBUG
-		g_screen = SDL_SetVideoMode(1280, 960, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
+		g_screen = SDL_SetVideoMode(1920, 1200, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
 #else
-		g_screen = SDL_SetVideoMode(800, 600, 32, 0);
+		g_screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 #endif
 		const SDL_VideoInfo* vi = SDL_GetVideoInfo();
 		load_palet("ibm.pal", g_palet);
@@ -295,6 +294,12 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				case SDL_KEYDOWN:
 					if (event.key.keysym.sym == SDLK_ESCAPE)
 						run = false;
+					break;
+				case SDL_VIDEORESIZE:
+					SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
+					break;
+				case SDL_QUIT:
+					run = false;
 					break;
 				}
 			}
