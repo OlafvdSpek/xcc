@@ -263,54 +263,55 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		if (key.import(Cvirtual_binary(xcc_dirs::get_data_dir() + "xd2 files.xif")) || g_files.load(key))
 			return 1;
 	}
-	if (!SDL_Init(SDL_INIT_VIDEO)) // SDL_INIT_AUDIO | SDL_INIT_TIMER | SDL_INIT_VIDEO))
-	{
-		SDL_WM_SetCaption("XD2", NULL);
+	if (SDL_Init(SDL_INIT_VIDEO))
+		return 1;
+	SDL_WM_SetCaption("XD2", NULL);
 #ifdef NDEBUG
-		g_screen = SDL_SetVideoMode(1920, 1200, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
+	g_screen = SDL_SetVideoMode(0, 0, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
 #else
-		g_screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
+	g_screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 #endif
-		const SDL_VideoInfo* vi = SDL_GetVideoInfo();
-		load_palet("ibm.pal", g_palet);
-		const Cxd2_animation& icons = g_files.animations().get("icon.icn");
-		Cvirtual_binary map;
-		{
-			const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map().get("icon.map").data());
-			s += s[9];
-			Cseed_decoder::decode(392, map.write_start(0x1000));
-			byte* w = map.data_edit();
-			for (int i = 0; i < 0x1000; i++)
-				w[i] = s[w[i]];
-		}
-		Cvirtual_binary minimap = create_minimap(icons, map);
-		for (bool run = true; !g_error && run; )
-		{
-			SDL_Event event;
-			while (SDL_PollEvent(&event))
-			{
-				switch (event.type)
-				{
-				case SDL_KEYDOWN:
-					if (event.key.keysym.sym == SDLK_ESCAPE)
-						run = false;
-					break;
-				case SDL_VIDEORESIZE:
-					SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
-					break;
-				case SDL_QUIT:
-					run = false;
-					break;
-				}
-			}
-			show_map(icons, map);
-			draw_buildings(icons);
-			show_sidebar();
-			draw_minimap(minimap);
-			show_fps();
-			SDL_Flip(g_screen);
-		}
-		SDL_Quit();
+	if (!g_screen) 
+		return 1;
+	const SDL_VideoInfo* vi = SDL_GetVideoInfo();
+	load_palet("ibm.pal", g_palet);
+	const Cxd2_animation& icons = g_files.animations().get("icon.icn");
+	Cvirtual_binary map;
+	{
+		const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map().get("icon.map").data());
+		s += s[9];
+		Cseed_decoder::decode(392, map.write_start(0x1000));
+		byte* w = map.data_edit();
+		for (int i = 0; i < 0x1000; i++)
+			w[i] = s[w[i]];
 	}
+	Cvirtual_binary minimap = create_minimap(icons, map);
+	for (bool run = true; !g_error && run; )
+	{
+		show_map(icons, map);
+		draw_buildings(icons);
+		show_sidebar();
+		draw_minimap(minimap);
+		show_fps();
+		SDL_Flip(g_screen);
+		SDL_Event event;
+		while (SDL_PollEvent(&event))
+		{
+			switch (event.type)
+			{
+			case SDL_KEYDOWN:
+				if (event.key.keysym.sym == SDLK_ESCAPE)
+					run = false;
+				break;
+			case SDL_VIDEORESIZE:
+				SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
+				break;
+			case SDL_QUIT:
+				run = false;
+				break;
+			}
+		}
+	}
+	SDL_Quit();
 	return 0;
 }
