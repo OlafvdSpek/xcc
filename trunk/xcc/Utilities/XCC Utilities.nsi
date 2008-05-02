@@ -1,4 +1,4 @@
-!define VERSION "0.0.0"
+!define VERSION "1.46"
 
 Name "XCC Utilities ${VERSION}"
 Outfile "XCC_Utilities-${VERSION}.exe"
