@@ -11,6 +11,7 @@ class Cwsa_dune2_file: public Cvideo_file<t_wsa_dune2_header>
 {
 public:
 	void decode(void* d) const;
+	Cvideo_decoder* decoder(const t_palet_entry*);
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;
 	bool is_valid() const;
 	Cvirtual_image vimage() const;

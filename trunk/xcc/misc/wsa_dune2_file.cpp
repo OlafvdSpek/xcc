@@ -5,6 +5,80 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
+class Cwsa_dune2_decoder: public Cvideo_decoder
+{
+public:
+	int cb_pixel() const
+	{
+		return m_f.cb_pixel();
+	}
+
+	int cf() const
+	{
+		return m_f.cf();
+	}
+
+	int cx() const
+	{
+		return m_f.cx();
+	}
+
+	int cy() const
+	{
+		return m_f.cy();
+	}
+
+	int decode(void* d)
+	{
+		if (m_frame_i >= cf())
+			return 1;
+		m_frame.write_start(cb_image());
+		if (!m_frame_i)
+			memset(m_frame.data_edit(), 0, cb_image());
+		if (m_f.get_offset(m_frame_i))
+		{
+			Cvirtual_binary s;
+			decode80(m_f.get_frame(m_frame_i), s.write_start(64 << 10));
+			decode40(s, m_frame.data_edit());
+		}
+		if (d)
+			m_frame.read(d);
+		m_frame_i++;
+		return 0;
+	}
+
+	const t_palet_entry* palet() const
+	{
+		return m_palet;
+	}
+
+	int seek(int f)
+	{
+		if (f == m_frame_i)
+			return 0;
+		for (m_frame_i = 0; m_frame_i < f && !decode(NULL); )
+			;
+		return 0;
+	}
+
+	Cwsa_dune2_decoder(const Cwsa_dune2_file& f, const t_palet_entry* palet)
+	{
+		m_f.load(f);
+		m_frame_i = 0;
+		memcpy(m_palet, palet, sizeof(t_palet));
+	}
+private:
+	Cwsa_dune2_file m_f;
+	Cvirtual_binary m_frame;
+	int m_frame_i;
+	t_palet m_palet;
+};
+
+Cvideo_decoder* Cwsa_dune2_file::decoder(const t_palet_entry* palet)
+{
+	return new Cwsa_dune2_decoder(*this, palet);
+}
+
 int Cwsa_dune2_file::cb_pixel() const
 {
 	return 1;
