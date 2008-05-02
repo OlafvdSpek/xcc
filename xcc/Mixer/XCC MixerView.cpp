@@ -2787,6 +2787,7 @@ void CXCCMixerView::open_item(int id)
 	case ft_shp:
 	case ft_shp_ts:
 	case ft_vqa:
+	case ft_wsa_dune2:
 	case ft_wsa:
 		{
 			Cvideo_decoder* decoder = NULL;
@@ -2811,6 +2812,13 @@ void CXCCMixerView::open_item(int id)
 					Cvqa_file f;
 					f.load(get_vdata_id(id));
 					decoder = f.decoder();
+				}
+				break;
+			case ft_wsa_dune2:
+				{
+					Cwsa_dune2_file f;
+					f.load(get_vdata_id(id));
+					decoder = f.decoder(get_default_palet());
 				}
 				break;
 			case ft_wsa:
