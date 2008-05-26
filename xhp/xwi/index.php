@@ -73,7 +73,7 @@
 	$name = trim($_REQUEST['name']);
 	$pass = trim($_REQUEST['pass']);
 	$remote_addr = $_SERVER['REMOTE_ADDR'];
-	if ($remote_addr == '195.13.63.187')
+	if ($remote_addr == '212.162.52.233')
 		$remote_addr = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
 	switch ($_REQUEST['a'])
@@ -165,21 +165,26 @@
 				{
 					if ($player = get_player2($name, $pass))
 					{
-						$results = db_query(sprintf("select count(*) from xcl_players where lid & 1 and name = '%s'", $name));
-						$result = mysql_fetch_array($results);
-						if ($result['0'])
-							printf("Player %s is already in ladder", $player['name']);
+						if (strtolower(substr($name, 0, 7)) == 'a000000')
+							printf("Names starting with a000000 can't be deleted");
 						else
 						{
-							$results = db_query(sprintf("select unix_timestamp() - ctime from xwi_players where pid = %d", $player['pid']));
+							$results = db_query(sprintf("select count(*) from xcl_players where lid & 1 and name = '%s'", $name));
 							$result = mysql_fetch_array($results);
-							$result['0'] /= 24 * 60 * 60;
-							if ($result['0'] < 32)
-								printf("Only players that were created more than 32 days ago can be deleted. Player %s was created %d days ago", $player['name'], $result['0']);
+							if ($result['0'])
+								printf("Player %s is already in ladder", $player['name']);
 							else
 							{
-								db_query(sprintf("update xwi_players set flags = flags | 2, mtime = unix_timestamp() where pid = %d", $player['pid']));
-								printf("Player %s has been deleted", $player['name']);
+								$results = db_query(sprintf("select unix_timestamp() - ctime from xwi_players where pid = %d", $player['pid']));
+								$result = mysql_fetch_array($results);
+								$result['0'] /= 24 * 60 * 60;
+								if ($result['0'] < 32)
+									printf("Only players that were created more than 32 days ago can be deleted. Player %s was created %d days ago", $player['name'], $result['0']);
+								else
+								{
+									db_query(sprintf("update xwi_players set flags = flags | 2, mtime = unix_timestamp() where pid = %d", $player['pid']));
+									printf("Player %s has been deleted", $player['name']);
+								}
 							}
 						}
 					}
