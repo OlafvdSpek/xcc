@@ -96,6 +96,4 @@
 		}
 		echo('</table>');
 	}
-	echo('<hr>');
-	require('templates/links.php');
 ?>

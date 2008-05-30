@@ -108,7 +108,7 @@
 			$name = $result[name];
 			$link = trim($_REQUEST['link']);
 			$reason = trim($_REQUEST['reason']);
-			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 16;
+			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 32;
 			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
 			{
 				db_query(sprintf("insert into xbl (admin, name, link, reason, duration, mtime, ctime) values ('%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
@@ -337,6 +337,4 @@
 			}
 		}
 	}
-	echo('<hr>');
-	require('templates/links.php');
 ?>
