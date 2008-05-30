@@ -1,6 +1,6 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <link rel=stylesheet href="/xcc1.css">
 <title>XWI Admin</title>
-<body onload="document.f.search.focus();">
 <?php
 	function page_search($search)
 	{
@@ -500,4 +500,3 @@
 		table_login_failures($ipa, '', 0);
 		break;
 	}
-?>
