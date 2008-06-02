@@ -908,7 +908,7 @@ int encode64(const byte* s, byte* d, int cb_s)
 Cvirtual_binary encode64(const Cvirtual_binary& s)
 {
 	Cvirtual_binary d;
-	d.size(encode64(s.data(), d.write_start(s.size()), s.size()));
+	d.size(encode64(s.data(), d.write_start(s.size() << 1), s.size()));
 	return d;
 }
 
