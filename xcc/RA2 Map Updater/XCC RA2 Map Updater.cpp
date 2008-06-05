@@ -150,7 +150,7 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 					if (error)
 						break;
 					const Cxif_key& l = ki->second;
-					string fext = to_lower_copy(Cfname(l.get_value_string(vi_fname)).get_fext());
+					string fext = boost::to_lower_copy(Cfname(l.get_value_string(vi_fname)).get_fext());
 					if (fext != ".mmx"
 						&& (fext != ".yro") || !Cfname(xcc_dirs::get_exe(game_ra2_yr)).exists())
 						continue;
@@ -175,12 +175,12 @@ static void scan_dir(string in_dir, string out_dir, string postfix, ofstream& f)
 		{
 			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				string title = to_lower_copy(Cfname(fd.cFileName).get_ftitle());
+				string title = boost::to_lower_copy(Cfname(fd.cFileName).get_ftitle());
 				Cvirtual_binary fdata;
 				fdata.load(in_dir + fd.cFileName);
 				Cxif_key k;
 				Cxif_key& l = k.open_key_write(0);
-				l.set_value_string(vi_fname, to_lower_copy(string(fd.cFileName)));
+				l.set_value_string(vi_fname, boost::to_lower_copy(string(fd.cFileName)));
 				l.set_value_binary(vi_fdata, fdata);
 				k.vdata().save(out_dir + title + ".xmuf");
 				f << title << "=,http://xccu.sourceforge.net/ra2_maps/" << title << ".xmuf" << endl;
