@@ -5,7 +5,7 @@
 	Name="D2 Data Loader"
 	ProjectGUID="{2513C6F2-52C1-481B-BCC3-1F7EFB846446}"
 	Keyword="MFCProj"
-	TargetFrameworkVersion="0"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -73,6 +73,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="advapi32.lib user32.lib ws2_32.lib"
 				OutputFile=".\Debug/D2 Data Loader.exe"
 				LinkIncremental="2"
 				SuppressStartupBanner="true"
@@ -166,6 +167,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="advapi32.lib user32.lib ws2_32.lib"
 				OutputFile=".\Release/D2 Data Loader.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"

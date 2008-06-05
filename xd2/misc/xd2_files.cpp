@@ -59,7 +59,7 @@ Cxif_key Cxd2_files::save() const
 int Cxd2_files::load(const string& dir)
 {
 	Cvirtual_binary exe(dir + "dune2.exe");
-	if (0 && exe.size() != 367794)
+	if (!exe.size())
 		return 1;
 	m_data_map.set("dune2 building types.bin", Cvirtual_binary(exe + 193930, 19 * 96));
 	m_data_map.set("dune2 unit types.bin", Cvirtual_binary(exe + 195760, 27 * 90));
