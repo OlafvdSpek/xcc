@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 9.00
-# Visual Studio 2005
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mixer", "XCC Mixer.vcproj", "{E032D975-C331-487B-95A6-518A0A3ED2DA}"

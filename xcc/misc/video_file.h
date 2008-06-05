@@ -23,11 +23,6 @@ public:
 		return cf() * cb_image();
 	}
 
-	virtual Cvideo_decoder* decoder(const t_palet_entry*)
-	{
-		return NULL;
-	}
-
 	virtual const t_palet_entry* palet() const
 	{
 		return NULL;
