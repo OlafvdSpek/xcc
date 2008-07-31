@@ -54,7 +54,7 @@ BOOL Cedit_trigger_dlg::OnInitDialog()
 	for (i = 0; i < c_side_id + 1; i++)
 	{
 		index = m_combo_side.AddString(side_code[i]);
-		m_combo_side.SetItemData(index, i < c_side_id ? i : -1);
+		m_combo_side.SetItemData(index, i);
 	}
 	
 	if (m_trigger_data_loaded)

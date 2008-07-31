@@ -23,7 +23,7 @@ const char* edge_code[];
 enum t_side_id
 {
 	s_goodguy, s_badguy, s_neutral, s_special,
-		s_multi1, s_multi2, s_multi3, s_multi4, s_multi5, s_multi6, s_none
+	s_multi1, s_multi2, s_multi3, s_multi4, s_multi5, s_multi6, s_none
 };
 
 const int c_side_id = s_multi6 + 1;
@@ -42,11 +42,11 @@ const char* theater_code[];
 enum t_section_id
 {
 	si_basic, si_map, si_briefing, si_base,
-		si_overlay, si_smudge, si_template, si_terrain,
-		si_infantry, si_reinforcements, si_structures, si_units,
-		si_celltriggers, si_teams, si_teamtypes, si_triggers, si_waypoints,
-		si_goodguy, si_badguy, si_neutral, si_special,
-		si_multi1, si_multi2, si_multi3, si_multi4, si_multi5, si_multi6
+	si_overlay, si_smudge, si_template, si_terrain,
+	si_infantry, si_reinforcements, si_structures, si_units,
+	si_celltriggers, si_teams, si_teamtypes, si_triggers, si_waypoints,
+	si_goodguy, si_badguy, si_neutral, si_special,
+	si_multi1, si_multi2, si_multi3, si_multi4, si_multi5, si_multi6
 };
 
 const int c_section_id = si_multi6 + 1;
@@ -56,7 +56,7 @@ const char* section_code[];
 enum t_basic_data_id
 {
 	bdt_action, bdt_brief, bdt_build_level, bdt_carry_over_cap, bdt_carry_over_money, bdt_intro, 
-		bdt_lose, bdt_name, bdt_percent, bdt_player, bdt_theme, bdt_win
+	bdt_lose, bdt_name, bdt_percent, bdt_player, bdt_theme, bdt_win
 };
 
 const int c_basic_data_id = bdt_win + 1;
@@ -75,7 +75,7 @@ const char* map_data_code[];
 enum t_side_data_id
 {
 	sdt_allies, sdt_credits, sdt_edge, sdt_flag_home, sdt_flag_location, sdt_max_building,
-		sdt_max_unit, sdt_quota
+	sdt_max_unit, sdt_quota
 };
 
 const int c_side_data_id = sdt_quota + 1;
@@ -85,7 +85,7 @@ const char* side_data_code[];
 enum t_overlay_id
 {
 	o_ti1, o_ti2, o_ti3, o_ti4, o_ti5, o_ti6, o_ti7, o_ti8, o_ti9, o_ti10, o_ti11, o_ti12,
-		o_barb, o_wood, o_sbag, o_cycl, o_brik, o_scrate, o_wcrate
+	o_barb, o_wood, o_sbag, o_cycl, o_brik, o_scrate, o_wcrate
 };
 
 const int c_overlay_id = o_wcrate + 1;
@@ -95,10 +95,10 @@ const char* overlay_code[];
 enum t_terrain_id
 {
 	t_rock1, t_rock2, t_rock3, t_rock4, t_rock5, t_rock6, t_rock7,
-		t_split2, t_split3,
-		t_t01, t_t02, t_t03, t_t04, t_t05, t_t06, t_t07, t_t08, t_t09, t_t10,
-		t_t11, t_t12, t_t13, t_t14, t_t15, t_t16, t_t17, t_t18,
-		t_tc1, t_tc2, t_tc3, t_tc4, t_tc5
+	t_split2, t_split3,
+	t_t01, t_t02, t_t03, t_t04, t_t05, t_t06, t_t07, t_t08, t_t09, t_t10,
+	t_t11, t_t12, t_t13, t_t14, t_t15, t_t16, t_t17, t_t18,
+	t_tc1, t_tc2, t_tc3, t_tc4, t_tc5
 };		
 
 const int c_terrain_id = t_tc5 + 1;
@@ -112,8 +112,8 @@ const char* template_code[];
 enum t_action_id
 {
 	a_area_guard, a_attack_base, a_attack_civilians, a_attack_tarcom, a_attack_units,
-		a_defend_base, a_guard, a_harvest, a_hunt, a_loop, a_move, a_none, a_rampage, 
-		a_retreat, a_return, a_sleep, a_sticky, a_unload
+	a_defend_base, a_guard, a_harvest, a_hunt, a_loop, a_move, a_none, a_rampage, 
+	a_retreat, a_return, a_sleep, a_sticky, a_unload
 };
 
 const int c_action_id = a_unload + 1;
@@ -123,10 +123,10 @@ const char* action_code[];
 enum t_cause_id
 {
 	c_c_buildings_destroyed, c_c_units_destroyed,
-		c_any, c_all_destroyed, c_attacked, c_buildings_destroyed, c_build_it, 
-		c_civilians_evacuated, c_credits, c_destroyed, c_discovered, 
-		c_house_discoved, c_no_factories, c_none, c_player_enters, 
-		c_time, c_units_destroyed, 
+	c_any, c_all_destroyed, c_attacked, c_buildings_destroyed, c_build_it, 
+	c_civilians_evacuated, c_credits, c_destroyed, c_discovered, 
+	c_house_discoved, c_no_factories, c_none, c_player_enters, 
+	c_time, c_units_destroyed, 
 };
 
 const int c_cause_id = c_units_destroyed + 1;
@@ -136,9 +136,9 @@ const char* cause_code[];
 enum t_event_id
 {
 	e_all_to_hunt, e_airstrike, e_allow_win, e_autocreate, e_create_team, e_destroy_teams, 
-		e_destroy_trigger_x, e_destroy_trigger_y, e_destroy_trigger_z, 
-		e_dropzone_at_z, e_ion_cannon, e_lose, e_none, e_nuclear_missile, e_production,
-		e_reinforcement, e_win
+	e_destroy_trigger_x, e_destroy_trigger_y, e_destroy_trigger_z, 
+	e_dropzone_at_z, e_ion_cannon, e_lose, e_none, e_nuclear_missile, e_production,
+	e_reinforcement, e_win
 };
 
 const int c_event_id = e_win + 1;
@@ -148,7 +148,7 @@ const char* event_code[];
 enum t_object_id
 {
 	oi_template, oi_overlay, oi_smudge, oi_terrain,
-		oi_infantry, oi_structure, oi_unit
+	oi_infantry, oi_structure, oi_unit
 };
 
 const int c_object_id = oi_unit + 1;
@@ -224,18 +224,6 @@ struct t_structure_data_entry
 	int flags;
 	string trigger;
 };
-
-/*
-inline operator<(const t_structure_data_entry &a, const t_structure_data_entry &b)
-{
-	return false;
-}
-
-inline operator==(const t_structure_data_entry &a, const t_structure_data_entry &b)
-{
-	return false;
-}
-*/
 
 typedef vector<t_structure_data_entry> t_structure_data;
 
