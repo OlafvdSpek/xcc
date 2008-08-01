@@ -973,9 +973,6 @@ Cvirtual_binary Cxcc_level::save_bin() const
 Cvirtual_binary Cxcc_level::save_ini() const
 {
 	Cvirtual_tfile_write f;
-	// f.set_force_upper_case(true);
-
-	// basic
 
 	f.write_line(static_cast<string>("[") + section_code[si_basic] + ']');
 	if (!basic_data.action.empty())
@@ -999,8 +996,6 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		f.write_line(static_cast<string>(basic_data_code[bdt_win]) + '=' + basic_data.win);
 	f.write_line("");
 
-	// map
-
 	f.write_line(static_cast<string>("[") + section_code[si_map] + ']');
 	f.write_line(static_cast<string>(map_data_code[mdt_theater]) + '=' + theater_code[map_data.theater]);
 	f.write_line(static_cast<string>(map_data_code[mdt_x]) + '=' + n(map_data.x));
@@ -1010,66 +1005,61 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	// f.write_line(static_cast<string>(map_data_code[mdt_tactical_pos] + '=' + map_data.tactical_pos);
 	f.write_line("");
 
+	if (!briefing_data.empty())
 	{
-		if (!briefing_data.empty())
-		{
-			f.write_line(static_cast<string>("[") + section_code[si_briefing] + ']');
-			f.write_line(static_cast<string>("1") + '=' + briefing_data);
-			f.write_line("");
-		}
-	}
-	{
-		f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
-		for (t_celltrigger_data::const_iterator i = celltrigger_data.begin(); i != celltrigger_data.end(); i++)
-		{
-			f.write_line(n(i->first) + '=' + i->second);
-		}
+		f.write_line(static_cast<string>("[") + section_code[si_briefing] + ']');
+		f.write_line(static_cast<string>("1") + '=' + briefing_data);
 		f.write_line("");
 	}
+
+	f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
+	for (t_celltrigger_data::const_iterator i = celltrigger_data.begin(); i != celltrigger_data.end(); i++)
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
-		for (t_teamtype_data::const_iterator i = teamtype_data.begin(); i != teamtype_data.end(); i++)
-		{
-			const t_teamtype_data_entry& d = i->second;
-			f.write(i->first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
-				n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," +
-				n(d.u1) + ',' + n(d.c_teams) + ",0,0," + n(d.c_objects) + ',');
-			for (int i = 0; i < d.c_objects; i++)
-			{
-				int v = d.object_list[i];
-				f.write(static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) +
-					':' + n(v & 0xff) + ',');
-			}
-			f.write(n(d.c_actions) + ',');
-			for (int i = 0; i < d.c_actions; i++)
-			{
-				int v = d.action_list[i];
-				f.write(static_cast<string>(action_code[v >> 8]) + ':' + n(v & 0xff) + ',');
-			}
-			f.write_line(n(static_cast<bool>(d.flags & td_flags_replace)) + ',' + n(static_cast<bool>(d.flags & td_flags_force_creation)));
-		}
-		f.write_line("");
+		f.write_line(n(i->first) + '=' + i->second);
 	}
+	f.write_line("");
+
+	f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
+	for (t_teamtype_data::const_iterator i = teamtype_data.begin(); i != teamtype_data.end(); i++)
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
-		for (t_trigger_data::const_iterator i = trigger_data.begin(); i != trigger_data.end(); i++)
+		const t_teamtype_data_entry& d = i->second;
+		f.write(i->first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
+			n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," +
+			n(d.u1) + ',' + n(d.c_teams) + ",0,0," + n(d.c_objects) + ',');
+		for (int i = 0; i < d.c_objects; i++)
 		{
-			const t_trigger_data_entry& d = i->second;
-			f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
-				n(d.count) + ',' + side_code[d.side == -1 ? s_none : d.side] + ',' +
-				d.teamtype + ',' + n(d.loop));
+			int v = d.object_list[i];
+			f.write(static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) +
+				':' + n(v & 0xff) + ',');
 		}
-		f.write_line("");
+		f.write(n(d.c_actions) + ',');
+		for (int i = 0; i < d.c_actions; i++)
+		{
+			int v = d.action_list[i];
+			f.write(static_cast<string>(action_code[v >> 8]) + ':' + n(v & 0xff) + ',');
+		}
+		f.write_line(n(static_cast<bool>(d.flags & td_flags_replace)) + ',' + n(static_cast<bool>(d.flags & td_flags_force_creation)));
 	}
+	f.write_line("");
+
+	f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
+	for (t_trigger_data::const_iterator i = trigger_data.begin(); i != trigger_data.end(); i++)
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_waypoints] + ']');
-		for (int i = 0; i < 100; i++)
-		{
-			if (waypoint_data[i] != -1)
-				f.write_line(n(i) + '=' + n(waypoint_data[i]));
-		}
-		f.write_line("");
+		const t_trigger_data_entry& d = i->second;
+		f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
+			n(d.count) + ',' + side_code[d.side == -1 ? s_none : d.side] + ',' +
+			d.teamtype + ',' + n(d.loop));
 	}
+	f.write_line("");
+
+	f.write_line(static_cast<string>("[") + section_code[si_waypoints] + ']');
+	for (int i = 0; i < 100; i++)
+	{
+		if (waypoint_data[i] != -1)
+			f.write_line(n(i) + '=' + n(waypoint_data[i]));
+	}
+	f.write_line("");
+
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_base] + ']');
 		int index = 0;
@@ -1081,8 +1071,8 @@ Cvirtual_binary Cxcc_level::save_ini() const
 					+ ',' + n(static_cast<int>((i->cell.get_cc() & 0xfc0) << 18 | (i->cell.get_cc() & 0x3f) << 8)));
 			}
 		}
-		f.write_line("");
 	}
+	f.write_line("");
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_infantry] + ']');
 		int index = 0;
@@ -1108,72 +1098,67 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
+	f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
+	int index = 0;
+	for (t_unit_data::const_iterator i = unit_data.begin(); i < unit_data.end(); i++)
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
-		int index = 0;
-		for (t_unit_data::const_iterator i = unit_data.begin(); i < unit_data.end(); i++)
-		{
-			f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_units::unit_data[i->t].short_name
-				+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->angle)
-				+ ',' + action_code[i->action] + ',' + i->trigger);
-		}
-		f.write_line("");
+		f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_units::unit_data[i->t].short_name
+			+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->angle)
+			+ ',' + action_code[i->action] + ',' + i->trigger);
 	}
+	f.write_line("");
+
+for (int i = 0; i < c_side_id; i++)
 	{
-		for (int i = 0; i < c_side_id; i++)
+		f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
+		f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');
+		bool first = true;
+		for (int j = 0; j < c_side_id; j++)
 		{
-			f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
-			f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');
-			bool first = true;
-			for (int j = 0; j < c_side_id; j++)
+			if (side_data[i].allies >> j & 1)
 			{
-				if (side_data[i].allies >> j & 1)
-				{
-					if (!first)
-						f.write(",");
-					f.write(side_code[j]);
-					first = false;
-				}
+				if (!first)
+					f.write(",");
+				f.write(side_code[j]);
+				first = false;
 			}
-			f.write_line("");
-			if (side_data[i].credits)
-				f.write_line(static_cast<string>(side_data_code[sdt_credits]) + '=' + n(side_data[i].credits / 100l));
-			f.write_line(static_cast<string>(side_data_code[sdt_edge]) + '=' + edge_code[side_data[i].edge]);
-			// f.write_line(static_cast<string>(side_data_code[sdt_flag_home]) + '=' + side_data[i].flag_home);
-			// f.write_line(static_cast<string>(side_data_code[sdt_flag_location]) + '=' + side_data[i].flag_location);
-			/*
-			if (side_data[i].c_max_building)
-				f.write_line(static_cast<string>(side_data_code[sdt_max_building]) + '=' + n(side_data[i].c_max_building));
-			if (side_data[i].c_max_unit)
-				f.write_line(static_cast<string>(side_data_code[sdt_max_unit]) + '=' + n(side_data[i].c_max_unit));
-			*/
-			// f.write_line(static_cast<string>(side_data_code[sdt_quota]) + '=' + side_data[i].quota);
-			f.write_line("");
-		}
-	}
-	{
-		f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
-		for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
-		{
-			t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
-			if (is_tiberium(v))
-				v = static_cast<t_overlay_id>((i->second & 0xff) + o_ti1);
-			Cxcc_cell cell;
-			cell.set_xcc(i->first);
-			f.write_line(n(cell.get_cc()) + '=' + overlay_code[v]);
 		}
 		f.write_line("");
-	}
-	{
-		f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
-		for (t_terrain_data::const_iterator i = terrain_data.begin(); i != terrain_data.end(); i++)
-		{
-			Cxcc_cell cell;
-			cell.set_xcc(i->first);
-			f.write_line(n(cell.get_cc()) + '=' + terrain_code[i->second >> 8] + ",none");
-		}
+		if (side_data[i].credits)
+			f.write_line(static_cast<string>(side_data_code[sdt_credits]) + '=' + n(side_data[i].credits / 100l));
+		f.write_line(static_cast<string>(side_data_code[sdt_edge]) + '=' + edge_code[side_data[i].edge]);
+		// f.write_line(static_cast<string>(side_data_code[sdt_flag_home]) + '=' + side_data[i].flag_home);
+		// f.write_line(static_cast<string>(side_data_code[sdt_flag_location]) + '=' + side_data[i].flag_location);
+		/*
+		if (side_data[i].c_max_building)
+		f.write_line(static_cast<string>(side_data_code[sdt_max_building]) + '=' + n(side_data[i].c_max_building));
+		if (side_data[i].c_max_unit)
+		f.write_line(static_cast<string>(side_data_code[sdt_max_unit]) + '=' + n(side_data[i].c_max_unit));
+		*/
+		// f.write_line(static_cast<string>(side_data_code[sdt_quota]) + '=' + side_data[i].quota);
 		f.write_line("");
 	}
+
+	f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
+	for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
+	{
+		t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
+		if (is_tiberium(v))
+			v = static_cast<t_overlay_id>((i->second & 0xff) + o_ti1);
+		Cxcc_cell cell;
+		cell.set_xcc(i->first);
+		f.write_line(n(cell.get_cc()) + '=' + overlay_code[v]);
+	}
+	f.write_line("");
+
+	f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
+	for (t_terrain_data::const_iterator i = terrain_data.begin(); i != terrain_data.end(); i++)
+	{
+		Cxcc_cell cell;
+		cell.set_xcc(i->first);
+		f.write_line(n(cell.get_cc()) + '=' + terrain_code[i->second >> 8] + ",none");
+	}
+	f.write_line("");
 	return f.save();
 }
 
