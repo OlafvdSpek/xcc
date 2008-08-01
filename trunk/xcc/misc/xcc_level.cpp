@@ -645,21 +645,6 @@ static void handle_side_section_entry(const string &a, const string &b, t_side_d
 	case sdt_edge:
 		side_data.edge = get_edge_id(b);
 		break;
-	case sdt_flag_home:
-		side_data.flag_home = b == "0" ? 0 : get_cell_value(b);
-		break;
-	case sdt_flag_location:
-		side_data.flag_location = get_value(b, 0, LONG_MAX);
-		break;
-	case sdt_max_building:
-		side_data.c_max_building = get_value(b, 0, 1000);
-		break;
-	case sdt_max_unit:
-		side_data.c_max_unit = get_value(b, 0, 10000);
-		break;
-	case sdt_quota:
-		side_data.quota = get_value(b, 0, 0);
-		break;
 	}
 }
 
@@ -1296,11 +1281,6 @@ void Cxcc_level::clear()
 			side_data[i].allies = 1 << i;
 			side_data[i].credits = 0;
 			side_data[i].edge = e_north;
-			side_data[i].flag_home = 0;
-			side_data[i].flag_location = 0;
-			side_data[i].c_max_building = 150;
-			side_data[i].c_max_unit = 150;
-			side_data[i].quota = 0;
 		}
 	}
 
