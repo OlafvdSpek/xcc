@@ -186,11 +186,6 @@ struct t_side_data
 	int allies;
 	int credits;
 	t_edge_id edge;
-	int flag_home;
-	int flag_location;
-	int c_max_building;
-	int c_max_unit;
-	int quota;
 };
 
 typedef map<int, int> t_base_data;
