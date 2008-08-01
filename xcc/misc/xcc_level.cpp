@@ -1011,8 +1011,6 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	f.write_line("");
 
 	{
-		// briefing
-
 		if (!briefing_data.empty())
 		{
 			f.write_line(static_cast<string>("[") + section_code[si_briefing] + ']');
@@ -1020,10 +1018,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 			f.write_line("");
 		}
 	}
-
 	{
-		// celltriggers
-
 		f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
 		for (t_celltrigger_data::const_iterator i = celltrigger_data.begin(); i != celltrigger_data.end(); i++)
 		{
@@ -1031,10 +1026,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// teamtypes
-
 		f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
 		for (t_teamtype_data::const_iterator i = teamtype_data.begin(); i != teamtype_data.end(); i++)
 		{
@@ -1058,24 +1050,18 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// triggers
-
 		f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
 		for (t_trigger_data::const_iterator i = trigger_data.begin(); i != trigger_data.end(); i++)
 		{
 			const t_trigger_data_entry& d = i->second;
 			f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
-				n(d.count) + ',' + (static_cast<int>(d.side) < c_side_id ? side_code[d.side] : "none") + ',' +
+				n(d.count) + ',' + side_code[d.side == -1 ? s_none : d.side] + ',' +
 				d.teamtype + ',' + n(d.loop));
 		}
 		f.write_line("");
 	}
-
 	{
-		// waypoints
-
 		f.write_line(static_cast<string>("[") + section_code[si_waypoints] + ']');
 		for (int i = 0; i < 100; i++)
 		{
@@ -1084,10 +1070,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// base
-
 		f.write_line(static_cast<string>("[") + section_code[si_base] + ']');
 		int index = 0;
 		for (t_structure_data::const_iterator i = structure_data.begin(); i < structure_data.end(); i++)
@@ -1100,10 +1083,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// infantry
-
 		f.write_line(static_cast<string>("[") + section_code[si_infantry] + ']');
 		int index = 0;
 		for (t_infantry_data::const_iterator i = infantry_data.begin(); i < infantry_data.end(); i++)
@@ -1114,10 +1094,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// structures
-
 		f.write_line(static_cast<string>("[") + section_code[si_structures] + ']');
 		int index = 0;
 		for (t_structure_data::const_iterator i = structure_data.begin(); i < structure_data.end(); i++)
@@ -1131,10 +1108,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// units
-
 		f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
 		int index = 0;
 		for (t_unit_data::const_iterator i = unit_data.begin(); i < unit_data.end(); i++)
@@ -1145,10 +1119,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// sides
-
 		for (int i = 0; i < c_side_id; i++)
 		{
 			f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
@@ -1180,10 +1151,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 			f.write_line("");
 		}
 	}
-
 	{
-		// overlay
-
 		f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
 		for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
 		{
@@ -1196,10 +1164,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	{
-		// terrain
-
 		f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
 		for (t_terrain_data::const_iterator i = terrain_data.begin(); i != terrain_data.end(); i++)
 		{
@@ -1209,7 +1174,6 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		}
 		f.write_line("");
 	}
-
 	return f.save();
 }
 
