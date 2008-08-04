@@ -680,6 +680,8 @@ Cvirtual_image Cmap_ts_encoder::create_heightmap() const
 
 void Cmap_ts_encoder::extract_map(t_iso_map_pack_entry4* d) const
 {
+	if (!m_header.cx)
+		return;
 	const t_iso_map_pack_entry4* r = reinterpret_cast<const t_iso_map_pack_entry4*>(m_iso_map_pack.data());
 	int x_line = m_header.cx;
 	int r_line = m_header.cx + 1;
