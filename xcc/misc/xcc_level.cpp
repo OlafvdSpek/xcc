@@ -349,7 +349,8 @@ const char* action_code[] =
 	"return",
 	"sleep",
 	"sticky",
-	"unload"
+	"unload",
+	NULL
 };
 
 const char* cause_code[]=
@@ -360,7 +361,7 @@ const char* cause_code[]=
 	"all destr.",
 	"attacked",
 	"bldgs destr.",
-	"build it",
+	"built it",
 	"civ. evac.",
 	"credits",
 	"destroyed",
@@ -370,7 +371,8 @@ const char* cause_code[]=
 	"none",
 	"player enters",
 	"time",
-	"units destr."
+	"units destr.",
+	NULL
 };
 
 const char* event_code[]=
@@ -379,6 +381,7 @@ const char* event_code[]=
 	"airstrike",
 	"allow win",
 	"autocreate",
+	"cap=win/des=lose",
 	"create team",
 	"dstry teams",
 	"dstry trig 'xxxx'",
@@ -391,12 +394,25 @@ const char* event_code[]=
 	"nuclear missile",
 	"production",
 	"reinforce.",
-	"win"
+	"win",
+	NULL
 };
 
 inline static bool is_section_start(const string &s)
 {
 	return !s.empty() && s[0] == '[' && s[s.length() - 1] == ']';
+}
+
+int find_id(const string &s, const char* t[], bool allow_unknown = false)
+{
+	for (int i = 0; t[i]; i++)
+	{
+		if (s == t[i])
+			return i;
+	}
+	if (!allow_unknown)
+		throw Cxcc_level_warning_out_of_range();
+	return -1;
 }
 
 int find_id(const string &s, const char* t[], int count, bool allow_unknown = false)
@@ -460,17 +476,17 @@ t_theater_id get_theater_id(const string &s)
 
 t_action_id get_action_id(const string& s)
 {
-	return static_cast<t_action_id>(find_id(s, action_code, c_action_id));
+	return static_cast<t_action_id>(find_id(s, action_code));
 }
 
 t_cause_id get_cause_id(const string& s)
 {
-	return static_cast<t_cause_id>(find_id(s, cause_code, c_cause_id));
+	return static_cast<t_cause_id>(find_id(s, cause_code));
 }
 
 t_event_id get_event_id(const string& s)
 {
-	return static_cast<t_event_id>(find_id(s, event_code, c_event_id));
+	return static_cast<t_event_id>(find_id(s, event_code));
 }
 
 int convert_overlay_edit(int v)

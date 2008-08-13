@@ -39,21 +39,19 @@ BOOL Cedit_trigger_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	long i;
-	long index;
-	for (i = 0; i < c_cause_id; i++)
+	for (int i = 0; cause_code[i]; i++)
 	{
-		index = m_combo_cause.AddString(cause_code[i]);
+		int index = m_combo_cause.AddString(cause_code[i]);
 		m_combo_cause.SetItemData(index, i);
 	}
-	for (i = 0; i < c_event_id; i++)
+	for (int i = 0; event_code[i]; i++)
 	{
-		index = m_combo_event.AddString(event_code[i]);
+		int index = m_combo_event.AddString(event_code[i]);
 		m_combo_event.SetItemData(index, i);
 	}
-	for (i = 0; i < c_side_id + 1; i++)
+	for (int i = 0; i < c_side_id + 1; i++)
 	{
-		index = m_combo_side.AddString(side_code[i]);
+		int index = m_combo_side.AddString(side_code[i]);
 		m_combo_side.SetItemData(index, i);
 	}
 	

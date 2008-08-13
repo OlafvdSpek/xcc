@@ -94,7 +94,7 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 			m_combo_object.SetItemData(index, 0x80 | i);
 		}
 	}
-	for (i = 0; i < c_action_id; i++)
+	for (i = 0; action_code[i]; i++)
 	{
 		index = m_combo_action.AddString(action_code[i]);
 		m_combo_action.SetItemData(index, i);
