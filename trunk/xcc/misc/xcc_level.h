@@ -16,8 +16,6 @@ enum t_edge_id
 	e_north, e_east, e_south, e_west
 };
 
-const int c_edge_id = e_west + 1;
-
 const char* edge_code[];
 
 enum t_side_id
@@ -35,8 +33,6 @@ enum t_theater_id
 	t_desert, t_temperate, t_winter
 };
 
-const int c_theater_id = t_winter + 1;
-
 const char* theater_code[];
 
 enum t_section_id
@@ -49,8 +45,6 @@ enum t_section_id
 	si_multi1, si_multi2, si_multi3, si_multi4, si_multi5, si_multi6
 };
 
-const int c_section_id = si_multi6 + 1;
-
 const char* section_code[];
 
 enum t_basic_data_id
@@ -59,16 +53,12 @@ enum t_basic_data_id
 	bdt_lose, bdt_name, bdt_percent, bdt_player, bdt_theme, bdt_win
 };
 
-const int c_basic_data_id = bdt_win + 1;
-
 const char* basic_data_code[];
 
 enum t_map_data_id
 {
 	mdt_theater, mdt_x, mdt_y, mdt_cx, mdt_cy, mdt_tactical_pos
 };
-
-const int c_map_data_id = mdt_tactical_pos + 1;
 
 const char* map_data_code[];
 
@@ -77,8 +67,6 @@ enum t_side_data_id
 	sdt_allies, sdt_credits, sdt_edge, sdt_flag_home, sdt_flag_location, sdt_max_building,
 	sdt_max_unit, sdt_quota
 };
-
-const int c_side_data_id = sdt_quota + 1;
 
 const char* side_data_code[];
 
@@ -146,8 +134,6 @@ enum t_object_id
 	oi_infantry, oi_structure, oi_unit
 };
 
-const int c_object_id = oi_unit + 1;
-
 struct t_basic_data
 {
 	string action;
@@ -171,7 +157,6 @@ struct t_map_data
 	int y;
 	int cx;
 	int cy;
-	int tactical_pos;
 };
 
 typedef string t_briefing_data;

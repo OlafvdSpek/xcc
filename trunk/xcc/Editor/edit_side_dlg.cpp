@@ -49,7 +49,7 @@ BOOL Cedit_side_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	for (long i = 0; i < c_edge_id; i++)
+	for (int i = 0; edge_code[i]; i++)
 	{
 		m_combo_edge.SetItemData(m_combo_edge.AddString(edge_code[i]), i);
 	}
