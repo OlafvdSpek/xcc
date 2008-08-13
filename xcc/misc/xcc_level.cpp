@@ -39,7 +39,8 @@ const char* section_code[] =
 	"multi3",
 	"multi4",
 	"multi5",
-	"multi6"
+	"multi6",
+	NULL
 };
 
 const char* basic_data_code[] =
@@ -55,7 +56,8 @@ const char* basic_data_code[] =
 	"percent",
 	"player",
 	"theme",
-	"win"
+	"win",
+	NULL
 };
 
 const char* map_data_code[] =
@@ -65,7 +67,8 @@ const char* map_data_code[] =
 	"y",
 	"width",
 	"height",
-	"tacticalpos"
+	"tacticalpos",
+	NULL
 };
 
 const char* side_data_code[] =
@@ -77,7 +80,8 @@ const char* side_data_code[] =
 	"flaglocation",
 	"maxbuilding",
 	"maxunit",
-	"quota"
+	"quota",
+	NULL
 };
 
 const char* edge_code[] =
@@ -85,7 +89,8 @@ const char* edge_code[] =
 	"north",
 	"east",
 	"south",
-	"west"
+	"west",
+	NULL
 };
 
 const char* side_code[] =
@@ -107,7 +112,8 @@ const char* theater_code[] =
 {
 	"desert",
 	"temperate",
-	"winter"
+	"winter",
+	NULL
 };
 
 const char* template_code[] =
@@ -431,27 +437,27 @@ t_section_id get_section_id(string s)
 {
 	s.erase(0, 1);
 	s.erase(s.length() - 1, 1);
-	return static_cast<t_section_id>(find_id(s, section_code, c_section_id));
+	return static_cast<t_section_id>(find_id(s, section_code));
 }
 
 t_basic_data_id get_basic_data_id(const string &s)
 {
-	return static_cast<t_basic_data_id>(find_id(s, basic_data_code, c_basic_data_id));
+	return static_cast<t_basic_data_id>(find_id(s, basic_data_code));
 }
 
 t_map_data_id get_map_data_id(const string &s)
 {
-	return static_cast<t_map_data_id>(find_id(s, map_data_code, c_map_data_id));
+	return static_cast<t_map_data_id>(find_id(s, map_data_code));
 }
 
 t_side_data_id get_side_data_id(const string &s)
 {
-	return static_cast<t_side_data_id>(find_id(s, side_data_code, c_side_data_id));
+	return static_cast<t_side_data_id>(find_id(s, side_data_code));
 }
 
 t_edge_id get_edge_id(const string &s)
 {
-	return static_cast<t_edge_id>(find_id(s, edge_code, c_edge_id));
+	return static_cast<t_edge_id>(find_id(s, edge_code));
 }
 
 t_overlay_id get_overlay_id(const string& s, bool allow_unknown = false)
@@ -471,7 +477,7 @@ t_terrain_id get_terrain_id(const string& s)
 
 t_theater_id get_theater_id(const string &s)
 {
-	return static_cast<t_theater_id>(find_id(s, theater_code, c_theater_id));
+	return static_cast<t_theater_id>(find_id(s, theater_code));
 }
 
 t_action_id get_action_id(const string& s)
@@ -620,9 +626,6 @@ static void handle_map_section_entry(const string &a, const string &b, t_map_dat
 		break;
 	case mdt_cy:
 		map_data.cy = get_value(b, 1, 62);
-		break;
-	case mdt_tactical_pos:
-		map_data.tactical_pos = get_cell_value(b);
 		break;
 	}
 }
@@ -1003,7 +1006,6 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	f.write_line(static_cast<string>(map_data_code[mdt_y]) + '=' + n(map_data.y));
 	f.write_line(static_cast<string>(map_data_code[mdt_cx]) + '=' + n(map_data.cx));
 	f.write_line(static_cast<string>(map_data_code[mdt_cy]) + '=' + n(map_data.cy));
-	// f.write_line(static_cast<string>(map_data_code[mdt_tactical_pos] + '=' + map_data.tactical_pos);
 	f.write_line("");
 
 	if (!briefing_data.empty())
@@ -1287,7 +1289,6 @@ void Cxcc_level::clear()
 	map_data.y = 1;
 	map_data.cx = 62;
 	map_data.cy = 62;
-	map_data.tactical_pos = 0;
 
 	briefing_data.erase();
 

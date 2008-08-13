@@ -38,7 +38,7 @@ BOOL Cedit_map_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 	
-	for (long i = 0; i < c_theater_id; i++)
+	for (int i = 0; theater_code[i]; i++)
 	{
 		m_combo_theater.SetItemData(m_combo_theater.AddString(theater_code[i]), i);
 	}
