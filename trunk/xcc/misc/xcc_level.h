@@ -116,8 +116,6 @@ enum t_action_id
 	a_retreat, a_return, a_sleep, a_sticky, a_unload
 };
 
-const int c_action_id = a_unload + 1;
-
 const char* action_code[];
 
 enum t_cause_id
@@ -129,19 +127,16 @@ enum t_cause_id
 	c_time, c_units_destroyed, 
 };
 
-const int c_cause_id = c_units_destroyed + 1;
-
 const char* cause_code[];
 
 enum t_event_id
 {
-	e_all_to_hunt, e_airstrike, e_allow_win, e_autocreate, e_create_team, e_destroy_teams, 
+	e_all_to_hunt, e_airstrike, e_allow_win, e_autocreate, e_cap_win_des_lose,
+	e_create_team, e_destroy_teams, 
 	e_destroy_trigger_x, e_destroy_trigger_y, e_destroy_trigger_z, 
 	e_dropzone_at_z, e_ion_cannon, e_lose, e_none, e_nuclear_missile, e_production,
 	e_reinforcement, e_win
 };
-
-const int c_event_id = e_win + 1;
 
 const char* event_code[];
 

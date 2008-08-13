@@ -44,13 +44,12 @@ BOOL Cedit_infantry_properties_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	long i;
-	for (i = 0; i < c_side_id; i++)
+	for (int i = 0; i < c_side_id; i++)
 	{
 		m_combo_side.SetItemData(m_combo_side.AddString(side_code[i]), i);
 	}
 	
-	for (i = 0; i < c_action_id; i++)
+	for (int i = 0; action_code[i]; i++)
 	{
 		m_combo_action.SetItemData(m_combo_action.AddString(action_code[i]), i);
 	}

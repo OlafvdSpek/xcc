@@ -78,13 +78,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		EnableDocking(CBRS_ALIGN_ANY);
 		DockControlBar(&m_wndPropertyBar);
 
-		long i;
-		for (i = 0; i < c_side_id; i++)
+		for (int i = 0; i < c_side_id; i++)
 		{
 			combo_side().SetItemData(combo_side().AddString(side_code[i]), i);
 		}
 		
-		for (i = 0; i < c_action_id; i++)
+		for (int i = 0; action_code[i]; i++)
 		{
 			combo_action().SetItemData(combo_action().AddString(action_code[i]), i);
 		}
