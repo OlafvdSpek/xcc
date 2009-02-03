@@ -15,6 +15,15 @@
 		return $result;
 	}
 
+	function db_query_all($query)
+	{
+		$result = db_query($query);
+		$d = array();
+		while ($row = mysql_fetch_assoc($result))
+			$d[] = $row;
+		return $d;
+	}
+
 	function db_query_first($query)
 	{
 		return mysql_fetch_assoc(db_query($query));
