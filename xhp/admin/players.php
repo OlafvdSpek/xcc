@@ -258,7 +258,7 @@
 		{
 			printf('<tr>');
 			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
-			printf('<td><a href="%s?pid=%s">L</a>', $config['ladder_url'], $result['pid']);
+			printf('<td><a href="%s?q=%s">L</a>', $config['ladder_url'], $result['name']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);
@@ -279,7 +279,7 @@
 		{
 			printf('<tr>');
 			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
-			printf('<td><a href="%s?cid=%s">L</a>', $config['ladder_url'], $result['pid']);
+			printf('<td><a href="%s?q=%s">L</a>', $config['ladder_url'], $result['name']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
 			printf('<td align=right>%d', $result['loss_count']);

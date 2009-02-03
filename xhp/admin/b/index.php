@@ -463,7 +463,7 @@
 	$a = $_REQUEST['a'];
 	$ipa = $_REQUEST['ipa'];
 	$pid = 0 + $_REQUEST['pid'];
-	$search = trim($_REQUEST['search']);
+	$search = trim($_REQUEST[isset($_REQUEST['q']) ? 'q' : 'search']);
 	page_search($search);
 	if (strlen($search))
 	{
