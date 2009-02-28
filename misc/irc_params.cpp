@@ -18,17 +18,17 @@ string Circ_params::read() const
 	if (!m_prefix.empty())
 		r = ':' + m_prefix + ' ';
 	bool done = false;
-	for (t_params::const_iterator i = m_params.begin(); i != m_params.end(); i++)
+	BOOST_FOREACH(t_params::const_reference i, m_params)
 	{
-		if (i != m_params.begin())
+		if (&i != &m_params.front())
 			r += ' ';
 		assert(!done);
-		if (i->find(' ') != string::npos)
+		if (i.find(' ') != string::npos)
 		{
 			r += ':';
 			done = true;
 		}
-		r += *i;
+		r += i;
 	}
 	return r;
 }
