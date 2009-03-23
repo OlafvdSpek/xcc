@@ -32,6 +32,7 @@ string get_map_name(const string& v)
 		const char* value;
 	} map_names[] =
 	{
+		"amazon01.map", "Stormy Weather",
 		"mp01du.map", "South Pacific",
 		"mp01t4.map", "South Pacific",
 		"mp02t2.map", "Isle of War",
