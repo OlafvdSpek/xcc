@@ -214,18 +214,16 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		const Cgame_state& game_state = live ? m_game_state : get_game_state(m_shot_time);
 		t_objects_counts objects_counts;
 		{
-			if (!m_shot_time)
-				clear_history_map();
 			if (m_show_history)
 			{
 				for (int y = 0; y < 512; y++)
 				{
 					for (int x = 0; x < 512; x++)
 					{
-						if (m_history_map[x][y] == -1)
+						if (game_state.history_map[x][y] == -1)
 							continue;
 						CBrush brush;
-						brush.CreateSolidBrush(player_color(m_history_map[x][y], 0x7f));
+						brush.CreateSolidBrush(player_color(game_state.history_map[x][y], 0x7f));
 						CBrush* old_brush = m_mem_dc.SelectObject(&brush);
 						int tx, ty;
 						transform(x << 8 | 0x80, y << 8 | 0x80, tx, ty);
@@ -234,23 +232,21 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					}
 				}
 			}
+			for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
 			{
-				for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
-				{
-					const Cobject& object = i->second;
-					if (!object.x || !object.y || !object.target || game_state.objects.find(object.target) == game_state.objects.end())
-						continue;
-					Cobject target = game_state.objects.find(object.target)->second;
-					CPen pen;
-					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
-					CPen* old_pen = m_mem_dc.SelectObject(&pen);
-					int x, y;
-					transform(object.x, object.y, x, y);
-					m_mem_dc.MoveTo(x, y);
-					transform(target.x, target.y, x, y);
-					m_mem_dc.LineTo(x, y);
-					m_mem_dc.SelectObject(old_pen);
-				}
+				const Cobject& object = i->second;
+				if (!object.x || !object.y || !object.target || game_state.objects.find(object.target) == game_state.objects.end())
+					continue;
+				Cobject target = game_state.objects.find(object.target)->second;
+				CPen pen;
+				pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
+				CPen* old_pen = m_mem_dc.SelectObject(&pen);
+				int x, y;
+				transform(object.x, object.y, x, y);
+				m_mem_dc.MoveTo(x, y);
+				transform(target.x, target.y, x, y);
+				m_mem_dc.LineTo(x, y);
+				m_mem_dc.SelectObject(old_pen);
 			}
 			for (Cgame_state::t_objects::const_iterator i = game_state.objects.begin(); i != game_state.objects.end(); i++)
 			{
@@ -263,7 +259,6 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				const Cplayer& player = player_i->second;
 				if (!m_view_non_human_objects && !player.human)
 					continue;
-				m_history_map[object.x >> 8][object.y >> 8] = player.id;
 				int x, y;
 				transform(object.x, object.y, x, y);
 				CBrush brush;
@@ -309,7 +304,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					m_mem_dc.LineTo(x + 6 + 20 * object.health / object_type.strength, y + 4);
 					m_mem_dc.SelectObject(old_pen);
 				}
-				COLORREF old_color = m_mem_dc.SetTextColor(player_color(player.id, 0x7f));
+				COLORREF old_color = m_mem_dc.SetTextColor(player_color(player.id, 0xff));
 				m_mem_dc.TextOut(x + 6, y + 6, type_name.c_str());
 				m_mem_dc.SetTextColor(old_color);
 				// m_mem_dc.SelectObject(old_brush);
@@ -335,26 +330,25 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		m_mem_dc.SetTextColor(old_color);
 		if (m_view_object_summary)
 		{
-			for (t_objects_counts::const_iterator i = objects_counts.begin(); i != objects_counts.end(); i++)
+			BOOST_FOREACH(t_objects_counts::const_reference i, objects_counts)
 			{
 				int x = -32;
 				y += 16;
-				for (Cgame_state::t_players::const_iterator j = game_state.players.begin(); j != game_state.players.end(); j++)
+				BOOST_FOREACH(Cgame_state::t_players::const_reference j, game_state.players)
 				{
-					if (!j->second.human)
+					if (!j.second.human)
 						continue;
 					x += 32;
-					t_object_counts::const_iterator k = i->second.find(j->first);
-					if (k == i->second.end())
+					t_object_counts::const_iterator k = i.second.find(j.first);
+					if (k == i.second.end())
 						continue;
-					COLORREF old_color = m_mem_dc.SetTextColor(player_color(j->second.id, 0xff));
+					COLORREF old_color = m_mem_dc.SetTextColor(player_color(j.second.id, 0xff));
 					char b[12];
 					sprintf(b, "%3d", k->second);
 					m_mem_dc.TextOut(x, y, b);
 					m_mem_dc.SetTextColor(old_color);
 				}
-				string text = m_object_types.object_types.find(i->first)->second.name;
-				m_mem_dc.TextOut(x + 32, y, text.c_str());
+				m_mem_dc.TextOut(x + 32, y, m_object_types.object_types.find(i.first)->second.name.c_str());
 			}
 		}
 		m_mem_dc_valid = true;
@@ -370,6 +364,16 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		move_front();
 }
 
+template<class T>
+static void clear_history_map(T& v)
+{
+	BOOST_FOREACH(T::reference i, v)
+	{
+		BOOST_FOREACH(T::value_type::reference j, i)
+			j = -1;
+	}
+}
+
 void CXCCGameSpyPlayerView::read_log()
 {
 	if (live)
@@ -381,6 +385,7 @@ void CXCCGameSpyPlayerView::read_log()
 		m_map_limits.left = m_map_limits.top = INT_MAX;
 		m_map_limits.right = m_map_limits.bottom = INT_MIN;
 		Cgame_state game_state;
+		clear_history_map(game_state.history_map);
 		Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
 		m_object_types.import(i++->second);
 		for (; i != key.keys().end(); i++)
@@ -528,15 +533,6 @@ COLORREF CXCCGameSpyPlayerView::player_color(int id, int v) const
 {
 	id++;
 	return RGB(id & 4 ? v : 0, id & 2 ? v : 0, id & 1 ? v : 0);
-}
-
-void CXCCGameSpyPlayerView::clear_history_map()
-{
-	for (int y = 0; y < 512; y++)
-	{
-		for (int x = 0; x < 512; x++)
-			m_history_map[x][y] = -1;
-	}
 }
 
 void CXCCGameSpyPlayerView::clear_terrain_map()
