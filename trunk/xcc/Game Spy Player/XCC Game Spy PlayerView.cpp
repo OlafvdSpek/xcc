@@ -39,10 +39,6 @@ CXCCGameSpyPlayerView::CXCCGameSpyPlayerView()
 	m_replay_time = 0;
 }
 
-CXCCGameSpyPlayerView::~CXCCGameSpyPlayerView()
-{
-}
-
 BOOL CXCCGameSpyPlayerView::PreCreateWindow(CREATESTRUCT& cs)
 {
 	return CView::PreCreateWindow(cs);
@@ -324,7 +320,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				text += swsr(11, get_color_name(player.color));
 			if (player.country != -1)
 				text += swsr(14, get_country_name(player.country));
-			m_mem_dc.TextOut(0, y, (text + n(player.credits) + " " + n(player.power_in) + " / " + n(player.power_out)).c_str());
+			m_mem_dc.TextOut(0, y, (text + nwsl(5, player.credits) + " " + n(player.power_in) + " / " + n(player.power_out)).c_str());
 			y += 16;
 		}
 		m_mem_dc.SetTextColor(old_color);
@@ -477,6 +473,14 @@ void CXCCGameSpyPlayerView::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 	case '>':
 		m_auto_forward = false;
 		move_front(10);
+		break;
+	case '[':
+		m_auto_forward = false;
+		move_back(100);
+		break;
+	case ']':
+		m_auto_forward = false;
+		move_front(100);
 		break;
 	}	
 	CView::OnChar(nChar, nRepCnt, nFlags);

@@ -12,16 +12,10 @@ protected: // create from serialization only
 public:
 	CXCCGameSpyPlayerDoc* GetDocument();
 
-public:
-
-	//{{AFX_VIRTUAL(CXCCGameSpyPlayerView)
-public:
 	virtual void OnDraw(CDC* pDC);  // overridden to draw this view
 	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 	virtual void OnInitialUpdate();
-	//}}AFX_VIRTUAL
 
-public:
 	const Cgame_state& get_game_state(int i);
 	void read_map(string name);
 	void clear_terrain_map();
@@ -32,12 +26,8 @@ public:
 	void move_front(int i = 1);
 	void move_back(int i = 1);
 	void read_log();
-	virtual ~CXCCGameSpyPlayerView();
 
 protected:
-
-protected:
-	//{{AFX_MSG(CXCCGameSpyPlayerView)
 	afx_msg void OnChar(UINT nChar, UINT nRepCnt, UINT nFlags);
 	afx_msg BOOL OnEraseBkgnd(CDC* pDC);
 	afx_msg void OnViewNonHumanObjects();
@@ -50,7 +40,7 @@ protected:
 	afx_msg void OnUpdateViewNames(CCmdUI* pCmdUI);
 	afx_msg void OnViewHistory();
 	afx_msg void OnUpdateViewHistory(CCmdUI* pCmdUI);
-	//}}AFX_MSG
+
 	DECLARE_MESSAGE_MAP()
 private:
 	typedef vector<Cgame_state> t_game_state_cache;
