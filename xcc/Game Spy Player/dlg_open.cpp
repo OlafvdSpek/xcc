@@ -297,9 +297,9 @@ int Cdlg_open::replay_compare(int id_a, int id_b)
 	switch (m_sort_column)
 	{
 	case 0:
-		return ::compare(a.gid, b.gid);
+		return ::compare(b.gid, a.gid);
 	case 1:
-		return ::compare(a.size, b.size);
+		return ::compare(b.size, a.size);
 	case 2:
 		return ::compare(a.players, b.players);
 	case 3:
