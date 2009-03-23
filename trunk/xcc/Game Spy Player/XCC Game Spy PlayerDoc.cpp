@@ -5,8 +5,6 @@
 IMPLEMENT_DYNCREATE(CXCCGameSpyPlayerDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CXCCGameSpyPlayerDoc, CDocument)
-	//{{AFX_MSG_MAP(CXCCGameSpyPlayerDoc)
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 void CXCCGameSpyPlayerDoc::Serialize(CArchive& ar)
