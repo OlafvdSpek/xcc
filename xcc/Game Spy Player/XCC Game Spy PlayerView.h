@@ -24,7 +24,6 @@ public:
 public:
 	const Cgame_state& get_game_state(int i);
 	void read_map(string name);
-	void clear_history_map();
 	void clear_terrain_map();
 	COLORREF player_color(int id, int v) const;
 	void transform(int x1, int y1, int& x2, int& y2);
@@ -67,7 +66,6 @@ private:
 	HBITMAP mh_dib;
 	HBITMAP mh_terrain_dib;
 	bool m_center_map;
-	char m_history_map[512][512];
 	t_iso_map_pack_entry4 m_terrain_map[512][512];
 	int m_shot_time;
 	bool m_auto_forward;
