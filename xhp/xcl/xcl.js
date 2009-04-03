@@ -680,7 +680,7 @@ function t14(v)
 {
 	document.write('<center><table><tr><th>Name');
 	for (var i = 0; i < v.length && v[i]; i++)
-		document.write('<tr><td><a href="?pname=', v[i], '">', v[i], '</a>');
+		document.write('<tr><td><a href="?q=', v[i], '">', v[i], '</a>');
 	document.write('</table></center>');
 }
 
@@ -709,10 +709,10 @@ function t16(v)
 function tr17(rank, name, wins, losses, points, cname, channel, gsku)
 {
 	document.write('<tr>');
-	document.write('<td><a href="?pname=', name, '">', name, '</a>');
+	document.write('<td><a href="?q=', name, '">', name, '</a>');
 	document.write('<td>');
 	if (cname)
-		document.write('<a href="?pname=', cname, '">', cname, '</a>');
+		document.write('<a href="?q=', cname, '">', cname, '</a>');
 	if (wins || losses)
 		document.write('<td align=right>', rank, '<td align=right>', wins, '<td align=right>', losses, '<td align=right>', points);
 	else
@@ -744,7 +744,7 @@ function p16(games, players, date)
 
 function tr18(count, lid, name)
 {
-	document.write('<tr><td align=right>', count, '<td><a href="?pname=', name, '">', name, '</a><td><a href="?lid=', lid, '">', lid2a(lid), '</a>');
+	document.write('<tr><td align=right>', count, '<td><a href="?q=', name, '">', name, '</a><td><a href="?lid=', lid, '">', lid2a(lid), '</a>');
 }
 
 function t18(v)
