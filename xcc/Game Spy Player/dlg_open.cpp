@@ -126,7 +126,7 @@ BOOL Cdlg_open::OnInitDialog()
 	}
 	m_players.auto_size();
 	m_replays.auto_size();
-	sort_replays(0, true);
+	sort_replays(0, false);
 	if (m_replays.GetItemCount())
 		m_replays.SetItemState(0, LVNI_FOCUSED | LVNI_SELECTED, LVNI_FOCUSED | LVNI_SELECTED);
 	return true;
