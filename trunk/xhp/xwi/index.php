@@ -431,7 +431,7 @@
 			{
 				printf('<tr><th align=right>Current Stats<td>');
 				while ($result = mysql_fetch_array($results))
-					printf('<a href="%s/xcl/?cid=%d">#%d %d / %d %dp (%s)</a><br>', $result['lid'] == 8 ? '/ts' : '', $result['pid'], $result['rank'], $result['win_count'], $result['loss_count'], $result['points'], $ladder[$result['lid']]);
+					printf('<a href="%s/ladders/?q=%s">#%d %d / %d %dp (%s)</a><br>', $result['lid'] == 8 ? '/ts' : '', urlencode($result['name']), $result['rank'], $result['win_count'], $result['loss_count'], $result['points'], $ladder[$result['lid']]);
 			}
 			$results = db_query(sprintf("select date, rank, lid from xcl_hof where name = '%s' and lid in (2, 4, 8) order by rank asc", $clan['name']));
 			if (mysql_num_rows($results))
@@ -454,7 +454,7 @@
 			echo('<td width=20% align=left valign=top>');
 			$results = db_query(sprintf("select name from xwi_players where cid = %d order by name", $cid));
 			while ($result = mysql_fetch_array($results))
-				printf('<a href="/xcl/?pname=%s">%s</a><br>', $result['name'], $result['name']);
+				printf('<a href="/ladders/?q=%s">%s</a><br>', $result['name'], $result['name']);
 			echo('<td width=40% align=right valign=top>');
 			echo('<table><tr><td>');
 			$results = db_query(sprintf("select date, rank, lid from xcl_hof where name = '%s' and lid in (2, 4, 8) order by date desc", $clan['name']));
