@@ -468,7 +468,7 @@
 			include('templates/search.php');
 			$text = $_REQUEST['text'];
 			if ($text)
-				$results = db_query(sprintf("select * from xwi_clans where name like '%s' order by name", addslashes($text)));
+				$results = db_query(sprintf("select * from xwi_clans where name like '%s' order by name limit 250", addslashes($text)));
 			else
 				$results = db_query("select * from xwi_clans where player_count > 1 order by name");
 			echo("<table><tr><th align=left>Abbrev<th align=left>Name<th align=right>Players<th align=left>Modified<th align=left>Created");
