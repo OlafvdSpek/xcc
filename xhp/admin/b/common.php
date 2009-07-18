@@ -78,41 +78,37 @@
 		return 0 + $v;
 	}
 
-	function gsku2a($v)
+	function gsku2a($v, $locale = 0)
 	{
-		switch ($v)
+		$a = array
+		(
+			0 => 'WC',
+			1 => 'TD',
+			2 => 'RA',
+			3 => 'CS',
+			4 => 'AM',
+			0xc => 'RG',
+			0xe => 'D2k',
+			0x10 => 'Nox',
+			0x12 => 'TS',
+			0x15 => 'RA1 3',
+			0x18 => 'FS',
+			0x1f => 'EBFD',
+			0x21 => 'RA2',
+			0x25 => 'Nox',
+			0x29 => 'YR',
+			0x30 => 'RG',
+		);
+		$b = array_key_exists($v, $a) ? $a[$v] : 0 + $v;
+		switch ($locale & ~0x10)
 		{
-		case 0:
-			return 'WC';
-		case 1:
-			return 'TD';
-		case 2:
-			return 'RA';
-		case 3:
-			return 'RA CS';
-		case 4:
-			return 'RA AM';
-		case 0xc:
-		case 0x30:
-			return 'RG';
-		case 0xe:
-			return 'D2k';
-		case 0x10:
-		case 0x25:
-			return 'Nox';
-		case 0x12:
-			return 'TS';
-		case 0x15:
-			return 'RA1 3';
-		case 0x18:
-			return 'TS FS';
-		case 0x1f:
-			return 'EBFD';
-		case 0x21:
-			return 'RA2';
-		case 0x29:
-			return 'RA2 YR';
+		case 0: break;
+		case 2: $b .= ' de'; break;
+		case 3: $b .= ' fr'; break;
+		default:
+			$b .= ' ' . ($locale & ~0x10);
 		}
-		return 0 + $v;
+		if ($locale & 0x10)
+			$b .= ' EM';
+		return $b;
 	}
-?>
