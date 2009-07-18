@@ -4,7 +4,6 @@
 <?php
 	function page_search($search)
 	{
-		$search = htmlspecialchars($search);
 		include(dirname(__FILE__) . '/templates/search.php');
 	}
 
@@ -422,6 +421,7 @@
 		}
 		printf('<tr><th>pass<td>');
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
+		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('<tr><th><td><a href="players.php?a=bl_insert&amp;pid=%d">-&gt; Black List</a>', $row['pid']);
@@ -431,7 +431,7 @@
 			printf('<tr><th><td><a href="?a=delete_player&amp;pid=%d">Delete</a>', $row['pid']);
 		printf('</table>');
 		$sids = array();
-		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d) union (select sid from xwi_players where pid = %d)", $pid, $pid));
+		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d and mtime > unix_timestamp() - 365 * 24 * 60 * 60) union (select sid from xwi_players where pid = %d)", $pid, $pid));
 		while ($row = mysql_fetch_assoc($rows))
 			$sids[] = $row['sid'];
 		table_messages($sids);
@@ -457,7 +457,7 @@
 		printf('<tr><th>motd<td>%s', nl2br(htmlspecialchars($row['motd'])));
 		printf('</table>');
 		$pids = array();
-		$rows = db_query(sprintf("(select distinct pid from xwi_logins1 where sid = %d) union (select distinct pid from xwi_players where sid = %d)", $sid, $sid));
+		$rows = db_query(sprintf("(select distinct pid from xwi_logins1 where sid = %d and mtime > unix_timestamp() - 365 * 24 * 60 * 60) union (select distinct pid from xwi_players where sid = %d)", $sid, $sid));
 		while ($row = mysql_fetch_assoc($rows))
 			$pids[] = $row['pid'];
 		table_messages(array($sid));
