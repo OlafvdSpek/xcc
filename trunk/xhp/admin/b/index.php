@@ -57,7 +57,7 @@
 				printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 				printf('<td>%s', htmlspecialchars($row['name']));
 				printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
-				printf('<td>%s', gsku2a($row['gsku'] >> 8));
+				printf('<td>%s', gsku2a($row['gsku'] >> 8, $row['gsku'] & 0xff));
 				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['time']));
 				printf('<td>%s', htmlspecialchars($row['msg']));
 			}
@@ -190,7 +190,7 @@
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 			printf('<td><a href="?a=edit_player;pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
-			printf('<td>%s', gsku2a($row['gsku'] >> 8));
+			printf('<td>%s', gsku2a($row['gsku'] >> 8, $row['gsku'] & 0xff));
 			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 		}
