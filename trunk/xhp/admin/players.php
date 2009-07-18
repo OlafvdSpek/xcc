@@ -353,30 +353,4 @@
 		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th align=right>SID<th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
 		echo('</table>');
-		if ($sid)
-		{
-			$results = db_query(sprintf("select * from xwi_serials where sid = %d", $sid));
-			if ($result = mysql_fetch_array($results))
-			{
-				echo("<br><table><tr><th align=right>SID<th align=right>GSKU<th align=right>Valid<th align=left>Wtime<th align=left>Mtime<th align=left>Ctime");
-				do
-				{
-					printf("<tr><td align=right>%d<td align=right>%x<td align=right>%d<td>%s<td>%s<td>%s", $result[sid], $result[gsku], $result[valid], $result[wtime] ? gmdate("H:i d-m-Y", $result[wtime]) : "", gmdate("H:i d-m-Y", $result[mtime]), gmdate("H:i d-m-Y", $result[ctime]));
-				}
-				while ($result = mysql_fetch_array($results));
-				echo('</table>');
-			}
-			$results = db_query(sprintf("select * from xbl where sid = %d", $sid));
-			if ($result = mysql_fetch_array($results))
-			{
-				echo("<br><table>");
-				do
-				{
-					echo_warning($result);
-				}
-				while ($result = mysql_fetch_array($results));
-				echo('</table>');
-			}
-		}
 	}
-?>
