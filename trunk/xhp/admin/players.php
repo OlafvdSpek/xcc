@@ -122,10 +122,6 @@
 			}
 		}
 		require('templates/bl_insert.php');
-		echo('<hr>');
-		echo('<table>');
-		echo_players(select_players(sprintf(" where p.sid = %d", $sid)));
-		echo('</table>');
 		break;
 	case 'bad_passes':
 		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) where ~flags & 2 order by name");
