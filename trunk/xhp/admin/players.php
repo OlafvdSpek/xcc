@@ -16,11 +16,7 @@
 			printf('<td>%s', $result[flags] & 2 ? '*' : '');
 			printf('<td>%s', $result[cname]);
 			printf('<td><a href="logins.php?pid=%d">L</a>', $result[pid]);
-			printf('<td><a href="http://xwis.net/xcl/?pname=%s">P</a>', $result[pname]);
-			printf('<td><a href="http://xwis.net/xcl/?pname=%s">C</a>', $result[cname]);
 			printf('<td align=right><a href="?sid=%d">%d</a>', $result[sid], $result[sid]);
-			printf('<td><a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
-			printf('<td><a href="?a=rb_insert&pid=%d">-&gt;RB</a>', $result[pid]);
 			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
 			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result['pid'], $motd ? nl2br(htmlspecialchars(substr($motd, 0, 80))) : 'motd');
 		}
@@ -129,16 +125,6 @@
 		echo('<hr>');
 		echo('<table>');
 		echo_players(select_players(sprintf(" where p.sid = %d", $sid)));
-		echo('</table>');
-		break;
-	case 'rb_insert':
-		$pid = $_REQUEST[pid];
-		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
-		db_query(sprintf("insert into xwi_admin_log (administrator, pid, message, time) values ('%s', %d, '%sdeleted player %s', unix_timestamp())",
-			addslashes($remote_user), $pid, $row['flags'] & 2 ? 'un' : '', addslashes($row['name'])));
-		db_query(sprintf("update xwi_players set flags = flags ^ 2 where pid = %d", $pid));
-		echo('<table>');
-		echo_players(select_players(sprintf(" where pid = %d", $pid)));
 		echo('</table>');
 		break;
 	case 'bad_passes':
@@ -368,7 +354,7 @@
 			$where = sprintf(" where p.sid = %d", $sid);
 		else
 			$where = " where 0";
-		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th><th><th align=right>SID<th><th><th align=left>Mtime<th align=left>Ctime");
+		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th align=right>SID<th align=left>Mtime<th align=left>Ctime");
 		echo_players(select_players($where));
 		echo('</table>');
 		if ($sid)
