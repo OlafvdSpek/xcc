@@ -10,7 +10,4 @@
 	<form action="logins.php">
 		<tr><td>Logins:<td><input type=text name=pname value="<?=$_REQUEST['pname']?>"> <input type=submit value="Search"></tr>
 	</form>
-	<form action="players.php">
-		<tr><td>Players:<td><input type=text name=pname value="<?=$_REQUEST['pname']?>"> <input type=submit value="Search"></tr>
-	</form>
 </table>
