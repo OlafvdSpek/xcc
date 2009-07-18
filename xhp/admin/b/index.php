@@ -55,7 +55,7 @@
 			{
 				printf('<tr>');
 				printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
-				printf('<td>%s', htmlspecialchars($row['name']));
+				printf('<td><a href="?q=%s">%s</a>', urlencode($row['name']), htmlspecialchars($row['name']));
 				printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 				printf('<td>%s', gsku2a($row['gsku'] >> 8, $row['gsku'] & 0xff));
 				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['time']));
@@ -89,7 +89,7 @@
 			printf('<tr>');
 			printf('<td>%s', lid2a($row['lid']));
 			printf('<td align=right>%d', $row['rank']);
-			printf('<td align><a href="%s?q=%s">%s</a>', $config['ladder_url'] . ($prev ? 'prev/' : ''), htmlspecialchars($row['name']), htmlspecialchars($row['name']));
+			printf('<td align><a href="%s?q=%s">%s</a>', $config['ladder_url'] . ($prev ? 'prev/' : ''), urlencode($row['name']), htmlspecialchars($row['name']));
 			printf('<td align=right>%d', $row['win_count']);
 			printf('<td align=right>%d', $row['loss_count']);
 			printf('<td align=right>%d', $row['points']);
