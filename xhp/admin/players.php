@@ -12,8 +12,14 @@
 		while ($result = mysql_fetch_array($results))
 		{
 			$motd = trim($result['motd']);
-			printf('<tr><td><a href="?pid=%d">%s</a><td>%s<td>%s<td><a href="logins.php?pid=%d">L</a><td><a href="http://xwis.net/xcl/?pname=%s">P</a><td><a href="http://xwis.net/xcl/?pname=%s">C</a><td align=right><a href="?sid=%d">%d</a><td>', $result[pid], $result[pname], $result[pass] && !($result[flags] & 2) ? "" : "*", $result[cname], $result[pid], $result[pname], $result[cname], $result[sid], $result[sid]);
-			printf('<a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
+			printf('<tr><td><a href=".?q=%s">%s</a>', $result[pname], $result[pname]);
+			printf('<td>%s', $result[flags] & 2 ? '*' : '');
+			printf('<td>%s', $result[cname]);
+			printf('<td><a href="logins.php?pid=%d">L</a>', $result[pid]);
+			printf('<td><a href="http://xwis.net/xcl/?pname=%s">P</a>', $result[pname]);
+			printf('<td><a href="http://xwis.net/xcl/?pname=%s">C</a>', $result[cname]);
+			printf('<td align=right><a href="?sid=%d">%d</a>', $result[sid], $result[sid]);
+			printf('<td><a href="?a=bl_insert&pid=%d">-&gt;BL</a>', $result[pid]);
 			printf('<td><a href="?a=rb_insert&pid=%d">-&gt;RB</a>', $result[pid]);
 			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
 			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result['pid'], $motd ? nl2br(htmlspecialchars(substr($motd, 0, 80))) : 'motd');
@@ -22,7 +28,7 @@
 
 	function echo_warning($result)
 	{
-		printf('<tr><td align=right><a href="?a=show_warning;wid=%d">%d</a><td><a href=".?search=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
+		printf('<tr><td align=right><a href="?a=show_warning;wid=%d">%d</a><td><a href=".?q=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
 		if ($result[link])
 			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
 		printf("<td align=right>%d<td>%s<td>%s<td>%s", $result['duration'] / (24 * 60 * 60), htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
@@ -285,7 +291,7 @@
 		foreach ($results as $result)
 		{
 			printf('<tr>');
-			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td><a href=".?q=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
 			printf('<td><a href="%s?q=%s">L</a>', $config['ladder_url'], $result['name']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
@@ -322,7 +328,7 @@
 		foreach ($results as $result)
 		{
 			printf('<tr>');
-			printf('<td><a href=".?search=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
+			printf('<td><a href=".?q=%s">%s</a>', htmlspecialchars($result['name']), htmlspecialchars($result['name']));
 			printf('<td><a href="%s?q=%s">L</a>', $config['ladder_url'], $result['name']);
 			printf('<td align=right>%d', $result['c']);
 			printf('<td align=right>%d', $result['win_count']);
