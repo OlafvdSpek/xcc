@@ -198,6 +198,42 @@
 		printf('</table>');
 	}
 
+	function table_messages($sids)
+	{
+		$mids = array();
+		$rows = db_query(sprintf("select distinct mid from xwi_messages_serials where sid in (%s)", count($sids) ? implode(',', $sids) : '0'));
+		while ($row = mysql_fetch_assoc($rows))
+			$mids[] = $row['mid'];
+		$rows = db_query(sprintf("select m.*, p.name from xwi_messages m inner join xwi_players p using (pid) where mid in (%s) order by mid desc", count($mids) ? implode(',', $mids) : '0'));
+		if ($row = mysql_fetch_assoc($rows))
+		{
+			printf('<table>');
+			printf('<tr>');
+			printf('<th align=right>mid');
+			printf('<th>name');
+			printf('<th>body');
+			printf('<th>created');
+			printf('<th>sids');
+			do
+			{
+				printf('<tr>');
+				// printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
+				printf('<td align=right>%d', $row['mid'], $row['mid']);
+				printf('<td><a href="?q=%s">%s</a>', $row['name'], $row['name']);
+				printf('<td>%s', htmlspecialchars($row['body']));
+				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+				printf('<td>');
+				$rows1 = db_query(sprintf("select * from xwi_messages_serials where mid = %d", $row['mid']));
+				while ($row1 = mysql_fetch_assoc($rows1))
+				{
+					printf('<a href="?a=edit_serial;sid=%d">%d</a> ', $row1['sid'], $row1['sid']);
+				}
+			}
+			while ($row = mysql_fetch_assoc($rows));
+			printf('</table>');
+		}
+	}
+
 	function table_players($pids)
 	{
 		$sids = array();
@@ -299,10 +335,10 @@
 	function table_warnings($ipas, $sids)
 	{
 		$wids = array();
-		$rows = db_query(sprintf("select wid from xbl_ipas where ipa in (%s)", count($ipas) ? implode(',', $ipas) : '0'));
+		$rows = db_query(sprintf("select distinct wid from xbl_ipas where ipa in (%s)", count($ipas) ? implode(',', $ipas) : '0'));
 		while ($row = mysql_fetch_assoc($rows))
 			$wids[] = $row['wid'];
-		$rows = db_query(sprintf("select wid from xbl_serials where sid in (%s)", count($sids) ? implode(',', $sids) : '0'));
+		$rows = db_query(sprintf("select distinct wid from xbl_serials where sid in (%s)", count($sids) ? implode(',', $sids) : '0'));
 		while ($row = mysql_fetch_assoc($rows))
 			$wids[] = $row['wid'];
 		$rows = db_query(sprintf("select * from xbl where wid in (%s) order by wid desc", count($wids) ? implode(',', $wids) : '0'));
@@ -317,13 +353,14 @@
 			printf('<th>admin');
 			printf('<th>duration');
 			printf('<th>modified');
+			printf('<th>created');
 			printf('<th>ipas');
 			printf('<th>sids');
 			do
 			{
 				printf('<tr>');
 				printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
-				printf('<td><a href="?search=%s">%s</a>', $row['name'], $row['name']);
+				printf('<td><a href="?q=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>');
 				if ($row['link'])
 					printf('<a href="%s">link</a>', htmlspecialchars($row['link']));
@@ -331,6 +368,7 @@
 				printf('<td>%s', htmlspecialchars($row['admin']));
 				printf('<td align=right>%sd', $row['duration'] / (24 * 60 * 60));
 				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
+				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 				printf('<td>');
 				$rows1 = db_query(sprintf("select * from xbl_ipas where wid = %d", $row['wid']));
 				while ($row1 = mysql_fetch_assoc($rows1))
@@ -377,9 +415,10 @@
 		printf('<a href="?a=edit_clan;cid=%d">%d</a>', $row['cid'], $row['cid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 		printf('<tr><th>name<td>%s', htmlspecialchars($row['name']));
+		printf('<tr><th>clan<td>');
 		if ($row['cid'])
 		{
-			printf('<tr><th>clan<td><a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
+			printf('<a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
 		}
 		printf('<tr><th>pass<td>');
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
@@ -395,6 +434,7 @@
 		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d) union (select sid from xwi_players where pid = %d)", $pid, $pid));
 		while ($row = mysql_fetch_assoc($rows))
 			$sids[] = $row['sid'];
+		table_messages($sids);
 		table_warnings(array(), $sids);
 		table_serials($sids);
 		table_logins(0, $pid, 0);
@@ -420,6 +460,7 @@
 		$rows = db_query(sprintf("(select distinct pid from xwi_logins1 where sid = %d) union (select distinct pid from xwi_players where sid = %d)", $sid, $sid));
 		while ($row = mysql_fetch_assoc($rows))
 			$pids[] = $row['pid'];
+		table_messages(array($sid));
 		table_warnings(array(), array($sid));
 		table_players($pids);
 		table_logins(0, 0, $sid);
