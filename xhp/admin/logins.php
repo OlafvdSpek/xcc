@@ -42,7 +42,7 @@
 		printf('<tr>');
 		printf('<td align=right>%dx', $result['count']);
 		printf('<td><a href="?pname=%s">%s', $result['name'], $result['name']);
-		printf('<td><a href="players.php?pname=%s">P', $result['name']);
+		printf('<td><a href=".?q=%s">P', $result['name']);
 		printf('<td><a href="?ipa=%d">%s</a>', $result['ipa'], long2ip($result['ipa']));
 		printf('<td align=right>%x', $result['gsku']);
 		printf('<td align=right><a href="?sid=%d">%d</a>', $result['sid'], $result['sid']);
@@ -59,7 +59,7 @@
 			printf('<tr>');
 			printf('<td align=right>%dx', $result['c']);
 			printf('<td><a href="?pname=%s">%s', $result['name'], $result['name']);
-			printf('<td><a href="players.php?pname=%s">P', $result['name']);
+			printf('<td><a href=".?q=%s">P', $result['name']);
 		}
 		echo("</table>");
 		$results = db_query(sprintf("select ipa, sum(count) c from xwi_logins1 l inner join xwi_players using (pid)%s group by ipa order by c desc", $where));
