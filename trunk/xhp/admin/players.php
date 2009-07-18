@@ -94,6 +94,10 @@
 			$motd = trim($_REQUEST['motd']);
 			db_query(sprintf("update xwi_logins1 l inner join xwi_serials s using (sid) set s.motd = '%s', s.mtime = unix_timestamp() where l.pid = %d", addslashes($motd), $pid));
 			db_query(sprintf("update xwi_serials set motd = '%s', mtime = unix_timestamp() where sid = %d", addslashes($motd), $sid));
+			db_query(sprintf("insert into xwi_messages (pid, body, ctime) values (%d, '%s', unix_timestamp())", $pid, addslashes($motd)));
+			$mid = mysql_insert_id();
+			db_query(sprintf("insert ignore into xwi_messages_serials (mid, sid) values (%d, %d)", $mid, $sid));
+			db_query(sprintf("insert ignore into xwi_messages_serials (mid, sid) select %d, sid from xwi_logins1 where pid = %d", $mid, $pid));
 			echo("<b>Updated!</b><hr>");
 		}
 		else
