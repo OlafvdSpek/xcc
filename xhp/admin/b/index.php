@@ -273,7 +273,6 @@
 		printf('<tr>');
 		printf('<th align=right>sid');
 		printf('<th>gsku');
-		printf('<th align=right>valid');
 		printf('<th>ipa');
 		printf('<th>wtime');
 		printf('<th>modified');
@@ -284,7 +283,6 @@
 			printf('<tr>');
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 			printf('<td>%s', gsku2a($row['gsku']));
-			printf('<td align=right>%d', $row['valid']);
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 			printf('<td>');
 			if ($row['wtime'])
@@ -380,7 +378,6 @@
 		printf('<tr><th>name<td>%s', htmlspecialchars($row['name']));
 		printf('<tr><th>full name<td>%s', htmlspecialchars($row['full_name']));
 		printf('<tr><th>mail<td><a href="mailto:%s">%s</a>', htmlspecialchars($row['mail']), htmlspecialchars($row['mail']));
-		printf('<tr><th>pass<td>');
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d', $row['ctime']));
 		printf('</table>');
@@ -451,10 +448,12 @@
 			: sprintf("select name from xwi_players where pid = %d", $pid));
 		printf('<form method=post>');
 		printf('<table>');
-		printf('<tr><th>mid<td>%d', $row['mid']);
+		if ($row['mid'])
+			printf('<tr><th>mid<td>%d', $row['mid']);
 		printf('<tr><th>to<td>%s', $row['name']);
 		printf('<tr><th>body<td><textarea name=body cols=80 rows=10>%s</textarea>', htmlspecialchars($row['body']));
-		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		if ($row['ctime'])
+			printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('<tr><th><td><input type=submit value="Send">');
 		// printf('<tr><th><td><a href="?a=delete_message;mid=%d">Delete</a>', $row['mid']);
 		printf('</table>');
