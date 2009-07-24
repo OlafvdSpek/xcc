@@ -113,7 +113,7 @@
 		echo('<table>');
 		while ($result = mysql_fetch_array($results))
 		{
-			printf('<tr><td align=right><a href="http://xwis.net/xcl/?gid=%d">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a><td>%s<td>%s',
+			printf('<tr><td align=right><a href="http://xwis.net/ladders/games/%d/">%d</a><td><a href="logins.php?ipa=%d">%s</a><td align=right><a href="logins.php?sid=%d">%d</a><td>%s<td>%s',
 				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid'], $result['name'], $result['cname']);
 		}
 		echo('</table>');
