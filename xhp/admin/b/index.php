@@ -278,7 +278,6 @@
 		printf('<th>wtime');
 		printf('<th>modified');
 		printf('<th>created');
-		printf('<th>motd');
 		printf('<th>names');
 		while ($row = mysql_fetch_assoc($rows))
 		{
@@ -292,9 +291,6 @@
 				printf('%s', gmdate('Y-m-d', $row['wtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
-			printf('<td>');
-			if ($row['motd'])
-				printf('motd');
 			printf('<td>');
 			$pids = array();
 			$rows1 = db_query(sprintf("select distinct pid from xwi_logins1 where sid = %d", $row['sid']));
@@ -413,6 +409,7 @@
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('<tr><th><td><a href="players.php?a=bl_insert;pid=%d">-&gt; Black List</a>', $row['pid']);
+		printf('<tr><th><td><a href="?a=message;pid=%d">Send Message</a>', $row['pid']);
 		if ($row['flags'] & 2)
 			printf('<tr><th><td><a href="?a=undelete_player;pid=%d">Undelete</a>', $row['pid']);
 		else
@@ -428,16 +425,40 @@
 		table_logins(0, $pid, 0);
 	}
 
-	function page_message($mid)
+	function page_message($mid, $pid)
 	{
-		$row = db_query_first(sprintf("select m.*, name from xwi_messages m left join xwi_players using (pid) where mid = %d", $mid));
+		if (isset($_POST['body']))
+		{
+			$body = stripslashes($_POST['body']);
+			if ($mid)
+			{
+				if (empty($body))
+					return page_delete_message($mid);
+				db_query(sprintf("update xwi_messages set body = '%s' where mid = %d", addslashes($body), $mid));
+				$row = db_query_first(sprintf("select pid from xwi_messages where mid = %d", $mid));
+				$pid = $row['pid'];
+			}
+			else
+			{
+				db_query(sprintf("insert into xwi_messages (pid, body, ctime) values (%d, '%s', unix_timestamp())", $pid, addslashes($body)));
+				$mid = mysql_insert_id();
+			}
+			header(sprintf('location: ?a=edit_player;pid=%d', $pid));
+			return;
+		}
+		$row = db_query_first($mid
+			? sprintf("select m.*, name from xwi_messages m left join xwi_players using (pid) where mid = %d", $mid)
+			: sprintf("select name from xwi_players where pid = %d", $pid));
+		printf('<form method=post>');
 		printf('<table>');
 		printf('<tr><th>mid<td>%d', $row['mid']);
 		printf('<tr><th>to<td>%s', $row['name']);
-		printf('<tr><th>body<td>%s', htmlspecialchars($row['body']));
+		printf('<tr><th>body<td><textarea name=body cols=80 rows=10>%s</textarea>', htmlspecialchars($row['body']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
-		printf('<tr><th><td><a href="?a=delete_message;mid=%d">Delete</a>', $row['mid']);
+		printf('<tr><th><td><input type=submit value="Send">');
+		// printf('<tr><th><td><a href="?a=delete_message;mid=%d">Delete</a>', $row['mid']);
 		printf('</table>');
+		printf('</form>');
 	}
 
 	function page_edit_serial($sid)
@@ -545,7 +566,7 @@
 		page_edit_serial($_REQUEST['sid']);
 		break;
 	case 'message':
-		page_message($_REQUEST['mid']);
+		page_message($_REQUEST['mid'], $pid);
 		break;
 	case 'messages':
 		table_messages(-1);
