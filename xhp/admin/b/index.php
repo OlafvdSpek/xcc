@@ -197,13 +197,11 @@
 		printf('</table>');
 	}
 
-	function table_messages($sids)
+	function table_messages($pids)
 	{
-		$mids = array();
-		$rows = db_query(sprintf("select distinct mid from xwi_messages_serials where sid in (%s)", count($sids) ? implode(',', $sids) : '0'));
-		while ($row = mysql_fetch_assoc($rows))
-			$mids[] = $row['mid'];
-		$rows = db_query(sprintf("select m.*, p.name from xwi_messages m inner join xwi_players p using (pid) where mid in (%s) order by mid desc", count($mids) ? implode(',', $mids) : '0'));
+		$rows = db_query($pids == -1
+			? "select m.*, p.name from xwi_messages m inner join xwi_players p using (pid) order by mid desc"
+			: sprintf("select m.*, p.name from xwi_messages m inner join xwi_players p using (pid) where pid in (%s) order by mid desc", count($pids) ? implode(',', $pids) : '0'));
 		if ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<table>');
@@ -212,21 +210,13 @@
 			printf('<th>name');
 			printf('<th>body');
 			printf('<th>created');
-			printf('<th>sids');
 			do
 			{
 				printf('<tr>');
-				// printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
-				printf('<td align=right>%d', $row['mid'], $row['mid']);
+				printf('<td align=right><a href="?a=message;mid=%d">%d</a>', $row['mid'], $row['mid']);
 				printf('<td><a href="?q=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>%s', htmlspecialchars($row['body']));
 				printf('<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
-				printf('<td>');
-				$rows1 = db_query(sprintf("select * from xwi_messages_serials where mid = %d", $row['mid']));
-				while ($row1 = mysql_fetch_assoc($rows1))
-				{
-					printf('<a href="?a=edit_serial;sid=%d">%d</a> ', $row1['sid'], $row1['sid']);
-				}
 			}
 			while ($row = mysql_fetch_assoc($rows));
 			printf('</table>');
@@ -358,7 +348,7 @@
 			do
 			{
 				printf('<tr>');
-				printf('<td align=right><a href="players.php?a=show_warning&amp;wid=%d">%d</a>', $row['wid'], $row['wid']);
+				printf('<td align=right><a href="players.php?a=show_warning;wid=%d">%d</a>', $row['wid'], $row['wid']);
 				printf('<td><a href="?q=%s">%s</a>', $row['name'], $row['name']);
 				printf('<td>');
 				if ($row['link'])
@@ -410,8 +400,6 @@
 		$row = db_query_first(sprintf("select p.*, c.name cname from xwi_players p left join xwi_clans c using (cid) where p.pid = %d", $pid));
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
-		printf('<tr><th>cid<td>');
-		printf('<a href="?a=edit_clan;cid=%d">%d</a>', $row['cid'], $row['cid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 		printf('<tr><th>name<td>%s', htmlspecialchars($row['name']));
 		printf('<tr><th>clan<td>');
@@ -424,20 +412,32 @@
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
-		printf('<tr><th><td><a href="players.php?a=bl_insert&amp;pid=%d">-&gt; Black List</a>', $row['pid']);
+		printf('<tr><th><td><a href="players.php?a=bl_insert;pid=%d">-&gt; Black List</a>', $row['pid']);
 		if ($row['flags'] & 2)
-			printf('<tr><th><td><a href="?a=undelete_player&amp;pid=%d">Undelete</a>', $row['pid']);
+			printf('<tr><th><td><a href="?a=undelete_player;pid=%d">Undelete</a>', $row['pid']);
 		else
-			printf('<tr><th><td><a href="?a=delete_player&amp;pid=%d">Delete</a>', $row['pid']);
+			printf('<tr><th><td><a href="?a=delete_player;pid=%d">Delete</a>', $row['pid']);
 		printf('</table>');
 		$sids = array();
 		$rows = db_query(sprintf("(select distinct sid from xwi_logins1 where pid = %d and mtime > unix_timestamp() - 365 * 24 * 60 * 60) union (select sid from xwi_players where pid = %d)", $pid, $pid));
 		while ($row = mysql_fetch_assoc($rows))
 			$sids[] = $row['sid'];
-		table_messages($sids);
+		table_messages(array($pid));
 		table_warnings(array(), $sids);
 		table_serials($sids);
 		table_logins(0, $pid, 0);
+	}
+
+	function page_message($mid)
+	{
+		$row = db_query_first(sprintf("select m.*, name from xwi_messages m left join xwi_players using (pid) where mid = %d", $mid));
+		printf('<table>');
+		printf('<tr><th>mid<td>%d', $row['mid']);
+		printf('<tr><th>to<td>%s', $row['name']);
+		printf('<tr><th>body<td>%s', htmlspecialchars($row['body']));
+		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
+		printf('<tr><th><td><a href="?a=delete_message;mid=%d">Delete</a>', $row['mid']);
+		printf('</table>');
 	}
 
 	function page_edit_serial($sid)
@@ -445,22 +445,19 @@
 		$row = db_query_first(sprintf("select * from xwi_serials where sid = %d", $sid));
 		printf('<table>');
 		printf('<tr><th>sid<td>%d', $row['sid']);
-		printf('<tr><th>serial<td>');
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
-		printf('<tr><th>valid<td>%d', $row['valid']);
 		printf('<tr><th>ipa<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
 			printf('%s', gmdate('Y-m-d H:i:s', $row['wtime']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
-		printf('<tr><th>motd<td>%s', nl2br(htmlspecialchars($row['motd'])));
 		printf('</table>');
 		$pids = array();
 		$rows = db_query(sprintf("(select distinct pid from xwi_logins1 where sid = %d and mtime > unix_timestamp() - 365 * 24 * 60 * 60) union (select distinct pid from xwi_players where sid = %d)", $sid, $sid));
 		while ($row = mysql_fetch_assoc($rows))
 			$pids[] = $row['pid'];
-		table_messages(array($sid));
+		table_messages($pids);
 		table_warnings(array(), array($sid));
 		table_players($pids);
 		table_logins(0, 0, $sid);
@@ -474,6 +471,17 @@
 			addslashes($remote_user), $pid, $sid, addslashes($message)));
 	}
 
+	function page_delete_message($mid)
+	{
+		$row = db_query_first(sprintf("select * from xwi_messages where mid = %d", $mid));
+		if ($row)
+		{
+			insert_admin_log($row['pid'], 0, 'deleted message ' . $mid);
+			db_query(sprintf("delete from xwi_messages where mid = %d", $mid));
+		}
+		header(sprintf('location: ?a=edit_player;pid=%d', $row['pid']));
+	}
+
 	function page_delete_player($pid)
 	{
 		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
@@ -482,7 +490,7 @@
 			insert_admin_log($pid, 0, 'deleted player ' . $row['name']);
 			db_query(sprintf("update xwi_players set flags = flags | 2 where pid = %d", $pid));
 		}
-		header(sprintf('location: ?a=edit_player&pid=%d', $pid));
+		header(sprintf('location: ?a=edit_player;pid=%d', $pid));
 	}
 
 	function page_undelete_player($pid)
@@ -493,7 +501,7 @@
 			insert_admin_log($pid, 0, 'undeleted player ' . $row['name']);
 			db_query(sprintf("update xwi_players set flags = flags & ~2 where pid = %d", $pid));
 		}
-		header(sprintf('location: ?a=edit_player&pid=%d', $pid));
+		header(sprintf('location: ?a=edit_player;pid=%d', $pid));
 	}
 
 	require_once(dirname(__FILE__) . '/common.php');
@@ -518,6 +526,9 @@
 	}
 	switch ($a)
 	{
+	case 'delete_message':
+		page_delete_message($_REQUEST['mid']);
+		break;
 	case 'delete_player':
 		page_delete_player($pid);
 		break;
@@ -532,6 +543,12 @@
 		break;
 	case 'edit_serial':
 		page_edit_serial($_REQUEST['sid']);
+		break;
+	case 'message':
+		page_message($_REQUEST['mid']);
+		break;
+	case 'messages':
+		table_messages(-1);
 		break;
 	case 'search':
 		page_search_results($search);
