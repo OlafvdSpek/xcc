@@ -13,6 +13,8 @@ const __int16* g_icon_map;
 SDL_Color g_palet[0x100];
 SDL_Surface* g_screen;
 Cxd2_surface_cache g_surface_cache;
+int view_x = 32 << 4;
+int view_y = 32 << 4;
 
 void load_palet(const string& name, SDL_Color* colors)
 {
@@ -119,10 +121,12 @@ void show_fps()
 void show_map(const Cxd2_animation& icons, const byte* _map)
 {
 	SDL_FillRect(g_screen, NULL, SDL_MapRGB(g_screen->format, 0, 0, 0));
+	int x0 = view_x - g_screen->w / 2;
+	int y0 = view_y - g_screen->h / 2;
 	for (int y = 0; y < 64; y++)
 	{
 		for (int x = 0; x < 64; x++)
-			draw(icons, _map[x | y << 6], x << 4, y << 4);
+			draw(icons, _map[x | y << 6], (x << 4) - x0, (y << 4) - y0);
 	}
 }
 
@@ -303,8 +307,30 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				if (event.key.keysym.sym == SDLK_ESCAPE)
 					run = false;
 				break;
+			case SDL_MOUSEBUTTONDOWN:
+				switch (event.button.button)
+				{
+				case SDL_BUTTON_RIGHT:
+					if (event.button.x >= g_screen->w - 64 && event.button.x < g_screen->w
+						&& event.button.y >= g_screen->h - 64 && event.button.y < g_screen->h)
+					{
+						view_x = (event.button.x - g_screen->w + 64) << 4;
+						view_y = (event.button.y - g_screen->h + 64) << 4;
+					}
+					break;
+				}
+				break;
+			case SDL_MOUSEMOTION:
+				if (event.motion.state & SDL_BUTTON(3)
+					&& event.motion.x >= g_screen->w - 64 && event.motion.x < g_screen->w
+					&& event.motion.y >= g_screen->h - 64 && event.motion.y < g_screen->h)
+				{
+					view_x = (event.motion.x - g_screen->w + 64) << 4;
+					view_y = (event.motion.y - g_screen->h + 64) << 4;
+				}
+				break;
 			case SDL_VIDEORESIZE:
-				SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
+				g_screen = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 				break;
 			case SDL_QUIT:
 				run = false;
