@@ -12,7 +12,7 @@
 			<td>
 				<a href="hof_checks.html">HoF Checks</a>
 			<td>
-				<a href="players.php?a=motds">MotDs</a>
+				<a href=".?a=messages">Messages</a>
 			<td>
 				<a href="players.php?a=washers">Washers</a>
 	</table>

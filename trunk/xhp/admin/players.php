@@ -84,25 +84,6 @@
 		printf('</table>');
 		// printf('<a href="?a=chat;pname=%s;offset=%d">Next</a>', urlencode($pname), $offset + 1000);
 		break;
-	case 'motd':
-	case 'motd_submit':
-		$pid = $_REQUEST['pid'];
-		$results = db_query(sprintf("select p.*, s.motd from xwi_players p inner join xwi_serials s using (sid) where pid = %d", $pid));
-		$result = mysql_fetch_array($results);
-		$name = $result['name'];
-		$sid = $result['sid'];
-		if ($_REQUEST['a'] == "motd_submit" && $name)
-		{
-			$motd = trim($_REQUEST['motd']);
-			db_query(sprintf("update xwi_logins1 l inner join xwi_serials s using (sid) set s.motd = '%s', s.mtime = unix_timestamp() where l.pid = %d", addslashes($motd), $pid));
-			db_query(sprintf("update xwi_serials set motd = '%s', mtime = unix_timestamp() where sid = %d", addslashes($motd), $sid));
-			db_query(sprintf("insert into xwi_messages (pid, body, ctime) values (%d, '%s', unix_timestamp())", $pid, addslashes($motd)));
-			echo("<b>Updated!</b><hr>");
-		}
-		else
-			$motd = $result[motd];
-		require('templates/motd_insert.php');
-		break;
 	case 'bl_insert':
 	case 'bl_insert_submit':
 		$pid = $_REQUEST[pid];
