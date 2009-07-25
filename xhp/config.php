@@ -3,4 +3,3 @@
 	$mysql['user'] = '';
 	$mysql['password'] = '';
 	$mysql['db'] = '';
-?>

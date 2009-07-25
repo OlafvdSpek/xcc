@@ -400,7 +400,6 @@
 		{
 			printf('<a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
 		}
-		printf('<tr><th>pass<td>');
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));

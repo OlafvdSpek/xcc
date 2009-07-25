@@ -19,4 +19,3 @@
 	{
 		return mysql_fetch_assoc(db_query($query));
 	}
-?>
