@@ -15,7 +15,7 @@ Section "Install"
 	Exec 'regsvr32 /s "$INSTDIR\wolapi"'
 	CreateShortCut "$SMPROGRAMS\Red Alert 2.lnk" "$INSTDIR\Game.exe"
 	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallDir" "$INSTDIR"
-	#WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Game.exe"
+	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Game.exe"
 	#WriteRegStr HKLM "Software\Westwood\Red Alert 2" "Serial" ""
-	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\WOLAPI.DLL"
+	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
 SectionEnd
