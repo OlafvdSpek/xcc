@@ -4,6 +4,7 @@ Name "Red Alert 2 ${VERSION}"
 Outfile "Red_Alert-2-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\Red Alert 2"
 InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallDir"
+XPStyle on
 Page directory
 Page instfiles
 

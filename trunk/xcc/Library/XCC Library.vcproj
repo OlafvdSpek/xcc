@@ -958,7 +958,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\misc\include\minilzo\minilzo.cpp"
+				RelativePath="..\..\include\minilzo\minilzo.cpp"
 				>
 			</File>
 			<File

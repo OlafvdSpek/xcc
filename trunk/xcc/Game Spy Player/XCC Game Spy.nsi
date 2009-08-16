@@ -4,6 +4,7 @@ Name "XCC Game Spy ${VERSION}"
 Outfile "XCC_Game_Spy.exe"
 InstallDir "$PROGRAMFILES\XCC\Game Spy"
 InstallDirRegKey HKLM "Software\XCC\Game Spy" "InstallDir"
+XPStyle on
 Page directory
 Page instfiles
 UninstPage uninstConfirm
