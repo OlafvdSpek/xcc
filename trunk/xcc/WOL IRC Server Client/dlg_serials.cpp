@@ -6,42 +6,38 @@
 #include "xcc_dirs.h"
 
 Cdlg_serials::Cdlg_serials(CWnd* pParent /*=NULL*/)
-	: ETSLayoutDialog(Cdlg_serials::IDD, pParent)
+	: CDialog(Cdlg_serials::IDD, pParent)
+	, m_ts(_T(""))
+	, m_ra2(_T(""))
+	, m_yr(_T(""))
+	, m_rg(_T(""))
 {
-	m_edit = _T("");
 }
 
 void Cdlg_serials::DoDataExchange(CDataExchange* pDX)
 {
-	ETSLayoutDialog::DoDataExchange(pDX);
-	DDX_Text(pDX, IDC_EDIT, m_edit);
+	CDialog::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_TS, m_ts);
+	DDX_Text(pDX, IDC_RA2, m_ra2);
+	DDX_Text(pDX, IDC_YR, m_yr);
+	DDX_Text(pDX, IDC_RG, m_rg);
 }
 
-BEGIN_MESSAGE_MAP(Cdlg_serials, ETSLayoutDialog)
+BEGIN_MESSAGE_MAP(Cdlg_serials, CDialog)
 END_MESSAGE_MAP()
 
 BOOL Cdlg_serials::OnInitDialog() 
 {
 	xcc_dirs::load_from_registry();
-	add_game("Software\\Westwood\\Renegade", game_rg, 0xc);
-	add_game("Software\\Westwood\\Tiberian Sun", game_ts, 0x12);
-	add_game("Software\\Westwood\\Emperor", game_ebfd, 0x1f);
-	add_game("Software\\Westwood\\Red Alert 2", game_ra2, 0x21);
-	add_game("Software\\Westwood\\Nox", game_nox, 0x25);
-	add_game("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, 0x29);
-	ETSLayoutDialog::OnInitDialog();
-	CreateRoot(VERTICAL)
-		<< item(IDC_EDIT, GREEDY)
-		<< (pane(HORIZONTAL, ABSOLUTE_VERT)
-				<< itemGrowing(HORIZONTAL)
-				<< item(IDCANCEL, NORESIZE)
-			)
-		;
-	UpdateLayout();
+	add_game("Software\\Westwood\\Tiberian Sun", game_ts, m_ts);
+	add_game("Software\\Westwood\\Red Alert 2", game_ra2, m_ra2);
+	add_game("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, m_yr);
+	add_game("Software\\Westwood\\Renegade", game_rg, m_rg);
+	CDialog::OnInitDialog();
 	return true;
 }
 
-void Cdlg_serials::add_game(const string& reg_key, int game, int gsku)
+void Cdlg_serials::add_game(const string& reg_key, t_game game, CString& edit)
 {
 	Creg_key key;
 	string serial;
@@ -50,15 +46,40 @@ void Cdlg_serials::add_game(const string& reg_key, int game, int gsku)
 		|| serial.size() != 22)
 		return;
 	Cvirtual_binary s;
-	s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key");
+	s.load(xcc_dirs::get_dir(game) + "woldata.key");
 	for (size_t i = 0, j = 0; i < s.size(); i++, j++)
 	{
 		if (j == serial.length())
 			j = 0;
-		serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
+		serial[j] = (serial[j] - s.data()[i] + 262) % 10 + '0';
 	}
-	m_edit += serial.c_str();
-	m_edit += ": ";
-	m_edit += game_name[game];
-	m_edit += "\r\n";
+	edit = serial.c_str();
+}
+
+static void save_serial(const string& reg_key, t_game game, const CString& edit)
+{
+	string serial = edit;
+	if (serial.size() != 22)
+		return;
+	Cvirtual_binary s;
+	s.load(xcc_dirs::get_dir(game) + "woldata.key");
+	for (size_t i = 0, j = 0; i < s.size(); i++, j++)
+	{
+		if (j == serial.length())
+			j = 0;
+		serial[j] = (serial[j] + s.data()[i] + 2) % 10 + '0';
+	}
+	Creg_key key;
+	if (ERROR_SUCCESS == key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_WRITE))
+		key.set_value("Serial", serial);
+}
+
+void Cdlg_serials::OnCancel()
+{
+	UpdateData();
+	save_serial("Software\\Westwood\\Tiberian Sun", game_ts, m_ts);
+	save_serial("Software\\Westwood\\Red Alert 2", game_ra2, m_ra2);
+	save_serial("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, m_yr);
+	save_serial("Software\\Westwood\\Renegade", game_rg, m_rg);
+	CDialog::OnCancel();
 }
