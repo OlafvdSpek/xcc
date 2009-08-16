@@ -3,6 +3,7 @@
 Name "XWIS Client ${VERSION}"
 Outfile "XWIS_Client-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\XCC"
+XPStyle on
 Page directory
 Page instfiles
 

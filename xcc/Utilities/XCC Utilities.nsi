@@ -4,6 +4,7 @@ Name "XCC Utilities ${VERSION}"
 Outfile "XCC_Utilities-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\XCC\Utilities"
 InstallDirRegKey HKLM "Software\XCC\Utilities" "InstallDir"
+XPStyle on
 Page directory
 Page instfiles
 UninstPage uninstConfirm
