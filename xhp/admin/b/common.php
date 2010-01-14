@@ -33,20 +33,14 @@
 	{
 		$d = '';
 		if ($v & 1)
-		{
 			$d .= 'administrator ';
-			$v &=~1;
-		}
 		if ($v & 2)
-		{
 			$d .= 'deleted ';
-			$v &=~2;
-		}
 		if ($v & 4)
-		{
 			$d .= 'moderator ';
-			$v &=~4;
-		}
+		if ($v & 8)
+			$d .= 'request screenshot ';
+		$v &= ~0xf;
 		if ($v)
 			$d .= 0 + $v;
 		return $d;

@@ -406,6 +406,10 @@
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
 		printf('<tr><th><td><a href="players.php?a=bl_insert;pid=%d">-&gt; Black List</a>', $row['pid']);
 		printf('<tr><th><td><a href="?a=message;pid=%d">Send Message</a>', $row['pid']);
+		if ($row['flags'] & 8)
+			printf('<tr><th><td><a href="?a=unrequest_screenshot;pid=%d">Unrequest Screenshot</a>', $row['pid']);
+		else
+			printf('<tr><th><td><a href="?a=request_screenshot;pid=%d">Request Screenshot</a>', $row['pid']);
 		if ($row['flags'] & 2)
 			printf('<tr><th><td><a href="?a=undelete_player;pid=%d">Undelete</a>', $row['pid']);
 		else
@@ -523,6 +527,28 @@
 		header(sprintf('location: ?a=edit_player;pid=%d', $pid));
 	}
 
+	function page_request_screenshot($pid)
+	{
+		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
+		if ($row && !($row['flags'] & 8))
+		{
+			insert_admin_log($pid, 0, 'request screenshot from ' . $row['name']);
+			db_query(sprintf("update xwi_players set flags = flags | 8 where pid = %d", $pid));
+		}
+		header(sprintf('location: ?a=edit_player;pid=%d', $pid));
+	}
+
+	function page_unrequest_screenshot($pid)
+	{
+		$row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid));
+		if ($row && $row['flags'] & 8)
+		{
+			insert_admin_log($pid, 0, 'unrequest screenshot from ' . $row['name']);
+			db_query(sprintf("update xwi_players set flags = flags & ~8 where pid = %d", $pid));
+		}
+		header(sprintf('location: ?a=edit_player;pid=%d', $pid));
+	}
+
 	require_once(dirname(__FILE__) . '/common.php');
 	$remote_user = $_SERVER['REMOTE_USER'];
 	if (empty($remote_user))
@@ -568,6 +594,12 @@
 		break;
 	case 'messages':
 		table_messages(-1);
+		break;
+	case 'request_screenshot':
+		page_request_screenshot($pid);
+		break;
+	case 'unrequest_screenshot':
+		page_unrequest_screenshot($pid);
 		break;
 	case 'search':
 		page_search_results($search);
