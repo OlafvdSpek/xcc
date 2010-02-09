@@ -1,4 +1,4 @@
-!define VERSION "0.0.1"
+!define VERSION "0.0.3"
 
 Name "XWIS Client ${VERSION}"
 Outfile "XWIS_Client-${VERSION}.exe"
