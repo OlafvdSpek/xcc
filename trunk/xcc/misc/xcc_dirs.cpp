@@ -290,7 +290,7 @@ void xcc_dirs::reset_cd_dir()
 	char drive_root[] = "a:\\";
 	for (int i = 0; i < 26; i++)
 	{		
-		if (drive_map >> i & 1 && GetDriveType(drive_root) == DRIVE_CDROM)
+		if (drive_map >> i & 1 && GetDriveTypeA(drive_root) == DRIVE_CDROM)
 		{
 			set_cd_dir(drive_root);
 			break;

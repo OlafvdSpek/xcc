@@ -76,10 +76,14 @@ static void save_serial(const string& reg_key, t_game game, const CString& edit)
 
 void Cdlg_serials::OnCancel()
 {
-	UpdateData();
+	OnOK();
+}
+
+void Cdlg_serials::OnOK()
+{
+	CDialog::OnOK();
 	save_serial("Software\\Westwood\\Tiberian Sun", game_ts, m_ts);
 	save_serial("Software\\Westwood\\Red Alert 2", game_ra2, m_ra2);
 	save_serial("Software\\Westwood\\Yuri's Revenge", game_ra2_yr, m_yr);
 	save_serial("Software\\Westwood\\Renegade", game_rg, m_rg);
-	CDialog::OnCancel();
 }

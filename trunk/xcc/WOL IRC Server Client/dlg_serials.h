@@ -14,6 +14,7 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);
 	virtual void OnCancel();
 	virtual BOOL OnInitDialog();
+	virtual void OnOK();
 	DECLARE_MESSAGE_MAP()
 	
 	CString m_ts;
