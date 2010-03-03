@@ -35,7 +35,7 @@
 		$where = sprintf(" where l.sid = %d", $sid);
 	else
 		$where = " where 0 = 1";
-	$results = db_query(sprintf("select name, l.ipa, valid, l.gsku, l.sid, l.count, l.mtime, l.ctime from xwi_players inner join xwi_logins1 l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by mtime desc%s", $where, $where ? "" : " limit 250"));
+	$results = db_query(sprintf("select name, l.ipa, l.gsku, l.sid, l.count, l.mtime, l.ctime from xwi_players inner join xwi_logins1 l using (pid) inner join xwi_serials s on l.sid = s.sid%s order by mtime desc%s", $where, $where ? "" : " limit 250"));
 	echo('<table>');
 	while ($result = mysql_fetch_array($results))
 	{
