@@ -620,10 +620,6 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="..\..\xhp\cgi-bin\misc\file31.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\misc\file32.cpp"
 				>
 				<FileConfiguration
@@ -688,10 +684,6 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\xhp\cgi-bin\misc\html.cpp"
-				>
 			</File>
 			<File
 				RelativePath="..\misc\hva_file.cpp"
@@ -2172,10 +2164,6 @@
 						PreprocessorDefinitions=""
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\..\xhp\cgi-bin\misc\web_tools.cpp"
-				>
 			</File>
 			<File
 				RelativePath="..\..\misc\win_handle.cpp"
