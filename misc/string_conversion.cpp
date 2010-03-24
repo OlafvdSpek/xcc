@@ -60,7 +60,13 @@ string n(int v)
 	return itoa(v, b, 10);
 }
 
-string n(__int64 v)
+string n(long long v)
+{
+	char b[21];
+	return _i64toa(v, b, 10);
+}
+
+string n(unsigned long long v)
 {
 	char b[21];
 	return _i64toa(v, b, 10);
