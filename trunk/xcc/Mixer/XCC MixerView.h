@@ -4,7 +4,6 @@
 #include <mix_file.h>
 #include <stack>
 #include "fname.h"
-#include "html.h"
 #include "virtual_image.h"
 #include "xap.h"
 #include "xm_types.h"
@@ -160,10 +159,6 @@ protected:
 	afx_msg void OnUpdatePopupResize(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsHTML();
 	afx_msg void OnUpdatePopupCopyAsHTML(CCmdUI* pCmdUI);
-	afx_msg void OnPopupImportIntoTS();
-	afx_msg void OnUpdatePopupImportIntoTS(CCmdUI* pCmdUI);
-	afx_msg void OnPopupImportIntoRa2();
-	afx_msg void OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsPNG();
 	afx_msg void OnUpdatePopupCopyAsPNG(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsWavImaAdpcm();

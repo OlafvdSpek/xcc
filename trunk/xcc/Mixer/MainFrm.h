@@ -225,10 +225,6 @@ protected:
 	afx_msg void OnUpdateLaunchXccThemeWriter(CCmdUI* pCmdUI);
 	afx_msg void OnFileSearch();
 	afx_msg void OnFileCreateSFL();
-	afx_msg void OnLaunchXOE_RA2();
-	afx_msg void OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI);
-	afx_msg void OnLaunchXOE_TS();
-	afx_msg void OnUpdateLaunchXOE_TS(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchFA();
 	afx_msg void OnUpdateLaunchFA(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchRAGE();

@@ -13,7 +13,6 @@
 #include "aud_file.h"
 #include "directoriesdlg.h"
 #include "fname.h"
-#include "html.h"
 #include "mix_sfl.h"
 #include "ogg_file.h"
 #include "searchfiledlg.h"
@@ -23,7 +22,6 @@
 #include "wav_file.h"
 #include "xcc_dirs.h"
 #include "xcc_log.h"
-#include "xccobjectextractordlg.h"
 #include "xste.h"
 
 using namespace boost;
@@ -96,10 +94,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_TS, OnUpdateLaunchTS)
 	ON_COMMAND(ID_FILE_SEARCH, OnFileSearch)
 	ON_COMMAND(ID_FILE_CREATE_SFL, OnFileCreateSFL)
-	ON_COMMAND(ID_LAUNCH_XOE_RA2, OnLaunchXOE_RA2)
-	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_RA2, OnUpdateLaunchXOE_RA2)
-	ON_COMMAND(ID_LAUNCH_XOE_TS, OnLaunchXOE_TS)
-	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XOE_TS, OnUpdateLaunchXOE_TS)
 	ON_COMMAND(ID_LAUNCH_FA, OnLaunchFA)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_FA, OnUpdateLaunchFA)
 	ON_COMMAND(ID_LAUNCH_RAGE, OnLaunchRAGE)
@@ -1074,28 +1068,6 @@ void CMainFrame::OnFileCreateSFL()
 	mix_sfl::save();
 }
 
-void CMainFrame::OnLaunchXOE_TS() 
-{
-	CXCCObjectExtractorDlg dlg(game_ts);
-	dlg.DoModal();
-}
-
-void CMainFrame::OnUpdateLaunchXOE_TS(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(!xcc_dirs::get_dir(game_ts).empty());
-}
-
-void CMainFrame::OnLaunchXOE_RA2() 
-{
-	CXCCObjectExtractorDlg dlg(game_ra2);
-	dlg.DoModal();
-}
-
-void CMainFrame::OnUpdateLaunchXOE_RA2(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(!xcc_dirs::get_dir(game_ra2).empty());	
-}
-
 void CMainFrame::OnLaunchXSTE_RA2() 
 {
 	CXSTE_dlg dlg(game_ra2);
@@ -1427,23 +1399,23 @@ void CMainFrame::OnViewReport()
 	string page;
 	CString version;
 	if (version.LoadString(IDR_MAINFRAME))
-		page += tr(th(static_cast<string>(version), "colspan=2"));
-	page += tr(td("Left pane") + td(m_left_mix_pane->get_dir()))
-		+ tr(td("Right pane") + td(m_right_mix_pane->get_dir()))
-		+ tr(td("Combine shadows") + td(btoa(m_combine_shadows)))
-		+ tr(td("Split shadows") + td(btoa(m_split_shadows)))
-		+ tr(td("TD dir") + td(xcc_dirs::get_dir(game_td)))
-		+ tr(td("RA dir") + td(xcc_dirs::get_dir(game_ra)))
-		+ tr(td("TS dir") + td(xcc_dirs::get_dir(game_ts)))
-		+ tr(td("RA2 dir") + td(xcc_dirs::get_dir(game_ra2)))
-		+ tr(td("RG dir") + td(xcc_dirs::get_dir(game_rg)))
-		+ tr(td("GR dir") + td(xcc_dirs::get_dir(game_gr)))
-		+ tr(td("GR ZH dir") + td(xcc_dirs::get_dir(game_gr_zh)))
-		+ tr(td("Data dir") + td(xcc_dirs::get_data_dir()))
-		+ tr(td("EXE dir") + td(GetModuleFileName().get_path()));
+		page += "<tr><th colspan=2>" + static_cast<string>(version);
+	page += "<tr><td>Left pane<td>" + m_left_mix_pane->get_dir()
+		+ "<tr><td>Right pane<td>" + m_right_mix_pane->get_dir()
+		+ "<tr><td>Combine shadows<td>" + btoa(m_combine_shadows)
+		+ "<tr><td>Split shadows<td>" + btoa(m_split_shadows)
+		+ "<tr><td>TD dir<td>" + xcc_dirs::get_dir(game_td)
+		+ "<tr><td>RA dir<td>" + xcc_dirs::get_dir(game_ra)
+		+ "<tr><td>TS dir<td>" + xcc_dirs::get_dir(game_ts)
+		+ "<tr><td>RA2 dir<td>" + xcc_dirs::get_dir(game_ra2)
+		+ "<tr><td>RG dir<td>" + xcc_dirs::get_dir(game_rg)
+		+ "<tr><td>GR dir<td>" + xcc_dirs::get_dir(game_gr)
+		+ "<tr><td>GR ZH dir<td>" + xcc_dirs::get_dir(game_gr_zh)
+		+ "<tr><td>Data dir<td>" + xcc_dirs::get_data_dir()
+		+ "<tr><td>EXE dir<td>" + GetModuleFileName().get_path();
 		// + tr(td() + td())
 	string fname = get_temp_path() + "XCC Mixer Report.html";
-	ofstream(fname.c_str()) << head_xcc() + body(table(tr(td(table(page, "border=1 width=100%"), "colspan=2")) + tr(td(m_left_mix_pane->report(), "valign=top") + td(m_right_mix_pane->report(), "valign=top")), "border=0 width=100%"));
+	ofstream(fname.c_str()) << "<link rel=stylesheet href=\"http://xhp.xwis.net/xcc.css\"><table border=0 width=100%><tr><td colspan=2><table border=1 width=100%>" + page + "</table><tr><td valign=top>" + m_left_mix_pane->report() + "<td valign=top>" + m_right_mix_pane->report() + "</table>";
 	ShellExecute(m_hWnd, "open", fname.c_str(), NULL, NULL, SW_SHOW);
 }
 

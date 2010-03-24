@@ -123,10 +123,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_RESIZE, OnUpdatePopupResize)
 	ON_COMMAND(ID_POPUP_COPY_AS_HTML, OnPopupCopyAsHTML)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_HTML, OnUpdatePopupCopyAsHTML)
-	ON_COMMAND(ID_POPUP_IMPORT_INTO_TS, OnPopupImportIntoTS)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_IMPORT_INTO_TS, OnUpdatePopupImportIntoTS)
-	ON_COMMAND(ID_POPUP_IMPORT_INTO_RA2, OnPopupImportIntoRa2)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_IMPORT_INTO_RA2, OnUpdatePopupImportIntoRa2)
 	ON_COMMAND(ID_POPUP_COPY_AS_PNG, OnPopupCopyAsPNG)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_COPY_AS_PNG, OnUpdatePopupCopyAsPNG)
 	ON_COMMAND(ID_POPUP_COPY_AS_WAV_IMA_ADPCM, OnPopupCopyAsWavImaAdpcm)
@@ -1144,18 +1140,6 @@ int CXCCMixerView::copy_as_html(int i, Cfname fname) const
 			Cpkt_ts_ini_reader ir;
 			ir.process(f.get_data(), f.get_size());
 			ir.write_report(ofstream(fname.get_all().c_str()));
-		}
-		break;
-	case ft_xif:
-		{
-			Cxif_key k;
-			error = k.load_key(f.get_data(), f.get_size());
-			if (!error)
-			{
-				char d[64 << 10];
-				Cextract_object::report(k, d, "");
-				ofstream(fname.get_all().c_str()) << d;
-			}
 		}
 		break;
 	}
@@ -2474,72 +2458,6 @@ void CXCCMixerView::OnUpdatePopupResize(CCmdUI* pCmdUI)
 	pCmdUI->Enable(false);
 }
 
-void CXCCMixerView::OnPopupImportIntoTS()
-{
-	Cxif_key k;
-	Ccc_file f(true);
-	int error = open_f_index(f, get_current_index());
-	if (!error)
-	{
-		error = k.load_key(f.get_data(), f.get_size());
-		f.close();
-		if (!error)
-		{
-			Cextract_object eo;
-			eo.open_default(game_ts);
-			error = eo.insert(k);
-		}
-	}
-}
-
-void CXCCMixerView::OnUpdatePopupImportIntoTS(CCmdUI* pCmdUI)
-{
-	int id = get_current_id();
-	if (!xcc_dirs::get_dir(game_ts).empty() && id != -1)
-	{
-		switch (m_index.find(get_current_id())->second.ft)
-		{
-		case ft_xif:
-			pCmdUI->Enable(true);
-			return;
-		}
-	}
-	pCmdUI->Enable(false);
-}
-
-void CXCCMixerView::OnPopupImportIntoRa2()
-{
-	Cxif_key k;
-	Ccc_file f(true);
-	int error = open_f_index(f, get_current_index());
-	if (!error)
-	{
-		error = k.load_key(f.get_data(), f.get_size());
-		f.close();
-		if (!error)
-		{
-			Cextract_object eo;
-			eo.open_default(game_ra2);
-			error = eo.insert(k);
-		}
-	}
-}
-
-void CXCCMixerView::OnUpdatePopupImportIntoRa2(CCmdUI* pCmdUI)
-{
-	int id = get_current_id();
-	if (!xcc_dirs::get_dir(game_ra2).empty() && id != -1)
-	{
-		switch (m_index.find(get_current_id())->second.ft)
-		{
-		case ft_xif:
-			pCmdUI->Enable(true);
-			return;
-		}
-	}
-	pCmdUI->Enable(false);
-}
-
 void CXCCMixerView::OnPopupClipboardCopy()
 {
 	get_vimage(get_current_index()).set_clipboard();
@@ -2715,15 +2633,15 @@ string CXCCMixerView::report() const
 	string page;
 	ULARGE_INTEGER available, total, free;
 	if (GetDiskFreeSpaceEx(m_dir.c_str(), &available, &total, &free))
-		page += tr(td(m_dir) + td(n(*reinterpret_cast<__int64*>(&available)), "align=right") + td(n(*reinterpret_cast<__int64*>(&total)), "align=right") + td("&nbsp;"));
-	page += tr(th("Name") + th("Type") + th("Size") + th("Description"));
+		page += "<tr><td>" + m_dir + "<td align=right>" + n(available.QuadPart) + "<td align=right>" + n(total.QuadPart) + "<td>&nbsp;";
+	page += "<tr><th>Name<th>Type<th>Size<th>Description";
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < lc.GetItemCount(); i++)
 	{
 		const t_index_entry& e = m_index.find(lc.GetItemData(i))->second;
-		page += tr(td(e.name) + td(ft_name[e.ft]) + td(e.size == -1 ? "&nbsp;" : n(e.size), "align=right") + td(e.description.empty() ? "&nbsp;" : e.description));
+		page += "<tr><td>" + e.name + "<td>" + ft_name[e.ft] + "<td align=right>" + (e.size == -1 ? "&nbsp;" : n(e.size)) + "<td>" + (e.description.empty() ? "&nbsp;" : e.description);
 	}
-	return table(page, "border=1 width=100%");
+	return "<table border=1 width=100%>" + page + "</table>";
 }
 
 void CXCCMixerView::open_item(int id)
