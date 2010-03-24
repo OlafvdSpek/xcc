@@ -12,6 +12,7 @@ std::string js_encode(const std::string&);
 std::string n(unsigned int);
 std::string n(int v);
 std::string n(long long v);
+std::string n(unsigned long long v);
 std::string swsl(int l, std::string);
 std::string swsr(int l, std::string);
 std::string nwp(int l, unsigned int);
