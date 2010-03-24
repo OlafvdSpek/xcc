@@ -13,7 +13,6 @@
 #include "aud_file.h"
 #include "directoriesdlg.h"
 #include "fname.h"
-#include "mix_sfl.h"
 #include "ogg_file.h"
 #include "searchfiledlg.h"
 #include "selectpaletdlg.h"
@@ -93,7 +92,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_TD, OnUpdateLaunchTD)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_TS, OnUpdateLaunchTS)
 	ON_COMMAND(ID_FILE_SEARCH, OnFileSearch)
-	ON_COMMAND(ID_FILE_CREATE_SFL, OnFileCreateSFL)
 	ON_COMMAND(ID_LAUNCH_FA, OnLaunchFA)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_FA, OnUpdateLaunchFA)
 	ON_COMMAND(ID_LAUNCH_RAGE, OnLaunchRAGE)
@@ -1021,51 +1019,6 @@ void CMainFrame::OnFileSearch()
 	CSearchFileDlg dlg;
 	dlg.set(this);
 	dlg.DoModal();
-}
-
-static void add_mix_to_sfl(t_game game, Cmix_file& g)
-{
-	for (int i = 0; i < g.get_c_files(); i++)
-	{
-		int id = g.get_id(i);
-		mix_sfl::insert(game, id);
-		if (g.get_type(id) == ft_mix)
-		{
-			Cmix_file f;
-			if (!f.open(id, g))
-			{
-				add_mix_to_sfl(game, f);
-				f.close();
-			}
-		}
-	}
-}
-
-void CMainFrame::OnFileCreateSFL() 
-{
-	CWaitCursor wait;
-	mix_sfl::clear(game_ts);
-	int i;
-	for (i = m_mix_i[game_ra]; i < m_mix_i[game_ts]; i++)
-	{
-		Cmix_file f;
-		if (!f.open(m_mix_list[i]))
-		{
-			add_mix_to_sfl(game_ts, f);
-			f.close();
-		}
-	}
-	mix_sfl::clear(game_ra2);
-	for (; i < m_mix_i[game_ra2]; i++)
-	{
-		Cmix_file f;
-		if (!f.open(m_mix_list[i]))
-		{
-			add_mix_to_sfl(game_ra2, f);
-			f.close();
-		}
-	}
-	mix_sfl::save();
 }
 
 void CMainFrame::OnLaunchXSTE_RA2() 

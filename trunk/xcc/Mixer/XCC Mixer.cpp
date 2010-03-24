@@ -8,7 +8,6 @@
 #include <id_log.h>
 #include "fs_ini_file.h"
 #include "mix_cache.h"
-#include "mix_sfl.h"
 #include "xcc_dirs.h"
 #include "xcc_log.h"
 
@@ -33,7 +32,6 @@ BOOL CXCCMixerApp::InitInstance()
 		mix_database::load();
 	}
 	mix_cache::load();
-	mix_sfl::load();
 	find_fs_exe();
 	find_fa_exe();
 	find_se_exe();

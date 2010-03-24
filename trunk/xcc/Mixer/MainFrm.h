@@ -224,7 +224,6 @@ protected:
 	afx_msg void OnLaunchXccThemeWriter();
 	afx_msg void OnUpdateLaunchXccThemeWriter(CCmdUI* pCmdUI);
 	afx_msg void OnFileSearch();
-	afx_msg void OnFileCreateSFL();
 	afx_msg void OnLaunchFA();
 	afx_msg void OnUpdateLaunchFA(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchRAGE();
