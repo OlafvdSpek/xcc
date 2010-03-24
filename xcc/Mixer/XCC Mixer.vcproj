@@ -806,10 +806,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\misc\extract_object.h"
-				>
-			</File>
-			<File
 				RelativePath="fs_ini_file.h"
 				>
 			</File>
