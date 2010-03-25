@@ -28,7 +28,6 @@ using namespace boost;
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
-	// ON_COMMAND(ID_VIEW_DIRECTX_OPTIONS, OnViewDirectxOptions)
 	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnViewPalet)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnUpdateViewPalet)
 	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
@@ -172,13 +171,13 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 		return FALSE;
 	}
 
-	if (!m_wndSplitter.CreateView(0, 0,	pContext->m_pNewViewClass, CSize(300, 0), pContext))
+	if (!m_wndSplitter.CreateView(0, 0,	pContext->m_pNewViewClass, CSize(400, 0), pContext))
 	{
 		TRACE0("Failed to create first pane\n");
 		return FALSE;
 	}
 
-	if (!m_wndSplitter.CreateView(0, 1,	pContext->m_pNewViewClass, CSize(0, 0), pContext))
+	if (!m_wndSplitter.CreateView(0, 1,	pContext->m_pNewViewClass, CSize(400, 0), pContext))
 	{
 		TRACE0("Failed to create second pane\n");
 		return FALSE;
