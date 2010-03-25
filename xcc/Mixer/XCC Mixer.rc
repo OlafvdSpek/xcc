@@ -27,18 +27,18 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -73,7 +73,7 @@ IDR_XCCMIXTYPE          ICON                    "res\\XCC MixerDoc.ico"
 // Menu
 //
 
-IDR_MAINFRAME MENU
+IDR_MAINFRAME MENU 
 BEGIN
     POPUP "&File"
     BEGIN
@@ -139,11 +139,6 @@ BEGIN
         MENUITEM "XCC &MIX Editor",             ID_UTILITIES_XCC_MIX_EDITOR
         MENUITEM "XCC Mod Creator",             ID_LAUNCH_XMC
         MENUITEM "XCC Mod Launcher",            ID_LAUNCH_XML
-        POPUP "XCC &Object Extractor"
-        BEGIN
-            MENUITEM "&Tiberian Sun",               ID_LAUNCH_XOE_TS
-            MENUITEM "&Red Alert 2",                ID_LAUNCH_XOE_RA2
-        END
         POPUP "XCC &Sound Editor"
         BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XSE_RA2
@@ -166,23 +161,10 @@ BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XTW_RA2
             MENUITEM "&Red Alert 2 YR",             ID_LAUNCH_XTW_RA2_YR
         END
-        MENUITEM SEPARATOR
-        MENUITEM "&FinalSun",                   ID_UTILITIES_FS
-        MENUITEM "&FinalAlert",                 ID_LAUNCH_FA
-        MENUITEM "&SunEdit 2K",                 ID_UTILITIES_SE
-        MENUITEM "&SunEdit 2K Mod Manager",     ID_UTILITIES_SEMM
-        MENUITEM "&RAGE",                       ID_LAUNCH_RAGE
-        MENUITEM SEPARATOR
-        MENUITEM "&Dune 2",                     ID_LAUNCH_DUNE2
-        MENUITEM "&Tiberian Dawn",              ID_LAUNCH_TD
-        MENUITEM "&Red Alert",                  ID_LAUNCH_RA
-        MENUITEM "&Dune 2000",                  ID_LAUNCH_DUNE2000
-        MENUITEM "&Tiberian Sun",               ID_LAUNCH_TS
-        MENUITEM "&Red Alert 2",                ID_LAUNCH_RA2
     END
 END
 
-CG_IDR_POPUP_MIX_VIEW MENU
+CG_IDR_POPUP_MIX_VIEW MENU 
 BEGIN
     POPUP "_POPUP_"
     BEGIN
@@ -249,7 +231,7 @@ END
 // Accelerator
 //
 
-IDR_MAINFRAME ACCELERATORS
+IDR_MAINFRAME ACCELERATORS 
 BEGIN
     27,             ID_VIEW_PALET_PREV,     ASCII,  NOINVERT
     29,             ID_VIEW_PALET_NEXT,     ASCII,  NOINVERT
@@ -446,7 +428,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_RESIZE, DIALOG
     BEGIN
@@ -486,12 +468,12 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDR_MAINFRAME           "XCC Mixer 1.47"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     AFX_IDS_IDLEMESSAGE     "Ready"
 END
@@ -522,7 +504,7 @@ BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOCOLUMNHEADER | WS_BORDER | WS_TABSTOP,58,7,44,25
     DEFPUSHBUTTON   "OK",IDOK,7,37,50,14,WS_DISABLED
     PUSHBUTTON      "Cancel",IDCANCEL,62,37,50,14
-    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | WS_BORDER | WS_TABSTOP | 0x400,7,7,45,26
+    CONTROL         "Tree1",IDC_TREE,"SysTreeView32",TVS_HASBUTTONS | TVS_HASLINES | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_FULLROWSELECT | TVS_SINGLEEXPAND | WS_BORDER | WS_TABSTOP,7,7,45,26
 END
 
 
@@ -532,7 +514,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_SELECT_PALET, DIALOG
     BEGIN
