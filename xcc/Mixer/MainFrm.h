@@ -181,9 +181,6 @@ protected:
 	afx_msg void OnUpdateViewPaletConvertFromTD(CCmdUI* pCmdUI);
 	afx_msg void OnViewPaletConvertFromRA();
 	afx_msg void OnUpdateViewPaletConvertFromRA(CCmdUI* pCmdUI);
-	afx_msg void OnInternetFsSite();
-	afx_msg void OnInternetSeSite();
-	afx_msg void OnInternetXccSite();
 	afx_msg void OnViewVoxelNormal();
 	afx_msg void OnUpdateViewVoxelNormal(CCmdUI* pCmdUI);
 	afx_msg void OnViewVoxelSurfaceNormals();
