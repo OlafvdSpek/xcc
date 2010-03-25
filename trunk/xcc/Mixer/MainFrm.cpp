@@ -51,9 +51,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_CONVERT_FROM_TD, OnUpdateViewPaletConvertFromTD)
 	ON_COMMAND(ID_VIEW_PALET_CONVERT_FROM_RA, OnViewPaletConvertFromRA)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_PALET_CONVERT_FROM_RA, OnUpdateViewPaletConvertFromRA)
-	ON_COMMAND(ID_INTERNET_FS_SITE, OnInternetFsSite)
-	ON_COMMAND(ID_INTERNET_SE_SITE, OnInternetSeSite)
-	ON_COMMAND(ID_INTERNET_XCC_SITE, OnInternetXccSite)
 	ON_COMMAND(ID_VIEW_VOXEL_NORMAL, OnViewVoxelNormal)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VOXEL_NORMAL, OnUpdateViewVoxelNormal)
 	ON_COMMAND(ID_VIEW_VOXEL_SURFACE_NORMALS, OnViewVoxelSurfaceNormals)
@@ -62,12 +59,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_VIEW_VOXEL_DEPTH_INFORMATION, OnUpdateViewVoxelDepthInformation)
 	ON_COMMAND(ID_CONVERSION_SPLIT_SHADOWS, OnConversionSplitShadows)
 	ON_UPDATE_COMMAND_UI(ID_CONVERSION_SPLIT_SHADOWS, OnUpdateConversionSplitShadows)
-	ON_COMMAND(ID_UTILITIES_XCC_AV_PLAYER, OnUtilitiesXccAvPlayer)
-	ON_UPDATE_COMMAND_UI(ID_UTILITIES_XCC_AV_PLAYER, OnUpdateUtilitiesXccAvPlayer)
-	ON_COMMAND(ID_UTILITIES_XCC_EDITOR, OnUtilitiesXccEditor)
-	ON_UPDATE_COMMAND_UI(ID_UTILITIES_XCC_EDITOR, OnUpdateUtilitiesXccEditor)
-	ON_COMMAND(ID_UTILITIES_XCC_MIX_EDITOR, OnUtilitiesXccMixEditor)
-	ON_UPDATE_COMMAND_UI(ID_UTILITIES_XCC_MIX_EDITOR, OnUpdateUtilitiesXccMixEditor)
 	ON_COMMAND(ID_VIEW_DIRECTORIES, OnViewDirectories)
 	ON_COMMAND(ID_FILE_SEARCH, OnFileSearch)
 	ON_COMMAND(ID_CONVERSION_ENABLE_COMPRESSION, OnConversionEnableCompression)
@@ -660,21 +651,6 @@ void CMainFrame::OnViewPaletConvertFromRA()
 void CMainFrame::OnUpdateViewPaletConvertFromRA(CCmdUI* pCmdUI) 
 {
 	pCmdUI->SetCheck(m_convert_from_ra);
-}
-
-void CMainFrame::OnInternetFsSite() 
-{
-	ShellExecute(m_hWnd, "open", "http://finalsun.wagnerma.de/", NULL, NULL, SW_SHOW);
-}
-
-void CMainFrame::OnInternetSeSite() 
-{
-	ShellExecute(m_hWnd, "open", "http://www.childs-play-software.co.uk/", NULL, NULL, SW_SHOW);
-}
-
-void CMainFrame::OnInternetXccSite() 
-{
-	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
 }
 
 void CMainFrame::OnViewVoxelNormal() 
