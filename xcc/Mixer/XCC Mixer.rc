@@ -122,7 +122,6 @@ BEGIN
             MENUITEM "Surface &normals",            ID_VIEW_VOXEL_SURFACE_NORMALS
             MENUITEM "&Depth information",          ID_VIEW_VOXEL_DEPTH_INFORMATION
         END
-        MENUITEM "DirectX options...",          ID_VIEW_DIRECTX_OPTIONS, GRAYED
         MENUITEM "Directories...",              ID_VIEW_DIRECTORIES
         MENUITEM "&Report",                     ID_VIEW_REPORT
     END
