@@ -9,7 +9,6 @@
 #include "cc_structures.h"
 #include "mix_file.h"
 #include "pal_file.h"
-#include "xcc_apps.h"
 #include "xm_types.h"
 
 struct t_pal_map_list_entry
@@ -160,9 +159,7 @@ protected:
 	LPDIRECTSOUND m_ds;
 	CString m_reg_key;
 
-// Generated message map functions
 protected:
-	//{{AFX_MSG(CMainFrame)
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnViewGameTD();
 	afx_msg void OnViewGameRA();
@@ -237,14 +234,9 @@ protected:
 	afx_msg void OnLaunchXSE_RA2_YR();
 	afx_msg void OnUpdateLaunchXSE_RA2_YR(CCmdUI* pCmdUI);
 	afx_msg void OnLaunchXSE_Open();
-	//}}AFX_MSG
 	afx_msg void OnViewPalet(UINT ID);
 	afx_msg void OnUpdateViewPalet(CCmdUI* pCmdUI);
-	afx_msg void OnLaunchApp(UINT ID);
-	afx_msg void OnUpdateLaunchApp(CCmdUI* pCmdUI);
 	afx_msg void OnConversionRemapTeamColors();
 	afx_msg void OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI);
 	DECLARE_MESSAGE_MAP()
-private:
-	Cxcc_apps m_apps;
 };

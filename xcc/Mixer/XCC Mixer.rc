@@ -125,19 +125,8 @@ BEGIN
         MENUITEM "Directories...",              ID_VIEW_DIRECTORIES
         MENUITEM "&Report",                     ID_VIEW_REPORT
     END
-    POPUP "&Internet"
-    BEGIN
-        MENUITEM "&FinalSun Home Page",         ID_INTERNET_FS_SITE
-        MENUITEM "&SunEdit 2K Home Page",       ID_INTERNET_SE_SITE
-        MENUITEM "&XCC Home Page",              ID_INTERNET_XCC_SITE
-    END
     POPUP "&Launch"
     BEGIN
-        MENUITEM "XCC &AV Player",              ID_UTILITIES_XCC_AV_PLAYER
-        MENUITEM "XCC &Editor",                 ID_UTILITIES_XCC_EDITOR
-        MENUITEM "XCC &MIX Editor",             ID_UTILITIES_XCC_MIX_EDITOR
-        MENUITEM "XCC Mod Creator",             ID_LAUNCH_XMC
-        MENUITEM "XCC Mod Launcher",            ID_LAUNCH_XML
         POPUP "XCC &Sound Editor"
         BEGIN
             MENUITEM "&Red Alert 2",                ID_LAUNCH_XSE_RA2

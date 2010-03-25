@@ -30,9 +30,6 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_COMMAND_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnViewPalet)
 	ON_UPDATE_COMMAND_UI_RANGE(ID_VIEW_PALET_PAL000, ID_VIEW_PALET_PAL999, OnUpdateViewPalet)
-	ON_COMMAND_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnLaunchApp)
-	ON_UPDATE_COMMAND_UI_RANGE(ID_LAUNCH_XMC, ID_LAUNCH_XML, OnUpdateLaunchApp)
-	//{{AFX_MSG_MAP(CMainFrame)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_VIEW_GAME_TD, OnViewGameTD)
 	ON_COMMAND(ID_VIEW_GAME_RA, OnViewGameRA)
@@ -105,7 +102,6 @@ BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE_RA2, OnUpdateLaunchXSE_RA2)
 	ON_COMMAND(ID_LAUNCH_XSE_RA2_YR, OnLaunchXSE_RA2_YR)
 	ON_UPDATE_COMMAND_UI(ID_LAUNCH_XSE_RA2_YR, OnUpdateLaunchXSE_RA2_YR)
-	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -838,12 +834,6 @@ void CMainFrame::OnUtilitiesXccMixEditor()
 	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_mix_editor_exe().c_str(), NULL, NULL, SW_SHOW);
 }
 
-void CMainFrame::OnLaunchApp(UINT ID) 
-{
-	t_app app = static_cast<t_app>(app_xmc + ID - ID_LAUNCH_XMC);
-	ShellExecute(m_hWnd, NULL, m_apps.get_exe(app).c_str(), NULL, NULL, SW_SHOW);
-}
-
 void CMainFrame::OnUpdateUtilitiesXccAvPlayer(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_xcc_av_player_available());
@@ -857,12 +847,6 @@ void CMainFrame::OnUpdateUtilitiesXccEditor(CCmdUI* pCmdUI)
 void CMainFrame::OnUpdateUtilitiesXccMixEditor(CCmdUI* pCmdUI) 
 {
 	pCmdUI->Enable(GetApp()->is_xcc_mix_editor_available());
-}
-
-void CMainFrame::OnUpdateLaunchApp(CCmdUI* pCmdUI) 
-{
-	t_app app = static_cast<t_app>(app_xmc + pCmdUI->m_nID - ID_LAUNCH_XMC);
-	pCmdUI->Enable(m_apps.is_available(app));
 }
 
 void CMainFrame::OnViewDirectories() 
