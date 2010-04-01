@@ -55,6 +55,7 @@ BOOL Cdlg_login::OnInitDialog()
 	xcc_dirs::load_from_registry();
 	add_game("Software\\Westwood\\Renegade", game_rg, 0xc);
 	add_game("Software\\Westwood\\Tiberian Sun", game_ts, 0x12);
+	add_game("Software\\Westwood\\Tiberian Sun", game_ts_fs, 0x1c);
 	add_game("Software\\Westwood\\Emperor", game_ebfd, 0x1f);
 	add_game("Software\\Westwood\\Red Alert 2", game_ra2, 0x21);
 	add_game("Software\\Westwood\\Nox", game_nox, 0x25);
@@ -84,7 +85,7 @@ BOOL Cdlg_login::OnInitDialog()
 	return true;
 }
 
-void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
+void Cdlg_login::add_game(const string& reg_key, ::t_game game, int gsku)
 {
 	Creg_key key;
 	string serial;
@@ -93,7 +94,7 @@ void Cdlg_login::add_game(const string& reg_key, int game, int gsku)
 		|| serial.size() != 22)
 		return;
 	Cvirtual_binary s;
-	s.load(xcc_dirs::get_dir(static_cast<::t_game>(game)) + "woldata.key");
+	s.load(xcc_dirs::get_dir(game) + "woldata.key");
 	for (int i = 0, j = 0; i < s.size(); i++, j++)
 	{
 		if (j == serial.length())
