@@ -52,6 +52,7 @@ string xcc_dirs::get_dir(t_game game)
 	case game_ra:
 		return ra_dir;
 	case game_ts:
+	case game_ts_fs:
 		return ts_dir;
 	case game_dune2:
 		return dune2_dir;
