@@ -7,6 +7,7 @@ enum t_game
 	game_td,
 	game_ra,
 	game_ts,
+	game_ts_fs,
 	game_dune2,
 	game_dune2000,
 	game_ra2,

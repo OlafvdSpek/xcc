@@ -6,6 +6,7 @@ const char* game_name[] =
 	"Tiberian Dawn", 
 	"Red Alert", 
 	"Tiberian Sun", 
+	"Tiberian Sun Firestorm", 
 	"Dune 2", 
 	"Dune 2000", 
 	"Red Alert 2", 
