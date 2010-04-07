@@ -89,18 +89,21 @@ void Cdlg_login::add_game(const string& reg_key, ::t_game game, int gsku)
 {
 	Creg_key key;
 	string serial;
-	if (ERROR_SUCCESS != key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_READ)
-		|| ERROR_SUCCESS != key.query_value("Serial", serial)
-		|| serial.size() != 22)
-		return;
-	Cvirtual_binary s;
-	s.load(xcc_dirs::get_dir(game) + "woldata.key");
-	for (int i = 0, j = 0; i < s.size(); i++, j++)
+	if (ERROR_SUCCESS == key.open(HKEY_LOCAL_MACHINE, reg_key, KEY_READ))
+		key.query_value("Serial", serial);
+	if (serial.size() == 22)
 	{
-		if (j == serial.length())
-			j = 0;
-		serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
+		Cvirtual_binary s;
+		s.load(xcc_dirs::get_dir(game) + "woldata.key");
+		for (int i = 0, j = 0; i < s.size(); i++, j++)
+		{
+			if (j == serial.length())
+				j = 0;
+			serial[j] = (262 - s.data()[i] + serial[j]) % 10 + '0';
+		}
 	}
+	else
+		serial.clear();
 	t_game e;
 	e.gsku = gsku;
 	e.serial = serial;
