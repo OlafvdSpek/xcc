@@ -6,6 +6,7 @@
 #include <string_conversion.h>
 
 using namespace boost;
+using namespace std;
 
 void Circ_params::clear()
 {
