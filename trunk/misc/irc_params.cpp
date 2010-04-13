@@ -19,7 +19,7 @@ string Circ_params::read() const
 	if (!m_prefix.empty())
 		r = ':' + m_prefix + ' ';
 	bool done = false;
-	BOOST_FOREACH(t_params::const_reference i, m_params)
+	BOOST_FOREACH(auto& i, m_params)
 	{
 		if (&i != &m_params.front())
 			r += ' ';
