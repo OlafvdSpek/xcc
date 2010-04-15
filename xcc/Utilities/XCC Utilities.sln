@@ -1,62 +1,29 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcxproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mixer", "..\Mixer\XCC Mixer.vcproj", "{E032D975-C331-487B-95A6-518A0A3ED2DA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mixer", "..\Mixer\XCC Mixer.vcxproj", "{E032D975-C331-487B-95A6-518A0A3ED2DA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC MIX Editor", "..\MIX Editor\XCC MIX Editor.vcproj", "{B5821BD4-7222-4337-B723-EF4E8BC013A6}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC MIX Editor", "..\MIX Editor\XCC MIX Editor.vcxproj", "{B5821BD4-7222-4337-B723-EF4E8BC013A6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC AV Player", "..\AV Player\XCC Audio Player.vcproj", "{1E6FD097-5BBD-4889-93CA-365589631C94}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC AV Player", "..\AV Player\XCC Audio Player.vcxproj", "{1E6FD097-5BBD-4889-93CA-365589631C94}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC TMP Editor", "..\TMP Editor\XCC TMP Editor.vcproj", "{216D46AA-5715-4DD4-8029-1877FDE61F19}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC TMP Editor", "..\TMP Editor\XCC TMP Editor.vcxproj", "{216D46AA-5715-4DD4-8029-1877FDE61F19}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mod Creator", "..\Mod Creator\XCC Mod Creator.vcproj", "{263CF2A6-0334-4FFE-8BA7-F482185585AF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mod Creator", "..\Mod Creator\XCC Mod Creator.vcxproj", "{263CF2A6-0334-4FFE-8BA7-F482185585AF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mod Launcher", "..\Mod Launcher\XCC Mod Launcher.vcproj", "{F9859170-92B3-4F3F-A7C1-009D9C60E7AF}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mod Launcher", "..\Mod Launcher\XCC Mod Launcher.vcxproj", "{F9859170-92B3-4F3F-A7C1-009D9C60E7AF}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy Player", "..\Game Spy Player\XCC Game Spy Player.vcproj", "{DB9AE784-5CBB-49B2-8F12-A8E9BB28B0B4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy Player", "..\Game Spy Player\XCC Game Spy Player.vcxproj", "{DB9AE784-5CBB-49B2-8F12-A8E9BB28B0B4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Map Encoder", "..\Map Encoder\XCC Map Encoder.vcproj", "{A5120C64-02F1-4F26-9855-AC1E22A52549}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Map Encoder", "..\Map Encoder\XCC Map Encoder.vcxproj", "{A5120C64-02F1-4F26-9855-AC1E22A52549}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Map Decoder", "..\Map Decoder\XCC Map Decoder.vcproj", "{5724F9CA-4EFC-4242-AA30-5D81A169A3BA}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Map Decoder", "..\Map Decoder\XCC Map Decoder.vcxproj", "{5724F9CA-4EFC-4242-AA30-5D81A169A3BA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Editor", "..\Editor\XCC Editor.vcproj", "{6A32AFB3-5A48-430A-B0BC-5FA39C61414A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Editor", "..\Editor\XCC Editor.vcxproj", "{6A32AFB3-5A48-430A-B0BC-5FA39C61414A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy", "..\Game Spy\XCC Game Spy.vcproj", "{0290A99D-5691-49D9-BBE2-F36E9FBB5054}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy", "..\Game Spy\XCC Game Spy.vcxproj", "{0290A99D-5691-49D9-BBE2-F36E9FBB5054}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
