@@ -99,15 +99,15 @@ string Circ_params::prefix_host() const
 	return i == string::npos ? m_prefix : m_prefix.substr(i + 1);
 }
 
-const string& Circ_params::p(int i) const
+const string& Circ_params::p(size_t i) const
 {
 	static string z;
 	return i < m_params.size() ? m_params[i] : z;
 }
 
-bool Circ_params::p_equal(int i, const string& v) const
+const string& Circ_params::operator[](size_t i) const
 {
-	return iequals(p(i), v);
+	return p(i);
 }
 
 int Circ_params::p_int(int i) const
@@ -125,22 +125,4 @@ void Circ_params::p(int i, const string& v)
 void Circ_params::p(int i, int v)
 {
 	p(i, n(v));
-}
-
-string Circ_params::strip(const string& s)
-{
-	string d;
-	d.reserve(s.length());
-	for (const char* r = s.c_str(); *r; r++)
-	{
-		switch (*r)
-		{
-		case '\n':
-		case '\r':
-			break;
-		default:
-			d += *r;
-		}
-	}
-	return d;
 }
