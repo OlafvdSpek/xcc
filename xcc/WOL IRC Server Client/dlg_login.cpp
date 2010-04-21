@@ -184,11 +184,10 @@ void Cdlg_login::OnOK()
 		Cmulti_line l0 = d;
 		while (!l0.empty())
 		{
-			Circ_params p;
-			p.write(l0.get_next_line('\n'));
+			Circ_params p = l0.get_next_line('\n');
 			if (p.p_int(0) != 605)
 				continue;
-			Cmulti_line l1 = p.p(2);
+			Cmulti_line l1 = p[2];
 			host = l1.get_next_line(' ');
 			port = l1.get_next_int(' ');
 			break;
