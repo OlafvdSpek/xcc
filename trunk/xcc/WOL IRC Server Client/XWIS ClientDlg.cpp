@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "XCC WOL IRC Server Client.h"
-#include "XCC WOL IRC Server ClientDlg.h"
+#include "XWIS Client.h"
+#include "XWIS ClientDlg.h"
 
 #include "dlg_login.h"
 #include "dlg_serials.h"
