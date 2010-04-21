@@ -35,9 +35,8 @@ string Circ_params::read() const
 	return r;
 }
 
-void Circ_params::write(const string& v)
+Circ_params::Circ_params(const string& v)
 {
-	clear();
 	if (v.empty())
 		return;
 	int i = 0;
@@ -99,20 +98,15 @@ string Circ_params::prefix_host() const
 	return i == string::npos ? m_prefix : m_prefix.substr(i + 1);
 }
 
-const string& Circ_params::p(size_t i) const
+const string& Circ_params::operator[](size_t i) const
 {
 	static string z;
 	return i < m_params.size() ? m_params[i] : z;
 }
 
-const string& Circ_params::operator[](size_t i) const
-{
-	return p(i);
-}
-
 int Circ_params::p_int(int i) const
 {
-	return atoi(p(i).c_str());
+	return atoi((*this)[i].c_str());
 }
 
 void Circ_params::p(int i, const string& v)
