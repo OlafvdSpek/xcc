@@ -157,32 +157,32 @@
     <ClCompile Include="..\..\misc\string_conversion.cpp" />
     <ClCompile Include="..\misc\virtual_binary.cpp" />
     <ClCompile Include="..\..\misc\win_handle.cpp" />
-    <ClCompile Include="XCC WOL IRC Server Client.cpp" />
-    <ClCompile Include="XCC WOL IRC Server ClientDlg.cpp" />
+    <ClCompile Include="XWIS Client.cpp" />
+    <ClCompile Include="XWIS ClientDlg.cpp" />
     <ClCompile Include="..\misc\xcc_dirs.cpp" />
     <ClCompile Include="..\misc\xcc_registry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="XCC WOL IRC Server Client.rc" />
+    <ResourceCompile Include="XWIS Client.rc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="dlg_login.h" />
     <ClInclude Include="dlg_serials.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="XCC WOL IRC Server Client.h" />
-    <ClInclude Include="XCC WOL IRC Server ClientDlg.h" />
+    <ClInclude Include="XWIS Client.h" />
+    <ClInclude Include="XWIS ClientDlg.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\XCC WOL IRC Server Client.ico" />
-    <None Include="res\XCC WOL IRC Server Client.rc2" />
+    <None Include="res\XWIS Client.ico" />
+    <None Include="res\XWIS Client.rc2" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
   <ProjectExtensions>
     <VisualStudio>
-      <UserProperties RESOURCE_FILE="XCC WOL IRC Server Client.rc" />
+      <UserProperties RESOURCE_FILE="XWIS Client.rc" />
     </VisualStudio>
   </ProjectExtensions>
 </Project>
