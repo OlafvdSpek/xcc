@@ -273,7 +273,6 @@
 		printf('<tr>');
 		printf('<th align=right>sid');
 		printf('<th>gsku');
-		printf('<th>ipa');
 		printf('<th>wtime');
 		printf('<th>modified');
 		printf('<th>created');
@@ -283,7 +282,6 @@
 			printf('<tr>');
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 			printf('<td>%s', gsku2a($row['gsku']));
-			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 			printf('<td>');
 			if ($row['wtime'])
 				printf('%s', gmdate('Y-m-d', $row['wtime']));
@@ -390,7 +388,7 @@
 
 	function page_edit_player($pid)
 	{
-		$row = db_query_first(sprintf("select p.*, c.name cname, m.member_id, m.name fname from xwi_players p left join xwi_clans c using (cid) left join xwi_users_serials us using (sid) left join st_forum.invision_members m on us.uid = member_id where p.pid = %d", $pid));
+		$row = db_query_first(sprintf("select p.*, c.name cname, m.member_id, m.name fname, members_display_name, m.email from xwi_players p left join xwi_clans c using (cid) left join xwi_users_serials us using (sid) left join st_forum.invision_members m on us.uid = member_id where p.pid = %d", $pid));
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
@@ -402,7 +400,10 @@
 		}
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		if ($row['member_id'])
-			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['fname']));
+		{
+			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['fname'] . ' - ' . $row['members_display_name']));
+			printf('<tr><th>forum email<td>%s</a>', htmlspecialchars($row['email']));
+		}
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
@@ -471,7 +472,6 @@
 		printf('<table>');
 		printf('<tr><th>sid<td>%d', $row['sid']);
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
-		printf('<tr><th>ipa<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
 			printf('%s', gmdate('Y-m-d H:i:s', $row['wtime']));
