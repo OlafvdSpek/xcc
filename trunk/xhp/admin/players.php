@@ -1,6 +1,6 @@
 <?php
-	require_once('b/config.php');
-	require_once('b/common.php');
+	require_once('config.php');
+	require_once('../../b/common.php');
 
 	function select_players($where)
 	{
@@ -40,10 +40,10 @@
 	if (empty($remote_user))
 		die();
 	db_connect();
-	require('templates/top.php');
-	require('templates/links.php');
+	require('../../b/templates/top.php');
+	require('../../b/templates/links.php');
 	echo('<hr>');
-	require('templates/search.php');
+	require('../../b/templates/search.php');
 	echo('<hr>');
 	$pname = trim($_REQUEST[pname]);
 	switch ($_REQUEST['a'])
@@ -99,7 +99,7 @@
 					addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
 			}
 		}
-		require('templates/bl_insert.php');
+		require('../../b/templates/bl_insert.php');
 		break;
 	case 'bad_passes':
 		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) where ~flags & 2 order by name");
@@ -183,7 +183,7 @@
 			$name = htmlspecialchars($row['name']);
 			$reason = htmlspecialchars($row['reason']);
 			$sid = $row['sid'];
-			include('templates/show_warning.php');
+			include('../../b/templates/show_warning.php');
 			echo('<hr>');
 			echo('<table>');
 			$results = db_query(sprintf("select * from xbl_ipas where wid = %d", $wid));
@@ -197,7 +197,7 @@
 			}
 			echo('</table>');
 			echo('<hr>');
-			include('templates/edit_warning_insert_ipa.php');
+			include('../../b/templates/edit_warning_insert_ipa.php');
 			echo('<hr>');
 			echo('<table>');
 			$results = db_query(sprintf("select * from xbl_serials where wid = %d", $wid));
@@ -211,7 +211,7 @@
 			}
 			echo('</table>');
 			echo('<hr>');
-			include('templates/edit_warning_insert_serial.php');
+			include('../../b/templates/edit_warning_insert_serial.php');
 		}
 		break;
 	case 'washers':
@@ -233,7 +233,7 @@
 			return compare0($b['c'], $a['c']);
 		}
 
-		$results = db_query_all("select pid, name, win_count, loss_count, points, count(*) c, sum(cmp = 2) dc, sum(oosy) oos from xcl_games inner join xcl_games_players using (gid) inner join xcl_players using (pid) where lid < 17 and (cmp = 2 or oosy) and points group by pid having c >= 4 or oos >= 2");
+		$results = db_query_all("select pid, name, win_count, loss_count, points, count(*) c, sum(cmp = 2) dc, sum(oosy) oos from xcl_games inner join xcl_games_players using (gid) inner join xcl_players p using (pid) where p.lid < 17 and (cmp = 2 or oosy) and points group by pid having c >= 4 or oos >= 2");
 		usort($results, compare);
 		echo('<table id=players>');
 		printf('<tr>');
