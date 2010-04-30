@@ -4,7 +4,7 @@
 <?php
 	function page_search($search)
 	{
-		include(dirname(__FILE__) . '/templates/search.php');
+		include(dirname(__FILE__) . '/templates/links.php');
 	}
 
 	function page_search_results($search)
@@ -390,7 +390,7 @@
 
 	function page_edit_player($pid)
 	{
-		$row = db_query_first(sprintf("select p.*, c.name cname from xwi_players p left join xwi_clans c using (cid) where p.pid = %d", $pid));
+		$row = db_query_first(sprintf("select p.*, c.name cname, m.member_id, m.name fname from xwi_players p left join xwi_clans c using (cid) left join xwi_users_serials us using (sid) left join st_forum.invision_members m on us.uid = member_id where p.pid = %d", $pid));
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
@@ -401,6 +401,8 @@
 			printf('<a href="?a=edit_clan;cid=%d">%s</a>', $row['cid'], htmlspecialchars($row['cname']));
 		}
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
+		if ($row['member_id'])
+			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['fname']));
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
