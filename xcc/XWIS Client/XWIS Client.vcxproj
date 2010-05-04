@@ -143,7 +143,7 @@
     <ClCompile Include="..\..\misc\irc_params.cpp" />
     <ClCompile Include="..\..\misc\multi_line.cpp" />
     <ClCompile Include="..\..\misc\reg_key.cpp" />
-    <ClCompile Include="..\..\misc\socket.cpp" />
+    <ClCompile Include="..\..\xbt\misc\socket.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
