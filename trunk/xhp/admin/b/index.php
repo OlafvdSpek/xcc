@@ -100,6 +100,8 @@
 
 	function table_logins($ipa, $pid, $sid)
 	{
+		if ($ipa & 0x80000000)
+			$ipa -= 1 << 32;
 		if ($ipa)
 		{
 			$ipa2 = $ipa;
