@@ -1,8 +1,9 @@
 <?php
-	require('b/config.php');
-	require('b/common.php');
+	require('config.php');
+	require(dirname(__FILE__) . '/../../b/common.php');
 
 	db_connect();
+	db_query("delete from xbl_ipas where ctime < unix_timestamp() - 365 * 24 * 60 * 60");
 	db_query("delete from xwi_chat1 where time < unix_timestamp() - 77 * 24 * 60 * 60");
 	db_query("delete xwi_chat1 from xwi_chat1 inner join xwi_names on `from` = nid where name = 'xwisadmin'");
 	$row = db_query_first("select min(chat_id) id from xwi_chat1");
