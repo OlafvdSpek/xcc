@@ -166,9 +166,11 @@
 				if ($ipa)
 					db_query(sprintf("insert ignore into xbl_ipas (wid, ipa, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, ip2long($ipa), addslashes($remote_user)));
 				break;
+				/*
 			case 'edit_warning_delete_serial_submit':
 				db_query(sprintf("delete from xbl_serials where sid = %d and wid = %d", $sid, $wid));
 				break;
+				*/
 			case 'edit_warning_insert_serial_submit':
 				if ($sid)
 					db_query(sprintf("insert ignore into xbl_serials (wid, sid, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, $sid, addslashes($remote_user)));
@@ -190,7 +192,7 @@
 			while ($row = mysql_fetch_array($results))
 			{
 				echo('<tr>');
-				printf('<td><a href="logins.php?ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
+				printf('<td><a href=".?q=%s">%s</a>', long2ip($row['ipa']), long2ip($row['ipa']));
 				printf('<td>%s', $row['creator']);
 				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
 				printf('<td><a href="?a=edit_warning_delete_ipa_submit;ipa=%d;wid=%d">delete</a>', $row['ipa'], $wid);
@@ -204,10 +206,10 @@
 			while ($row = mysql_fetch_array($results))
 			{
 				echo('<tr>');
-				printf('<td align=right><a href="?sid=%d">%d</a>', $row['sid'], $row['sid']);
+				printf('<td align=right><a href=".?q=%d">%d</a>', $row['sid'], $row['sid']);
 				printf('<td>%s', $row['creator']);
 				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
-				printf('<td><a href="?a=edit_warning_delete_serial_submit;sid=%d;wid=%d">delete</a>', $row['sid'], $wid);
+				// printf('<td><a href="?a=edit_warning_delete_serial_submit;sid=%d;wid=%d">delete</a>', $row['sid'], $wid);
 			}
 			echo('</table>');
 			echo('<hr>');
