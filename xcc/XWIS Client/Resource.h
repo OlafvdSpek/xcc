@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by XCC WOL IRC Server Client.rc
+// Used by XWIS Client.rc
 //
 #define IDD_XCCWOLIRCSERVERCLIENT_DIALOG 102
 #define IDR_MAINFRAME                   128
