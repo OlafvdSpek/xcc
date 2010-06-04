@@ -168,6 +168,7 @@
     <ClInclude Include="XWIS ClientDlg.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="res\XCC WOL IRC Server Client.ico" />
     <None Include="res\XWIS Client.ico" />
     <None Include="res\XWIS Client.rc2" />
   </ItemGroup>
