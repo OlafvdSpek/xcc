@@ -8,7 +8,7 @@
 			<td>
 				<a href="logins.php">Logins</a>
 			<td>
-				<a href="players.php?a=xbl">Black List</a>
+				<a href=".?a=black_list">Black List</a>
 			<td>
 				<a href="hof_checks.html">HoF Checks</a>
 			<td>
