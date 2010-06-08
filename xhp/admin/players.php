@@ -2,26 +2,6 @@
 	require_once('config.php');
 	require_once('../../b/common.php');
 
-	function select_players($where)
-	{
-		return db_query(sprintf("select p.sid, p.pid, p.pass, p.name as pname, p.flags, c.name as cname, motd, p.mtime, p.ctime from xwi_serials s inner join xwi_players p using (sid) left join xwi_clans c using (cid)%s order by p.name", $where));
-	}
-
-	function echo_players($results)
-	{
-		while ($result = mysql_fetch_array($results))
-		{
-			$motd = trim($result['motd']);
-			printf('<tr><td><a href=".?q=%s">%s</a>', $result[pname], $result[pname]);
-			printf('<td>%s', $result[flags] & 2 ? '*' : '');
-			printf('<td>%s', $result[cname]);
-			printf('<td><a href="logins.php?pid=%d">L</a>', $result[pid]);
-			printf('<td align=right><a href="?sid=%d">%d</a>', $result[sid], $result[sid]);
-			printf('<td>%s<td>%s', gmdate("d-m-Y", $result[mtime]), gmdate("d-m-Y", $result[ctime]));
-			printf('<td><a href="?a=motd&pid=%d">%s</a>', $result['pid'], $motd ? nl2br(htmlspecialchars(substr($motd, 0, 80))) : 'motd');
-		}
-	}
-
 	$remote_user = $_SERVER['REMOTE_USER'];
 	if (empty($remote_user))
 		die();
@@ -197,28 +177,4 @@
 		}
 		echo('</table>');
 		break;
-	default:
-		$cname = trim($_REQUEST[cname]);
-		$pid = $_REQUEST[pid];
-		$sid = $_REQUEST[sid];
-		if (is_numeric($pname))
-		{
-			$sid = $pname;
-			unset($pname);
-		}
-		if ($_REQUEST['a'] == "motds")
-			$where = " where ~flags & 2 and motd != ''";
-		else if ($cname)
-			$where = sprintf(" where c.name like '%s'", addslashes($cname));
-		else if ($pid)
-			$where = sprintf(" where pid = %d", $pid);
-		else if ($pname)
-			$where = sprintf(" where p.name like '%s'", addslashes($pname));
-		else if ($sid)
-			$where = sprintf(" where p.sid = %d", $sid);
-		else
-			$where = " where 0";
-		echo("<table><tr><th align=left>Player<th><th align=left>Clan<th><th align=right>SID<th align=left>Mtime<th align=left>Ctime");
-		echo_players(select_players($where));
-		echo('</table>');
 	}
