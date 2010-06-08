@@ -555,7 +555,7 @@
 
 	function page_black_list()
 	{
-		$results = db_query("select * from xbl order by wid desc limit 1000");
+		$results = db_query("select b.*, p.name from xbl b left join xwi_players p using (pid) order by wid desc limit 1000");
 		echo('<table>');
 		while ($row = mysql_fetch_array($results))
 		{
@@ -592,7 +592,7 @@
 				$dura = isset($_REQUEST['dura']) ? $_REQUEST['dura'] : 32;
 				if ($reason)
 				{
-					db_query(sprintf("insert into xbl (admin, name, link, reason, duration, mtime, ctime) values ('%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",	addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
+					db_query(sprintf("insert into xbl (pid, admin, name, link, reason, duration, mtime, ctime) values (%d, '%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",	$pid, addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
 					header(sprintf('location: ?a=warning;wid=%d', mysql_insert_id()));
 					return;
 				}
@@ -600,7 +600,7 @@
 				return;
 			}
 		}
-		$row = db_query_first(sprintf("select * from xbl where wid = %d", $wid));
+		$row = db_query_first(sprintf("select b.*, p.name from xbl b left join xwi_players p using (pid) where wid = %d", $wid));
 		if (!$row)
 			return;
 		if ($_REQUEST['a2'] == "update")
