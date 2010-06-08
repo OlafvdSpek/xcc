@@ -126,8 +126,8 @@
 		printf('<tr>');
 		printf('<th>count');
 		printf('<th>sid');
-		printf('<th>modified');
-		printf('<th>created');
+		printf('<th>last');
+		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
@@ -142,13 +142,12 @@
 		printf('<tr>');
 		printf('<th>count');
 		printf('<th>name');
-		printf('<th>modified');
-		printf('<th>created');
+		printf('<th>last');
+		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
-			// printf('<td align=right><a href="?a=edit_player;pid=%d">%d</a>', $row['pid'], $row['pid']);
 			printf('<td><a href="?a=edit_player;pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
 			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
@@ -159,8 +158,8 @@
 		printf('<tr>');
 		printf('<th>count');
 		printf('<th>ipa');
-		printf('<th>modified');
-		printf('<th>created');
+		printf('<th>last');
+		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
@@ -182,13 +181,12 @@
 		printf('<th>name');
 		printf('<th>ipa');
 		printf('<th>gsku');
-		printf('<th>modified');
-		printf('<th>created');
+		printf('<th>last');
+		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['count']);
-			// printf('<td align=right><a href="?a=edit_player;pid=%d">%d</a>', $row['pid'], $row['pid']);
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 			printf('<td><a href="?a=edit_player;pid=%d">%s</a>', $row['pid'], htmlspecialchars($row['name']));
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
@@ -411,7 +409,7 @@
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
-		printf('<tr><th><td><a href="players.php?a=bl_insert;pid=%d">-&gt; Black List</a>', $row['pid']);
+		printf('<tr><th><td><a href="?a=warning;pid=%d">-&gt; Black List</a>', $row['pid']);
 		printf('<tr><th><td><a href="?a=message;pid=%d">Send Message</a>', $row['pid']);
 		if ($row['flags'] & 8)
 			printf('<tr><th><td><a href="?a=unrequest_screenshot;pid=%d">Unrequest Screenshot</a>', $row['pid']);
@@ -581,9 +579,27 @@
 		echo('</table>');
 	}
 
-	function page_warning($wid)
+	function page_warning($wid, $pid)
 	{
 		global $remote_user;
+		if (!$wid)
+		{
+			if ($row = db_query_first(sprintf("select * from xwi_players where pid = %d", $pid)))
+			{
+				$name = $row['name'];
+				$link = trim($_REQUEST['link']);
+				$reason = trim($_REQUEST['reason']);
+				$dura = isset($_REQUEST['dura']) ? $_REQUEST['dura'] : 32;
+				if ($reason)
+				{
+					db_query(sprintf("insert into xbl (admin, name, link, reason, duration, mtime, ctime) values ('%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",	addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
+					header(sprintf('location: ?a=warning;wid=%d', mysql_insert_id()));
+					return;
+				}
+				require('../../b/templates/bl_insert.php');
+				return;
+			}
+		}
 		$row = db_query_first(sprintf("select * from xbl where wid = %d", $wid));
 		if (!$row)
 			return;
@@ -717,6 +733,6 @@
 		table_login_failures($ipa, '', 0);
 		break;
 	case 'warning':
-		page_warning($_REQUEST['wid']);
+		page_warning($_REQUEST['wid'], $pid);
 		break;
 	}
