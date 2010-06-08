@@ -50,23 +50,6 @@
 		printf('</table>');
 		// printf('<a href="?a=chat;pname=%s;offset=%d">Next</a>', urlencode($pname), $offset + 1000);
 		break;
-	case 'bl_insert':
-	case 'bl_insert_submit':
-		$pid = $_REQUEST[pid];
-		if ($result = mysql_fetch_array(db_query(sprintf("select * from xwi_players where pid = %d", $pid))))
-		{
-			$name = $result[name];
-			$link = trim($_REQUEST['link']);
-			$reason = trim($_REQUEST['reason']);
-			$dura = $_REQUEST[dura] ? $_REQUEST[dura] : 32;
-			if ($_REQUEST['a'] == "bl_insert_submit" && $name && $reason)
-			{
-				db_query(sprintf("insert into xbl (admin, name, link, reason, duration, mtime, ctime) values ('%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",
-					addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
-			}
-		}
-		require('../../b/templates/bl_insert.php');
-		break;
 	case 'bad_passes':
 		$results = db_query("select flags, name from xwi_players inner join bad_passes using (pass) where ~flags & 2 order by name");
 		echo('<table>');
