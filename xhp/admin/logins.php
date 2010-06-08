@@ -1,12 +1,12 @@
 <?php
-	require_once('b/config.php');
-	require_once('b/common.php');
+	require_once('config.php');
+	require_once('../../b/common.php');
 
 	db_connect();
-	require('templates/top.php');
-	require('templates/links.php');
+	require('../../b/templates/top.php');
+	require('../../b/templates/links.php');
 	echo('<hr>');
-	require('templates/search.php');
+	require('../../b/templates/search.php');
 	echo('<hr>');
 	$ipa = $_REQUEST['ipa'];
 	$pid = $_REQUEST['pid'];
@@ -96,4 +96,3 @@
 		}
 		echo('</table>');
 	}
-?>
