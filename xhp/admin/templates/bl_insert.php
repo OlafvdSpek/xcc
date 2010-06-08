@@ -1,6 +1,6 @@
 <table>
-	<form method=get>
-		<input type=hidden name=a value="bl_insert_submit">
+	<form method=post>
+		<input type=hidden name=a value="warning">
 		<input type=hidden name=pid value="<?php printf("%d", $pid) ?>">
 		<tr><td align=right>Name:<td><?php echo $name ?>
 		<tr><td align=right>Reason:<td><input type=text name=reason size=60 value="<?php echo htmlspecialchars($reason) ?>">
