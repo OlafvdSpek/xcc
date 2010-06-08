@@ -22,20 +22,6 @@
 		}
 	}
 
-	function echo_warning($result)
-	{
-		printf('<tr><td align=right><a href="?a=show_warning;wid=%d">%d</a><td><a href=".?q=%s">%s</a><td>', $result['wid'], $result['wid'], $result['name'], $result['name']);
-		if ($result[link])
-			printf('<a href="%s">link</a>', htmlspecialchars($result[link]));
-		printf("<td align=right>%d<td>%s<td>%s<td>%s", $result['duration'] / (24 * 60 * 60), htmlspecialchars($result[reason]), htmlspecialchars($result[admin]), gmdate("H:i d-m-Y", $result[mtime]));
-	}
-
-	function echo_warnings($results)
-	{
-		while ($result = mysql_fetch_array($results))
-			echo_warning($result);
-	}
-
 	$remote_user = $_SERVER['REMOTE_USER'];
 	if (empty($remote_user))
 		die();
@@ -117,104 +103,6 @@
 				$result['gid'], $result['gid'], $result['ipa'], long2ip($result['ipa']), $result['sid'], $result['sid'], $result['name'], $result['cname']);
 		}
 		echo('</table>');
-		break;
-	case 'xbl':
-		$results = db_query("select * from xbl order by wid desc limit 1000");
-		echo('<table>');
-		echo_warnings($results);
-		echo('</table>');
-		echo('<hr>');
-		$results = db_query("select * from xbl_ipas order by wid desc");
-		echo('<table>');
-		while ($result = mysql_fetch_array($results))
-		{
-			printf('<tr>');
-			printf('<td align=right><a href="?a=show_warning;wid=%d">%d</a>', $result['wid'], $result['wid']);
-			printf('<td>%s', long2ip($result['ipa']));
-			printf('<td>%s', htmlspecialchars($result['creator']));
-			printf('<td>%s', gmdate("H:i d-m-Y", $result['ctime']));
-		}
-		echo('</table>');
-		break;
-	case 'edit_warning_submit':
-	case 'edit_warning_delete_ipa_submit':
-	case 'edit_warning_insert_ipa_submit':
-	case 'edit_warning_delete_serial_submit':
-	case 'edit_warning_insert_serial_submit':
-	case 'show_warning':
-		$wid = $_REQUEST['wid'];
-		if ($_REQUEST['a'] == 'edit_warning_submit')
-		{
-			$duration = $_REQUEST['duration'];
-			$link = trim($_REQUEST['link']);
-			$motd = trim($_REQUEST['motd']);
-			$reason = trim($_REQUEST['reason']);
-			db_query(sprintf("update xbl set duration = %d, motd = '%s', link = '%s', reason = '%s', mtime = unix_timestamp() where wid = %d",
-				24 * 60 * 60 * $duration, addslashes($motd), addslashes($link), addslashes($reason), $wid));
-		}
-		$results = db_query(sprintf("select * from xbl where wid = %d", $wid));
-		if ($row = mysql_fetch_array($results))
-		{
-			$ipa = $_REQUEST['ipa'];
-			$sid = 0 + $_REQUEST['sid'];
-			switch ($_REQUEST['a'])
-			{
-			case 'edit_warning_delete_ipa_submit':
-				db_query(sprintf("delete from xbl_ipas where ipa = %d and wid = %d", $ipa, $wid));
-				break;
-			case 'edit_warning_insert_ipa_submit':
-				if ($ipa)
-					db_query(sprintf("insert ignore into xbl_ipas (wid, ipa, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, ip2long($ipa), addslashes($remote_user)));
-				break;
-				/*
-			case 'edit_warning_delete_serial_submit':
-				db_query(sprintf("delete from xbl_serials where sid = %d and wid = %d", $sid, $wid));
-				break;
-				*/
-			case 'edit_warning_insert_serial_submit':
-				if ($sid)
-					db_query(sprintf("insert ignore into xbl_serials (wid, sid, creator, ctime) values (%d, %d, '%s', unix_timestamp())", $wid, $sid, addslashes($remote_user)));
-				break;
-			}
-			$creator = $row['admin'];
-			$ctime = gmdate("H:i d-m-Y", $row['ctime']);
-			$duration = htmlspecialchars(ceil($row['duration'] / (24 * 60 * 60)));
-			$link = htmlspecialchars($row['link']);
-			$mtime = gmdate("H:i d-m-Y", $row['mtime']);
-			$motd = htmlspecialchars($row['motd']);
-			$name = htmlspecialchars($row['name']);
-			$reason = htmlspecialchars($row['reason']);
-			$sid = $row['sid'];
-			include('../../b/templates/show_warning.php');
-			echo('<hr>');
-			echo('<table>');
-			$results = db_query(sprintf("select * from xbl_ipas where wid = %d", $wid));
-			while ($row = mysql_fetch_array($results))
-			{
-				echo('<tr>');
-				printf('<td><a href=".?q=%s">%s</a>', long2ip($row['ipa']), long2ip($row['ipa']));
-				printf('<td>%s', $row['creator']);
-				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
-				printf('<td><a href="?a=edit_warning_delete_ipa_submit;ipa=%d;wid=%d">delete</a>', $row['ipa'], $wid);
-			}
-			echo('</table>');
-			echo('<hr>');
-			include('../../b/templates/edit_warning_insert_ipa.php');
-			echo('<hr>');
-			echo('<table>');
-			$results = db_query(sprintf("select * from xbl_serials where wid = %d", $wid));
-			while ($row = mysql_fetch_array($results))
-			{
-				echo('<tr>');
-				printf('<td align=right><a href=".?q=%d">%d</a>', $row['sid'], $row['sid']);
-				printf('<td>%s', $row['creator']);
-				printf('<td>%s', gmdate("H:i d-m-Y", $row['ctime']));
-				// printf('<td><a href="?a=edit_warning_delete_serial_submit;sid=%d;wid=%d">delete</a>', $row['sid'], $wid);
-			}
-			echo('</table>');
-			echo('<hr>');
-			include('../../b/templates/edit_warning_insert_serial.php');
-		}
 		break;
 	case 'washers':
 		function compare0($a, $b)
