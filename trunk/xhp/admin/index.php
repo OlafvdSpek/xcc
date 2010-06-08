@@ -592,7 +592,7 @@
 				$dura = isset($_REQUEST['dura']) ? $_REQUEST['dura'] : 32;
 				if ($reason)
 				{
-					db_query(sprintf("insert into xbl (pid, admin, name, link, reason, duration, mtime, ctime) values (%d, '%s', '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())",	$pid, addslashes($remote_user), $name, addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
+					db_query(sprintf("insert into xbl (pid, admin, link, reason, duration, mtime, ctime) values (%d, '%s', '%s', '%s', %d, unix_timestamp(), unix_timestamp())", $pid, addslashes($remote_user), addslashes($link), addslashes($reason), 24 * 60 * 60 * $dura));
 					header(sprintf('location: ?a=warning;wid=%d', mysql_insert_id()));
 					return;
 				}
