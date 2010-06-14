@@ -322,7 +322,7 @@
 		$rows = db_query(sprintf("select distinct wid from xbl_serials where sid in (%s)", count($sids) ? implode(',', $sids) : '0'));
 		while ($row = mysql_fetch_assoc($rows))
 			$wids[] = $row['wid'];
-		$rows = db_query(sprintf("select * from xbl where wid in (%s) order by wid desc", count($wids) ? implode(',', $wids) : '0'));
+		$rows = db_query(sprintf("select bl.*, p.name from xbl bl left join xwi_players p using (pid) where wid in (%s) order by wid desc", count($wids) ? implode(',', $wids) : '0'));
 		if (($row = mysql_fetch_assoc($rows)))
 		{
 			printf('<table>');
