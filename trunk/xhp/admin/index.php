@@ -9,13 +9,14 @@
 
 	function page_search_results($search)
 	{
+		global $config;
 		if (0 + $search)
 		{
 			page_edit_serial(0 + $search);
 		}
 		else
 		{
-			$rows = db_query(sprintf("select pid from xwi_players where name like '%s' limit 100", addslashes($search)));
+			$rows = db_query(sprintf("select pid from xwi_players where server_id = %d and name like '%s' limit 100", $config['server_id'], addslashes($search)));
 			if (mysql_num_rows($rows) == 1)
 			{
 				$row = mysql_fetch_assoc($rows);
@@ -81,6 +82,8 @@
 		printf('<th align>name');
 		printf('<th align=right>wins');
 		printf('<th align=right>losses');
+		printf('<th align=right>dc');
+		printf('<th align=right>oos');
 		printf('<th align=right>points');
 		printf('<th>modified');
 		while ($row = mysql_fetch_assoc($rows))
@@ -92,6 +95,8 @@
 			printf('<td align><a href="%s?q=%s">%s</a>', $config['ladder_url'] . ($prev ? 'prev/' : ''), urlencode($row['name']), htmlspecialchars($row['name']));
 			printf('<td align=right>%d', $row['win_count']);
 			printf('<td align=right>%d', $row['loss_count']);
+			printf('<td align=right>%d', $row['dc_count']);
+			printf('<td align=right>%d', $row['oos_count']);
 			printf('<td align=right>%d', $row['points']);
 			printf('<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		}
