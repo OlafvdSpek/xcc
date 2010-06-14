@@ -397,6 +397,7 @@
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
+		printf('<tr><th>server<td>%d', $row['server_id']);
 		printf('<tr><th>name<td>%s', htmlspecialchars($row['name']));
 		printf('<tr><th>clan<td>');
 		if ($row['cid'])
