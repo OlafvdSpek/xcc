@@ -16,6 +16,7 @@
 #include "virtual_tfile.h"
 #include "xcc_dirs.h"
 
+using namespace boost;
 using namespace std;
 
 typedef map<int, string> t_file_list;
