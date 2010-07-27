@@ -6,6 +6,7 @@
 #include <map>
 #include <mix_file.h>
 #include <string_conversion.h>
+#include <xbt/find_ptr.h>
 
 struct t_idinfo
 {
@@ -116,14 +117,12 @@ void id_log::add_name(t_game game, const string& name, const string& description
 
 string id_log::get_name(t_game game, int id)
 {
-	t_id_list& list = get_list(game);
-	t_id_list::iterator i = list.find(id);
-	return i == list.end() ? "" : i->second.name;
+	auto i = find_ptr(get_list(game), id);
+	return i ? i->name : "";
 }
 
 string id_log::get_description(t_game game, int id)
 {
-	t_id_list& list = get_list(game);
-	t_id_list::iterator i = list.find(id);
-	return i == list.end() ? "" : i->second.description;
+	auto i = find_ptr(get_list(game), id);
+	return i ? i->description : "";
 }
