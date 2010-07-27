@@ -9,5 +9,8 @@
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;WINVER=0x501;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4018;4244;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>winmm.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
 </Project>

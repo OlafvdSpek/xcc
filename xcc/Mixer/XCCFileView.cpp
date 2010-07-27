@@ -301,11 +301,6 @@ int get_size(unsigned int v)
 	return r;
 }
 
-inline string n(unsigned long v)
-{
-	return n(static_cast<unsigned int>(v));
-}
-
 void CXCCFileView::OnDraw(CDC* pDC)
 {
 	const char* b2a[] = {"no", "yes"};

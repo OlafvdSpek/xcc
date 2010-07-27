@@ -1,12 +1,9 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy Player", "XCC Game Spy Player.vcproj", "{DB9AE784-5CBB-49B2-8F12-A8E9BB28B0B4}"
-	ProjectSection(ProjectDependencies) = postProject
-		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
-	EndProjectSection
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Game Spy Player", "XCC Game Spy Player.vcxproj", "{DB9AE784-5CBB-49B2-8F12-A8E9BB28B0B4}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcxproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
