@@ -12,6 +12,7 @@
 
 #pragma warning(disable: 4503 4554 4786 4800 4804)
 
+#include <boost/foreach.hpp>
 #include <cassert>
 #include <climits>
 #include <memory>

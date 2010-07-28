@@ -455,8 +455,8 @@ void CXCCMixerView::update_list()
 	}
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
-	for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
-		lc.SetItemData(lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK), i->first);
+	BOOST_FOREACH(auto& i, m_index)
+		lc.SetItemData(lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK), i.first);
 	sort_list(0, false);
 	sort_list(1, false);
 	SetRedraw(true);
@@ -894,9 +894,9 @@ bool CXCCMixerView::can_copy_as(t_file_type ft)
 {
 	if (!can_copy() || m_index_selected.empty())
 		return false;
-	for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
+	BOOST_FOREACH(auto& i, m_index_selected)
 	{
-		if (!can_convert(m_index.find(get_id(*i))->second.ft, ft))
+		if (!can_convert(m_index.find(get_id(i))->second.ft, ft))
 			return false;
 	}
 	return true;
@@ -927,33 +927,33 @@ void CXCCMixerView::copy_as(t_file_type ft)
 {
 	CWaitCursor wait;
 	int error;
-	for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
+	BOOST_FOREACH(auto& i, m_index_selected)
 	{
-		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(*i))->second.name;
-		if (m_index.find(get_id(*i))->second.name.find('\\') != string::npos)
-			create_deep_dir(m_other_pane->get_dir(), Cfname(m_index.find(get_id(*i))->second.name).get_path());
+		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(i))->second.name;
+		if (m_index.find(get_id(i))->second.name.find('\\') != string::npos)
+			create_deep_dir(m_other_pane->get_dir(), Cfname(m_index.find(get_id(i))->second.name).get_path());
 		switch (ft)
 		{
 		case -1:
-			error = copy(*i, fname);
+			error = copy(i, fname);
 			break;
 		case ft_aud:
-			error = copy_as_aud(*i, fname);
+			error = copy_as_aud(i, fname);
 			break;
 		case ft_avi:
-			error = copy_as_avi(*i, fname);
+			error = copy_as_avi(i, fname);
 			break;
 		case ft_cps:
-			error = copy_as_cps(*i, fname);
+			error = copy_as_cps(i, fname);
 			break;
 		case ft_csv:
-			error = copy_as_csv(*i, fname);
+			error = copy_as_csv(i, fname);
 			break;
 		case ft_html:
-			error = copy_as_html(*i, fname);
+			error = copy_as_html(i, fname);
 			break;
 		case ft_hva:
-			error = copy_as_hva(*i, fname);
+			error = copy_as_hva(i, fname);
 			break;
 		case ft_jpeg:
 		case ft_jpeg_single:
@@ -963,37 +963,37 @@ void CXCCMixerView::copy_as(t_file_type ft)
 		case ft_png_single:
 		case ft_tga:
 		case ft_tga_single:
-			error = copy_as_pcx(*i, fname, ft);
+			error = copy_as_pcx(i, fname, ft);
 			break;
 		case ft_map_ts_preview:
-			error = copy_as_map_ts_preview(*i, fname);
+			error = copy_as_map_ts_preview(i, fname);
 			break;
 		case ft_pal:
-			error = copy_as_pal(*i, fname);
+			error = copy_as_pal(i, fname);
 			break;
 		case ft_pal_jasc:
-			error = copy_as_pal_jasc(*i, fname);
+			error = copy_as_pal_jasc(i, fname);
 			break;
 		case ft_shp:
-			error = copy_as_shp(*i, fname);
+			error = copy_as_shp(i, fname);
 			break;
 		case ft_shp_ts:
-			error = copy_as_shp_ts(*i, fname);
+			error = copy_as_shp_ts(i, fname);
 			break;
 		case ft_text:
-			error = copy_as_text(*i, fname);
+			error = copy_as_text(i, fname);
 			break;
 		case ft_vxl:
-			error = copy_as_vxl(*i, fname);
+			error = copy_as_vxl(i, fname);
 			break;
 		case ft_wav_ima_adpcm:
-			error = copy_as_wav_ima_adpcm(*i, fname);
+			error = copy_as_wav_ima_adpcm(i, fname);
 			break;
 		case ft_wav_pcm:
-			error = copy_as_wav_pcm(*i, fname);
+			error = copy_as_wav_pcm(i, fname);
 			break;
 		case ft_xif:
-			error = copy_as_xif(*i, fname);
+			error = copy_as_xif(i, fname);
 			break;
 		default:
 			error = 1;
@@ -1360,11 +1360,11 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	int i;
 	for (i = 0; i < 1000; i++)
 		index[i] = -1;
-	for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+	BOOST_FOREACH(auto& j, m_index)
 	{
-		int z = get_index_from_name(base_name, j->second.name);
+		int z = get_index_from_name(base_name, j.second.name);
 		if (z != -1 && z < 1000)
-			index[z] = j->first;
+			index[z] = j.first;
 	}
 	while (i--)
 	{
@@ -1452,11 +1452,11 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		int i;
 		for (i = 0; i < 10000; i++)
 			index[i] = -1;
-		for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+		BOOST_FOREACH(auto& j, m_index)
 		{
-			int z = get_index_from_name(base_name, j->second.name);
+			int z = get_index_from_name(base_name, j.second.name);
 			if (z != -1 && z < 10000)
-				index[z] = j->first;
+				index[z] = j.first;
 		}
 		while (i--)
 		{
@@ -1593,11 +1593,11 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			int i;
 			for (i = 0; i < 256; i++)
 				index[i] = -1;
-			for (t_index::const_iterator j = m_index.begin(); j != m_index.end(); j++)
+			BOOST_FOREACH(auto& j, m_index)
 			{
-				int z = get_index_from_name(base_name, j->second.name);
+				int z = get_index_from_name(base_name, j.second.name);
 				if (z != -1 && z < 256)
-					index[z] = j->first;
+					index[z] = j.first;
 			}
 			int c_images = 0;
 			while (i--)
@@ -2167,8 +2167,8 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
-					f.erase(m_index.find(get_id(*i))->second.name);
+				BOOST_FOREACH(auto& i, m_index_selected)
+					f.erase(m_index.find(get_id(i))->second.name);
 				error = f.write_index();
 				f.close();
 			}
@@ -2180,8 +2180,8 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
-					f.erase(m_index.find(get_id(*i))->second.name);
+				BOOST_FOREACH(auto& i, m_index_selected)
+					f.erase(m_index.find(get_id(i))->second.name);
 				error = f.write_index();
 				f.close();
 			}
@@ -2192,8 +2192,8 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
-					f.erase(get_id(*i));
+				BOOST_FOREACH(auto& i, m_index_selected)
+					f.erase(get_id(i));
 				error = f.write_index();
 				f.close();
 			}
@@ -2202,10 +2202,9 @@ void CXCCMixerView::OnPopupDelete()
 	}
 	else
 	{
-		for (t_index_selected::const_iterator i = m_index_selected.begin(); i != m_index_selected.end(); i++)
+		BOOST_FOREACH(auto& i, m_index_selected)
 		{
-			string name = m_dir + m_index.find(get_id(*i))->second.name;
-			DeleteFile((m_dir + m_index.find(get_id(*i))->second.name).c_str());
+			DeleteFile((m_dir + m_index.find(get_id(i))->second.name).c_str());
 		}
 	}
 	set_msg(error ? "Delete failed" : "Delete done");
@@ -2595,10 +2594,10 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 {
 	if (m_reading)
 	{
-		for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
+		BOOST_FOREACH(auto& i, m_index)
 		{
-			t_index_entry& e = i->second;
-			if (i->second.ft == -1)
+			t_index_entry& e = i.second;
+			if (i.second.ft == -1)
 			{
 				Ccc_file f(false);
 				if (f.open(m_dir + e.name))
@@ -2614,7 +2613,7 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 				CListCtrl& lc = GetListCtrl();
 				LVFINDINFO lvf;
 				lvf.flags = LVFI_PARAM;
-				lvf.lParam = i->first;
+				lvf.lParam = i.first;
 				lc.Update(lc.FindItem(&lvf, -1));
 				m_sort_column = -1;
 				return true;
