@@ -111,7 +111,7 @@ void shp_images::destroy_shp(void*& p)
 
 void shp_images::destroy()
 {
-	for (t_image_list::iterator i = image_list.begin(); i != image_list.end(); i++)
-		::destroy_shp(*i);
+	BOOST_FOREACH(auto& i, image_list)
+		::destroy_shp(i);
 	image_list.clear();
 }

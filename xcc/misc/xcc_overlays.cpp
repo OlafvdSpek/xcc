@@ -113,15 +113,15 @@ int Cxcc_overlays::load_data()
 			t_overlay_data_entry& od = overlay_data[i];
 			od.ox = od.oy = 0;
 			const Cxif_key& ok = overlay_key.get_key(i);
-			for (t_xif_value_map::const_iterator i = ok.m_values.begin(); i != ok.m_values.end(); i++)
+			BOOST_FOREACH(auto& i, ok.m_values)
 			{
-				switch (i->first)
+				switch (i.first)
 				{
 				case vi_od_ox:
-					od.ox = i->second.get_int();
+					od.ox = i.second.get_int();
 					break;
 				case vi_od_oy:
-					od.oy = i->second.get_int();
+					od.oy = i.second.get_int();
 					break;
 				}
 			}
@@ -134,12 +134,12 @@ int Cxcc_overlays::load_data()
 			t_terrain_data_entry& td = terrain_data[i];
 			const Cxif_key& tk = terrain_key.get_key(i);
 			td.c_images = tk.get_value_int(vi_td_c_images);
-			for (t_xif_value_map::const_iterator i = tk.m_values.begin(); i != tk.m_values.end(); i++)
+			BOOST_FOREACH(auto& i, tk.m_values)
 			{
-				switch (i->first)
+				switch (i.first)
 				{
 				case vi_td_blocked:
-					td.blocked = i->second.get_int();
+					td.blocked = i.second.get_int();
 					break;
 				}
 			}
