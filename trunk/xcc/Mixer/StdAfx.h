@@ -19,6 +19,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <xbt/find_ptr.h>
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
