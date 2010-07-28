@@ -9,19 +9,13 @@ Cenergy_status_dlg::Cenergy_status_dlg(const Cxcc_level& level)
 {
 	//{{AFX_DATA_INIT(Cenergy_status_dlg)
 	//}}AFX_DATA_INIT
+	for (int i = 0; i < c_side_id; i++)
+		m_power_in[i] = m_power_out[i] = 0;
+	BOOST_FOREACH(auto& i, m_level.structure_data)
 	{
-		for (long i = 0; i < c_side_id; i++)
-		{
-			m_power_in[i] = m_power_out[i] = 0;
-		}
-	}
-	{
-		for (t_structure_data::const_iterator i = m_level.structure_data.begin(); i != m_level.structure_data.end(); i++)
-		{
-			const xcc_structures::t_structure_data_entry& d = xcc_structures::structure_data[i->t];
-			m_power_in[i->side] += d.power_out;
-			m_power_out[i->side] += d.power_in;
-		}
+		auto& d = xcc_structures::structure_data[i.t];
+		m_power_in[i.side] += d.power_out;
+		m_power_out[i.side] += d.power_in;
 	}
 }
 

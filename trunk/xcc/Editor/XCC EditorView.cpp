@@ -284,66 +284,66 @@ void CXCCEditorView::update_mem_surface()
 		m_MemDC.BitBlt(0, 0, dib_cx, dib_cy, 0, 0, 0, BLACKNESS);
 	if (m_view_overlay_layer)
 	{
-		for (t_overlay_data::const_iterator i = level().overlay_data.begin(); i != level().overlay_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().overlay_data)
 		{
 			Cxcc_cell cell;
-			cell.set_xcc(i->first);
+			cell.set_xcc(i.first);
 			int x = (cell.get_x() >> 8) * 24;
 			int y = (cell.get_y() >> 8) * 24;
-			draw_overlay(i->second, mp_dib, x, y, dib_cx);
+			draw_overlay(i.second, mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_terrain_layer)
 	{
-		for (t_terrain_data::const_iterator i = level().terrain_data.begin(); i != level().terrain_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().terrain_data)
 		{
 			Cxcc_cell cell;
-			cell.set_xcc(i->first);
+			cell.set_xcc(i.first);
 			int x = (cell.get_x() >> 8) * 24;
 			int y = (cell.get_y() >> 8) * 24;
-			draw_terrain(i->second, mp_dib, x, y, dib_cx);
+			draw_terrain(i.second, mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_structure_layer)
 	{
-		for (t_structure_data::const_iterator i = level().structure_data.begin(); i != level().structure_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().structure_data)
 		{
-			int x = (i->cell.get_x() >> 8) * 24;
-			int y = (i->cell.get_y() >> 8) * 24;
-			draw_structure(i->t, i->angle, xcc_draw::side_rp[i->side],
+			int x = (i.cell.get_x() >> 8) * 24;
+			int y = (i.cell.get_y() >> 8) * 24;
+			draw_structure(i.t, i.angle, xcc_draw::side_rp[i.side],
 				mp_dib, x, y, dib_cx, true);
 		}
 	}
 	if (m_view_infantry_layer)
 	{
-		for (t_infantry_data::const_iterator i = level().infantry_data.begin(); i != level().infantry_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().infantry_data)
 		{
-			int x = (24 * i->cell.get_x() >> 8) - 27;
-			int y = (24 * i->cell.get_y() >> 8) - 15;
-			draw_infantry(i->t, i->angle, i->side == s_badguy ? xcc_draw::multi4_rp : xcc_draw::side_rp[i->side],
+			int x = (24 * i.cell.get_x() >> 8) - 27;
+			int y = (24 * i.cell.get_y() >> 8) - 15;
+			draw_infantry(i.t, i.angle, i.side == s_badguy ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side],
 				mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_unit_layer)
 	{
-		for (t_unit_data::const_iterator i = level().unit_data.begin(); i != level().unit_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().unit_data)
 		{
-			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i->t];
-			int x = (i->cell.get_x() >> 8) * 24 + ud.base_ox;
-			int y = (i->cell.get_y() >> 8) * 24 + ud.base_oy;
-			draw_unit(i->t, i->angle, i->side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i->side],
+			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i.t];
+			int x = (i.cell.get_x() >> 8) * 24 + ud.base_ox;
+			int y = (i.cell.get_y() >> 8) * 24 + ud.base_oy;
+			draw_unit(i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side],
 				mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_celltrigger_layer)
 	{
-		for (t_celltrigger_data::const_iterator i = level().celltrigger_data.begin(); i != level().celltrigger_data.end(); i++)
+		BOOST_FOREACH(auto& i, level().celltrigger_data)
 		{
 			Cxcc_cell cell;
-			cell.set_cc(i->first);
+			cell.set_cc(i.first);
 			const CPoint p = cell.pixel();
 			m_MemDC.SetTextColor(0xff8080);
-			m_MemDC.TextOut(p.x - 12, p.y - 12, i->second.substr(0, 3).c_str());
+			m_MemDC.TextOut(p.x - 12, p.y - 12, i.second.substr(0, 3).c_str());
 		}
 	}
 	if (m_view_waypoint_layer)
@@ -1903,11 +1903,11 @@ void CXCCEditorView::sel_fill_with_wall(dword t)
 void CXCCEditorView::OnToolsUpgradeTiberium() 
 {
 	t_overlay_data& data = level().overlay_data;
-	for (t_overlay_data::iterator i = data.begin(); i != data.end(); i++)
+	BOOST_FOREACH(auto& i, data)
 	{
-		t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
+		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		if (is_tiberium(v))
-			i->second = v << 8 | 11;
+			i.second = v << 8 | 11;
 	}
 	OnUpdate();
 }
