@@ -594,7 +594,9 @@ const Cgame_state& CXCCGameSpyPlayerView::get_game_state(int game_state_i)
 	{
 		int t = m_game_state_i + 1;
 		const Cxif_key_r& key = GetDocument()->key();
-		Cxif_key_r::t_key_map::const_iterator i = key.find_key(m_game_state_i + 1);
+		Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
+		while (i->first != m_game_state_i + 1)
+			i++;
 		while (t++ <= game_state_i)
 			m_game_state.import_diff(i++->second);
 		m_game_state_i = game_state_i;
