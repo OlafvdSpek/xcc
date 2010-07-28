@@ -99,15 +99,15 @@ void Cpalet_filter::select(t_file_type ft, int cx, int cy, string fname)
 {
 	m_vector.clear();
 	int best_q = INT_MIN;
-	for (t_list::const_iterator i = m_list.begin(); i != m_list.end(); i++)
+	BOOST_FOREACH(auto& i, m_list)
 	{
-		int q = i->q(ft, cx, cy, fname);
+		int q = i.q(ft, cx, cy, fname);
 		if (q < best_q)
 			continue;
 		if (q > best_q)
 			m_vector.clear();
 		best_q = q;
-		m_vector.push_back(i);
+		m_vector.push_back(&i);
 	}
 	m_vector_i = m_vector.begin();
 }
@@ -117,7 +117,7 @@ string Cpalet_filter::pick(t_game& game)
 {
 	if (m_vector.empty())
 		return "";
-	t_list::const_iterator i = *m_vector_i++;
+	t_list::const_pointer i = *m_vector_i++;
 	if (m_vector_i == m_vector.end())
 		m_vector_i = m_vector.begin();
 	game = i->game();
