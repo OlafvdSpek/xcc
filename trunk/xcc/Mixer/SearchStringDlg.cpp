@@ -51,11 +51,11 @@ void CSearchStringDlg::OnSearch()
 	{
 		CWaitCursor wait;
 		m_list.DeleteAllItems();
-		for (Ccsf_file::t_map::const_iterator i = m_csf->get_map().begin(); i != m_csf->get_map().end(); i++)
+		BOOST_FOREACH(auto& i, m_csf->get_map())
 		{
-			if (fname_filter(i->first, static_cast<string>(m_name))
-				|| fname_filter(Ccsf_file::convert2string(i->second.value), static_cast<string>(m_name)))
-				m_list.SetItemText(m_list.InsertItem(m_list.GetItemCount(), i->first.c_str()), 1, Ccsf_file::convert2string(i->second.value).c_str());
+			if (fname_filter(i.first, static_cast<string>(m_name))
+				|| fname_filter(Ccsf_file::convert2string(i.second.value), static_cast<string>(m_name)))
+				m_list.SetItemText(m_list.InsertItem(m_list.GetItemCount(), i.first.c_str()), 1, Ccsf_file::convert2string(i.second.value).c_str());
 		}
 		m_list.auto_size();
 	}

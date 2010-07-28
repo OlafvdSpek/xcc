@@ -62,20 +62,18 @@ void CSelectPaletDlg::insert_tree_entry(int parent_id, HTREEITEM parent_item)
 	typedef multimap<string, int> t_sort_map;
 	const t_map& map = m_pal_map_list;
 	t_sort_map sort_map;
+	BOOST_FOREACH(auto& i, map)
 	{
-		for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
-		{
-			if (i->second.parent == parent_id)
-				sort_map.insert(t_sort_map::value_type(i->second.name, i->first));
-		}
+		if (i.second.parent == parent_id)
+			sort_map.insert(t_sort_map::value_type(i.second.name, i.first));
 	}
-	for (t_sort_map::const_iterator j = sort_map.begin(); j != sort_map.end(); j++)
+	BOOST_FOREACH(auto& j, sort_map)
 	{
-		t_map::const_iterator i = map.find(j->second);
-		HTREEITEM h = tc.InsertItem(i->second.name.c_str(), parent_item);
-		tc.SetItemData(h, i->first);
-		insert_tree_entry(i->first, h);
-		if (m_current_palet != -1 && m_pal_list.find(m_current_palet)->second.parent == i->first)
+		t_map::const_reference i = *map.find(j.second);
+		HTREEITEM h = tc.InsertItem(i.second.name.c_str(), parent_item);
+		tc.SetItemData(h, i.first);
+		insert_tree_entry(i.first, h);
+		if (m_current_palet != -1 && m_pal_list.find(m_current_palet)->second.parent == i.first)
 			tc.SelectItem(h);
 	}
 }
@@ -84,21 +82,19 @@ void CSelectPaletDlg::update_list(int parent_id, int current_palet)
 {
 	CListCtrl& lc = m_list;
 	lc.DeleteAllItems();
-	typedef t_pal_list t_map;
-	const t_map& map = m_pal_list;
-	for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+	BOOST_FOREACH(auto& i, m_pal_list)
 	{
-		if (i->second.parent != parent_id)
+		if (i.second.parent != parent_id)
 			continue;
-		string name = i->second.name;
+		string name = i.second.name;
 		{	
 			int i = name.rfind(' ');
 			if (i != string::npos)
 				name = name.substr(i + 1);
 		}
 		int index = lc.InsertItem(lc.GetItemCount(), name.c_str());
-		lc.SetItemData(index, i->first);
-		if (current_palet == i->first)
+		lc.SetItemData(index, i.first);
+		if (current_palet == i.first)
 			lc.SetItemState(index, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
 	}
 	check_selection();
