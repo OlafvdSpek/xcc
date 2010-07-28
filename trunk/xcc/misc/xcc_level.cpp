@@ -1016,17 +1016,17 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	}
 
 	f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
-	for (t_celltrigger_data::const_iterator i = celltrigger_data.begin(); i != celltrigger_data.end(); i++)
+	BOOST_FOREACH(auto& i, celltrigger_data)
 	{
-		f.write_line(n(i->first) + '=' + i->second);
+		f.write_line(n(i.first) + '=' + i.second);
 	}
 	f.write_line("");
 
 	f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
-	for (t_teamtype_data::const_iterator i = teamtype_data.begin(); i != teamtype_data.end(); i++)
+	BOOST_FOREACH(auto& i, teamtype_data)
 	{
-		const t_teamtype_data_entry& d = i->second;
-		f.write(i->first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
+		const t_teamtype_data_entry& d = i.second;
+		f.write(i.first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
 			n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," +
 			n(d.u1) + ',' + n(d.c_teams) + ",0,0," + n(d.c_objects) + ',');
 		for (int i = 0; i < d.c_objects; i++)
@@ -1046,10 +1046,10 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	f.write_line("");
 
 	f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
-	for (t_trigger_data::const_iterator i = trigger_data.begin(); i != trigger_data.end(); i++)
+	BOOST_FOREACH(auto& i, trigger_data)
 	{
-		const t_trigger_data_entry& d = i->second;
-		f.write_line(i->first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
+		const t_trigger_data_entry& d = i.second;
+		f.write_line(i.first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
 			n(d.count) + ',' + side_code[d.side == -1 ? s_none : d.side] + ',' +
 			d.teamtype + ',' + n(d.loop));
 	}
@@ -1066,48 +1066,45 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_base] + ']');
 		int index = 0;
-		for (t_structure_data::const_iterator i = structure_data.begin(); i < structure_data.end(); i++)
+		BOOST_FOREACH(auto& i, structure_data)
 		{
-			if (i->flags & sd_flags_replace)
-			{
-				f.write_line(nwzl(3, index++) + '=' + xcc_structures::structure_data[i->t].short_name
-					+ ',' + n(static_cast<int>((i->cell.get_cc() & 0xfc0) << 18 | (i->cell.get_cc() & 0x3f) << 8)));
-			}
+			if (~i.flags & sd_flags_replace)
+				continue;
+			f.write_line(nwzl(3, index++) + '=' + xcc_structures::structure_data[i.t].short_name
+				+ ',' + n(static_cast<int>((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8)));
 		}
 	}
 	f.write_line("");
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_infantry] + ']');
 		int index = 0;
-		for (t_infantry_data::const_iterator i = infantry_data.begin(); i < infantry_data.end(); i++)
+		BOOST_FOREACH(auto& i, infantry_data)
 		{
-			f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_infantry::infantry_data[i->t].short_name
-				+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->cell.subcell())
-				+ ',' + action_code[i->action] + ',' + n(i->angle) + ',' + i->trigger);
+			f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_infantry::infantry_data[i.t].short_name
+				+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.cell.subcell())
+				+ ',' + action_code[i.action] + ',' + n(i.angle) + ',' + i.trigger);
 		}
 		f.write_line("");
 	}
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_structures] + ']');
 		int index = 0;
-		for (t_structure_data::const_iterator i = structure_data.begin(); i < structure_data.end(); i++)
+		BOOST_FOREACH(auto& i, structure_data)
 		{
-			if (i->flags & sd_flags_start)
-			{
-				f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_structures::structure_data[i->t].short_name
-					+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->angle)  + ',' + i->trigger);
-
-			}
+			if (~i.flags & sd_flags_start)
+				continue;
+			f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_structures::structure_data[i.t].short_name
+				+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.angle)  + ',' + i.trigger);
 		}
 		f.write_line("");
 	}
 	f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
 	int index = 0;
-	for (t_unit_data::const_iterator i = unit_data.begin(); i < unit_data.end(); i++)
+	BOOST_FOREACH(auto& i, unit_data)
 	{
-		f.write_line(nwzl(3, index++) + '=' + side_code[i->side] + ',' + xcc_units::unit_data[i->t].short_name
-			+ ',' + n(i->health) + ',' + n(i->cell.get_cc()) + ',' + n(i->angle)
-			+ ',' + action_code[i->action] + ',' + i->trigger);
+		f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_units::unit_data[i.t].short_name
+			+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.angle)
+			+ ',' + action_code[i.action] + ',' + i.trigger);
 	}
 	f.write_line("");
 
@@ -1143,23 +1140,23 @@ for (int i = 0; i < c_side_id; i++)
 	}
 
 	f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
-	for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
+	BOOST_FOREACH(auto& i, overlay_data)
 	{
-		t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
+		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		if (is_tiberium(v))
-			v = static_cast<t_overlay_id>((i->second & 0xff) + o_ti1);
+			v = static_cast<t_overlay_id>((i.second & 0xff) + o_ti1);
 		Cxcc_cell cell;
-		cell.set_xcc(i->first);
+		cell.set_xcc(i.first);
 		f.write_line(n(cell.get_cc()) + '=' + overlay_code[v]);
 	}
 	f.write_line("");
 
 	f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
-	for (t_terrain_data::const_iterator i = terrain_data.begin(); i != terrain_data.end(); i++)
+	BOOST_FOREACH(auto& i, terrain_data)
 	{
 		Cxcc_cell cell;
-		cell.set_xcc(i->first);
-		f.write_line(n(cell.get_cc()) + '=' + terrain_code[i->second >> 8] + ",none");
+		cell.set_xcc(i.first);
+		f.write_line(n(cell.get_cc()) + '=' + terrain_code[i.second >> 8] + ",none");
 	}
 	f.write_line("");
 	return f.save();
@@ -1190,74 +1187,66 @@ void Cxcc_level::deconvert_bin(unsigned short* data) const
 
 void Cxcc_level::process()
 {
+	for (int i = 0; i < 4096; i++)
 	{
-		for (int i = 0; i < 4096; i++)
+		int x = i & 0x3f;
+		int y = i >> 6;
+		unsigned short& v = bin_data[i];
+		switch (v >> 8)
 		{
-			int x = i & 0x3f;
-			int y = i >> 6;
-			unsigned short& v = bin_data[i];
-			switch (v >> 8)
+		case 0:
+			v = v & 0xff00 | x & 3 | (y & 3) << 2;
+			break;
+		case 2:
+			v = v & 0xff00 | x & 1 | (y & 1) << 1;
+			break;
+		}
+	}
+	BOOST_FOREACH(auto& i, overlay_data)
+	{
+		int cell = i.first;
+		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
+		int w = i.second & 0xff;
+		if (is_wall(v))
+		{
+			t_overlay_data::const_iterator j;
+			j = overlay_data.find(cell - 256);
+			bool top = j != overlay_data.end() && j->second >> 8 == v;
+			j = overlay_data.find(cell + 1);
+			bool right = j != overlay_data.end() && j->second >> 8 == v;
+			j = overlay_data.find(cell + 256);
+			bool bottom = j != overlay_data.end() && j->second >> 8 == v;
+			j = overlay_data.find(cell - 1);
+			bool left = j != overlay_data.end() && j->second >> 8 == v;
+			w = top | right << 1 | bottom << 2 | left << 3;
+		}
+		overlay_data[cell] = v << 8 | w;
+	}
+	BOOST_FOREACH(auto& i, base_data)
+	{
+		t_structure_data::iterator j;
+		for (j = structure_data.begin(); j < structure_data.end(); j++)
+		{
+			if (i.first == j->cell.get_xcc() && i.second == j->t)
 			{
-			case 0:
-				v = v & 0xff00 | x & 3 | (y & 3) << 2;
+				j->flags |= sd_flags_replace;
 				break;
-			case 2:
-				v = v & 0xff00 | x & 1 | (y & 1) << 1;
-				break;
 			}
 		}
-	}
-	{
-		// overlay
-		for (t_overlay_data::const_iterator i = overlay_data.begin(); i != overlay_data.end(); i++)
+		if (j == structure_data.end())
 		{
-			int cell = i->first;
-			t_overlay_id v = static_cast<t_overlay_id>(i->second >> 8);
-			int w = i->second & 0xff;
-			if (is_wall(v))
-			{
-				t_overlay_data::const_iterator j;
-				j = overlay_data.find(cell - 256);
-				bool top = j != overlay_data.end() && j->second >> 8 == v;
-				j = overlay_data.find(cell + 1);
-				bool right = j != overlay_data.end() && j->second >> 8 == v;
-				j = overlay_data.find(cell + 256);
-				bool bottom = j != overlay_data.end() && j->second >> 8 == v;
-				j = overlay_data.find(cell - 1);
-				bool left = j != overlay_data.end() && j->second >> 8 == v;
-				w = top | right << 1 | bottom << 2 | left << 3;
-			}
-			overlay_data[cell] = v << 8 | w;
+			t_structure_data_entry d;
+			d.side = basic_data.player != s_goodguy ? s_goodguy : s_badguy;
+			d.t = i.second;
+			d.health = 256;
+			d.cell.set_xcc(i.first);
+			d.angle = 0;
+			d.flags = sd_flags_replace;
+			d.trigger = "none";
+			structure_data.push_back(d);
 		}
 	}
-	{
-		// base
-		for (t_base_data::const_iterator i = base_data.begin(); i != base_data.end(); i++)
-		{
-			t_structure_data::iterator j;
-			for (j = structure_data.begin(); j < structure_data.end(); j++)
-			{
-				if (i->first == j->cell.get_xcc() && i->second == j->t)
-				{
-					j->flags |= sd_flags_replace;
-					break;
-				}
-			}
-			if (j == structure_data.end())
-			{
-				t_structure_data_entry d;
-				d.side = basic_data.player != s_goodguy ? s_goodguy : s_badguy;
-				d.t = i->second;
-				d.health = 256;
-				d.cell.set_xcc(i->first);
-				d.angle = 0;
-				d.flags = sd_flags_replace;
-				d.trigger = "none";
-				structure_data.push_back(d);
-			}
-		}
-		base_data.clear();
-	}
+	base_data.clear();
 }
 
 void Cxcc_level::clear()

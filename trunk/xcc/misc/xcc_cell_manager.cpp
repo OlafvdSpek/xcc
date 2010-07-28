@@ -49,10 +49,10 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	clear();
 	{
 		// overlay
-		for (t_overlay_data::const_iterator i = level.overlay_data.begin(); i != level.overlay_data.end(); i++)
+		BOOST_FOREACH(auto& i, level.overlay_data)
 		{
 			Cxcc_cell cell;
-			cell.set_xcc(i->first);
+			cell.set_xcc(i.first);
 			add(cell, oi_overlay << 24 | (cell.get_y() & 0xff00) | (cell.get_x() >> 8));
 		}
 	}
@@ -61,36 +61,30 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	}
 	{
 		// terrain
-		for (t_terrain_data::const_iterator i = level.terrain_data.begin(); i != level.terrain_data.end(); i++)
+		BOOST_FOREACH(auto& i, level.terrain_data)
 		{
 			Cxcc_cell cell;
-			cell.set_xcc(i->first);
+			cell.set_xcc(i.first);
 			add(cell, oi_terrain << 24 | (cell.get_y() & 0xff00) | (cell.get_x() >> 8));
 		}
 	}
 	{
 		// infantry
 		int index = 0;
-		for (t_infantry_data::const_iterator i = level.infantry_data.begin(); i != level.infantry_data.end(); i++)
-		{
-			add(i->cell, oi_infantry << 24 | index++);
-		}
+		BOOST_FOREACH(auto& i, level.infantry_data)
+			add(i.cell, oi_infantry << 24 | index++);
 	}
 	{
 		// structure
 		int index = 0;
-		for (t_structure_data::const_iterator i = level.structure_data.begin(); i != level.structure_data.end(); i++)
-		{
-			add(i->cell, oi_structure << 24 | index++);
-		}
+		BOOST_FOREACH(auto& i, level.structure_data)
+			add(i.cell, oi_structure << 24 | index++);
 	}
 	{
 		// unit
 		int index = 0;
-		for (t_unit_data::const_iterator i = level.unit_data.begin(); i != level.unit_data.end(); i++)
-		{
-			add(i->cell, oi_unit << 24 | index++);
-		}
+		BOOST_FOREACH(auto& i, level.unit_data)
+			add(i.cell, oi_unit << 24 | index++);
 	}
 }
 

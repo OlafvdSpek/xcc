@@ -34,21 +34,15 @@ int xcc_infantry::load_data()
 	if (infantry_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + infantry_xif_fname)))
 		return 1;
 	int infantry_i = 0;
-	for (t_xif_key_map::iterator i = infantry_key.m_keys.begin(); i != infantry_key.m_keys.end(); i++)
+	BOOST_FOREACH(auto& i, infantry_key.m_keys)
 	{
 		t_infantry_data_entry& id = infantry_data[infantry_i];
-		Cxif_key& ik = i->second;
+		Cxif_key& ik = i.second;
 		id.long_name = ik.get_value_string(vi_id_long_name);
 		id.short_name = ik.get_value_string(vi_id_short_name);
 		id.cx = ik.get_value_int(vi_id_cx);
 		id.cy = ik.get_value_int(vi_id_cy);
 		id.flags = ik.get_value_int(vi_id_flags);
-		for (t_xif_value_map::const_iterator i = ik.m_values.begin(); i != ik.m_values.end(); i++)
-		{
-			switch (i->first)
-			{
-			}
-		}
 		infantry_i++;
 	}
 	return 0;
@@ -70,9 +64,9 @@ int xcc_infantry::save_data()
 	}
 	Cxif_key infantry_key;
 	int infantry_i = 0;
-	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
+	BOOST_FOREACH(auto& i, list)
 	{
-		t_infantry_data_entry& id = infantry_data[i->second];
+		t_infantry_data_entry& id = infantry_data[i.second];
 		Cxif_key& ik = infantry_key.set_key(infantry_i);
 		ik.set_value_string(vi_id_long_name, id.long_name);
 		ik.set_value_string(vi_id_short_name, id.short_name);
