@@ -335,12 +335,12 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					if (!j.second.human)
 						continue;
 					x += 32;
-					t_object_counts::const_iterator k = i.second.find(j.first);
-					if (k == i.second.end())
+					auto k = find_ptr(i.second, j.first);
+					if (!k)
 						continue;
 					COLORREF old_color = m_mem_dc.SetTextColor(player_color(j.second.id, 0xff));
 					char b[12];
-					sprintf(b, "%3d", k->second);
+					sprintf(b, "%3d", *k);
 					m_mem_dc.TextOut(x, y, b);
 					m_mem_dc.SetTextColor(old_color);
 				}
