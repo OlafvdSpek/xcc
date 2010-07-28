@@ -249,10 +249,10 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				const Cobject& object = i.second;
 				if (!object.x || !object.y)
 					continue;
-				Cgame_state::t_players::const_iterator player_i = game_state.players.find(object.owner);
-				if (player_i == game_state.players.end())
+				auto player_i = find_ptr(game_state.players, object.owner);
+				if (!player_i)
 					continue;
-				const Cplayer& player = player_i->second;
+				const Cplayer& player = *player_i;
 				if (!m_view_non_human_objects && !player.human)
 					continue;
 				int x, y;
