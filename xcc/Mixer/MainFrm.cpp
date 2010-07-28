@@ -263,27 +263,18 @@ int CMainFrame::pal_list_create_map(string name, int parent)
 
 void CMainFrame::clean_pal_map_list()
 {
-	typedef set<int> t_used_set;
-	t_used_set used_set;
+	set<int> used_set;
+	BOOST_FOREACH(auto& i, m_pal_list)
+		used_set.insert(i.second.parent);
+	BOOST_FOREACH(auto& i, m_pal_map_list)
 	{
-		typedef t_pal_list t_map;
-		const t_map& map = m_pal_list;
-		for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
-			used_set.insert(i->second.parent);
-	}
-	{
-		typedef t_pal_map_list t_map;
-		const t_map& map = m_pal_map_list;
-		for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+		if (used_set.find(i.first) == used_set.end())
+			continue;
+		int p = i.second.parent;
+		while (p != -1)
 		{
-			if (used_set.find(i->first) == used_set.end())
-				continue;
-			int p = i->second.parent;
-			while (p != -1)
-			{
-				used_set.insert(p);
-				p = m_pal_map_list.find(p)->second.parent;
-			}
+			used_set.insert(p);
+			p = m_pal_map_list.find(p)->second.parent;
 		}
 	}
 	{
@@ -408,8 +399,8 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 			}
 			if (sort_list.empty())
 				continue;
-			for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
-				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX000 + l->second, escape_menu_name(l->first).c_str());
+			BOOST_FOREACH(auto& l, sort_list)
+				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX000 + l.second, escape_menu_name(l.first).c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
@@ -487,8 +478,8 @@ void CMainFrame::initialize_lists()
 			sort_list[pal_list[j].name] = j;
 			j++;
 		}
-		for (t_sort_list::const_iterator l = sort_list.begin(); l != sort_list.end(); l++)
-			m_pal_list[k++] = pal_list.find(l->second)->second;
+		BOOST_FOREACH(auto& l, sort_list)
+			m_pal_list[k++] = pal_list.find(l.second)->second;
 	}
 
 	Cmix_file f1, f2;
@@ -990,14 +981,13 @@ void CMainFrame::OnLaunchXTW_TS()
 					g << "[Themes]" << endl;
 					// "1=INTRO" << endl;
 					int j = 51;
-					t_theme_list::const_iterator i;
-					for (i = theme_list.begin(); i != theme_list.end(); i++)
-						g << n(j++) << '=' << to_upper_copy(i->first) << endl;
+					BOOST_FOREACH(auto& i, theme_list)
+						g << n(j++) << '=' << to_upper_copy(i.first) << endl;
 					g << endl;
-					for (i = theme_list.begin(); i != theme_list.end(); i++)
+					BOOST_FOREACH(auto& i, theme_list)
 					{
-						const Ctheme_data& e = i->second;
-						g << '[' << to_upper_copy(i->first) << ']' << endl
+						const Ctheme_data& e = i.second;
+						g << '[' << to_upper_copy(i.first) << ']' << endl
 							<< "Name=" << e.name() << endl;
 						if (e.normal())
 							g << "Length=" << e.length() << endl;
@@ -1090,14 +1080,13 @@ void CMainFrame::launch_xtw(t_game game)
 					ofstream g((dir + theme_ini_fname).c_str());
 					g << "[Themes]" << endl;
 					int j = 51;
-					t_theme_list::const_iterator i;
-					for (i = theme_list.begin(); i != theme_list.end(); i++)
-						g << n(j++) << '=' << to_upper_copy(i->first) << endl;
+					BOOST_FOREACH(auto& i, theme_list)
+						g << n(j++) << '=' << to_upper_copy(i.first) << endl;
 					g << endl;
-					for (i = theme_list.begin(); i != theme_list.end(); i++)
+					BOOST_FOREACH(auto& i, theme_list)
 					{
-						const Ctheme_data& e = i->second;
-						g << '[' << to_upper_copy(i->first) << ']' << endl;
+						const Ctheme_data& e = i.second;
+						g << '[' << to_upper_copy(i.first) << ']' << endl;
 						if (!e.name().empty())
 							g << "Name=" << e.name() << endl;
 						if (!e.normal())
