@@ -47,7 +47,7 @@ private:
 	};
 
 	typedef list<Clist_entry> t_list;
-	typedef vector<t_list::const_iterator> t_vector;
+	typedef vector<t_list::const_pointer> t_vector;
 
 	t_list m_list;
 	t_vector::const_iterator m_vector_i;
