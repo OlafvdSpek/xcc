@@ -86,13 +86,13 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	}
 	{
 		int list_i = 0;
-		for (t_index::const_iterator i = index.begin(); i != index.end(); i++)
+		BOOST_FOREACH(auto& i, index)
 		{
-			const string& name = i->first;
+			const string& name = i.first;
 			m_list.add_item(nh(8, Cmix_file::get_id(game_td, name)), list_i);
 			m_list.set_item(name, list_i, 1);
-			m_list.set_item(i->second.description, list_i, 2);
-			m_list.set_item(theater_code[i->second.theater], list_i, 3);
+			m_list.set_item(i.second.description, list_i, 2);
+			m_list.set_item(theater_code[i.second.theater], list_i, 3);
 			list_i++;
 		}
 	}

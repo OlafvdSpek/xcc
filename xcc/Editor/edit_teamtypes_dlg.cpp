@@ -51,10 +51,8 @@ BOOL Cedit_teamtypes_dlg::OnInitDialog()
 	m_list.add_column("Objects", 2);	
 	m_list.add_column("Actions", 3);	
 
-	for (t_teamtype_data::const_iterator i = m_teamtype_data.begin(); i != m_teamtype_data.end(); i++)
-	{
-		add_teamtype(i->first);
-	};
+	BOOST_FOREACH(auto& i, m_teamtype_data)
+		add_teamtype(i.first);
 
 	m_list.autosize_columns();
 	
