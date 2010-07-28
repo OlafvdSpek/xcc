@@ -734,16 +734,15 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Count themes:", n(tl.size()));
 				m_y += m_y_inc;
 				int column_size[] = {0, 6, 3, 0};
-				Ctheme_ts_ini_reader::t_theme_list::const_iterator i;
-				for (i = tl.begin(); i != tl.end(); i++)
+				BOOST_FOREACH(auto& i, tl)
 				{
-					const Ctheme_data& td = i->second;
+					const Ctheme_data& td = i.second;
 					column_size[0] = max(column_size[0], td.name().length());
 					column_size[3] = max(column_size[3], td.side().length());
 				}
-				for (i = tl.begin(); i != tl.end(); i++)
+				BOOST_FOREACH(auto& i, tl)
 				{
-					const Ctheme_data& td = i->second;
+					const Ctheme_data& td = i.second;
 					float length = td.length();
 					string line = swsr(column_size[0], td.name()) + nwsl(3, length) + ':' + nwzl(2, static_cast<int>(length * 60) % 60)
 						+ nwsl(3, td.scenario())
@@ -1122,8 +1121,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					const Cpkt_ts_ini_reader::t_map_list& ml = ir.get_map_list();
 					draw_info("Count maps:", n(ml.size()));
 					m_y += m_y_inc;
-					for (Cpkt_ts_ini_reader::t_map_list::const_iterator i = ml.begin(); i != ml.end(); i++)
-						draw_info(i->first, i->second.m_description + ", " + i->second.m_gamemode);
+					BOOST_FOREACH(auto& i, ml)
+						draw_info(i.first, i.second.m_description + ", " + i.second.m_gamemode);
 					break;
 				}
 			case ft_sound_ini_ts:
@@ -1142,9 +1141,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					column_size[3] = max(column_size[3], td.side().length());
 					}
 					*/
-					for (Csound_ts_ini_reader::t_sound_list::const_iterator i = sl.begin(); i != sl.end(); i++)
+					BOOST_FOREACH(auto& i, sl)
 					{
-						draw_info(i->first, "");
+						draw_info(i.first, "");
 					}
 					break;
 				}
@@ -1219,10 +1218,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			SetScrollSizes(MM_TEXT, CSize(m_x, m_y));
 			m_text_cache_valid = true;
 		}
-		for (t_text_cache::iterator i = m_text_cache.begin(); i != m_text_cache.end(); i++)
+		BOOST_FOREACH(auto& i, m_text_cache)
 		{
-			if (CRect().IntersectRect(m_clip_rect, i->text_extent))
-				pDC->TextOut(i->text_extent.TopLeft().x, i->text_extent.TopLeft().y, i->t.c_str());
+			if (CRect().IntersectRect(m_clip_rect, i.text_extent))
+				pDC->TextOut(i.text_extent.TopLeft().x, i.text_extent.TopLeft().y, i.t.c_str());
 		}
 	}
 }
