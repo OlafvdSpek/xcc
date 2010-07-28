@@ -78,39 +78,28 @@ void Cxif_key::load_new(const byte*& data)
 
 void Cxif_key::load_external(const byte*& data)
 {
-	{
-		for (t_xif_key_map::iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			i->second.load_external(data);
-	}
-	{
-		for (t_xif_value_map::iterator i = m_values.begin(); i != m_values.end(); i++)
-			i->second.load_external(data);
-	}
+	BOOST_FOREACH(auto& i, m_keys)
+		i.second.load_external(data);
+	BOOST_FOREACH(auto& i, m_values)
+		i.second.load_external(data);
 }
 
 int Cxif_key::get_size() const
 {
 	int size = 8;
+	BOOST_FOREACH(auto& i, m_keys)
+		size += 4 + i.second.get_size();
+	BOOST_FOREACH(auto& i, m_values)
 	{
-		// keys
-		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			size += 4 + i->second.get_size();
-	}
-
-	{
-		// values
-		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
+		size += 9;
+		switch (i.second.get_type())
 		{
-			size += 9;
-			switch (i->second.get_type())
-			{
-			case vt_bin32:
-			case vt_int32:
-				break;
-			default:
-				if (!i->second.external_data())
-					size += i->second.get_size();
-			}
+		case vt_bin32:
+		case vt_int32:
+			break;
+		default:
+			if (!i.second.external_data())
+				size += i.second.get_size();
 		}
 	}
 	return size;
@@ -119,16 +108,12 @@ int Cxif_key::get_size() const
 int Cxif_key::get_external_size() const
 {
 	int size = 0;
+	BOOST_FOREACH(auto& i, m_keys)
+		size += i.second.get_external_size();
+	BOOST_FOREACH(auto& i, m_values)
 	{
-		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			size += i->second.get_external_size();
-	}
-	{
-		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
-		{
-			if (i->second.external_data())
-				size += i->second.get_size();
-		}
+		if (i.second.external_data())
+			size += i.second.get_size();
 	}
 	return size;
 }
@@ -139,12 +124,12 @@ void Cxif_key::save(byte*& data) const
 		// keys
 		write<__int32>(data, m_keys.size());
 		int id = 0;
-		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
+		BOOST_FOREACH(auto& i, m_keys)
 		{
-			*reinterpret_cast<int*>(data) = i->first - id;
-			id = i->first;
+			*reinterpret_cast<int*>(data) = i.first - id;
+			id = i.first;
 			data += 4;
-			i->second.save(data);
+			i.second.save(data);
 		}
 	}
 
@@ -152,26 +137,22 @@ void Cxif_key::save(byte*& data) const
 		// values
 		write<__int32>(data, m_values.size());
 		int id = 0;
-		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
+		BOOST_FOREACH(auto& i, m_values)
 		{
-			*reinterpret_cast<int*>(data) = i->first - id;
-			id = i->first;
+			*reinterpret_cast<int*>(data) = i.first - id;
+			id = i.first;
 			data += 4;
-			i->second.save(data);
+			i.second.save(data);
 		}
 	}
 }
 
 void Cxif_key::external_save(byte*& data) const
 {
-	{
-		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-			i->second.external_save(data);
-	}
-	{
-		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
-			i->second.external_save(data);
-	}
+	BOOST_FOREACH(auto& i, m_keys)
+		i.second.external_save(data);
+	BOOST_FOREACH(auto& i, m_values)
+		i.second.external_save(data);
 }
 
 static void dump_spaces(ostream& os, int count)
@@ -204,33 +185,29 @@ void Cxif_key::dump(ostream& os, bool show_ratio, int depth, Cvirtual_binary* t)
 		os << ':' << endl;
 		depth++;
 	}
+	BOOST_FOREACH(auto& i, m_keys)
 	{
-		for (t_xif_key_map::const_iterator i = m_keys.begin(); i != m_keys.end(); i++)
-		{
-			dump_spaces(os, depth << 1);
-			os << 'K' << nh(8, i->first);
-			int cb_s = i->second.get_size();
-			if (show_ratio && cb_s > 64)
-				i->second.dump_ratio(os, t);
-			os << ':' << endl;
-			i->second.dump(os, show_ratio, depth + 1, t);
-		}
+		dump_spaces(os, depth << 1);
+		os << 'K' << nh(8, i.first);
+		int cb_s = i.second.get_size();
+		if (show_ratio && cb_s > 64)
+			i.second.dump_ratio(os, t);
+		os << ':' << endl;
+		i.second.dump(os, show_ratio, depth + 1, t);
 	}
+	BOOST_FOREACH(auto& i, m_values)
 	{
-		for (t_xif_value_map::const_iterator i = m_values.begin(); i != m_values.end(); i++)
+		dump_spaces(os, depth << 1);
+		os << 'V' << nh(8, i.first);
+		int cb_s = i.second.get_size();
+		if (show_ratio && cb_s > 64)
 		{
-			dump_spaces(os, depth << 1);
-			os << 'V' << nh(8, i->first);
-			int cb_s = i->second.get_size();
-			if (show_ratio && cb_s > 64)
-			{
-				unsigned long cb_z = t->size();
-				if (Z_OK == compress(t->data_edit(), &cb_z, i->second.get_data(), cb_s))
-					os << " (" << cb_z << '/' << cb_s << ')';
-			}
-			os << ": ";
-			i->second.dump(os, depth + 1);
+			unsigned long cb_z = t->size();
+			if (Z_OK == compress(t->data_edit(), &cb_z, i.second.get_data(), cb_s))
+				os << " (" << cb_z << '/' << cb_s << ')';
 		}
+		os << ": ";
+		i.second.dump(os, depth + 1);
 	}
 	if (own_t)
 		delete t;
