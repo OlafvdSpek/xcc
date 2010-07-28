@@ -57,33 +57,28 @@ BOOL CSearchFileDlg::OnInitDialog()
 
 void CSearchFileDlg::find(Cmix_file& f, string file_name, string mix_name, int mix_id)
 {
+	for (int i = 0; i < f.get_c_files(); i++)
 	{
-		for (int i = 0; i < f.get_c_files(); i++)
+		const int id = f.get_id(i);
+		string name = f.get_name(id);
+		if (name.empty())
 		{
-			const int id = f.get_id(i);
-			string name = f.get_name(id);
-			if (name.empty())
-			{
-				name = nh(8, id);
-				if (Cmix_file::get_id(f.get_game(), file_name) == id)
-					add(mix_name + " - " + name, mix_id, id);
-			}
-			else if (fname_filter(name, file_name))
+			name = nh(8, id);
+			if (Cmix_file::get_id(f.get_game(), file_name) == id)
 				add(mix_name + " - " + name, mix_id, id);
 		}
+		else if (fname_filter(name, file_name))
+			add(mix_name + " - " + name, mix_id, id);
 	}
+	BOOST_FOREACH(auto& i, m_main_frame->mix_map_list())
 	{
-		const t_mix_map_list& mix_list = m_main_frame->mix_map_list();
-		for (t_mix_map_list::const_iterator i = mix_list.begin(); i != mix_list.end(); i++)
+		if (i.second.parent != mix_id)
+			continue;
+		Cmix_file g;
+		if (!g.open(i.second.id, f))
 		{
-			if (i->second.parent != mix_id)
-				continue;
-			Cmix_file g;
-			if (!g.open(i->second.id, f))
-			{
-				find(g, file_name, mix_name + " - " + (i->second.name.empty() ? nh(8, i->second.id) : i->second.name), i->first);
-				g.close();
-			}
+			find(g, file_name, mix_name + " - " + (i.second.name.empty() ? nh(8, i.second.id) : i.second.name), i.first);
+			g.close();
 		}
 	}
 }
@@ -95,24 +90,21 @@ void CSearchFileDlg::OnFind()
 		CWaitCursor wait;
 		m_list.DeleteAllItems();
 		m_map.clear();
-		const t_mix_map_list& mix_list = m_main_frame->mix_map_list();
-		for (t_mix_map_list::const_iterator i = mix_list.begin(); i != mix_list.end(); i++)
+		BOOST_FOREACH(auto& i, m_main_frame->mix_map_list())
 		{
-			if (i->second.fname.empty())
+			if (i.second.fname.empty())
 				continue;
 			Cmix_file f;
-			if (!f.open(i->second.fname))
+			if (!f.open(i.second.fname))
 			{
-				const t_mix_map_list_entry& e = mix_list.find(i->second.parent)->second;
-				find(f, get_filename(), e.name + " - " + i->second.name, i->first);
+				const t_mix_map_list_entry& e = m_main_frame->mix_map_list().find(i.second.parent)->second;
+				find(f, get_filename(), e.name + " - " + i.second.name, i.first);
 				f.close();
 			}
 		}
-		{
-			m_list.SetItemCount(m_map.size());
-			for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
-				m_list.InsertItemData(i->first);
-		}
+		m_list.SetItemCount(m_map.size());
+		BOOST_FOREACH(auto& i, m_map)
+			m_list.InsertItemData(i.first);
 	}
 }
 
