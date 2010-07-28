@@ -96,11 +96,11 @@ BOOL CXSE_dlg::OnInitDialog()
 	}
 	if (!error)
 	{
-		for (Ccsf_file::t_map::const_iterator j = m_csf_f.get_map().begin(); j != m_csf_f.get_map().end(); j++)
+		BOOST_FOREACH(auto& j, m_csf_f.get_map())
 		{
-			if (j->second.extra_value.empty())
+			if (j.second.extra_value.empty())
 				continue;
-			m_reverse_csf_map[j->second.extra_value] = j;
+			m_reverse_csf_map[j.second.extra_value] = &j;
 		}
 	}
 	if (m_bag_fname.empty())
@@ -192,16 +192,15 @@ void CXSE_dlg::read_idx_file(const Caudio_idx_file& f)
 int CXSE_dlg::insert(int id)
 {
 	t_map_entry& e = m_map[id];
-	t_reverse_csf_map::const_iterator i = m_reverse_csf_map.find(e.extra_value + 'e');
-	if (i == m_reverse_csf_map.end())
+	if (auto i = find_ptr(m_reverse_csf_map, e.extra_value + 'e'))
 	{
-		e.name.erase();
-		e.value.erase();
+		e.name = (*i)->first;
+		e.value = m_csf_f.get_converted_value((*i)->first);
 	}
 	else
 	{
-		e.name = i->second->first;
-		e.value = m_csf_f.get_converted_value(i->second->first);
+		e.name.erase();
+		e.value.erase();
 	}
 	return m_list.InsertItemData(id);
 }
@@ -348,9 +347,9 @@ void CXSE_dlg::write_idx_file()
 	byte* d = new byte[cb_d];
 	byte* w = d;
 	w += audio_idx_file_write_header(w, m_map.size());
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
-		const t_map_entry& e = i->second;
+		const t_map_entry& e = i.second;
 		w += audio_idx_file_write_entry(w, e.extra_value, e.offset, e.size, e.samplerate, e.flags, e.chunk_size);
 	}
 	assert(w - d == cb_d);
@@ -363,8 +362,8 @@ void CXSE_dlg::write_idx_file()
 int CXSE_dlg::get_bag_size() const
 {
 	int r = 0;
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
-		r += i->second.size;
+	BOOST_FOREACH(auto& i, m_map)
+		r += i.second.size;
 	return r;
 }
 
@@ -374,9 +373,9 @@ void CXSE_dlg::OnCompact()
 	int cb_d = get_bag_size();
 	byte* d = new byte[cb_d];
 	byte* w = d;
-	for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
-		t_map_entry& e = i->second;
+		t_map_entry& e = i.second;
 		m_bag_f.seek(e.offset);
 		if (error = m_bag_f.read(w, e.size))
 			break;
@@ -478,23 +477,18 @@ void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
-		{
-			t_reverse_csf_map::const_iterator i = m_reverse_csf_map.find(e.extra_value + 'e');
-			if (i == m_reverse_csf_map.end())
-				buffer.erase();
-			else
-				buffer = i->second->first;
-			break;
-		}
+		if (auto i = find_ptr(m_reverse_csf_map, e.extra_value + 'e'))
+			buffer = (*i)->first;
+		else
+			buffer.erase();
+		break;
 	case 1:
-		{
-			t_reverse_csf_map::const_iterator i = m_reverse_csf_map.find(e.extra_value + 'e');
-			if (i == m_reverse_csf_map.end())
-				buffer.erase();
+			;
+			if (auto i = find_ptr(m_reverse_csf_map, e.extra_value + 'e'))
+				buffer = m_csf_f.get_converted_value((*i)->first);
 			else
-				buffer = m_csf_f.get_converted_value(i->second->first);
+				buffer.erase();
 			break;
-		}
 	case 2:
 		buffer = e.extra_value;
 		break;

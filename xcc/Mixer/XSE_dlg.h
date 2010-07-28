@@ -72,7 +72,7 @@ private:
 	};
 
 	typedef map<int, t_map_entry> t_map;
-	typedef map<string, Ccsf_file::t_map::const_iterator> t_reverse_csf_map;
+	typedef map<string, Ccsf_file::t_map::const_pointer> t_reverse_csf_map;
 
 	bool m_expansion;
 	t_game m_game;
