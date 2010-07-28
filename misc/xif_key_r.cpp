@@ -72,18 +72,22 @@ int Cxif_key_r::load(const byte* s)
 	return r - s;
 }
 
-Cxif_key_r::t_key_map::const_iterator Cxif_key_r::find_key(int id) const
+const Cxif_key_r* Cxif_key_r::find_key(int id) const
 {
-	t_key_map::const_iterator i = keys().begin();
-	while (i != keys().end() && i->first != id)
-		i++;
-	return i;
+	BOOST_FOREACH(auto& i, keys())
+	{
+		if (i.first == id)
+			return &i.second;
+	}
+	return NULL;
 }
 
-Cxif_key_r::t_value_map::const_iterator Cxif_key_r::find_value(int id) const
+const Cxif_value* Cxif_key_r::find_value(int id) const
 {
-	t_value_map::const_iterator i = values().begin();
-	while (i != values().end() && i->first != id)
-		i++;
-	return i;
+	BOOST_FOREACH(auto& i, values())
+	{
+		if (i.first == id)
+			return &i.second;
+	}
+	return NULL;
 }
