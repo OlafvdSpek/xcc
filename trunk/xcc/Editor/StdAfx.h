@@ -9,10 +9,14 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#include <array>
 #include <boost/foreach.hpp>
 #include <cassert>
 #include <map>
+#include <string>
 #include "ETSLayout.h"
 #include "id_log.h"
 #include "mix_file.h"
 #include "xcc_dirs.h"
+
+using namespace std;
