@@ -12,6 +12,7 @@
 #include "edit_structure_properties_dlg.h"
 #include "edit_unit_properties_dlg.h"
 #include "energy_status_dlg.h"
+#include "shp_images.h"
 #include "xcc_cell_manager.h"
 #include "windows.h"
 

@@ -5,7 +5,6 @@
 #include "edit_triggers_dlg.h"
 #include "edit_waypoints_dlg.h"
 #include "open_from_mix_dlg.h"
-#include "shp_images.h"
 #include "xcc_cell.h"
 #include "xcc_draw.h"
 #include "xcc_overlays.h"

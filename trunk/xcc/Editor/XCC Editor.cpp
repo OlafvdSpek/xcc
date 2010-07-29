@@ -5,6 +5,7 @@
 #include "XCC EditorDoc.h"
 #include "XCC EditorView.h"
 
+#include "shp_images.h"
 #include "xcc_mixs.h"
 
 BEGIN_MESSAGE_MAP(CXCCEditorApp, CWinApp)
