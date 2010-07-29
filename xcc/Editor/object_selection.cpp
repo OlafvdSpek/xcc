@@ -5,6 +5,7 @@
 #include "XCC EditorView.h"
 #include "resource.h"
 #include "object_selection.h"
+#include "shp_images.h"
 
 IMPLEMENT_DYNCREATE(Cobject_selection, CScrollView)
 
