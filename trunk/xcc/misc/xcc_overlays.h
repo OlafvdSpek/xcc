@@ -1,9 +1,6 @@
 #pragma once
 
-#include "shp_images.h"
 #include "xcc_level.h"
-#include "xcc_mixs.h"
-#include "xif_key.h"
 
 class Cxcc_overlays  
 {

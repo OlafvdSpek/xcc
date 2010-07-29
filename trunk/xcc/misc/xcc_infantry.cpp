@@ -1,11 +1,14 @@
 #include "stdafx.h"
-#include "cc_file.h"
 #include "xcc_infantry.h"
 
-namespace xcc_infantry
-{
-	t_infantry_data_entry infantry_data[256];
-}
+#include "cc_file.h"
+#include "shp_file.h"
+#include "shp_images.h"
+#include "xcc_dirs.h"
+#include "xcc_mixs.h"
+#include "xif_key.h"
+
+xcc_infantry::t_infantry_data_entry xcc_infantry::infantry_data[256];
 
 static const char* infantry_xif_fname = "infantry.xif";
 

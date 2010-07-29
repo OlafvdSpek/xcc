@@ -1,6 +1,15 @@
 #include "stdafx.h"
 #include "xcc_templates.h"
 
+#include "fname.h"
+#include "palet.h"
+#include "shp_images.h"
+#include "tmp_file.h"
+#include "xcc_dirs.h"
+#include "xcc_level.h"
+#include "xcc_mixs.h"
+#include "xif_key.h"
+
 const char* theater_xif_fname = "theater.xif";
 
 void* Cxcc_templates::bib[3];

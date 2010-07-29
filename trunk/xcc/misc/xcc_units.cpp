@@ -1,10 +1,15 @@
 #include "stdafx.h"
 #include "xcc_units.h"
 
-namespace xcc_units
-{
-	t_unit_data_entry unit_data[256];
-}
+#include "mix_file.h"
+#include "shp_file.h"
+#include "shp_images.h"
+#include "xcc_dirs.h"
+#include "xcc_level.h"
+#include "xcc_mixs.h"
+#include "xif_key.h"
+
+xcc_units::t_unit_data_entry xcc_units::unit_data[256];
 
 static const char* units_xif_fname = "units.xif";
 

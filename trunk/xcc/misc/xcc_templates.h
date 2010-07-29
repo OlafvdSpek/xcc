@@ -1,16 +1,6 @@
 #pragma once
 
-#include <string>
-#include "fname.h"
-#include "palet.h"
-#include "shp_images.h"
-#include "tmp_file.h"
-#include "xcc_dirs.h"
 #include "xcc_level.h"
-#include "xcc_mixs.h"
-#include "xif_key.h"
-
-using namespace std;
 
 enum
 {

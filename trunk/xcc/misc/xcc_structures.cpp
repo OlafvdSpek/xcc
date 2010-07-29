@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "xcc_structures.h"
 
-namespace xcc_structures
-{
-	t_structure_data_entry structure_data[256];
-}
+#include "mix_file.h"
+#include "shp_file.h"
+#include "shp_images.h"
+#include "xcc_dirs.h"
+#include "xcc_mixs.h"
+#include "xif_key.h"
+
+xcc_structures::t_structure_data_entry xcc_structures::structure_data[256];
 
 static const char* structures_xif_fname = "structures.xif";
 
