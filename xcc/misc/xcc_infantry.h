@@ -1,13 +1,5 @@
 #pragma once
 
-#include "mix_file.h"
-#include "shp_file.h"
-#include "shp_images.h"
-#include "xcc_dirs.h"
-#include "xcc_level.h"
-#include "xcc_mixs.h"
-#include "xif_key.h"
-
 enum
 {
 	id_flags_in_use = 1,
