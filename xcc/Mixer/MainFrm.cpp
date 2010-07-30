@@ -728,30 +728,6 @@ void CMainFrame::OnUpdateConversionRemapTeamColors(CCmdUI* pCmdUI)
 	pCmdUI->SetCheck(m_remap_team_colors);
 }
 
-LPDIRECTDRAW CMainFrame::get_dd()
-{
-	if (!m_dd)
-		open_dd();
-	return m_dd;
-}
-
-void CMainFrame::open_dd()
-{
-	HRESULT ddr;
-	assert(!m_dd);
-    ddr = DirectDrawCreate(NULL, &m_dd, NULL);
-	xcc_log::write_line("DirectDrawCreate returned " + nh(8, ddr));
-}
-
-void CMainFrame::close_dd()
-{
-	if (m_dd)
-	{
-		m_dd->Release();
-		m_dd = NULL;
-	}
-}
-
 LPDIRECTSOUND CMainFrame::get_ds()
 {
 	if (!m_ds)
