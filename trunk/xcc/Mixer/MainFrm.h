@@ -65,9 +65,6 @@ public:
 	int mix_list_create_map(string name, string fname, int id, int parent);
 	int pal_list_create_map(string name, int parent);
 	BOOL OnIdle(LONG lCount);
-	void close_dd();
-	void open_dd();
-	LPDIRECTDRAW get_dd();
 	void close_ds();
 	void open_ds();
 	LPDIRECTSOUND get_ds();
