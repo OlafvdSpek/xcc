@@ -958,92 +958,82 @@ void CMainFrame::OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI)
 void CMainFrame::launch_xtw(t_game game)
 {
 	Cmix_file ra2;
-	if (!ra2.open(xcc_dirs::get_main_mix(game)))
+	Cmix_file local;
+	Ccc_file theme(true);
+	string theme_ini_fname = game == game_ra2 ? "theme.ini" : "thememd.ini";
+	Ctheme_ts_ini_reader ir;
+	if (ra2.open(xcc_dirs::get_main_mix(game))
+		|| local.open(xcc_dirs::get_local_mix(game), ra2)
+		|| theme.open(theme_ini_fname, local)
+		|| ir.process(theme.get_data(), theme.get_size()))
+		return;
+	t_theme_list theme_list = ir.get_theme_list();
+	string dir = xcc_dirs::get_dir(game_ra2);
+	WIN32_FIND_DATA fd;
+	HANDLE findhandle = FindFirstFile((dir + "*.wav").c_str(), &fd);
+	if (findhandle != INVALID_HANDLE_VALUE)
 	{
-		Cmix_file local;
-		if (!local.open(xcc_dirs::get_local_mix(game), ra2))
+		CXSTE xste;
+		bool xste_open = !xste.open(game);
+		do
 		{
-			Ccc_file theme(true);
-			string theme_ini_fname = game == game_ra2 ? "theme.ini" : "thememd.ini";
-			if (!theme.open(theme_ini_fname, local))
+			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				Ctheme_ts_ini_reader ir;
-				if (!ir.process(theme.get_data(), theme.get_size()))
+				const string fname = dir + fd.cFileName;
+				Cwav_file f;
+				if (!f.open(fname))
 				{
-					t_theme_list theme_list = ir.get_theme_list();
-					string dir = xcc_dirs::get_dir(game_ra2);
-					WIN32_FIND_DATA fd;
-					HANDLE findhandle = FindFirstFile((dir + "*.wav").c_str(), &fd);
-					if (findhandle != INVALID_HANDLE_VALUE)
+					if (!f.process())
 					{
-						CXSTE xste;
-						bool xste_open = !xste.open(game);
-						do
+						char b[MAX_PATH];
+						int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+						if (error > 0 && error < MAX_PATH)
 						{
-							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-							{
-								const string fname = dir + fd.cFileName;
-								Cwav_file f;
-								if (!f.open(fname))
-								{
-									if (!f.process())
-									{
-										char b[MAX_PATH];
-										int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
-										if (error > 0 && error < MAX_PATH)
-										{
-											Ctheme_data e;
-											e.name("THEME:" + Cfname(b).get_ftitle());
-											e.sound(Cfname(b).get_ftitle());
-											theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
-											if (xste_open)
-												xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
+							Ctheme_data e;
+							e.name("THEME:" + Cfname(b).get_ftitle());
+							e.sound(Cfname(b).get_ftitle());
+							theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
+							if (xste_open)
+								xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
 
-										}
-									}
-									f.close();
-								}
-							}
 						}
-						while (FindNextFile(findhandle, &fd));
-						if (xste_open)
-						{
-							xste.write();
-							xste.close();
-						}
-						FindClose(findhandle);
 					}
-					ofstream g((dir + theme_ini_fname).c_str());
-					g << "[Themes]" << endl;
-					int j = 51;
-					BOOST_FOREACH(auto& i, theme_list)
-						g << n(j++) << '=' << to_upper_copy(i.first) << endl;
-					g << endl;
-					BOOST_FOREACH(auto& i, theme_list)
-					{
-						const Ctheme_data& e = i.second;
-						g << '[' << to_upper_copy(i.first) << ']' << endl;
-						if (!e.name().empty())
-							g << "Name=" << e.name() << endl;
-						if (!e.normal())
-							g << "Normal=no" << endl;
-						if (e.repeat())
-							g << "Repeat=yes" << endl;
-						if (!e.sound().empty())
-							g << "Sound=" << e.sound() << endl;
-						g << endl;
-					}
-					if (g.fail())
-						MessageBox(("Error writing " + theme_ini_fname + ".").c_str(), NULL, MB_ICONERROR);
-					else
-						MessageBox((n(theme_list.size()) + " themes have been written to " + theme_ini_fname + ".").c_str());
+					f.close();
 				}
-				theme.close();
 			}
-			local.close();
 		}
-		ra2.close();
+		while (FindNextFile(findhandle, &fd));
+		if (xste_open)
+		{
+			xste.write();
+			xste.close();
+		}
+		FindClose(findhandle);
 	}
+	ofstream g((dir + theme_ini_fname).c_str());
+	g << "[Themes]" << endl;
+	int j = 51;
+	BOOST_FOREACH(auto& i, theme_list)
+		g << n(j++) << '=' << to_upper_copy(i.first) << endl;
+	g << endl;
+	BOOST_FOREACH(auto& i, theme_list)
+	{
+		const Ctheme_data& e = i.second;
+		g << '[' << to_upper_copy(i.first) << ']' << endl;
+		if (!e.name().empty())
+			g << "Name=" << e.name() << endl;
+		if (!e.normal())
+			g << "Normal=no" << endl;
+		if (e.repeat())
+			g << "Repeat=yes" << endl;
+		if (!e.sound().empty())
+			g << "Sound=" << e.sound() << endl;
+		g << endl;
+	}
+	if (g.fail())
+		MessageBox(("Error writing " + theme_ini_fname + ".").c_str(), NULL, MB_ICONERROR);
+	else
+		MessageBox((n(theme_list.size()) + " themes have been written to " + theme_ini_fname + ".").c_str());
 }
 
 void CMainFrame::OnLaunchXTW_RA2() 
