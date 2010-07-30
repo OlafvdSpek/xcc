@@ -762,36 +762,6 @@ static CXCCMixerApp* GetApp()
 	return static_cast<CXCCMixerApp*>(AfxGetApp());
 }
 
-void CMainFrame::OnUtilitiesXccAvPlayer() 
-{
-	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_av_player_exe().c_str(), NULL, NULL, SW_SHOW);
-}
-
-void CMainFrame::OnUtilitiesXccEditor() 
-{
-	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_editor_exe().c_str(), NULL, NULL, SW_SHOW);
-}
-
-void CMainFrame::OnUtilitiesXccMixEditor() 
-{
-	ShellExecute(m_hWnd, NULL, GetApp()->get_xcc_mix_editor_exe().c_str(), NULL, NULL, SW_SHOW);
-}
-
-void CMainFrame::OnUpdateUtilitiesXccAvPlayer(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(GetApp()->is_xcc_av_player_available());
-}
-
-void CMainFrame::OnUpdateUtilitiesXccEditor(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(GetApp()->is_xcc_editor_available());
-}
-
-void CMainFrame::OnUpdateUtilitiesXccMixEditor(CCmdUI* pCmdUI) 
-{
-	pCmdUI->Enable(GetApp()->is_xcc_mix_editor_available());
-}
-
 void CMainFrame::OnViewDirectories() 
 {
 	CDirectoriesDlg dlg;
