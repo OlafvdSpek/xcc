@@ -882,82 +882,72 @@ typedef map<string, Ctheme_data> t_theme_list;
 void CMainFrame::OnLaunchXTW_TS() 
 {
 	Cmix_file tibsun;
-	if (!tibsun.open("tibsun.mix"))
+	Cmix_file local;
+	Ccc_file theme(true);
+	Ctheme_ts_ini_reader ir;
+	if (tibsun.open("tibsun.mix")
+		|| local.open("local.mix", tibsun)
+		|| theme.open("theme.ini", local)
+		|| ir.process(theme.get_data(), theme.get_size()))
+		return;
+	t_theme_list theme_list = ir.get_theme_list();
+	string dir = xcc_dirs::get_dir(game_ts);
+	WIN32_FIND_DATA fd;
+	HANDLE findhandle = FindFirstFile((dir + "*.aud").c_str(), &fd);
+	if (findhandle != INVALID_HANDLE_VALUE)
 	{
-		Cmix_file local;
-		if (!local.open("local.mix", tibsun))
+		do
 		{
-			Ccc_file theme(true);
-			if (!theme.open("theme.ini", local))
+			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			{
-				Ctheme_ts_ini_reader ir;
-				if (!ir.process(theme.get_data(), theme.get_size()))
+				const string fname = dir + fd.cFileName;
+				Caud_file f;
+				if (!f.open(fname))
 				{
-					t_theme_list theme_list = ir.get_theme_list();
-					string dir = xcc_dirs::get_dir(game_ts);
-					WIN32_FIND_DATA fd;
-					HANDLE findhandle = FindFirstFile((dir + "*.aud").c_str(), &fd);
-					if (findhandle != INVALID_HANDLE_VALUE)
+					char b[MAX_PATH];
+					int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+					if (error > 0 && error < MAX_PATH)
 					{
-						do
-						{
-							if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-							{
-								const string fname = dir + fd.cFileName;
-								Caud_file f;
-								if (!f.open(fname))
-								{
-									char b[MAX_PATH];
-									int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
-									if (error > 0 && error < MAX_PATH)
-									{
-										Ctheme_data e;
-										e.name(Cfname(fd.cFileName).get_ftitle());
-										e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
-										theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
-									}
-									f.close();
-								}
-							}
-						}
-						while (FindNextFile(findhandle, &fd));
-						FindClose(findhandle);
+						Ctheme_data e;
+						e.name(Cfname(fd.cFileName).get_ftitle());
+						e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
+						theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
 					}
-					ofstream g((dir + "theme.ini").c_str());
-					g << "[Themes]" << endl;
-					// "1=INTRO" << endl;
-					int j = 51;
-					BOOST_FOREACH(auto& i, theme_list)
-						g << n(j++) << '=' << to_upper_copy(i.first) << endl;
-					g << endl;
-					BOOST_FOREACH(auto& i, theme_list)
-					{
-						const Ctheme_data& e = i.second;
-						g << '[' << to_upper_copy(i.first) << ']' << endl
-							<< "Name=" << e.name() << endl;
-						if (e.normal())
-							g << "Length=" << e.length() << endl;
-						if (!e.normal())
-							g << "Normal=no" << endl;
-						if (e.scenario())
-							g << "Scenario=" <<  n(e.scenario()) << endl;
-						if (!e.side().empty())
-							g << "Side=" <<  e.side() << endl;
-						if (e.repeat())
-							g << "Repeat=yes" << endl;
-						g << endl;
-					}
-					if (g.fail())
-						MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
-					else
-						MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
+					f.close();
 				}
-				theme.close();
 			}
-			local.close();
 		}
-		tibsun.close();
+		while (FindNextFile(findhandle, &fd));
+		FindClose(findhandle);
 	}
+	ofstream g((dir + "theme.ini").c_str());
+	g << "[Themes]" << endl;
+	// "1=INTRO" << endl;
+	int j = 51;
+	BOOST_FOREACH(auto& i, theme_list)
+		g << n(j++) << '=' << to_upper_copy(i.first) << endl;
+	g << endl;
+	BOOST_FOREACH(auto& i, theme_list)
+	{
+		const Ctheme_data& e = i.second;
+		g << '[' << to_upper_copy(i.first) << ']' << endl
+			<< "Name=" << e.name() << endl;
+		if (e.normal())
+			g << "Length=" << e.length() << endl;
+		if (!e.normal())
+			g << "Normal=no" << endl;
+		if (e.scenario())
+			g << "Scenario=" <<  n(e.scenario()) << endl;
+		if (!e.side().empty())
+			g << "Side=" <<  e.side() << endl;
+		if (e.repeat())
+			g << "Repeat=yes" << endl;
+		g << endl;
+	}
+	if (g.fail())
+		MessageBox("Error writing theme.ini.", NULL, MB_ICONERROR);
+	else
+		MessageBox((n(theme_list.size()) + " themes have been written to theme.ini.").c_str());
 }
 
 void CMainFrame::OnUpdateLaunchXTW_TS(CCmdUI* pCmdUI) 
