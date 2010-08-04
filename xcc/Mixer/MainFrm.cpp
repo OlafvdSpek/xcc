@@ -8,12 +8,10 @@
 #include "XSTE_dlg.h"
 
 #include <boost/algorithm/string.hpp>
-#include <cassert>
 #include <fstream>
 #include "aud_file.h"
 #include "directoriesdlg.h"
 #include "fname.h"
-#include "ogg_file.h"
 #include "searchfiledlg.h"
 #include "selectpaletdlg.h"
 #include "string_conversion.h"
@@ -378,8 +376,7 @@ string escape_menu_name(string v)
 void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI) 
 {       
 	xcc_log::write_line("OnUpdateFileFoundUpdate starts");
-	CMenu* menu = pCmdUI->m_pSubMenu;
-	if (menu)
+	if (CMenu* menu = pCmdUI->m_pSubMenu)
 	{
 		menu->DeleteMenu(0, MF_BYPOSITION);
 		initialize_lists();

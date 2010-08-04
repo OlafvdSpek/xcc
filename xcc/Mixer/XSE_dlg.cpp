@@ -2,7 +2,6 @@
 #include "MainFrm.h"
 #include "XSE_dlg.h"
 
-#include <cassert>
 #include "audio_idx_file.h"
 #include "ima_adpcm_wav_decode.h"
 #include "mix_file.h"

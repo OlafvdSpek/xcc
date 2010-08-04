@@ -1,7 +1,5 @@
 #pragma once
 
-#include <list>
-#include <vector>
 #include "cc_file.h"
 #include "cc_structures.h"
 #include "xif_key.h"

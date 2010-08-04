@@ -3,7 +3,6 @@
 #include <cc_file.h>
 #include <mix_file.h>
 #include <palet.h>
-#include <vector>
 #include "palet_filter.h"
 
 struct t_text_cache_entry
