@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "aud_file.h"
 
-#include <cassert>
 #include "aud_decode.h"
 #include "wav_structures.h"
 

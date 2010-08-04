@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-#include <Windows.h>
+#include <windows.h>
 #include <gdiplus.h>
 #include <shlwapi.h>
 #include "dds_file.h"
@@ -90,7 +90,6 @@ int Cvirtual_image::load(const Cvirtual_binary& s)
 		load(NULL, bmp.GetWidth(), bmp.GetHeight(), 3, NULL);
 		BitmapData d;
 		d.Stride = bmp.GetWidth() * 3;
-		d.PixelFormat = PixelFormat24bppRGB;
 		d.Scan0 = image_edit();
 		bmp.LockBits(NULL, ImageLockModeRead | ImageLockModeUserInputBuf, PixelFormat24bppRGB, &d);
 		bmp.UnlockBits(&d);

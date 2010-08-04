@@ -1,8 +1,5 @@
 #pragma once
 
-#include <map>
-#include <set>
-#include <string>
 #include "ini_reader.h"
 
 using namespace std;
