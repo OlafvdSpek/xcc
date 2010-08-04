@@ -24,16 +24,9 @@ public:
 	int load(const Cvirtual_binary& s);
 	int load(const Cvirtual_file& f);
 	int load(const string& fname);
-	int load_as_jpeg(const string& fname);
 	int save(Cvirtual_file& f, t_file_type ft) const;
 	Cvirtual_file save(t_file_type ft) const;
 	int save(const string& fname, t_file_type ft) const;
-	int save_as_jpeg(Cvirtual_file& f, int q = -1) const;
-	int save_as_jpeg(const string& fname, int q = -1) const;
-	void save_as_pcx(Cvirtual_file& f) const;
-	int save_as_pcx(const string& fname) const;
-	int save_as_png(Cvirtual_file& f) const;
-	int save_as_png(const string& fname) const;
 	void swap_rb();
 	Cvirtual_image();
 	Cvirtual_image(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);

@@ -1,5 +1,8 @@
 #include "stdafx.h"
 
+#include <Windows.h>
+#include <gdiplus.h>
+#include <shlwapi.h>
 #include "dds_file.h"
 #include "image_file.h"
 #include "jpeg_file.h"
@@ -8,6 +11,8 @@
 #include "png_file.h"
 #include "tga_file.h"
 #include "virtual_image.h"
+
+using namespace Gdiplus;
 
 Cvirtual_image::Cvirtual_image()
 {
@@ -66,35 +71,32 @@ void Cvirtual_image::load(const void* image, int cx, int cy, int cb_pixel, const
 
 int Cvirtual_image::load(const Cvirtual_binary& s)
 {
-	int error = 0;
 	Cdds_file dds_f;
-#ifdef JPEG_SUPPORT
-	Cjpeg_file jpeg_f;
-#endif
 	Cpcx_file pcx_f;
-#ifdef PNG_SUPPORT
-	Cpng_file png_f;
-#endif
 	Ctga_file tga_f;
 	if (dds_f.load(s), dds_f.is_valid())
 		*this = dds_f.vimage();
-	else 
-#ifdef JPEG_SUPPORT
-	if (jpeg_f.load(s), jpeg_f.is_valid())
-		error = jpeg_f.decode(*this);
-	else 
-#endif
-	if (pcx_f.load(s), pcx_f.is_valid())
+	else if (pcx_f.load(s), pcx_f.is_valid())
 		*this = pcx_f.vimage();
-#ifdef PNG_SUPPORT
-	else if (png_f.load(s), png_f.is_valid())
-		error = png_f.decode(*this);
-#endif
 	else if (tga_f.load(s), tga_f.is_valid())
-		error = tga_f.decode(*this);
+		return tga_f.decode(*this);
 	else
-		error = 0x100;
-	return error;
+	{
+		IStream* is = SHCreateMemStream(s.data(), s.size());
+		Gdiplus::Bitmap bmp(is);
+		is->Release();
+		if (bmp.GetLastStatus() != Ok)
+			return 1;
+		load(NULL, bmp.GetWidth(), bmp.GetHeight(), 3, NULL);
+		BitmapData d;
+		d.Stride = bmp.GetWidth() * 3;
+		d.PixelFormat = PixelFormat24bppRGB;
+		d.Scan0 = image_edit();
+		bmp.LockBits(NULL, ImageLockModeRead | ImageLockModeUserInputBuf, PixelFormat24bppRGB, &d);
+		bmp.UnlockBits(&d);
+		swap_rb();
+	}
+	return 0;
 }
 
 int Cvirtual_image::load(const Cvirtual_file& f)
@@ -111,20 +113,6 @@ int Cvirtual_image::load(const string& fname)
 	return error;
 }
 
-#ifdef JPEG_SUPPORT
-int Cvirtual_image::load_as_jpeg(const string& fname)
-{
-	Cjpeg_file f;
-	int error = f.open(fname);
-	if (!error)
-	{
-		error = f.decode(*this);
-		f.close();
-	}
-	return error;
-}
-#endif
-
 int Cvirtual_image::save(Cvirtual_file& f, t_file_type ft) const
 {
 	return image_file_write(f, ft, image(), palet(), m_cx, m_cy);
@@ -139,40 +127,6 @@ int Cvirtual_image::save(const string& fname, t_file_type ft) const
 {
 	return image_file_write(fname, ft, image(), palet(), m_cx, m_cy);
 }
-
-#ifdef JPEG_SUPPORT
-int Cvirtual_image::save_as_jpeg(Cvirtual_file& f, int q ) const
-{
-	return jpeg_file_write(f, image(), palet(), m_cx, m_cy, q);
-}
-
-int Cvirtual_image::save_as_jpeg(const string& fname, int q) const
-{
-	return jpeg_file_write(fname, image(), palet(), m_cx, m_cy, q);
-}
-#endif
-
-void Cvirtual_image::save_as_pcx(Cvirtual_file& f) const
-{
-	pcx_file_write(f, image(), palet(), m_cx, m_cy);
-}
-
-int Cvirtual_image::save_as_pcx(const string& fname) const
-{
-	return pcx_file_write(fname, image(), palet(), m_cx, m_cy);
-}
-
-#ifdef PNG_SUPPORT
-int Cvirtual_image::save_as_png(Cvirtual_file& f) const
-{
-	return png_file_write(f, image(), palet(), m_cx, m_cy);
-}
-
-int Cvirtual_image::save_as_png(const string& fname) const
-{
-	return png_file_write(fname, image(), palet(), m_cx, m_cy);
-}
-#endif
 
 void Cvirtual_image::swap_rb()
 {
