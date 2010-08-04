@@ -54,6 +54,6 @@ Section "Uninstall"
 	DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\XCC Utilities"
 	DeleteRegKey HKLM "Software\XCC\Utilities"
 	DeleteRegKey /ifempty HKLM "Software\XCC"
-	RMDir /r "$INSTDIR"
+	RMDir /r "$PROGRAMFILES\XCC\Utilities"
 	RMDir "$PROGRAMFILES\XCC"
 SectionEnd
