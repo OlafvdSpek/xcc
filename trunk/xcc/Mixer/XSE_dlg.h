@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include "ListCtrlEx.h"
 #include "audio_idx_file.h"
 #include "cc_structures.h"

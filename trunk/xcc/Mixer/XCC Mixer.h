@@ -4,7 +4,6 @@
 	#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include <string>
 #include "resource.h"       // main symbols
 
 using namespace std;

@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "ListCtrlEx.h"
 #include "resource.h"
 
