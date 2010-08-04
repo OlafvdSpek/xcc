@@ -429,7 +429,7 @@ int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 	if (!(audio_output && video_output))
 		return 1;
 	Cvqa_play vqa_play(dd.get_p(), ds.get_p());
-	if (int result = vqa_play.create(f, false))
+	if (int result = vqa_play.create(f))
 		AfxMessageBox(("Error initializing DD or DS, error code is " + n(result)).c_str(), MB_ICONEXCLAMATION);
 	else
 	{
