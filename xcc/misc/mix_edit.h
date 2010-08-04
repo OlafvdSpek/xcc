@@ -19,13 +19,11 @@ public:
 	int write_index();
 private:
 	typedef map<int, t_mix_index_entry*> t_block_map;
-	typedef map<int, t_mix_index_entry> t_index;
 
 	t_block_map block_map();
-
 	int new_block(int size);
 
 	Cfile32 m_f;
 	t_game m_game;
-	t_index m_index;
+	map<int, t_mix_index_entry> m_index;
 };
