@@ -10,7 +10,7 @@
       <DisableSpecificWarnings>4018;4244;4800;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Lib>
-      <AdditionalDependencies>winmm.lib</AdditionalDependencies>
+      <AdditionalDependencies>advapi32.lib;dsound.lib;winmm.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
 </Project>
