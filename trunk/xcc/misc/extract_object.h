@@ -1,6 +1,5 @@
 #pragma once
 
-#include <list>
 #include "art_ts_ini_reader.h"
 #include "fname.h"
 #include "multi_line.h"
