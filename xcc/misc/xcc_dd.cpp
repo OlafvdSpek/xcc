@@ -12,8 +12,12 @@ Cxcc_dd::~Cxcc_dd()
 
 long Cxcc_dd::create(HWND ihWnd)
 {
+	typedef HRESULT (WINAPI* LPDIRECTDRAWCREATE)(GUID*, LPDIRECTDRAW*, IUnknown*);
+
 	m_hWnd = ihWnd;
-	if (DD_OK != DirectDrawCreate(0, &pdd, 0)) 
+	HMODULE dd_dll = LoadLibrary("ddraw.dll");
+	LPDIRECTDRAWCREATE pDDCreate = reinterpret_cast<LPDIRECTDRAWCREATE>(GetProcAddress(dd_dll, "DirectDrawCreate"));
+	if (!pDDCreate || DD_OK != pDDCreate(0, &pdd, 0)) 
 	{
 		handle_error("Create failed");
 		return 1;

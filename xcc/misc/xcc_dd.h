@@ -1,8 +1,7 @@
 #pragma once
 
+#include <ddraw.h>
 #include <string>
-#include "ddraw.h"
-#include "vartypes.h"
 
 using namespace std;
 
