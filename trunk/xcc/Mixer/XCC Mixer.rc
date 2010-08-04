@@ -198,11 +198,6 @@ BEGIN
         END
         MENUITEM "Copy as WSA",                 ID_POPUP_COPY_AS_WSA
         MENUITEM "Copy as XIF",                 ID_POPUP_COPY_AS_XIF
-        POPUP "&Import"
-        BEGIN
-            MENUITEM "&Tiberian Sun",               ID_POPUP_IMPORT_INTO_TS
-            MENUITEM "&Red Alert 2",                ID_POPUP_IMPORT_INTO_RA2
-        END
         MENUITEM SEPARATOR
         MENUITEM "Refresh\tF5",                 ID_POPUP_REFRESH
         MENUITEM "Resize...",                   ID_POPUP_RESIZE
