@@ -16,7 +16,7 @@ class Cvqa_play
 {
 public:
 	Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds);
-	int create(Cvqa_file& f, bool set_videomode = true);
+	int create(Cvqa_file& f);
 	bool run();
 	int destroy();
 
@@ -25,8 +25,6 @@ public:
 		return error;
 	}
 private:
-	int set_videomode();
-	bool restore_videomode;
 	bool window_created;
 	Cdd_window window;
 	CSize video_res;

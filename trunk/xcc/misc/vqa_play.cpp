@@ -7,23 +7,13 @@ Cvqa_play::Cvqa_play(LPDIRECTDRAW dd, LPDIRECTSOUND ds):
 	dd(dd), ds(ds), f(f),
 	video_res(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN))
 {
-	audio_started = error = restore_videomode = window_created = false;
+	audio_started = error = window_created = false;
 	ps = ts = 0;
 	psb = 0;
 	vqa_out = NULL;
 }
 
-int Cvqa_play::set_videomode()
-{
-	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 32)))
-		return 0;
-	if (SUCCEEDED(dd->SetDisplayMode(video_res.cx, video_res.cy, 16)))
-		return 0;
-	AfxMessageBox("Unable to set proper video mode");
-	return 1;
-}
-
-int Cvqa_play::create(Cvqa_file& _f, bool _set_videomode)
+int Cvqa_play::create(Cvqa_file& _f)
 {
 	if (error)
 		return 1;
@@ -36,12 +26,6 @@ int Cvqa_play::create(Cvqa_file& _f, bool _set_videomode)
 	audio_write = 0 ;
 	i_frame = 0;
 
-	if (_set_videomode)
-	{
-		if (set_videomode())
-			return 2;
-		restore_videomode = true;
-	}
 	{
 		DDSURFACEDESC ddsdesc;
 		ddsdesc.dwSize = sizeof(DDSURFACEDESC);
@@ -137,11 +121,6 @@ int Cvqa_play::destroy()
 	}
 	delete[] vqa_out;
 	vqa_out = NULL;
-	if (restore_videomode)
-	{
-		dd->RestoreDisplayMode();
-		restore_videomode = false;
-	}	
 	return 0;
 }
 
