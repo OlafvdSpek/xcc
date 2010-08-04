@@ -1,15 +1,9 @@
 #pragma once
 
-#include <map>
-#include <string>
-#include <vector>
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "virtual_tfile.h"
-#include "vartypes.h"
 #include "xcc_cell.h"
-
-using namespace std;
 
 enum t_edge_id
 {

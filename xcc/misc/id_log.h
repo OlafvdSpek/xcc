@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cc_structures.h>
-#include <string>
 #include "xcc_dirs.h"
 
 using namespace std;

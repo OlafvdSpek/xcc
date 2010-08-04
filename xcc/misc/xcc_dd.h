@@ -1,7 +1,6 @@
 #pragma once
 
 #include <ddraw.h>
-#include <string>
 
 using namespace std;
 

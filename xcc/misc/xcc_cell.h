@@ -1,9 +1,7 @@
 #pragma once
 
 #include <math.h>
-#include "cassert"
 #include "string_conversion.h"
-#include "vartypes.h"
 
 class Cxcc_cell  
 {

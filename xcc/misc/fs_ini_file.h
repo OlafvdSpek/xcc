@@ -1,11 +1,5 @@
 #pragma once
 
-#include <map>
-#include <fstream>
-#include <string>
-
-using namespace std;
-
 class CIniFileSection
 {
 public:
@@ -14,22 +8,14 @@ public:
 	const string* GetValueName(unsigned int Index);
 	string* GetValue(unsigned int index);
 	map<string, string> values;
-	CIniFileSection();
-	~CIniFileSection();
 };
 
 class CIniFile  
 {
 public:
-	// bool SaveFile(const char* Filename);
-	// const string* GetSectionName(unsigned int Index);
 	CIniFileSection* GetSection(unsigned int index);
 	int InsertFile(const char* filename, const char* Section);
 	void Clear();
 	int LoadFile(const char* filename);
 	map<string, CIniFileSection> sections;
-	CIniFile();
-	~CIniFile();
-private:
-	// char m_filename[MAX_PATH];
 };

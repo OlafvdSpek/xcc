@@ -1,6 +1,4 @@
 #include "stdafx.h"
-#include <set>
-#include <string>
 #include "cc_file.h"
 #include "mix_sfl.h"
 #include "xcc_dirs.h"

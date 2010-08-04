@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "string_conversion.h"
 #include "timer.h"
 

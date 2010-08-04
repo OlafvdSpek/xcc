@@ -1,11 +1,6 @@
 #pragma once
 
 #include <ostream>
-#include <map>
-#include <list>
-#include <string>
-
-using namespace std;
 
 class Cneat_key_list  
 {
