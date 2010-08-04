@@ -1,59 +1,30 @@
 #include "stdafx.h"
 #include "fs_ini_file.h"
 
-typedef map<string,	CIniFileSection>::iterator CIniI;
-typedef map<string, string>::iterator SI;
-
-
-CIniFile::CIniFile()
-{
-}
-
-CIniFile::~CIniFile()
-{
-}
+#include <fstream>
 
 int CIniFile::LoadFile(const char* filename)
 {
 	Clear();
-
 	return(InsertFile(filename, NULL));
 }
 
 
 void CIniFile::Clear()
 {
-
 	sections.clear();	
 }
 
-CIniFileSection::CIniFileSection()
+int CIniFile::InsertFile(const char* fname, const char* Section)
 {
-	values.clear();
-};
-
-CIniFileSection::~CIniFileSection()
-{
-	values.clear();
-};
-
-int CIniFile::InsertFile(const char *filename, const char *Section)
-{
-	if(filename==NULL) return 1;
-	if(strlen(filename)==NULL) return 1;
-
-	fstream file;
-
-	file.open(filename, ios::in);
-	if(!file.good()) return 2;
-
-	// file.eatwhite();
+	ifstream file(fname);
+	if(!file.good()) 
+		return 2;
 
 	char cSec[256];
 	char cLine[4096];
 
 	memset(cSec, 0, 256);
-	memset(cLine, 0, 4096);
 
 	while(!file.eof())
 	{
@@ -93,8 +64,5 @@ int CIniFile::InsertFile(const char *filename, const char *Section)
 		}
 	
 	}
-
-	file.close();
-
 	return 0;
 }

@@ -1,6 +1,5 @@
 #pragma once
 
-#include "vartypes.h"
 #include <virtual_binary.h>
 
 int decode2(const byte* s, byte* d, int cb_s, const byte* reference_palet);

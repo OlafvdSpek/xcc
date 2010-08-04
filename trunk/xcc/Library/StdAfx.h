@@ -6,6 +6,7 @@
 #include <boost/foreach.hpp>
 #include <cassert>
 #include <climits>
+#include <list>
 #include <memory>
 #include <map>
 #include <set>

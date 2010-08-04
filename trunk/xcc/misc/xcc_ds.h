@@ -1,14 +1,9 @@
 #pragma once
 
-#include <string>
-#include "vartypes.h"
-
 #include <mmsystem.h>
 #include <mmreg.h>
 #include <msacm.h>
 #include <dsound.h>
-
-using namespace std;
 
 class Cxcc_ds
 {

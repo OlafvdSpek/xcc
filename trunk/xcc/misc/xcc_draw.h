@@ -1,7 +1,5 @@
 #pragma once
 
-#include "vartypes.h"
-
 namespace xcc_draw
 {
 	typedef byte t_reference_palet[256];

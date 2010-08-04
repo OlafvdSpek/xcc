@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "vqa_decode.h"
 
-#include <cassert>
 #include "shp_decode.h"
 
 Cvqa_decode::Cvqa_decode()

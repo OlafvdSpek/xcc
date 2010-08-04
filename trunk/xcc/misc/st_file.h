@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "cc_file_small.h"
 
 class Cst_file: public Ccc_file_small

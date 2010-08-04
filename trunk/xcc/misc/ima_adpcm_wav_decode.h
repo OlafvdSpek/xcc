@@ -1,7 +1,5 @@
 #pragma once
 
-#include "vartypes.h"
-
 class Cima_adpcm_wav_decode  
 {
 public:

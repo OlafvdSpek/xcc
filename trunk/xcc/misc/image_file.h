@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include "cc_structures.h"
 #include "palet.h"
 #include "video_file.h"

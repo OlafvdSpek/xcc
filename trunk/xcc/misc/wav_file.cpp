@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "wav_file.h"
 
-#include <cassert>
 #include "ima_adpcm_wav_encode.h"
 #include "wav_structures.h"
 
