@@ -321,8 +321,6 @@
 #define ID_FILE_SEARCH                  33077
 #define ID_POPUP_COPY_AS_HTML           33079
 #define ID_FILE_CREATE_SFL              33080
-#define ID_POPUP_IMPORT_INTO_TS         33081
-#define ID_POPUP_IMPORT_INTO_RA2        33082
 #define ID_POPUP_COPY_AS_PNG            33083
 #define ID_LAUNCH_XOE_TS                33084
 #define ID_LAUNCH_XOE_RA2               33085

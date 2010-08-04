@@ -17,12 +17,10 @@
 #include "map_ra_ini_reader.h"
 #include "map_ts_ini_reader.h"
 #include "mp3_file.h"
-#include "jpeg_file.h"
 #include "pak_file.h"
 #include "pal_file.h"
 #include "pcx_decode.h"
 #include "pcx_file.h"
-#include "png_file.h"
 #include "pkt_ts_ini_reader.h"
 #include "tga_file.h"
 #include "shp_decode.h"
@@ -427,11 +425,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				break;
 			}
 		case ft_jpeg:
+		case ft_png:
 			{
-				Cjpeg_file f;
-				f.load(m_data);
 				Cvirtual_image image;
-				if (!f.decode(image))
+				if (!image.load(m_data))
 				{
 					const int cx = image.cx();
 					const int cy = image.cy();
@@ -589,29 +586,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				else
 					draw_image24(image, cx, cy, pDC, 0, m_y);
 				m_y += cy + m_y_inc;
-				break;
-			}
-		case ft_png:
-			{
-				Cpng_file f;
-				f.load(m_data);
-				Cvirtual_image image;
-				if (!f.decode(image))
-				{
-					const int cx = image.cx();
-					const int cy = image.cy();
-					draw_info("Bits/pixel:", n(8 * image.cb_pixel()));
-					draw_info("Size:", n(cx) + " x " + n(cy));
-					m_y += m_y_inc;
-					if (image.cb_pixel() == 1)
-					{
-						load_color_table(image.palet(), false);
-						draw_image8(image.image(), cx, cy, pDC, 0, m_y);
-					}
-					else if (image.cb_pixel() == 3)
-						draw_image24(image.image(), cx, cy, pDC, 0, m_y);
-					m_y += cy + m_y_inc;
-				}
 				break;
 			}
 		case ft_shp_dune2:

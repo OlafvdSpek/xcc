@@ -5,6 +5,7 @@
 #include "XCC MixerDoc.h"
 #include "XCC MixerView.h"
 
+#include <gdiplus.h>
 #include <id_log.h>
 #include "fs_ini_file.h"
 #include "mix_cache.h"
@@ -20,6 +21,9 @@ CXCCMixerApp theApp;
 
 BOOL CXCCMixerApp::InitInstance()
 {
+	ULONG_PTR gdiplusToken;
+	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
+	Gdiplus::GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 	AfxEnableControlContainer();
 	SetRegistryKey("XCC");
 	LoadStdProfileSettings(0);
