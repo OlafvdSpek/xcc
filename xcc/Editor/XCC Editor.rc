@@ -76,36 +76,34 @@ BEGIN
     END
     POPUP "&Edit"
     BEGIN
-        MENUITEM "&Undo\tCtrl+Z",               ID_EDIT_UNDO
-        MENUITEM SEPARATOR
         MENUITEM "Cu&t\tCtrl+X",                ID_EDIT_CUT
         MENUITEM "&Copy\tCtrl+C",               ID_EDIT_COPY
         MENUITEM "&Paste\tCtrl+V",              ID_EDIT_PASTE
         MENUITEM SEPARATOR
-        MENUITEM "Edit basic...",               ID_EDIT_BASIC
-        MENUITEM "Edit map...",                 ID_EDIT_MAP
-        MENUITEM "Edit briefing...",            ID_EDIT_BRIEFING
-        POPUP "Edit side"
+        MENUITEM "Basic",                       ID_EDIT_BASIC
+        MENUITEM "Map",                         ID_EDIT_MAP
+        MENUITEM "Briefing",                    ID_EDIT_BRIEFING
+        POPUP "Side"
         BEGIN
-            MENUITEM "Goodguy...",                  ID_EDIT_GOODGUY
-            MENUITEM "Badguy...",                   ID_EDIT_BADGUY
-            MENUITEM "Neutral...",                  ID_EDIT_NEUTRAL
-            MENUITEM "Special...",                  ID_EDIT_SPECIAL
-            MENUITEM "Multi1...",                   ID_EDIT_MULTI1
-            MENUITEM "Multi2...",                   ID_EDIT_MULTI2
-            MENUITEM "Multi3...",                   ID_EDIT_MULTI3
-            MENUITEM "Multi4...",                   ID_EDIT_MULTI4
-            MENUITEM "Multi5...",                   ID_EDIT_MULTI5
-            MENUITEM "Multi6...",                   ID_EDIT_MULTI6
+            MENUITEM "Goodguy",                     ID_EDIT_GOODGUY
+            MENUITEM "Badguy",                      ID_EDIT_BADGUY
+            MENUITEM "Neutral",                     ID_EDIT_NEUTRAL
+            MENUITEM "Special",                     ID_EDIT_SPECIAL
+            MENUITEM "Multi1",                      ID_EDIT_MULTI1
+            MENUITEM "Multi2",                      ID_EDIT_MULTI2
+            MENUITEM "Multi3",                      ID_EDIT_MULTI3
+            MENUITEM "Multi4",                      ID_EDIT_MULTI4
+            MENUITEM "Multi5",                      ID_EDIT_MULTI5
+            MENUITEM "Multi6",                      ID_EDIT_MULTI6
         END
         MENUITEM SEPARATOR
-        MENUITEM "Edit infantry...",            ID_EDIT_INFANTRY
-        MENUITEM "Edit structures...",          ID_EDIT_STRUCTURES
-        MENUITEM "Edit units...",               ID_EDIT_UNITS
+        MENUITEM "Infantry",                    ID_EDIT_INFANTRY
+        MENUITEM "Structures",                  ID_EDIT_STRUCTURES
+        MENUITEM "Units",                       ID_EDIT_UNITS
         MENUITEM SEPARATOR
-        MENUITEM "Edit teamtypes...",           ID_EDIT_TEAMTYPES
-        MENUITEM "Edit triggers..",             ID_EDIT_TRIGGERS
-        MENUITEM "Edit waypoints...",           ID_EDIT_WAYPOINTS
+        MENUITEM "Teamtypes",                   ID_EDIT_TEAMTYPES
+        MENUITEM "Triggers",                    ID_EDIT_TRIGGERS
+        MENUITEM "Waypoints",                   ID_EDIT_WAYPOINTS
         MENUITEM SEPARATOR
         MENUITEM "Lock template layer\tCtrl+F1", ID_EDIT_LOCK_TEMPLATE_LAYER
         MENUITEM "Lock overlay layer\tCtrl+F2", ID_EDIT_LOCK_OVERLAY_LAYER
@@ -136,7 +134,7 @@ BEGIN
     END
     POPUP "&Tools"
     BEGIN
-        MENUITEM "Energy status...",            ID_TOOLS_ENERGY_STATUS
+        MENUITEM "Energy status",               ID_TOOLS_ENERGY_STATUS
         MENUITEM "Upgrade tiberium",            ID_TOOLS_UPGRADE_TIBERIUM
     END
 END
@@ -148,7 +146,7 @@ BEGIN
         MENUITEM "Moveable",                    ID_SWITCH_MOVEABLE
         MENUITEM SEPARATOR
         MENUITEM "Delete",                      ID_POPUP_DELETE
-        MENUITEM "Properties...",               ID_POPUP_PROPERTIES
+        MENUITEM "Properties",                  ID_POPUP_PROPERTIES
         MENUITEM SEPARATOR
         MENUITEM "Set celltrigger...",          ID_POPUP_SET_CELLTRIGGER
         MENUITEM "Set waypoint...",             ID_POPUP_SET_WAYPOINT
@@ -272,7 +270,7 @@ END
 
 IDD_EDIT_STRUCTURES_DLG DIALOG 0, 0, 477, 205
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit structures"
+CAPTION "Structures"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
@@ -306,7 +304,7 @@ END
 
 IDD_EDIT_UNITS_DLG DIALOG 0, 0, 477, 205
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit units"
+CAPTION "Units"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
@@ -332,7 +330,7 @@ END
 
 IDD_EDIT_INFANTRY_DLG DIALOG 0, 0, 477, 205
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit infantry"
+CAPTION "Infantry"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,420,7,50,14
@@ -352,33 +350,33 @@ BEGIN
     EDITTEXT        IDC_EDIT_OY,257,104,128,12,ES_AUTOHSCROLL | ES_READONLY
 END
 
-IDD_EDIT_WAYPOINTS_DLG DIALOG 0, 0, 215, 218
+IDD_EDIT_WAYPOINTS_DLG DIALOGEX 0, 0, 215, 218
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Edit waypoints"
-FONT 8, "MS Sans Serif"
+CAPTION "Waypoints"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     CONTROL         "List1",IDC_LIST1,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,144,204
     DEFPUSHBUTTON   "Select",IDOK,158,7,50,14,WS_DISABLED
     PUSHBUTTON      "Close",IDCANCEL,158,23,50,14
-    PUSHBUTTON      "Delete",IDC_DELETE,158,39,50,14,WS_DISABLED
+    PUSHBUTTON      "&Delete",IDC_DELETE,158,39,50,14,WS_DISABLED
 END
 
-IDD_EDIT_TRIGGERS_DLG DIALOG 0, 0, 364, 218
+IDD_EDIT_TRIGGERS_DLG DIALOGEX 0, 0, 364, 218
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Edit triggers"
-FONT 8, "MS Sans Serif"
+CAPTION "Triggers"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,297,204
     DEFPUSHBUTTON   "Select",IDOK,307,7,50,14,WS_DISABLED
     PUSHBUTTON      "Close",IDCANCEL,307,23,50,14
-    PUSHBUTTON      "New...",IDC_NEW,307,39,50,14
-    PUSHBUTTON      "Edit...",IDC_EDIT,307,55,50,14,WS_DISABLED
-    PUSHBUTTON      "Delete",IDC_DELETE,307,71,50,14,WS_DISABLED
+    PUSHBUTTON      "&New...",IDC_NEW,307,39,50,14
+    PUSHBUTTON      "&Edit...",IDC_EDIT,307,55,50,14,WS_DISABLED
+    PUSHBUTTON      "&Delete",IDC_DELETE,307,71,50,14,WS_DISABLED
 END
 
 IDD_EDIT_TEAMTYPE_DLG DIALOG 0, 0, 319, 250
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit teamtype"
+CAPTION "Teamtype"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,262,7,50,14
@@ -409,22 +407,22 @@ BEGIN
     LISTBOX         IDC_ACTION_LIST,193,103,119,140,WS_VSCROLL | WS_TABSTOP
 END
 
-IDD_EDIT_TEAMTYPES_DLG DIALOG 0, 0, 503, 218
+IDD_EDIT_TEAMTYPES_DLG DIALOGEX 0, 0, 503, 218
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
-CAPTION "Edit teamtypes"
-FONT 8, "MS Sans Serif"
+CAPTION "Teamtypes"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SINGLESEL | LVS_SHOWSELALWAYS | LVS_NOSORTHEADER | WS_BORDER | WS_TABSTOP,7,7,435,204
     DEFPUSHBUTTON   "Select",IDOK,446,7,50,14,WS_DISABLED
     PUSHBUTTON      "Close",IDCANCEL,446,23,50,14
-    PUSHBUTTON      "New...",IDC_NEW,446,39,50,14
-    PUSHBUTTON      "Edit...",IDC_EDIT,446,55,50,14,WS_DISABLED
-    PUSHBUTTON      "Delete",IDC_DELETE,446,71,50,14,WS_DISABLED
+    PUSHBUTTON      "&New...",IDC_NEW,446,39,50,14
+    PUSHBUTTON      "&Edit...",IDC_EDIT,446,55,50,14,WS_DISABLED
+    PUSHBUTTON      "&Delete",IDC_DELETE,446,71,50,14,WS_DISABLED
 END
 
 IDD_EDIT_MAP_DLG DIALOG 0, 0, 186, 90
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit map"
+CAPTION "Map"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,129,7,50,14
@@ -443,7 +441,7 @@ END
 
 IDD_EDIT_SIDE_DLG DIALOG 0, 0, 140, 234
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit side"
+CAPTION "Side"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,83,7,50,14
@@ -513,10 +511,10 @@ BEGIN
     PUSHBUTTON      "Select...",IDC_SELECT,129,103,50,14
 END
 
-IDD_EDIT_BASIC_DLG DIALOG 0, 0, 252, 198
+IDD_EDIT_BASIC_DLG DIALOGEX 0, 0, 252, 198
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit basic"
-FONT 8, "MS Sans Serif"
+CAPTION "Basic"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,195,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,195,24,50,14
@@ -542,12 +540,11 @@ BEGIN
     COMBOBOX        IDC_COMBO_PLAYER,70,135,119,160,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_EDIT_THEME,70,151,119,14,ES_AUTOHSCROLL
     EDITTEXT        IDC_EDIT_WIN,70,167,119,14,ES_AUTOHSCROLL
-    CONTROL         "XCC Level",IDC_CHECK_XCC_LEVEL,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,183,119,14
 END
 
 IDD_EDIT_TRIGGER_DLG DIALOG 0, 0, 231, 122
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit trigger"
+CAPTION "Trigger"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,174,7,50,14
@@ -641,7 +638,7 @@ END
 
 IDD_EDIT_BRIEFING_DLG DIALOG 0, 0, 285, 90
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION "Edit briefing"
+CAPTION "Briefing"
 FONT 8, "MS Sans Serif"
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,228,7,50,14
@@ -755,6 +752,10 @@ BEGIN
     END
 
     IDD_EDIT_BASIC_DLG, DIALOG
+    BEGIN
+    END
+
+    IDD_EDIT_TRIGGER_DLG, DIALOG
     BEGIN
     END
 
