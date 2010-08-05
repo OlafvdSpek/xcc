@@ -24,15 +24,6 @@ static UINT indicators[] =
 	ID_INDICATOR_CELL
 };
 
-CMainFrame::CMainFrame()
-{
-	m_mouse_pos = Cxcc_cell(-1, -1);
-}
-
-CMainFrame::~CMainFrame()
-{
-}
-
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
@@ -131,11 +122,6 @@ void CMainFrame::set_statusbar_cx_pane(UINT id, long _cx)
 	m_wndStatusBar.GetPaneInfo(index, id, style, cx);
 	m_wndStatusBar.SetPaneInfo(index, id, style, _cx);
 }
-
-void CMainFrame::GetMessageString(UINT id, CString& msg) const
-{                
-	CFrameWnd::GetMessageString(id, msg);
-}	
 
 CComboBox& CMainFrame::combo_side() const
 {
