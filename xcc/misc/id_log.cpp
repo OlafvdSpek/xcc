@@ -80,20 +80,20 @@ int id_log::open_binary(const string& fname)
 	const char char1[] = "bgjm";
 	const char char2[] = "ew";
 	const char char3[] = "abc";
-	for (long i = 0; i < 2; i++)
+	for (int i = 0; i < 2; i++)
 	{
 		if (i)
 			strcpy(name + 8, "ini");
-		for (long j = 0; j < 4; j++)
+		for (int j = 0; j < 4; j++)
 		{
 			name[2] = char1[j];
-			for (long k = 0; k < 100; k++)
+			for (int k = 0; k < 100; k++)
 			{
 				memcpy(name + 3, nwzl(2, k).c_str(), 2);
-				for (long l = 0; l < 2; l++)
+				for (int l = 0; l < 2; l++)
 				{
 					name[5] = char2[l];
-					for (long m = 0; m < 3; m++)
+					for (int m = 0; m < 3; m++)
 					{
 						name[6] = char3[m];
 						add_name(game_td, name, "");
