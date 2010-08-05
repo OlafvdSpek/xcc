@@ -93,9 +93,36 @@ const char* template_code[];
 
 enum t_action_id
 {
-	a_area_guard, a_attack_base, a_attack_civilians, a_attack_tarcom, a_attack_units,
-	a_defend_base, a_guard, a_harvest, a_hunt, a_loop, a_move, a_none, a_rampage, 
-	a_retreat, a_return, a_sleep, a_sticky, a_unload
+	a_ambush,
+	a_area_guard,
+	a_attack,
+	a_attack_base,
+	a_attack_civil,
+	a_attack_tarcom,
+	a_attack_units,
+	a_capture,
+	a_construction,
+	a_defend_base,
+	a_enter,
+	a_guard,
+	a_harvest,
+	a_hunt,
+	a_missle,
+	a_loop,
+	a_move,
+	a_none,
+	a_rampage,
+	a_repair,
+	a_rescue,
+	a_retreat,
+	a_return,
+	a_sabotage,
+	a_selling,
+	a_sleep,
+	a_sticky,
+	a_stop,
+	a_timed_hunt,
+	a_unload,
 };
 
 const char* action_code[];

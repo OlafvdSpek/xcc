@@ -338,23 +338,35 @@ const char* template_code[] =
 
 const char* action_code[] =
 {
+	"ambush",
 	"area guard",
+	"attack",
 	"attack base",
 	"attack civil.",
 	"attack tarcom",
 	"attack units",
+	"capture",
+	"construction",
 	"defend base",
+	"enter",
 	"guard",
 	"harvest",
 	"hunt",
+	"missle",
 	"loop",
 	"move",
 	"none",
 	"rampage",
+	"repair",
+	"rescue",
 	"retreat",
 	"return",
+	"sabotage",
+	"selling",
 	"sleep",
 	"sticky",
+	"stop",
+	"timed hunt",
 	"unload",
 	NULL
 };
@@ -1251,13 +1263,11 @@ void Cxcc_level::process()
 
 void Cxcc_level::clear()
 {
+	for (int i = 0; i < 4096; i++)
 	{
-		for (int i = 0; i < 4096; i++)
-		{
-			int x = i & 0x3f;
-			int y = i >> 6;
-			bin_data[i] = x & 3 | (y & 3) << 2;
-		}
+		int x = i & 0x3f;
+		int y = i >> 6;
+		bin_data[i] = x & 3 | (y & 3) << 2;
 	}
 
 	basic_data.action.erase();
@@ -1281,13 +1291,11 @@ void Cxcc_level::clear()
 
 	briefing_data.erase();
 
+	for (int i = 0; i < c_side_id; i++)
 	{
-		for (int i = 0; i < c_side_id; i++)
-		{
-			side_data[i].allies = 1 << i;
-			side_data[i].credits = 0;
-			side_data[i].edge = e_north;
-		}
+		side_data[i].allies = 1 << i;
+		side_data[i].credits = 0;
+		side_data[i].edge = e_north;
 	}
 
 	base_data.clear();
