@@ -27,7 +27,6 @@ static UINT indicators[] =
 CMainFrame::CMainFrame()
 {
 	m_mouse_pos = Cxcc_cell(-1, -1);
-	m_idle_msg_changed = false;
 }
 
 CMainFrame::~CMainFrame()
@@ -73,18 +72,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CMainFrame::OnIdleUpdateCmdUI()
 {
-	if (!m_object_name.empty())
-	{
-		SetMessageText(m_object_name.c_str());
-		m_idle_msg_changed = true;
-	}
-	else if (m_idle_msg_changed)
-	{
-		CString msg;
-		GetMessageString(AFX_IDS_IDLEMESSAGE, msg);
-		SetMessageText(msg);
-		m_idle_msg_changed = false;
-	}
+	SetMessageText(m_object_name.c_str());
 };
 
 void CMainFrame::OnUpdateCell(CCmdUI *pCmdUI)
@@ -95,8 +83,7 @@ void CMainFrame::OnUpdateCell(CCmdUI *pCmdUI)
 	{
 		long x = 100 * m_mouse_pos.get_x() >> 8;
 		long y = 100 * m_mouse_pos.get_y() >> 8;
-		text = nwzl(3, x / 100) + ',' + nwzl(2, x % 100) + ";" + nwzl(3, y / 100) + ',' + nwzl(2, y % 100) + 
-			nwsl(5, m_mouse_pos.get_cc()) + nwsl(2, m_mouse_pos.subcell());
+		text = nwzl(2, x / 100) + ',' + nwzl(2, x % 100) + ";" + nwzl(2, y / 100) + ',' + nwzl(2, y % 100) + nwsl(5, m_mouse_pos.get_cc()) + nwsl(2, m_mouse_pos.subcell());
 	}
 	set_statusbar_cx_pane(ID_INDICATOR_CELL, 120);
 	pCmdUI->SetText(text.c_str());

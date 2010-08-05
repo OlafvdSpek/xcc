@@ -145,7 +145,7 @@ void Cedit_triggers_dlg::update_trigger(const string& name)
 
 long Cedit_triggers_dlg::get_index(const string& name) const
 {
-	for (long i = 0; i < m_list.GetItemCount(); i++)
+	for (int i = 0; i < m_list.GetItemCount(); i++)
 	{
 		if (m_list.GetItemText(i, 0) == name.c_str())
 			return i;

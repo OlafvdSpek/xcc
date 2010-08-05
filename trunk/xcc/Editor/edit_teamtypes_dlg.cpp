@@ -133,7 +133,7 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 	const t_teamtype_data_entry& d = m_level.teamtype_data[name];
 	m_list.set_item(d.side != -1 ? side_code[d.side] : "none", i, 1);
 	string s;
-	for (long j = 0; j < d.c_objects; j++)
+	for (int j = 0; j < d.c_objects; j++)
 	{
 		int v = d.object_list[j];
 		if (j)
@@ -155,7 +155,7 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 
 long Cedit_teamtypes_dlg::get_index(const string& name) const
 {
-	for (long i = 0; i < m_list.GetItemCount(); i++)
+	for (int i = 0; i < m_list.GetItemCount(); i++)
 	{
 		if (m_list.GetItemText(i, 0) == name.c_str())
 			return i;

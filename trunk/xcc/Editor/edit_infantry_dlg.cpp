@@ -56,7 +56,7 @@ BOOL Cedit_infantry_dlg::OnInitDialog()
 	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 
 	long last_i = -1;
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)
@@ -74,7 +74,7 @@ BOOL Cedit_infantry_dlg::OnInitDialog()
 
 void Cedit_infantry_dlg::OnNewButton() 
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)

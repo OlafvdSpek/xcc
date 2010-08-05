@@ -19,7 +19,6 @@ protected: // create from serialization only
 
 public:
 	Cxcc_cell m_mouse_pos;
-	bool m_idle_msg_changed;
 	string m_object_name;
 	Cobject_selection* m_selection_pane;
 	CXCCEditorView* m_level_pane;
