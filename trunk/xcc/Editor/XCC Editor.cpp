@@ -26,17 +26,8 @@ CXCCEditorApp theApp;
 BOOL CXCCEditorApp::InitInstance()
 {
 	AfxEnableControlContainer();
-
-#ifdef _AFXDLL
-	Enable3dControls();			// Call this when using MFC in a shared DLL
-#else
-	Enable3dControlsStatic();	// Call this when linking to MFC statically
-#endif
-
 	SetRegistryKey("XCC");
-
-	LoadStdProfileSettings(8);  // Load standard INI file options (including MRU)
-
+	LoadStdProfileSettings(8);
 	xcc_dirs::use_external_files(false);
 	xcc_dirs::load_from_registry();
 	if (Cxcc_mixs::open())
@@ -53,13 +44,13 @@ BOOL CXCCEditorApp::InitInstance()
 		AfxMessageBox("Data load failed", MB_ICONEXCLAMATION);
 		return false;
 	}
-	m_save_data = true;
+	// m_save_data = true;
 	
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
 		IDR_MAINFRAME,
 		RUNTIME_CLASS(CXCCEditorDoc),
-		RUNTIME_CLASS(CMainFrame),       // main SDI frame window
+		RUNTIME_CLASS(CMainFrame),
 		RUNTIME_CLASS(CXCCEditorView));
 	AddDocTemplate(pDocTemplate);
 
@@ -74,7 +65,6 @@ BOOL CXCCEditorApp::InitInstance()
 
 	m_pMainWnd->ShowWindow(SW_SHOWMAXIMIZED);
 	m_pMainWnd->UpdateWindow();
-
 	m_pMainWnd->DragAcceptFiles();
 
 	return TRUE;
@@ -91,12 +81,5 @@ int CXCCEditorApp::ExitInstance()
 		xcc_structures::save_data();
 		xcc_units::save_data();
 	}
-
-	shp_images::destroy();
-	xcc_infantry::destroy();
-	xcc_structures::destroy();
-	xcc_units::destroy();
-	Cxcc_mixs::close();
-	xcc_dirs::save_to_registry();
 	return CWinApp::ExitInstance();
 }
