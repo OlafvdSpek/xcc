@@ -296,8 +296,6 @@ public:
 	void save(Cvirtual_binary& bin, Cvirtual_binary& ini) const;
 	Cvirtual_binary save_bin() const;
 	Cvirtual_binary save_ini() const;
-	Cxcc_level();
-	~Cxcc_level();
 // private:
 	t_bin_data bin_data;
 	t_basic_data basic_data;
