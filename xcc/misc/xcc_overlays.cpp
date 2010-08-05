@@ -192,39 +192,23 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	const string ext = '.' + string(Cxcc_mixs::get_theater_fname(theater)).substr(0, 3);
 	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
 	Cmix_file& theater_mix = Cxcc_mixs::get_theater_mix(theater);
+	for (int i = 0; i < c_overlay_id; i++)
 	{
-		// load overlays
-		for (int i = 0; i < c_overlay_id; i++)
-		{
-			Cshp_file f;
-			f.open(overlay_code[i] + ext, theater_mix);
-			if (!f.is_open())
-			{
-				f.open(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix);
-				if (!f.is_open())
-					return 1;
-			}
-			int res = shp_images::load_shp(f, overlay_image_list[i]);
-			f.close();
-			if (res)
-				return 1;
-		}
+		Cshp_file f;
+		if (f.open(overlay_code[i] + ext, theater_mix)
+			&& f.open(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix))
+			return 1;
+		if (shp_images::load_shp(f, overlay_image_list[i]))
+			return 1;
 	}
+	for (int i = 0; i < c_terrain_id; i++)
 	{
-		// load terrain
-		for (int i = 0; i < c_terrain_id; i++)
-		{
-			Cshp_file f;
-			f.open(terrain_code[i] + ext, theater_mix);
-			if (f.is_open())
-			{
-				terrain_data[i].c_images |= f.get_c_images() << (theater << 3);
-				int res = shp_images::load_shp(f, terrain_image_list[i]);
-				f.close();
-				if (res)
-					return 1;
-			}
-		}
+		Cshp_file f;
+		if (f.open(terrain_code[i] + ext, theater_mix))
+			continue;
+		terrain_data[i].c_images |= f.get_c_images() << (theater << 3);
+		if (shp_images::load_shp(f, terrain_image_list[i]))
+			return 1;
 	}
 	loaded_theater = theater;
 	return 0;
@@ -234,21 +218,15 @@ void Cxcc_overlays::destroy()
 {
 	if (loaded_theater == -1)
 		return;
+	for (int i = 0; i < c_overlay_id; i++)
 	{
-		// destroy overlays
-		for (int i = 0; i < c_overlay_id; i++)
-		{
-			if (overlay_image_list[i])
-				shp_images::destroy_shp(overlay_image_list[i]);
-		}
+		if (overlay_image_list[i])
+			shp_images::destroy_shp(overlay_image_list[i]);
 	}
+	for (int i = 0; i < c_terrain_id; i++)
 	{
-		// destroy terrain
-		for (int i = 0; i < c_terrain_id; i++)
-		{
-			if (terrain_image_list[i])
-				shp_images::destroy_shp(terrain_image_list[i]);
-		}
+		if (terrain_image_list[i])
+			shp_images::destroy_shp(terrain_image_list[i]);
 	}
 }
 
