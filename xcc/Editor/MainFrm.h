@@ -25,8 +25,6 @@ public:
 	CXCCEditorView* m_level_pane;
 public:
 	//{{AFX_VIRTUAL(CMainFrame)
-public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 public:
@@ -37,10 +35,6 @@ public:
 	void GetMessageString(UINT id, CString& msg) const;
 	void set_statusbar_cx_pane(UINT id, long cx);
 	virtual ~CMainFrame();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 
 protected:  // control bar embedded members
 	CSplitterWnd	m_splitter;
