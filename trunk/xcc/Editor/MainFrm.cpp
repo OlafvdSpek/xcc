@@ -39,79 +39,50 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 	
-	if (!m_wndToolBar.Create(this) ||
-		!m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
+	if (!m_wndToolBar.Create(this) || !m_wndToolBar.LoadToolBar(IDR_MAINFRAME))
 	{
 		TRACE0("Failed to create toolbar\n");
 		return -1;      // fail to create
 	}
 
-	if (!m_wndStatusBar.Create(this) ||
-		!m_wndStatusBar.SetIndicators(indicators,
-		  sizeof(indicators)/sizeof(UINT)))
+	if (!m_wndStatusBar.Create(this) || !m_wndStatusBar.SetIndicators(indicators, sizeof(indicators) / sizeof(UINT)))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
 	}
 
-	// TODO: Remove this if you don't want tool tips or a resizeable toolbar
-	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() |
-		CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
+	m_wndToolBar.SetBarStyle(m_wndToolBar.GetBarStyle() | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_SIZE_DYNAMIC);
 
-	// TODO: Delete these three lines if you don't want the toolbar to
-	//  be dockable
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
+	// Initialize dialog bar m_wndPropertyBar
+	if (!m_wndPropertyBar.Create(this, CG_IDD_PROPERTYBAR, CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_HIDE_INPLACE, CG_ID_VIEW_PROPERTYBAR))
 	{
-		// Initialize dialog bar m_wndPropertyBar
-		if (!m_wndPropertyBar.Create(this, CG_IDD_PROPERTYBAR,
-			CBRS_TOP | CBRS_TOOLTIPS | CBRS_FLYBY | CBRS_HIDE_INPLACE,
-			CG_ID_VIEW_PROPERTYBAR))
-		{
-			TRACE0("Failed to create dialog bar m_wndPropertyBar\n");
-			return -1;		// fail to create
-		}
-
-		m_wndPropertyBar.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
-		EnableDocking(CBRS_ALIGN_ANY);
-		DockControlBar(&m_wndPropertyBar);
-
-		for (int i = 0; i < c_side_id; i++)
-		{
-			combo_side().SetItemData(combo_side().AddString(side_code[i]), i);
-		}
-		
-		for (int i = 0; action_code[i]; i++)
-		{
-			combo_action().SetItemData(combo_action().AddString(action_code[i]), i);
-		}
-
-		combo_side().SelectString(-1, side_code[s_neutral]);
-		combo_action().SelectString(-1, action_code[a_guard]);
+		TRACE0("Failed to create dialog bar m_wndPropertyBar\n");
+		return -1;		// fail to create
 	}
+
+	m_wndPropertyBar.EnableDocking(CBRS_ALIGN_TOP | CBRS_ALIGN_BOTTOM);
+	EnableDocking(CBRS_ALIGN_ANY);
+	DockControlBar(&m_wndPropertyBar);
+
+	for (int i = 0; i < c_side_id; i++)
+	{
+		combo_side().SetItemData(combo_side().AddString(side_code[i]), i);
+	}
+		
+	for (int i = 0; action_code[i]; i++)
+	{
+		combo_action().SetItemData(combo_action().AddString(action_code[i]), i);
+	}
+
+	combo_side().SelectString(-1, side_code[s_neutral]);
+	combo_action().SelectString(-1, action_code[a_guard]);
 
 	return 0;
 }
-
-BOOL CMainFrame::PreCreateWindow(CREATESTRUCT& cs)
-{
-	return CFrameWnd::PreCreateWindow(cs);
-}
-
-#ifdef _DEBUG
-void CMainFrame::AssertValid() const
-{
-	CFrameWnd::AssertValid();
-}
-
-void CMainFrame::Dump(CDumpContext& dc) const
-{
-	CFrameWnd::Dump(dc);
-}
-
-#endif //_DEBUG
 
 void CMainFrame::OnIdleUpdateCmdUI()
 {
@@ -165,9 +136,7 @@ void CMainFrame::OnEditEditUnits()
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext) 
 {
 	if (!m_splitter.CreateStatic(this, 1, 2))
-	{
 		return false;
-	}
 	if (!m_splitter.CreateView(0, 0, RUNTIME_CLASS(Cobject_selection), CSize(200, 0), pContext))
 		return false;
 	if (!m_splitter.CreateView(0, 1, pContext->m_pNewViewClass, CSize(0, 0), pContext))
