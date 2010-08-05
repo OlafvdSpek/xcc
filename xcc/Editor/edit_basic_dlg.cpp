@@ -42,10 +42,8 @@ BOOL Cedit_basic_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	for (long i = 0; i < c_side_id; i++)
-	{
+	for (int i = 0; i < c_side_id; i++)
 		m_combo_player.SetItemData(m_combo_player.AddString(side_code[i]), i);
-	}
 
 	m_edit_action = m_basic_data.action.c_str();
 	m_edit_brief = m_basic_data.brief.c_str();

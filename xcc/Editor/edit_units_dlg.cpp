@@ -61,7 +61,7 @@ BOOL Cedit_units_dlg::OnInitDialog()
 	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 
 	long last_i = -1;
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 		if (ud.flags & ud_flags_in_use)
@@ -79,7 +79,7 @@ BOOL Cedit_units_dlg::OnInitDialog()
 
 void Cedit_units_dlg::OnNewButton() 
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 		if (ud.flags & ud_flags_in_use)

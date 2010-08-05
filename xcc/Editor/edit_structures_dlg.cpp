@@ -84,7 +84,7 @@ BOOL Cedit_structures_dlg::OnInitDialog()
 	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 
 	long last_i = -1;
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[i];
 		if (sd.flags & sd_flags_in_use)
@@ -102,7 +102,7 @@ BOOL Cedit_structures_dlg::OnInitDialog()
 
 void Cedit_structures_dlg::OnNewButton() 
 {
-	for (long i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[i];
 		if (sd.flags & sd_flags_in_use)

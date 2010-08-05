@@ -43,7 +43,7 @@ BOOL Cedit_waypoints_dlg::OnInitDialog()
 	m_list.add_column("Index", 1, LVCFMT_RIGHT);
 	m_list.add_column("Cell", 1);	
 
-	for (long i = 0; i < 100; i++)
+	for (int i = 0; i < 100; i++)
 	{
 		m_list.add_item(n(i), i);
 		long v = m_waypoint_data[i];
