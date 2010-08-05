@@ -26,7 +26,8 @@ const char* overlay_code[] =
 	"cycl",
 	"brik",
 	"scrate",
-	"wcrate"
+	"wcrate",
+	NULL
 };
 
 const char* terrain_code[] =
@@ -62,7 +63,8 @@ const char* terrain_code[] =
 	"tc02",
 	"tc03",
 	"tc04",
-	"tc05"
+	"tc05",
+	NULL
 };
 
 static const char* overlays_xif_fname = "overlays.xif";

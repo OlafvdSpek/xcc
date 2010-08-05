@@ -105,7 +105,8 @@ const char* side_code[] =
 	"multi4",
 	"multi5",
 	"multi6",
-	"none"
+	"none",
+	NULL
 };
 
 const char* theater_code[] =
@@ -474,7 +475,7 @@ t_edge_id get_edge_id(const string &s)
 
 t_overlay_id get_overlay_id(const string& s, bool allow_unknown = false)
 {
-	return static_cast<t_overlay_id>(find_id(s, overlay_code, c_overlay_id, allow_unknown));
+	return static_cast<t_overlay_id>(find_id(s, overlay_code, allow_unknown));
 }
 
 t_side_id get_side_id(const string &s, bool allow_unknown = false)
@@ -835,14 +836,6 @@ static void handle_waypoints_section_entry(const string &a, const string &b, t_w
 {
 	if (b != "-1")
 		waypoint_data[get_value(a, 0, 99)] = get_cell_value(b);
-}
-
-Cxcc_level::Cxcc_level()
-{
-}
-
-Cxcc_level::~Cxcc_level()
-{
 }
 
 int Cxcc_level::load(const Cvirtual_binary& bin, const Cvirtual_binary& ini)
