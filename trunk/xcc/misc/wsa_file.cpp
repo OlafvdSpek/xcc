@@ -130,8 +130,7 @@ int Cwsa_file::extract_as_pcx(const Cfname& name, t_file_type ft) const
 			decode40(s, frame.data_edit());
 		}
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		int error = image_file_write(ft, frame, palet, cx(), cy()).save(t);
-		if (error)
+		if (int error = image_file_write(t, ft, frame, palet, cx(), cy()))
 			return error;
 	}
 	return 0;
