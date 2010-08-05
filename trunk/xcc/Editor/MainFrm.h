@@ -9,12 +9,11 @@
 #include "object_selection.h"
 #include "string_conversion.h"
 #include "xcc_cell.h"
-#include "xcc_level.h"	// Added by ClassView
+#include "xcc_level.h"
 
 class CMainFrame : public CFrameWnd
 {
-protected: // create from serialization only
-	CMainFrame();
+protected:
 	DECLARE_DYNCREATE(CMainFrame)
 
 public:
@@ -22,24 +21,18 @@ public:
 	string m_object_name;
 	Cobject_selection* m_selection_pane;
 	CXCCEditorView* m_level_pane;
-public:
-	//{{AFX_VIRTUAL(CMainFrame)
-protected:
-	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-public:
+
 	t_side_id default_side() const;
 	t_action_id default_action() const;
 	CComboBox& combo_side() const;
 	CComboBox& combo_action() const;
-	void GetMessageString(UINT id, CString& msg) const;
 	void set_statusbar_cx_pane(UINT id, long cx);
-	virtual ~CMainFrame();
 
-protected:  // control bar embedded members
+protected:
 	CSplitterWnd	m_splitter;
 	CStatusBar  m_wndStatusBar;
-protected:
 	CDialogBar m_wndPropertyBar;
+	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	void OnIdleUpdateCmdUI();
 	void OnUpdateCell(CCmdUI *pCmdUI);
 	//{{AFX_MSG(CMainFrame)
