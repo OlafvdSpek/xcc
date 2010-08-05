@@ -39,7 +39,6 @@ public:
 protected:  // control bar embedded members
 	CSplitterWnd	m_splitter;
 	CStatusBar  m_wndStatusBar;
-	CToolBar    m_wndToolBar;
 protected:
 	CDialogBar m_wndPropertyBar;
 	void OnIdleUpdateCmdUI();
