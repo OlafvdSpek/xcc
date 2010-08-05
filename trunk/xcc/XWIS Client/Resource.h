@@ -6,7 +6,6 @@
 #define IDR_MAINFRAME                   128
 #define IDD_LOGIN                       129
 #define IDD_SERIALS                     133
-#define IDC_SET                         1001
 #define IDC_RESET                       1002
 #define IDC_HOSTS                       1003
 #define IDC_IPA                         1004
@@ -19,8 +18,6 @@
 #define IDC_WOLAPI_DLL                  1008
 #define IDC_LADDER                      1009
 #define IDC_VIEW_SERIALS                1010
-#define IDC_RESET_PASSWORD              1011
-#define IDC_RESET_PASSWORDS             1011
 #define IDC_TS                          1012
 #define IDC_RA2                         1013
 #define IDC_YR                          1014

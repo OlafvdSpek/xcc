@@ -11,7 +11,6 @@
 
 Cdlg_login::Cdlg_login(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(Cdlg_login::IDD, pParent)
-	, m_reset_passwords(false)
 {
 	m_edit = _T("");
 }
@@ -21,7 +20,6 @@ void Cdlg_login::DoDataExchange(CDataExchange* pDX)
 	ETSLayoutDialog::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_GAME, m_game);
 	DDX_Control(pDX, IDC_USER, m_user);
-	DDX_Check(pDX, IDC_RESET_PASSWORDS, m_reset_passwords);
 	DDX_Text(pDX, IDC_EDIT, m_edit);
 }
 
@@ -42,7 +40,6 @@ BOOL Cdlg_login::OnInitDialog()
 			<< (pane(VERTICAL, GREEDY)
 				<< item(IDC_GAME, GREEDY)
 				<< item(IDC_USER, GREEDY)
-				<< item(IDC_RESET_PASSWORDS, GREEDY)
 				)
 			<< (pane(VERTICAL, GREEDY)
 				<< item(IDOK, NORESIZE)
@@ -196,20 +193,15 @@ void Cdlg_login::OnOK()
 	{
 		strstream msg;
 		msg << "cvers 0 " << (game.gsku << 8) << endl
-			<< "nick " << nick.name << endl;
-		if (!m_reset_passwords)
-			msg << "apgar " << nick.password << " 0" << endl;
+			<< "nick " << nick.name << endl
+			<< "apgar " << nick.password << " 0" << endl;
 		msg << "serial " << game.serial << endl
-			<< "user" << endl;
-		if (m_reset_passwords)
-			msg << "privmsg c :reset passwords" << endl;
-		else
-			msg << "privmsg c /names" << endl;
+			<< "user" << endl
+			<< "privmsg c /names" << endl;
 		msg << "quit" << endl;
 		string d;
 		send_recv(host, port, const_memory_range(msg.str(), msg.pcount()), d);
 		m_edit += d.c_str();
 	}
-	m_reset_passwords = false;
 	UpdateData(false);
 }

@@ -36,5 +36,4 @@ protected:
 private:
 	t_games m_games;
 	t_nicks m_nicks;
-	BOOL m_reset_passwords;
 };
