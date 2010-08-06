@@ -262,7 +262,6 @@ void CXCCEditorView::update_mem_surface()
 	// const byte* shade_rp = templates.get_shade_rp();
 	const t_bin_data& bin_data = level().bin_data;
 	const t_map_data& map_data = level().map_data;
-	dword cell_i = 0;
 	
 	dword* dib = reinterpret_cast<dword*>(mp_dib);
 	const int dib_cx = 24 * 64;
@@ -270,6 +269,7 @@ void CXCCEditorView::update_mem_surface()
 	CRect a(CPoint(map_data.x, map_data.y), CSize(map_data.cx, map_data.cy));
 	if (m_view_template_layer)
 	{
+		dword cell_i = 0;
 		for (int yi = 0; yi < 64; yi++)
 		{
 			for (int xi = 0; xi < 64; xi++)
