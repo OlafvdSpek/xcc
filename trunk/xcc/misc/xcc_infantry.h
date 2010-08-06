@@ -20,14 +20,11 @@ namespace xcc_infantry
 		void* icon;
 	};
 	
-	int c_infantry();
-
 	int load_data();
 	int save_data();
 
 	int load_images(bool load_icons);
 	int get_id(const string& s);
 
-	void destroy();
 	t_infantry_data_entry infantry_data[];
 }

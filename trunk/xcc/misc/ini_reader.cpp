@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
 #include "virtual_tfile.h"
-
-using namespace boost;
 
 Cini_reader::Cini_reader()
 {
@@ -97,7 +94,7 @@ int Cini_reader::process_line(string line)
 					{
 						string name = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
 						if (m_lower_case)
-							to_lower(name);
+							boost::to_lower(name);
 						i++;
 						while (i < line.length())
 						{

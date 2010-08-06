@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "pkt_ts_ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
 #include "multi_line.h"
 #include "string_conversion.h"
 #include "xste.h"
-
-using namespace boost;
 
 static const char* section_code[] = {"multimaps", "unknown"};
 static const char* map_code[] = {"description", "cd", "minplayers", "maxplayers", "gamemode", "unknown"};

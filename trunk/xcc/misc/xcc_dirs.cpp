@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "xcc_dirs.h"
 
-#include <boost/algorithm/string.hpp>
 #include <windows.h>
 #include "reg_key.h"
 #include "string_conversion.h"
 #include "xcc_registry.h"
-
-using namespace boost;
 
 bool g_enable_log = false;
 bool xcc_dirs::m_use_external_files = true;
@@ -216,7 +213,7 @@ string xcc_dirs::get_main_mix(t_game game)
 
 static void set_path(string s, string& path)
 {
-	to_lower(s);
+	boost::to_lower(s);
 	if (!s.empty() && s[s.length() - 1] != '\\')
 		s += '\\';	
 	path = s;

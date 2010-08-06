@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "rules_ts_ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
 #include "multi_line.h"
-
-using namespace boost;
 
 static const char* section_code[] = 
 {

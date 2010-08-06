@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "art_ts_ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
-
-using namespace boost;
-
 static const char* section_code[] = {"movies", "unknown"};
 
 /*

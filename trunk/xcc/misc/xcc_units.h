@@ -26,14 +26,11 @@ namespace xcc_units
 		int c_rotations;
 	};
 	
-	int c_units();
-
 	int load_data();
 	int save_data();
 
 	int load_images(bool load_icons);
 	int get_id(const string& s);
 
-	void destroy();
 	t_unit_data_entry unit_data[];
 }
