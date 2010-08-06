@@ -3,8 +3,6 @@
 #include <cc_structures.h>
 #include "xcc_dirs.h"
 
-using namespace std;
-
 class id_log  
 {
 public:

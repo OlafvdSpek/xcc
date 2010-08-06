@@ -2,8 +2,6 @@
 
 #include <virtual_binary.h>
 
-using namespace std;
-
 class Cini_reader  
 {
 public:

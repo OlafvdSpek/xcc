@@ -3,8 +3,6 @@
 #include <map>
 #include "cc_file_small.h"
 
-using namespace std;
-
 class Cpak_file: public Ccc_file_small
 {
 public:

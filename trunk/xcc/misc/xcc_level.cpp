@@ -426,7 +426,7 @@ int find_id(const string &s, const char* t[], bool allow_unknown = false)
 {
 	for (int i = 0; t[i]; i++)
 	{
-		if (s == t[i])
+		if (iequals(t[i], s))
 			return i;
 	}
 	if (!allow_unknown)
@@ -438,7 +438,7 @@ int find_id(const string &s, const char* t[], int count, bool allow_unknown = fa
 {
 	for (int i = 0; i < count; i++)
 	{
-		if (s == t[i])
+		if (iequals(t[i], s))
 			return i;
 	}
 	if (!allow_unknown)

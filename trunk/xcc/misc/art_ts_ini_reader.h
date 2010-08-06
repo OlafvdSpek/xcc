@@ -2,8 +2,6 @@
 
 #include "ini_reader.h"
 
-using namespace std;
-
 class Cart_ts_ini_reader: public Cini_reader
 {
 public:
