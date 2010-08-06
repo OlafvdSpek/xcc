@@ -569,10 +569,7 @@ static int get_cell_value(const string &s)
 
 static void handle_basic_section_entry(const string &a, const string &b, t_basic_data &basic_data)
 {
-	t_basic_data_id i = get_basic_data_id(a);
-	if (i == -1)
-		throw Cxcc_level_warning_ignored();
-	switch (i)
+	switch (get_basic_data_id(a))
 	{
 	case bdt_action:
 		basic_data.action = b;
@@ -615,15 +612,14 @@ static void handle_basic_section_entry(const string &a, const string &b, t_basic
 	case bdt_win:
 		basic_data.win = b;
 		break;
+	default:
+		throw Cxcc_level_warning_ignored();
 	}
 }
 
 static void handle_map_section_entry(const string &a, const string &b, t_map_data &map_data)
 {
-	t_map_data_id i = get_map_data_id(a);
-	if (i == -1)
-		throw Cxcc_level_warning_ignored();
-	switch (i)
+	switch (get_map_data_id(a))
 	{
 	case mdt_theater:
 		map_data.theater = get_theater_id(b);
@@ -640,6 +636,8 @@ static void handle_map_section_entry(const string &a, const string &b, t_map_dat
 	case mdt_cy:
 		map_data.cy = get_value(b, 1, 62);
 		break;
+	default:
+		throw Cxcc_level_warning_ignored();
 	}
 }
 
@@ -653,10 +651,7 @@ static void handle_briefing_section_entry(const string &a, const string &b, t_br
 
 static void handle_side_section_entry(const string &a, const string &b, t_side_data &side_data)
 {
-	t_side_data_id i = get_side_data_id(a);
-	if (i == -1)
-		throw Cxcc_level_warning_ignored();
-	switch (i)
+	switch (get_side_data_id(a))
 	{
 	case sdt_allies:
 		{
@@ -677,6 +672,8 @@ static void handle_side_section_entry(const string &a, const string &b, t_side_d
 	case sdt_edge:
 		side_data.edge = get_edge_id(b);
 		break;
+	default:
+		throw Cxcc_level_warning_ignored();
 	}
 }
 
@@ -958,7 +955,7 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 		}
 		catch (Cxcc_level_warning_out_of_range&)
 		{
-			xcc_log::write_line("Warning, line " + n(line_i) + " contains an value that's out of range");
+			xcc_log::write_line("Warning, line " + n(line_i) + " contains a value that's out of range");
 			xcc_log::write_line(static_cast<string>("    ") + (handle_section ? static_cast<string>("[") + section_code[section] + "] " : "")  + s);
 		}
 	}
