@@ -199,7 +199,7 @@ void CXCCEditorView::OnInitialUpdate()
 	m_view_template_layer = m_view_overlay_layer = m_view_smudge_layer = m_view_terrain_layer = true;
 	m_view_infantry_layer = m_view_structure_layer = m_view_unit_layer = true;
 	m_view_celltrigger_layer = m_view_waypoint_layer = true;
-	m_lock_template_layer = m_lock_overlay_layer = m_lock_smudge_layer = m_lock_terrain_layer = true;
+	m_lock_template_layer = m_lock_overlay_layer = m_lock_smudge_layer = m_lock_terrain_layer = false;
 	m_lock_infantry_layer = m_lock_structure_layer = m_lock_unit_layer = false;
 
 	if (overlays.load_images(level().map_data.theater))
@@ -1635,46 +1635,32 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 					case ID_POPUP_CLEAR_SMUDGE_LAYER:
 						break;
 					case ID_POPUP_CLEAR_INFANTRY_LAYER:
+						for (t_infantry_data::iterator i = level().infantry_data.begin(); i != level().infantry_data.end(); )
 						{
-							t_infantry_data::iterator i = level().infantry_data.begin();
-							while (i != level().infantry_data.end())
-							{
-								if (i->cell == cell.center())
-								{
-									level().infantry_data.erase(i);
-									i = level().infantry_data.begin();
-								}
-								else
-									i++;
-							}
+							if (i->cell.center() == cell)
+								i = level().infantry_data.erase(i);
+							else
+								i++;
 						}
 						break;
 					case ID_POPUP_CLEAR_UNIT_LAYER:
+						for (t_unit_data::iterator i = level().unit_data.begin(); i != level().unit_data.end(); )
 						{
-							t_unit_data::iterator i = level().unit_data.begin();
-							while (i != level().unit_data.end())
-							{
-								if (i->cell == cell.center())
-								{
-									level().unit_data.erase(i);
-									i = level().unit_data.begin();
-								}
-								else
-									i++;
-							}
+							if (i->cell.center() == cell)
+								i = level().unit_data.erase(i);
+							else
+								i++;
 						}
 						break;
 					case ID_POPUP_CLEAR_CELLTRIGGER_LAYER:
 						level().celltrigger_data.erase(Cxcc_cell(x << 8, y << 8).get_cc());
 						break;
 					case ID_POPUP_CLEAR_WAYPOINT_LAYER:
+						for (int i = 0; i < 100; i++)
 						{
-							for (int i = 0; i < 100; i++)
-							{
-								if (level().waypoint_data[i] == cell.get_cc())
-									level().waypoint_data[i] = -1;
-							}						
-						}
+							if (level().waypoint_data[i] == cell.get_cc())
+								level().waypoint_data[i] = -1;
+						}						
 						break;				
 					}
 				}

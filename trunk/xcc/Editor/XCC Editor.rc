@@ -848,7 +848,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "XCC Editor 1.03\n\nC&C level\nC&C level (ini)\n.ini\ncclvl\nC&C level (ini)"
+    IDR_MAINFRAME           "XCC Editor 1.03\n\nMaps\nMaps\n.ini\ncclvl\nMaps"
 END
 
 STRINGTABLE
