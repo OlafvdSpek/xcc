@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include "id_log.h"
 #include "list_ctrl_extension.h"
 #include "mix_file.h"
@@ -9,8 +8,6 @@
 #include "cc_file.h"
 #include "xcc_level.h"
 #include "xcc_mixs.h"
-
-using namespace std;
 
 struct t_index_info
 {
