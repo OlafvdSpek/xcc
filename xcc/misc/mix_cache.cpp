@@ -6,8 +6,6 @@
 #include "mix_cache.h"
 #include "xcc_dirs.h"
 
-using namespace std;
-
 typedef map<int, Cvirtual_binary> t_cache;
 
 t_cache cache;

@@ -14,7 +14,6 @@
 #include "xcc_lmd_file.h"
 
 using namespace boost;
-using namespace std;
 
 bool Cmix_file::m_ft_support = false;
 

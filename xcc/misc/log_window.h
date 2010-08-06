@@ -3,8 +3,6 @@
 #include "string_conversion.h"
 #include "timer.h"
 
-using namespace std;
-
 class Clog_window : public CWnd
 {
 public:

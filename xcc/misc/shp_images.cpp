@@ -1,9 +1,6 @@
 #include "stdafx.h"
-#include <set>
 #include "shp_decode.h"
 #include "shp_images.h"
-
-using namespace std;
 
 struct t_image_index_entry
 {

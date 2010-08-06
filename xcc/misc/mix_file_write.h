@@ -4,8 +4,6 @@
 #include <virtual_binary.h>
 #include "xcc_lmd_file_write.h"
 
-using namespace std;
-
 class Cmix_file_write  
 {
 public:
