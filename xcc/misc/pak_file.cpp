@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "pak_file.h"
 
-#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
-
-using namespace boost;
 
 void Cpak_file::close()
 {

@@ -1,15 +1,12 @@
 #include "stdafx.h"
 #include "xcc_level.h"
 
-#include <boost/algorithm/string.hpp>
 #include "virtual_tfile_write.h"
 #include "xcc_log.h"
 #include "xcc_infantry.h"
 #include "xcc_structures.h"
 #include "xcc_templates.h"
 #include "xcc_units.h"
-
-using namespace boost;
 
 const char* section_code[] =
 {
@@ -679,7 +676,7 @@ static void handle_side_section_entry(const string &a, const string &b, t_side_d
 
 static void handle_base_section_entry(const string &a, const string &b, t_base_data &base_data)
 {
-	if (a == "count")
+	if (iequals(a, "count"))
 		return;
 	Cmulti_line line = b;
 	int t = xcc_structures::get_id(line.get_next_line());
@@ -867,8 +864,8 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 		int pos = s.find(';');
 		if (pos != -1)
 			s.erase(pos, s.npos);
-		trim(s);
-		to_lower(s);
+		boost::trim(s);
+		// to_lower(s);
 		if (s.empty())
 			continue;
 		try
@@ -884,9 +881,8 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 				int pos = s.find('=');
 				if (pos == -1)
 					throw Cxcc_level_warning_ignored();
-				string a = s.substr(0, pos), b = s.substr(pos + 1, s.npos);
-				trim(a);
-				trim(b);
+				string a = trim_copy(s.substr(0, pos));
+				string b = trim_copy(s.substr(pos + 1, s.npos));
 				switch (section)
 				{
 				case si_basic:
@@ -1110,7 +1106,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	}
 	f.write_line("");
 
-for (int i = 0; i < c_side_id; i++)
+	for (int i = 0; i < c_side_id; i++)
 	{
 		f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
 		f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');

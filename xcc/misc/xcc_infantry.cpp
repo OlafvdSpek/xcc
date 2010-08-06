@@ -21,16 +21,6 @@ enum
 	vi_id_flags,
 };
 
-int xcc_infantry::c_infantry()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		if (~infantry_data[i].flags & id_flags_in_use)
-			return i;
-	}
-	return 0;
-}
-
 int xcc_infantry::load_data()
 {
 	Cxif_key infantry_key;
@@ -123,21 +113,14 @@ int xcc_infantry::load_images(bool load_icons)
 	return error;
 }
 
-void xcc_infantry::destroy()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		t_infantry_data_entry& id = infantry_data[i];
-	}
-}
-
 int xcc_infantry::get_id(const string& s)
 {
 	for (int i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
-		if (id.flags & id_flags_in_use && id.short_name == s)
+		if (id.flags & id_flags_in_use && iequals(id.short_name, s))
 			return i;
 	}
+	// assert(false);
 	return -1;
 }

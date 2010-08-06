@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "sound_ts_ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
-
-using namespace boost;
-
 Csound_data::Csound_data()
 {
 	m_priority = 10;

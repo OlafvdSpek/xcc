@@ -6,8 +6,6 @@
 #include <iomanip>
 #include "xcc_dirs.h"
 
-using namespace std;
-
 static CRITICAL_SECTION g_lock;
 bool g_lock_inited = false;
 static ofstream log_f;

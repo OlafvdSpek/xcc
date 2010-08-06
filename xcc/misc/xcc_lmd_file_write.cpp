@@ -1,11 +1,8 @@
 #include "stdafx.h"
 #include "xcc_lmd_file_write.h"
 
-#include <boost/algorithm/string.hpp>
 #include "cc_structures.h"
 #include "xcc_file.h"
-
-using namespace boost;
 
 void Cxcc_lmd_file_write::add_fname(const string& fname)
 {

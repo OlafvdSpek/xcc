@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cc_file.h"
 
-#include <boost/algorithm/string.hpp>
 #include "art_ts_ini_reader.h"
 #include "aud_file.h"
 #include "avi_file.h"
@@ -55,8 +54,6 @@
 #include "xcc_file.h"
 #include "xcc_lmd_file.h"
 #include "xif_file.h"
-
-using namespace boost;
 
 const char* ft_name[] =
 {

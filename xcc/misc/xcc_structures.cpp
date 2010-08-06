@@ -198,8 +198,9 @@ int xcc_structures::get_id(const string& s)
 	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
-		if (sd.flags & sd_flags_in_use && sd.short_name == s)
+		if (sd.flags & sd_flags_in_use && iequals(sd.short_name, s))
 			return i;
 	}
+	assert(false);
 	return -1;
 }

@@ -1,7 +1,6 @@
 #include <stdafx.h>
 #include "mix_file.h"
 
-#include <boost/algorithm/string.hpp>
 #include "big_file.h"
 #include "blowfish.h"
 #include "crc.h"
@@ -12,8 +11,6 @@
 #include "pak_file.h"
 #include "string_conversion.h"
 #include "xcc_lmd_file.h"
-
-using namespace boost;
 
 bool Cmix_file::m_ft_support = false;
 
@@ -340,7 +337,7 @@ string Cmix_file::get_name(int id)
 
 int Cmix_file::get_id(t_game game, string name)
 {
-	to_upper(name);
+	boost::to_upper(name);
 	for (int i = 0; i < name.length(); i++)
 	{
 		if (name[i] == '/')

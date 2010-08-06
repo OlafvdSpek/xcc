@@ -1,10 +1,7 @@
 #include "stdafx.h"
 #include "theme_ts_ini_reader.h"
 
-#include <boost/algorithm/string.hpp>
 #include "string_conversion.h"
-
-using namespace boost;
 
 Ctheme_data::Ctheme_data()
 {

@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "csf_file.h"
 
-#include <boost/algorithm/string.hpp>
-
-using namespace boost;
-
 int read_int(const byte*& r)
 {
 	int v = *reinterpret_cast<const __int32*>(r);

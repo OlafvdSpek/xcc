@@ -25,16 +25,6 @@ enum
 	vi_ud_c_rotations
 };
 
-int xcc_units::c_units()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		if (~unit_data[i].flags & ud_flags_in_use)
-			return i;
-	}
-	return 0;
-}
-
 int xcc_units::load_data()
 {
 	Cxif_key units_key;
@@ -149,21 +139,14 @@ int xcc_units::load_images(bool load_icons)
 	return error;
 }
 
-void xcc_units::destroy()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		t_unit_data_entry& ud = unit_data[i];
-	}
-}
-
 int xcc_units::get_id(const string& s)
 {
 	for (int i = 0; i < 256; i++)
 	{
 		t_unit_data_entry& ud = unit_data[i];
-		if (ud.flags & ud_flags_in_use && ud.short_name == s)
+		if (ud.flags & ud_flags_in_use && iequals(ud.short_name, s))
 			return i;
 	}
+	assert(false);
 	return -1;
 }
