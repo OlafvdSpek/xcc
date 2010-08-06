@@ -13,6 +13,7 @@
 #include <boost/foreach.hpp>
 #include <cassert>
 #include <map>
+#include <set>
 #include <string>
 #include "ETSLayout.h"
 #include "id_log.h"

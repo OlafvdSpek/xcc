@@ -1,10 +1,7 @@
 #pragma once
 
-#include <string>
 #include "resource.h"
 #include "xcc_level.h"
-
-using namespace std;
 
 class Cedit_teamtype_dlg : public CDialog
 {

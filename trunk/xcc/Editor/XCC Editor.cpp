@@ -6,6 +6,7 @@
 #include "XCC EditorView.h"
 
 #include "shp_images.h"
+#include "xcc_log.h"
 #include "xcc_mixs.h"
 
 BEGIN_MESSAGE_MAP(CXCCEditorApp, CWinApp)
@@ -30,6 +31,7 @@ BOOL CXCCEditorApp::InitInstance()
 	LoadStdProfileSettings(8);
 	xcc_dirs::use_external_files(false);
 	xcc_dirs::load_from_registry();
+	xcc_log::attach_file("XCC Editor log.txt");
 	if (Cxcc_mixs::open())
 	{
 		AfxMessageBox("Unable to open all mix files, insert a C&C CD or see readme.txt for details", MB_ICONEXCLAMATION);
