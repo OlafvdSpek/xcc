@@ -1251,13 +1251,13 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 			switch (ft)
 			{
 			case ft_jpeg_single:
-				return get_vimage(i).save(ft_jpeg).save(fname);
+				return get_vimage(i).save(fname, ft_jpeg);
 			case ft_pcx_single:
-				return get_vimage(i).save(ft_pcx).save(fname);
+				return get_vimage(i).save(fname, ft_pcx);
 			case ft_png_single:
-				return get_vimage(i).save(ft_png).save(fname);
+				return get_vimage(i).save(fname, ft_png);
 			case ft_tga_single:
-				return get_vimage(i).save(ft_tga).save(fname);
+				return get_vimage(i).save(fname, ft_tga);
 			}
 			Cshp_ts_file f;
 			f.load(get_vdata(i));
@@ -2490,7 +2490,7 @@ void CXCCMixerView::paste_as_image(t_file_type ft, const char* extension, const 
 		string fname;
 		if (get_paste_fname(fname, ft, extension, filter))
 			return;
-		image.save(ft).save(fname);
+		image.save(fname, ft);
 		update_list();
 	}
 }
