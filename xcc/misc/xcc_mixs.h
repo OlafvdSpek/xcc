@@ -7,7 +7,6 @@ class Cxcc_mixs
 {
 public:
 	static int open();
-	static void close();
 	static Cmix_file& conquer();
 	static Cmix_file& general();
 	static Cmix_file& theater(t_theater_id);
