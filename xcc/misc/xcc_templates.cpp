@@ -20,11 +20,6 @@ byte Cxcc_templates::shade_rp[256];
 t_template_data_entry Cxcc_templates::template_data[256];
 byte Cxcc_templates::template_list[256][64];
 
-Cxcc_templates::~Cxcc_templates()
-{
-	delete[] image_data;
-}
-
 enum
 {
 	vi_td_cx,
@@ -104,9 +99,6 @@ int Cxcc_templates::save_data()
 
 int Cxcc_templates::load_images(t_theater_id theater)
 {
-	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
-	if (theater == loaded_theater)
-		return 0;
 	delete[] image_data;
 	image_data = 0;
 	const string fname = Cxcc_mixs::get_theater_fname(theater);
@@ -172,6 +164,5 @@ int Cxcc_templates::load_images(t_theater_id theater)
 		f.open("bib" + n(3 - i) + ext, mixf);
 		shp_images::load_shp(f, bib[i]);
 	}
-	loaded_theater = theater;
 	return 0;
 }
