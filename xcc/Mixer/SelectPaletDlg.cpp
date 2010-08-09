@@ -88,9 +88,9 @@ void CSelectPaletDlg::update_list(int parent_id, int current_palet)
 			continue;
 		string name = i.second.name;
 		{	
-			int i = name.rfind(' ');
+			int i = name.rfind(" - ");
 			if (i != string::npos)
-				name = name.substr(i + 1);
+				name = name.substr(i + 3);
 		}
 		int index = lc.InsertItem(lc.GetItemCount(), name.c_str());
 		lc.SetItemData(index, i.first);

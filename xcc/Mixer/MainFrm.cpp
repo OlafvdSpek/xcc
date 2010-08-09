@@ -293,7 +293,7 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 	xcc_log::write_line("do_mix starts: " + mix_name, 1);
 	set_msg("Reading " + mix_name);
 	if (mix_name.find(" - ") == string::npos)
-		m_mix_list[m_mix_list.size()] = mix_name;
+		m_mix_list.push_back(mix_name);
 	Cmix_file g;
 	Cpal_file h;
 	for (int i = 0; i < f.get_c_files(); i++)
@@ -389,11 +389,8 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 			CMenu sub_menu;
 			sub_menu.CreatePopupMenu();
 			t_sort_list sort_list;
-			while (j < m_mix_i[i])
-			{
+			for (; j < m_mix_i[i]; j++)
 				sort_list[static_cast<Cfname>(m_mix_list[j]).get_fname()] = j;
-				j++;
-			}
 			if (sort_list.empty())
 				continue;
 			BOOST_FOREACH(auto& l, sort_list)
@@ -525,7 +522,7 @@ void CMainFrame::initialize_lists()
 
 string CMainFrame::get_mix_name(int i) const
 {
-	return m_mix_list.find(i)->second;
+	return m_mix_list[i];
 }
 
 const t_paletentry* CMainFrame::get_game_palet(t_game game)
