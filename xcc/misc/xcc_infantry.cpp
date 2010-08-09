@@ -73,7 +73,6 @@ int xcc_infantry::save_data()
 
 int xcc_infantry::load_images(bool load_icons)
 {
-	int error = 0;
 	static bool loaded = false;
 	if (loaded)
 		return 0;
@@ -83,34 +82,13 @@ int xcc_infantry::load_images(bool load_icons)
 		t_infantry_data_entry& id = infantry_data[i];
 		if (~id.flags & id_flags_in_use)
 			continue;
-		Cshp_file f;
-		// images
-		f.open(static_cast<string>(id.short_name) + ".shp", conquer_mix);
-		if (!f.is_open())
-		{
-			error = 1;
-			continue;
-		}
-		if (shp_images::load_shp(f, id.images))
-			error = 1;
-		f.close();
-		if (load_icons && id.flags & id_flags_icon)
-		{
-			// icon
-			f.open(static_cast<string>(id.short_name) + "icon.shp", conquer_mix);
-			if (!f.is_open())
-			{
-				error = 1;
-				continue;
-			}
-			if (shp_images::load_shp(f, id.icon))
-				error = 1;
-			f.close();
-		}
+		if (shp_images::load_shp(id.short_name + ".shp", conquer_mix, id.images))
+			return 1;
+		if (load_icons && id.flags & id_flags_icon && shp_images::load_shp(id.short_name + "icon.shp", conquer_mix, id.icon))
+			return 1;
 	}
-	if (!error)
-		loaded = true;
-	return error;
+	loaded = true;
+	return 0;
 }
 
 int xcc_infantry::get_id(const string& s)
