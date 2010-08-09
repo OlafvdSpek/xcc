@@ -3,47 +3,34 @@
 
 #include "xcc_log.h"
 
-enum t_mix
-{
-	conquer_mix,
-	desert_mix,
-	general_mix,
-	temperate_mix,
-	winter_mix
-};
-
-static array<Cmix_file, winter_mix + 1> mixf;
+static Cmix_file conquer_mix;
+static Cmix_file desert_mix;
+static Cmix_file general_mix;
+static Cmix_file temperate_mix;
+static Cmix_file winter_mix;
 
 int Cxcc_mixs::open()
 {
-	int error = mixf[conquer_mix].open("conquer.mix");
+	int error = conquer_mix.open("conquer.mix");
 	if (!error)
-		error = mixf[desert_mix].open("desert.mix");
+		error = desert_mix.open("desert.mix");
 	if (!error)
-		error = mixf[general_mix].open("general.mix");
+		error = general_mix.open("general.mix");
 	if (!error)
-		error = mixf[temperate_mix].open("temperat.mix");
+		error = temperate_mix.open("temperat.mix");
 	if (!error)
-		error = mixf[winter_mix].open("winter.mix");
-	if (error)
-		close();
+		error = winter_mix.open("winter.mix");
 	return error;
-}
-
-void Cxcc_mixs::close()
-{
-	BOOST_FOREACH(auto& i, mixf)
-		i.close();
 }
 
 Cmix_file& Cxcc_mixs::conquer()
 {
-	return mixf[conquer_mix];
+	return conquer_mix;
 }
 
 Cmix_file& Cxcc_mixs::general()
 {
-	return mixf[general_mix];
+	return general_mix;
 }
 
 Cmix_file& Cxcc_mixs::theater(t_theater_id theater)
@@ -51,14 +38,14 @@ Cmix_file& Cxcc_mixs::theater(t_theater_id theater)
 	switch (theater)
 	{
 	case t_desert:
-		return mixf[desert_mix];
+		return desert_mix;
 	case t_temperate:
-		return mixf[temperate_mix];
+		return temperate_mix;
 	case t_winter:
-		return mixf[winter_mix];
+		return winter_mix;
 	};
 	assert(false);
-	return mixf[temperate_mix];
+	return temperate_mix;
 }
 
 string Cxcc_mixs::theater_fname(t_theater_id theater)
