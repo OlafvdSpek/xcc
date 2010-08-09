@@ -26,57 +26,41 @@ static int get_ft_crc()
 
 int mix_cache::load()
 {
-	int error = 0;
 	Ccc_file f(true);
-	if (f.open(get_fname()))
-		error = 1;
-	else 
+	if (f.open(get_fname()) || f.get_size() < 8)
+		return 1;
+	const byte* s = f.get_data();
+	if (*reinterpret_cast<const int*>(s) != get_ft_crc())
+		return 0;
+	s += 4;
+	int count = *reinterpret_cast<const int*>(s);
+	s += 4;
+	while (count--)
 	{
-		if (f.get_size() < 8)
-			error = 1;
-		else
-		{
-			const byte* s = f.get_data();
-			if (*reinterpret_cast<const int*>(s) == get_ft_crc())
-			{
-				s += 4;
-				int count = *reinterpret_cast<const int*>(s);
-				s += 4;
-				while (count--)
-				{
-					int crc = *reinterpret_cast<const int*>(s);
-					s += 4;
-					int size = *reinterpret_cast<const int*>(s);
-					s += 4;
-					cache[crc] = Cvirtual_binary(s, size);
-					s += size;
-				}
-			}
-		}
-		f.close();
+		int crc = *reinterpret_cast<const int*>(s);
+		s += 4;
+		int size = *reinterpret_cast<const int*>(s);
+		s += 4;
+		cache[crc] = Cvirtual_binary(s, size);
+		s += size;
 	}
-	return error;
+	return 0;
 }
 
 int mix_cache::save()
 {
-	int error = 0;
 	Cfile32 f;
 	if (f.open(get_fname(), GENERIC_WRITE))
-		error = 1;
-	else 
+		return 1;
+	f.write(get_ft_crc());
+	f.write(cache.size());
+	for (t_cache::const_iterator i = cache.begin(); i != cache.end(); i++)
 	{
-		f.write(get_ft_crc());
-		f.write(cache.size());
-		for (t_cache::const_iterator i = cache.begin(); i != cache.end(); i++)
-		{
-			f.write(i->first);
-			f.write(i->second.size());
-			f.write(i->second.data(), i->second.size());
-		}	
-		f.close();
-	}
-	return error;
+		f.write(i->first);
+		f.write(i->second.size());
+		f.write(i->second.data(), i->second.size());
+	}	
+	return 0;
 }
 
 Cvirtual_binary mix_cache::get_data(int crc)
