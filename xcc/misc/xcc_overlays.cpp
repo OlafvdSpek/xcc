@@ -88,7 +88,6 @@ t_terrain_data_entry terrain_data[c_terrain_id];
 void* overlay_image_list[c_overlay_id];
 void* terrain_image_list[c_terrain_id];
 
-
 enum
 {
 	ki_overlay,
@@ -155,28 +154,24 @@ int Cxcc_overlays::load_data()
 
 int Cxcc_overlays::save_data()
 {
+	Cxif_key& overlay_key = base_key.set_key(ki_overlay);
+	for (int i = 0; i < c_overlay_id; i++)
 	{
-		Cxif_key& overlay_key = base_key.set_key(ki_overlay);
-		for (int i = 0; i < c_overlay_id; i++)
-		{
-			Cxif_key& ok = overlay_key.set_key(i);
-			const t_overlay_data_entry& od = overlay_data[i];
-			if (od.ox)
-				ok.set_value_int(vi_od_ox, od.ox);
-			if (od.oy)
-				ok.set_value_int(vi_od_oy, od.oy);
-		}
+		Cxif_key& ok = overlay_key.set_key(i);
+		const t_overlay_data_entry& od = overlay_data[i];
+		if (od.ox)
+			ok.set_value_int(vi_od_ox, od.ox);
+		if (od.oy)
+			ok.set_value_int(vi_od_oy, od.oy);
 	}
+	Cxif_key& terrain_key = base_key.set_key(ki_terrain);
+	for (int i = 0; i < c_terrain_id; i++)
 	{
-		Cxif_key& terrain_key = base_key.set_key(ki_terrain);
-		for (int i = 0; i < c_terrain_id; i++)
-		{
-			Cxif_key& tk = terrain_key.set_key(i);
-			const t_terrain_data_entry& td = terrain_data[i];
-			tk.set_value_int(vi_td_c_images, td.c_images);
-			if (td.blocked)
-				tk.set_value_int(vi_td_blocked, td.blocked);
-		}
+		Cxif_key& tk = terrain_key.set_key(i);
+		const t_terrain_data_entry& td = terrain_data[i];
+		tk.set_value_int(vi_td_c_images, td.c_images);
+		if (td.blocked)
+			tk.set_value_int(vi_td_blocked, td.blocked);
 	}
 	return base_key.vdata().save(xcc_dirs::get_data_dir() + overlays_xif_fname);
 }

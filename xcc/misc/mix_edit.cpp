@@ -129,7 +129,7 @@ int Cmix_edit::write_index()
 	}	
 	m_f.seek(total_size);
 	m_f.set_eof();
-	header.size = m_f.get_size() - d.size();
+	header.size = m_f.size() - d.size();
 	m_f.seek(0);
 	return m_f.write(d.data(), d.size());
 }

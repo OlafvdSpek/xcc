@@ -445,11 +445,11 @@ int CXCCMIXEditorDlg::save_mix()
 						error = 1;
 						break;
 					}
-					error = copy_block(g, 0, f, max_offset, g.get_size());
+					error = copy_block(g, 0, f, max_offset, g.size());
 					if (!error)
 					{
 						i->second.offset = max_offset;
-						max_offset += g.get_size();
+						max_offset += g.size();
 					}
 					g.close();
 				}

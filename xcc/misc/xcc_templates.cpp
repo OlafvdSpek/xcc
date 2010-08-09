@@ -107,10 +107,9 @@ int Cxcc_templates::load_images(t_theater_id theater)
 	image_list.assign(NULL);
 	memset(template_list, -1, sizeof(template_list));
 	int write_i = 0;
-// #define RELOAD
 	for (int i = 0; i < 0xd8; i++)
 	{
-#ifdef RELOAD
+#if 0
 		t_template_data_entry& td = template_data[i];
 		td.c_images &= ~(0xff << (theater << 3));
 		f.open(string(template_code[i]) + ext, mixf);
