@@ -578,7 +578,6 @@ static void handle_basic_section_entry(const string &a, const string &b, t_basic
 		basic_data.build_level = get_value(b, 1, 98);
 		break;
 	case bdt_carry_over_cap:
-		basic_data.carry_over_cap = get_value(b, -1, -1);
 		break;
 	case bdt_carry_over_money:
 		basic_data.carry_over_money = 100 * get_value(b, 0, 10000);
@@ -1259,7 +1258,6 @@ void Cxcc_level::clear()
 	basic_data.action.erase();
 	basic_data.brief.erase();
 	basic_data.build_level = 1;
-	basic_data.carry_over_cap = -1;
 	basic_data.carry_over_money = 0;
 	basic_data.intro.erase();
 	basic_data.lose.erase();
