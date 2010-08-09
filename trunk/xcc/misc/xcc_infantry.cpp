@@ -43,17 +43,12 @@ int xcc_infantry::load_data()
 
 int xcc_infantry::save_data()
 {
-	typedef map<string, int> t_list;
-	t_list list;	
+	map<string, int> list;	
+	for (int i = 0; i < 256; i++)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			t_infantry_data_entry& id = infantry_data[i];
-			if (~id.flags & id_flags_in_use)
-				// don't save if not in use
-				continue;
+		t_infantry_data_entry& id = infantry_data[i];
+		if (id.flags & id_flags_in_use)
 			list[id.short_name] = i;
-		}
 	}
 	Cxif_key infantry_key;
 	int infantry_i = 0;
@@ -76,9 +71,8 @@ int xcc_infantry::load_images(bool load_icons)
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& id, infantry_data)
 	{
-		t_infantry_data_entry& id = infantry_data[i];
 		if (~id.flags & id_flags_in_use)
 			continue;
 		if (shp_images::load_shp(id.short_name, id.images))
@@ -92,11 +86,10 @@ int xcc_infantry::load_images(bool load_icons)
 
 int xcc_infantry::get_id(const string& s)
 {
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& id, infantry_data)
 	{
-		t_infantry_data_entry& id = infantry_data[i];
 		if (id.flags & id_flags_in_use && iequals(id.short_name, s))
-			return i;
+			return &id - infantry_data;
 	}
 	// assert(false);
 	return -1;
