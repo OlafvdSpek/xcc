@@ -1061,7 +1061,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		BOOST_FOREACH(auto& i, structure_data)
 		{
 			if (i.flags & sd_flags_replace)
-				os << nwzl(3, index++) << '=' << xcc_structures::structure_data[i.t].short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
+				os << index++ << '=' << xcc_structures::structure_data[i.t].short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
 		}
 		os << "\r\n";
 	}
@@ -1070,7 +1070,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		int index = 0;
 		BOOST_FOREACH(auto& i, infantry_data)
 		{
-			os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
+			os << index++ << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
 				<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
 				<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
 		}
@@ -1082,7 +1082,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		BOOST_FOREACH(auto& i, structure_data)
 		{
 			if (i.flags & sd_flags_start)
-				os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_structures::structure_data[i.t].short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
+				os << index++ << '=' << side_code[i.side] << ',' << xcc_structures::structure_data[i.t].short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
 		}
 		os << "\r\n";
 	}
@@ -1090,7 +1090,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	int index = 0;
 	BOOST_FOREACH(auto& i, unit_data)
 	{
-		os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_units::unit_data[i.t].short_name
+		os << index++ << '=' << side_code[i.side] << ',' << xcc_units::unit_data[i.t].short_name
 			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.angle)
 			<< ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
 	}
