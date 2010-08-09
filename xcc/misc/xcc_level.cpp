@@ -1055,39 +1055,36 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	}
 	os << "\r\n";
 
-	{
-		os << '[' << section_code[si_base] << "]\r\n";
-		int index = 0;
-		BOOST_FOREACH(auto& i, structure_data)
-		{
-			if (i.flags & sd_flags_replace)
-				os << index++ << '=' << xcc_structures::structure_data[i.t].short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
-		}
-		os << "\r\n";
-	}
-	{
-		os << '[' << section_code[si_infantry] << "]\r\n";
-		int index = 0;
-		BOOST_FOREACH(auto& i, infantry_data)
-		{
-			os << index++ << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
-				<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
-				<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
-		}
-		os << "\r\n";
-	}
-	{
-		os << '[' << section_code[si_structures] << "]\r\n";
-		int index = 0;
-		BOOST_FOREACH(auto& i, structure_data)
-		{
-			if (i.flags & sd_flags_start)
-				os << index++ << '=' << side_code[i.side] << ',' << xcc_structures::structure_data[i.t].short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
-		}
-		os << "\r\n";
-	}
-	os << '[' << section_code[si_units] << "]\r\n";
+	os << '[' << section_code[si_base] << "]\r\n";
 	int index = 0;
+	BOOST_FOREACH(auto& i, structure_data)
+	{
+		if (i.flags & sd_flags_replace)
+			os << index++ << '=' << xcc_structures::structure_data[i.t].short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
+	}
+	os << "\r\n";
+
+	os << '[' << section_code[si_infantry] << "]\r\n";
+	index = 0;
+	BOOST_FOREACH(auto& i, infantry_data)
+	{
+		os << index++ << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
+			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
+			<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
+	}
+	os << "\r\n";
+
+	os << '[' << section_code[si_structures] << "]\r\n";
+	index = 0;
+	BOOST_FOREACH(auto& i, structure_data)
+	{
+		if (i.flags & sd_flags_start)
+			os << index++ << '=' << side_code[i.side] << ',' << xcc_structures::structure_data[i.t].short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
+	}
+	os << "\r\n";
+
+	os << '[' << section_code[si_units] << "]\r\n";
+	index = 0;
 	BOOST_FOREACH(auto& i, unit_data)
 	{
 		os << index++ << '=' << side_code[i.side] << ',' << xcc_units::unit_data[i.t].short_name
