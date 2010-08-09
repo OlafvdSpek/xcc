@@ -62,23 +62,17 @@ int xcc_units::load_data()
 
 int xcc_units::save_data()
 {
-	typedef map<string, int> t_list;
-	t_list list;	
+	map<string, int> list;	
+	BOOST_FOREACH(auto& ud, unit_data)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			t_unit_data_entry& ud = unit_data[i];
-			if (~ud.flags & ud_flags_in_use)
-				// don't save if not in use
-				continue;
-			list[ud.short_name] = i;
-		}
+		if (ud.flags & ud_flags_in_use)
+			list[ud.short_name] = &ud - unit_data;
 	}
 	Cxif_key units_key;
 	int unit_i = 0;
-	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
+	BOOST_FOREACH(auto& i, list)
 	{
-		t_unit_data_entry& ud = unit_data[i->second];
+		t_unit_data_entry& ud = unit_data[i.second];
 		Cxif_key& uk = units_key.set_key(unit_i);
 		uk.set_value_string(vi_ud_long_name, ud.long_name);
 		uk.set_value_string(vi_ud_short_name, ud.short_name);
@@ -100,9 +94,8 @@ int xcc_units::load_images(bool load_icons)
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& ud, unit_data)
 	{
-		t_unit_data_entry& ud = unit_data[i];
 		if (~ud.flags & ud_flags_in_use)
 			continue;
 		if (shp_images::load_shp(ud.short_name, ud.images))
@@ -118,11 +111,10 @@ int xcc_units::load_images(bool load_icons)
 
 int xcc_units::get_id(const string& s)
 {
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& ud, unit_data)
 	{
-		t_unit_data_entry& ud = unit_data[i];
 		if (ud.flags & ud_flags_in_use && iequals(ud.short_name, s))
-			return i;
+			return &ud - unit_data;
 	}
 	assert(false);
 	return -1;
