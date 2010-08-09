@@ -61,7 +61,7 @@ protected: // create from serialization only
 
 	bool m_MemDCCreated;
 	bool m_MemDCValid;
-	t_palet32bgr_entry m_color_table[256];
+	array<t_palet32bgr_entry, 256> m_color_table;
 	HBITMAP mh_dib;
 	dword* mp_dib;
 
