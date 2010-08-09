@@ -855,16 +855,13 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 	f.load_data(data);
 	t_section_id section;
 	bool handle_section = false;
-	int line_i = 0;
-	while (!f.eof())
+	for (int line_i = 1; !f.eof(); line_i++)
 	{
-		line_i++;
 		string s = f.read_line();
 		int pos = s.find(';');
 		if (pos != -1)
-			s.erase(pos, s.npos);
+			s.erase(pos);
 		boost::trim(s);
-		// to_lower(s);
 		if (s.empty())
 			continue;
 		try
@@ -880,8 +877,8 @@ int Cxcc_level::load_ini(const Cvirtual_binary& data, bool fast)
 				int pos = s.find('=');
 				if (pos == -1)
 					throw Cxcc_level_warning_ignored();
-				string a = trim_copy(s.substr(0, pos));
-				string b = trim_copy(s.substr(pos + 1, s.npos));
+				string a = s.substr(0, pos);
+				string b = s.substr(pos + 1, s.npos);
 				switch (section)
 				{
 				case si_basic:
@@ -1142,7 +1139,7 @@ void Cxcc_level::convert_bin(unsigned short* data) const
 {
 	Cxcc_templates::load_images(map_data.theater);
 	for (int i = 0; i < 4096; i++)
-		data[i] = Cxcc_templates::convert_bin_data(data[i]);
+		data[i] = Cxcc_templates::convert_bin_data((data[i] & 0xff) < 0xd8 ? data[i] : 0);
 }
 
 void Cxcc_level::deconvert_bin(unsigned short* data) const

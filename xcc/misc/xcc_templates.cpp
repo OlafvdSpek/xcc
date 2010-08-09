@@ -12,9 +12,9 @@
 
 const char* theater_xif_fname = "theater.xif";
 
-void* Cxcc_templates::bib[3];
+array<void*, 3> Cxcc_templates::bib;
 byte* image_data = 0;
-byte* Cxcc_templates::image_list[256];
+array<byte*, 256> Cxcc_templates::image_list;
 t_palet Cxcc_templates::palet;
 byte Cxcc_templates::shade_rp[256];
 t_template_data_entry Cxcc_templates::template_data[256];
@@ -112,8 +112,7 @@ int Cxcc_templates::load_images(t_theater_id theater)
 	const string fname = Cxcc_mixs::get_theater_fname(theater);
 	const string ext = '.' + string(fname).substr(0, 3);
 	Cmix_file& mixf = Cxcc_mixs::get_theater_mix(theater);
-	Ctmp_file f;
-	memset(image_list, -1, sizeof(image_list));
+	image_list.assign(NULL);
 	memset(template_list, -1, sizeof(template_list));
 	int write_i = 0;
 // #define RELOAD
@@ -141,22 +140,21 @@ int Cxcc_templates::load_images(t_theater_id theater)
 		const int c_images = td.c_images >> (theater << 3) & 0xff;
 		if (!c_images)
 			continue;
-		f.open(string(template_code[i]) + ext, mixf);
-		assert(f.is_open());
+		Ctmp_file f;
+		if (f.open(string(template_code[i]) + ext, mixf))
+			return 1;
 		image_list[i] = write_p;
 		const int c_tiles = td.cx * td.cy;
 		const byte* ofs_list = f.get_index1();
 		for (int j = 0; j < c_tiles; j++)
 		{
-			if (ofs_list[j] != 0xff)
-			{
-				template_list[i][j] = (write_p - image_list[i]) / 576;
-				memcpy(write_p, f.get_image(j), 576);
-				write_i++;
-				write_p += 576;
-			}
+			if (ofs_list[j] == 0xff)
+				continue;
+			template_list[i][j] = (write_p - image_list[i]) / 576;
+			memcpy(write_p, f.get_image(j), 576);
+			write_i++;
+			write_p += 576;
 		}
-		f.close();
 	}
 	{
 		Ccc_file f(false);
@@ -168,14 +166,11 @@ int Cxcc_templates::load_images(t_theater_id theater)
 		f.read(shade_rp, 256);
 		f.close();
 	}
+	for (int i = 0; i < 3; i++)
 	{
 		Cshp_file f;
-		for (int i = 0; i < 3; i++)
-		{
-			f.open("bib" + n(3 - i) + ext, mixf);
-			shp_images::load_shp(f, bib[i]);
-			f.close();
-		}
+		f.open("bib" + n(3 - i) + ext, mixf);
+		shp_images::load_shp(f, bib[i]);
 	}
 	loaded_theater = theater;
 	return 0;

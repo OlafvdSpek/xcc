@@ -64,11 +64,11 @@ BEGIN
     BEGIN
         MENUITEM "&New\tCtrl+N",                ID_FILE_NEW
         MENUITEM "&Open...\tCtrl+O",            ID_FILE_OPEN
-        MENUITEM "Open from &mix...",           ID_FILE_OPEN_FROM_MIX
+        MENUITEM "Open from &Mix...",           ID_FILE_OPEN_FROM_MIX
         MENUITEM SEPARATOR
         MENUITEM "&Save\tCtrl+S",               ID_FILE_SAVE
         MENUITEM "Save &as...",                 ID_FILE_SAVE_AS
-        MENUITEM "Save as image...",            ID_FILE_SAVE_AS_IMAGE
+        MENUITEM "Save as Image...",            ID_FILE_SAVE_AS_IMAGE
         MENUITEM SEPARATOR
         MENUITEM "Recent File",                 ID_FILE_MRU_FILE1, GRAYED
         MENUITEM SEPARATOR

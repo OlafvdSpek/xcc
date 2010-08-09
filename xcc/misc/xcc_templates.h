@@ -24,8 +24,8 @@ struct t_template_data_entry
 class Cxcc_templates  
 {
 private:
-	static void* bib[3];
-	static byte* image_list[256];
+	static array<void*, 3> bib;
+	static array<byte*, 256> image_list;
 	static t_palet palet;
 	static byte shade_rp[256];
 	static t_template_data_entry template_data[256];

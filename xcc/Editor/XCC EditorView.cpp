@@ -269,15 +269,13 @@ void CXCCEditorView::update_mem_surface()
 	CRect a(CPoint(map_data.x, map_data.y), CSize(map_data.cx, map_data.cy));
 	if (m_view_template_layer)
 	{
-		dword cell_i = 0;
+		int cell_i = 0;
 		for (int yi = 0; yi < 64; yi++)
 		{
 			for (int xi = 0; xi < 64; xi++)
 			{
-				dword v = bin_data[cell_i++];
-				draw_template(v, mp_dib, 24 * xi, 24 * yi, dib_cx, 
-					m_view_moveable_filter && templates.moveable(v), 
-					m_view_border_filter && !a.PtInRect(CPoint(xi, yi)));
+				int v = bin_data[cell_i++];
+				draw_template(v, mp_dib, 24 * xi, 24 * yi, dib_cx, m_view_moveable_filter && templates.moveable(v), m_view_border_filter && !a.PtInRect(CPoint(xi, yi)));
 			}
 		}
 	}
