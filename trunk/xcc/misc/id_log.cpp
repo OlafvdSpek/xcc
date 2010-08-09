@@ -56,19 +56,13 @@ int id_log::open_binary(const string& fname)
 	if (!td_list.empty() || !ra_list.empty() || !ts_list.empty())
 		return 0;
 	Ccc_file f(true);
-	if (f.open(fname))
+	if (f.open(fname) || f.get_size() < 12)
 		return 1;
-	if (f.get_size() < 12)
-	{
-		f.close();
-		return 1;
-	}
 	const char* data = reinterpret_cast<const char*>(f.get_data());
 	read_list(game_td, data);
 	read_list(game_ra, data);
 	read_list(game_ts, data);
 	read_list(game_ra2, data);
-	f.close();
 	if (0)
 	{
 		ofstream log_f("c:\\log.txt");
