@@ -632,7 +632,7 @@ static void handle_map_section_entry(const string &a, const string &b, t_map_dat
 	case mdt_cy:
 		map_data.cy = get_value(b, 1, 62);
 		break;
-	default:
+	case -1:
 		throw Cxcc_level_warning_ignored();
 	}
 }
@@ -668,7 +668,7 @@ static void handle_side_section_entry(const string &a, const string &b, t_side_d
 	case sdt_edge:
 		side_data.edge = get_edge_id(b);
 		break;
-	default:
+	case -1:
 		throw Cxcc_level_warning_ignored();
 	}
 }
