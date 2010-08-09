@@ -1091,7 +1091,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.angle)
 			<< ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
 	}
-	os << "";
+	os << "\r\n";
 
 	for (int i = 0; i < c_side_id; i++)
 	{
