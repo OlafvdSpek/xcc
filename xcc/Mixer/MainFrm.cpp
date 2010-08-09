@@ -263,7 +263,7 @@ void CMainFrame::clean_pal_map_list()
 {
 	set<int> used_set;
 	BOOST_FOREACH(auto& i, m_pal_list)
-		used_set.insert(i.second.parent);
+		used_set.insert(i.parent);
 	BOOST_FOREACH(auto& i, m_pal_map_list)
 	{
 		if (used_set.find(i.first) == used_set.end())
@@ -319,7 +319,7 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 				memcpy(e.palet, h.get_data(), sizeof(t_palet));
 				h.close();
 				e.parent = pal_parent;
-				m_pal_list[m_pal_list.size()] = e;
+				m_pal_list.push_back(e);
 				break;
 			}
 		}
@@ -463,7 +463,6 @@ void CMainFrame::initialize_lists()
 	t_pal_list pal_list = m_pal_list;
 	m_pal_list.clear();
 	int j = 0;
-	int k = 0;
 	for (int i = 0; i < game_unknown; i++)
 	{
 		t_sort_list sort_list;
@@ -473,7 +472,7 @@ void CMainFrame::initialize_lists()
 			j++;
 		}
 		BOOST_FOREACH(auto& l, sort_list)
-			m_pal_list[k++] = pal_list.find(l.second)->second;
+			m_pal_list.push_back(pal_list[l.second]);
 	}
 
 	Cmix_file f1, f2;
@@ -542,7 +541,7 @@ const t_paletentry* CMainFrame::get_game_palet(t_game game)
 const t_paletentry* CMainFrame::get_pal_data()
 {
 	initialize_lists();
-	return m_palet_i == -1 ? NULL : m_pal_list.find(m_palet_i)->second.palet;
+	return m_palet_i == -1 ? NULL : m_pal_list[m_palet_i].palet;
 }
 
 int CMainFrame::get_vxl_mode() const
@@ -577,7 +576,7 @@ void CMainFrame::OnViewPaletPrev()
 		if (m_palet_i > -1)
 			m_palet_i--;
 		m_file_info_pane->Invalidate();
-		set_msg((m_palet_i == -1 ? "default" : m_pal_list.find(m_palet_i)->second.name) + " selected");
+		set_msg((m_palet_i == -1 ? "default" : m_pal_list[m_palet_i].name) + " selected");
 	}
 }
 
@@ -589,7 +588,7 @@ void CMainFrame::OnViewPaletNext()
 		if (m_palet_i == m_pal_i[game_ra2])
 			m_palet_i = 0;
 		m_file_info_pane->Invalidate();
-		set_msg(m_pal_list.find(m_palet_i)->second.name + " selected");
+		set_msg(m_pal_list[m_palet_i].name + " selected");
 	}
 }
 
@@ -597,10 +596,10 @@ bool CMainFrame::auto_select(t_game game, string palet)
 {
 	for (int i = game < 1 ? 0 : m_pal_i[game - 1]; i < m_pal_i[game]; i++)
 	{
-		if (m_pal_list.find(i)->second.name.find(palet) == string::npos)
+		if (m_pal_list[i].name.find(palet) == string::npos)
 			continue;	
 		set_palet(i);
-		set_msg(m_pal_list.find(m_palet_i)->second.name + " selected");
+		set_msg(m_pal_list[m_palet_i].name + " selected");
 		return true;
 	}
 	return false;
