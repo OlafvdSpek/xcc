@@ -1201,23 +1201,20 @@ void Cxcc_level::process()
 	}
 	BOOST_FOREACH(auto& i, overlay_data)
 	{
-		int cell = i.first;
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
-		int w = i.second & 0xff;
-		if (is_wall(v))
-		{
-			t_overlay_data::const_iterator j;
-			j = overlay_data.find(cell - 256);
-			bool top = j != overlay_data.end() && j->second >> 8 == v;
-			j = overlay_data.find(cell + 1);
-			bool right = j != overlay_data.end() && j->second >> 8 == v;
-			j = overlay_data.find(cell + 256);
-			bool bottom = j != overlay_data.end() && j->second >> 8 == v;
-			j = overlay_data.find(cell - 1);
-			bool left = j != overlay_data.end() && j->second >> 8 == v;
-			w = top | right << 1 | bottom << 2 | left << 3;
-		}
-		overlay_data[cell] = v << 8 | w;
+		if (!is_wall(v))
+			continue;
+		int cell = i.first;
+		t_overlay_data::mapped_type* j;
+		j = find_ptr(overlay_data, cell - 256);
+		bool top = j && *j >> 8 == v;
+		j = find_ptr(overlay_data, cell + 1);
+		bool right = j && *j >> 8 == v;
+		j = find_ptr(overlay_data, cell + 256);
+		bool bottom = j && *j >> 8 == v;
+		j = find_ptr(overlay_data, cell - 1);
+		bool left = j && *j >> 8 == v;
+		overlay_data[cell] = v << 8 | top | right << 1 | bottom << 2 | left << 3;
 	}
 	BOOST_FOREACH(auto& i, base_data)
 	{

@@ -1466,6 +1466,7 @@ void CXCCEditorView::OnPopupDelete()
 			Cxcc_cell obj_cell;
 			obj_cell.set_xcc(m_current_object);
 			level().overlay_data.erase(obj_cell.get_xcc());
+			level().process();
 		}
 		break;
 	case oi_terrain:
