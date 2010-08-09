@@ -160,7 +160,6 @@ struct t_basic_data
 	string action;
 	string brief;
 	int build_level;
-	int carry_over_cap;
 	int carry_over_money;
 	string intro;
 	string lose;
