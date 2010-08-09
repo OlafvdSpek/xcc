@@ -44,11 +44,10 @@ int xcc_infantry::load_data()
 int xcc_infantry::save_data()
 {
 	map<string, int> list;	
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& id, infantry_data)
 	{
-		t_infantry_data_entry& id = infantry_data[i];
 		if (id.flags & id_flags_in_use)
-			list[id.short_name] = i;
+			list[id.short_name] = &id - infantry_data;
 	}
 	Cxif_key infantry_key;
 	int infantry_i = 0;
