@@ -157,6 +157,14 @@ enum t_object_id
 
 struct t_basic_data
 {
+	t_basic_data()
+	{
+		build_level = 1;
+		carry_over_money = 0;
+		percent = 100;
+		player = s_goodguy;
+	}
+
 	string action;
 	string brief;
 	int build_level;
@@ -172,6 +180,15 @@ struct t_basic_data
 
 struct t_map_data
 {
+	t_map_data()
+	{
+		theater = t_temperate;
+		x = 1;
+		y = 1;
+		cx = 62;
+		cy = 62;
+	}
+
 	t_theater_id theater;
 	int x;
 	int y;
@@ -300,7 +317,7 @@ public:
 	t_basic_data basic_data;
 	t_map_data map_data;
 	t_briefing_data briefing_data;
-	t_side_data side_data[c_side_id];
+	array<t_side_data, c_side_id> side_data;
 	t_base_data base_data;
 	t_infantry_data infantry_data;
 	t_structure_data structure_data;

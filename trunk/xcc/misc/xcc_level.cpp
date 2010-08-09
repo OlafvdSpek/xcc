@@ -1228,30 +1228,10 @@ void Cxcc_level::process()
 void Cxcc_level::clear()
 {
 	for (int i = 0; i < 4096; i++)
-	{
-		int x = i & 0x3f;
-		int y = i >> 6;
-		bin_data[i] = x & 3 | (y & 3) << 2;
-	}
+		bin_data[i] = i & 3 | ((i >> 6) & 3) << 2;
 
-	basic_data.action.erase();
-	basic_data.brief.erase();
-	basic_data.build_level = 1;
-	basic_data.carry_over_money = 0;
-	basic_data.intro.erase();
-	basic_data.lose.erase();
-	basic_data.name.erase();
-	basic_data.percent = 100;
-	basic_data.player = s_goodguy;
-	basic_data.theme.erase();
-	basic_data.win.erase();
-
-	map_data.theater = t_temperate;
-	map_data.x = 1;
-	map_data.y = 1;
-	map_data.cx = 62;
-	map_data.cy = 62;
-
+	basic_data = t_basic_data();
+	map_data = t_map_data();
 	briefing_data.erase();
 
 	for (int i = 0; i < c_side_id; i++)
