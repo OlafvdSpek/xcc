@@ -3,17 +3,6 @@
 #include "mix_file.h"
 #include "xcc_level.h"
 
-enum t_mix
-{
-	conquer_mix,
-	desert_mix,
-	general_mix,
-	temperate_mix,
-	winter_mix
-};
-
-const int c_mix = winter_mix + 1;
-
 class Cxcc_mixs  
 {
 public:

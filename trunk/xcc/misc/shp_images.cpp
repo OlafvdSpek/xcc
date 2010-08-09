@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "shp_decode.h"
 #include "shp_images.h"
+#include "xcc_mixs.h"
 
 struct t_image_index_entry
 {
@@ -55,6 +56,11 @@ int shp_images::load_shp(const string& name, Cmix_file& mix, void*& p)
 {
 	Cshp_file f;
 	return f.open(name, mix) || load_shp(f, p);
+}
+
+int shp_images::load_shp(const string& name, void*& p)
+{
+	return load_shp(name + ".shp", Cxcc_mixs::conquer(), p);
 }
 
 const byte* shp_images::get_shp(void* p, int index)

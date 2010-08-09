@@ -76,15 +76,14 @@ int xcc_infantry::load_images(bool load_icons)
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
 	for (int i = 0; i < 256; i++)
 	{
 		t_infantry_data_entry& id = infantry_data[i];
 		if (~id.flags & id_flags_in_use)
 			continue;
-		if (shp_images::load_shp(id.short_name + ".shp", conquer_mix, id.images))
+		if (shp_images::load_shp(id.short_name, id.images))
 			return 1;
-		if (load_icons && id.flags & id_flags_icon && shp_images::load_shp(id.short_name + "icon.shp", conquer_mix, id.icon))
+		if (load_icons && id.flags & id_flags_icon && shp_images::load_shp(id.short_name + "icon", id.icon))
 			return 1;
 	}
 	loaded = true;

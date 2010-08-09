@@ -3,7 +3,16 @@
 
 #include "xcc_log.h"
 
-static array<Cmix_file, c_mix> mixf;
+enum t_mix
+{
+	conquer_mix,
+	desert_mix,
+	general_mix,
+	temperate_mix,
+	winter_mix
+};
+
+static array<Cmix_file, winter_mix + 1> mixf;
 
 int Cxcc_mixs::open()
 {
