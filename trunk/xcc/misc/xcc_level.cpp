@@ -844,8 +844,8 @@ int Cxcc_level::load(const Cvirtual_binary& bin, const Cvirtual_binary& ini)
 
 int Cxcc_level::load_bin(const Cvirtual_binary& data)
 {
-	memcpy(bin_data, data.data(), 8192);
-	convert_bin(bin_data);
+	memcpy(bin_data.data(), data.data(), 8192);
+	convert_bin(bin_data.data());
 	return 0;
 }
 
@@ -965,8 +965,7 @@ void Cxcc_level::save(Cvirtual_binary& bin, Cvirtual_binary& ini) const
 
 Cvirtual_binary Cxcc_level::save_bin() const
 {
-	Cvirtual_binary d(NULL, 8192);
-	memcpy(d.data_edit(), bin_data, d.size());
+	Cvirtual_binary d(bin_data.data(), 8192);
 	deconvert_bin(reinterpret_cast<unsigned short*>(d.data_edit()));
 	return d;
 }
@@ -1271,7 +1270,7 @@ void Cxcc_level::clear()
 	celltrigger_data.clear();
 	teamtype_data.clear();
 	trigger_data.clear();
-	memset(waypoint_data, -1, sizeof(waypoint_data));
+	waypoint_data.assign(-1);
 
 	process();
 }

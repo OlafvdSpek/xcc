@@ -276,9 +276,9 @@ struct t_trigger_data_entry
 
 typedef map<string, t_trigger_data_entry> t_trigger_data;
 
-typedef int t_waypoint_data[100];
+typedef array<int, 100> t_waypoint_data;
 
-typedef unsigned short t_bin_data[4096];
+typedef array<unsigned short, 4096> t_bin_data;
 
 int convert_overlay_edit(int v);
 bool is_tiberium(t_overlay_id v);
