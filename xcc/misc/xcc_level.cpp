@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "xcc_level.h"
 
-#include "virtual_tfile_write.h"
+#include <sstream>
 #include "xcc_log.h"
 #include "xcc_infantry.h"
 #include "xcc_structures.h"
@@ -10,74 +10,74 @@
 
 const char* section_code[] =
 {
-	"basic",
-	"map",
-	"briefing",
-	"base",
-	"overlay",
-	"smudge",
-	"template",
-	"terrain",
-	"infantry",
-	"reinforcements",
-	"structures",
-	"units",
-	"celltriggers",
-	"teams",
-	"teamtypes",
-	"triggers",
-	"waypoints",
-	"goodguy",
-	"badguy",
-	"neutral",
-	"special",
-	"multi1",
-	"multi2",
-	"multi3",
-	"multi4",
-	"multi5",
-	"multi6",
+	"Basic",
+	"Map",
+	"Briefing",
+	"Base",
+	"Overlay",
+	"Smudge",
+	"Template",
+	"Terrain",
+	"Infantry",
+	"Reinforcements",
+	"Structures",
+	"Units",
+	"Celltriggers",
+	"Teams",
+	"Teamtypes",
+	"Triggers",
+	"Waypoints",
+	"Goodguy",
+	"Badguy",
+	"Neutral",
+	"Special",
+	"Multi1",
+	"Multi2",
+	"Multi3",
+	"Multi4",
+	"Multi5",
+	"Multi6",
 	NULL
 };
 
 const char* basic_data_code[] =
 {
-	"action",
-	"brief",
-	"buildlevel",
-	"carryovercap",
-	"carryovermoney",
-	"intro",
-	"lose",
-	"name",
-	"percent",
-	"player",
-	"theme",
-	"win",
+	"Action",
+	"Brief",
+	"Buildlevel",
+	"Carryovercap",
+	"Carryovermoney",
+	"Intro",
+	"Lose",
+	"Name",
+	"Percent",
+	"Player",
+	"Theme",
+	"Win",
 	NULL
 };
 
 const char* map_data_code[] =
 {
-	"theater",
-	"x",
-	"y",
-	"width",
-	"height",
-	"tacticalpos",
+	"Theater",
+	"X",
+	"Y",
+	"Width",
+	"Height",
+	"Tacticalpos",
 	NULL
 };
 
 const char* side_data_code[] =
 {
-	"allies",
-	"credits",
-	"edge",
-	"flaghome",
-	"flaglocation",
-	"maxbuilding",
-	"maxunit",
-	"quota",
+	"Allies",
+	"Credits",
+	"Edge",
+	"Flaghome",
+	"Flaglocation",
+	"Maxbuilding",
+	"Maxunit",
+	"Quota",
 	NULL
 };
 
@@ -973,190 +973,173 @@ Cvirtual_binary Cxcc_level::save_bin() const
 
 Cvirtual_binary Cxcc_level::save_ini() const
 {
-	Cvirtual_tfile_write f;
+	stringstream os;
 
-	f.write_line(static_cast<string>("[") + section_code[si_basic] + ']');
+	os << '[' << section_code[si_basic] << "]\r\n";
 	if (!basic_data.action.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_action]) + '=' + basic_data.action);
+		os << basic_data_code[bdt_action] << '=' << basic_data.action << "\r\n";
 	if (!basic_data.brief.empty())
-	f.write_line(static_cast<string>(basic_data_code[bdt_brief])  + '=' + basic_data.brief);
-	f.write_line(static_cast<string>(basic_data_code[bdt_build_level]) + '=' + n(basic_data.build_level));
-	// f.write_line(static_cast<string>(basic_data_code[bdt_carry_over_cap]) + '=' + n(basic_data.carry_over_cap));
-	f.write_line(static_cast<string>(basic_data_code[bdt_carry_over_money]) + '=' + n(basic_data.carry_over_money / 100l));
+		os << basic_data_code[bdt_brief]  << '=' << basic_data.brief << "\r\n";
+	os << basic_data_code[bdt_build_level] << '=' << basic_data.build_level << "\r\n";
+	os << basic_data_code[bdt_carry_over_money] << '=' << basic_data.carry_over_money / 100 << "\r\n";
 	if (!basic_data.intro.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_intro]) + '=' + basic_data.intro);
+		os << basic_data_code[bdt_intro] << '=' << basic_data.intro << "\r\n";
 	if (!basic_data.lose.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_lose]) + '=' + basic_data.lose);
+		os << basic_data_code[bdt_lose] << '=' << basic_data.lose << "\r\n";
 	if (!basic_data.name.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_name]) + '=' + basic_data.name);
-	f.write_line(static_cast<string>(basic_data_code[bdt_percent]) + '=' + n(basic_data.percent));
-	f.write_line(static_cast<string>(basic_data_code[bdt_player]) + '=' + side_code[basic_data.player]);
+		os << basic_data_code[bdt_name] << '=' << basic_data.name << "\r\n";
+	os << basic_data_code[bdt_percent] << '=' << basic_data.percent << "\r\n";
+	os << basic_data_code[bdt_player] << '=' << side_code[basic_data.player] << "\r\n";
 	if (!basic_data.theme.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_theme]) + '=' + basic_data.theme);
+		os << basic_data_code[bdt_theme] << '=' << basic_data.theme << "\r\n";
 	if (!basic_data.win.empty())
-		f.write_line(static_cast<string>(basic_data_code[bdt_win]) + '=' + basic_data.win);
-	f.write_line("");
+		os << basic_data_code[bdt_win] << '=' << basic_data.win << "\r\n";
+	os << "\r\n";
 
-	f.write_line(static_cast<string>("[") + section_code[si_map] + ']');
-	f.write_line(static_cast<string>(map_data_code[mdt_theater]) + '=' + theater_code[map_data.theater]);
-	f.write_line(static_cast<string>(map_data_code[mdt_x]) + '=' + n(map_data.x));
-	f.write_line(static_cast<string>(map_data_code[mdt_y]) + '=' + n(map_data.y));
-	f.write_line(static_cast<string>(map_data_code[mdt_cx]) + '=' + n(map_data.cx));
-	f.write_line(static_cast<string>(map_data_code[mdt_cy]) + '=' + n(map_data.cy));
-	f.write_line("");
+	os << '[' << section_code[si_map] << "]\r\n"
+		<< map_data_code[mdt_theater] << '=' << theater_code[map_data.theater] << "\r\n"
+		<< map_data_code[mdt_x] << '=' << map_data.x << "\r\n"
+		<< map_data_code[mdt_y] << '=' << map_data.y << "\r\n"
+		<< map_data_code[mdt_cx] << '=' << map_data.cx << "\r\n"
+		<< map_data_code[mdt_cy] << '=' << map_data.cy << "\r\n"
+		<< "\r\n";
 
 	if (!briefing_data.empty())
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_briefing] + ']');
-		f.write_line(static_cast<string>("1") + '=' + briefing_data);
-		f.write_line("");
+		os << '[' << section_code[si_briefing] << "]\r\n"
+			<< "1" << '=' << briefing_data << "\r\n"
+			<< "\r\n";
 	}
 
-	f.write_line(static_cast<string>("[") + section_code[si_celltriggers] + ']');
+	os << '[' << section_code[si_celltriggers] << "]\r\n";
 	BOOST_FOREACH(auto& i, celltrigger_data)
-	{
-		f.write_line(n(i.first) + '=' + i.second);
-	}
-	f.write_line("");
+		os << i.first << '=' << i.second << "\r\n";
+	os << "\r\n";
 
-	f.write_line(static_cast<string>("[") + section_code[si_teamtypes] + ']');
+	os << '[' << section_code[si_teamtypes] << "]\r\n";
 	BOOST_FOREACH(auto& i, teamtype_data)
 	{
 		const t_teamtype_data_entry& d = i.second;
-		f.write(i.first + '=' + side_code[d.side] + ',' + n(static_cast<bool>(d.flags & td_flags_link)) + ",0," +
-			n(static_cast<bool>(d.flags & td_flags_force_move)) + ',' + n(static_cast<bool>(d.flags & td_flags_autocreate)) + ",0," +
-			n(d.u1) + ',' + n(d.c_teams) + ",0,0," + n(d.c_objects) + ',');
+		os << i.first << '=' << side_code[d.side] << ',' << static_cast<bool>(d.flags & td_flags_link) << ",0," <<
+			static_cast<bool>(d.flags & td_flags_force_move) << ',' << static_cast<bool>(d.flags & td_flags_autocreate) << ",0," <<
+			d.u1 << ',' << d.c_teams << ",0,0," << d.c_objects << ',';
 		for (int i = 0; i < d.c_objects; i++)
 		{
 			int v = d.object_list[i];
-			f.write(static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) +
-				':' + n(v & 0xff) + ',');
+			os << (v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) << ':' << (v & 0xff) << ',';
 		}
-		f.write(n(d.c_actions) + ',');
+		os << d.c_actions << ',';
 		for (int i = 0; i < d.c_actions; i++)
 		{
 			int v = d.action_list[i];
-			f.write(static_cast<string>(action_code[v >> 8]) + ':' + n(v & 0xff) + ',');
+			os << action_code[v >> 8] << ':' << (v & 0xff) << ',';
 		}
-		f.write_line(n(static_cast<bool>(d.flags & td_flags_replace)) + ',' + n(static_cast<bool>(d.flags & td_flags_force_creation)));
+		os << static_cast<bool>(d.flags & td_flags_replace) << ',' << static_cast<bool>(d.flags & td_flags_force_creation) << "\r\n";
 	}
-	f.write_line("");
+	os << "\r\n";
 
-	f.write_line(static_cast<string>("[") + section_code[si_triggers] + ']');
+	os << '[' << section_code[si_triggers] << "]\r\n";
 	BOOST_FOREACH(auto& i, trigger_data)
 	{
 		const t_trigger_data_entry& d = i.second;
-		f.write_line(i.first + '=' + cause_code[d.cause] + ',' + event_code[d.event] + ',' +
-			n(d.count) + ',' + side_code[d.side == -1 ? s_none : d.side] + ',' +
-			d.teamtype + ',' + n(d.loop));
+		os << i.first << '=' << cause_code[d.cause] << ',' << event_code[d.event] << ',' 
+			<< d.count << ',' << side_code[d.side == -1 ? s_none : d.side] << ',' 
+			<< d.teamtype << ',' << d.loop << "\r\n";
 	}
-	f.write_line("");
+	os << "\r\n";
 
-	f.write_line(static_cast<string>("[") + section_code[si_waypoints] + ']');
+	os << '[' << section_code[si_waypoints] << "]\r\n";
 	for (int i = 0; i < 100; i++)
 	{
 		if (waypoint_data[i] != -1)
-			f.write_line(n(i) + '=' + n(waypoint_data[i]));
+			os << i << '=' << waypoint_data[i] << "\r\n";
 	}
-	f.write_line("");
+	os << "\r\n";
 
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_base] + ']');
+		os << '[' << section_code[si_base] << "]\r\n";
 		int index = 0;
 		BOOST_FOREACH(auto& i, structure_data)
 		{
-			if (~i.flags & sd_flags_replace)
-				continue;
-			f.write_line(nwzl(3, index++) + '=' + xcc_structures::structure_data[i.t].short_name
-				+ ',' + n(static_cast<int>((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8)));
+			if (i.flags & sd_flags_replace)
+				os << nwzl(3, index++) << '=' << xcc_structures::structure_data[i.t].short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
 		}
+		os << "\r\n";
 	}
-	f.write_line("");
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_infantry] + ']');
+		os << '[' << section_code[si_infantry] << "]\r\n";
 		int index = 0;
 		BOOST_FOREACH(auto& i, infantry_data)
 		{
-			f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_infantry::infantry_data[i.t].short_name
-				+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.cell.subcell())
-				+ ',' + action_code[i.action] + ',' + n(i.angle) + ',' + i.trigger);
+			os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
+				<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
+				<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
 		}
-		f.write_line("");
+		os << "\r\n";
 	}
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_structures] + ']');
+		os << '[' << section_code[si_structures] << "]\r\n";
 		int index = 0;
 		BOOST_FOREACH(auto& i, structure_data)
 		{
-			if (~i.flags & sd_flags_start)
-				continue;
-			f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_structures::structure_data[i.t].short_name
-				+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.angle)  + ',' + i.trigger);
+			if (i.flags & sd_flags_start)
+				os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_structures::structure_data[i.t].short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
 		}
-		f.write_line("");
+		os << "\r\n";
 	}
-	f.write_line(static_cast<string>("[") + section_code[si_units] + ']');
+	os << '[' << section_code[si_units] << "]\r\n";
 	int index = 0;
 	BOOST_FOREACH(auto& i, unit_data)
 	{
-		f.write_line(nwzl(3, index++) + '=' + side_code[i.side] + ',' + xcc_units::unit_data[i.t].short_name
-			+ ',' + n(i.health) + ',' + n(i.cell.get_cc()) + ',' + n(i.angle)
-			+ ',' + action_code[i.action] + ',' + i.trigger);
+		os << nwzl(3, index++) << '=' << side_code[i.side] << ',' << xcc_units::unit_data[i.t].short_name
+			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.angle)
+			<< ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
 	}
-	f.write_line("");
+	os << "";
 
 	for (int i = 0; i < c_side_id; i++)
 	{
-		f.write_line(static_cast<string>("[") + section_code[si_goodguy + i] + ']');
-		f.write(static_cast<string>(side_data_code[sdt_allies]) + '=');
+		os << '[' << section_code[si_goodguy + i] << "]\r\n";
+		os << side_data_code[sdt_allies] << '=';
 		bool first = true;
 		for (int j = 0; j < c_side_id; j++)
 		{
 			if (side_data[i].allies >> j & 1)
 			{
 				if (!first)
-					f.write(",");
-				f.write(side_code[j]);
+					os << ",";
+				os << side_code[j];
 				first = false;
 			}
 		}
-		f.write_line("");
+		os << "\r\n";
 		if (side_data[i].credits)
-			f.write_line(static_cast<string>(side_data_code[sdt_credits]) + '=' + n(side_data[i].credits / 100l));
-		f.write_line(static_cast<string>(side_data_code[sdt_edge]) + '=' + edge_code[side_data[i].edge]);
-		// f.write_line(static_cast<string>(side_data_code[sdt_flag_home]) + '=' + side_data[i].flag_home);
-		// f.write_line(static_cast<string>(side_data_code[sdt_flag_location]) + '=' + side_data[i].flag_location);
-		/*
-		if (side_data[i].c_max_building)
-		f.write_line(static_cast<string>(side_data_code[sdt_max_building]) + '=' + n(side_data[i].c_max_building));
-		if (side_data[i].c_max_unit)
-		f.write_line(static_cast<string>(side_data_code[sdt_max_unit]) + '=' + n(side_data[i].c_max_unit));
-		*/
-		// f.write_line(static_cast<string>(side_data_code[sdt_quota]) + '=' + side_data[i].quota);
-		f.write_line("");
+			os << side_data_code[sdt_credits] << '=' << side_data[i].credits / 100 << "\r\n";
+		os << side_data_code[sdt_edge] << '=' << edge_code[side_data[i].edge] << "\r\n";
+		os << "\r\n";
 	}
 
-	f.write_line(static_cast<string>("[") + section_code[si_overlay] + ']');
+	os << '[' << section_code[si_overlay] << "]\r\n";
 	BOOST_FOREACH(auto& i, overlay_data)
 	{
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		if (is_tiberium(v))
-			v = static_cast<t_overlay_id>((i.second & 0xff) + o_ti1);
+			v = static_cast<t_overlay_id>((i.second & 0xff) << o_ti1);
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);
-		f.write_line(n(cell.get_cc()) + '=' + overlay_code[v]);
+		os << cell.get_cc() << '=' << overlay_code[v] << "\r\n";
 	}
-	f.write_line("");
+	os << "\r\n";
 
-	f.write_line(static_cast<string>("[") + section_code[si_terrain] + ']');
+	os << '[' << section_code[si_terrain] << "]\r\n";
 	BOOST_FOREACH(auto& i, terrain_data)
 	{
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);
-		f.write_line(n(cell.get_cc()) + '=' + terrain_code[i.second >> 8] + ",none");
+		os << n(cell.get_cc()) << '=' << terrain_code[i.second >> 8] << ",none" << "\r\n";
 	}
-	f.write_line("");
-	return f.save();
+	os << "\r\n";
+	return os.str();
 }
 
 void Cxcc_level::convert_bin(unsigned short* data) const
