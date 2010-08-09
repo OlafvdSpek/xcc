@@ -108,10 +108,10 @@ BOOL CXSE_dlg::OnInitDialog()
 		m_idx_fname = xcc_dirs::get_dir(m_game) + "audio.idx";
 	if (m_bag_f.open_edit(m_bag_fname) || m_idx_f.open_edit(m_idx_fname))
 		throw;
-	if (m_bag_f.get_size() && m_idx_f.get_size())
+	if (m_bag_f.size() && m_idx_f.size())
 	{
 		Cvirtual_binary s;
-		int cb_s = m_idx_f.get_size();
+		int cb_s = m_idx_f.size();
 		error = m_idx_f.read(s.write_start(cb_s), cb_s);
 		if (!error)
 		{
@@ -215,7 +215,7 @@ void CXSE_dlg::check_selection()
 	m_play.EnableWindow(index != -1 && m_ds);
 	m_extract.EnableWindow(index != -1);
 	m_delete.EnableWindow(index != -1);
-	m_compact.EnableWindow(get_bag_size() != m_bag_f.get_size());
+	m_compact.EnableWindow(get_bag_size() != m_bag_f.size());
 }
 
 void CXSE_dlg::OnItemchangedList(NMHDR* pNMHDR, LRESULT* pResult)
@@ -419,7 +419,7 @@ void CXSE_dlg::add_file(const string& name)
 				if (!f.read(s, cb_s))
 				{
 					t_map_entry e;
-					e.offset = m_bag_f.get_size();
+					e.offset = m_bag_f.size();
 					e.size = cb_s;
 					e.samplerate = format_chunk.samplerate;
 					e.flags = 4 | (format_chunk.c_channels == 2);

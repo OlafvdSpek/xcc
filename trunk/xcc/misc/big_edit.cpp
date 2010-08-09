@@ -115,7 +115,7 @@ int Cbig_edit::write_index()
 	assert(w == d.data_end());
 	m_f.seek(total_size);
 	m_f.set_eof();
-	header.size = m_f.get_size();
+	header.size = m_f.size();
 	m_f.seek(0);
 	return m_f.write(d.data(), d.size());
 }

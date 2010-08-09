@@ -15,9 +15,9 @@ int Cxse::open()
 		error = m_idx_f.open_edit(xcc_dirs::get_dir(game) + "audio.idx");
 		if (!error)
 		{
-			if (m_bag_f.get_size() && m_idx_f.get_size())
+			if (m_bag_f.size() && m_idx_f.size())
 			{
-				int cb_s = m_idx_f.get_size();
+				int cb_s = m_idx_f.size();
 				Cvirtual_binary s;
 				error = m_idx_f.read(s.write_start(cb_s), cb_s);
 				if (!error)
@@ -179,7 +179,7 @@ int Cxse::insert(string fname, Cwav_file& f)
 			if (!error)
 			{
 				t_map_entry e;
-				e.offset = m_bag_f.get_size();
+				e.offset = m_bag_f.size();
 				e.size = cb_s;
 				e.samplerate = format_chunk.samplerate;
 				e.flags = 4 | format_chunk.c_channels == 2;

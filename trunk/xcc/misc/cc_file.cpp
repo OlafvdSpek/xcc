@@ -174,7 +174,7 @@ int Ccc_file::open(const string& name)
 	test_fail(m_f.open_read(xcc_dirs::find_file(name)));
 #endif
 	m_offset = 0;
-	m_size = m_f.get_size();
+	m_size = m_f.size();
 	m_p = 0;
     m_is_open = true;
 	m_data = m_f.get_mm();
@@ -210,7 +210,7 @@ int Ccc_file::open(const Cwin_handle& h)
     assert(!is_open());
 	m_f.open(h);
 	m_offset = 0;
-	m_size = m_f.get_size();
+	m_size = m_f.size();
 	m_p = 0;
     m_is_open = true;
 	m_data = m_f.get_mm();

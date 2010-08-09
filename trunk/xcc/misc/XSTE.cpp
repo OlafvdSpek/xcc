@@ -14,7 +14,7 @@ int CXSTE::open(t_game game)
 	int error = m_f.open_edit(xcc_dirs::get_dir(game) + xcc_dirs::get_csf_fname(game));
 	if (!error)
 	{
-		if (!m_f.get_size())
+		if (!m_f.size())
 		{
 			Cmix_file language;
 			error = language.open(xcc_dirs::get_language_mix(game));
