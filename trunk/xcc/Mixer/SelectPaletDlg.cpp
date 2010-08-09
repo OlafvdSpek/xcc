@@ -73,7 +73,7 @@ void CSelectPaletDlg::insert_tree_entry(int parent_id, HTREEITEM parent_item)
 		HTREEITEM h = tc.InsertItem(i.second.name.c_str(), parent_item);
 		tc.SetItemData(h, i.first);
 		insert_tree_entry(i.first, h);
-		if (m_current_palet != -1 && m_pal_list.find(m_current_palet)->second.parent == i.first)
+		if (m_current_palet != -1 && m_pal_list[m_current_palet].parent == i.first)
 			tc.SelectItem(h);
 	}
 }
@@ -84,17 +84,17 @@ void CSelectPaletDlg::update_list(int parent_id, int current_palet)
 	lc.DeleteAllItems();
 	BOOST_FOREACH(auto& i, m_pal_list)
 	{
-		if (i.second.parent != parent_id)
+		if (i.parent != parent_id)
 			continue;
-		string name = i.second.name;
+		string name = i.name;
 		{	
 			int i = name.rfind(" - ");
 			if (i != string::npos)
 				name = name.substr(i + 3);
 		}
 		int index = lc.InsertItem(lc.GetItemCount(), name.c_str());
-		lc.SetItemData(index, i.first);
-		if (current_palet == i.first)
+		lc.SetItemData(index, &i - m_pal_list.data());
+		if (current_palet == &i - m_pal_list.data())
 			lc.SetItemState(index, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
 	}
 	check_selection();
