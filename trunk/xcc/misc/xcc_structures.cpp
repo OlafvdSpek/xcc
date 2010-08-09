@@ -106,9 +106,9 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 	if (theater == loaded_theater)
 		return 0;
-	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
-	Cmix_file& theater_mix = Cxcc_mixs::get_theater_mix(theater);
-	const string ext = "." + Cxcc_mixs::get_theater_fname(theater).substr(0, 3);
+	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
+	Cmix_file& theater_mix = Cxcc_mixs::theater(theater);
+	const string ext = "." + Cxcc_mixs::theater_fname(theater).substr(0, 3);
 	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];

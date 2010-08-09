@@ -5,7 +5,7 @@
 
 Copen_from_mix_dlg::Copen_from_mix_dlg(CWnd* pParent /*=NULL*/):
 	ETSLayoutDialog(Copen_from_mix_dlg::IDD, pParent, "open_from_mix_dlg"),
-	mix(Cxcc_mixs::get_general_mix())
+	mix(Cxcc_mixs::general())
 {
 	//{{AFX_DATA_INIT(Copen_from_mix_dlg)
 		// NOTE: the ClassWizard will add member initialization here

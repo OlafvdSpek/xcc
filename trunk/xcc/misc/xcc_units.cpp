@@ -100,7 +100,7 @@ int xcc_units::load_images(bool load_icons)
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
+	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
 	for (int i = 0; i < 256; i++)
 	{
 		t_unit_data_entry& ud = unit_data[i];

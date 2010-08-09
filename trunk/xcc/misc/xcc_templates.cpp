@@ -101,9 +101,9 @@ int Cxcc_templates::load_images(t_theater_id theater)
 {
 	delete[] image_data;
 	image_data = 0;
-	const string fname = Cxcc_mixs::get_theater_fname(theater);
-	const string ext = '.' + string(fname).substr(0, 3);
-	Cmix_file& mixf = Cxcc_mixs::get_theater_mix(theater);
+	const string fname = Cxcc_mixs::theater_fname(theater);
+	const string ext = '.' + fname.substr(0, 3);
+	Cmix_file& mixf = Cxcc_mixs::theater(theater);
 	image_list.assign(NULL);
 	memset(template_list, -1, sizeof(template_list));
 	int write_i = 0;

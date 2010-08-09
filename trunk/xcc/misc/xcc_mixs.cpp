@@ -27,17 +27,17 @@ void Cxcc_mixs::close()
 		i.close();
 }
 
-Cmix_file& Cxcc_mixs::get_conquer_mix()
+Cmix_file& Cxcc_mixs::conquer()
 {
 	return mixf[conquer_mix];
 }
 
-Cmix_file& Cxcc_mixs::get_general_mix()
+Cmix_file& Cxcc_mixs::general()
 {
 	return mixf[general_mix];
 }
 
-Cmix_file& Cxcc_mixs::get_theater_mix(t_theater_id theater)
+Cmix_file& Cxcc_mixs::theater(t_theater_id theater)
 {
 	switch (theater)
 	{
@@ -52,7 +52,7 @@ Cmix_file& Cxcc_mixs::get_theater_mix(t_theater_id theater)
 	return mixf[temperate_mix];
 }
 
-string Cxcc_mixs::get_theater_fname(t_theater_id theater)
+string Cxcc_mixs::theater_fname(t_theater_id theater)
 {
 	switch (theater)
 	{
