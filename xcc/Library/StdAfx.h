@@ -14,6 +14,7 @@
 #include <string>
 #include <vartypes.h>
 #include <vector>
+#include <xbt/find_ptr.h>
 
 using namespace std;
 using boost::iequals;

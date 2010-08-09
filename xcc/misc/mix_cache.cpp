@@ -6,9 +6,7 @@
 #include "mix_cache.h"
 #include "xcc_dirs.h"
 
-typedef map<int, Cvirtual_binary> t_cache;
-
-t_cache cache;
+map<int, Cvirtual_binary> cache;
 
 static string get_fname()
 {
@@ -54,19 +52,19 @@ int mix_cache::save()
 		return 1;
 	f.write(get_ft_crc());
 	f.write(cache.size());
-	for (t_cache::const_iterator i = cache.begin(); i != cache.end(); i++)
+	BOOST_FOREACH (auto& i, cache)
 	{
-		f.write(i->first);
-		f.write(i->second.size());
-		f.write(i->second.data(), i->second.size());
+		f.write(i.first);
+		f.write(i.second.size());
+		f.write(i.second.data(), i.second.size());
 	}	
 	return 0;
 }
 
 Cvirtual_binary mix_cache::get_data(int crc)
 {
-	t_cache::const_iterator i = cache.find(crc);
-	return i == cache.end() ? Cvirtual_binary() : i->second;
+	auto i = find_ptr(cache, crc);
+	return i ? *i : Cvirtual_binary();
 }
 
 void mix_cache::set_data(int crc, const Cvirtual_binary& v)

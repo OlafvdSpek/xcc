@@ -851,7 +851,6 @@ void CXCCEditorView::OnFileSaveAsImage()
 		f.write(&bmfh, sizeof(BITMAPFILEHEADER));
 		f.write(&bmi, sizeof(BITMAPINFO));
 		f.write(memory_image, 3 * cx * cy);
-		f.close();
 		delete[] memory_image;
 	}	
 }
