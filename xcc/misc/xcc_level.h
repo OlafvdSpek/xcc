@@ -196,16 +196,12 @@ struct t_map_data
 	int cy;
 };
 
-typedef string t_briefing_data;
-
 struct t_side_data
 {
 	int allies;
 	int credits;
 	t_edge_id edge;
 };
-
-typedef map<int, int> t_base_data;
 
 struct t_infantry_data_entry
 {
@@ -217,8 +213,6 @@ struct t_infantry_data_entry
 	t_action_id action;
 	string trigger;
 };
-
-typedef vector<t_infantry_data_entry> t_infantry_data;
 
 enum
 {
@@ -237,8 +231,6 @@ struct t_structure_data_entry
 	string trigger;
 };
 
-typedef vector<t_structure_data_entry> t_structure_data;
-
 struct t_unit_data_entry
 {
 	t_side_id side;
@@ -249,14 +241,6 @@ struct t_unit_data_entry
 	t_action_id action;
 	string trigger;
 };
-
-typedef vector<t_unit_data_entry> t_unit_data;
-
-typedef map<int, int> t_overlay_data;
-
-typedef map<int, int> t_terrain_data;
-
-typedef map<int, string> t_celltrigger_data;
 
 enum
 {
@@ -275,11 +259,9 @@ struct t_teamtype_data_entry
 	int c_teams;
 	int c_objects;
 	int c_actions;
-	int object_list[16];
-	int action_list[64];
+	array<int, 16> object_list;
+	array<int, 64> action_list;
 };
-
-typedef map<string, t_teamtype_data_entry> t_teamtype_data;
 
 struct t_trigger_data_entry
 {
@@ -291,10 +273,17 @@ struct t_trigger_data_entry
 	int loop;
 };
 
+typedef string t_briefing_data;
+typedef map<int, int> t_base_data;
+typedef vector<t_infantry_data_entry> t_infantry_data;
+typedef vector<t_structure_data_entry> t_structure_data;
+typedef vector<t_unit_data_entry> t_unit_data;
+typedef map<int, int> t_overlay_data;
+typedef map<int, int> t_terrain_data;
+typedef map<int, string> t_celltrigger_data;
+typedef map<string, t_teamtype_data_entry> t_teamtype_data;
 typedef map<string, t_trigger_data_entry> t_trigger_data;
-
 typedef array<int, 100> t_waypoint_data;
-
 typedef array<unsigned short, 4096> t_bin_data;
 
 int convert_overlay_edit(int v);
