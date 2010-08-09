@@ -45,44 +45,35 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	m_list.add_column("Description", 2, 240);
 	m_list.add_column("Theater", 3, 240);
 
-	c_files = mix.get_c_files();
 	mix_database::load();
+	CWaitCursor wait;
+	for (int i = 0; i < mix.get_c_files(); i++)
 	{
-		CWaitCursor wait;
+		int id = mix.get_id(i);
+		if (mix.get_size(id) != 8192)
+			continue;
+		Cfname name = mix_database::get_name(game_td, id);
+		if (name.get_fname().length() != 11 || name.get_ftitle().substr(0, 2) != "sc" || name.get_fext() != ".bin")
+			continue;
 		Ccc_file bin_f(false), ini_f(true);
+		if (bin_f.open(name, mix))
+			continue;
+		name.set_ext(".ini");
+		if (ini_f.open(name, mix))
+			continue;
+		xcc_log::write_line("loading " + name.get_ftitle());
 		Cxcc_level level;
-		for (int i = 0; i < c_files; i++)
-		{
-			int id = mix.get_id(i);
-			if (mix.get_size(id) != 8192)
-				continue;
-			Cfname name = mix_database::get_name(game_td, id);
-			if (name.get_fname().length() != 11 || name.get_ftitle().substr(0, 2) != "sc" || name.get_fext() != ".bin")
-				continue;
-			bin_f.open(name, mix);
-			name.set_ext(".ini");
-			ini_f.open(name, mix);
-			if (bin_f.is_open() && ini_f.is_open())
-			{
-				xcc_log::write_line("loading " + name.get_ftitle());
-				if (!level.load(Cvirtual_binary(), ini_f.get_vdata()))
-				{
-					name.set_ext("");
-					t_index_info info;
-					info.description = level.basic_data.name;
-					if (info.description.empty())
-						info.description = mix_database::get_description(game_td, id);
-					if (info.description.empty())
-						info.description = level.basic_data.brief;
-					info.theater = level.map_data.theater;
-					index[name] = info;
-				}
-			}
-			if (ini_f.is_open())
-				ini_f.close();
-			if (bin_f.is_open())
-				bin_f.close();
-		}
+		if (level.load(Cvirtual_binary(), ini_f.get_vdata()))
+			continue;
+		name.set_ext("");
+		t_index_info info;
+		info.description = level.basic_data.name;
+		if (info.description.empty())
+			info.description = mix_database::get_description(game_td, id);
+		if (info.description.empty())
+			info.description = level.basic_data.brief;
+		info.theater = level.map_data.theater;
+		index[name] = info;
 	}
 	{
 		int list_i = 0;
@@ -104,13 +95,8 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 
 void Copen_from_mix_dlg::get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d)
 {
-	Ccc_file bin_f(true), ini_f(true);
-	ini_f.open(selected_fname + ".ini", mix);
-	bin_f.open(selected_fname + ".bin", mix);
-	ini_d = ini_f.get_vdata();
-	bin_d = bin_f.get_vdata();
-	bin_f.close();
-	ini_f.close();
+	bin_d = mix.get_vdata(selected_fname + ".bin");
+	ini_d = mix.get_vdata(selected_fname + ".ini");
 }
 
 void Copen_from_mix_dlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult) 
