@@ -1145,17 +1145,7 @@ void Cxcc_level::convert_bin(unsigned short* data) const
 {
 	Cxcc_templates::load_images(map_data.theater);
 	for (int i = 0; i < 4096; i++)
-	{
-		unsigned short& v = data[i];
-		if ((v & 0xff) > 0xd7 || !(v & 0xff))
-		{
-			int x = i & 0x3f;
-			int y = i >> 6;
-			v = x & 3 | (y & 3) << 2;
-		}
-		else
-			v = Cxcc_templates::convert_bin_data(v);
-	}
+		data[i] = Cxcc_templates::convert_bin_data(data[i]);
 }
 
 void Cxcc_level::deconvert_bin(unsigned short* data) const
@@ -1168,16 +1158,15 @@ void Cxcc_level::process()
 {
 	for (int i = 0; i < 4096; i++)
 	{
-		int x = i & 0x3f;
 		int y = i >> 6;
 		unsigned short& v = bin_data[i];
 		switch (v >> 8)
 		{
 		case 0:
-			v = v & 0xff00 | x & 3 | (y & 3) << 2;
+			v = i & 3 | (y & 3) << 2;
 			break;
 		case 2:
-			v = v & 0xff00 | x & 1 | (y & 1) << 1;
+			v = 0x200 | i & 1 | (y & 1) << 1;
 			break;
 		}
 	}
@@ -1227,9 +1216,7 @@ void Cxcc_level::process()
 
 void Cxcc_level::clear()
 {
-	for (int i = 0; i < 4096; i++)
-		bin_data[i] = i & 3 | ((i >> 6) & 3) << 2;
-
+	bin_data.assign(0);
 	basic_data = t_basic_data();
 	map_data = t_map_data();
 	briefing_data.erase();
