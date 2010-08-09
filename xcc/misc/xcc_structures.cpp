@@ -66,23 +66,17 @@ int xcc_structures::load_data()
 
 int xcc_structures::save_data()
 {
-	typedef map<string, int> t_list;
-	t_list list;	
+	map<string, t_structure_data_entry*> list;	
+	BOOST_FOREACH(auto& sd, structure_data)
 	{
-		for (int i = 0; i < 256; i++)
-		{
-			t_structure_data_entry& sd = structure_data[i];
-			if (~sd.flags & sd_flags_in_use)
-				// don't save if not in use
-				continue;
-			list[sd.short_name] = i;
-		}
+		if (sd.flags & sd_flags_in_use)
+			list[sd.short_name] = &sd;
 	}
 	Cxif_key structures_key;
 	int structure_i = 0;
-	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
+	BOOST_FOREACH(auto& i, list)
 	{
-		t_structure_data_entry& sd = structure_data[i->second];
+		t_structure_data_entry& sd = *i.second;
 		Cxif_key& sk = structures_key.set_key(structure_i);
 		sk.set_value_string(vi_sd_long_name, sd.long_name);
 		sk.set_value_string(vi_sd_short_name, sd.short_name);
@@ -106,9 +100,8 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 	if (theater == loaded_theater)
 		return 0;
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& sd, structure_data)
 	{
-		t_structure_data_entry& sd = structure_data[i];
 		if (~sd.flags & sd_flags_in_use)
 			continue;
 		/*
@@ -140,11 +133,10 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 
 int xcc_structures::get_id(const string& s)
 {
-	for (int i = 0; i < 256; i++)
+	BOOST_FOREACH(auto& sd, structure_data)
 	{
-		t_structure_data_entry& sd = structure_data[i];
 		if (sd.flags & sd_flags_in_use && iequals(sd.short_name, s))
-			return i;
+			return &sd - structure_data;
 	}
 	assert(false);
 	return -1;
