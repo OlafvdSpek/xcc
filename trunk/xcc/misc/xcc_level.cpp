@@ -782,7 +782,7 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 	line.get_next_line();
 	line.get_next_line();
 	d.c_objects = get_value(line.get_next_line(), 1, 16);
-	ZeroMemory(d.object_list, sizeof(d.object_list));
+	d.object_list.assign(0);
 	for (int i = 0; i < d.c_objects; i++)
 	{
 		Cmulti_line c = line.get_next_line();
@@ -795,7 +795,7 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 			d.object_list[i] = 0x8000 | xcc_units::get_id(t) << 8 | n;
 	}
 	d.c_actions = get_value(line.get_next_line(), 0, 64);
-	ZeroMemory(d.action_list, sizeof(d.action_list));
+	d.action_list.assign(0);
 	for (int i = 0; i < d.c_actions; i++)
 	{
 		Cmulti_line c = line.get_next_line();
