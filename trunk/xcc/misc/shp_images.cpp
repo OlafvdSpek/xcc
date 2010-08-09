@@ -18,10 +18,6 @@ struct t_image_data
 	t_image_index_entry* index;
 };
 
-typedef set<t_image_data*> t_image_list;
-
-t_image_list image_list;
-
 int shp_images::load_shp(const Cshp_file& f, void*& p)
 {
 	t_image_data* data = new t_image_data;
@@ -51,7 +47,6 @@ int shp_images::load_shp(const Cshp_file& f, void*& p)
 			}
 		}
 	}
-	image_list.insert(data);
 	p = data;
 	return 0;
 }
@@ -105,16 +100,6 @@ static void destroy_shp(t_image_data* p)
 
 void shp_images::destroy_shp(void*& p)
 {
-	t_image_list::iterator i = image_list.find(static_cast<t_image_data*>(p));
-	assert(i != image_list.end());
 	::destroy_shp(static_cast<t_image_data*>(p));
 	p = NULL;
-	image_list.erase(i);
 };
-
-void shp_images::destroy()
-{
-	BOOST_FOREACH(auto& i, image_list)
-		::destroy_shp(i);
-	image_list.clear();
-}

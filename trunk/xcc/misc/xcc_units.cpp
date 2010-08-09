@@ -97,7 +97,6 @@ int xcc_units::save_data()
 
 int xcc_units::load_images(bool load_icons)
 {
-	int error = 0;
 	static bool loaded = false;
 	if (loaded)
 		return 0;
@@ -114,9 +113,8 @@ int xcc_units::load_images(bool load_icons)
 		if (load_icons && ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon.shp", conquer_mix, ud.icon))
 			return 1;
 	}
-	if (!error)
-		loaded = true;
-	return error;
+	loaded = true;
+	return 0;
 }
 
 int xcc_units::get_id(const string& s)
