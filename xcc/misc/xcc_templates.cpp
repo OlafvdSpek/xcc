@@ -159,6 +159,6 @@ int Cxcc_templates::load_images(t_theater_id theater)
 		f.close();
 	}
 	for (int i = 0; i < 3; i++)
-		shp_images::load_shp("bib" + n(3 - i) + ext, mixf, bib[i]);
+		shp_images::load_shp("bib" + n(3 - i), bib[i]);
 	return 0;
 }

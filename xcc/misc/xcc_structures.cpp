@@ -106,15 +106,11 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 	if (theater == loaded_theater)
 		return 0;
-	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
-	Cmix_file& theater_mix = Cxcc_mixs::theater(theater);
-	const string ext = "." + Cxcc_mixs::theater_fname(theater).substr(0, 3);
 	for (int i = 0; i < 256; i++)
 	{
 		t_structure_data_entry& sd = structure_data[i];
 		if (~sd.flags & sd_flags_in_use)
 			continue;
-		Cshp_file f;
 		/*
 		sd.flags &= ~sd_flags_bib;
 		if (~sd.flags & sd_flags_civilian && sd.cx > 1 && strcmp(sd.short_name, "sam"))
@@ -125,22 +121,17 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		{
 			if (~sd.flags >> theater & sd_flags_desert)
 				continue;
-			f.open(sd.short_name + ext, theater_mix);
 		}
-		else
-			f.open(sd.short_name + ".shp", conquer_mix);
-		if (!f.is_open())
-			return 1;
-		if (shp_images::load_shp(f, sd.images))
+		if (shp_images::load_shp(sd.short_name, sd.images))
 			return 1;
 		/*
 		shp_images::get_shp(sd.images, 0, sd.cx, sd.cy);
 		sd.cx /= 24;
 		sd.cy /= 24;
 		*/
-		if (load_icons && sd.flags & sd_flags_icon && shp_images::load_shp(sd.short_name + "icon.shp", conquer_mix, sd.icon))
+		if (load_icons && sd.flags & sd_flags_icon && shp_images::load_shp(sd.short_name + "icon", sd.icon))
 			return 1;
-		if (sd.flags & sd_flags_images2 && shp_images::load_shp(sd.short_name + "2.shp", conquer_mix, sd.images2))
+		if (sd.flags & sd_flags_images2 && shp_images::load_shp(sd.short_name + "2", sd.images2))
 			return 1;
 	}
 	loaded_theater = theater;
