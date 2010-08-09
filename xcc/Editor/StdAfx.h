@@ -16,6 +16,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <xbt/find_ptr.h>
 #include "ETSLayout.h"
 #include "id_log.h"
 #include "mix_file.h"
