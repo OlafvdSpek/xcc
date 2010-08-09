@@ -107,32 +107,12 @@ int xcc_units::load_images(bool load_icons)
 		t_unit_data_entry& ud = unit_data[i];
 		if (~ud.flags & ud_flags_in_use)
 			continue;
-		Cshp_file f;
-		// images
-		f.open(static_cast<string>(ud.short_name) + ".shp", conquer_mix);
-		if (!f.is_open())
-		{
-			error = 1;
-			continue;
-		}
-		if (shp_images::load_shp(f, ud.images))
-			error = 1;
-		f.close();
+		if (shp_images::load_shp(ud.short_name + ".shp", conquer_mix, ud.images))
+			return 1;
 		// shp_images::get_shp(ud.images, 0, ud.cx, ud.cy);
 		ud.c_images = shp_images::get_shp_c_images(ud.images);
-		if (load_icons && ud.flags & ud_flags_icon)
-		{
-			// icon
-			f.open(static_cast<string>(ud.short_name) + "icon.shp", conquer_mix);
-			if (!f.is_open())
-			{
-				error = 1;
-				continue;
-			}
-			if (shp_images::load_shp(f, ud.icon))
-				error = 1;
-			f.close();
-		}
+		if (load_icons && ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon.shp", conquer_mix, ud.icon))
+			return 1;
 	}
 	if (!error)
 		loaded = true;

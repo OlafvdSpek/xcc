@@ -104,7 +104,6 @@ int xcc_structures::save_data()
 int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 {
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
-	int error = 0;
 	if (theater == loaded_theater)
 		return 0;
 	Cmix_file& conquer_mix = Cxcc_mixs::get_conquer_mix();
@@ -131,48 +130,21 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		else
 			f.open(sd.short_name + ".shp", conquer_mix);
 		if (!f.is_open())
-		{
-			error = 1;
-			continue;
-		}
+			return 1;
 		if (shp_images::load_shp(f, sd.images))
-			error = 1;
-		f.close();
+			return 1;
 		/*
 		shp_images::get_shp(sd.images, 0, sd.cx, sd.cy);
 		sd.cx /= 24;
 		sd.cy /= 24;
 		*/
-		if (load_icons && sd.flags & sd_flags_icon)
-		{
-			// icon
-			f.open(sd.short_name + "icon.shp", conquer_mix);
-			if (!f.is_open())
-			{
-				error = 1;
-				continue;
-			}
-			if (shp_images::load_shp(f, sd.icon))
-				error = 1;
-			f.close();
-		}
-		if (sd.flags & sd_flags_images2)
-		{
-			// images2 (weapons factory)
-			f.open(sd.short_name + "2.shp", conquer_mix);
-			if (!f.is_open())
-			{
-				error = 1;
-				continue;
-			}
-			if (shp_images::load_shp(f, sd.images2))
-				error = 1;
-			f.close();
-		}
+		if (load_icons && sd.flags & sd_flags_icon && shp_images::load_shp(sd.short_name + "icon.shp", conquer_mix, sd.icon))
+			return 1;
+		if (sd.flags & sd_flags_images2 && shp_images::load_shp(sd.short_name + "2.shp", conquer_mix, sd.images2))
+			return 1;
 	}
-	if (!error)
-		loaded_theater = theater;
-	return error;
+	loaded_theater = theater;
+	return 0;
 }
 
 int xcc_structures::get_id(const string& s)

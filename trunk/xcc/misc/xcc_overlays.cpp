@@ -196,11 +196,8 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	Cmix_file& theater_mix = Cxcc_mixs::get_theater_mix(theater);
 	for (int i = 0; i < c_overlay_id; i++)
 	{
-		Cshp_file f;
-		if (f.open(overlay_code[i] + ext, theater_mix)
-			&& f.open(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix))
-			return 1;
-		if (shp_images::load_shp(f, overlay_image_list[i]))
+		if (shp_images::load_shp(overlay_code[i] + ext, theater_mix, overlay_image_list[i])
+			&& shp_images::load_shp(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix, overlay_image_list[i]))
 			return 1;
 	}
 	for (int i = 0; i < c_terrain_id; i++)

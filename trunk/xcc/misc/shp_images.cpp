@@ -56,6 +56,12 @@ int shp_images::load_shp(const Cshp_file& f, void*& p)
 	return 0;
 }
 
+int shp_images::load_shp(const string& name, Cmix_file& mix, void*& p)
+{
+	Cshp_file f;
+	return f.open(name, mix) || load_shp(f, p);
+}
+
 const byte* shp_images::get_shp(void* p, int index)
 {
 	const t_image_data* data = static_cast<const t_image_data*>(p);
