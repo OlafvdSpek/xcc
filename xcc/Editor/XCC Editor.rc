@@ -117,7 +117,6 @@ BEGIN
     BEGIN
         MENUITEM "&Toolbar",                    ID_VIEW_TOOLBAR
         MENUITEM "&Status Bar",                 ID_VIEW_STATUS_BAR
-        MENUITEM "Overview",                    ID_VIEW_OVERVIEW
         MENUITEM SEPARATOR
         MENUITEM "Border filter",               ID_VIEW_BORDER_FILTER
         MENUITEM "Template blocked filter",     ID_VIEW_MOVEABLE_FILTER

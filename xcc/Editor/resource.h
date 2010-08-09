@@ -188,7 +188,6 @@
 #define IDC_CHECK_XCC_LEVEL             1081
 #define ID_FILE_OPEN_FROM_MIX           32771
 #define ID_SWITCH_MOVEABLE              32772
-#define ID_VIEW_OVERVIEW                32773
 #define ID_VIEW_MOVEABLE_FILTER         32774
 #define ID_FILE_SAVE_AS_IMAGE           32775
 #define ID_VIEW_OVERLAY_LAYER           32777
