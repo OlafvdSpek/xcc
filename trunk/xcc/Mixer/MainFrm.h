@@ -24,7 +24,7 @@ struct t_pal_list_entry
 	int parent;
 };
 
-typedef map<int, string> t_mix_list;
+typedef vector<string> t_mix_list;
 typedef map<int, t_pal_map_list_entry> t_pal_map_list;
 typedef map<int, t_pal_list_entry> t_pal_list;
 
@@ -44,7 +44,6 @@ public:
 public:
 	void do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent);
 	void find_mixs(const string& dir, t_game game, string filter);
-	// void find_paks(const string& dir, t_game game);
 	void initialize_lists();
 	void launch_xtw(t_game game);
 
@@ -104,11 +103,6 @@ public:
 	const t_mix_map_list& mix_map_list() const
 	{
 		return m_mix_map_list;
-	}
-
-	const t_mix_list& mix_list() const
-	{
-		return m_mix_list;
 	}
 
 	bool remap_team_colors() const
