@@ -100,17 +100,16 @@ int xcc_units::load_images(bool load_icons)
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
 	for (int i = 0; i < 256; i++)
 	{
 		t_unit_data_entry& ud = unit_data[i];
 		if (~ud.flags & ud_flags_in_use)
 			continue;
-		if (shp_images::load_shp(ud.short_name + ".shp", conquer_mix, ud.images))
+		if (shp_images::load_shp(ud.short_name, ud.images))
 			return 1;
 		// shp_images::get_shp(ud.images, 0, ud.cx, ud.cy);
 		ud.c_images = shp_images::get_shp_c_images(ud.images);
-		if (load_icons && ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon.shp", conquer_mix, ud.icon))
+		if (load_icons && ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon", ud.icon))
 			return 1;
 	}
 	loaded = true;

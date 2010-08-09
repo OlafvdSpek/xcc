@@ -202,6 +202,7 @@ void CXCCEditorView::OnInitialUpdate()
 	m_lock_template_layer = m_lock_overlay_layer = m_lock_smudge_layer = m_lock_terrain_layer = false;
 	m_lock_infantry_layer = m_lock_structure_layer = m_lock_unit_layer = false;
 
+	shp_images::set_theater(level().map_data.theater);
 	if (overlays.load_images(level().map_data.theater))
 	{
 		AfxMessageBox("Overlay load failed", MB_ICONEXCLAMATION);

@@ -191,18 +191,14 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	if (theater == loaded_theater)
 		return 0;
 	destroy();
-	const string ext = '.' + Cxcc_mixs::theater_fname(theater).substr(0, 3);
-	Cmix_file& conquer_mix = Cxcc_mixs::conquer();
-	Cmix_file& theater_mix = Cxcc_mixs::theater(theater);
 	for (int i = 0; i < c_overlay_id; i++)
 	{
-		if (shp_images::load_shp(overlay_code[i] + ext, theater_mix, overlay_image_list[i])
-			&& shp_images::load_shp(static_cast<string>(overlay_code[i]) + ".shp", conquer_mix, overlay_image_list[i]))
+		if (shp_images::load_shp(overlay_code[i], overlay_image_list[i]))
 			return 1;
 	}
 	for (int i = 0; i < c_terrain_id; i++)
 	{
-		if (shp_images::load_shp(terrain_code[i] + ext, theater_mix, terrain_image_list[i]))
+		if (shp_images::load_shp(terrain_code[i], terrain_image_list[i]))
 			continue;
 		terrain_data[i].c_images |= shp_images::get_shp_c_images(terrain_image_list[i]) << (theater << 3);
 	}

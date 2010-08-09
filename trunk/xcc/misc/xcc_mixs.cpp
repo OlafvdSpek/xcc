@@ -62,3 +62,8 @@ string Cxcc_mixs::theater_fname(t_theater_id theater)
 	assert(false);
 	return "temperat";
 }
+
+string Cxcc_mixs::theater_fext(t_theater_id theater)
+{
+	return '.' + theater_fname(theater).substr(0, 3);
+}
