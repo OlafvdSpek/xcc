@@ -34,14 +34,11 @@ namespace xcc_structures
 		int power_out;
 	};
 	
-	dword c_structures();
-
 	int load_data();
 	int save_data();
 
 	int load_images(t_theater_id theater, bool load_icons);
 	int get_id(const string& s);
 
-	void destroy();
 	t_structure_data_entry structure_data[];
 }

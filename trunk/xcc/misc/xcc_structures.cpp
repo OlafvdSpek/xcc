@@ -25,16 +25,6 @@ enum
 	vi_sd_power_out
 };
 
-dword xcc_structures::c_structures()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		if (~structure_data[i].flags & sd_flags_in_use)
-			return i;
-	}
-	return 0;
-}
-
 int xcc_structures::load_data()
 {
 	Cxif_key structures_key;
@@ -183,14 +173,6 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 	if (!error)
 		loaded_theater = theater;
 	return error;
-}
-
-void xcc_structures::destroy()
-{
-	for (int i = 0; i < 256; i++)
-	{
-		t_structure_data_entry& sd = structure_data[i];
-	}
 }
 
 int xcc_structures::get_id(const string& s)
