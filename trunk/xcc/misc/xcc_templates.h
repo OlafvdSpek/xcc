@@ -31,7 +31,6 @@ private:
 	static t_template_data_entry template_data[256];
 	static byte template_list[256][64];
 public:
-	~Cxcc_templates();
 	static int load_data();
 	static int save_data();
 	static int load_images(t_theater_id theater);
