@@ -19,8 +19,9 @@ class Cxcc_mixs
 public:
 	static int open();
 	static void close();
-	static Cmix_file& get_conquer_mix();
-	static Cmix_file& get_general_mix();
-	static Cmix_file& get_theater_mix(t_theater_id);
-	static string get_theater_fname(t_theater_id);
+	static Cmix_file& conquer();
+	static Cmix_file& general();
+	static Cmix_file& theater(t_theater_id);
+	static string theater_fname(t_theater_id);
+	static string theater_fext(t_theater_id);
 };
