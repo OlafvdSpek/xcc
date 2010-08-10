@@ -89,7 +89,6 @@ struct t_overlay_data_entry
 
 struct t_terrain_data_entry
 {
-	int c_images;
 	int blocked;
 	void* images;
 };
@@ -145,7 +144,6 @@ int Cxcc_overlays::load_data()
 	{
 		t_terrain_data_entry& td = terrain_data[i];
 		const Cxif_key& tk = terrain_key.get_key(i);
-		td.c_images = tk.get_value_int(vi_td_c_images);
 		BOOST_FOREACH(auto& i, tk.m_values)
 		{
 			switch (i.first)
@@ -176,16 +174,10 @@ int Cxcc_overlays::save_data()
 	{
 		Cxif_key& tk = terrain_key.set_key(i);
 		const t_terrain_data_entry& td = terrain_data[i];
-		tk.set_value_int(vi_td_c_images, td.c_images);
 		if (td.blocked)
 			tk.set_value_int(vi_td_blocked, td.blocked);
 	}
 	return base_key.vdata().save(xcc_dirs::get_data_dir() + overlays_xif_fname);
-}
-
-bool Cxcc_overlays::terrain_in(int v, t_theater_id theater)
-{
-	return (terrain_data[v >> 8].c_images >> (theater << 3)) & 0xff;
 }
 
 int Cxcc_overlays::load_images(t_theater_id theater)
@@ -196,11 +188,7 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 	for (int i = 0; i < c_overlay_id; i++)
 		shp_images::load_shp(overlay_code[i], overlay_data[i].images);
 	for (int i = 0; i < c_terrain_id; i++)
-	{
-		if (shp_images::load_shp(terrain_code[i], terrain_data[i].images))
-			continue;
-		terrain_data[i].c_images |= shp_images::get_shp_c_images(terrain_data[i].images) << (theater << 3);
-	}
+		shp_images::load_shp(terrain_code[i], terrain_data[i].images);
 	loaded_theater = theater;
 	return 0;
 }
