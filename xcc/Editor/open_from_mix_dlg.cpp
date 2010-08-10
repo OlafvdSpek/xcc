@@ -63,7 +63,7 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 			continue;
 		xcc_log::write_line("loading " + name.get_ftitle());
 		Cxcc_level level;
-		if (level.load(Cvirtual_binary(), ini_f.get_vdata()))
+		if (level.load(Cvirtual_binary(), ini_f.vdata()))
 			continue;
 		name.set_ext("");
 		t_index_info info;

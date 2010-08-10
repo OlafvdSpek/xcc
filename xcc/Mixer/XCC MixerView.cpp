@@ -2659,7 +2659,7 @@ void CXCCMixerView::open_item(int id)
 			if (!open_f_id(f, id))
 			{
 				m_xap.ds(GetMainFrame()->get_ds());
-				m_xap.load(f.get_vdata());
+				m_xap.load(f.vdata());
 				f.close();
 				m_xap.play();
 			}

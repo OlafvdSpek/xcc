@@ -66,7 +66,7 @@ int Cmix_file::post_open()
 	{
 		Cmix_rg_file f;
 		if (get_data())
-			f.load(get_vdata());
+			f.load(vdata());
 		else
 			f.open(h());
 		if (f.is_open() && f.is_valid())
@@ -87,7 +87,7 @@ int Cmix_file::post_open()
 		{
 			Cbig_file f;
 			if (get_data())
-				f.load(get_vdata());
+				f.load(vdata());
 			else
 				f.open(h());
 			if (f.is_open() && f.is_valid())
@@ -110,7 +110,7 @@ int Cmix_file::post_open()
 	{
 		Cpak_file f;
 		if (get_data())
-			f.load(get_vdata());
+			f.load(vdata());
 		else
 		{
 			int size = min(get_size(), 64 << 10);
@@ -250,7 +250,7 @@ int Cmix_file::post_open()
 				}
 			}
 		}
-		if (!get_vdata() || get_vdata().size() == get_size())
+		if (!vdata() || vdata().size() == get_size())
 		{
 			int crc = compute_crc(&m_index[0], get_c_files() * sizeof(t_mix_index_entry));
 			Cvirtual_binary s = mix_cache::get_data(crc);
@@ -394,7 +394,7 @@ Cvirtual_binary Cmix_file::get_vdata(int id)
 	if (get_index(id) == -1)
 		return Cvirtual_binary();
 	if (get_data())
-		return get_vdata().sub_bin(get_offset(id), get_size(id));
+		return vdata().sub_bin(get_offset(id), get_size(id));
 	Cvirtual_binary d;
 	seek(get_offset(id));
 	int size = get_size(id);
