@@ -327,10 +327,10 @@ void CXCCEditorView::update_mem_surface()
 	{
 		BOOST_FOREACH(auto& i, level().unit_data)
 		{
-			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i.t];
+			const xcc_units::t_unit_data_entry& ud = *i.t;
 			int x = (i.cell.get_x() >> 8) * 24 + ud.base_ox;
 			int y = (i.cell.get_y() >> 8) * 24 + ud.base_oy;
-			draw_unit(i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
+			draw_unit(*i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_celltrigger_layer)
@@ -465,7 +465,7 @@ void CXCCEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				t_unit_data_entry d;
 				d.side = main_frame()->default_side();
-				d.t = i;
+				d.t = &xcc_units::unit_data[i];
 				d.health = 256;
 				d.cell = Cxcc_cell(lx + 1 << 8, ly + 1 << 8).center();
 				d.angle = 0;
@@ -543,7 +543,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 			object_name = xcc_structures::structure_data[level().structure_data[m_current_object].t].long_name;
 			break;
 		case oi_unit:
-			object_name = xcc_units::unit_data[level().unit_data[m_current_object].t].long_name;
+			object_name = level().unit_data[m_current_object].t->long_name;
 			break;
 		default:
 			object_name = template_code[level().bin_data[m_mouse_pos.get_cc()] >> 8];
@@ -675,7 +675,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	case oi_unit:
 		{
 			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
-			draw_unit(i, 0, get_rp(oi_unit, main_frame()->default_side()), p_dib, 24 + ud.base_ox, 24 + ud.base_oy, dib_cx);			
+			draw_unit(ud, 0, get_rp(oi_unit, main_frame()->default_side()), p_dib, 24 + ud.base_ox, 24 + ud.base_oy, dib_cx);			
 			shp_images::get_shp(ud.images, 0, size.cx, size.cy);	
 			size += CSize(24, 24);
 			break;
@@ -927,9 +927,8 @@ void CXCCEditorView::draw_infantry(const xcc_infantry::t_infantry_data_entry& id
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 }
 
-void CXCCEditorView::draw_unit(dword v, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_unit(const xcc_units::t_unit_data_entry& ud, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
 {
-	const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[v];
 	int cx, cy;
 	const byte* s = shp_images::get_shp(ud.images, (256 - angle & 0xff) * ud.c_rotations >> 8, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
