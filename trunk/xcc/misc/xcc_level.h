@@ -27,7 +27,7 @@ const char* side_code[];
 
 enum t_theater_id
 {
-	t_desert, t_temperate, t_winter
+	t_desert, t_temperate, t_winter, t_snow
 };
 
 const char* theater_code[];

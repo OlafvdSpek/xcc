@@ -111,6 +111,7 @@ const char* theater_code[] =
 	"desert",
 	"temperate",
 	"winter",
+	"snow",
 	NULL
 };
 
@@ -733,12 +734,7 @@ static void handle_units_section_entry(const string &a, const string &b, t_unit_
 
 static void handle_overlay_section_entry(const string &a, const string &b, t_overlay_data &overlay_data, t_structure_data &structure_data)
 {
-	t_overlay_id v = get_overlay_id(b, true);
-	if (v == -1)
-	{
-		handle_structures_section_entry("", "neutral," + b + ",256," + a + ",0,none", structure_data);
-		return;
-	}
+	t_overlay_id v = get_overlay_id(b);
 	Cxcc_cell cell;
 	cell.set_cc(get_cell_value(a));
 	int w = 0;
