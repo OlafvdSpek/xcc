@@ -12,12 +12,12 @@ public:
 
 	t_game get_game() const
 	{
-		return static_cast<t_game>(get_header()->game);
+		return static_cast<t_game>(header().game);
 	}
 
 	int get_c_fnames() const
 	{
-		return get_header()->c_fnames;
+		return header().c_fnames;
 	}
 
 	const char* get_fnames() const

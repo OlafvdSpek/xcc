@@ -87,11 +87,11 @@ Cvideo_decoder* Cshp_ts_file::decoder(const t_palet_entry* palet)
 
 bool Cshp_ts_file::is_valid() const
 {
-	const t_shp_ts_header& header = *get_header();
+	const t_shp_ts_header& h = header();
 	int size = get_size();
 	if (sizeof(t_shp_ts_header) > size || 
-		header.zero ||
-		header.c_images < 1 || header.c_images > 10000 || 
+		h.zero ||
+		h.c_images < 1 || h.c_images > 10000 || 
 		sizeof(t_shp_ts_header) + get_cb_index() > size)
 		return false;
 	for (int i = 0; i < min(cf(), 1000); i++)
@@ -99,8 +99,8 @@ bool Cshp_ts_file::is_valid() const
 		const t_shp_ts_image_header& image_header = *get_image_header(i);
 		if (!image_header.cx && !image_header.cy && !image_header.offset)
 			continue;
-		if (!image_header.cx || image_header.x + image_header.cx > header.cx ||
-			!image_header.cy || image_header.y + image_header.cy > header.cy ||
+		if (!image_header.cx || image_header.x + image_header.cx > h.cx ||
+			!image_header.cy || image_header.y + image_header.cy > h.cy ||
 			image_header.zero ||
 			image_header.offset < sizeof(t_shp_ts_header) + get_cb_index())
 			return false;

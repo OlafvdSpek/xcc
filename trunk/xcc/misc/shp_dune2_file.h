@@ -13,7 +13,7 @@ public:
 
 	int get_c_images() const
 	{
-		return get_header()->c_images;
+		return header().c_images;
 	}
 
 	const t_shp_dune2_image_header* get_image_header(int i) const

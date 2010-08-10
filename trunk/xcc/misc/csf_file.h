@@ -24,10 +24,9 @@ public:
 
 	bool is_valid() const
 	{
-		const t_csf_header& header = *get_header();
-		int size = get_size();
-		return !(sizeof(t_csf_header) > size || 
-			header.id != csf_file_id);
+		const t_csf_header& h = header();
+		return !(sizeof(t_csf_header) > get_size() || 
+			h.id != csf_file_id);
 	}
 
 	int get_c_strings() const

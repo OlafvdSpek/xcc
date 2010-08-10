@@ -11,13 +11,13 @@
 bool Cvxl_file::is_valid() const
 {
  	int size = get_size();
-	const t_vxl_header& header = *get_header();
+	const t_vxl_header& h = header();
 	if (sizeof(t_vxl_header) > size ||
-		strcmp(header.id, vxl_id) ||
-		header.one != 1 ||
-		header.c_section_headers != header.c_section_tailers ||
-		header.size != size - sizeof(t_vxl_header) - header.c_section_headers * sizeof(t_vxl_section_header) - header.c_section_tailers * sizeof(t_vxl_section_tailer) ||
-		header.unknown != 0x1f10)
+		strcmp(h.id, vxl_id) ||
+		h.one != 1 ||
+		h.c_section_headers != h.c_section_tailers ||
+		h.size != size - sizeof(t_vxl_header) - h.c_section_headers * sizeof(t_vxl_section_header) - h.c_section_tailers * sizeof(t_vxl_section_tailer) ||
+		h.unknown != 0x1f10)
 		return false;
 	/*
 	for (int i = 0; i < header.c_section_headers; i++)

@@ -15,16 +15,16 @@ class Cxcc_file: public Ccc_file_sh<t_xcc_header>
 public:
 	bool is_valid() const
 	{
-		const t_xcc_header& header = *get_header();
+		const t_xcc_header& h = header();
 		int size = get_size();
 		return !(sizeof(t_xcc_header) > size || 
-			strcmp(header.id, xcc_id) ||
-			header.size != size ||
-			header.version);
+			strcmp(h.id, xcc_id) ||
+			h.size != size ||
+			h.version);
 	}
 
 	t_xcc_ft get_ft() const
 	{
-		return static_cast<t_xcc_ft>(get_header()->type);
+		return static_cast<t_xcc_ft>(header().type);
 	}
 };

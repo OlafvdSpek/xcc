@@ -21,17 +21,17 @@ public:
 
 	int cf() const
 	{
-		return get_header()->c_images;
+		return header().c_images;
 	}
 
 	int cx() const
 	{
-		return get_header()->cx;
+		return header().cx;
 	}
 
 	int cy() const
 	{
-		return get_header()->cy;
+		return header().cy;
 	}
 
 	int get_x(int i) const

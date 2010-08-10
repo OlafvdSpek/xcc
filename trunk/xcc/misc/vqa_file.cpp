@@ -73,7 +73,7 @@ public:
 		{
 			m_f.seek(sizeof(t_vqa_header));
 			m_f.read_chunk_header();
-			m_vqa_d.start_decode(*m_f.get_header());
+			m_vqa_d.start_decode(m_f.header());
 			if (cb_pixel() != 1)
 			{
 				DDPIXELFORMAT pf;
@@ -157,7 +157,7 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 {
 	int error = 0;
 	Cvqa_decode vqa_d;
-	vqa_d.start_decode(*get_header());
+	vqa_d.start_decode(header());
 	int cx = get_cx();
 	int cy = get_cy();
 	AVIFileInit();
@@ -339,7 +339,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 {
 	int error = 0;
 	Cvqa_decode vqa_d;
-	vqa_d.start_decode(*get_header());
+	vqa_d.start_decode(header());
 	int cx = get_cx();
 	int cy = get_cy();
 	if (get_cbits_pixel() == 8)
@@ -399,7 +399,7 @@ int Cvqa_file::extract_as_wav(const string& name)
 	t_list list;
 	int cs_remaining = 0;	
 	Cvqa_decode vqa_d;
-	vqa_d.start_decode(*get_header());
+	vqa_d.start_decode(header());
 	for (int i = 0; i < get_c_frames(); i++)
 	{
 		while (1)

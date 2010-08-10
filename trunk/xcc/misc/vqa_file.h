@@ -78,9 +78,9 @@ public:
 		return m_header.cy_block;
 	}
 
-	const t_vqa_header* get_header() const
+	const t_vqa_header& header() const
 	{
-		return &m_header;
+		return m_header;
 	}
 
 	int get_samplerate() const

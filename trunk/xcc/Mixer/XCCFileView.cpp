@@ -324,7 +324,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				f.load(m_data);
 				draw_info("Audio:", n(f.get_samplerate()) + " hz, " + n(f.get_cb_sample() << 3) + " bit, " + (f.get_c_channels() == 1 ? "mono" : "stereo"));
 				draw_info("Count samples:", n(f.get_c_samples()));
-				draw_info("Compression:", nh(2, f.get_header()->compression));
+				draw_info("Compression:", nh(2, f.header().compression));
 				break;
 			}
 		case ft_big:
@@ -396,7 +396,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				Cfnt_file f;
 				f.load(m_data);
 				const int c_chars = f.get_c_chars();
-				const t_fnt_header& header = *f.get_header();
+				const t_fnt_header& header = f.header();
 				draw_info("Count chars:", n(c_chars));
 				draw_info("Size:", n(f.get_cmax_x()) + " x " + n(f.get_cy()));
 				m_y += m_y_inc;
@@ -623,9 +623,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Count images:", n(f.cf()));
 				draw_info("Size:", n(f.cx()) + " x " + n(f.cy()));
 #ifndef NDEBUG
-				draw_info("Unknown1:", n(f.get_header()->unknown1));
-				draw_info("Unknown2:", n(f.get_header()->unknown2));
-				draw_info("Unknown3:", n(f.get_header()->unknown3));
+				draw_info("Unknown1:", n(f.header().unknown1));
+				draw_info("Unknown2:", n(f.header().unknown2));
+				draw_info("Unknown3:", n(f.header().unknown3));
 #endif
 				m_y += m_y_inc;
 				load_color_table(get_default_palet(), true);
@@ -855,8 +855,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cvqa_file f;
 				f.load(m_data);
-				draw_info("Version:", n(f.get_header()->version));
-				draw_info("Video flags:", nh(4, f.get_header()->video_flags));
+				draw_info("Version:", n(f.header().version));
+				draw_info("Video flags:", nh(4, f.header().video_flags));
 				draw_info("Count frames:", n(f.get_c_frames()));
 				draw_info("Size:", n(f.get_cx()) + " x " + n(f.get_cy()));
 				draw_info("Block size:", n(f.get_cx_block()) + " x " + n(f.get_cy_block()));

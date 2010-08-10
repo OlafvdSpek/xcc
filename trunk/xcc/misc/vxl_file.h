@@ -18,7 +18,7 @@ public:
 	
 	int get_c_section_headers() const
 	{
-		return get_header()->c_section_headers;
+		return header().c_section_headers;
 	}
 
 	int get_c_spans(int i) const
@@ -28,12 +28,12 @@ public:
 
 	int get_c_section_tailers() const
 	{
-		return get_header()->c_section_tailers;
+		return header().c_section_tailers;
 	}
 
 	const t_palet_entry* get_palet() const
 	{
-		return get_header()->palet;
+		return header().palet;
 	}
 
 	const byte* get_section_body() const

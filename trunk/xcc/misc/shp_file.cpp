@@ -70,9 +70,9 @@ Cvideo_decoder* Cshp_file::decoder(const t_palet_entry* palet)
 
 bool Cshp_file::is_valid() const
 {
-	const t_shp_header& header = *get_header();
+	const t_shp_header& h = header();
 	int size = get_size();
-	if (sizeof(t_shp_header) > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_header) + 8 * (get_header()->c_images + 2) > size)
+	if (sizeof(t_shp_header) > size || h.c_images < 1 || h.c_images > 1000 || sizeof(t_shp_header) + 8 * (h.c_images + 2) > size)
 		return false;
 	return !(get_offset(cf()) != size || get_offset(cf() + 1));
 }

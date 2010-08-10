@@ -15,12 +15,12 @@ public:
 
 	bool is_valid() const
 	{
-		const t_tmp_ts_header& header = *get_header();
+		const t_tmp_ts_header& h = header();
 		int size = get_size();
 		if (sizeof(t_tmp_ts_header) > size || 
-			!header.cblocks_x || !header.cblocks_y ||
-			header.cx != 48 && header.cx != 60 ||
-			2 * header.cy != header.cx ||
+			!h.cblocks_x || !h.cblocks_y ||
+			h.cx != 48 && h.cx != 60 ||
+			2 * h.cy != h.cx ||
 			sizeof(t_tmp_ts_header) + 4 * get_c_tiles() > size)
 			return false;
 		for (int i = 0; i < min(get_c_tiles(), 64); i++)
@@ -59,12 +59,12 @@ public:
 
 	int get_cblocks_x() const
 	{
-		return get_header()->cblocks_x;
+		return header().cblocks_x;
 	}
 
 	int get_cblocks_y() const
 	{
-		return get_header()->cblocks_y;
+		return header().cblocks_y;
 	}
 
 	const t_tmp_image_header* get_image_header(int i) const
@@ -84,12 +84,12 @@ public:
 
 	int get_cx() const
 	{
-		return get_header()->cx;
+		return header().cx;
 	}
 
 	int get_cy() const
 	{
-		return get_header()->cy;
+		return header().cy;
 	}
 
 	int get_x_extra(int i) const
