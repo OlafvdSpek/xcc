@@ -903,11 +903,11 @@ void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry
 		}
 	}
 	const int sub_image = convert_angle(angle, sd.short_name == "gun" ? 0 : 32);
-	const byte* s = shp_images::get_shp(sd.images, sub_image, cx, cy);
+	const byte* s = sd.images->get(sub_image, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 	if (sd.flags & sd_flags_images2)
 	{
-		s = shp_images::get_shp(sd.images2, sub_image, cx, cy);
+		s = sd.images2->get(sub_image, cx, cy);
 		draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 	}
 }
@@ -915,18 +915,18 @@ void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry
 void CXCCEditorView::draw_infantry(const xcc_infantry::t_infantry_data_entry& id, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
 {
 	int cx, cy;
-	const byte* s = shp_images::get_shp(id.images, (256 - angle & 0xff) * 8 >> 8, cx, cy);
+	const byte* s = id.images->get((256 - angle & 0xff) * 8 >> 8, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 }
 
 void CXCCEditorView::draw_unit(const xcc_units::t_unit_data_entry& ud, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
 {
 	int cx, cy;
-	const byte* s = shp_images::get_shp(ud.images, (256 - angle & 0xff) * ud.c_rotations >> 8, cx, cy);
+	const byte* s = ud.images->get((256 - angle & 0xff) * ud.c_rotations >> 8, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 	if (ud.flags & ud_flags_top)
 	{
-		s = shp_images::get_shp(ud.images, 32, cx, cy);
+		s = ud.images->get(32, cx, cy);
 		draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 	}
 }
