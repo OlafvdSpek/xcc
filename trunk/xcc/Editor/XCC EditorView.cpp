@@ -1599,134 +1599,118 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 	switch (nID)
 	{
 	case ID_POPUP_CLEAR_TEMPLATE_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_OVERLAY_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_SMUDGE_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_INFANTRY_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_UNIT_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_CELLTRIGGER_LAYER:
-		// fall through
 	case ID_POPUP_CLEAR_WAYPOINT_LAYER:
+		for (int y = sel.TopLeft().y; y < sel.BottomRight().y; y++)
 		{
-			for (int y = sel.TopLeft().y; y < sel.BottomRight().y; y++)
+			for (int x = sel.TopLeft().x; x < sel.BottomRight().x; x++)
 			{
-				for (int x = sel.TopLeft().x; x < sel.BottomRight().x; x++)
+				Cxcc_cell cell(x << 8 | 0x80, y << 8 | 0x80);
+				switch (nID)
 				{
-					Cxcc_cell cell(x << 8 | 0x80, y << 8 | 0x80);
-					switch (nID)
+				case ID_POPUP_CLEAR_TEMPLATE_LAYER:
+					level().bin_data[Cxcc_cell(x << 8, y << 8).get_cc()] = 0;
+					break;
+				case ID_POPUP_CLEAR_OVERLAY_LAYER:
+					level().overlay_data.erase(Cxcc_cell(x << 8, y << 8).get_xcc());
+					break;
+				case ID_POPUP_CLEAR_SMUDGE_LAYER:
+					break;
+				case ID_POPUP_CLEAR_INFANTRY_LAYER:
+					for (t_infantry_data::iterator i = level().infantry_data.begin(); i != level().infantry_data.end(); )
 					{
-					case ID_POPUP_CLEAR_TEMPLATE_LAYER:
-						level().bin_data[Cxcc_cell(x << 8, y << 8).get_cc()] = 0;
-						break;
-					case ID_POPUP_CLEAR_OVERLAY_LAYER:
-						level().overlay_data.erase(Cxcc_cell(x << 8, y << 8).get_xcc());
-						break;
-					case ID_POPUP_CLEAR_SMUDGE_LAYER:
-						break;
-					case ID_POPUP_CLEAR_INFANTRY_LAYER:
-						for (t_infantry_data::iterator i = level().infantry_data.begin(); i != level().infantry_data.end(); )
-						{
-							if (i->cell.center() == cell)
-								i = level().infantry_data.erase(i);
-							else
-								i++;
-						}
-						break;
-					case ID_POPUP_CLEAR_UNIT_LAYER:
-						for (t_unit_data::iterator i = level().unit_data.begin(); i != level().unit_data.end(); )
-						{
-							if (i->cell.center() == cell)
-								i = level().unit_data.erase(i);
-							else
-								i++;
-						}
-						break;
-					case ID_POPUP_CLEAR_CELLTRIGGER_LAYER:
-						level().celltrigger_data.erase(Cxcc_cell(x << 8, y << 8).get_cc());
-						break;
-					case ID_POPUP_CLEAR_WAYPOINT_LAYER:
-						for (int i = 0; i < 100; i++)
-						{
-							if (level().waypoint_data[i] == cell.get_cc())
-								level().waypoint_data[i] = -1;
-						}						
-						break;				
+						if (i->cell.center() == cell)
+							i = level().infantry_data.erase(i);
+						else
+							i++;
 					}
+					break;
+				case ID_POPUP_CLEAR_UNIT_LAYER:
+					for (t_unit_data::iterator i = level().unit_data.begin(); i != level().unit_data.end(); )
+					{
+						if (i->cell.center() == cell)
+							i = level().unit_data.erase(i);
+						else
+							i++;
+					}
+					break;
+				case ID_POPUP_CLEAR_CELLTRIGGER_LAYER:
+					level().celltrigger_data.erase(Cxcc_cell(x << 8, y << 8).get_cc());
+					break;
+				case ID_POPUP_CLEAR_WAYPOINT_LAYER:
+					for (int i = 0; i < 100; i++)
+					{
+						if (level().waypoint_data[i] == cell.get_cc())
+							level().waypoint_data[i] = -1;
+					}						
+					break;				
 				}
 			}
 		}
 		break;
 	case ID_POPUP_CLEAR_TERRAIN_LAYER:
+		for (t_terrain_data::iterator i = level().terrain_data.begin(); i != level().terrain_data.end(); )
 		{
-			t_terrain_data::iterator i = level().terrain_data.begin();
-			while (i != level().terrain_data.end())
+			Cxcc_cell cell;
+			cell.set_xcc(i->first);
+			const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
+			const int t = i->second;
+			int cx, cy, ox, oy;
+			Cxcc_overlays::get_terrain_image(t, ox, oy, cx, cy);
+			cx = (cx + 23) / 24;
+			cy = (cy + 23) / 24;
+			int j = 0;
+			int outside = false;
+			for (int y = 0; y < cy; y++)
 			{
-				Cxcc_cell cell;
-				cell.set_xcc(i->first);
-				const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
-				const int t = i->second;
-				int cx, cy, ox, oy;
-				Cxcc_overlays::get_terrain_image(t, ox, oy, cx, cy);
-				cx = (cx + 23) / 24;
-				cy = (cy + 23) / 24;
-				int j = 0;
-				int outside = false;
-				for (int y = 0; y < cy; y++)
+				for (int x = 0; x < cx; x++)
 				{
-					for (int x = 0; x < cx; x++)
+					if (Cxcc_overlays::terrain_blocked(t & 0xff00 | j) && !sel.PtInRect(ul + CPoint(x, y)))
 					{
-						if (Cxcc_overlays::terrain_blocked(t & 0xff00 | j) && !sel.PtInRect(ul + CPoint(x, y)))
-						{
-							outside = true;
-							break;						
-						}
-						j++;
+						outside = true;
+						break;						
 					}
-					if (outside)
-						break;
+					j++;
 				}
-				if (!outside)
-				{
-					level().terrain_data.erase(i);
-					i = level().terrain_data.begin();
-				}
-				else
-					i++;
+				if (outside)
+					break;
 			}
+			if (outside)
+				i++;
+			else
+				i = level().terrain_data.erase(i);
 		}
 		break;
 	case ID_POPUP_CLEAR_STRUCTURE_LAYER:
+		for (t_structure_data::iterator i = level().structure_data.begin(); i != level().structure_data.end(); )
 		{
-			for (t_structure_data::iterator i = level().structure_data.begin(); i != level().structure_data.end(); )
+			const Cxcc_cell cell = i->cell;
+			const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
+			const xcc_structures::t_structure_data_entry d = *i->t;
+			int j = 0;
+			int outside = false;
+			for (int y = 0; y < d.cy; y++)
 			{
-				const Cxcc_cell cell = i->cell;
-				const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
-				const xcc_structures::t_structure_data_entry d = *i->t;
-				int j = 0;
-				int outside = false;
-				for (int y = 0; y < d.cy; y++)
+				for (int x = 0; x < d.cx; x++)
 				{
-					for (int x = 0; x < d.cx; x++)
+					if (d.blocked >> j & 1 && !sel.PtInRect(ul + CPoint(x, y)))
 					{
-						if (d.blocked >> j & 1 && !sel.PtInRect(ul + CPoint(x, y)))
-						{
-							outside = true;
-							break;						
-						}
-						j++;
+						outside = true;
+						break;						
 					}
-					if (outside)
-						break;
+					j++;
 				}
 				if (outside)
-					i++;
-				else
-					i = level().structure_data.erase(i);
+					break;
 			}
+			if (outside)
+				i++;
+			else
+				i = level().structure_data.erase(i);
 		}
 		break;
 	}
