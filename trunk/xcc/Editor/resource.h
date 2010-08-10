@@ -51,7 +51,6 @@
 #define IDC_CHECK_BIB                   1012
 #define IDC_CHECK_TOP                   1012
 #define IDC_CHECK_DESERT                1013
-#define IDC_EDIT_C_IMAGES               1013
 #define IDC_CHECK_TEMPERATE             1014
 #define IDC_CHECK_WINTER                1015
 #define IDC_CHECK_BLOCKED0              1017

@@ -1417,10 +1417,10 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 				return error;
 			memcpy(s_palet, GetMainFrame()->get_game_palet(convert_from_td ? game_td : game_ra), sizeof(t_palet));
 			convert_palet_18_to_24(s_palet);
-			cx = f.get_cx();
-			cy = f.get_cy();
-			c_images = f.get_c_images() << 1;
-			void* p;
+			cx = f.cx();
+			cy = f.cy();
+			c_images = f.cf() << 1;
+			shp_images::t_image_data* p;
 			byte* w = s.write_start(cx * cy * c_images);
 			if (cx && cy && !shp_images::load_shp(f, p))
 			{
@@ -2353,15 +2353,15 @@ int CXCCMixerView::resize(int id)
 			int error = open_f_index(f, get_current_index());
 			if (error)
 				return error;
-			const int global_cx = f.get_cx();
-			const int global_cy = f.get_cy();
+			const int global_cx = f.cx();
+			const int global_cy = f.cy();
 			CResizeDlg dlg;
 			dlg.set_size(global_cx, global_cy);
 			if (IDOK != dlg.DoModal())
 				return 1;
 			const int global_cx_d = dlg.get_cx();
 			const int global_cy_d = dlg.get_cy();
-			const int c_images = f.get_c_images();
+			const int c_images = f.cf();
 			t_palet palet;
 			convert_palet_18_to_24(get_default_palet(), palet);
 			palet[0].r = palet[0].b = 0xff;
@@ -2556,10 +2556,10 @@ void CXCCMixerView::OnPopupClipboardPasteAsShpTs()
 			{
 				if (f.is_valid())
 				{
-					int c_images = f.get_c_images();
+					int c_images = f.cf();
 					if (c_images < 2)
 						split_shadows = false;
-					dlg.set_size(f.get_cx(), f.get_cy(), c_images >> split_shadows);
+					dlg.set_size(f.cx(), f.cy(), c_images >> split_shadows);
 				}
 				else
 					dlg.set_size(image.cx(), image.cy(), 1);

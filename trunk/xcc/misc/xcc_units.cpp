@@ -100,8 +100,6 @@ int xcc_units::load_images()
 			continue;
 		if (shp_images::load_shp(ud.short_name, ud.images))
 			return 1;
-		// shp_images::get_shp(ud.images, 0, ud.cx, ud.cy);
-		ud.c_images = shp_images::get_shp_c_images(ud.images);
 		if (ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon", ud.icon))
 			return 1;
 	}

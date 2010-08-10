@@ -24,7 +24,6 @@ namespace xcc_units
 		int flags;
 		shp_images::t_image_data* images;
 		shp_images::t_image_data* icon;
-		int c_images;
 		int c_rotations;
 	};
 	
