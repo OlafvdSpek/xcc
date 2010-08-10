@@ -320,8 +320,7 @@ void CXCCEditorView::update_mem_surface()
 		{
 			int x = (24 * i.cell.get_x() >> 8) - 27;
 			int y = (24 * i.cell.get_y() >> 8) - 15;
-			draw_infantry(i.t, i.angle, i.side == s_badguy ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side],
-				mp_dib, x, y, dib_cx);
+			draw_infantry(*i.t, i.angle, i.side == s_badguy ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_unit_layer)
@@ -331,8 +330,7 @@ void CXCCEditorView::update_mem_surface()
 			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i.t];
 			int x = (i.cell.get_x() >> 8) * 24 + ud.base_ox;
 			int y = (i.cell.get_y() >> 8) * 24 + ud.base_oy;
-			draw_unit(i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side],
-				mp_dib, x, y, dib_cx);
+			draw_unit(i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
 		}
 	}
 	if (m_view_celltrigger_layer)
@@ -430,7 +428,7 @@ void CXCCEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				t_infantry_data_entry d;
 				d.side = main_frame()->default_side();
-				d.t = i;
+				d.t = &xcc_infantry::infantry_data[i];
 				d.health = 256;
 				d.cell = Cxcc_cell(lx  + 1 << 8, ly + 1 << 8);
 				d.cell.subcell(m_temp_object_pos.subcell());
@@ -539,7 +537,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 				object_name = terrain_code[level().terrain_data.find(m_current_object)->second >> 8];
 			break;
 		case oi_infantry:
-			object_name = xcc_infantry::infantry_data[level().infantry_data[m_current_object].t].long_name;
+			object_name = level().infantry_data[m_current_object].t->long_name;
 			break;
 		case oi_structure:
 			object_name = xcc_structures::structure_data[level().structure_data[m_current_object].t].long_name;
@@ -662,7 +660,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 			Cxcc_cell base_cell;
 			base_cell.subcell(m_mouse_pos.subcell());
 			CPoint base_point = base_cell.pixel();
-			draw_infantry(i, 0, get_rp(oi_infantry, main_frame()->default_side()), p_dib, 9 + base_point.x - 12, 21 + base_point.y - 12, dib_cx);			
+			draw_infantry(id, 0, get_rp(oi_infantry, main_frame()->default_side()), p_dib, 9 + base_point.x - 12, 21 + base_point.y - 12, dib_cx);			
 			shp_images::get_shp(id.images, 0, size.cx, size.cy);
 			size += CSize(24, 24);
 			break;
@@ -922,9 +920,8 @@ void CXCCEditorView::draw_structure(dword v, int angle, const byte* rp,dword* d,
 	}
 }
 
-void CXCCEditorView::draw_infantry(dword v, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_infantry(const xcc_infantry::t_infantry_data_entry& id, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
 {
-	const xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[v];
 	int cx, cy;
 	const byte* s = shp_images::get_shp(id.images, (256 - angle & 0xff) * 8 >> 8, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);

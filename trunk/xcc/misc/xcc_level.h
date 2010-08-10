@@ -4,6 +4,7 @@
 #include "string_conversion.h"
 #include "virtual_tfile.h"
 #include "xcc_cell.h"
+#include "xcc_infantry.h"
 
 enum t_edge_id
 {
@@ -206,7 +207,7 @@ struct t_side_data
 struct t_infantry_data_entry
 {
 	t_side_id side;
-	int t;
+	xcc_infantry::t_infantry_data_entry* t;
 	int health;
 	Cxcc_cell cell;
 	int angle;
