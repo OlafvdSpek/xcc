@@ -310,8 +310,7 @@ void CXCCEditorView::update_mem_surface()
 		{
 			int x = (i.cell.get_x() >> 8) * 24;
 			int y = (i.cell.get_y() >> 8) * 24;
-			draw_structure(i.t, i.angle, xcc_draw::side_rp[i.side],
-				mp_dib, x, y, dib_cx, true);
+			draw_structure(*i.t, i.angle, xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx, true);
 		}
 	}
 	if (m_view_infantry_layer)
@@ -447,7 +446,7 @@ void CXCCEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 				{
 					t_structure_data_entry d;
 					d.side = main_frame()->default_side();
-					d.t = i;
+					d.t = &xcc_structures::structure_data[i];
 					d.health = 256;
 					d.cell = m_temp_object_pos.center();
 					d.angle = 0;
@@ -540,7 +539,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 			object_name = level().infantry_data[m_current_object].t->long_name;
 			break;
 		case oi_structure:
-			object_name = xcc_structures::structure_data[level().structure_data[m_current_object].t].long_name;
+			object_name = level().structure_data[m_current_object].t->long_name;
 			break;
 		case oi_unit:
 			object_name = level().unit_data[m_current_object].t->long_name;
@@ -668,7 +667,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	case oi_structure:
 		{
 			const xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[i];
-			draw_structure(i, 0, get_rp(oi_structure, main_frame()->default_side()), p_dib, 0, 0, dib_cx, false);			
+			draw_structure(sd, 0, get_rp(oi_structure, main_frame()->default_side()), p_dib, 0, 0, dib_cx, false);			
 			shp_images::get_shp(sd.images, 0, size.cx, size.cy);
 			break;
 		}
@@ -893,9 +892,8 @@ int convert_angle(int angle, int c_rotations)
 	return (256 - angle & 0xff) * c_rotations >> 8;
 }
 
-void CXCCEditorView::draw_structure(dword v, int angle, const byte* rp,dword* d, dword dx, dword dy, dword dpitch, bool bib)
+void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry& sd, int angle, const byte* rp,dword* d, dword dx, dword dy, dword dpitch, bool bib)
 {
-	const xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[v];
 	int cx, cy;
 	if (bib && sd.flags & sd_flags_bib)
 	{
@@ -1405,7 +1403,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 					case oi_structure:
 						if (m_view_structure_layer)
 						{
-							const xcc_structures::t_structure_data_entry& d = xcc_structures::structure_data[level().structure_data[index].t];
+							const xcc_structures::t_structure_data_entry& d = *level().structure_data[index].t;
 							bool done = false;
 							int w = 0;
 							for (int j = 0; j < d.cy; j++)
@@ -1703,13 +1701,11 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 		break;
 	case ID_POPUP_CLEAR_STRUCTURE_LAYER:
 		{
-			t_structure_data::iterator i = level().structure_data.begin();
-			while (i != level().structure_data.end())
+			for (t_structure_data::iterator i = level().structure_data.begin(); i != level().structure_data.end(); )
 			{
 				const Cxcc_cell cell = i->cell;
 				const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
-				const int t = i->t;
-				const xcc_structures::t_structure_data_entry d = xcc_structures::structure_data[t];
+				const xcc_structures::t_structure_data_entry d = *i->t;
 				int j = 0;
 				int outside = false;
 				for (int y = 0; y < d.cy; y++)
@@ -1726,13 +1722,10 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 					if (outside)
 						break;
 				}
-				if (!outside)
-				{
-					level().structure_data.erase(i);
-					i = level().structure_data.begin();
-				}
-				else
+				if (outside)
 					i++;
+				else
+					i = level().structure_data.erase(i);
 			}
 		}
 		break;

@@ -5,6 +5,7 @@
 #include "virtual_tfile.h"
 #include "xcc_cell.h"
 #include "xcc_infantry.h"
+#include "xcc_structures.h"
 #include "xcc_units.h"
 
 enum t_edge_id
@@ -225,7 +226,7 @@ enum
 struct t_structure_data_entry
 {
 	t_side_id side;
-	int t;
+	xcc_structures::t_structure_data_entry* t;
 	int health;
 	Cxcc_cell cell;
 	int angle;
@@ -276,7 +277,7 @@ struct t_trigger_data_entry
 };
 
 typedef string t_briefing_data;
-typedef map<int, int> t_base_data;
+typedef map<int, xcc_structures::t_structure_data_entry*> t_base_data;
 typedef vector<t_infantry_data_entry> t_infantry_data;
 typedef vector<t_structure_data_entry> t_structure_data;
 typedef vector<t_unit_data_entry> t_unit_data;

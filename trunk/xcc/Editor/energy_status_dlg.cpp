@@ -13,9 +13,8 @@ Cenergy_status_dlg::Cenergy_status_dlg(const Cxcc_level& level)
 		m_power_in[i] = m_power_out[i] = 0;
 	BOOST_FOREACH(auto& i, m_level.structure_data)
 	{
-		auto& d = xcc_structures::structure_data[i.t];
-		m_power_in[i.side] += d.power_out;
-		m_power_out[i.side] += d.power_in;
+		m_power_in[i.side] += i.t->power_out;
+		m_power_out[i.side] += i.t->power_in;
 	}
 }
 
