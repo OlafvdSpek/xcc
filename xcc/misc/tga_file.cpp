@@ -3,15 +3,15 @@
 
 bool Ctga_file::is_valid() const
 {
-	const t_tga_header& header = *get_header();
+	const t_tga_header& h = header();
 	int size = get_size();
 	return !(sizeof(t_tga_header) > size
-		|| header.map_t
-		|| header.image_t != 2 && header.image_t != 3
-		|| header.map_first
-		|| header.map_size
-		|| header.cb_pixel != 8 && header.cb_pixel != 16 && header.cb_pixel != 24 && header.cb_pixel != 32
-		|| get_header()->horizontal
+		|| h.map_t
+		|| h.image_t != 2 && h.image_t != 3
+		|| h.map_first
+		|| h.map_size
+		|| h.cb_pixel != 8 && h.cb_pixel != 16 && h.cb_pixel != 24 && h.cb_pixel != 32
+		|| h.horizontal
 		|| sizeof(t_tga_header) + cx() * cy() * cb_pixel() > size);
 }
 
@@ -54,7 +54,7 @@ int Ctga_file::decode(Cvirtual_image& d) const
 		}		
 
 	}
-	if (!get_header()->vertical)
+	if (!header().vertical)
 		d.flip();	
 	return 0;
 }

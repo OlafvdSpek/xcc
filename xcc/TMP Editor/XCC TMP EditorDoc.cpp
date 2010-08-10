@@ -110,7 +110,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);
 		else
 		{
-			m_header = *f.get_header();
+			m_header = f.header();
 			int cb_diamond = f.get_cb_diamond();
 			for (int i = 0; i < f.get_c_tiles(); i++)
 			{

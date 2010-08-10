@@ -86,23 +86,23 @@ int Cwsa_dune2_file::cb_pixel() const
 
 int Cwsa_dune2_file::cf() const
 {
-	return get_header()->c_frames;
+	return header().c_frames;
 }
 
 int Cwsa_dune2_file::cx() const
 {
-	return get_header()->cx;
+	return header().cx;
 }
 
 int Cwsa_dune2_file::cy() const
 {
-	return get_header()->cy;
+	return header().cy;
 }
 
 /*
 int Cwsa_dune2_file::get_delta() const
 {
-	return get_header()->delta;
+	return header().delta;
 }
 */
 
@@ -139,9 +139,9 @@ bool Cwsa_dune2_file::has_loop() const
 
 bool Cwsa_dune2_file::is_valid() const
 {
-	const t_wsa_dune2_header& header = *get_header();
+	const t_wsa_dune2_header& h = header();
 	int size = get_size();
-	if (sizeof(t_wsa_dune2_header) + 4 > size || header.c_frames < 1 || header.c_frames > 1000 || sizeof(t_wsa_dune2_header) + 4 * (get_header()->c_frames + 2) > size)
+	if (sizeof(t_wsa_dune2_header) + 4 > size || h.c_frames < 1 || h.c_frames > 1000 || sizeof(t_wsa_dune2_header) + 4 * (h.c_frames + 2) > size)
 		return false;
 	return get_offset(cf() + has_loop()) == size;
 }

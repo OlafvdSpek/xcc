@@ -22,37 +22,37 @@ public:
 
 	int cf() const
 	{
-		return get_header()->c_frames;
+		return header().c_frames;
 	}
 
 	int cx() const
 	{
-		return get_header()->cx;
+		return header().cx;
 	}
 
 	int cy() const
 	{
-		return get_header()->cy;
+		return header().cy;
 	}
 
 	int get_x() const
 	{
-		return get_header()->x;
+		return header().x;
 	}
 
 	int get_y() const
 	{
-		return get_header()->y;
+		return header().y;
 	}
 
 	int get_delta() const
 	{
-		return get_header()->delta;
+		return header().delta;
 	}
 
     int get_cb_index() const
     {
-        return 4 * (get_header()->c_frames + 2);
+        return 4 * (header().c_frames + 2);
     }
 
 	int get_cb_palet() const

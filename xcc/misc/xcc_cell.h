@@ -11,13 +11,6 @@ public:
 		x = y = 0;
 	}
 
-	/*
-	Cxcc_cell(unsigned int v)
-	{
-		set_cc(v);
-	}
-	*/
-
 	Cxcc_cell(int x, int y):
 		x(x), y(y)
 	{

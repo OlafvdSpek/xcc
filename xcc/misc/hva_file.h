@@ -11,12 +11,12 @@ public:
 
 	int get_c_frames() const
 	{
-		return get_header()->c_frames;
+		return header().c_frames;
 	}
 
 	int get_c_sections() const
 	{
-		return get_header()->c_sections;
+		return header().c_sections;
 	}
 
 	const char* get_section_id(int i) const

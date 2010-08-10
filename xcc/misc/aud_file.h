@@ -13,8 +13,7 @@ public:
 	int extract_as_wav(const string& name);
 	bool is_valid();
 
-	Caud_file():
-	    Ccc_file(false)
+	Caud_file(): Ccc_file(false)
 	{
 	}
 
@@ -33,9 +32,9 @@ public:
 		return m_header.samplerate;
 	}
 
-	const t_aud_header* get_header() const
+	const t_aud_header& header() const
 	{
-		return &m_header;
+		return m_header;
 	}
 
 	int get_c_channels() const

@@ -19,7 +19,7 @@ int Cvqa_play::create(Cvqa_file& _f)
 		return 1;
 	error = true;
 	f = &_f;
-	vqa_d.start_decode(*f->get_header());
+	vqa_d.start_decode(f->header());
 	cx = f->get_cx();
 	cy = f->get_cy();
 	c_frames = f->get_c_frames();

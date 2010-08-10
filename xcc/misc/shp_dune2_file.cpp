@@ -7,9 +7,9 @@
 
 bool Cshp_dune2_file::is_valid() const
 {
-	const t_shp_dune2_header& header = *get_header();
+	const t_shp_dune2_header& h = header();
 	int size = get_size();
-	if (sizeof(t_shp_dune2_header) + 4 > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_dune2_header) + get_cb_ofs() * header.c_images > size)
+	if (sizeof(t_shp_dune2_header) + 4 > size || h.c_images < 1 || h.c_images > 1000 || sizeof(t_shp_dune2_header) + get_cb_ofs() * h.c_images > size)
 		return false;
 	for (int i = 0; i < get_c_images(); i++)
 	{

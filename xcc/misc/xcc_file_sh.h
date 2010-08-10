@@ -6,8 +6,8 @@ template <class T>
 class Cxcc_file_sh: public Cxcc_file
 {
 public:
-    const T* get_header() const
+    const T& header() const
     {
-        return reinterpret_cast<const T*>(get_data() + sizeof(t_xcc_header));
+        return *reinterpret_cast<const T*>(get_data() + sizeof(t_xcc_header));
     }
 };

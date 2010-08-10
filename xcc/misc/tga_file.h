@@ -12,22 +12,22 @@ public:
 
 	int cx() const
 	{
-		return get_header()->cx;
+		return header().cx;
 	}
 
 	int cy() const
 	{
-		return get_header()->cy;
+		return header().cy;
 	}
 
 	int cb_pixel() const
 	{
-		return get_header()->cb_pixel >> 3;
+		return header().cb_pixel >> 3;
 	}
 
 	const byte* image() const
 	{
-		return get_data() + sizeof(t_tga_header) + get_header()->id_size;
+		return get_data() + sizeof(t_tga_header) + header().id_size;
 	}
 };
 

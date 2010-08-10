@@ -53,7 +53,7 @@ int Ccsf_file::post_open()
 	if (vdata().size() != get_size())
 		return 0;
 	const byte* r = get_data() + sizeof(t_csf_header);
-	for (int i = 0; i < get_header()->count1; i++)
+	for (int i = 0; i < header().count1; i++)
 	{
 		read_int(r);
 		int flags = read_int(r);

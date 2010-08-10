@@ -8,17 +8,17 @@ class Caudio_idx_file: public Ccc_file_sh<t_audio_idx_header>
 public:
 	bool is_valid() const
 	{
-		const t_audio_idx_header& header = *get_header();
+		const t_audio_idx_header& h = header();
 		int size = get_size();
 		return !(sizeof(t_audio_idx_header) > size || 
-			header.id != audio_idx_id ||
-			header.two != 2 ||
-			sizeof(t_audio_idx_header) + sizeof(t_audio_idx_entry) * header.c_sounds != size);
+			h.id != audio_idx_id ||
+			h.two != 2 ||
+			sizeof(t_audio_idx_header) + sizeof(t_audio_idx_entry) * h.c_sounds != size);
 	}
 
 	int c_sounds() const
 	{
-		return get_header()->c_sounds;
+		return header().c_sounds;
 	}
 
 	const t_audio_idx_entry& sound_entry(int i) const

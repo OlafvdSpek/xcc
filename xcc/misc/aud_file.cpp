@@ -47,7 +47,7 @@ Cvirtual_binary Caud_file::decode()
 {
 	Cvirtual_binary d;
 	int cb_audio = get_cb_sample() * get_c_samples();
-	switch (get_header()->compression)
+	switch (header().compression)
 	{
 	case 1:
 		{		
