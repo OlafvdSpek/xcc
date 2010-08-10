@@ -1,17 +1,12 @@
 #pragma once
 
-#include <cassert>
-#include <string>
 #include <vartypes.h>
 #include <virtual_binary.h>
-
-using namespace std;
 
 class Cvirtual_tfile
 {
 private:
 	Cvirtual_binary m_data;
-	bool force_upper_case;
 	int pos;
 
 	const char* data() const
@@ -26,19 +21,11 @@ private:
 public:
 	string read_line();
 	string read_line(bool remove_ws);
-	void write(const string& s);
-	void write_line(const string& s);
-	void release_memory();
 	void load_data(const Cvirtual_binary s);
 
 	bool eof() const
 	{
 		return pos >= size();
-	}
-
-	void set_force_upper_case(bool v)
-	{
-		force_upper_case = v;
 	}
 
 	void seek(int ipos)
