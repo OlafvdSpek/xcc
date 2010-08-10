@@ -1,6 +1,6 @@
 #pragma once
 
-#include "xcc_level.h"
+enum t_theater_id;
 
 enum
 {
