@@ -84,20 +84,20 @@ struct t_overlay_data_entry
 {
 	int ox;
 	int oy;
+	void* images;
 };
 
 struct t_terrain_data_entry
 {
 	int c_images;
 	int blocked;
+	void* images;
 };
 
 Cxif_key base_key;
 t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 t_overlay_data_entry overlay_data[c_overlay_id];
 t_terrain_data_entry terrain_data[c_terrain_id];
-void* overlay_image_list[c_overlay_id];
-void* terrain_image_list[c_terrain_id];
 
 enum
 {
@@ -121,42 +121,38 @@ int Cxcc_overlays::load_data()
 {
 	if (base_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + overlays_xif_fname)))
 		return 1;
+	const Cxif_key& overlay_key = base_key.get_key(ki_overlay);
+	for (int i = 0; i < c_overlay_id; i++)
 	{
-		const Cxif_key& overlay_key = base_key.get_key(ki_overlay);
-		for (int i = 0; i < c_overlay_id; i++)
+		t_overlay_data_entry& od = overlay_data[i];
+		od.ox = od.oy = 0;
+		const Cxif_key& ok = overlay_key.get_key(i);
+		BOOST_FOREACH(auto& i, ok.m_values)
 		{
-			t_overlay_data_entry& od = overlay_data[i];
-			od.ox = od.oy = 0;
-			const Cxif_key& ok = overlay_key.get_key(i);
-			BOOST_FOREACH(auto& i, ok.m_values)
+			switch (i.first)
 			{
-				switch (i.first)
-				{
-				case vi_od_ox:
-					od.ox = i.second.get_int();
-					break;
-				case vi_od_oy:
-					od.oy = i.second.get_int();
-					break;
-				}
+			case vi_od_ox:
+				od.ox = i.second.get_int();
+				break;
+			case vi_od_oy:
+				od.oy = i.second.get_int();
+				break;
 			}
 		}
 	}
+	const Cxif_key& terrain_key = base_key.get_key(ki_terrain);
+	for (int i = 0; i < c_terrain_id; i++)
 	{
-		const Cxif_key& terrain_key = base_key.get_key(ki_terrain);
-		for (int i = 0; i < c_terrain_id; i++)
+		t_terrain_data_entry& td = terrain_data[i];
+		const Cxif_key& tk = terrain_key.get_key(i);
+		td.c_images = tk.get_value_int(vi_td_c_images);
+		BOOST_FOREACH(auto& i, tk.m_values)
 		{
-			t_terrain_data_entry& td = terrain_data[i];
-			const Cxif_key& tk = terrain_key.get_key(i);
-			td.c_images = tk.get_value_int(vi_td_c_images);
-			BOOST_FOREACH(auto& i, tk.m_values)
+			switch (i.first)
 			{
-				switch (i.first)
-				{
-				case vi_td_blocked:
-					td.blocked = i.second.get_int();
-					break;
-				}
+			case vi_td_blocked:
+				td.blocked = i.second.get_int();
+				break;
 			}
 		}
 	}
@@ -198,15 +194,12 @@ int Cxcc_overlays::load_images(t_theater_id theater)
 		return 0;
 	destroy();
 	for (int i = 0; i < c_overlay_id; i++)
-	{
-		if (shp_images::load_shp(overlay_code[i], overlay_image_list[i]))
-			return 1;
-	}
+		shp_images::load_shp(overlay_code[i], overlay_data[i].images);
 	for (int i = 0; i < c_terrain_id; i++)
 	{
-		if (shp_images::load_shp(terrain_code[i], terrain_image_list[i]))
+		if (shp_images::load_shp(terrain_code[i], terrain_data[i].images))
 			continue;
-		terrain_data[i].c_images |= shp_images::get_shp_c_images(terrain_image_list[i]) << (theater << 3);
+		terrain_data[i].c_images |= shp_images::get_shp_c_images(terrain_data[i].images) << (theater << 3);
 	}
 	loaded_theater = theater;
 	return 0;
@@ -217,15 +210,9 @@ void Cxcc_overlays::destroy()
 	if (loaded_theater == -1)
 		return;
 	for (int i = 0; i < c_overlay_id; i++)
-	{
-		if (overlay_image_list[i])
-			shp_images::destroy_shp(overlay_image_list[i]);
-	}
+		shp_images::destroy_shp(overlay_data[i].images);
 	for (int i = 0; i < c_terrain_id; i++)
-	{
-		if (terrain_image_list[i])
-			shp_images::destroy_shp(terrain_image_list[i]);
-	}
+		shp_images::destroy_shp(terrain_data[i].images);
 }
 
 bool Cxcc_overlays::terrain_blocked(int v)
@@ -242,12 +229,12 @@ const byte* Cxcc_overlays::get_overlay_image(int v, int& x, int& y, int& cx, int
 {
 	x = overlay_data[v >> 8].ox;
 	y = overlay_data[v >> 8].oy;
-	return shp_images::get_shp(overlay_image_list[v >> 8], v & 0xff, cx, cy);
+	return shp_images::get_shp(overlay_data[v >> 8].images, v & 0xff, cx, cy);
 }
 
 const byte* Cxcc_overlays::get_terrain_image(int v, int& x, int& y, int& cx, int& cy)
 {
 	x = 0;
 	y = 0;
-	return shp_images::get_shp(terrain_image_list[v >> 8], v & 0xff, cx, cy);
+	return shp_images::get_shp(terrain_data[v >> 8].images, v & 0xff, cx, cy);
 }

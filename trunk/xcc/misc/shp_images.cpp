@@ -97,19 +97,17 @@ int shp_images::get_shp_c_images(void* p)
 	return static_cast<t_image_data*>(p)->c_images;
 }
 
-static void destroy_shp(t_image_data* p)
+void shp_images::destroy_shp(void*& p0)
 {
+	if (!p0)
+		return;
+	t_image_data* p = static_cast<t_image_data*>(p0);
 	delete[] p->data;
 	for (int j = 0; j < p->c_images; j++)
 		delete[] p->index[j].data_out;
 	delete[] p->index;
 	delete p;
-}
-
-void shp_images::destroy_shp(void*& p)
-{
-	::destroy_shp(static_cast<t_image_data*>(p));
-	p = NULL;
+	p0 = NULL;
 };
 
 void shp_images::set_theater(t_theater_id v)
