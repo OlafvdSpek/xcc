@@ -37,21 +37,6 @@ public:
 		return get_header()->cy;
 	}
 
-	int get_c_images() const
-	{
-		return get_header()->c_images;
-	}
-
-	int get_cx() const
-	{
-		return get_header()->cx;
-	}
-
-	int get_cy() const
-	{
-		return get_header()->cy;
-	}
-
     int get_format(int i) const
 	{
         return static_cast<unsigned int>(get_index()[i << 1]) >> 28;

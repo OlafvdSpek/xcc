@@ -660,23 +660,21 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 			base_cell.subcell(m_mouse_pos.subcell());
 			CPoint base_point = base_cell.pixel();
 			draw_infantry(id, 0, get_rp(oi_infantry, main_frame()->default_side()), p_dib, 9 + base_point.x - 12, 21 + base_point.y - 12, dib_cx);			
-			shp_images::get_shp(id.images, 0, size.cx, size.cy);
-			size += CSize(24, 24);
+			size.SetSize(id.images->cx + 24, id.images->cy + 24);
 			break;
 		}
 	case oi_structure:
 		{
 			const xcc_structures::t_structure_data_entry& sd = xcc_structures::structure_data[i];
 			draw_structure(sd, 0, get_rp(oi_structure, main_frame()->default_side()), p_dib, 0, 0, dib_cx, false);			
-			shp_images::get_shp(sd.images, 0, size.cx, size.cy);
+			size.SetSize(sd.images->cx, sd.images->cy);
 			break;
 		}
 	case oi_unit:
 		{
 			const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 			draw_unit(ud, 0, get_rp(oi_unit, main_frame()->default_side()), p_dib, 24 + ud.base_ox, 24 + ud.base_oy, dib_cx);			
-			shp_images::get_shp(ud.images, 0, size.cx, size.cy);	
-			size += CSize(24, 24);
+			size.SetSize(ud.images->cx + 24, ud.images->cy + 24);
 			break;
 		}
 	}

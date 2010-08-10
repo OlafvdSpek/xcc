@@ -643,9 +643,9 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			{
 				Cshp_ts_file f;
 				f.load(m_data);
-				const int c_images = f.get_c_images();
-				const int cx = m_cx = f.get_cx();
-				const int cy = m_cy = f.get_cy();
+				const int c_images = f.cf();
+				const int cx = m_cx = f.cx();
+				const int cy = m_cy = f.cy();
 				draw_info("Count images:", n(c_images));
 				draw_info("Size:", n(cx) + " x " + n(cy));
 				m_y += m_y_inc;

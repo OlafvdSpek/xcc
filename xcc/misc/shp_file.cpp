@@ -74,8 +74,7 @@ bool Cshp_file::is_valid() const
 	int size = get_size();
 	if (sizeof(t_shp_header) > size || header.c_images < 1 || header.c_images > 1000 || sizeof(t_shp_header) + 8 * (get_header()->c_images + 2) > size)
 		return false;
-	int c_images = get_c_images();
-	return !(get_offset(c_images) != size || get_offset(c_images + 1));
+	return !(get_offset(cf()) != size || get_offset(cf() + 1));
 }
 
 void Cshp_file::decode(void* d) const
@@ -105,18 +104,15 @@ int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 	memcpy(palet, _palet, sizeof(t_palet));
 	convert_palet_18_to_24(palet);
 	int error = 0;
-	const int cx = get_cx();
-	const int cy = get_cy();
-	const int c_images = get_c_images();
 	shp_images::t_image_data* p;
 	if (!shp_images::load_shp(*this, p))
 	{
 		Cfname t = name;
-		for (int i = 0; i < c_images; i++)
+		for (int i = 0; i < cf(); i++)
 		{
 			// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=td_icons/" + name.get_fname() + "></td></tr>");
 			t.set_title(name.get_ftitle() + " " + nwzl(3, i));
-			if (error = image_file_write(t, ft, shp_images::get_shp(p, i), palet, cx, cy))
+			if (error = image_file_write(t, ft, shp_images::get_shp(p, i), palet, cx(), cy()))
 				break;
 		}
 		shp_images::destroy_shp(p);

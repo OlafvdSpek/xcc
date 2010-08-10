@@ -18,7 +18,6 @@ public:
 	//{{AFX_DATA(Cedit_units_dlg)
 	enum { IDD = IDD_EDIT_UNITS_DLG };
 	CEdit	m_editctrl_c_rotations;
-	CEdit	m_editctrl_c_images;
 	CEdit	m_editctrl_base_oy;
 	CEdit	m_editctrl_base_ox;
 	CEdit	m_editctrl_long_name;
@@ -33,7 +32,6 @@ public:
 	long	m_edit_base_ox;
 	long	m_edit_base_oy;
 	DWORD	m_edit_c_rotations;
-	DWORD	m_edit_c_images;
 	BOOL	m_check_top;
 	//}}AFX_DATA
 

@@ -8,14 +8,14 @@ static t_theater_id g_theater = static_cast<t_theater_id>(-1);
 int shp_images::load_shp(const Cshp_file& f, shp_images::t_image_data*& data)
 {
 	data = new t_image_data;
-	data->cx = f.get_cx();
-	data->cy = f.get_cy();
-	data->c_images = f.get_c_images();
-	int cb_data = f.get_offset(data->c_images) - f.get_offset(0);
+	data->cx = f.cx();
+	data->cy = f.cy();
+	data->cf = f.cf();
+	int cb_data = f.get_offset(data->cf) - f.get_offset(0);
 	data->data = new byte[cb_data];
 	memcpy(data->data, f.get_image(0), cb_data);
-	data->index = new t_image_index_entry[data->c_images];
-	for (int i = 0; i < data->c_images; i++)
+	data->index = new t_image_index_entry[data->cf];
+	for (int i = 0; i < data->cf; i++)
 	{
 		data->index[i].data_in = data->data + f.get_offset(i) - f.get_offset(0);
 		data->index[i].data_out = NULL;
@@ -24,7 +24,7 @@ int shp_images::load_shp(const Cshp_file& f, shp_images::t_image_data*& data)
 			data->index[i].format |= i - 1;
 		else if (f.get_format(i) == 4)
 		{
-			for (int j = 0; j < data->c_images; j++)
+			for (int j = 0; j < data->cf; j++)
 			{
 				if (f.get_ref_offset(i) == f.get_offset(j))
 				{
@@ -80,17 +80,12 @@ const byte* shp_images::get_shp(t_image_data* data, int index, int& cx, int& cy)
 	return NULL;
 }
 
-int shp_images::get_shp_c_images(t_image_data* p)
-{
-	return static_cast<t_image_data*>(p)->c_images;
-}
-
 void shp_images::destroy_shp(t_image_data*& p)
 {
 	if (!p)
 		return;
 	delete[] p->data;
-	for (int j = 0; j < p->c_images; j++)
+	for (int j = 0; j < p->cf; j++)
 		delete[] p->index[j].data_out;
 	delete[] p->index;
 	delete p;

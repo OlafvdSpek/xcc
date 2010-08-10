@@ -28,7 +28,8 @@ private:
 	HBITMAP mh_dib;
 	t_palet32bgr_entry* mp_dib;
 
-	void draw_image(const byte* s, t_palet32bgr_entry* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy);
+	void draw_image(const byte* s, t_palet32bgr_entry* d, int sx, int sy, int dx, int dy, int cx, int cy);
+	void draw_image(shp_images::t_image_data*, t_palet32bgr_entry* d, int sx, int sy, int dx, int dy);
 protected:
 	Cobject_selection();           // protected constructor used by dynamic creation
 	DECLARE_DYNCREATE(Cobject_selection)
@@ -39,7 +40,7 @@ public:
 	t_object_id get_current_object_type() const;
 	int get_current_object() const;
 	void Invalidate();
-	void load(t_object_id t, dword i = 0);
+	void load(t_object_id t, int i = 0);
 	void load_infantry();
 	void load_overlay();
 	void load_structures();

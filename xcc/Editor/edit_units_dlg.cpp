@@ -13,7 +13,6 @@ Cedit_units_dlg::Cedit_units_dlg(CWnd* pParent /*=NULL*/)
 	m_edit_base_ox = 0;
 	m_edit_base_oy = 0;
 	m_edit_c_rotations = 0;
-	m_edit_c_images = 0;
 	m_check_top = FALSE;
 	//}}AFX_DATA_INIT
 }
@@ -37,7 +36,6 @@ void Cedit_units_dlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_EDIT_BASE_OX, m_edit_base_ox);
 	DDX_Text(pDX, IDC_EDIT_BASE_OY, m_edit_base_oy);
 	DDX_Text(pDX, IDC_EDIT_C_ROTATIONS, m_edit_c_rotations);
-	DDX_Text(pDX, IDC_EDIT_C_IMAGES, m_edit_c_images);
 	DDX_Check(pDX, IDC_CHECK_TOP, m_check_top);
 	//}}AFX_DATA_MAP
 }
@@ -143,7 +141,6 @@ void Cedit_units_dlg::load_controls()
 	m_edit_base_ox = ud.base_ox;
 	m_edit_base_oy = ud.base_oy;
 	m_edit_c_rotations = ud.c_rotations;
-	m_edit_c_images = ud.c_images;
 	m_check_icon = static_cast<bool>(ud.flags & ud_flags_icon);
 	m_check_top = static_cast<bool>(ud.flags & ud_flags_top);
 	UpdateData(false);

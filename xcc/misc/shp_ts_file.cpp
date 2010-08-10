@@ -94,7 +94,7 @@ bool Cshp_ts_file::is_valid() const
 		header.c_images < 1 || header.c_images > 10000 || 
 		sizeof(t_shp_ts_header) + get_cb_index() > size)
 		return false;
-	for (int i = 0; i < min(get_c_images(), 1000); i++)
+	for (int i = 0; i < min(cf(), 1000); i++)
 	{
 		const t_shp_ts_image_header& image_header = *get_image_header(i);
 		if (!image_header.cx && !image_header.cy && !image_header.offset)
@@ -128,9 +128,9 @@ int Cshp_ts_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_pal
 	t_palet palet;
 	convert_palet_18_to_24(_palet, palet);
 	int error = 0;
-	const int global_cx = get_cx();
-	const int global_cy = get_cy();
-	const int c_images = get_c_images();
+	const int global_cx = cx();
+	const int global_cy = cy();
+	const int c_images = cf();
 	if (combine_shadows && ~c_images & 1)
 	{
 		bool shadow = false;
@@ -232,9 +232,9 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 {
 	t_palet palet;
 	convert_palet_18_to_24(_palet, palet);
-	const int global_cx = get_cx();
-	const int global_cy = get_cy();
-	int c_images = get_c_images();
+	const int global_cx = cx();
+	const int global_cy = cy();
+	int c_images = cf();
 	combine_shadows &= ~c_images & 1;
 	if (combine_shadows)
 		c_images >>= 1;
@@ -525,9 +525,9 @@ struct t_shp4_frame_header
 
 int shp_encode4(const Cshp_ts_file& f, byte* d)
 {
-	const int global_cx = f.get_cx();
-	const int global_cy = f.get_cy();
-	const int c_frames = f.get_c_images();
+	const int global_cx = f.cx();
+	const int global_cy = f.cy();
+	const int c_frames = f.cf();
 
 	byte* w = d;
 	t_shp4_header& header = *reinterpret_cast<t_shp4_header*>(w);

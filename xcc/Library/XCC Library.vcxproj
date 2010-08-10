@@ -801,7 +801,6 @@
     <ClInclude Include="..\misc\shp_dune2_file.h" />
     <ClInclude Include="..\misc\shp_file.h" />
     <ClInclude Include="..\misc\shp_images.h" />
-    <ClInclude Include="..\misc\shp_ra_file.h" />
     <ClInclude Include="..\misc\shp_ts_file.h" />
     <ClInclude Include="..\misc\shp_ts_file_write.h" />
     <ClInclude Include="..\misc\sound_ts_ini_reader.h" />

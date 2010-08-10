@@ -102,15 +102,15 @@ void Cobject_selection::OnDraw(CDC* pDC)
 	pDC->BitBlt(0, 0, m_mem_surface_size.cx, m_mem_surface_size.cy, &m_mem_dc, 0, 0, SRCCOPY);
 }
 
-void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy)
+void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, int sx, int sy, int dx, int dy, int cx, int cy)
 {
-	const dword shadow_mask = 0x007f7f7f;
+	const int shadow_mask = 0x7f7f7f;
 	d += dx + dy * m_mem_surface_size.cx;
 	for (int yp = 0; yp < cy; yp++)
 	{
 		for (int xp = 0; xp < cx; xp++)
 		{
-			dword v = *s++;
+			int v = *s++;
 			if (v == 4)
 				d->v = d->v >> 1 & shadow_mask;
 			else if (v)
@@ -120,6 +120,14 @@ void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, dword s
 		d += m_mem_surface_size.cx - cx;
 	}
 }
+
+void Cobject_selection::draw_image(shp_images::t_image_data* s0, t_palet32bgr_entry* d, int sx, int sy, int dx, int dy)
+{
+	int cx;
+	int cy;
+	draw_image(shp_images::get_shp(s0, 0), d, sx, sy, dx, dy, s0->cx, s0->cy);
+}
+
 
 void Cobject_selection::draw_filter(t_palet32bgr_entry* d, int dx, int dy, int cx, int cy, int tr, int tg, int tb, int vr, int vg, int vb) const
 {
@@ -275,9 +283,7 @@ void Cobject_selection::load_infantry()
 			m_object_pos[i].right = id.cx;
 			if (id.cx > total.cx)
 				total.cx = id.cx;
-			int cx, cy;
-			const byte* image_data = shp_images::get_shp(id.images, 0, cx, cy);
-			draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
+			draw_image(id.images, mp_dib, 0, 0, 0, y);
 			y += id.cy;
 			m_object_pos[i].bottom = y;
 			total.cy = y;
@@ -333,18 +339,13 @@ void Cobject_selection::load_structures()
 			m_object_pos[i].right = 24 * sd.cx;
 			if (24 * sd.cx > total.cx)
 				total.cx = 24 * sd.cx;
-			int cx, cy;
-			const byte* image_data = shp_images::get_shp(sd.images, 0, cx, cy);
-			draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
+			draw_image(sd.images, mp_dib, 0, 0, 0, y);
 			if (sd.flags & sd_flags_images2)
-			{
-				image_data = shp_images::get_shp(sd.images2, 0, cx, cy);
-				draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
-			}
+				draw_image(sd.images2, mp_dib, 0, 0, 0, y);
 			int j = 0;
-			for (int yp = 0; yp < cy / 24; yp++)
+			for (int yp = 0; yp < sd.cy; yp++)
 			{
-				for (int xp = 0; xp < cx / 24; xp++)
+				for (int xp = 0; xp < sd.cx; xp++)
 				{
 					bool blocked = xcc_structures::structure_data[i].blocked >> j & 1;
 					bool ground = xcc_structures::structure_data[i].ground >> j++ & 1;
@@ -402,7 +403,7 @@ void Cobject_selection::load_templates()
 		{
 			for (int a = 0; a < td.cx; a++)
 			{
-				dword v = Cxcc_templates::convert_bin_data(j++ << 8 | i);
+				int v = Cxcc_templates::convert_bin_data(j++ << 8 | i);
 				if ((v & 0xff) != 0xff)
 				{
 					draw_image(Cxcc_templates::get_image(v), mp_dib, 0, 0, 24 * a, y, 24, 24);
@@ -464,12 +465,11 @@ void Cobject_selection::load_units()
 			m_object_pos[i].right = ud.cx;
 			if (ud.cx > total.cx)
 				total.cx = ud.cx;
-			int cx, cy;
-			const byte* image_data = shp_images::get_shp(ud.images, 0, cx, cy);
-			draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
+			draw_image(ud.images, mp_dib, 0, 0, 0, y);
 			if (ud.flags & ud_flags_top)
 			{
-				image_data = shp_images::get_shp(ud.images, 32, cx, cy);
+				int cx, cy;
+				auto image_data = shp_images::get_shp(ud.images, 32, cx, cy);
 				draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
 			}
 			y += ud.cy;
@@ -481,7 +481,7 @@ void Cobject_selection::load_units()
 	SetScrollSizes(MM_TEXT, total);
 }
 
-void Cobject_selection::load(t_object_id selection_type, dword selection_subtype)
+void Cobject_selection::load(t_object_id selection_type, int selection_subtype)
 {
 	if (selection_type == m_loaded_selection_type && selection_subtype == m_loaded_selection_subtype)
 		return;

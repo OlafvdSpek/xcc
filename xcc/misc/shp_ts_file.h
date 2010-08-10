@@ -34,21 +34,6 @@ public:
 		return get_header()->cy;
 	}
 
-	int get_c_images() const
-	{
-		return get_header()->c_images;
-	}
-
-	int get_cx() const
-	{
-		return get_header()->cx;
-	}
-
-	int get_cy() const
-	{
-		return get_header()->cy;
-	}
-
 	int get_x(int i) const
 	{
 		return get_image_header(i)->x;
@@ -71,7 +56,7 @@ public:
 
     int get_cb_index() const
     {
-        return sizeof(t_shp_ts_image_header) * get_c_images();
+        return sizeof(t_shp_ts_image_header) * cf();
     }
 
 	bool is_compressed(int i) const

@@ -17,7 +17,7 @@ namespace shp_images
 	{
 		int cx;
 		int cy;
-		int c_images;
+		int cf;
 		byte* data;
 		t_image_index_entry* index;
 	};
@@ -26,7 +26,6 @@ namespace shp_images
 	int load_shp(const string& name, t_image_data*& p);
 	const byte* get_shp(t_image_data* p, int index);
 	const byte* get_shp(t_image_data* p, int index, int& cx, int& cy);
-	int get_shp_c_images(t_image_data* p);
 	void destroy_shp(t_image_data*& p);
 	void set_theater(t_theater_id);
 
