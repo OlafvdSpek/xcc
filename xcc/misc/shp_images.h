@@ -28,13 +28,4 @@ namespace shp_images
 	const byte* get_shp(t_image_data* p, int index, int& cx, int& cy);
 	void destroy_shp(t_image_data*& p);
 	void set_theater(t_theater_id);
-
-	inline const byte* get_shp(t_image_data* p, int index, long& _cx, long& _cy)
-	{
-		int cx, cy;
-		const byte* r = get_shp(p, index, cx, cy);
-		_cx = cx;
-		_cy = cy;
-		return r;
-	}
 }
