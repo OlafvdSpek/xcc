@@ -722,7 +722,7 @@ static void handle_units_section_entry(const string &a, const string &b, t_unit_
 	t_unit_data_entry d;
 	Cmulti_line line = b;
 	d.side = get_side_id(line.get_next_line());
-	d.t = xcc_units::get_id(line.get_next_line());
+	d.t = &xcc_units::unit_data[xcc_units::get_id(line.get_next_line())];
 	d.health = get_value(line.get_next_line(), 0, 256);
 	d.cell.set_cc(get_cell_value(line.get_next_line()));
 	d.angle = get_value(line.get_next_line(), 0, 256);
@@ -1066,8 +1066,8 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	BOOST_FOREACH(auto& i, infantry_data)
 	{
 		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name
-			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
-			<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
+			<< ',' << i.health << ',' << i.cell.get_cc() << ',' << i.cell.subcell()
+			<< ',' << action_code[i.action] << ',' << i.angle << ',' << i.trigger << "\r\n";
 	}
 	os << "\r\n";
 
@@ -1083,11 +1083,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	os << '[' << section_code[si_units] << "]\r\n";
 	index = 0;
 	BOOST_FOREACH(auto& i, unit_data)
-	{
-		os << index++ << '=' << side_code[i.side] << ',' << xcc_units::unit_data[i.t].short_name
-			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.angle)
-			<< ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
-	}
+		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name	<< ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
 	os << "\r\n";
 
 	for (int i = 0; i < c_side_id; i++)
@@ -1129,7 +1125,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	{
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);
-		os << n(cell.get_cc()) << '=' << terrain_code[i.second >> 8] << ",none" << "\r\n";
+		os << cell.get_cc() << '=' << terrain_code[i.second >> 8] << ",none" << "\r\n";
 	}
 	os << "\r\n";
 	return os.str();

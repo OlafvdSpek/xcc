@@ -55,7 +55,7 @@ BOOL Cedit_unit_properties_dlg::OnInitDialog()
 		m_combo_action.SetItemData(m_combo_action.AddString(action_code[i]), i);
 	}
 
-	m_edit_type = xcc_units::unit_data[m_d.t].long_name.c_str();
+	m_edit_type = m_d.t->long_name.c_str();
 	m_combo_side.SelectString(-1, side_code[m_d.side]);
 	m_edit_cell = static_cast<string>(Cxcc_cell(m_d.cell)).c_str();
 	m_edit_health = m_d.health;

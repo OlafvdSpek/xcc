@@ -105,7 +105,7 @@ public:
 	void draw_terrain(dword v, dword* d, dword dx, dword dy, dword dpitch);
 	void draw_structure(dword v, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch, bool bib);
 	void draw_infantry(const xcc_infantry::t_infantry_data_entry&, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch);
-	void draw_unit(dword v, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch);
+	void draw_unit(const xcc_units::t_unit_data_entry&, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch);
 	void Invalidate(bool mem_surface);
 	void update_mem_surface();
 	virtual ~CXCCEditorView();
