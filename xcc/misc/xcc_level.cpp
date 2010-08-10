@@ -693,7 +693,7 @@ static void handle_infantry_section_entry(const string &a, const string &b, t_in
 	t_infantry_data_entry d;
 	Cmulti_line line = b;
 	d.side = get_side_id(line.get_next_line());
-	d.t = xcc_infantry::get_id(line.get_next_line());
+	d.t = &xcc_infantry::infantry_data[xcc_infantry::get_id(line.get_next_line())];
 	d.health = get_value(line.get_next_line(), 0, 256);
 	d.cell.set_cc(get_cell_value(line.get_next_line()));
 	d.cell.subcell(get_value(line.get_next_line(), 0, 4));
@@ -1065,7 +1065,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	index = 0;
 	BOOST_FOREACH(auto& i, infantry_data)
 	{
-		os << index++ << '=' << side_code[i.side] << ',' << xcc_infantry::infantry_data[i.t].short_name
+		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name
 			<< ',' << n(i.health) << ',' << n(i.cell.get_cc()) << ',' << n(i.cell.subcell())
 			<< ',' << action_code[i.action] << ',' << n(i.angle) << ',' << i.trigger << "\r\n";
 	}
