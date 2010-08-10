@@ -6,6 +6,7 @@
 static Cmix_file conquer_mix;
 static Cmix_file desert_mix;
 static Cmix_file general_mix;
+static Cmix_file snow_mix;
 static Cmix_file temperate_mix;
 static Cmix_file winter_mix;
 
@@ -16,6 +17,7 @@ int Cxcc_mixs::open()
 		error = desert_mix.open("desert.mix");
 	if (!error)
 		error = general_mix.open("general.mix");
+	snow_mix.open("snow.mix");
 	if (!error)
 		error = temperate_mix.open("temperat.mix");
 	if (!error)
@@ -39,6 +41,8 @@ Cmix_file& Cxcc_mixs::theater(t_theater_id theater)
 	{
 	case t_desert:
 		return desert_mix;
+	case t_snow:
+		return snow_mix;
 	case t_temperate:
 		return temperate_mix;
 	case t_winter:
@@ -56,6 +60,8 @@ string Cxcc_mixs::theater_fname(t_theater_id theater)
 		return "desert";
 	case t_temperate:
 		return "temperat";
+	case t_snow:
+		return "snow";
 	case t_winter:
 		return "winter";
 	};
