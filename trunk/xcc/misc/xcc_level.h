@@ -70,10 +70,20 @@ const char* side_data_code[];
 enum t_overlay_id
 {
 	o_ti1, o_ti2, o_ti3, o_ti4, o_ti5, o_ti6, o_ti7, o_ti8, o_ti9, o_ti10, o_ti11, o_ti12,
-	o_barb, o_wood, o_sbag, o_cycl, o_brik, o_scrate, o_wcrate
+	o_barb, o_wood, o_sbag, o_cycl, o_brik, o_scrate, o_wcrate,
+	o_conc,
+	o_fpls,
+	o_road,
+	o_squish,
+	o_v12,
+	o_v13,
+	o_v14,
+	o_v15,
+	o_v16,
+	o_v17,
+	o_v18,	
+	c_overlay_id
 };
-
-const int c_overlay_id = o_wcrate + 1;
 
 const char* overlay_code[];
 

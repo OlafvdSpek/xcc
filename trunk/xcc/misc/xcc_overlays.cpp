@@ -27,6 +27,17 @@ const char* overlay_code[] =
 	"brik",
 	"scrate",
 	"wcrate",
+	"conc",
+	"fpls",
+	"road",
+	"squish",
+	"v12",
+	"v13",
+	"v14",
+	"v15",
+	"v16",
+	"v17",
+	"v18",	
 	NULL
 };
 
