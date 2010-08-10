@@ -15,6 +15,8 @@ namespace shp_images
 
 	struct t_image_data
 	{
+		const byte* get(int f);
+
 		int cx;
 		int cy;
 		int cf;
@@ -24,7 +26,6 @@ namespace shp_images
 
 	int load_shp(const Cshp_file& f, t_image_data*& p);
 	int load_shp(const string& name, t_image_data*& p);
-	const byte* get_shp(t_image_data* p, int index);
 	const byte* get_shp(t_image_data* p, int index, int& cx, int& cy);
 	void destroy_shp(t_image_data*& p);
 	void set_theater(t_theater_id);

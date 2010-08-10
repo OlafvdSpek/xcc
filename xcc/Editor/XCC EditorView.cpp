@@ -899,7 +899,7 @@ void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry
 		for (int y = 0; y < 2; y++)
 		{
 			for (int x = 0; x < sd.cx; x++)
-				draw_image(shp_images::get_shp(templates.get_bib(sd.cx - 2), i++), 0, d, 0, 0, dx + 24 * x, dy + 24 * (sd.cy - 1 + y), 24, 24, dpitch);
+				draw_image(templates.get_bib(sd.cx - 2)->get(i++), 0, d, 0, 0, dx + 24 * x, dy + 24 * (sd.cy - 1 + y), 24, 24, dpitch);
 		}
 	}
 	const int sub_image = convert_angle(angle, sd.short_name == "gun" ? 0 : 32);

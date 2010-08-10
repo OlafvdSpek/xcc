@@ -48,32 +48,13 @@ int shp_images::load_shp(const string& name, t_image_data*& p)
 	return load_shp(name + Cxcc_mixs::theater_fext(g_theater), Cxcc_mixs::theater(g_theater), p) && load_shp(name + ".shp", Cxcc_mixs::conquer(), p);
 }
 
-const byte* shp_images::get_shp(t_image_data* p, int index)
-{
-	const t_image_data* data = static_cast<const t_image_data*>(p);
-	if (!data->index[index].data_out && data->cx && data->cy)
-	{
-		int cb_out = data->cx * data->cy;
-		data->index[index].data_out = new byte[cb_out];
-		// decompress image
-		if (data->index[index].format & 8 << 28)
-			decode80(data->index[index].data_in, data->index[index].data_out);
-		else
-		{
-			memcpy(data->index[index].data_out, get_shp(p, data->index[index].format & shp_o_mask), cb_out);
-			decode40(data->index[index].data_in, data->index[index].data_out);
-		}
-	}
-	return data->index[index].data_out;
-}
-
 const byte* shp_images::get_shp(t_image_data* data, int index, int& cx, int& cy)
 {
 	if (data)
 	{
 		cx = data->cx;
 		cy = data->cy;
-		return get_shp(data, index);
+		return data->get(index);
 	}
 	cx = 0;
 	cy = 0;
@@ -96,3 +77,20 @@ void shp_images::set_theater(t_theater_id v)
 {
 	g_theater = v;
 };
+
+const byte* shp_images::t_image_data::get(int f)
+{
+	if (!index[f].data_out && cx && cy)
+	{
+		int cb_out = cx * cy;
+		index[f].data_out = new byte[cb_out];
+		if (index[f].format & 8 << 28)
+			decode80(index[f].data_in, index[f].data_out);
+		else
+		{
+			memcpy(index[f].data_out, get(index[f].format & shp_o_mask), cb_out);
+			decode40(index[f].data_in, index[f].data_out);
+		}
+	}
+	return index[f].data_out;
+}
