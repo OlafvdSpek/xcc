@@ -14,10 +14,9 @@ const char* theater_xif_fname = "theater.xif";
 
 array<void*, 3> Cxcc_templates::bib;
 byte* image_data = 0;
-array<byte*, 256> Cxcc_templates::image_list;
 t_palet Cxcc_templates::palet;
 byte Cxcc_templates::shade_rp[256];
-t_template_data_entry Cxcc_templates::template_data[256];
+t_template_data_entry Cxcc_templates::template_data[0xd8];
 byte Cxcc_templates::template_list[256][64];
 
 enum
@@ -42,7 +41,6 @@ int Cxcc_templates::load_data()
 		const Cxif_key& tk = base_key.get_key(i);
 		td.cx = tk.get_value_int(vi_td_cx);
 		td.cy = tk.get_value_int(vi_td_cy);
-		td.c_images = tk.get_value_int(vi_td_c_images);
 		td.buildable = 0;
 		td.moveable = 0;
 		td.flags = 0;
@@ -85,7 +83,6 @@ int Cxcc_templates::save_data()
 		const t_template_data_entry& td = template_data[i];
 		template_key.set_value_int(vi_td_cx, td.cx);
 		template_key.set_value_int(vi_td_cy, td.cy);
-		template_key.set_value_int(vi_td_c_images, td.c_images);
 		template_key.set_value_string(vi_td_fname, template_code[i]);
 		if (td.buildable)
 			template_key.set_value_int64(vi_td_buildable, td.buildable);
@@ -104,23 +101,14 @@ int Cxcc_templates::load_images(t_theater_id theater)
 	const string fname = Cxcc_mixs::theater_fname(theater);
 	const string ext = '.' + fname.substr(0, 3);
 	Cmix_file& mixf = Cxcc_mixs::theater(theater);
-	image_list.assign(NULL);
 	memset(template_list, -1, sizeof(template_list));
 	int write_i = 0;
 	for (int i = 0; i < 0xd8; i++)
 	{
-#if 0
 		t_template_data_entry& td = template_data[i];
-		td.c_images &= ~(0xff << (theater << 3));
-		f.open(string(template_code[i]) + ext, mixf);
-		if (f.is_open())
-		{
-			f.read_header();
-			td.c_images |= f.get_c_images() << (theater << 3);
-			f.close();
-		}
-#endif
-		write_i += template_data[i].c_images >> (theater << 3) & 0xff;
+		Ctmp_file f;
+		if (!f.open(string(template_code[i]) + ext, mixf))
+			write_i += f.get_c_tiles();
 	}
 	image_data = new byte[576 * write_i];
 	write_i = 0;
@@ -128,20 +116,18 @@ int Cxcc_templates::load_images(t_theater_id theater)
 	for (int i = 0; i < 0xd8; i++)
 	{
 		t_template_data_entry& td = template_data[i];
-		const int c_images = td.c_images >> (theater << 3) & 0xff;
-		if (!c_images)
-			continue;
+		td.images = NULL;
 		Ctmp_file f;
 		if (f.open(string(template_code[i]) + ext, mixf))
-			return 1;
-		image_list[i] = write_p;
+			continue;
+		td.images = write_p;
 		const int c_tiles = td.cx * td.cy;
 		const byte* ofs_list = f.get_index1();
 		for (int j = 0; j < c_tiles; j++)
 		{
 			if (ofs_list[j] == 0xff)
 				continue;
-			template_list[i][j] = (write_p - image_list[i]) / 576;
+			template_list[i][j] = (write_p - td.images) / 576;
 			memcpy(write_p, f.get_image(j), 576);
 			write_i++;
 			write_p += 576;
