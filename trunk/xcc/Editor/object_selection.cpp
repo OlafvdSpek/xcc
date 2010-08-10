@@ -102,18 +102,6 @@ void Cobject_selection::OnDraw(CDC* pDC)
 	pDC->BitBlt(0, 0, m_mem_surface_size.cx, m_mem_surface_size.cy, &m_mem_dc, 0, 0, SRCCOPY);
 }
 
-#ifdef _DEBUG
-void Cobject_selection::AssertValid() const
-{
-	CScrollView::AssertValid();
-}
-
-void Cobject_selection::Dump(CDumpContext& dc) const
-{
-	CScrollView::Dump(dc);
-}
-#endif //_DEBUG
-
 void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy)
 {
 	const dword shadow_mask = 0x007f7f7f;
@@ -123,13 +111,10 @@ void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, dword s
 		for (int xp = 0; xp < cx; xp++)
 		{
 			dword v = *s++;
-			if (v)
-			{
-				if (v == 4)
-					d->v = d->v >> 1 & shadow_mask;
-				else
-					*d = m_color_table[v];
-			}
+			if (v == 4)
+				d->v = d->v >> 1 & shadow_mask;
+			else if (v)
+				*d = m_color_table[v];
 			d++;
 		}
 		d += m_mem_surface_size.cx - cx;
@@ -361,7 +346,7 @@ void Cobject_selection::load_structures()
 				{
 					bool blocked = xcc_structures::structure_data[i].blocked >> j & 1;
 					bool ground = xcc_structures::structure_data[i].ground >> j++ & 1;
-					if (blocked || ground)
+					if (0) // blocked || ground)
 						draw_filter(mp_dib, 24 * xp, y + 24 * yp, 24, 24, 0x80, 0x80, 0x80, blocked ? 0xff : 0x00, ground ? 0x80 : 0x00, 0x00);
 				}
 			}

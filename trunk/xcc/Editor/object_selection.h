@@ -1,6 +1,5 @@
 #pragma once
 
-#include <cassert>
 #include "palet.h"
 #include "xcc_infantry.h"
 #include "xcc_level.h"
@@ -64,10 +63,6 @@ protected:
 protected:
 	afx_msg void OnContextMenu(CWnd*, CPoint point);
 	virtual ~Cobject_selection();
-#ifdef _DEBUG
-	virtual void AssertValid() const;
-	virtual void Dump(CDumpContext& dc) const;
-#endif
 	//{{AFX_MSG(Cobject_selection)
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 	afx_msg void OnMouseMove(UINT nFlags, CPoint point);

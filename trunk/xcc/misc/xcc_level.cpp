@@ -1064,11 +1064,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	os << '[' << section_code[si_infantry] << "]\r\n";
 	index = 0;
 	BOOST_FOREACH(auto& i, infantry_data)
-	{
-		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name
-			<< ',' << i.health << ',' << i.cell.get_cc() << ',' << i.cell.subcell()
-			<< ',' << action_code[i.action] << ',' << i.angle << ',' << i.trigger << "\r\n";
-	}
+		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.cell.subcell() << ',' << action_code[i.action] << ',' << i.angle << ',' << i.trigger << "\r\n";
 	os << "\r\n";
 
 	os << '[' << section_code[si_structures] << "]\r\n";
