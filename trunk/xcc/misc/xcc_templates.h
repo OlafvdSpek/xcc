@@ -24,7 +24,7 @@ struct t_template_data_entry
 class Cxcc_templates  
 {
 private:
-	static array<void*, 3> bib;
+	static array<shp_images::t_image_data*, 3> bib;
 	static t_palet palet;
 	static byte shade_rp[256];
 	static t_template_data_entry template_data[0xd8];
@@ -79,7 +79,7 @@ public:
 			template_data[v >> 8].moveable ^= static_cast<long long>(1) << (v & 0xff);
 	}
 
-	static void* get_bib(int v)
+	static shp_images::t_image_data* get_bib(int v)
 	{
 		return bib[v];
 	}

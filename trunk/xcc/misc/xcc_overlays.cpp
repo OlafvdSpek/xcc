@@ -84,13 +84,13 @@ struct t_overlay_data_entry
 {
 	int ox;
 	int oy;
-	void* images;
+	shp_images::t_image_data* images;
 };
 
 struct t_terrain_data_entry
 {
 	int blocked;
-	void* images;
+	shp_images::t_image_data* images;
 };
 
 Cxif_key base_key;

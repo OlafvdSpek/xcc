@@ -903,8 +903,7 @@ void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry
 			for (int x = 0; x < sd.cx; x++)
 			{
 				int cx, cy;
-				draw_image(shp_images::get_shp(templates.get_bib(sd.cx - 2), i++, cx, cy), 
-					0, d, 0, 0, dx + 24 * x, dy + 24 * (sd.cy - 1 + y), 24, 24, dpitch);
+				draw_image(shp_images::get_shp(templates.get_bib(sd.cx - 2), i++, cx, cy), 0, d, 0, 0, dx + 24 * x, dy + 24 * (sd.cy - 1 + y), 24, 24, dpitch);
 			}
 		}
 	}

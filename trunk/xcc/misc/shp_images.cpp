@@ -5,25 +5,9 @@
 
 static t_theater_id g_theater = static_cast<t_theater_id>(-1);
 
-struct t_image_index_entry
+int shp_images::load_shp(const Cshp_file& f, shp_images::t_image_data*& data)
 {
-	byte* data_in;
-	byte* data_out;
-	int format;
-};
-
-struct t_image_data
-{
-	int cx;
-	int cy;
-	int c_images;
-	byte* data;
-	t_image_index_entry* index;
-};
-
-int shp_images::load_shp(const Cshp_file& f, void*& p)
-{
-	t_image_data* data = new t_image_data;
+	data = new t_image_data;
 	data->cx = f.get_cx();
 	data->cy = f.get_cy();
 	data->c_images = f.get_c_images();
@@ -50,22 +34,21 @@ int shp_images::load_shp(const Cshp_file& f, void*& p)
 			}
 		}
 	}
-	p = data;
 	return 0;
 }
 
-int load_shp(const string& name, Cmix_file& mix, void*& p)
+int load_shp(const string& name, Cmix_file& mix, shp_images::t_image_data*& p)
 {
 	Cshp_file f;
 	return f.open(name, mix) || shp_images::load_shp(f, p);
 }
 
-int shp_images::load_shp(const string& name, void*& p)
+int shp_images::load_shp(const string& name, t_image_data*& p)
 {
 	return load_shp(name + Cxcc_mixs::theater_fext(g_theater), Cxcc_mixs::theater(g_theater), p) && load_shp(name + ".shp", Cxcc_mixs::conquer(), p);
 }
 
-const byte* shp_images::get_shp(void* p, int index)
+const byte* shp_images::get_shp(t_image_data* p, int index)
 {
 	const t_image_data* data = static_cast<const t_image_data*>(p);
 	if (!data->index[index].data_out && data->cx && data->cy)
@@ -84,35 +67,34 @@ const byte* shp_images::get_shp(void* p, int index)
 	return data->index[index].data_out;
 }
 
-const byte* shp_images::get_shp(void* p, int index, int& cx, int& cy)
+const byte* shp_images::get_shp(t_image_data* data, int index, int& cx, int& cy)
 {
-	if (const t_image_data* data = static_cast<const t_image_data*>(p))
+	if (data)
 	{
 		cx = data->cx;
 		cy = data->cy;
-		return get_shp(p, index);
+		return get_shp(data, index);
 	}
 	cx = 0;
 	cy = 0;
 	return NULL;
 }
 
-int shp_images::get_shp_c_images(void* p)
+int shp_images::get_shp_c_images(t_image_data* p)
 {
 	return static_cast<t_image_data*>(p)->c_images;
 }
 
-void shp_images::destroy_shp(void*& p0)
+void shp_images::destroy_shp(t_image_data*& p)
 {
-	if (!p0)
+	if (!p)
 		return;
-	t_image_data* p = static_cast<t_image_data*>(p0);
 	delete[] p->data;
 	for (int j = 0; j < p->c_images; j++)
 		delete[] p->index[j].data_out;
 	delete[] p->index;
 	delete p;
-	p0 = NULL;
+	p = NULL;
 };
 
 void shp_images::set_theater(t_theater_id v)

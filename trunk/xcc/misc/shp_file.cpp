@@ -80,7 +80,7 @@ bool Cshp_file::is_valid() const
 
 void Cshp_file::decode(void* d) const
 {
-	void* p;
+	shp_images::t_image_data* p;
 	if (shp_images::load_shp(*this, p))
 		return;
 	byte* w = reinterpret_cast<byte*>(d);
@@ -108,7 +108,7 @@ int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 	const int cx = get_cx();
 	const int cy = get_cy();
 	const int c_images = get_c_images();
-	void* p;
+	shp_images::t_image_data* p;
 	if (!shp_images::load_shp(*this, p))
 	{
 		Cfname t = name;

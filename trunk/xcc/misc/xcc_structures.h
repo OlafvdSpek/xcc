@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shp_images.h"
+
 enum t_theater_id;
 
 enum
@@ -25,9 +27,9 @@ namespace xcc_structures
 		int cx;
 		int cy;
 		dword flags;
-		void* images;
-		void* images2;
-		void* icon;
+		shp_images::t_image_data* images;
+		shp_images::t_image_data* images2;
+		shp_images::t_image_data* icon;
 		dword blocked;
 		dword ground;
 		int power_in;

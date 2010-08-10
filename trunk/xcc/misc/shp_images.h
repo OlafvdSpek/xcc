@@ -1,19 +1,36 @@
 #pragma once
 
 #include "shp_file.h"
-#include "xcc_level.h"
+
+enum t_theater_id;
 
 namespace shp_images  
 {
-	int load_shp(const Cshp_file& f, void*& p);
-	int load_shp(const string& name, void*& p);
-	const byte* get_shp(void* p, int index);
-	const byte* get_shp(void* p, int index, int& cx, int& cy);
-	int get_shp_c_images(void* p);
-	void destroy_shp(void*& p);
+	struct t_image_index_entry
+	{
+		byte* data_in;
+		byte* data_out;
+		int format;
+	};
+
+	struct t_image_data
+	{
+		int cx;
+		int cy;
+		int c_images;
+		byte* data;
+		t_image_index_entry* index;
+	};
+
+	int load_shp(const Cshp_file& f, t_image_data*& p);
+	int load_shp(const string& name, t_image_data*& p);
+	const byte* get_shp(t_image_data* p, int index);
+	const byte* get_shp(t_image_data* p, int index, int& cx, int& cy);
+	int get_shp_c_images(t_image_data* p);
+	void destroy_shp(t_image_data*& p);
 	void set_theater(t_theater_id);
 
-	inline const byte* get_shp(void* p, int index, long& _cx, long& _cy)
+	inline const byte* get_shp(t_image_data* p, int index, long& _cx, long& _cy)
 	{
 		int cx, cy;
 		const byte* r = get_shp(p, index, cx, cy);
