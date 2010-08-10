@@ -37,8 +37,8 @@ namespace xcc_structures
 	int load_data();
 	int save_data();
 
-	int load_images(t_theater_id theater, bool load_icons);
-	int get_id(const string& s);
+	int load_images(t_theater_id);
+	t_structure_data_entry* get_id(const string&);
 
 	t_structure_data_entry structure_data[];
 }

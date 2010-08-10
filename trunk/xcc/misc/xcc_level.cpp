@@ -678,14 +678,14 @@ static void handle_base_section_entry(const string &a, const string &b, t_base_d
 	if (iequals(a, "count"))
 		return;
 	Cmulti_line line = b;
-	int t = xcc_structures::get_id(line.get_next_line());
+	auto t = xcc_structures::get_id(line.get_next_line());
 	int v = get_value(line.get_next_line(), 0, LONG_MAX);
 	v =  v >> 8 & 0x3f | v >> 18;
 	if (!is_valid_cell(v))
 		throw Cxcc_level_warning_ignored();
 	Cxcc_cell cell;
 	cell.set_cc(v);
-	base_data[cell.get_xcc()] = &xcc_structures::structure_data[t];
+	base_data[cell.get_xcc()] = t;
 }
 
 static void handle_infantry_section_entry(const string &a, const string &b, t_infantry_data &infantry_data)
@@ -708,7 +708,7 @@ static void handle_structures_section_entry(const string &a, const string &b, t_
 	t_structure_data_entry d;
 	Cmulti_line line = b;
 	d.side = get_side_id(line.get_next_line());
-	d.t = &xcc_structures::structure_data[xcc_structures::get_id(line.get_next_line())];
+	d.t = xcc_structures::get_id(line.get_next_line());
 	d.health = get_value(line.get_next_line(), 0, 256);
 	d.cell.set_cc(get_cell_value(line.get_next_line()));
 	d.angle = get_value(line.get_next_line(), 0, 256);
