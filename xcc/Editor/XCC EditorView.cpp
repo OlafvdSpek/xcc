@@ -215,7 +215,7 @@ void CXCCEditorView::OnInitialUpdate()
 	{
 		AfxMessageBox("Infantry load failed", MB_ICONEXCLAMATION);
 	}
-	if (xcc_structures::load_images(level().map_data.theater, false))
+	if (xcc_structures::load_images(level().map_data.theater))
 	{
 		AfxMessageBox("Structures load failed", MB_ICONEXCLAMATION);
 	}

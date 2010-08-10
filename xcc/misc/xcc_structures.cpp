@@ -95,7 +95,7 @@ int xcc_structures::save_data()
 	return structures_key.vdata().save(xcc_dirs::get_data_dir() + structures_xif_fname);
 }
 
-int xcc_structures::load_images(t_theater_id theater, bool load_icons)
+int xcc_structures::load_images(t_theater_id theater)
 {
 	static t_theater_id loaded_theater = static_cast<t_theater_id>(-1);
 	if (theater == loaded_theater)
@@ -122,7 +122,7 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 		sd.cx /= 24;
 		sd.cy /= 24;
 		*/
-		if (load_icons && sd.flags & sd_flags_icon && shp_images::load_shp(sd.short_name + "icon", sd.icon))
+		if (sd.flags & sd_flags_icon && shp_images::load_shp(sd.short_name + "icon", sd.icon))
 			return 1;
 		if (sd.flags & sd_flags_images2 && shp_images::load_shp(sd.short_name + "2", sd.images2))
 			return 1;
@@ -131,13 +131,13 @@ int xcc_structures::load_images(t_theater_id theater, bool load_icons)
 	return 0;
 }
 
-int xcc_structures::get_id(const string& s)
+xcc_structures::t_structure_data_entry* xcc_structures::get_id(const string& s)
 {
 	BOOST_FOREACH(auto& sd, structure_data)
 	{
 		if (sd.flags & sd_flags_in_use && iequals(sd.short_name, s))
-			return &sd - structure_data;
+			return &sd;
 	}
 	assert(false);
-	return -1;
+	return NULL;
 }
