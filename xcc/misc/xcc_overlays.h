@@ -9,7 +9,6 @@ public:
 	static void terrain_switch_blocked(int v);
 	static const byte* get_overlay_image(int v, int& x, int& y, int& cx, int& cy);
 	static const byte* get_terrain_image(int v, int& x, int& y, int& cx, int& cy);
-	static bool terrain_in(int v, t_theater_id theater);
 	static void destroy();
 	static int load_data();
 	static int save_data();

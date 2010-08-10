@@ -86,10 +86,15 @@ const byte* shp_images::get_shp(void* p, int index)
 
 const byte* shp_images::get_shp(void* p, int index, int& cx, int& cy)
 {
-	const t_image_data* data = static_cast<const t_image_data*>(p);
-	cx = data->cx;
-	cy = data->cy;
-	return get_shp(p, index);
+	if (const t_image_data* data = static_cast<const t_image_data*>(p))
+	{
+		cx = data->cx;
+		cy = data->cy;
+		return get_shp(p, index);
+	}
+	cx = 0;
+	cy = 0;
+	return NULL;
 }
 
 int shp_images::get_shp_c_images(void* p)

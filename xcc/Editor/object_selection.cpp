@@ -295,6 +295,8 @@ void Cobject_selection::load_overlay()
 	{
 		int cx, cy, t;
 		const byte* image_data = Cxcc_overlays::get_overlay_image(is_tiberium(static_cast<t_overlay_id>(i)) ? o_ti1 | i - o_ti1: i << 8, t, t, cx, cy);
+		if (!image_data)
+			continue;
 		m_object_pos[i].top = y;
 		m_object_pos[i].left = 0;
 		m_object_pos[i].right = cx;
@@ -422,10 +424,10 @@ void Cobject_selection::load_terrain()
 	CSize total(0, 0);
 	for (int i = 0; i < c_terrain_id; i++)
 	{
-		if (!Cxcc_overlays::terrain_in(i << 8, theater()))
-			continue;
 		int cx, cy, t;
 		const byte* image_data = Cxcc_overlays::get_terrain_image(i << 8, t, t, cx, cy);
+		if (!image_data)
+			continue;
 		m_object_pos[i].top = y;
 		m_object_pos[i].left = 0;
 		m_object_pos[i].right = cx;
