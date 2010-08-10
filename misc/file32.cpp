@@ -81,7 +81,7 @@ int Cfile32::open_write(const string& name)
 #endif
 }
 
-long long Cfile32::get_size() const
+long long Cfile32::size() const
 {
     assert(is_open());
 #ifdef _MSC_VER
@@ -159,11 +159,10 @@ void Cfile32::close()
 
 Cvirtual_binary Cfile32::get_mm()
 {
-	int size = get_size();
-	if (!size)
+	if (!size())
 		return Cvirtual_binary();
 	Cmemory_map mm(*this);
-	return mm.d() ? Cvirtual_binary(mm.d(), size, Csmart_ref<Cmemory_map>::create(mm)) : Cvirtual_binary();
+	return mm.d() ? Cvirtual_binary(mm.d(), size(), Csmart_ref<Cmemory_map>::create(mm)) : Cvirtual_binary();
 }
 
 Cvirtual_binary file32_read(const string& name)

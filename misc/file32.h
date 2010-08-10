@@ -22,7 +22,7 @@ public:
 	int open_read(const string& name);
 	int open_edit(const string& name);
 	int open_write(const string& name);
-    long long get_size() const;
+    long long size() const;
 	FILETIME get_creation_time() const;
 	FILETIME get_last_access_time() const;
 	FILETIME get_last_write_time() const;
@@ -34,7 +34,7 @@ public:
 
     bool eof() const
 	{
-		return m_p >= get_size();
+		return m_p >= size();
 	}
 
 	const Cwin_handle& h() const
