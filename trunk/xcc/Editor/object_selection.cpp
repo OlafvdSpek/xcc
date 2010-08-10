@@ -390,30 +390,29 @@ void Cobject_selection::load_templates()
 			if (td.flags & td_flags_type_specific)
 				continue;
 		}
-		if (td.c_images >> (level().map_data.theater << 3) & 0xff)
+		if (!td.images)
+			continue;
+		m_object_pos[i].top = y;
+		m_object_pos[i].left = 0;
+		m_object_pos[i].right = 24 * td.cx;
+		if (24 * td.cx > total.cx)
+			total.cx = 24 * td.cx;
+		int j = 0;
+		for (int b = 0; b < td.cy; b++)
 		{
-			m_object_pos[i].top = y;
-			m_object_pos[i].left = 0;
-			m_object_pos[i].right = 24 * td.cx;
-			if (24 * td.cx > total.cx)
-				total.cx = 24 * td.cx;
-			int j = 0;
-			for (int b = 0; b < td.cy; b++)
+			for (int a = 0; a < td.cx; a++)
 			{
-				for (int a = 0; a < td.cx; a++)
+				dword v = Cxcc_templates::convert_bin_data(j++ << 8 | i);
+				if ((v & 0xff) != 0xff)
 				{
-					dword v = Cxcc_templates::convert_bin_data(j++ << 8 | i);
-					if ((v & 0xff) != 0xff)
-					{
-						draw_image(Cxcc_templates::get_image(v), mp_dib, 0, 0, 24 * a, y, 24, 24);
-					}
+					draw_image(Cxcc_templates::get_image(v), mp_dib, 0, 0, 24 * a, y, 24, 24);
 				}
-				y += 24;
 			}
-			m_object_pos[i].bottom = y;
-			total.cy = y;
 			y += 24;
 		}
+		m_object_pos[i].bottom = y;
+		total.cy = y;
+		y += 24;
 	}
 	SetScrollSizes(MM_TEXT, total);
 }

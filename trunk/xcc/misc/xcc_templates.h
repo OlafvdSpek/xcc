@@ -15,20 +15,19 @@ struct t_template_data_entry
 {
 	int cx;
 	int cy;
-	int c_images;
 	long long buildable;
 	long long moveable;
 	int flags;
+	byte* images;
 };
 
 class Cxcc_templates  
 {
 private:
 	static array<void*, 3> bib;
-	static array<byte*, 256> image_list;
 	static t_palet palet;
 	static byte shade_rp[256];
-	static t_template_data_entry template_data[256];
+	static t_template_data_entry template_data[0xd8];
 	static byte template_list[256][64];
 public:
 	static int load_data();
@@ -37,7 +36,7 @@ public:
 
 	static const byte* get_image(int v)
 	{
-		return image_list[v >> 8] + 576 * (v & 0xff);
+		return template_data[v >> 8].images + 576 * (v & 0xff);
 	}
 
 	static const t_palet& get_palet()
