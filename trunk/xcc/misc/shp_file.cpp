@@ -85,7 +85,7 @@ void Cshp_file::decode(void* d) const
 	byte* w = reinterpret_cast<byte*>(d);
 	for (int i = 0; i < cf(); i++)
 	{
-		memcpy(w, shp_images::get_shp(p, i), cb_image());
+		memcpy(w, p->get(i), cb_image());
 		w += cb_image();
 	}
 	shp_images::destroy_shp(p);
@@ -112,7 +112,7 @@ int Cshp_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 		{
 			// xcc_log::write_line("<tr><td>" + name.get_ftitle() + "</td><td><img src=td_icons/" + name.get_fname() + "></td></tr>");
 			t.set_title(name.get_ftitle() + " " + nwzl(3, i));
-			if (error = image_file_write(t, ft, shp_images::get_shp(p, i), palet, cx(), cy()))
+			if (error = image_file_write(t, ft, p->get(i), palet, cx(), cy()))
 				break;
 		}
 		shp_images::destroy_shp(p);

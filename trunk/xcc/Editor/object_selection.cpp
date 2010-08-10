@@ -123,9 +123,7 @@ void Cobject_selection::draw_image(const byte* s, t_palet32bgr_entry* d, int sx,
 
 void Cobject_selection::draw_image(shp_images::t_image_data* s0, t_palet32bgr_entry* d, int sx, int sy, int dx, int dy)
 {
-	int cx;
-	int cy;
-	draw_image(shp_images::get_shp(s0, 0), d, sx, sy, dx, dy, s0->cx, s0->cy);
+	draw_image(s0->get(0), d, sx, sy, dx, dy, s0->cx, s0->cy);
 }
 
 
