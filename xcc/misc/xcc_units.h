@@ -29,8 +29,8 @@ namespace xcc_units
 	int load_data();
 	int save_data();
 
-	int load_images(bool load_icons);
-	int get_id(const string& s);
+	int load_images();
+	t_unit_data_entry* get_id(const string&);
 
 	t_unit_data_entry unit_data[];
 }

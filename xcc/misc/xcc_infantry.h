@@ -23,8 +23,8 @@ namespace xcc_infantry
 	int load_data();
 	int save_data();
 
-	int load_images(bool load_icons);
-	int get_id(const string& s);
+	int load_images();
+	t_infantry_data_entry* get_id(const string&);
 
 	t_infantry_data_entry infantry_data[];
 }

@@ -694,7 +694,7 @@ static void handle_infantry_section_entry(const string &a, const string &b, t_in
 	t_infantry_data_entry d;
 	Cmulti_line line = b;
 	d.side = get_side_id(line.get_next_line());
-	d.t = &xcc_infantry::infantry_data[xcc_infantry::get_id(line.get_next_line())];
+	d.t = xcc_infantry::get_id(line.get_next_line());
 	d.health = get_value(line.get_next_line(), 0, 256);
 	d.cell.set_cc(get_cell_value(line.get_next_line()));
 	d.cell.subcell(get_value(line.get_next_line(), 0, 4));
@@ -723,7 +723,7 @@ static void handle_units_section_entry(const string &a, const string &b, t_unit_
 	t_unit_data_entry d;
 	Cmulti_line line = b;
 	d.side = get_side_id(line.get_next_line());
-	d.t = &xcc_units::unit_data[xcc_units::get_id(line.get_next_line())];
+	d.t = xcc_units::get_id(line.get_next_line());
 	d.health = get_value(line.get_next_line(), 0, 256);
 	d.cell.set_cc(get_cell_value(line.get_next_line()));
 	d.angle = get_value(line.get_next_line(), 0, 256);
@@ -784,11 +784,11 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 		Cmulti_line c = line.get_next_line();
 		const string t = c.get_next_line(':');
 		const int n = get_value(c.get_next_line(), 1, 99);
-		const int z = xcc_infantry::get_id(t);
-		if (z != -1)
-			d.object_list[i] = z << 8 | n;
+		auto z = xcc_infantry::get_id(t);
+		if (z)
+			d.object_list[i] = (z - xcc_infantry::infantry_data) << 8 | n;
 		else
-			d.object_list[i] = 0x8000 | xcc_units::get_id(t) << 8 | n;
+			d.object_list[i] = 0x8000 | (xcc_units::get_id(t) - xcc_units::unit_data) << 8 | n;
 	}
 	d.c_actions = get_value(line.get_next_line(), 0, 64);
 	d.action_list.assign(0);

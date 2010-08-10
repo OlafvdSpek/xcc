@@ -65,7 +65,7 @@ int xcc_infantry::save_data()
 	return infantry_key.vdata().save(xcc_dirs::get_data_dir() + infantry_xif_fname);
 }
 
-int xcc_infantry::load_images(bool load_icons)
+int xcc_infantry::load_images()
 {
 	static bool loaded = false;
 	if (loaded)
@@ -76,20 +76,20 @@ int xcc_infantry::load_images(bool load_icons)
 			continue;
 		if (shp_images::load_shp(id.short_name, id.images))
 			return 1;
-		if (load_icons && id.flags & id_flags_icon && shp_images::load_shp(id.short_name + "icon", id.icon))
+		if (id.flags & id_flags_icon && shp_images::load_shp(id.short_name + "icon", id.icon))
 			return 1;
 	}
 	loaded = true;
 	return 0;
 }
 
-int xcc_infantry::get_id(const string& s)
+xcc_infantry::t_infantry_data_entry* xcc_infantry::get_id(const string& s)
 {
 	BOOST_FOREACH(auto& id, infantry_data)
 	{
 		if (id.flags & id_flags_in_use && iequals(id.short_name, s))
-			return &id - infantry_data;
+			return &id;
 	}
 	// assert(false);
-	return -1;
+	return NULL;
 }

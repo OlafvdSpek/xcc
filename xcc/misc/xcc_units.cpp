@@ -89,7 +89,7 @@ int xcc_units::save_data()
 	return units_key.vdata().save(xcc_dirs::get_data_dir() + units_xif_fname);
 }
 
-int xcc_units::load_images(bool load_icons)
+int xcc_units::load_images()
 {
 	static bool loaded = false;
 	if (loaded)
@@ -102,20 +102,20 @@ int xcc_units::load_images(bool load_icons)
 			return 1;
 		// shp_images::get_shp(ud.images, 0, ud.cx, ud.cy);
 		ud.c_images = shp_images::get_shp_c_images(ud.images);
-		if (load_icons && ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon", ud.icon))
+		if (ud.flags & ud_flags_icon && shp_images::load_shp(ud.short_name + "icon", ud.icon))
 			return 1;
 	}
 	loaded = true;
 	return 0;
 }
 
-int xcc_units::get_id(const string& s)
+xcc_units::t_unit_data_entry* xcc_units::get_id(const string& s)
 {
 	BOOST_FOREACH(auto& ud, unit_data)
 	{
 		if (ud.flags & ud_flags_in_use && iequals(ud.short_name, s))
-			return &ud - unit_data;
+			return &ud;
 	}
 	assert(false);
-	return -1;
+	return NULL;
 }

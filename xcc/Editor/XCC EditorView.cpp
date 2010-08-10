@@ -211,7 +211,7 @@ void CXCCEditorView::OnInitialUpdate()
 	{
 		AfxMessageBox("Template load failed", MB_ICONEXCLAMATION);
 	}
-	if (xcc_infantry::load_images(false))
+	if (xcc_infantry::load_images())
 	{
 		AfxMessageBox("Infantry load failed", MB_ICONEXCLAMATION);
 	}
@@ -219,7 +219,7 @@ void CXCCEditorView::OnInitialUpdate()
 	{
 		AfxMessageBox("Structures load failed", MB_ICONEXCLAMATION);
 	}
-	if (xcc_units::load_images(false))
+	if (xcc_units::load_images())
 	{
 		AfxMessageBox("Units load failed", MB_ICONEXCLAMATION);
 	}
