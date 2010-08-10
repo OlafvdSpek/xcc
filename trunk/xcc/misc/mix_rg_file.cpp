@@ -27,7 +27,7 @@ int Cmix_rg_file::post_open()
 	m_old_index.clear();
 	if (!is_valid())
 		return 1;
-	if (get_data() && get_vdata().size() != get_size())
+	if (get_data() && vdata().size() != get_size())
 		return 0;
 	t_mix_rg_header header;
 	seek(0);

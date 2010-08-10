@@ -11,7 +11,7 @@ public:
     static int get_id(t_game game, string name);
     int get_index(unsigned int id) const;
 	Ccc_file::get_size;
-	Ccc_file::get_vdata;
+	Ccc_file::vdata;
 	Cvirtual_binary get_vdata(int id);
 	Cvirtual_binary get_vdata(const string& name);
 	bool is_valid();

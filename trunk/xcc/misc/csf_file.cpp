@@ -50,7 +50,7 @@ int Ccsf_file::post_open()
 {
 	if (!is_valid())
 		return 1;
-	if (get_vdata().size() != get_size())
+	if (vdata().size() != get_size())
 		return 0;
 	const byte* r = get_data() + sizeof(t_csf_header);
 	for (int i = 0; i < get_header()->count1; i++)

@@ -232,7 +232,7 @@ void Ccc_file::load(const Cvirtual_binary& d, int size)
 
 void Ccc_file::load(const Ccc_file& f)
 {
-	load(f.get_vdata());
+	load(f.vdata());
 }
 
 int Ccc_file::read()
@@ -267,7 +267,7 @@ int Ccc_file::extract(const string& name)
 {
 	assert(is_open());
 	if (get_data())
-		return get_vdata().save(name);
+		return vdata().save(name);
 	seek(0);
 	Cfile32 f;
 	if (int error = f.open_write(name))
