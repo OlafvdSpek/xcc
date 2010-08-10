@@ -1426,7 +1426,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 			{
 				for (int i = 0; i < c_images >> 1; i++)
 				{
-					memcpy(w, shp_images::get_shp(p, i), cx * cy);
+					memcpy(w, p->get(i), cx * cy);
 					w += cx * cy;
 				}
 				shp_images::destroy_shp(p);
