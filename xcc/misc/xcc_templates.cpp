@@ -12,7 +12,7 @@
 
 const char* theater_xif_fname = "theater.xif";
 
-array<void*, 3> Cxcc_templates::bib;
+array<shp_images::t_image_data*, 3> Cxcc_templates::bib;
 byte* image_data = 0;
 t_palet Cxcc_templates::palet;
 byte Cxcc_templates::shade_rp[256];

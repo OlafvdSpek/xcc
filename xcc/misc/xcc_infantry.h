@@ -1,5 +1,7 @@
 #pragma once
 
+#include "shp_images.h"
+
 enum
 {
 	id_flags_in_use = 1,
@@ -16,8 +18,8 @@ namespace xcc_infantry
 		int cx;
 		int cy;
 		int flags;
-		void* images;
-		void* icon;
+		shp_images::t_image_data* images;
+		shp_images::t_image_data* icon;
 	};
 	
 	int load_data();

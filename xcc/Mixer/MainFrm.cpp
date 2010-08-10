@@ -891,23 +891,18 @@ void CMainFrame::OnLaunchXTW_TS()
 	{
 		do
 		{
-			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			const string fname = dir + fd.cFileName;
+			Caud_file f;
+			if (f.open(fname))
+				continue;
+			char b[MAX_PATH];
+			int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+			if (error > 0 && error < MAX_PATH)
 			{
-				const string fname = dir + fd.cFileName;
-				Caud_file f;
-				if (!f.open(fname))
-				{
-					char b[MAX_PATH];
-					int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
-					if (error > 0 && error < MAX_PATH)
-					{
-						Ctheme_data e;
-						e.name(Cfname(fd.cFileName).get_ftitle());
-						e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
-						theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
-					}
-					f.close();
-				}
+				Ctheme_data e;
+				e.name(Cfname(fd.cFileName).get_ftitle());
+				e.length(static_cast<float>(f.get_c_samples()) / f.get_samplerate() / 60);
+				theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
 			}
 		}
 		while (FindNextFile(findhandle, &fd));
@@ -970,29 +965,21 @@ void CMainFrame::launch_xtw(t_game game)
 		bool xste_open = !xste.open(game);
 		do
 		{
-			if (~fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+			const string fname = dir + fd.cFileName;
+			Cwav_file f;
+			if (f.open(fname) || f.process())
+				continue;
+			char b[MAX_PATH];
+			int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
+			if (error > 0 && error < MAX_PATH)
 			{
-				const string fname = dir + fd.cFileName;
-				Cwav_file f;
-				if (!f.open(fname))
-				{
-					if (!f.process())
-					{
-						char b[MAX_PATH];
-						int error = GetShortPathName(fname.c_str(), b, MAX_PATH);
-						if (error > 0 && error < MAX_PATH)
-						{
-							Ctheme_data e;
-							e.name("THEME:" + Cfname(b).get_ftitle());
-							e.sound(Cfname(b).get_ftitle());
-							theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
-							if (xste_open)
-								xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
+				Ctheme_data e;
+				e.name("THEME:" + Cfname(b).get_ftitle());
+				e.sound(Cfname(b).get_ftitle());
+				theme_list[to_upper_copy(Cfname(b).get_ftitle())] = e;
+				if (xste_open)
+					xste.csf_f().set_value(e.name(), Ccsf_file::convert2wstring(Cfname(fname).get_ftitle()), "");
 
-						}
-					}
-					f.close();
-				}
 			}
 		}
 		while (FindNextFile(findhandle, &fd));
