@@ -437,7 +437,7 @@ void Cobject_selection::load_terrain()
 		{
 			for (int xp = 0; xp < (cx + 23) / 24; xp++)
 			{
-				if (Cxcc_overlays::terrain_blocked(i << 8 | j++))
+				if (0) // Cxcc_overlays::terrain_blocked(i << 8 | j++))
 					draw_filter(mp_dib, 24 * xp, y + 24 * yp, 24, 24, 0x80, 0x80, 0x80, 0xff, 0x00, 0x00);
 			}
 		}
@@ -467,7 +467,7 @@ void Cobject_selection::load_units()
 			if (ud.flags & ud_flags_top)
 			{
 				int cx, cy;
-				auto image_data = shp_images::get_shp(ud.images, 32, cx, cy);
+				auto image_data = ud.images->get(32, cx, cy);
 				draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
 			}
 			y += ud.cy;

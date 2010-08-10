@@ -48,16 +48,16 @@ int shp_images::load_shp(const string& name, t_image_data*& p)
 	return load_shp(name + Cxcc_mixs::theater_fext(g_theater), Cxcc_mixs::theater(g_theater), p) && load_shp(name + ".shp", Cxcc_mixs::conquer(), p);
 }
 
-const byte* shp_images::get_shp(t_image_data* data, int index, int& cx, int& cy)
+const byte* shp_images::t_image_data::get(int f, int& cx0, int& cy0)
 {
-	if (data)
+	if (this)
 	{
-		cx = data->cx;
-		cy = data->cy;
-		return data->get(index);
+		cx0 = cx;
+		cy0 = cy;
+		return get(f);
 	}
-	cx = 0;
-	cy = 0;
+	cx0 = 0;
+	cy0 = 0;
 	return NULL;
 }
 

@@ -217,12 +217,12 @@ const byte* Cxcc_overlays::get_overlay_image(int v, int& x, int& y, int& cx, int
 {
 	x = overlay_data[v >> 8].ox;
 	y = overlay_data[v >> 8].oy;
-	return shp_images::get_shp(overlay_data[v >> 8].images, v & 0xff, cx, cy);
+	return overlay_data[v >> 8].images->get(v & 0xff, cx, cy);
 }
 
 const byte* Cxcc_overlays::get_terrain_image(int v, int& x, int& y, int& cx, int& cy)
 {
 	x = 0;
 	y = 0;
-	return shp_images::get_shp(terrain_data[v >> 8].images, v & 0xff, cx, cy);
+	return terrain_data[v >> 8].images->get(v & 0xff, cx, cy);
 }
