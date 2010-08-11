@@ -1,6 +1,6 @@
 #pragma once
 
-#include <boost/shared_ptr.hpp>
+#include <memory>
 #include <string>
 #include <windows.h>
 
@@ -26,7 +26,7 @@ public:
 		return static_cast<T>(m_source.get());
 	}
 private:
-	boost::shared_ptr<void> m_source;
+	std::shared_ptr<void> m_source;
 };
 
 typedef Cwin_handle_base<HANDLE> Cwin_handle;
