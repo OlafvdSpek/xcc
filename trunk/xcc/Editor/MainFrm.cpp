@@ -70,10 +70,10 @@ void CMainFrame::OnUpdateCell(CCmdUI *pCmdUI)
 {
 	OnIdleUpdateCmdUI();
 	string text = "";
-	if (m_mouse_pos.get_x() != -1)
+	if (m_mouse_pos.x != -1)
 	{
-		long x = 100 * m_mouse_pos.get_x() >> 8;
-		long y = 100 * m_mouse_pos.get_y() >> 8;
+		long x = 100 * m_mouse_pos.x >> 8;
+		long y = 100 * m_mouse_pos.y >> 8;
 		text = nwzl(2, x / 100) + ',' + nwzl(2, x % 100) + ";" + nwzl(2, y / 100) + ',' + nwzl(2, y % 100) + nwsl(5, m_mouse_pos.get_cc()) + nwsl(2, m_mouse_pos.subcell());
 	}
 	set_statusbar_cx_pane(ID_INDICATOR_CELL, 120);
