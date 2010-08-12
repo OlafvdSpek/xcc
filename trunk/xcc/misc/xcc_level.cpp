@@ -1136,6 +1136,12 @@ void Cxcc_level::deconvert_bin(unsigned short* data) const
 		data[i] = Cxcc_templates::deconvert_bin_data(data[i]);
 }
 
+bool Cxcc_level::has_overlay(int i, int x, int y, int v) const
+{
+	auto j = find_ptr(overlay_data, i + x + (y << 8));
+	return j && *j >> 8 == v;
+}
+
 void Cxcc_level::process()
 {
 	for (int i = 0; i < 4096; i++)
@@ -1155,19 +1161,36 @@ void Cxcc_level::process()
 	BOOST_FOREACH(auto& i, overlay_data)
 	{
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
-		if (!is_wall(v))
-			continue;
 		int cell = i.first;
-		t_overlay_data::mapped_type* j;
-		j = find_ptr(overlay_data, cell - 256);
-		bool top = j && *j >> 8 == v;
-		j = find_ptr(overlay_data, cell + 1);
-		bool right = j && *j >> 8 == v;
-		j = find_ptr(overlay_data, cell + 256);
-		bool bottom = j && *j >> 8 == v;
-		j = find_ptr(overlay_data, cell - 1);
-		bool left = j && *j >> 8 == v;
-		overlay_data[cell] = v << 8 | top | right << 1 | bottom << 2 | left << 3;
+		bool top = has_overlay(cell, 0, -1, v);
+		bool bottom = has_overlay(cell, 0, 1, v);
+		bool left = has_overlay(cell, -1, 0, v);
+		bool right = has_overlay(cell, 1, 0, v);
+		if (is_wall(v))
+			overlay_data[cell] = v << 8 | left << 3 | bottom << 2 | right << 1 | top;
+		else if (v == o_conc)
+		{
+			int w = cell & 1;
+			if (w & 1)
+			{
+				if (top && right || has_overlay(cell,  1, -1, v) && right)
+					w = bottom ? 3 : 10;
+				else if (bottom && right)
+					w = 8;
+				else if (top && has_overlay(cell, 1, -1, v))
+					w = 10;
+			}
+			else
+			{
+				if (top && left || has_overlay(cell, -1, -1, v) && left)
+					w = bottom ? 2 : 11;
+				else if (bottom && left || bottom && has_overlay(cell, -1, 1, v))
+					w = 9;
+				else if (top && has_overlay(cell, -1, -1, v))
+					w = 11;
+			}
+			overlay_data[cell] = v << 8 | w;
+		}
 	}
 	BOOST_FOREACH(auto& i, base_data)
 	{

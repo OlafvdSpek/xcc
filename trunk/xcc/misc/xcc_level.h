@@ -331,6 +331,7 @@ public:
 	t_trigger_data trigger_data;
 	t_waypoint_data waypoint_data;
 private:
+	bool has_overlay(int i, int x, int y, int v) const;
 	void convert_bin(unsigned short* data) const;
 	void deconvert_bin(unsigned short* data) const;
 };
