@@ -47,18 +47,6 @@ void xcc_cell_manager::add(const Cxcc_cell& cell, int v)
 void xcc_cell_manager::add_all(const Cxcc_level& level)
 {
 	clear();
-	BOOST_FOREACH(auto& i, level.overlay_data)
-	{
-		Cxcc_cell cell;
-		cell.set_xcc(i.first);
-		add(cell, oi_overlay << 24 | (cell.y & 0xff00) | (cell.x >> 8));
-	}
-	BOOST_FOREACH(auto& i, level.terrain_data)
-	{
-		Cxcc_cell cell;
-		cell.set_xcc(i.first);
-		add(cell, oi_terrain << 24 | (cell.y & 0xff00) | (cell.x >> 8));
-	}
 	{
 		int index = 0;
 		BOOST_FOREACH(auto& i, level.infantry_data)
@@ -74,6 +62,18 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 		BOOST_FOREACH(auto& i, level.unit_data)
 			add(i.cell, oi_unit << 24 | index++);
 	}
+	BOOST_FOREACH(auto& i, level.terrain_data)
+	{
+		Cxcc_cell cell;
+		cell.set_xcc(i.first);
+		add(cell, oi_terrain << 24 | (cell.y & 0xff00) | (cell.x >> 8));
+	}
+	BOOST_FOREACH(auto& i, level.overlay_data)
+	{
+		Cxcc_cell cell;
+		cell.set_xcc(i.first);
+		add(cell, oi_overlay << 24 | (cell.y & 0xff00) | (cell.x >> 8));
+	}
 }
 
 const xcc_cell_manager::t_cell_info* xcc_cell_manager::get_cell_info(const Cxcc_cell& cell)
@@ -83,7 +83,5 @@ const xcc_cell_manager::t_cell_info* xcc_cell_manager::get_cell_info(const Cxcc_
 
 const xcc_cell_manager::t_cell_info* xcc_cell_manager::get_next(const t_cell_info* ci)
 {
-	if (!ci->next)
-		return 0;
-	return &cell_info[ci->next >> 8][ci->next & 0xff];
+	return ci->next ? &cell_info[ci->next >> 8][ci->next & 0xff] : NULL;
 }

@@ -1366,14 +1366,13 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 							{
 								for (int i = 0; i < (cx + 23) / 24; i++)
 								{
-									if (Cxcc_overlays::terrain_blocked(v | w++))
+									if (!Cxcc_overlays::terrain_blocked(v | w++))
+										continue;
+									distance = Cxcc_cell::distance(cell, obj_cell + Cxcc_cell(i << 8, j << 8));
+									if (distance < min_distance)
 									{
-										distance = Cxcc_cell::distance(cell, obj_cell + Cxcc_cell(i << 8, j << 8));
-										if (distance < min_distance)
-										{
-											min_distance = distance;
-											done = true;
-										}
+										min_distance = distance;
+										done = true;
 									}
 								}
 							}
@@ -1388,9 +1387,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 						break;
 					case oi_infantry:
 						if (m_view_infantry_layer)
-						{
 							distance = Cxcc_cell::distance(cell, level().infantry_data[index].cell);
-						}
 						break;
 					case oi_structure:
 						if (m_view_structure_layer)
@@ -1402,14 +1399,13 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 							{
 								for (int i = 0; i < d.cx; i++)
 								{
-									if (d.blocked >> w++ & 1)
+									if (~d.blocked >> w++ & 1)
+										continue;
+									distance = Cxcc_cell::distance(cell, Cxcc_cell(level().structure_data[index].cell) + Cxcc_cell(i << 8, j << 8));
+									if (distance < min_distance)
 									{
-										distance = Cxcc_cell::distance(cell, Cxcc_cell(level().structure_data[index].cell) + Cxcc_cell(i << 8, j << 8));
-										if (distance < min_distance)
-										{
-											min_distance = distance;
-											done = true;
-										}
+										min_distance = distance;
+										done = true;
 									}
 								}
 							}
@@ -1423,7 +1419,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 						}
 						break;
 					case oi_unit:
-						if (m_view_infantry_layer)
+						if (m_view_unit_layer)
 							distance = Cxcc_cell::distance(cell, level().unit_data[index].cell);
 						break;
 					}
