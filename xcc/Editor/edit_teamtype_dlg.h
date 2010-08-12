@@ -6,8 +6,8 @@
 class Cedit_teamtype_dlg : public CDialog
 {
 public:
-	void add_object(int i);
-	void add_action(int i);
+	void add_object(const t_teamtype_data_entry::t_objects::value_type&);
+	void add_action(const t_teamtype_data_entry::t_actions::value_type&);
 	int get_selected_object_i();
 	int get_selected_action_i();
 	void load(const string& name);
