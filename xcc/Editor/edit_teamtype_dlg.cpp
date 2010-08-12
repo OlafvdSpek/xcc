@@ -67,36 +67,33 @@ BEGIN_MESSAGE_MAP(Cedit_teamtype_dlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+static void insert(CComboBox& ctl, const string& t, int v)
+{
+	ctl.SetItemData(ctl.AddString(t.c_str()), v);
+}
+
+static void insert(CListBox& ctl, const string& t)
+{
+	ctl.AddString(t.c_str());
+}
+
 BOOL Cedit_teamtype_dlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 
-	int index;
 	for (int i = 0; i < c_side_id + 1; i++)
-	{
-		index = m_combo_side.AddString(side_code[i]);
-		m_combo_side.SetItemData(index, i < c_side_id ? i : -1);
-	}
+		insert(m_combo_side, side_code[i], i < c_side_id ? i : -1);
 	for (int i = 0; i < 256; i++)
 	{
 		const xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)
-		{
-			index = m_combo_object.AddString(id.long_name.c_str());
-			m_combo_object.SetItemData(index, i);
-		}
+			insert(m_combo_object, id.long_name, i);
 		const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
 		if (ud.flags & ud_flags_in_use)
-		{
-			index = m_combo_object.AddString(ud.long_name.c_str());
-			m_combo_object.SetItemData(index, 0x80 | i);
-		}
+			insert(m_combo_object, ud.long_name, 0x80 | i);
 	}
 	for (int i = 0; action_code[i]; i++)
-	{
-		index = m_combo_action.AddString(action_code[i]);
-		m_combo_action.SetItemData(index, i);
-	}
+		insert(m_combo_action, action_code[i], i);
 	
 	if (m_teamtype_data_loaded)
 	{
@@ -262,13 +259,12 @@ void Cedit_teamtype_dlg::OnSelchangeActionList()
 	m_action_delete_button.EnableWindow(get_selected_action_i() != -1);
 }
 
-
 void Cedit_teamtype_dlg::add_object(const t_teamtype_data_entry::t_objects::value_type& v)
 {
-	m_list_object.AddString((v.first + ": " + n(v.second)).c_str());
+	insert(m_list_object, v.first + ": " + n(v.second));
 }
 
 void Cedit_teamtype_dlg::add_action(const t_teamtype_data_entry::t_actions::value_type& v)
 {
-	m_list_action.AddString((static_cast<string>(action_code[v.first]) + ": " + n(v.second)).c_str());
+	insert(m_list_action, static_cast<string>(action_code[v.first]) + ": " + n(v.second));
 }

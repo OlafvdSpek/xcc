@@ -90,6 +90,6 @@ xcc_infantry::t_infantry_data_entry* xcc_infantry::get_id(const string& s)
 		if (id.flags & id_flags_in_use && iequals(id.short_name, s))
 			return &id;
 	}
-	// assert(false);
+	assert(false);
 	return NULL;
 }
