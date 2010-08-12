@@ -35,25 +35,21 @@ BEGIN_MESSAGE_MAP(Cedit_trigger_dlg, CDialog)
 	//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
+static void insert(CComboBox& ctl, const string& t, int v)
+{
+	ctl.SetItemData(ctl.AddString(t.c_str()), v);
+}
+
 BOOL Cedit_trigger_dlg::OnInitDialog() 
 {
 	CDialog::OnInitDialog();
 
 	for (int i = 0; cause_code[i]; i++)
-	{
-		int index = m_combo_cause.AddString(cause_code[i]);
-		m_combo_cause.SetItemData(index, i);
-	}
+		insert(m_combo_cause, cause_code[i], i);
 	for (int i = 0; event_code[i]; i++)
-	{
-		int index = m_combo_event.AddString(event_code[i]);
-		m_combo_event.SetItemData(index, i);
-	}
+		insert(m_combo_event, event_code[i], i);
 	for (int i = 0; i < c_side_id + 1; i++)
-	{
-		int index = m_combo_side.AddString(side_code[i]);
-		m_combo_side.SetItemData(index, i);
-	}
+		insert(m_combo_side, side_code[i], i);
 	
 	if (m_trigger_data_loaded)
 	{
