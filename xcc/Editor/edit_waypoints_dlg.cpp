@@ -51,7 +51,7 @@ BOOL Cedit_waypoints_dlg::OnInitDialog()
 			continue;
 		Cxcc_cell cell;
 		cell.set_cc(v);
-		m_list.set_item(nwzl(3, cell.get_x() >> 8) + ',' + nwzl(3, cell.get_y() >> 8), i, 1);
+		m_list.set_item(nwzl(3, cell.x >> 8) + ',' + nwzl(3, cell.y >> 8), i, 1);
 	};
 
 	m_list.autosize_columns();

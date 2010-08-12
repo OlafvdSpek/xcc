@@ -38,26 +38,6 @@ public:
 		y = v & 0xff00 | 0x80;
 	}
 
-	int get_x() const
-	{
-		return x;
-	}
-
-	int get_y() const
-	{
-		return y;
-	}
-
-	void set_x(int _x)
-	{
-		x = _x;
-	}
-
-	void set_y(int _y)
-	{
-		y = _y;
-	}
-
 #ifdef __AFX_H__
 	CPoint pixel() const
 	{
@@ -220,7 +200,7 @@ public:
 		int b = 100 * y >> 8;
 		return nwzl(3, a / 100) + ',' + nwzl(2, a % 100) + ";" + nwzl(3, b / 100) + ',' + nwzl(2, b % 100);
 	}
-private:
+
 	int x;
 	int y;
 };

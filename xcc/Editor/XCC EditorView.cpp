@@ -159,7 +159,7 @@ void CXCCEditorView::OnDraw(CDC* pDC)
 
 	pDC->BitBlt(24 * 8, 24 * 8, 24 * 64, 24 * 64, &m_MemDC, 0, 0, SRCCOPY);
 	// selection
-	if (m_sel_bp.get_x() != -1)
+	if (m_sel_bp.x != -1)
 	{
 		CRect rect((m_sel_bp + level_topleft).pixel(), (m_sel_ep + level_topleft).pixel());
 		rect.NormalizeRect();
@@ -180,7 +180,7 @@ inline static bool in_level(int x, int y)
 
 inline static bool in_level(const Cxcc_cell& v)
 {
-	return !(v.get_x() < 0 || v.get_y() < 0) && v.get_x() < 64 << 8 && v.get_y() < 64 << 8;
+	return !(v.x < 0 || v.y < 0) && v.x < 64 << 8 && v.y < 64 << 8;
 }
 
 void CXCCEditorView::OnInitialUpdate()
@@ -192,7 +192,7 @@ void CXCCEditorView::OnInitialUpdate()
 	ScrollToPosition(CPoint(8 * 24, 8 * 24));
 	m_MemDCValid = false;
 	m_creating_sel = false;
-	m_sel_bp.set_x(-1);
+	m_sel_bp.x = -1;
 	m_view_border_filter = true;
 	m_view_moveable_filter = m_view_structure_blocked_filter = false;
 
@@ -288,8 +288,8 @@ void CXCCEditorView::update_mem_surface()
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i.first);
-			int x = (cell.get_x() >> 8) * 24;
-			int y = (cell.get_y() >> 8) * 24;
+			int x = (cell.x >> 8) * 24;
+			int y = (cell.y >> 8) * 24;
 			draw_overlay(i.second, mp_dib, x, y, dib_cx);
 		}
 	}
@@ -299,8 +299,8 @@ void CXCCEditorView::update_mem_surface()
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i.first);
-			int x = (cell.get_x() >> 8) * 24;
-			int y = (cell.get_y() >> 8) * 24;
+			int x = (cell.x >> 8) * 24;
+			int y = (cell.y >> 8) * 24;
 			draw_terrain(i.second, mp_dib, x, y, dib_cx);
 		}
 	}
@@ -308,8 +308,8 @@ void CXCCEditorView::update_mem_surface()
 	{
 		BOOST_FOREACH(auto& i, level().structure_data)
 		{
-			int x = (i.cell.get_x() >> 8) * 24;
-			int y = (i.cell.get_y() >> 8) * 24;
+			int x = (i.cell.x >> 8) * 24;
+			int y = (i.cell.y >> 8) * 24;
 			draw_structure(*i.t, i.angle, xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx, true);
 		}
 	}
@@ -317,8 +317,8 @@ void CXCCEditorView::update_mem_surface()
 	{
 		BOOST_FOREACH(auto& i, level().infantry_data)
 		{
-			int x = (24 * i.cell.get_x() >> 8) - 27;
-			int y = (24 * i.cell.get_y() >> 8) - 15;
+			int x = (24 * i.cell.x >> 8) - 27;
+			int y = (24 * i.cell.y >> 8) - 15;
 			draw_infantry(*i.t, i.angle, i.side == s_badguy ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
 		}
 	}
@@ -327,8 +327,8 @@ void CXCCEditorView::update_mem_surface()
 		BOOST_FOREACH(auto& i, level().unit_data)
 		{
 			const xcc_units::t_unit_data_entry& ud = *i.t;
-			int x = (i.cell.get_x() >> 8) * 24 + ud.base_ox;
-			int y = (i.cell.get_y() >> 8) * 24 + ud.base_oy;
+			int x = (i.cell.x >> 8) * 24 + ud.base_ox;
+			int y = (i.cell.y >> 8) * 24 + ud.base_oy;
 			draw_unit(*i.t, i.angle, i.side == s_badguy && ~ud.flags & ud_flags_red ? xcc_draw::multi4_rp : xcc_draw::side_rp[i.side], mp_dib, x, y, dib_cx);
 		}
 	}
@@ -373,8 +373,8 @@ void CXCCEditorView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	const Cobject_selection& object_selection = *main_frame()->m_selection_pane;
 	const t_object_id type = object_selection.get_current_object_type();
-	const int lx = m_temp_object_pos.get_x() >> 8;
-	const int ly = m_temp_object_pos.get_y() >> 8;
+	const int lx = m_temp_object_pos.x >> 8;
+	const int ly = m_temp_object_pos.y >> 8;
 	int i = object_selection.get_current_object();
 	if (i != -1)
 	{
@@ -493,19 +493,19 @@ void CXCCEditorView::OnLButtonUp(UINT nFlags, CPoint point)
 	if (m_creating_sel)
 	{
 		m_sel_ep = get_cell_from_point(point).center();
-		if (!in_level(m_sel_ep) || m_sel_bp.get_x() == m_sel_ep.get_x() && m_sel_bp.get_y() == m_sel_ep.get_y())
+		if (!in_level(m_sel_ep) || m_sel_bp.x == m_sel_ep.x && m_sel_bp.y == m_sel_ep.y)
 		{
-			m_sel_bp.set_x(-1);
+			m_sel_bp.x = -1;
 			Invalidate(false);
 		}
 		else
 		{
-			CRect rect(m_sel_bp.get_x(), m_sel_bp.get_y(), m_sel_ep.get_x(), m_sel_ep.get_y());
+			CRect rect(m_sel_bp.x, m_sel_bp.y, m_sel_ep.x, m_sel_ep.y);
 			rect.NormalizeRect();
-			m_sel_bp.set_x(rect.TopLeft().x);
-			m_sel_bp.set_y(rect.TopLeft().y);
-			m_sel_ep.set_x(rect.BottomRight().x);
-			m_sel_ep.set_y(rect.BottomRight().y);
+			m_sel_bp.x = rect.TopLeft().x;
+			m_sel_bp.y = rect.TopLeft().y;
+			m_sel_ep.x = rect.BottomRight().x;
+			m_sel_ep.y = rect.BottomRight().y;
 		}
 		m_creating_sel = false;
 	}
@@ -550,14 +550,14 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	}
 	else
 	{
-		main_frame()->m_mouse_pos.set_x(-1);
+		main_frame()->m_mouse_pos.x = -1;
 		main_frame()->m_object_name.erase();
 	}
 	Cobject_selection& object_selection = *main_frame()->m_selection_pane;
 	int i = object_selection.get_current_object();
 	if (i == -1)
 	{
-		if (m_sel_bp.get_x() != -1 && m_creating_sel && 
+		if (m_sel_bp.x != -1 && m_creating_sel && 
 			in_level(m_mouse_pos) && m_sel_ep != m_mouse_pos.center())
 		{
 			m_sel_ep = m_mouse_pos.center();
@@ -569,9 +569,9 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 		}
 		return;
 	}
-	else if (m_sel_bp.get_x() != -1)
+	else if (m_sel_bp.x != -1)
 	{
-		m_sel_bp.set_x(-1);
+		m_sel_bp.x = -1;
 		Invalidate(false);
 	}
 
@@ -703,7 +703,7 @@ void CXCCEditorView::OnContextMenu(CWnd*, CPoint point)
 	CMenu menu;
 	VERIFY(menu.LoadMenu(CG_IDR_POPUP_XCCEDITOR_VIEW));
 	
-	CMenu* pPopup = menu.GetSubMenu(m_sel_bp.get_x() == -1 ? 0 : 1);
+	CMenu* pPopup = menu.GetSubMenu(m_sel_bp.x == -1 ? 0 : 1);
 	ASSERT(pPopup != NULL);
 	CWnd* pWndPopupOwner = this;
 	
@@ -940,7 +940,7 @@ void CXCCEditorView::erase_temp_object()
 	{
 		for (int x = 0; x < (m_temp_object_size.cx + 23) / 24; x++)
 		{
-			if (!CRect(0, 0, 64, 64).PtInRect(CPoint((draw_pos.get_x() >> 8) + x, (draw_pos.get_y() >> 8) + y)))
+			if (!CRect(0, 0, 64, 64).PtInRect(CPoint((draw_pos.x >> 8) + x, (draw_pos.y >> 8) + y)))
 			{
 				pDC->BitBlt(window_pos.x + 24 * x, window_pos.y + 24 * y, 
 					24, 24, 0,
@@ -1329,7 +1329,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 		for (int a = -1; a < 2; a++)
 		{
 			Cxcc_cell area_cell = cell + Cxcc_cell(a << 10, b << 10);
-			if (!in_level(area_cell.get_x() >> 8, area_cell.get_y() >> 8))
+			if (!in_level(area_cell.x >> 8, area_cell.y >> 8))
 				continue;
 			const xcc_cell_manager::t_cell_info* ci = xcc_cell_manager::get_cell_info(area_cell);
 			while (ci)
@@ -1649,7 +1649,7 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i->first);
-			const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
+			const CPoint ul(cell.x >> 8, cell.y >> 8);
 			const int t = i->second;
 			int cx, cy, ox, oy;
 			Cxcc_overlays::get_terrain_image(t, ox, oy, cx, cy);
@@ -1681,7 +1681,7 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 		for (t_structure_data::iterator i = level().structure_data.begin(); i != level().structure_data.end(); )
 		{
 			const Cxcc_cell cell = i->cell;
-			const CPoint ul(cell.get_x() >> 8, cell.get_y() >> 8);
+			const CPoint ul(cell.x >> 8, cell.y >> 8);
 			const xcc_structures::t_structure_data_entry d = *i->t;
 			int j = 0;
 			int outside = false;
@@ -1875,19 +1875,19 @@ void CXCCEditorView::OnUpdatePopupFillWithTiberium(CCmdUI* pCmdUI)
 
 void CXCCEditorView::get_selection(Cxcc_cell& a, Cxcc_cell& b) const
 {
-	CRect rect(m_sel_bp.get_x(), m_sel_bp.get_y(), m_sel_ep.get_x(), m_sel_ep.get_y());
+	CRect rect(m_sel_bp.x, m_sel_bp.y, m_sel_ep.x, m_sel_ep.y);
 	rect.NormalizeRect();
-	a.set_x(rect.TopLeft().x);
-	a.set_y(rect.TopLeft().y);
-	b.set_x(rect.BottomRight().x);
-	b.set_y(rect.BottomRight().y);
+	a.x = rect.TopLeft().x;
+	a.y = rect.TopLeft().y;
+	b.x = rect.BottomRight().x;
+	b.y = rect.BottomRight().y;
 }
 
 CRect CXCCEditorView::get_selection() const
 {
 	Cxcc_cell a, b;
 	get_selection(a, b);
-	return CRect(a.get_x() >> 8, a.get_y() >> 8, (b.get_x() >> 8) + 1, (b.get_y() >> 8) + 1);
+	return CRect(a.x >> 8, a.y >> 8, (b.x >> 8) + 1, (b.y >> 8) + 1);
 }
 
 void CXCCEditorView::OnToolsEnergyStatus() 

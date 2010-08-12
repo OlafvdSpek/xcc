@@ -741,7 +741,7 @@ static void handle_overlay_section_entry(const string &a, const string &b, t_ove
 	if (is_tiberium(v))
 	{
 		w = v - o_ti1;
-		v = static_cast<t_overlay_id>((cell.get_x() >> 8  & 63 ^ cell.get_y() >> 8) % 12 + o_ti1);
+		v = static_cast<t_overlay_id>((cell.x >> 8  & 63 ^ cell.y >> 8) % 12 + o_ti1);
 	}
 	overlay_data[cell.get_xcc()] = v << 8 | w;
 }
