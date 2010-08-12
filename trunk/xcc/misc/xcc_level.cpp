@@ -777,29 +777,21 @@ static void handle_teamtypes_section_entry(const string &a, const string &b, t_t
 	d.c_teams = get_value(line.get_next_line(), 0, 99);
 	line.get_next_line();
 	line.get_next_line();
-	d.c_objects = get_value(line.get_next_line(), 1, 16);
-	d.object_list.assign(0);
-	for (int i = 0; i < d.c_objects; i++)
+	for (int i = get_value(line.get_next_line(), 1, 16); i--; )
 	{
 		Cmulti_line c = line.get_next_line();
 		const string t = c.get_next_line(':');
 		const int n = get_value(c.get_next_line(), 1, 99);
-		auto z = xcc_infantry::get_id(t);
-		if (z)
-			d.object_list[i] = (z - xcc_infantry::infantry_data) << 8 | n;
-		else
-			d.object_list[i] = 0x8000 | (xcc_units::get_id(t) - xcc_units::unit_data) << 8 | n;
+		d.objects.push_back(make_pair(t, n));
 	}
-	d.c_actions = get_value(line.get_next_line(), 0, 64);
-	d.action_list.assign(0);
-	for (int i = 0; i < d.c_actions; i++)
+	for (int i = get_value(line.get_next_line(), 0, 64); i--; )
 	{
 		Cmulti_line c = line.get_next_line();
 		const int z = get_action_id(c.get_next_line(':'));
 		if (z == -1)
 			assert(false);
 		const int n = get_value(c.get_next_line(), 0, 99);
-		d.action_list[i] = z << 8 | n;
+		d.actions.push_back(make_pair(z, n));
 	}
 	if (get_value(line.get_next_line(), 0, 1))
 		d.flags |= td_flags_replace;
@@ -1014,18 +1006,12 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		const t_teamtype_data_entry& d = i.second;
 		os << i.first << '=' << side_code[d.side] << ',' << static_cast<bool>(d.flags & td_flags_link) << ",0," <<
 			static_cast<bool>(d.flags & td_flags_force_move) << ',' << static_cast<bool>(d.flags & td_flags_autocreate) << ",0," <<
-			d.u1 << ',' << d.c_teams << ",0,0," << d.c_objects << ',';
-		for (int i = 0; i < d.c_objects; i++)
-		{
-			int v = d.object_list[i];
-			os << (v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) << ':' << (v & 0xff) << ',';
-		}
-		os << d.c_actions << ',';
-		for (int i = 0; i < d.c_actions; i++)
-		{
-			int v = d.action_list[i];
-			os << action_code[v >> 8] << ':' << (v & 0xff) << ',';
-		}
+			d.u1 << ',' << d.c_teams << ",0,0," << d.objects.size() << ',';
+		BOOST_FOREACH(auto& i, d.objects)
+			os << i.first << ':' << i.second << ',';
+		os << d.actions.size() << ',';
+		BOOST_FOREACH(auto& i, d.actions)
+			os << action_code[i.first] << ':' << i.second << ',';
 		os << static_cast<bool>(d.flags & td_flags_replace) << ',' << static_cast<bool>(d.flags & td_flags_force_creation) << "\r\n";
 	}
 	os << "\r\n";

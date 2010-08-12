@@ -21,7 +21,6 @@ Cedit_teamtype_dlg::Cedit_teamtype_dlg(Cxcc_level& level)
 	m_check_link = FALSE;
 	m_check_replace = FALSE;
 	//}}AFX_DATA_INIT
-	m_teamtype_data.c_objects = m_teamtype_data.c_actions = 0;
 	m_teamtype_data_loaded = false;
 }
 
@@ -72,14 +71,13 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	int i;
 	int index;
-	for (i = 0; i < c_side_id + 1; i++)
+	for (int i = 0; i < c_side_id + 1; i++)
 	{
 		index = m_combo_side.AddString(side_code[i]);
 		m_combo_side.SetItemData(index, i < c_side_id ? i : -1);
 	}
-	for (i = 0; i < 256; i++)
+	for (int i = 0; i < 256; i++)
 	{
 		const xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
 		if (id.flags & id_flags_in_use)
@@ -94,7 +92,7 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 			m_combo_object.SetItemData(index, 0x80 | i);
 		}
 	}
-	for (i = 0; action_code[i]; i++)
+	for (int i = 0; action_code[i]; i++)
 	{
 		index = m_combo_action.AddString(action_code[i]);
 		m_combo_action.SetItemData(index, i);
@@ -112,14 +110,10 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 		m_check_autocreate = static_cast<bool>(m_teamtype_data.flags & td_flags_autocreate);
 		m_check_replace = static_cast<bool>(m_teamtype_data.flags & td_flags_replace);
 		m_check_force_creation = static_cast<bool>(m_teamtype_data.flags & td_flags_force_creation);
-		for (int i = 0; i < d.c_objects; i++)
-		{
+		BOOST_FOREACH(auto& i, d.objects)
 			add_object(i);
-		}
-		for (int i = 0; i < d.c_actions; i++)
-		{
+		BOOST_FOREACH(auto& i, d.actions)
 			add_action(i);
-		}
 		UpdateData(false);
 	}
 
@@ -193,9 +187,9 @@ void Cedit_teamtype_dlg::OnObjectInsert()
 		return;
 	}
 	t_teamtype_data_entry& d = m_teamtype_data;
-	d.object_list[d.c_objects] = m_combo_object.GetItemData(i) << 8 | m_edit_object;
-	add_object(d.c_objects);
-	d.c_objects++;
+	int v = m_combo_object.GetItemData(i);
+	d.objects.push_back(make_pair(v & 0x80 ? xcc_units::unit_data[v & 0x7f].short_name : xcc_infantry::infantry_data[v].short_name, m_edit_object));
+	add_object(d.objects.back());
 	OnSelchangeObjectList();
 }
 
@@ -204,9 +198,7 @@ void Cedit_teamtype_dlg::OnObjectDelete()
 	t_teamtype_data_entry& d = m_teamtype_data;
 	int i = get_selected_object_i();
 	m_list_object.DeleteString(i);
-	for (int j = i + 1; j < d.c_objects; j++)
-		d.object_list[j - 1] = d.object_list[j];
-	d.c_objects--;
+	d.objects.erase(d.objects.begin() + i);
 	OnSelchangeObjectList();
 }
 
@@ -222,9 +214,8 @@ void Cedit_teamtype_dlg::OnActionInsert()
 		return;
 	}
 	t_teamtype_data_entry& d = m_teamtype_data;
-	d.action_list[d.c_actions] = m_combo_action.GetItemData(i) << 8 | m_edit_action;
-	add_action(d.c_actions);
-	d.c_actions++;
+	d.actions.push_back(make_pair(m_combo_action.GetItemData(i), m_edit_action));
+	add_action(d.actions.back());
 	OnSelchangeActionList();
 }
 
@@ -243,9 +234,7 @@ void Cedit_teamtype_dlg::OnActionDelete()
 	t_teamtype_data_entry& d = m_teamtype_data;
 	int i = get_selected_action_i();
 	m_list_action.DeleteString(i);
-	for (int j = i + 1; j < d.c_actions; j++)
-		d.action_list[j - 1] = d.action_list[j];
-	d.c_actions--;
+	d.actions.erase(d.actions.begin() + i);
 	OnSelchangeActionList();
 }
 
@@ -263,25 +252,23 @@ int Cedit_teamtype_dlg::get_selected_action_i()
 
 void Cedit_teamtype_dlg::OnSelchangeObjectList() 
 {
-	m_object_insert_button.EnableWindow(m_teamtype_data.c_objects < 9);
+	m_object_insert_button.EnableWindow(m_teamtype_data.objects.size() < 9);
 	m_object_delete_button.EnableWindow(get_selected_object_i() != -1);
 }
 
 void Cedit_teamtype_dlg::OnSelchangeActionList() 
 {
-	m_action_insert_button.EnableWindow(m_teamtype_data.c_actions < 64);
+	m_action_insert_button.EnableWindow(m_teamtype_data.actions.size() < 64);
 	m_action_delete_button.EnableWindow(get_selected_action_i() != -1);
 }
 
 
-void Cedit_teamtype_dlg::add_object(int i)
+void Cedit_teamtype_dlg::add_object(const t_teamtype_data_entry::t_objects::value_type& v)
 {
-	int v = m_teamtype_data.object_list[i];
-	m_list_object.AddString((static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].long_name : xcc_infantry::infantry_data[v >> 8].long_name) + ": " + n(v & 0xff)).c_str());
+	m_list_object.AddString((v.first + ": " + n(v.second)).c_str());
 }
 
-void Cedit_teamtype_dlg::add_action(int i)
+void Cedit_teamtype_dlg::add_action(const t_teamtype_data_entry::t_actions::value_type& v)
 {
-	int v = m_teamtype_data.action_list[i];
-	m_list_action.AddString((static_cast<string>(action_code[v >> 8]) + ": " + n(v & 0xff)).c_str());
+	m_list_action.AddString((static_cast<string>(action_code[v.first]) + ": " + n(v.second)).c_str());
 }

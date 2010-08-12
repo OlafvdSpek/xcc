@@ -266,14 +266,15 @@ enum
 
 struct t_teamtype_data_entry
 {
+	typedef vector<pair<string, int>> t_objects;
+	typedef vector<pair<int, int>> t_actions;
+
 	t_side_id side;
 	int flags;
 	int u1;
 	int c_teams;
-	int c_objects;
-	int c_actions;
-	array<int, 16> object_list;
-	array<int, 64> action_list;
+	t_objects objects;
+	t_actions actions;
 };
 
 struct t_trigger_data_entry

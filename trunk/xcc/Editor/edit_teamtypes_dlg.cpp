@@ -133,22 +133,19 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 	const t_teamtype_data_entry& d = m_level.teamtype_data[name];
 	m_list.set_item(d.side != -1 ? side_code[d.side] : "none", i, 1);
 	string s;
-	for (int j = 0; j < d.c_objects; j++)
+	BOOST_FOREACH(auto& j, d.objects)
 	{
-		int v = d.object_list[j];
-		if (j)
+		if (!s.empty())
 			s += ", ";
-		s += static_cast<string>(v & 0x8000 ? xcc_units::unit_data[v >> 8 & 0x7f].short_name : xcc_infantry::infantry_data[v >> 8].short_name) + 
-			':' + n(v & 0xff);
+		s += j.first + ':' + n(j.second);
 	}
 	m_list.set_item(s, i, 2);
 	s.erase();
-	for (int j = 0; j < d.c_actions; j++)
+	BOOST_FOREACH(auto& j, d.actions)
 	{
-		int v = d.action_list[j];
-		if (j)
+		if (!s.empty())
 			s += ", ";
-		s += static_cast<string>(action_code[v >> 8]) + ':' + n(v & 0xff);
+		s += static_cast<string>(action_code[j.first]) + ':' + n(j.second);
 	}
 	m_list.set_item(s, i, 3);
 }
