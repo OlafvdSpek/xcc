@@ -93,10 +93,11 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	return TRUE;  // return TRUE unless you set the focus to a control
 }
 
-void Copen_from_mix_dlg::get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d)
+void Copen_from_mix_dlg::get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d, string& name)
 {
 	bin_d = mix.get_vdata(selected_fname + ".bin");
 	ini_d = mix.get_vdata(selected_fname + ".ini");
+	name = selected_fname;
 }
 
 void Copen_from_mix_dlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult) 
