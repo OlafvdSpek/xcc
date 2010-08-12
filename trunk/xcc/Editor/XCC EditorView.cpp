@@ -773,18 +773,16 @@ void CXCCEditorView::OnFileOpenFromMix()
 {
 	CXCCEditorDoc* pDoc = GetDocument();
 	Copen_from_mix_dlg dlg;
-	if (dlg.DoModal() == IDOK)
-	{
-		if (!pDoc->OnNewDocument())
-			return;
-		Cvirtual_binary bin_d;
-		Cvirtual_binary ini_d;
-		dlg.get_selected_f(bin_d, ini_d);
-		pDoc->load(bin_d, ini_d);
-		main_frame()->InitialUpdateFrame(GetDocument(), true);
-		pDoc->GetDocTemplate()->SetDefaultTitle(pDoc);
-		pDoc->SetModifiedFlag();
-	}
+	if (dlg.DoModal() != IDOK 
+		|| !pDoc->OnNewDocument())
+		return;
+	Cvirtual_binary bin_d;
+	Cvirtual_binary ini_d;
+	string name;
+	dlg.get_selected_f(bin_d, ini_d, name);
+	pDoc->load(bin_d, ini_d);
+	main_frame()->InitialUpdateFrame(GetDocument(), true);
+	pDoc->SetTitle(name.c_str());
 }
 
 void CXCCEditorView::OnViewUpdate() 
