@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -13,13 +13,11 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// English (U.S.) resources
+// English (United States) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -27,14 +25,12 @@ LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 //
 
 IDD_XCCMIXEDITOR_DIALOG DIALOGEX 0, 0, 170, 166
-STYLE WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | 
-    WS_SYSMENU | WS_THICKFRAME
+STYLE DS_SETFONT | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_VISIBLE | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
 EXSTYLE WS_EX_ACCEPTFILES | WS_EX_APPWINDOW
 CAPTION "XCC MIX Editor"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x1
 BEGIN
-    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | 
-                    LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,85,111
+    CONTROL         "List1",IDC_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | WS_BORDER | WS_TABSTOP,7,7,85,111
     PUSHBUTTON      "&New...",IDC_BUTTON_NEW,98,7,65,14
     PUSHBUTTON      "&Open...",IDC_BUTTON_OPEN,98,22,65,14
     PUSHBUTTON      "&Save",IDC_BUTTON_SAVE,98,37,65,14
@@ -48,19 +44,16 @@ BEGIN
     PUSHBUTTON      "&Insert",IDC_BUTTON_INSERT,98,97,65,14
 END
 
-IDD_OPTIONS DIALOG DISCARDABLE  0, 0, 161, 58
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_OPTIONS DIALOGEX 0, 0, 161, 58
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Options"
-FONT 8, "MS Sans Serif"
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     DEFPUSHBUTTON   "OK",IDOK,104,7,50,14
     PUSHBUTTON      "Cancel",IDCANCEL,104,24,50,14
-    CONTROL         "Encrypted",IDC_CHECK_ENCRYPTED,"Button",BS_AUTOCHECKBOX | 
-                    WS_TABSTOP,7,26,48,10
-    CONTROL         "Checksum",IDC_CHECK_CHECKSUM,"Button",BS_AUTOCHECKBOX | 
-                    WS_DISABLED | WS_TABSTOP,7,41,49,10
-    COMBOBOX        IDC_COMBO_GAME,7,7,94,282,CBS_DROPDOWNLIST | WS_VSCROLL | 
-                    WS_TABSTOP
+    CONTROL         "Encrypted",IDC_CHECK_ENCRYPTED,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,7,26,48,10
+    CONTROL         "Checksum",IDC_CHECK_CHECKSUM,"Button",BS_AUTOCHECKBOX | WS_DISABLED | WS_TABSTOP,7,41,49,10
+    COMBOBOX        IDC_COMBO_GAME,7,7,94,282,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 END
 
 
@@ -70,7 +63,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_XCCMIXEDITOR_DIALOG, DIALOG
     BEGIN
@@ -99,7 +92,7 @@ END
 IDD_OPTIONS DLGINIT
 BEGIN
     IDC_COMBO_GAME, 0x403, 14, 0
-0x6954, 0x6562, 0x6972, 0x6d75, 0x4420, 0x7761, 0x006e, 
+0x6954, 0x6562, 0x6972, 0x6e61, 0x4420, 0x7761, 0x006e, 
     IDC_COMBO_GAME, 0x403, 10, 0
 0x6552, 0x2064, 0x6c41, 0x7265, 0x0074, 
     IDC_COMBO_GAME, 0x403, 13, 0
@@ -116,7 +109,7 @@ BEGIN
     0
 END
 
-#endif    // English (U.S.) resources
+#endif    // English (United States) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -124,10 +117,8 @@ END
 // Dutch (Netherlands) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_NLD)
-#ifdef _WIN32
 LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 #pragma code_page(1252)
-#endif //_WIN32
 
 #ifdef APSTUDIO_INVOKED
 /////////////////////////////////////////////////////////////////////////////
@@ -135,18 +126,18 @@ LANGUAGE LANG_DUTCH, SUBLANG_DUTCH
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "#define _AFX_NO_SPLITTER_RESOURCES\r\n"
     "#define _AFX_NO_OLE_RESOURCES\r\n"
@@ -174,7 +165,7 @@ END
 
 // Icon with lowest ID value placed first to ensure application icon
 // remains consistent on all systems.
-IDR_MAINFRAME           ICON    DISCARDABLE     "res\\mixedit.ico"
+IDR_MAINFRAME           ICON                    "res\\mixedit.ico"
 #endif    // Dutch (Netherlands) resources
 /////////////////////////////////////////////////////////////////////////////
 
