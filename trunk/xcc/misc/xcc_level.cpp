@@ -990,9 +990,20 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	if (!briefing_data.empty())
 	{
-		os << '[' << section_code[si_briefing] << "]\r\n"
-			<< "1" << '=' << briefing_data << "\r\n"
-			<< "\r\n";
+		os << '[' << section_code[si_briefing] << "]\r\n";
+		int index = 1;
+		for (size_t i = 0, j; j = briefing_data.find("##", i); )
+		{
+			if (j == string::npos)
+			{
+				os << index++ << '=' << trim_copy(briefing_data.substr(i)) << "\r\n";
+				break;
+			}
+			j += 2;
+			os << index++ << '=' << trim_copy(briefing_data.substr(i, j - i)) << "\r\n";
+			i = j;
+		}
+		os << "\r\n";
 	}
 
 	os << '[' << section_code[si_celltriggers] << "]\r\n";
@@ -1039,9 +1050,10 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	BOOST_FOREACH(auto& i, structure_data)
 	{
 		if (i.flags & sd_flags_replace)
-			os << index++ << '=' << i.t->short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
+			os << nwzl(3, index++) << '=' << i.t->short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
 	}
-	os << "\r\n";
+	os << "Count=" << index << "\r\n"
+		<< "\r\n";
 
 	os << '[' << section_code[si_infantry] << "]\r\n";
 	index = 0;
