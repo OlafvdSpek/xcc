@@ -184,7 +184,7 @@ int Cxd2_files::load_pak(const string& name)
 		default:
 			Ccc_file f(true);
 			f.open(id, pak_f);
-			Cvirtual_binary d = f.get_vdata();
+			Cvirtual_binary d = f.vdata();
 			if (name == "icon.icn")
 			{
 				const Cicon_form_decoder s(d);
