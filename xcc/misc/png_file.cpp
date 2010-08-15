@@ -6,6 +6,8 @@
 #include "png.h"
 
 #ifdef PNG_SUPPORT
+#pragma comment(lib, "libpng.lib")
+
 void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 {
 	longjmp(png_ptr->jmpbuf, 1);
