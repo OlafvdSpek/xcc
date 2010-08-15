@@ -31,20 +31,20 @@ static const int decode64_table[256] = {
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
 
-inline static int read_w(const byte*& r)
+static int read_w(const byte*& r)
 {
 	int v = *reinterpret_cast<const unsigned __int16*>(r);
 	r += 2;
 	return v;
 }
 
-inline static void write_w(int v, byte*& w)
+static void write_w(int v, byte*& w)
 {
 	*w++ = v & 0xff;
 	*w++ = v >> 8;
 }
 
-inline static void write_v40(byte v, int count, byte*& d)
+static void write_v40(byte v, int count, byte*& d)
 {
 	if (!v)
 	{
@@ -95,27 +95,27 @@ int get_run_length(const byte* r, const byte* s_end)
 	return count;
 }
 
-inline static void write40_c0(byte*& w, int count, int v)
+static void write40_c0(byte*& w, int count, int v)
 {
 	*w++ = 0;
 	*w++ = count;
 	*w++ = v;
 }
 
-inline static void write40_c1(byte*& w, int count, const byte* r)
+static void write40_c1(byte*& w, int count, const byte* r)
 {
 	*w++ = count;
 	memcpy(w, r, count);
 	w += count;
 }
 
-inline static void write40_c2(byte*& w, int count)
+static void write40_c2(byte*& w, int count)
 {
 	*w++ = 0x80;
 	write_w(count, w);
 }
 
-inline static void write40_c3(byte*& w, int count, const byte* r)
+static void write40_c3(byte*& w, int count, const byte* r)
 {
 	*w++ = 0x80;
 	write_w(0x8000 | count, w);
@@ -123,19 +123,19 @@ inline static void write40_c3(byte*& w, int count, const byte* r)
 	w += count;
 }
 
-inline static void write40_c4(byte*& w, int count, int v)
+static void write40_c4(byte*& w, int count, int v)
 {
 	*w++ = 0x80;
 	write_w(0xc000 | count, w);
 	*w++ = v;
 }
 
-inline static void write40_c5(byte*& w, int count)
+static void write40_c5(byte*& w, int count)
 {
 	*w++ = 0x80 | count;
 }
 
-inline static void write40_copy(byte*& w, int count, const byte* r)
+static void write40_copy(byte*& w, int count, const byte* r)
 {
 	while (count)
 	{
@@ -154,7 +154,7 @@ inline static void write40_copy(byte*& w, int count, const byte* r)
 	}
 }
 
-inline static void write40_fill(byte*& w, int count, int v)
+static void write40_fill(byte*& w, int count, int v)
 {
 	while (count)
 	{
@@ -172,7 +172,7 @@ inline static void write40_fill(byte*& w, int count, int v)
 	}
 }
 
-inline static void write40_skip(byte*& w, int count)
+static void write40_skip(byte*& w, int count)
 {
 	while (count)
 	{
@@ -190,7 +190,7 @@ inline static void write40_skip(byte*& w, int count)
 	}
 }
 
-inline static void flush_copy(byte*& w, const byte* r, const byte*& copy_from)
+static void flush_copy(byte*& w, const byte* r, const byte*& copy_from)
 {
 	if (copy_from)
 	{
@@ -375,7 +375,7 @@ int decode40(const byte image_in[], byte image_out[])
 	return (writep - image_out);
 }
 
-inline static void write_v80(byte v, int count, byte*& d)
+static void write_v80(byte v, int count, byte*& d)
 {
 	if (count > 3)
 	{
@@ -432,13 +432,13 @@ end:
 	}
 }
 
-inline static void write80_c0(byte*& w, int count, int p)
+static void write80_c0(byte*& w, int count, int p)
 {
 	*w++ = (count - 3) << 4 | p >> 8;
 	*w++ = p & 0xff;
 }
 
-inline static void write80_c1(byte*& w, int count, const byte* r)
+static void write80_c1(byte*& w, int count, const byte* r)
 {
 	do
 	{
@@ -452,27 +452,27 @@ inline static void write80_c1(byte*& w, int count, const byte* r)
 	while (count);
 }
 
-inline static void write80_c2(byte*& w, int count, int p)
+static void write80_c2(byte*& w, int count, int p)
 {
 	*w++ = 0xc0 | (count - 3);
 	write_w(p, w);
 }
 
-inline static void write80_c3(byte*& w, int count, int v)
+static void write80_c3(byte*& w, int count, int v)
 {
 	*w++ = 0xfe;
 	write_w(count, w);
 	*w++ = v;
 }
 
-inline static void write80_c4(byte*& w, int count, int p)
+static void write80_c4(byte*& w, int count, int p)
 {
 	*w++ = 0xff;
 	write_w(count, w);
 	write_w(p, w);
 }
 
-inline static void flush_c1(byte*& w, const byte* r, const byte*& copy_from)
+static void flush_c1(byte*& w, const byte* r, const byte*& copy_from)
 {
 	if (copy_from)
 	{
@@ -953,7 +953,7 @@ Cvirtual_binary decode64(const Cvirtual_binary& s)
 	return decode64(s.data(), s.size());
 }
 
-inline static void write5_count(byte*& w, int count)
+static void write5_count(byte*& w, int count)
 {
 	while (count > 255)
 	{
@@ -963,7 +963,7 @@ inline static void write5_count(byte*& w, int count)
 	*w++ = count;
 }
 
-inline static void write5_c0(byte*& w, int count, const byte* r, byte* small_copy)
+static void write5_c0(byte*& w, int count, const byte* r, byte* small_copy)
 {
 	if (count < 4 && !small_copy)
 		count = count;
@@ -991,7 +991,7 @@ inline static void write5_c0(byte*& w, int count, const byte* r, byte* small_cop
 	}
 }
 
-inline static void write5_c1(byte*& w, int count, int p)
+static void write5_c1(byte*& w, int count, int p)
 {
 	assert(count > 2);
 	assert(p >= 0);
@@ -1007,7 +1007,7 @@ inline static void write5_c1(byte*& w, int count, int p)
 	write_w((p << 2) & 0xfffc, w);
 }
 
-inline static void write5_c2(byte*& w, int count, int p)
+static void write5_c2(byte*& w, int count, int p)
 {
 	assert(count > 2);
 	assert(p > 0);
@@ -1024,7 +1024,7 @@ inline static void write5_c2(byte*& w, int count, int p)
 	write_w(p << 2, w);
 }
 
-inline static void write5_c3(byte*& w, int count, int p)
+static void write5_c3(byte*& w, int count, int p)
 {
 	assert(count > 1);
 	assert(count < 7);
@@ -1049,7 +1049,7 @@ int get_count(const byte*& r)
 	return count + v;
 }
 
-inline static void flush_c0(byte*& w, const byte* r, const byte*& copy_from, byte* small_copy, bool start)
+static void flush_c0(byte*& w, const byte* r, const byte*& copy_from, byte* small_copy, bool start)
 {
 	if (copy_from)
 	{
