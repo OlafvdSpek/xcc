@@ -5,16 +5,6 @@
 #include "vorbis/vorbisfile.h"
 #include "wav_file.h"
 
-Cogg_file::Cogg_file()
-{
-}
-
-Cogg_file::~Cogg_file()
-{
-}
-
-#ifdef OGG_SUPPORT
-
 size_t null_read(void* ptr, size_t size, size_t nmemb, void* datasource)
 {
 	if (!size || !nmemb)
@@ -126,6 +116,5 @@ int Cogg_file::decode(Cvirtual_audio& audio)
 			audio.load(b, b.size() / (vi->channels << 1), vi->rate, 2, vi->channels);
 		ov_clear(&vf);
 	}
-return error;
+	return error;
 }
-#endif

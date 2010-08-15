@@ -11,9 +11,6 @@
 class Cogg_file: public Ccc_file_sh<t_ogg_header>
 {
 public:
-	Cogg_file();
-	~Cogg_file();
-
 	bool is_valid() const
 	{
 		return !(get_size() < sizeof(t_ogg_header) || memcmp(header().id, ogg_id, 4));

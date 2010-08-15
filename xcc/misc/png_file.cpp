@@ -45,8 +45,8 @@ int Cpng_file::decode(Cvirtual_image& d) const
 						{
 							png_init_io(png_ptr, f);
 							png_read_info(png_ptr, info_ptr);
-							unsigned long cx;
-							unsigned long cy;
+							uint32_t cx;
+							uint32_t cy;
 							int cbits_pixel;
 							int color_type;
 							png_get_IHDR(png_ptr, info_ptr, &cx, &cy, &cbits_pixel, &color_type, NULL, NULL, NULL);
