@@ -14,6 +14,7 @@
 #include <string>
 #include <vartypes.h>
 #include <vector>
+#include <xbt/const_memory_range.h>
 #include <xbt/find_ptr.h>
 
 using namespace std;
