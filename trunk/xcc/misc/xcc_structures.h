@@ -26,12 +26,12 @@ namespace xcc_structures
 		string short_name;
 		int cx;
 		int cy;
-		dword flags;
+		int flags;
 		shp_images::t_image_data* images;
 		shp_images::t_image_data* images2;
 		shp_images::t_image_data* icon;
-		dword blocked;
-		dword ground;
+		unsigned int blocked;
+		unsigned int ground;
 		int power_in;
 		int power_out;
 	};
