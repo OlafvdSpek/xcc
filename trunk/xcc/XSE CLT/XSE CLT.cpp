@@ -29,7 +29,7 @@ int main(int c_args, char** arg)
 		if (mode == "-")
 		{
 			Cmix_file language;
-			error = language.open(xcc_dirs::get_ra2_dir() + "language.mix");
+			error = language.open(xcc_dirs::get_dir(game_ra2) + "language.mix");
 			if (!error)
 			{
 				language.set_game(game_ra2);
@@ -42,22 +42,22 @@ int main(int c_args, char** arg)
 					error = g.open("audio.idx", audio);
 					if (!error)
 					{
-						Cmix_file_write out_f;
+						Cmix_file_write out_f(game_ra2);
 						for (int i = 0; i < g.c_sounds(); i++)
 						{
 							const t_audio_idx_entry& s  = g.sound_entry(i);
-							Cxse::t_map::const_iterator i = map.find(s.fname);
-							if (i == map.end() || i->second.size != s.size)
+							auto j = map.find(s.fname);
+							if (j == map.end() || j->second.size != s.size)
 							{
 								Cvirtual_file f;
 								error = xse.extract(s.fname, f);
 								if (!error)
-									out_f.add_file(static_cast<string>(s.fname) + ".wav", f.data(), f.size());
+									out_f.add_file(static_cast<string>(s.fname) + ".wav", f.read());
 
 							}
 						}
 						if (!error)
-							error = out_f.write("audio.diff");
+							error = out_f.write().save("audio.diff");
 						g.close();
 					}
 					audio.close();

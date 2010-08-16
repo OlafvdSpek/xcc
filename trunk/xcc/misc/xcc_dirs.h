@@ -13,8 +13,6 @@ public:
 	static bool is_available(t_game game);
 	static string get_audio_mix(t_game game);
 	static string get_csf_fname(t_game game);
-	static string get_dune2_dir();
-	static string get_dune2000_dir();
 	static string get_dir(t_game game);
 	static string get_exe(t_game game);
 	static string get_ecache_mix(t_game game, bool dir, int i);

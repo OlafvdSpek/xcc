@@ -30,16 +30,6 @@ bool xcc_dirs::enable_log()
 	return g_enable_log;
 }
 
-string xcc_dirs::get_dune2_dir()
-{
-	return dune2_dir;
-}
-
-string xcc_dirs::get_dune2000_dir()
-{
-	return dune2000_dir;
-}
-
 string xcc_dirs::get_dir(t_game game)
 {
 	switch (game)
