@@ -2,7 +2,7 @@
 #include <math.h>
 #include "image_tools.h"
 
-inline int get_pixel(const byte* s, int x, int y, int cx, int c_planes)
+static int get_pixel(const byte* s, int x, int y, int cx, int c_planes)
 {
 	return s[c_planes * (x + cx * y)];
 }
@@ -131,7 +131,7 @@ void resize_image_up(const byte* s, byte* d, int cx, int cy, int c_planes, int c
 	}
 }
 
-inline t_palet32entry get_pixel(const t_palet32entry* s, int x, int y, int cx)
+static t_palet32entry get_pixel(const t_palet32entry* s, int x, int y, int cx)
 {
 	return s[x + cx * y];
 }
