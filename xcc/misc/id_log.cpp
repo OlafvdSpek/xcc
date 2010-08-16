@@ -49,12 +49,12 @@ static void read_list(t_game game, const char*& s)
 	}
 }
 
-int id_log::open_binary(const string& fname)
+int mix_database::load()
 {
 	if (!td_list.empty() || !ra_list.empty() || !ts_list.empty())
 		return 0;
 	Cvirtual_binary f;
-	if (f.load(fname) || f.size() < 16)
+	if (f.load(xcc_dirs::get_data_dir() + "global mix database.dat") || f.size() < 16)
 		return 1;
 	const char* data = reinterpret_cast<const char*>(f.data());
 	read_list(game_td, data);
@@ -88,9 +88,9 @@ int id_log::open_binary(const string& fname)
 					for (int m = 0; m < 3; m++)
 					{
 						name[6] = char3[m];
-						add_name(game_td, name, "");
-						add_name(game_ra, name, "");
-						add_name(game_ts, name, "");
+						mix_database::add_name(game_td, name, "");
+						mix_database::add_name(game_ra, name, "");
+						mix_database::add_name(game_ts, name, "");
 					}
 				}
 			}
@@ -99,7 +99,7 @@ int id_log::open_binary(const string& fname)
 	return 0;
 }
 
-void id_log::add_name(t_game game, const string& name, const string& description)
+void mix_database::add_name(t_game game, const string& name, const string& description)
 {
 	t_idinfo idinfo;
 	idinfo.name = name;
@@ -107,19 +107,14 @@ void id_log::add_name(t_game game, const string& name, const string& description
 	get_list(game)[Cmix_file::get_id(game, name)] = idinfo;
 }
 
-string id_log::get_name(t_game game, int id)
+string mix_database::get_name(t_game game, int id)
 {
 	auto i = find_ptr(get_list(game), id);
 	return i ? i->name : "";
 }
 
-string id_log::get_description(t_game game, int id)
+string mix_database::get_description(t_game game, int id)
 {
 	auto i = find_ptr(get_list(game), id);
 	return i ? i->description : "";
-}
-
-int mix_database::load()
-{
-	return id_log::open_binary(xcc_dirs::get_data_dir() + "global mix database.dat");
 }

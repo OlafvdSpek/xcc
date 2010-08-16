@@ -117,7 +117,6 @@ ostream& Cvxl_file::extract_as_text(ostream& os) const
 	return os;
 }
 
-#ifndef NO_XIF_SUPPORT
 enum
 {
 	vi_header,
@@ -441,7 +440,6 @@ Cvirtual_binary vxl_file_write(Cvirtual_tfile s)
 	}
 	return vxl_file_write(colors.data(), normals.data(), cx, cy, cz);
 }
-#endif
 
 struct t_vxl4_header
 {

@@ -1,11 +1,7 @@
 #include "stdafx.h"
 #include "vqa_file.h"
 
-#include <vector>
-#ifndef NO_AVI_SUPPORT
-#include <windows.h>
 #include <vfw.h>
-#endif
 #include "image_file.h"
 #include "pcx_decode.h"
 #include "string_conversion.h"
@@ -115,7 +111,6 @@ int Cvqa_file::post_open()
 	return error ? error : read_chunk_header();
 }
 
-#ifndef NO_AVI_SUPPORT
 static void flip_frame(const byte* s, byte* d, int cx, int cy, int cb_pixel)
 {
 	int cb_line = cx * cb_pixel;
@@ -333,7 +328,6 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 	AVIFileExit();
 	return error;
 }
-#endif
 
 int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 {
