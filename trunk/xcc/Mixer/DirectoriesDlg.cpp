@@ -7,11 +7,11 @@ CDirectoriesDlg::CDirectoriesDlg(CWnd* pParent /*=NULL*/)
 	: ETSLayoutDialog(CDirectoriesDlg::IDD, pParent, "directories_dlg")
 {
 	//{{AFX_DATA_INIT(CDirectoriesDlg)
-	m_edit_dune2 = xcc_dirs::get_dune2_dir().c_str();
+	m_edit_dune2 = xcc_dirs::get_dir(game_dune2).c_str();
 	m_edit_td_primary = xcc_dirs::get_dir(game_td).c_str();
 	m_edit_td_secondary = xcc_dirs::get_td_secondary_dir().c_str();
 	m_edit_ra = xcc_dirs::get_dir(game_ra).c_str();
-	m_edit_dune2000 = xcc_dirs::get_dune2000_dir().c_str();
+	m_edit_dune2000 = xcc_dirs::get_dir(game_dune2000).c_str();
 	m_edit_ts = xcc_dirs::get_dir(game_ts).c_str();
 	m_edit_ra2 = xcc_dirs::get_dir(game_ra2).c_str();
 	m_edit_cd = xcc_dirs::get_cd_dir().c_str();
