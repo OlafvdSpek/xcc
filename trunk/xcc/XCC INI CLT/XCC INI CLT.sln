@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC INI CLT", "XCC INI CLT.vcxproj", "{D315D184-0833-2858-4501-F95717E7BA01}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A} = {5E445578-CB45-4D82-9A1C-FC7D3E8D866A}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcxproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D315D184-0833-2858-4501-F95717E7BA01}.Debug|Win32.ActiveCfg = Debug|Win32
+		{D315D184-0833-2858-4501-F95717E7BA01}.Debug|Win32.Build.0 = Debug|Win32
+		{D315D184-0833-2858-4501-F95717E7BA01}.Release|Win32.ActiveCfg = Release|Win32
+		{D315D184-0833-2858-4501-F95717E7BA01}.Release|Win32.Build.0 = Release|Win32
+		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}.Debug|Win32.ActiveCfg = Debug|Win32
+		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}.Debug|Win32.Build.0 = Debug|Win32
+		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}.Release|Win32.ActiveCfg = Release|Win32
+		{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
