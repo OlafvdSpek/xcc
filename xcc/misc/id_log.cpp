@@ -1,12 +1,11 @@
 #include "stdafx.h"
 #include <id_log.h>
 
-#include <cc_file.h>
 #include <fstream>
-#include <map>
 #include <mix_file.h>
 #include <string_conversion.h>
 #include <xbt/find_ptr.h>
+#include <xcc_dirs.h>
 
 struct t_idinfo
 {
@@ -30,9 +29,8 @@ static t_id_list& get_list(t_game game)
 		return dune2_list;
 	case game_ra2:
 		return ra2_list;
-	default:
-		return td_list;
 	}
+	return td_list;
 }
 
 static void read_list(t_game game, const char*& s)
@@ -55,10 +53,10 @@ int id_log::open_binary(const string& fname)
 {
 	if (!td_list.empty() || !ra_list.empty() || !ts_list.empty())
 		return 0;
-	Ccc_file f(true);
-	if (f.open(fname) || f.get_size() < 12)
+	Cvirtual_binary f;
+	if (f.load(fname) || f.size() < 16)
 		return 1;
-	const char* data = reinterpret_cast<const char*>(f.get_data());
+	const char* data = reinterpret_cast<const char*>(f.data());
 	read_list(game_td, data);
 	read_list(game_ra, data);
 	read_list(game_ts, data);
@@ -119,4 +117,9 @@ string id_log::get_description(t_game game, int id)
 {
 	auto i = find_ptr(get_list(game), id);
 	return i ? i->description : "";
+}
+
+int mix_database::load()
+{
+	return id_log::open_binary(xcc_dirs::get_data_dir() + "global mix database.dat");
 }
