@@ -3,7 +3,8 @@
 
 #include <memory.h>
 
-const t_bf_p p = {
+const Cblowfish::t_bf_p g_p = 
+{
 	0x243f6a88, 0x85a308d3, 0x13198a2e, 0x03707344,
 	0xa4093822, 0x299f31d0, 0x082efa98, 0xec4e6c89,
 	0x452821e6, 0x38d01377, 0xbe5466cf, 0x34e90c6c,
@@ -11,7 +12,8 @@ const t_bf_p p = {
 	0x9216d5d9, 0x8979fb1b,
 };
 
-const t_bf_s s = {
+const Cblowfish::t_bf_s g_s = 
+{
 	0xd1310ba6, 0x98dfb5ac, 0x2ffd72db, 0xd01adfb7,
 	0xb8e1afed, 0x6a267e96, 0xba7c9045, 0xf12c7f99,
 	0x24a19947, 0xb3916cf7, 0x0801f2e2, 0x858efc16,
@@ -270,27 +272,25 @@ const t_bf_s s = {
 	0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6,
 };
 
-void Cblowfish::set_key(const byte* key, int cb_key)
+void Cblowfish::set_key(const_memory_range key)
 {
-	int i, j;
-	dword datal, datar;
+	memcpy(m_p, g_p, sizeof(t_bf_p));
+	memcpy(m_s, g_s, sizeof(t_bf_s));
 
-	memcpy(m_p, p, sizeof(t_bf_p));
-	memcpy(m_s, s, sizeof(t_bf_s));
-
-	j = 0;
-	for (i = 0; i < 18; i++)
+	int j = 0;
+	for (int i = 0; i < 18; i++)
 	{
-		int a = key[j++]; j %= cb_key;
-		int b = key[j++]; j %= cb_key;
-		int c = key[j++]; j %= cb_key;
-		int d = key[j++]; j %= cb_key;
+		int a = key[j++]; j %= key.size();
+		int b = key[j++]; j %= key.size();
+		int c = key[j++]; j %= key.size();
+		int d = key[j++]; j %= key.size();
 		m_p[i] ^= a << 24 | b << 16 | c << 8 | d;
 	}
 
-	datal = datar = 0;
+	uint32_t datal = 0;
+	uint32_t datar = 0;
 
-	for (i = 0; i < 18;)
+	for (int i = 0; i < 18; )
 	{
 		encipher(datal, datar);
 
@@ -298,9 +298,9 @@ void Cblowfish::set_key(const byte* key, int cb_key)
 		m_p[i++] = datar;
 	}
 
-	for (i = 0; i < 4; i++)
+	for (int i = 0; i < 4; i++)
 	{
-		for (j = 0; j < 256;)
+		for (int j = 0; j < 256; )
 		{
 			encipher(datal, datar);
 
@@ -310,25 +310,25 @@ void Cblowfish::set_key(const byte* key, int cb_key)
 	}
 }
 
-dword Cblowfish::S(dword x, int i) const
+uint32_t Cblowfish::S(uint32_t x, int i) const
 {
 	return m_s[i][(x >> ((3 - i) << 3)) & 0xff];
 }
 
-dword Cblowfish::bf_f(dword x) const
+uint32_t Cblowfish::bf_f(uint32_t x) const
 {
 	return ((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3);
 }
 
-void Cblowfish::ROUND(dword& a, dword b, int n) const
+void Cblowfish::ROUND(uint32_t& a, uint32_t b, int n) const
 {
 	a ^= bf_f(b) ^ m_p[n];
 }
 
-void Cblowfish::encipher(dword& xl, dword& xr) const
+void Cblowfish::encipher(uint32_t& xl, uint32_t& xr) const
 {
-	dword Xl = xl;
-	dword Xr = xr;
+	uint32_t Xl = xl;
+	uint32_t Xr = xr;
 
 	Xl ^= m_p[0];
 	ROUND (Xr, Xl, 1);  ROUND (Xl, Xr, 2);
@@ -345,10 +345,10 @@ void Cblowfish::encipher(dword& xl, dword& xr) const
 	xl = Xr;
 }
 
-void Cblowfish::decipher(dword& xl, dword& xr) const
+void Cblowfish::decipher(uint32_t& xl, uint32_t& xr) const
 {
-	dword  Xl = xl;
-	dword  Xr = xr;
+	uint32_t  Xl = xl;
+	uint32_t  Xr = xr;
 
 	Xl ^= m_p[17];
 	ROUND (Xr, Xl, 16);  ROUND (Xl, Xr, 15);
@@ -365,7 +365,7 @@ void Cblowfish::decipher(dword& xl, dword& xr) const
 	xr = Xl;
 }
 
-static dword reverse(dword v)
+static uint32_t reverse(uint32_t v)
 {
 	_asm
 	{
@@ -380,13 +380,13 @@ static dword reverse(dword v)
 
 void Cblowfish::encipher(const void* s, void* d, int size) const
 {
-	const dword* r = reinterpret_cast<const dword*>(s);
-	dword* w = reinterpret_cast<dword*>(d);
+	const uint32_t* r = reinterpret_cast<const uint32_t*>(s);
+	uint32_t* w = reinterpret_cast<uint32_t*>(d);
 	size >>= 3;
 	while (size--)
 	{
-		dword a = reverse(*r++);
-		dword b = reverse(*r++);
+		uint32_t a = reverse(*r++);
+		uint32_t b = reverse(*r++);
 		encipher(a, b);
 		*w++ = reverse(a);
 		*w++ = reverse(b);
@@ -395,13 +395,13 @@ void Cblowfish::encipher(const void* s, void* d, int size) const
 
 void Cblowfish::decipher(const void* s, void* d, int size) const
 {
-	const dword* r = reinterpret_cast<const dword*>(s);
-	dword* w = reinterpret_cast<dword*>(d);
+	const uint32_t* r = reinterpret_cast<const uint32_t*>(s);
+	uint32_t* w = reinterpret_cast<uint32_t*>(d);
 	size >>= 3;
 	while (size--)
 	{
-		dword a = reverse(*r++);
-		dword b = reverse(*r++);
+		uint32_t a = reverse(*r++);
+		uint32_t b = reverse(*r++);
 		decipher(a, b);
 		*w++ = reverse(a);
 		*w++ = reverse(b);
