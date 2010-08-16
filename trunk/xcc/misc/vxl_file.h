@@ -4,9 +4,7 @@
 #include "cc_structures.h"
 #include "fname.h"
 #include "virtual_tfile.h"
-#ifndef NO_XIF_SUPPORT
 #include "xif_key.h"
-#endif
 
 class Cvxl_file: public Ccc_file_sh<t_vxl_header>
 {
@@ -77,8 +75,6 @@ public:
 int vxl_decode4_size(const byte* s);
 Cvirtual_binary vxl_decode4(const byte* s, int cb_d);
 int vxl_encode4(const Cvxl_file& f, byte* d);
-#ifndef NO_XIF_SUPPORT
 Cvirtual_binary vxl_file_write(const Cxif_key& s);
 Cvirtual_binary vxl_file_write(const byte* s, const byte* s_normals, int cx, int cy, int cz);
 Cvirtual_binary vxl_file_write(Cvirtual_tfile s);
-#endif
