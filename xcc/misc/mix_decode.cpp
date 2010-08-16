@@ -415,7 +415,7 @@ static void process_predata(const byte* pre, dword pre_len, byte *buf)
 	}
 }
 
-void get_blowfish_key(const byte* s, byte* d)
+void get_blowfish_key(const byte* s, memory_range d)
 {
 	static bool public_key_initialized = false;
 	if (!public_key_initialized)
