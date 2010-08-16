@@ -200,7 +200,7 @@ void Cvirtual_image::decrease_color_depth(int new_cb_pixel, const t_palet_entry*
 	}
 }
 
-inline static t_palet32entry p32e(int r, int g, int b, int a = 0)
+static t_palet32entry p32e(int r, int g, int b, int a = 0)
 {
 	t_palet32entry e;
 	e.r = r;
@@ -210,12 +210,12 @@ inline static t_palet32entry p32e(int r, int g, int b, int a = 0)
 	return e;
 }
 
-inline static t_palet32entry p32e(t_palet_entry e)
+static t_palet32entry p32e(t_palet_entry e)
 {
 	return p32e(e.r, e.g, e.b);
 }
 
-inline static t_palet32entry p32e(const t_palet palet, int i)
+static t_palet32entry p32e(const t_palet palet, int i)
 {
 	return i ? p32e(palet[i]) : p32e(0x80, 0x80, 0x80, 0xff);
 }

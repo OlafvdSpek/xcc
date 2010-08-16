@@ -60,7 +60,7 @@ void pcx_decode(const byte* s, byte* d, const t_pcx_header& header)
 	delete[] t;
 }
 
-inline static void write_v(byte v, int count, byte*& d)
+static void write_v(byte v, int count, byte*& d)
 {
 	while (count)
 	{
