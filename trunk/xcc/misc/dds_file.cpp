@@ -48,7 +48,7 @@ struct Color565
 
 
 
-inline void GetColorBlockColors( DXTColBlock * pBlock, Color8888 * col_0, Color8888 * col_1, 
+void GetColorBlockColors( DXTColBlock * pBlock, Color8888 * col_0, Color8888 * col_1, 
 													 Color8888 * col_2, Color8888 * col_3,
 													 WORD & wrd  )
 {
@@ -147,7 +147,7 @@ inline void GetColorBlockColors( DXTColBlock * pBlock, Color8888 * col_0, Color8
 
 
 
-inline void DecodeColorBlock( DWORD * pImPos, DXTColBlock * pColorBlock, int width,
+void DecodeColorBlock( DWORD * pImPos, DXTColBlock * pColorBlock, int width,
 								DWORD * col_0,
 								DWORD * col_1, DWORD * col_2, DWORD * col_3 )
 {
@@ -203,7 +203,7 @@ inline void DecodeColorBlock( DWORD * pImPos, DXTColBlock * pColorBlock, int wid
 
 
 
-inline void  DecodeAlphaExplicit( DWORD * pImPos, DXTAlphaBlockExplicit * pAlphaBlock,
+void  DecodeAlphaExplicit( DWORD * pImPos, DXTAlphaBlockExplicit * pAlphaBlock,
 								  int width, DWORD alphazero )
 {
 	// alphazero is a bit mask that when & with the image color
@@ -268,7 +268,7 @@ WORD		gAlphas[8];
 Color8888	gACol[4][4];
 
 
-inline void DecodeAlpha3BitLinear( DWORD * pImPos, DXTAlphaBlock3BitLinear * pAlphaBlock,
+void DecodeAlpha3BitLinear( DWORD * pImPos, DXTAlphaBlock3BitLinear * pAlphaBlock,
 									int width, DWORD alphazero)
 {
 

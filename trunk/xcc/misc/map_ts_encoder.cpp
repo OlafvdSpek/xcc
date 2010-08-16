@@ -25,7 +25,6 @@ static int get_r_inc(const Cmap_ts_encoder::t_header& header, int y)
 	return y > header.cy ? -1 : 0;
 }
 
-#ifndef NO_INI_SUPPORT
 Cmap_ts_encoder::Cmap_ts_encoder(ostream& f, bool encode4):
 	m_f(f)
 {
@@ -164,7 +163,6 @@ int overlay_data_encode4(const byte* r, byte* d, int cb_s, const byte* overlay)
 	}
 	return w - d;
 }
-#endif
 
 void Cmap_ts_encoder::map_decode4(const void* s, void* d, int count, const t_header& size)
 {
@@ -358,7 +356,6 @@ static void write_pack(ostream& os, const byte* s, int cb_s)
 	os << endl;
 }
 
-#ifndef NO_INI_SUPPORT
 void Cmap_ts_encoder::process_section_end()
 {
 	if (m_w)
@@ -525,7 +522,6 @@ void Cmap_ts_encoder::encode(const Cvirtual_binary palet)
 	// analyse_preview(preview_pack());
 	m_preview_pack = preview_encode4(preview_pack(), palet);
 }
-#endif
 
 enum
 {
@@ -614,7 +610,6 @@ void Cmap_ts_encoder::write_map(ostream& os, const Cxif_key& k, const Cvirtual_b
 	delete[] d;
 }
 
-#ifndef NO_INI_SUPPORT
 int Cmap_ts_encoder::write_map(string fname, const string& ini)
 {
 	Cxif_key k;
@@ -750,4 +745,3 @@ Cvirtual_image Cmap_ts_encoder::create_preview() const
 	}
 	return image;
 }
-#endif
