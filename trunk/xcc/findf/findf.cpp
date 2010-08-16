@@ -10,8 +10,6 @@
 #include "mix_cache.h"
 #include "mix_file.h"
 #include "multi_line.h"
-#include "pal_file.h"
-#include "shp_ts_file.h"
 #include "string_conversion.h"
 #include "virtual_tfile.h"
 #include "xcc_dirs.h"
@@ -243,7 +241,7 @@ int main()
 		Ccc_file f(true);
 		f.open("c:/temp/filemon.log");
 		Cvirtual_tfile t;
-		t.load_data(f.get_vdata());
+		t.load_data(f.vdata());
 		while (!t.eof())
 		{
 			Cmulti_line l = t.read_line();
