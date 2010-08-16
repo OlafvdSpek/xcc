@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cc_structures.h>
-#include "xcc_dirs.h"
 
 class id_log  
 {
@@ -14,6 +13,8 @@ public:
 
 namespace mix_database
 {
+	int load();
+
 	inline void add_name(t_game game, const string& name, const string& description)
 	{
 		id_log::add_name(game, name, description);
@@ -27,10 +28,5 @@ namespace mix_database
 	inline string get_description(t_game game, int id)
 	{
 		return id_log::get_description(game, id);
-	}
-
-	inline int load()
-	{
-		return id_log::open_binary(xcc_dirs::get_data_dir() + "global mix database.dat");
 	}
 };

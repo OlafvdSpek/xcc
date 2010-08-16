@@ -13,6 +13,7 @@
 #include <id_log.h>
 #include <pal_file.h>
 #include <string_conversion.h>
+#include <xcc_dirs.h>
 #include "aud_decode.h"
 #include "aud_file.h"
 #include "aud_file_write.h"
