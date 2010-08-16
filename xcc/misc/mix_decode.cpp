@@ -25,32 +25,32 @@ const static char char2num[] =
 };
 
 typedef unsigned short word;
-typedef dword bignum4[4];
-typedef dword bignum[64];
-typedef dword bignum130[130];
+typedef uint32_t bignum4[4];
+typedef uint32_t bignum[64];
+typedef uint32_t bignum130[130];
 
 static struct 
 {
 	bignum key1;
 	bignum key2;
-	dword len;
+	uint32_t len;
 } pubkey;
 static bignum glob1;
-static dword glob1_bitlen, glob1_len_x2;
+static uint32_t glob1_bitlen, glob1_len_x2;
 static bignum130 glob2;
 static bignum4 glob1_hi, glob1_hi_inv;
-static dword glob1_hi_bitlen;
-static dword glob1_hi_inv_lo, glob1_hi_inv_hi;
+static uint32_t glob1_hi_bitlen;
+static uint32_t glob1_hi_inv_lo, glob1_hi_inv_hi;
 
-static void init_bignum(bignum n, dword val, dword len)
+static void init_bignum(bignum n, uint32_t val, uint32_t len)
 {
 	memset((void *)n, 0, len * 4);
 	n[0] = val;
 }
 
-static void move_key_to_big(bignum n, char *key, dword klen, dword blen)
+static void move_key_to_big(bignum n, char *key, uint32_t klen, uint32_t blen)
 {
-	dword sign;
+	uint32_t sign;
 	int i;
 	
 	if (key[0] & 0x80) sign = 0xff;
@@ -62,9 +62,9 @@ static void move_key_to_big(bignum n, char *key, dword klen, dword blen)
 		((char *)n)[i-1] = key[klen-i];
 }
 
-static void key_to_bignum(bignum n, char *key, dword len)
+static void key_to_bignum(bignum n, char *key, uint32_t len)
 {
-	dword keylen;
+	uint32_t keylen;
 	int i;
 	
 	if (key[0] != 2) return;
@@ -85,7 +85,7 @@ static void key_to_bignum(bignum n, char *key, dword len)
 		move_key_to_big(n, key, keylen, len);
 }
 
-static dword len_bignum(bignum n, dword len)
+static uint32_t len_bignum(bignum n, uint32_t len)
 {
   int i;
   i = len-1;
@@ -93,9 +93,9 @@ static dword len_bignum(bignum n, dword len)
   return i+1;
 }
 
-static dword bitlen_bignum(bignum n, dword len)
+static uint32_t bitlen_bignum(bignum n, uint32_t len)
 {
-  dword ddlen, bitlen, mask;
+  uint32_t ddlen, bitlen, mask;
   ddlen = len_bignum(n, len);
   if (ddlen == 0) return 0;
   bitlen = ddlen * 32;
@@ -109,7 +109,7 @@ static dword bitlen_bignum(bignum n, dword len)
 
 static void init_pubkey()
 {
-	dword i, i2, tmp;
+	uint32_t i, i2, tmp;
 	char keytmp[256];
 	
 	init_bignum(pubkey.key2, 0x10001, 64);
@@ -130,13 +130,13 @@ static void init_pubkey()
 	pubkey.len = bitlen_bignum(pubkey.key1, 64) - 1;
 }
 
-static dword len_predata()
+static uint32_t len_predata()
 {
-	dword a = (pubkey.len - 1) / 8;
+	uint32_t a = (pubkey.len - 1) / 8;
 	return (55 / a + 1) * (a + 1);
 }
 
-static long int cmp_bignum(bignum n1, bignum n2, dword len)
+static long int cmp_bignum(bignum n1, bignum n2, uint32_t len)
 {
   n1 += len-1;
   n2 += len-1;
@@ -150,14 +150,14 @@ static long int cmp_bignum(bignum n1, bignum n2, dword len)
   return 0;
 }
 
-static void mov_bignum(bignum dest, bignum src, dword len)
+static void mov_bignum(bignum dest, bignum src, uint32_t len)
 {
   memmove(dest, src, len*4);
 }
 
-static void shr_bignum(bignum n, dword bits, long int len)
+static void shr_bignum(bignum n, uint32_t bits, long int len)
 {
-  dword i, i2;
+  uint32_t i, i2;
 
   i2 = bits / 32;
   if (i2 > 0) {
@@ -171,9 +171,9 @@ bits));
   n[i] = n[i] >> bits;
 }
 
-static void shl_bignum(bignum n, dword bits, dword len)
+static void shl_bignum(bignum n, uint32_t bits, uint32_t len)
 {
-  dword i, i2;
+  uint32_t i, i2;
 
   i2 = bits / 32;
   if (i2 > 0) {
@@ -187,36 +187,36 @@ bits));
   n[0] <<= bits;
 }
 
-static dword sub_bignum(bignum dest, bignum src1, bignum src2, dword carry, dword len)
+static uint32_t sub_bignum(bignum dest, bignum src1, bignum src2, uint32_t carry, uint32_t len)
 {
-  dword i1, i2;
+  uint32_t i1, i2;
 
   len += len;
   while (--len != -1) {
     i1 = *(word *)src1;
     i2 = *(word *)src2;
     *(word *)dest = i1 - i2 - carry;
-    src1 = (dword *)(((word *)src1) + 1);
-    src2 = (dword *)(((word *)src2) + 1);
-    dest = (dword *)(((word *)dest) + 1);
+    src1 = (uint32_t *)(((word *)src1) + 1);
+    src2 = (uint32_t *)(((word *)src2) + 1);
+    dest = (uint32_t *)(((word *)dest) + 1);
     if ((i1 - i2 - carry) & 0x10000) carry = 1; else carry = 0;
   }
   return carry;
 }
 
-static void inv_bignum(bignum n1, bignum n2, dword len)
+static void inv_bignum(bignum n1, bignum n2, uint32_t len)
 {
   bignum n_tmp;
-  dword n2_bytelen, bit;
+  uint32_t n2_bytelen, bit;
   long int n2_bitlen;
 
   init_bignum(n_tmp, 0, len);
   init_bignum(n1, 0, len);
   n2_bitlen = bitlen_bignum(n2, len);
-  bit = ((dword)1) << (n2_bitlen % 32);
+  bit = ((uint32_t)1) << (n2_bitlen % 32);
   n1 += ((n2_bitlen + 32) / 32) - 1;
   n2_bytelen = ((n2_bitlen - 1) / 32) * 4;
-  n_tmp[n2_bytelen / 4] |= ((dword)1) << ((n2_bitlen - 1) & 0x1f);
+  n_tmp[n2_bytelen / 4] |= ((uint32_t)1) << ((n2_bitlen - 1) & 0x1f);
 
   while (n2_bitlen > 0) {
     n2_bitlen--;
@@ -234,12 +234,12 @@ static void inv_bignum(bignum n1, bignum n2, dword len)
   init_bignum(n_tmp, 0, len);
 }
 
-static void inc_bignum(bignum n, dword len)
+static void inc_bignum(bignum n, uint32_t len)
 {
   while ((++*n == 0) && (--len > 0)) n++;
 }
 
-static void init_two_dw(bignum n, dword len)
+static void init_two_dw(bignum n, uint32_t len)
 {
 	mov_bignum(glob1, n, len);
 	glob1_bitlen = bitlen_bignum(glob1, len);
@@ -260,48 +260,48 @@ static void init_two_dw(bignum n, dword len)
 	glob1_hi_inv_hi = *(((word *)glob1_hi_inv) + 1);
 }
 
-static void mul_bignum_word(bignum n1, bignum n2, dword mul, dword len)
+static void mul_bignum_word(bignum n1, bignum n2, uint32_t mul, uint32_t len)
 {
-  dword i, tmp;
+  uint32_t i, tmp;
 
   tmp = 0;
   for (i = 0; i < len; i++) {
     tmp = mul * (*(word *)n2) + *(word *)n1 + tmp;
     *(word *)n1 = tmp;
-    n1 = (dword *)(((word *)n1) + 1);
-    n2 = (dword *)(((word *)n2) + 1);
+    n1 = (uint32_t *)(((word *)n1) + 1);
+    n2 = (uint32_t *)(((word *)n2) + 1);
     tmp >>= 16;
   }
   *(word *)n1 += tmp;
 }
 
-static void mul_bignum(bignum dest, bignum src1, bignum src2, dword len)
+static void mul_bignum(bignum dest, bignum src1, bignum src2, uint32_t len)
 {
-  dword i;
+  uint32_t i;
 
   init_bignum(dest, 0, len*2);
   for (i = 0; i < len*2; i++) {
     mul_bignum_word(dest, src1, *(word *)src2, len*2);
-    src2 = (dword *)(((word *)src2) + 1);
-    dest = (dword *)(((word *)dest) + 1);
+    src2 = (uint32_t *)(((word *)src2) + 1);
+    dest = (uint32_t *)(((word *)dest) + 1);
   }
 }
 
-static void not_bignum(bignum n, dword len)
+static void not_bignum(bignum n, uint32_t len)
 {
-  dword i;
+  uint32_t i;
   for (i = 0; i < len; i++) *(n++) = ~*n;
 }
 
-static void neg_bignum(bignum n, dword len)
+static void neg_bignum(bignum n, uint32_t len)
 {
   not_bignum(n, len);
   inc_bignum(n, len);
 }
 
-static dword get_mulword(bignum n)
+static uint32_t get_mulword(bignum n)
 {
-  dword i;
+  uint32_t i;
   word *wn;
 
   wn = (word *)n;
@@ -314,15 +314,15 @@ static dword get_mulword(bignum n)
   return i & 0xffff;
 }
 
-static void dec_bignum(bignum n, dword len)
+static void dec_bignum(bignum n, uint32_t len)
 {
 	while ((--*n == 0xffffffff) && (--len > 0)) 
 		n++;
 }
 
-static void calc_a_bignum(bignum n1, bignum n2, bignum n3, dword len)
+static void calc_a_bignum(bignum n1, bignum n2, bignum n3, uint32_t len)
 {
-	dword g2_len_x2, len_diff;
+	uint32_t g2_len_x2, len_diff;
 	word *esi, *edi;
 	word tmp;
 	
@@ -337,12 +337,12 @@ static void calc_a_bignum(bignum n1, bignum n2, bignum n3, dword len)
 		edi = ((word *)glob2) + (g2_len_x2 + 1);
 		for (; len_diff != 0; len_diff--) {
 			edi--;
-			tmp = get_mulword((dword *)edi);
+			tmp = get_mulword((uint32_t *)edi);
 			esi--;
 			if (tmp > 0) {
-				mul_bignum_word((dword *)esi, glob1, tmp, 2*len);
+				mul_bignum_word((uint32_t *)esi, glob1, tmp, 2*len);
 				if ((*edi & 0x8000) == 0) {
-					if (sub_bignum((dword *)esi, (dword *)esi, glob1, 0, len)) (*edi)--;
+					if (sub_bignum((uint32_t *)esi, (uint32_t *)esi, glob1, 0, len)) (*edi)--;
 				}
 			}
 		}
@@ -352,7 +352,7 @@ static void calc_a_bignum(bignum n1, bignum n2, bignum n3, dword len)
 	mov_bignum(n1, glob2, len);
 }
 
-static void clear_tmp_vars(dword len)
+static void clear_tmp_vars(uint32_t len)
 {
 	init_bignum(glob1, 0, len);
 	init_bignum(glob2, 0, len);
@@ -365,17 +365,17 @@ static void clear_tmp_vars(dword len)
 	glob1_hi_inv_hi = 0;
 }
 
-static void calc_a_key(bignum n1, bignum n2, bignum n3, bignum n4, dword len)
+static void calc_a_key(bignum n1, bignum n2, bignum n3, bignum n4, uint32_t len)
 {
 	bignum n_tmp;
-	dword n3_len, n4_len, n3_bitlen, bit_mask;
+	uint32_t n3_len, n4_len, n3_bitlen, bit_mask;
 	
 	init_bignum(n1, 1, len);
 	n4_len = len_bignum(n4, len);
 	init_two_dw(n4, n4_len);
 	n3_bitlen = bitlen_bignum(n3, n4_len);
 	n3_len = (n3_bitlen + 31) / 32;
-	bit_mask = (((dword)1) << ((n3_bitlen - 1) % 32)) >> 1;
+	bit_mask = (((uint32_t)1) << ((n3_bitlen - 1) % 32)) >> 1;
 	n3 += n3_len - 1;
 	n3_bitlen--;
 	mov_bignum(n1, n2, n4_len);
@@ -397,10 +397,10 @@ static void calc_a_key(bignum n1, bignum n2, bignum n3, bignum n4, dword len)
 	clear_tmp_vars(len);
 }
 
-static void process_predata(const byte* pre, dword pre_len, byte *buf)
+static void process_predata(const byte* pre, uint32_t pre_len, byte *buf)
 {
 	bignum n2, n3;
-	const dword a = (pubkey.len - 1) / 8;
+	const uint32_t a = (pubkey.len - 1) / 8;
 	while (a + 1 <= pre_len) 
 	{
 		init_bignum(n2, 0, 64);

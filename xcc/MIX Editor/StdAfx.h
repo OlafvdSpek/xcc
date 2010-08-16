@@ -12,6 +12,7 @@
 
 #include <cassert>
 #include <climits>
+#include <cstdint>
 #include <memory>
 #include <map>
 #include <set>
