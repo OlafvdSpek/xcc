@@ -310,17 +310,17 @@ void Cblowfish::set_key(const byte* key, int cb_key)
 	}
 }
 
-inline dword Cblowfish::S(dword x, int i) const
+dword Cblowfish::S(dword x, int i) const
 {
 	return m_s[i][(x >> ((3 - i) << 3)) & 0xff];
 }
 
-inline dword Cblowfish::bf_f(dword x) const
+dword Cblowfish::bf_f(dword x) const
 {
 	return ((S(x, 0) + S(x, 1)) ^ S(x, 2)) + S(x, 3);
 }
 
-inline void Cblowfish::ROUND(dword& a, dword b, int n) const
+void Cblowfish::ROUND(dword& a, dword b, int n) const
 {
 	a ^= bf_f(b) ^ m_p[n];
 }
@@ -365,7 +365,7 @@ void Cblowfish::decipher(dword& xl, dword& xr) const
 	xr = Xl;
 }
 
-static inline dword reverse(dword v)
+static dword reverse(dword v)
 {
 	_asm
 	{

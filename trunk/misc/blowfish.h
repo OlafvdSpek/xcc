@@ -14,9 +14,9 @@ public:
 	void decipher(dword& xl, dword& xr) const;
 	void decipher(const void* s, void* d, int size) const;
 private:
-	inline dword Cblowfish::S(dword x, int i) const;
-	inline dword Cblowfish::bf_f(dword x) const;
-	inline void Cblowfish::ROUND(dword& a, dword b, int n) const;
+	dword S(dword x, int i) const;
+	dword bf_f(dword x) const;
+	void ROUND(dword& a, dword b, int n) const;
 
 	t_bf_p m_p;
 	t_bf_s m_s;
