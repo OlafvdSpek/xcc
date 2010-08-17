@@ -11,7 +11,6 @@ class Cwsa_file: public Cvideo_file<t_wsa_header>
 public:
 	void decode(void* d) const;
 	Cvideo_decoder* decoder();
-	int extract_as_pcx(const Cfname& name, t_file_type ft) const;
 	bool is_valid() const;
 	Cvirtual_image vimage() const;
 
