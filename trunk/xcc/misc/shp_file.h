@@ -13,7 +13,6 @@ class Cshp_file: public Cvideo_file<t_shp_header>
 public:
 	void decode(void* d) const;
 	Cvideo_decoder* decoder(const t_palet_entry*);
-	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet palet) const;
 	bool is_valid() const;
 	Cvirtual_image vimage() const;
 

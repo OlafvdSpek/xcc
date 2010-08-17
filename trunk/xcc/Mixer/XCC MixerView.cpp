@@ -1263,7 +1263,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 		{
 			Cshp_file f;
 			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_pcx(fname, ft, get_default_palet());
+			return error ? error : copy_as_image(f.decoder(get_default_palet()), fname, ft);
 		}
 	case ft_shp_ts:
 		{
