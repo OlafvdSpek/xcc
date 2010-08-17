@@ -2598,27 +2598,26 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 		BOOST_FOREACH(auto& i, m_index)
 		{
 			t_index_entry& e = i.second;
-			if (i.second.ft == -1)
+			if (e.ft != -1)
+				continue;
+			Ccc_file f(false);
+			if (f.open(m_dir + e.name))
 			{
-				Ccc_file f(false);
-				if (f.open(m_dir + e.name))
-				{
-					e.ft = ft_unknown;
-					e.size = -1;
-				}
-				else
-				{
-					e.ft = f.get_file_type();
-					e.size = f.get_size();
-				}
-				CListCtrl& lc = GetListCtrl();
-				LVFINDINFO lvf;
-				lvf.flags = LVFI_PARAM;
-				lvf.lParam = i.first;
-				lc.Update(lc.FindItem(&lvf, -1));
-				m_sort_column = -1;
-				return true;
+				e.ft = ft_unknown;
+				e.size = -1;
 			}
+			else
+			{
+				e.ft = f.get_file_type();
+				e.size = f.get_size();
+			}
+			CListCtrl& lc = GetListCtrl();
+			LVFINDINFO lvf;
+			lvf.flags = LVFI_PARAM;
+			lvf.lParam = i.first;
+			lc.Update(lc.FindItem(&lvf, -1));
+			m_sort_column = -1;
+			return true;
 		}
 		sort_list(0, false);
 		sort_list(1, false);
