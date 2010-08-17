@@ -1205,6 +1205,24 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str()), false).fail();
 }
 
+static int copy_as_image(Cvideo_decoder* v, string fname, t_file_type ft)
+{
+	t_palet palet;
+	memcpy(palet, v->palet(), sizeof(t_palet));
+	convert_palet_18_to_24(palet);
+	Cvirtual_binary frame;
+	Cfname t = fname;
+	for (int i = 0; i < v->cf(); i++)
+	{
+		v->decode(frame.write_start(v->cb_image()));
+		t.set_title(Cfname(fname).get_ftitle() + " " + nwzl(4, i));
+		if (int error = image_file_write(t, ft, frame, palet, v->cx(), v->cy()))
+			return error;
+	}
+	delete v;
+	return 0;
+}
+
 int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 {
 	switch (ft)
@@ -1286,7 +1304,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 		{
 			Cwsa_file f;
 			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_pcx(fname, ft);
+			return error ? error : copy_as_image(f.decoder(), fname, ft);
 		}
 	}
 	return 0;

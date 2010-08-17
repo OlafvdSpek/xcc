@@ -112,26 +112,3 @@ Cvirtual_image Cwsa_file::vimage() const
 	decode(image.write_start(cb_video()));
 	return Cvirtual_image(image, cx(), cf() * cy(), cb_pixel(), palet(), true);
 }
-
-int Cwsa_file::extract_as_pcx(const Cfname& name, t_file_type ft) const
-{
-	t_palet palet;
-	memcpy(palet, Cwsa_file::palet(), sizeof(t_palet));
-	convert_palet_18_to_24(palet);
-	Cvirtual_binary frame;
-	Cvirtual_binary s;
-	memset(frame.write_start(cb_image()), 0, cb_image());
-	Cfname t = name;
-	for (int i = 0; i < cf(); i++)
-	{
-		if (get_offset(i))
-		{
-			decode80(get_frame(i), s.write_start(64 << 10));
-			decode40(s, frame.data_edit());
-		}
-		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		if (int error = image_file_write(t, ft, frame, palet, cx(), cy()))
-			return error;
-	}
-	return 0;
-}
