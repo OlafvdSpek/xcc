@@ -52,10 +52,9 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 		for (int i = 0; i < shape.size(); i++)
 			map.insert(t_map::value_type(shape[i].cx(), i));
 	}
-	t_map::const_iterator i;
-	for (i = map.begin(); i != map.end(); i++)
+	BOOST_FOREACH(auto& i, map)
 	{
-		const Cxd2_image& image = shape[i->second];
+		const Cxd2_image& image = shape[i.second];
 		if (y + image.cy() > 2048)
 		{
 			cy = max(cy, y);
@@ -75,9 +74,9 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 	y = 2048;
 	cx = 0;
 	m_vector.resize(shape.size());
-	for (i = map.begin(); i != map.end(); i++)
+	BOOST_FOREACH(auto& i, map)
 	{
-		const Cxd2_image& image = shape[i->second];
+		const Cxd2_image& image = shape[i.second];
 		if (y + image.cy() > 2048)
 		{
 			x = cx;
@@ -94,7 +93,7 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 				w += surface1->pitch;
 			}
 		}
-		m_vector[i->second] = Csdl_rect(x, y, image.cx(), image.cy());
+		m_vector[i.second] = Csdl_rect(x, y, image.cx(), image.cy());
 		y += image.cy();
 	}
 	SDL_UnlockSurface(surface1);
