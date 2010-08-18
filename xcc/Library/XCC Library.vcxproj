@@ -365,7 +365,6 @@
     <ClInclude Include="..\misc\map_td_ini_reader.h" />
     <ClInclude Include="..\misc\map_ts_encoder.h" />
     <ClInclude Include="..\misc\map_ts_ini_reader.h" />
-    <ClInclude Include="..\..\misc\lzo\minilzo\minilzo.h" />
     <ClInclude Include="..\misc\mix_cache.h" />
     <ClInclude Include="..\misc\mix_decode.h" />
     <ClInclude Include="..\misc\mix_edit.h" />
@@ -412,7 +411,6 @@
     <ClInclude Include="..\..\misc\timer.h" />
     <ClInclude Include="..\misc\tmp_file.h" />
     <ClInclude Include="..\misc\tmp_ra_file.h" />
-    <ClInclude Include="..\misc\tmp_structures.h" />
     <ClInclude Include="..\misc\tmp_ts_file.h" />
     <ClInclude Include="..\..\misc\vartypes.h" />
     <ClInclude Include="..\misc\virtual_audio.h" />
