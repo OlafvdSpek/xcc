@@ -171,25 +171,24 @@ void draw_buildings(const Cxd2_animation& icons)
 	}
 	if (0)
 	{
-		const t_unit_type* unit_types = g_files.unit_types();
 		int y = 0;
-		for (int i = 0; i < g_files.c_unit_types(); i++)
+		BOOST_FOREACH(auto& i, g_files.unit_types())
 		{
-			if (!unit_types[i].body_shp_index)
+			if (!i.body_shp_index)
 				continue;
 			int x = 0;
 			for (int j = 0; j < 5; j++)
 			{
-				const Cxd2_image& image = g_files.shape(unit_types[i].body_shp_index + j);
+				const Cxd2_image& image = g_files.shape(i.body_shp_index + j);
 				show_image(image, x, y);
-				if (unit_types[i].turret_shp_index != -1)
+				if (i.turret_shp_index != -1)
 				{
-					const Cxd2_image& image = g_files.shape(unit_types[i].turret_shp_index + j);
+					const Cxd2_image& image = g_files.shape(i.turret_shp_index + j);
 					show_image(image, x, y);
 				}
 				x += image.cx() + 4;
 			}
-			y += g_files.shape(unit_types[i].body_shp_index + 5).cy() + 4;
+			y += g_files.shape(i.body_shp_index + 5).cy() + 4;
 		}
 	}
 }
@@ -203,33 +202,27 @@ void draw_minimap(const Cvirtual_binary& minimap)
 void show_sidebar()
 {
 	int x = g_screen->w;
+	int y = 0;
 	int cx = 0;
+	BOOST_FOREACH(auto& i, g_files.building_types())
 	{
-		const t_building_type* building_types = g_files.building_types();
-		int y = 0;
-		for (int i = 0; i < g_files.c_building_types(); i++)
-		{
-			if (!building_types[i].cameo_shp_index)
-				continue;
-			const Cxd2_image& image = g_files.shape(building_types[i].cameo_shp_index);
-			draw(g_files.shapes2(), building_types[i].cameo_shp_index, x - image.cx(), y);
-			cx = max(cx, image.cx());
-			y += image.cy() + 4;
-		}
-		x -= cx + 4;
+		if (!i.cameo_shp_index)
+			continue;
+		const Cxd2_image& image = g_files.shape(i.cameo_shp_index);
+		draw(g_files.shapes2(), i.cameo_shp_index, x - image.cx(), y);
+		cx = max(cx, image.cx());
+		y += image.cy() + 4;
 	}
+	x -= cx + 4;
+	y = 0;
+	BOOST_FOREACH(auto& i, g_files.unit_types())
 	{
-		const t_unit_type* unit_types = g_files.unit_types();
-		int y = 0;
-		for (int i = 0; i < g_files.c_unit_types(); i++)
-		{
-			if (!unit_types[i].cameo_shp_index)
-				continue;
-			const Cxd2_image& image = g_files.shape(unit_types[i].cameo_shp_index);
-			draw(g_files.shapes2(), unit_types[i].cameo_shp_index, x - image.cx(), y);
-			cx = max(cx, image.cx());
-			y += image.cy() + 4;
-		}
+		if (!i.cameo_shp_index)
+			continue;
+		const Cxd2_image& image = g_files.shape(i.cameo_shp_index);
+		draw(g_files.shapes2(), i.cameo_shp_index, x - image.cx(), y);
+		cx = max(cx, image.cx());
+		y += image.cy() + 4;
 	}
 }
 
