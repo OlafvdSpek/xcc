@@ -5,10 +5,6 @@
 
 enum t_file_type
 {
-	ft_ai_ini_ts,
-	ft_ai_ini_ra2,
-	ft_art_ini_ts,
-	ft_art_ini_ra2,
 	ft_aud,
 	ft_avi,
 	ft_big,

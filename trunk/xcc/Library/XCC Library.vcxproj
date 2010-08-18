@@ -109,8 +109,6 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\misc\art_ts_ini_reader.cpp">
-    </ClCompile>
     <ClCompile Include="..\misc\aud_decode.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\aud_file.cpp">
@@ -324,7 +322,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\misc\xif_key_r.h" />
-    <ClInclude Include="..\misc\art_ts_ini_reader.h" />
     <ClInclude Include="..\misc\aud_decode.h" />
     <ClInclude Include="..\misc\aud_file.h" />
     <ClInclude Include="..\misc\aud_file_write.h" />

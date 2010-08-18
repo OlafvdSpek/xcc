@@ -155,8 +155,6 @@
       <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\misc\timer.cpp">
-    </ClCompile>
     <ClCompile Include="..\misc\virtual_image_mfc.cpp" />
     <ClCompile Include="..\misc\xap.cpp">
     </ClCompile>
@@ -184,27 +182,12 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\misc\big_edit.h" />
-    <ClInclude Include="..\misc\big_file_write.h" />
-    <ClInclude Include="..\misc\cc_file.h" />
-    <ClInclude Include="..\misc\csf_file.h" />
     <ClInclude Include="DirectoriesDlg.h" />
     <ClInclude Include="dlg_shp_viewer.h" />
-    <ClInclude Include="fs_ini_file.h" />
-    <ClInclude Include="..\misc\hva_file.h" />
-    <ClInclude Include="..\misc\id_log.h" />
     <ClInclude Include="..\misc\ima_adpcm_wav_decode.h" />
     <ClInclude Include="..\misc\ima_adpcm_wav_encode.h" />
-    <ClInclude Include="..\misc\image_file.h" />
     <ClInclude Include="..\misc\itc_ini_reader.h" />
-    <ClInclude Include="..\misc\jpeg_file.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="..\misc\map_ra_ini_reader.h" />
-    <ClInclude Include="..\misc\map_td_ini_reader.h" />
-    <ClInclude Include="..\misc\map_ts_encoder.h" />
-    <ClInclude Include="..\misc\map_ts_ini_reader.h" />
-    <ClInclude Include="..\misc\mix_rg_file.h" />
-    <ClInclude Include="..\misc\ogg_file.h" />
     <ClInclude Include="palet_filter.h" />
     <ClInclude Include="ResizeDlg.h" />
     <ClInclude Include="Resource.h" />
@@ -212,10 +195,7 @@
     <ClInclude Include="SearchStringDlg.h" />
     <ClInclude Include="SelectPaletDlg.h" />
     <ClInclude Include="shp_properties_dlg.h" />
-    <ClInclude Include="..\misc\st_file.h" />
     <ClInclude Include="StdAfx.h" />
-    <ClInclude Include="..\misc\virtual_file.h" />
-    <ClInclude Include="..\misc\virtual_image.h" />
     <ClInclude Include="XCC Mixer.h" />
     <ClInclude Include="XCC MixerDoc.h" />
     <ClInclude Include="XCC MixerView.h" />

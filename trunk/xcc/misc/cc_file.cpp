@@ -57,10 +57,6 @@
 
 const char* ft_name[] =
 {
-	"ai ini (ts)",
-	"ai ini (ra2)",
-	"art ini (ts)",
-	"art ini (ra2)",
 	"aud",
 	"avi",
 	"big",
@@ -458,12 +454,6 @@ t_file_type Ccc_file::get_file_type(bool fast)
 				if (read(data.write_start(size), size))
 					return ft_unknown;
 				seek(0);
-			}
-			{
-				Cart_ts_ini_reader ir;
-				ir.fast(true);
-				if (!ir.process(data) && ir.is_valid())
-					return ft_art_ini_ts;
 			}
 			{
 				Cmap_td_ini_reader ir;
