@@ -841,10 +841,12 @@ int encode3(const byte* s, byte* d, int cx, int cy)
 	return w - d;
 }
 
-int encode64(const byte* s, byte* d, int cb_s)
+Cvirtual_binary encode64(const_memory_range s)
 {
+	Cvirtual_binary d;
 	const byte* r = s;
-    byte* w = d;
+	int cb_s = s.size();
+    byte* w = d.write_start(s.size() << 1);
     while (cb_s) 
 	{		
 		int c1 = *r++;
@@ -870,34 +872,29 @@ int encode64(const byte* s, byte* d, int cb_s)
 		--cb_s;
 		*w++ = encode64_table[c3 & 0x3f];
     }	
-    return w - d;
+	d.size(w - d);
+    return d;
 }
 
-Cvirtual_binary encode64(const_memory_range s)
+Cvirtual_binary decode64(const_memory_range s)
 {
 	Cvirtual_binary d;
-	d.size(encode64(s, d.write_start(s.size() << 1), s.size()));
-	return d;
-}
-
-int decode64(const void* s, byte* d)
-{
-	const byte* r = reinterpret_cast<const byte*>(s);
-    byte* w = d;
+	const byte* r = s;
+    byte* w = d.write_start(s.size() << 1);
     while (*r)
 	{
 		int c1 = *r++;
 		if (decode64_table[c1] == -1) 
-			return 0;
+			return Cvirtual_binary();
 		int c2 = *r++;
 		if (decode64_table[c2] == -1) 
-			return 0;
+			return Cvirtual_binary();
 		int c3 = *r++;
 		if (c3 != '=' && decode64_table[c3] == -1) 
-			return 0; 
+			return Cvirtual_binary();
 		int c4 = *r++;
 		if (c4 != '=' && decode64_table[c4] == -1) 
-			return 0;
+			return Cvirtual_binary();
 		*w++ = (decode64_table[c1] << 2) | (decode64_table[c2] >> 4);
 		if (c3 == '=') 
 			break;
@@ -906,19 +903,8 @@ int decode64(const void* s, byte* d)
 			break;
 		*w++ = ((decode64_table[c3] << 6) & 0xc0) | decode64_table[c4];
     }	
-	return w - d;
-}
-
-Cvirtual_binary decode64(const void* s, int cb_s)
-{
-	Cvirtual_binary d;
-	d.size(decode64(s, d.write_start(cb_s << 1)));
+	d.size(w - d);
 	return d;
-}
-
-Cvirtual_binary decode64(const_memory_range s)
-{
-	return decode64(s, s.size());
 }
 
 static void write5_count(byte*& w, int count)
