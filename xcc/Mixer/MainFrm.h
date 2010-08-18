@@ -69,8 +69,8 @@ public:
 	LPDIRECTSOUND get_ds();
 	t_game get_game();
 	string get_mix_name(int i) const;
-	const t_paletentry* get_game_palet(t_game game);
-	const t_paletentry* get_pal_data();
+	const t_palet_entry* get_game_palet(t_game game);
+	const t_palet_entry* get_pal_data();
 	int get_vxl_mode() const;
 	void set_msg(const string& s);
 	virtual ~CMainFrame();
