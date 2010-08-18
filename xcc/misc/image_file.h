@@ -6,8 +6,6 @@
 #include "virtual_file.h"
 #include "virtual_image.h"
 
-using namespace std;
-
 template <class T>
 class Cimage_file: public Cvideo_file<T>
 {
