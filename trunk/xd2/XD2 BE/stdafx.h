@@ -1,6 +1,8 @@
 #pragma once
 
 #include <SDL.h>
+#include <boost/foreach.hpp>
+#include <boost/range.hpp>
 #include <cassert>
 #include <ctime>
 #include <fstream>

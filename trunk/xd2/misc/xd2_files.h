@@ -163,24 +163,16 @@ public:
 		return m_shape_map;
 	}
 
-	const t_building_type* building_types() const
+	boost::iterator_range<const t_building_type*> building_types() const
 	{
-		return reinterpret_cast<const t_building_type*>(m_building_types.data());
+		auto i = reinterpret_cast<const t_building_type*>(m_building_types.data());
+		return boost::make_iterator_range(i, i + m_building_types.size() / sizeof(t_building_type));
 	}
 
-	int c_building_types() const
+	boost::iterator_range<const t_unit_type*> unit_types() const
 	{
-		return m_building_types.size() / sizeof(t_building_type);
-	}
-
-	const t_unit_type* unit_types() const
-	{
-		return reinterpret_cast<const t_unit_type*>(m_unit_types.data());
-	}
-
-	int c_unit_types() const
-	{
-		return m_unit_types.size() / sizeof(t_unit_type);
+		auto i = reinterpret_cast<const t_unit_type*>(m_unit_types.data());
+		return boost::make_iterator_range(i, i + m_unit_types.size() / sizeof(t_unit_type));
 	}
 private:
 	int load_audio_pak(const string& name);
