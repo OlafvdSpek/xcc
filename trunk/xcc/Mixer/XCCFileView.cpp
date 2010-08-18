@@ -495,7 +495,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				if (pd.cx && pd.cy && ppd != "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA")
 				{
 					m_y += m_y_inc;
-					Cvirtual_binary s = decode64(ppd.c_str(), ppd.size());
+					Cvirtual_binary s = decode64(ppd);
 					Cvirtual_binary image;
 					decode5(s, image.write_start(pd.cx * pd.cy * 3), s.size(), 5);
 					draw_image24(image, pd.cx, pd.cy, pDC, 0, m_y);
