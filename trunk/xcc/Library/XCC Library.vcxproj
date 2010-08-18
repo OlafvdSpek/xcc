@@ -357,7 +357,6 @@
     <ClInclude Include="..\..\misc\image_tools.h" />
     <ClInclude Include="..\misc\ini_reader.h" />
     <ClInclude Include="..\misc\jpeg_file.h" />
-    <ClInclude Include="..\misc\log_window.h" />
     <ClInclude Include="..\misc\map_ra_ini_reader.h" />
     <ClInclude Include="..\misc\map_td_ini_reader.h" />
     <ClInclude Include="..\misc\map_ts_encoder.h" />
