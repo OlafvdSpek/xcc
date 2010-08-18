@@ -50,12 +50,12 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 	int cy = 0;
 	{
 		for (int i = 0; i < shape.size(); i++)
-			map.insert(t_map::value_type(shape.get(i).cx(), i));
+			map.insert(t_map::value_type(shape[i].cx(), i));
 	}
 	t_map::const_iterator i;
 	for (i = map.begin(); i != map.end(); i++)
 	{
-		const Cxd2_image& image = shape.get(i->second);
+		const Cxd2_image& image = shape[i->second];
 		if (y + image.cy() > 2048)
 		{
 			cy = max(cy, y);
@@ -77,7 +77,7 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 	m_vector.resize(shape.size());
 	for (i = map.begin(); i != map.end(); i++)
 	{
-		const Cxd2_image& image = shape.get(i->second);
+		const Cxd2_image& image = shape[i->second];
 		if (y + image.cy() > 2048)
 		{
 			x = cx;

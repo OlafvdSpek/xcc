@@ -30,7 +30,7 @@ public:
 		m_map.erase(name);
 	}
 	
-	const T& get(const string& name) const
+	const T& operator[](const string& name) const
 	{
 		return m_map.find(name)->second;
 	}
