@@ -2,13 +2,8 @@
 #include "shp_decode.h"
 
 #include <minilzo/minilzo.h>
-#include "shp_decode.h"
-#include <memory>
-#include <minmax.h>
-#include "cc_structures.h"
-#include "string_conversion.h"
 #include <virtual_binary.h>
-#include "xcc_log.h"
+#include "cc_structures.h"
 
 static const char* encode64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
@@ -47,27 +42,9 @@ static void write_w(int v, byte*& w)
 
 static void write_v40(byte v, int count, byte*& d)
 {
-	if (!v)
+	while (count)
 	{
-		while (count)
-		{
-			if (count < 0x80)
-			{
-				*d++ = 0x80 | count;
-				count = 0;
-			}
-			else 
-			{
-				const int c_write = count < 0x8000  ? count : 0x7fff;
-				*d++ = 0x80;
-				write_w(c_write, d);
-				count -= c_write;
-			}		
-		}
-	}
-	else
-	{
-		while (count)
+		if (v)
 		{
 			if (count < 0x100)
 			{
@@ -77,13 +54,25 @@ static void write_v40(byte v, int count, byte*& d)
 			}
 			else 
 			{
-				const int c_write = count < 0x4000  ? count : 0x3fff;
+				int c_write = count < 0x4000  ? count : 0x3fff;
 				*d++ = 0x80;
 				write_w(0xc000 | c_write, d);
 				count -= c_write;
 			}		
 			*d++ = v;
 		}
+		else if (count < 0x80)
+		{
+			*d++ = 0x80 | count;
+			count = 0;
+		}
+		else 
+		{
+			int c_write = count < 0x8000  ? count : 0x7fff;
+			*d++ = 0x80;
+			write_w(c_write, d);
+			count -= c_write;
+		}		
 	}
 }
 
@@ -241,11 +230,9 @@ int encode40(const byte* last_s, const byte* x, byte* d, int cb_s)
 	return w - d;
 }
 
-int encode40_y(const byte* last_s, const byte* s, byte* d, int cb_s)
+int encode40_y(const byte* last_r, const byte* r, byte* d, int cb_s)
 {
 	// run length encoding
-	const byte* last_r = last_s;
-	const byte* r = s;
 	byte* w = d;
 	int count = 0;
 	byte last = ~(*last_r ^ *r);
@@ -261,11 +248,10 @@ int encode40_y(const byte* last_s, const byte* s, byte* d, int cb_s)
 			count = 1;
 			last = v;
 		}
-		
 	}
 	write_v40(last, count, w);
 	*w++ = 0x80;
-	write_w(0x0000, w);
+	write_w(0, w);
 	return w - d;
 }
 
