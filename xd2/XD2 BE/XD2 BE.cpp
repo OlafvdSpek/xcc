@@ -18,7 +18,7 @@ int view_y = 32 << 4;
 
 void load_palet(const string& name, SDL_Color* colors)
 {
-	const Cvirtual_binary& palet = g_files.data_map().get(name);
+	const Cvirtual_binary& palet = g_files.data_map()[name];
 	SDL_Color* w = colors;
 	for (const byte* r = palet; r < palet.data_end(); r += 3)
 		*w++ = Csdl_color(r[0], r[1], r[2]);
@@ -82,7 +82,7 @@ void show_animation(const Cxd2_animation& animation)
 
 void show_animation(const string& name)
 {
-	show_animation(g_files.animations().get(name));
+	show_animation(g_files.animations()[name]);
 }
 
 void show_image(const Cxd2_image& image, int x = 0, int y = 0)
@@ -92,7 +92,7 @@ void show_image(const Cxd2_image& image, int x = 0, int y = 0)
 
 void show_image(const string& name)
 {
-	show_image(g_files.images().get(name));
+	show_image(g_files.images()[name]);
 }
 
 void show_number(int x, int y, int n)
@@ -272,10 +272,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return 1;
 	const SDL_VideoInfo* vi = SDL_GetVideoInfo();
 	load_palet("ibm.pal", g_palet);
-	const Cxd2_animation& icons = g_files.animations().get("icon.icn");
+	const Cxd2_animation& icons = g_files.animations()["icon.icn"];
 	Cvirtual_binary map;
 	{
-		const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map().get("icon.map").data());
+		const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map()["icon.map"].data());
 		s += s[9];
 		Cseed_decoder::decode(392, map.write_start(0x1000));
 		byte* w = map.data_edit();

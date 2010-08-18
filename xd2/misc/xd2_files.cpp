@@ -15,12 +15,12 @@ Cxd2_files::Cxd2_files()
 
 const Cxd2_shape& Cxd2_files::shapes2() const
 {
-	return shapes().get("dune2 shapes.shp");
+	return shapes()["dune2 shapes.shp"];
 }
 
 const Cxd2_image& Cxd2_files::shape(int i) const
 {
-	return shapes2().get(i);
+	return shapes2()[i];
 }
 
 enum
@@ -40,8 +40,8 @@ int Cxd2_files::load(const Cxif_key_r& key)
 	m_image_map.load(key.get_key(vi_images));
 	m_shape_map.load(key.get_key(vi_shapes));
 
-	m_building_types = data_map().get("dune2 building types.bin");
-	m_unit_types = data_map().get("dune2 unit types.bin");
+	m_building_types = data_map()["dune2 building types.bin"];
+	m_unit_types = data_map()["dune2 unit types.bin"];
 	return 0;
 }
 
@@ -215,9 +215,9 @@ static void add_shape(Cxd2_shape_map& shapes, const string& name, Cxd2_shape& d,
 {
 	if (!shapes.has(name))
 		return;
-	const Cxd2_shape& s = shapes.get(name);
+	const Cxd2_shape& s = shapes[name];
 	for (int i = 0; i < s.size(); i++)
-		d.set(d_i + i, s.get(i));
+		d.set(d_i + i, s[i]);
 	shapes.erase(name);
 }
 
