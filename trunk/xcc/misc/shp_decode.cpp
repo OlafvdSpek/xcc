@@ -2,7 +2,6 @@
 #include "shp_decode.h"
 
 #include <minilzo/minilzo.h>
-#include <cassert>
 #include "shp_decode.h"
 #include <memory>
 #include <minmax.h>
@@ -13,7 +12,8 @@
 
 static const char* encode64_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-static const int decode64_table[256] = {
+static const int decode64_table[256] = 
+{
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,62, -1,-1,-1,63,
@@ -29,7 +29,8 @@ static const int decode64_table[256] = {
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
     -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1,
-    -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1};
+    -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1, -1,-1,-1,-1
+};
 
 static int read_w(const byte*& r)
 {
@@ -290,7 +291,7 @@ int encode40_z(const byte* last_s, const byte* s, byte* d, int cb_s)
 	return w - d;
 }
 
-int decode40(const byte image_in[], byte image_out[])
+int decode40(const byte* s, byte* d)
 {
 	/*
 	0 fill 00000000 c v
@@ -301,78 +302,64 @@ int decode40(const byte image_in[], byte image_out[])
 	5 skip 1ccccccc	
 	*/
 
-	const byte* readp = image_in;
-	byte* writep = image_out;
+	const byte* r = s;
+	byte* w = d;
 	int count;
 	while (1)
 	{
-		int code = *readp++;
+		int code = *r++;
 		if (~code & 0x80)
 		{
-			//bit 7 = 0
 			if (!code)
 			{
-				//command 0 (00000000 c v): fill
-				count = *readp++;
-				code = *readp++;
+				count = *r++;
+				code = *r++;
 				while (count--)
-					*writep++ ^= code;
+					*w++ ^= code;
 			}
 			else
 			{
-				//command 1 (0ccccccc): copy
 				count = code;
 				while (count--)
-					*writep++ ^= *readp++;
+					*w++ ^= *r++;
 			}
-			
 		}
 		else
 		{
-			//bit 7 = 1
 			if (!(count = code & 0x7f))
 			{
-				count = *(unsigned __int16*)readp;
-				readp += 2;
+				count = *(unsigned __int16*)r;
+				r += 2;
 				code = count >> 8;
 				if (~code & 0x80)
 				{
-					//bit 7 = 0
-					//command 2 (10000000 c 0ccccccc): skip
 					if (!count)
-						// end of image
 						break;
-					writep += count;
+					w += count;
 				}					
 				else
 				{
-					//bit 7 = 1
 					count &= 0x3fff;
 					if (~code & 0x40)
 					{
-						//bit 6 = 0
-						//command 3 (10000000 c 10cccccc): copy
 						while (count--)
-							*writep++ ^= *readp++;
+							*w++ ^= *r++;
 					}
 					else
 					{
-						//bit 6 = 1
-						//command 4 (10000000 c 11cccccc v): fill
-						code = *readp++;
+						code = *r++;
 						while (count--)
-							*writep++ ^= code;
+							*w++ ^= code;
 					}
 				}
 			}
 			else
 			{
-				//command 5 (1ccccccc): skip
-				writep += count;
+				w += count;
 			}
 		}
 	}
-	return (writep - image_out);
+	return w - d;
 }
 
 static void write_v80(byte v, int count, byte*& d)
@@ -409,13 +396,13 @@ next_s:
 		mov		esi, r
 		mov		edi, ebx
 		cmp		edi, esi
-		jnb		end
-next:
+		jnb		end0
+next0:
 		inc		edx
 		cmp		esi, eax
 		jnb		end_line
 		cmpsb
-		je		next
+		je		next0
 end_line:
 		dec		edx
 		cmp		edx, ecx
@@ -424,7 +411,7 @@ end_line:
 		mov		edi, p
 		mov		[edi], ebx
 		jmp		next_s
-end:
+end0:
 		mov		edi, cb_p
 		mov		[edi], ecx
 		pop		edi
@@ -650,7 +637,7 @@ int decode80(const byte image_in[], byte image_out[])
 		mov		es, ax
 		mov		esi, image_in
 		mov		edi, image_out
-next:
+next0:
 		xor		eax, eax
 		lodsb
 		mov		ecx, eax
@@ -670,7 +657,7 @@ c1c:
 		test	eax, 0x40
 		jnz		c2c
 		or		ecx, ecx
-		jz		end
+		jz		end0
 		jmp		copy_from_source
 c2c:
 		xor		eax, eax
@@ -687,7 +674,7 @@ c3:
 		mov		ecx, eax
 		lodsb
 		rep		stosb
-		jmp		next
+		jmp		next0
 c4:
 		mov		ecx, eax
 		lodsw
@@ -697,11 +684,11 @@ c4:
 copy_from_destination:
 		rep		movsb
 		mov		esi, edx
-		jmp		next
+		jmp		next0
 copy_from_source:
 		rep		movsb
-		jmp		next
-end:
+		jmp		next0
+end0:
 		sub		edi, image_out
 		mov		cb_out, edi
 		pop		edi
@@ -729,7 +716,7 @@ int decode80r(const byte image_in[], byte image_out[])
 		mov		es, ax
 		mov		esi, image_in
 		mov		edi, image_out
-next:
+next0:
 		xor		eax, eax
 		lodsb
 		mov		ecx, eax
@@ -749,7 +736,7 @@ c1c:
 		test	eax, 0x40
 		jnz		c2c
 		or		ecx, ecx
-		jz		end
+		jz		end0
 		jmp		copy_from_source
 c2c:
 		xor		eax, eax
@@ -766,7 +753,7 @@ c3:
 		mov		ecx, eax
 		lodsb
 		rep		stosb
-		jmp		next
+		jmp		next0
 c4:
 		mov		ecx, eax
 		lodsw
@@ -776,11 +763,11 @@ c4:
 copy_from_destination:
 		rep		movsb
 		mov		esi, edx
-		jmp		next
+		jmp		next0
 copy_from_source:
 		rep		movsb
-		jmp		next
-end:
+		jmp		next0
+end0:
 		sub		edi, image_out
 		mov		cb_out, edi
 		pop		edi
