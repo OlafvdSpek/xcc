@@ -308,55 +308,52 @@ int decode40(const byte* s, byte* d)
 	while (1)
 	{
 		int code = *r++;
-		if (~code & 0x80)
+		if (code & 0x80)
 		{
-			if (!code)
+			if (count = code & 0x7f)
 			{
-				count = *r++;
-				code = *r++;
-				while (count--)
-					*w++ ^= code;
+				w += count;
 			}
 			else
 			{
-				count = code;
-				while (count--)
-					*w++ ^= *r++;
-			}
-		}
-		else
-		{
-			if (!(count = code & 0x7f))
-			{
-				count = *(unsigned __int16*)r;
+				count = *(uint16_t*)r;
 				r += 2;
 				code = count >> 8;
-				if (~code & 0x80)
-				{
-					if (!count)
-						break;
-					w += count;
-				}					
-				else
+				if (code & 0x80)
 				{
 					count &= 0x3fff;
-					if (~code & 0x40)
-					{
-						while (count--)
-							*w++ ^= *r++;
-					}
-					else
+					if (code & 0x40)
 					{
 						code = *r++;
 						while (count--)
 							*w++ ^= code;
 					}
+					else
+					{
+						while (count--)
+							*w++ ^= *r++;
+					}
 				}
+				else
+				{
+					if (!count)
+						break;
+					w += count;
+				}					
 			}
-			else
-			{
-				w += count;
-			}
+		}
+		else if (code)
+		{
+			count = code;
+			while (count--)
+				*w++ ^= *r++;
+		}
+		else
+		{
+			count = *r++;
+			code = *r++;
+			while (count--)
+				*w++ ^= code;
 		}
 	}
 	return w - d;
