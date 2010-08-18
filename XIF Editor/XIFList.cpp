@@ -288,7 +288,7 @@ void CXIFList::OnPopupLoadValuePcx()
 				int i = get_current_index();
 				int id = lc.GetItemData(i);
 				Cvirtual_binary image;
-				pcx_decode(f.get_image(), image.write_start(f.cb_image()), *f.get_header());
+				pcx_decode(f.get_image(), image.write_start(f.cb_image()), f.header());
 				m_key->set_value_binary(id, image);
 				update_value(i, id);
 			}

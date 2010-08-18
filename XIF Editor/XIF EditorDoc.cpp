@@ -14,7 +14,7 @@ void CXIFEditorDoc::Serialize(CArchive& ar)
 {
 	if (ar.IsStoring())
 	{
-		Cvirtual_binary d = m_top.vdata();
+		Cvirtual_binary d = m_top.vdata(true);
 		ar.Write(d.data(), d.size());
 	}
 	else
