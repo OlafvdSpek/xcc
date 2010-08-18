@@ -236,7 +236,6 @@
     <ClInclude Include="energy_status_dlg.h" />
     <ClInclude Include="infantry_properties_dlg.h" />
     <ClInclude Include="list_ctrl_extension.h" />
-    <ClInclude Include="..\misc\log_window.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="object_selection.h" />
     <ClInclude Include="open_from_mix_dlg.h" />

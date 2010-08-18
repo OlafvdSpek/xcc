@@ -25,7 +25,6 @@ public:
 	typedef t_object_type_list t_weapon_type_list;
 	
 	Crules_ts_ini_reader();
-	void erase();
 	int process_section_start(const string& line);
 	bool process_section() const;
 	int process_key(const string& name, const string& value);

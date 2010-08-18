@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "cc_file.h"
 
-#include "art_ts_ini_reader.h"
 #include "aud_file.h"
 #include "avi_file.h"
 #include "big_file.h"
@@ -28,7 +27,6 @@
 #include "pcx_file.h"
 #include "png_file.h"
 #include "pkt_ts_ini_reader.h"
-#include "rules_ts_ini_reader.h"
 #include "shp_dune2_file.h"
 #include "shp_file.h"
 #include "shp_ts_file.h"
@@ -476,12 +474,6 @@ t_file_type Ccc_file::get_file_type(bool fast)
 				ir.fast(true);
 				if (!ir.process(data) && ir.is_valid())
 					return ft_pkt_ts;
-			}
-			{
-				Crules_ts_ini_reader ir;
-				ir.fast(true);
-				if (!ir.process(data) && ir.is_valid())
-					return ft_rules_ini_ts;
 			}
 			{
 				Csound_ts_ini_reader ir;
