@@ -20,9 +20,8 @@ public:
 		return m_speed;
 	}
 
-	void load(t_object_type_data d);
+	void load(const t_object_type_data&);
 	Cobject_type();
-	virtual ~Cobject_type();
 private:
 	int m_cost;
 	int m_health;

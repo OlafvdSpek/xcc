@@ -35,7 +35,6 @@ public:
 
 	Clocation();
 	Clocation(int x, int y);
-	virtual ~Clocation();
 private:
 	int m_x;
 	int m_y;

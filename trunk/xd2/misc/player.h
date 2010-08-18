@@ -22,9 +22,7 @@ public:
 		return m_name;
 	};
 
-	void load(t_player_data d);
-	Cplayer();
-	virtual ~Cplayer();
+	void load(const t_player_data&);
 private:
 	int m_credits;
 	Chouse* m_house;
