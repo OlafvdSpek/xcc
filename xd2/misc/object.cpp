@@ -6,11 +6,7 @@ Cobject::Cobject()
 	m_t = NULL;
 }
 
-Cobject::~Cobject()
-{
-}
-
-void Cobject::load(t_object_data d)
+void Cobject::load(const t_object_data& d)
 {
 	m_destination = m_l = Clocation(d.x << 8 | 0x80, d.y << 8 | 0x80);
 	m_health = d.health;

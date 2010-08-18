@@ -10,7 +10,3 @@ Clocation::Clocation(int x, int y)
 	m_x = x;
 	m_y = y;
 }
-
-Clocation::~Clocation()
-{
-}

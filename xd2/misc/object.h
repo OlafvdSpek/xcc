@@ -36,11 +36,10 @@ public:
 		return m_p && m_t;
 	}
 
-	void dump(ostream& os);
-	void load(t_object_data d);
+	void dump(ostream&);
+	void load(const t_object_data&);
 	void tick();
 	Cobject();
-	virtual ~Cobject();
 private:
 	Clocation m_destination;
 	int m_health;
