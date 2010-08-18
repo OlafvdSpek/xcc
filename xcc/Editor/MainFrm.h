@@ -2,9 +2,6 @@
 
 #include "XCC EditorDoc.h"
 #include "XCC EditorView.h"
-#include "edit_infantry_dlg.h"
-#include "edit_structures_dlg.h"
-#include "edit_units_dlg.h"
 #include "object_selection.h"
 #include "string_conversion.h"
 #include "xcc_cell.h"
