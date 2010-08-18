@@ -50,15 +50,13 @@ static void write_v40(byte v, int count, byte*& d)
 			{
 				*d++ = 0x00;
 				*d++ = count;
-				count = 0;
+				*d++ = v;
+				break;
 			}
-			else 
-			{
-				int c_write = count < 0x4000  ? count : 0x3fff;
-				*d++ = 0x80;
-				write_w(0xc000 | c_write, d);
-				count -= c_write;
-			}		
+			int c_write = min(count, 0x3fff);
+			*d++ = 0x80;
+			write_w(0xc000 | c_write, d);
+			count -= c_write;
 			*d++ = v;
 		}
 		else if (count < 0x80)
@@ -532,21 +530,21 @@ int decode80c(const byte image_in[], byte image_out[], int cb_in)
 	*/
 	
 	const byte* copyp;
-	const byte* readp = image_in;
-	byte* writep = image_out;
+	const byte* r = image_in;
+	byte* w = image_out;
 	int code;
 	int count;
 	while (1)
 	{
-		code = *readp++;
+		code = *r++;
 		if (~code & 0x80)
 		{
 			//bit 7 = 0
 			//command 0 (0cccpppp p): copy
 			count = (code >> 4) + 3;
-			copyp = writep - (((code & 0xf) << 8) + *readp++);
+			copyp = w - (((code & 0xf) << 8) + *r++);
 			while (count--)
-				*writep++ = *copyp++;
+				*w++ = *copyp++;
 		}
 		else
 		{
@@ -560,7 +558,7 @@ int decode80c(const byte image_in[], byte image_out[], int cb_in)
 					break;
 				//command 1 (10cccccc): copy
 				while (count--)
-					*writep++ = *readp++;
+					*w++ = *r++;
 			}
 			else
 			{
@@ -569,36 +567,36 @@ int decode80c(const byte image_in[], byte image_out[], int cb_in)
 				{
 					//command 2 (11cccccc p p): copy
 					count += 3;
-					copyp = &image_out[*(unsigned __int16*)readp];
-					readp += 2;
+					copyp = &image_out[*(unsigned __int16*)r];
+					r += 2;
 					while (count--)
-						*writep++ = *copyp++;
+						*w++ = *copyp++;
 				}
 				else
 					if (count == 0x3e)
 					{
 						//command 3 (11111110 c c v): fill
-						count = *(unsigned __int16*)readp;
-						readp += 2;
-						code = *readp++;
+						count = *(unsigned __int16*)r;
+						r += 2;
+						code = *r++;
 						while (count--)
-							*writep++ = byte(code);
+							*w++ = byte(code);
 					}
 					else
 					{
 						//command 4 (copy 11111111 c c p p): copy
-						count = *(unsigned __int16*)readp;
-						readp += 2;
-						copyp = &image_out[*(unsigned __int16*)readp];
-						readp += 2;
+						count = *(unsigned __int16*)r;
+						r += 2;
+						copyp = &image_out[*(unsigned __int16*)r];
+						r += 2;
 						while (count--)
-							*writep++ = *copyp++;
+							*w++ = *copyp++;
 					}
 			}
 		}
 	}
-	assert(cb_in == readp - image_in);
-	return (writep - image_out);
+	assert(cb_in == r - image_in);
+	return (w - image_out);
 }
 
 int decode80(const byte image_in[], byte image_out[])
@@ -875,10 +873,10 @@ int encode64(const byte* s, byte* d, int cb_s)
     return w - d;
 }
 
-Cvirtual_binary encode64(const Cvirtual_binary& s)
+Cvirtual_binary encode64(const_memory_range s)
 {
 	Cvirtual_binary d;
-	d.size(encode64(s.data(), d.write_start(s.size() << 1), s.size()));
+	d.size(encode64(s, d.write_start(s.size() << 1), s.size()));
 	return d;
 }
 
@@ -918,9 +916,9 @@ Cvirtual_binary decode64(const void* s, int cb_s)
 	return d;
 }
 
-Cvirtual_binary decode64(const Cvirtual_binary& s)
+Cvirtual_binary decode64(const_memory_range s)
 {
-	return decode64(s.data(), s.size());
+	return decode64(s, s.size());
 }
 
 static void write5_count(byte*& w, int count)

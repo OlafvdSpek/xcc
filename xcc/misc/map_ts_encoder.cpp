@@ -339,8 +339,7 @@ static void log_overlay_pack(const byte* s, const Cmap_ts_encoder::t_header& siz
 
 static void write_pack(ostream& os, const byte* s, int cb_s)
 {
-	Cvirtual_binary d = encode64(Cvirtual_binary(s, cb_s));
-	// d.size(encode64(s, d.write_start(cb_s << 1), cb_s));
+	Cvirtual_binary d = encode64(const_memory_range(s, cb_s));
 	const byte* r = d.data();
 	const byte* r_end = d.data_end();
 	int line_i = 1;
