@@ -36,9 +36,7 @@ public:
 		return m_vector[i];
 	}
 private:
-	typedef vector<Csdl_rect> t_vector;
-
-	t_vector m_vector;
+	vector<Csdl_rect> m_vector;
 };
 
 class Cxd2_surface_cache  
@@ -58,7 +56,5 @@ public:
 		return m_map.find(v) != m_map.end();
 	}
 private:
-	typedef map<const void*, Cxd2_surface_base*> t_map;
-
-	t_map m_map;
+	map<const void*, Cxd2_surface_base*> m_map;
 };

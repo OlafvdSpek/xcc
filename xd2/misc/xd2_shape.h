@@ -30,9 +30,7 @@ public:
 		return m_map.size();
 	}
 private:
-	typedef vector<Cxd2_image> t_map;
-
-	t_map m_map;
+	vector<Cxd2_image> m_map;
 };
 
 typedef Cxd2_file_map<Cxd2_shape> Cxd2_shape_map;
