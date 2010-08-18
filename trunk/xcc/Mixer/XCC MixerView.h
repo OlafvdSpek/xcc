@@ -60,7 +60,7 @@ public:
 	int get_current_index() const;
 	int get_paste_fname(string& fname, t_file_type ft, const char* extension, const char* filter);
 	void paste_as_image(t_file_type ft, const char* extension, const char* filter);
-	const t_paletentry* get_default_palet() const;
+	const t_palet_entry* get_default_palet() const;
 	string get_dir() const;
 	void set_reg_key(const string& v);
 	int get_id(int i) const;

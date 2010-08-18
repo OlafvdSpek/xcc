@@ -145,7 +145,7 @@ static CMainFrame* GetMainFrame()
 	return reinterpret_cast<CMainFrame*>(AfxGetMainWnd());
 }
 
-const t_paletentry* CXCCFileView::get_default_palet()
+const t_palet_entry* CXCCFileView::get_default_palet()
 {
 	const t_palet_entry* p = GetMainFrame()->get_pal_data();
 	if (p)

@@ -524,7 +524,7 @@ string CMainFrame::get_mix_name(int i) const
 	return m_mix_list[i];
 }
 
-const t_paletentry* CMainFrame::get_game_palet(t_game game)
+const t_palet_entry* CMainFrame::get_game_palet(t_game game)
 {
 	initialize_lists();
 	switch (game)
@@ -538,7 +538,7 @@ const t_paletentry* CMainFrame::get_game_palet(t_game game)
 	}
 }
 
-const t_paletentry* CMainFrame::get_pal_data()
+const t_palet_entry* CMainFrame::get_pal_data()
 {
 	initialize_lists();
 	return m_palet_i == -1 ? NULL : m_pal_list[m_palet_i].palet;

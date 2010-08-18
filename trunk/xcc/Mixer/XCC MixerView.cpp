@@ -763,7 +763,7 @@ void CXCCMixerView::OnUpdatePopupExtract(CCmdUI* pCmdUI)
 	pCmdUI->Enable(get_current_id() != -1);
 }
 
-const t_paletentry* CXCCMixerView::get_default_palet() const
+const t_palet_entry* CXCCMixerView::get_default_palet() const
 {
 	const t_palet_entry* p = GetMainFrame()->get_pal_data();
 	return p ? p : m_palet;

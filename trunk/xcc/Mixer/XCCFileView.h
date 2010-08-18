@@ -23,7 +23,7 @@ public:
 	void auto_select();
 	BOOL OnIdle(LONG lCount);
 	void close_f();
-	const t_paletentry* get_default_palet();
+	const t_palet_entry* get_default_palet();
 	void load_color_table(const t_palet palet, bool convert_palet);
 	void draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
 	void draw_image24(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
@@ -62,7 +62,7 @@ private:
 	t_file_type		m_ft;
 	int				m_id;
 	bool			m_is_open;
-	t_paletentry*	m_palet;
+	t_palet_entry*	m_palet;
 	Cpalet_filter m_palet_filter;
 	long long		m_size;
 	t_text_cache	m_text_cache;
