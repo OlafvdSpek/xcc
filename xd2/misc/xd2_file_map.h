@@ -13,14 +13,14 @@ public:
 	void load(const Cxif_key_r& key)
 	{
 		m_map.clear();
-		for (Cxif_key_r::t_key_map::const_iterator i = key.keys().begin(); i != key.keys().end(); i++)
-			load_entry(i->second);
+		BOOST_FOREACH(auto& i, key.keys())
+			load_entry(i.second);
 	}
 
 	Cxif_key save() const
 	{
 		Cxif_key key;
-		for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+		BOOST_FOREACH(auto& i, m_map)
 			key.open_key_write() = save(i);
 		return key;
 	}
@@ -61,11 +61,11 @@ private:
 		m_map[key.get_value_string(vi_name)] = T(key.get_key(vi_value));
 	}
 
-	static Cxif_key save(typename t_map::const_iterator i)
+	static Cxif_key save(typename t_map::const_reference i)
 	{
 		Cxif_key key;
-		key.set_value_string(vi_name, i->first);
-		key.open_key_write(vi_value) = i->second.save();
+		key.set_value_string(vi_name, i.first);
+		key.open_key_write(vi_value) = i.second.save();
 		return key;
 	}
 
@@ -77,11 +77,11 @@ void Cxd2_file_map<Cvirtual_binary>::load_entry(const Cxif_key_r& key)
 	m_map[key.get_value_string(vi_name)] = key.get_value(vi_value).get_vdata();
 }
 
-Cxif_key Cxd2_file_map<Cvirtual_binary>::save(Cxd2_file_map<Cvirtual_binary>::t_map::const_iterator i)
+Cxif_key Cxd2_file_map<Cvirtual_binary>::save(Cxd2_file_map<Cvirtual_binary>::t_map::const_reference i)
 {
 	Cxif_key key;
-	key.set_value_string(vi_name, i->first);
-	key.set_value_binary(vi_value, i->second);
+	key.set_value_string(vi_name, i.first);
+	key.set_value_binary(vi_value, i.second);
 	return key;
 }
 

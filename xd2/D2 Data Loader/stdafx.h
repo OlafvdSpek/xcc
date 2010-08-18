@@ -1,5 +1,7 @@
 #pragma once
 
+#include <boost/foreach.hpp>
+#include <boost/range.hpp>
 #include <cassert>
 #include <iostream>
 #include <map>
