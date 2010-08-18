@@ -75,7 +75,6 @@
     <Link>
       <OutputFile>.\Debug/Compile mdfs.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/Compile mdfs.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>

@@ -82,7 +82,6 @@
     <Link>
       <OutputFile>.\Debug/XCC Map Decoder.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/XCC Map Decoder.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>

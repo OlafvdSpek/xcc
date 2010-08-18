@@ -75,7 +75,6 @@
     <Link>
       <OutputFile>.\Release/findf.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <ProgramDatabaseFile>.\Release/findf.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -112,7 +111,6 @@
     <Link>
       <OutputFile>.\Debug/findf.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/findf.pdb</ProgramDatabaseFile>
       <SubSystem>Console</SubSystem>

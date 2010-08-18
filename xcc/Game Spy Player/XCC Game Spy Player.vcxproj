@@ -82,7 +82,6 @@
     <Link>
       <OutputFile>.\Debug/XCC Game Spy Player.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/XCC Game Spy Player.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
