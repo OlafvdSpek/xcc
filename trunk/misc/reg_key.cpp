@@ -32,14 +32,14 @@ Creg_key::~Creg_key()
 LONG Creg_key::create(HKEY key, const string& name)
 {
 	close();
-	return RegCreateKeyEx(key, name.c_str(), 0, NULL, 0, KEY_ALL_ACCESS, NULL, &m_h, NULL);
+	return RegCreateKeyExA(key, name.c_str(), 0, NULL, 0, KEY_ALL_ACCESS, NULL, &m_h, NULL);
 }
 
 
 LONG Creg_key::open(HKEY key, const string& name, REGSAM sam_desired)
 {
 	close();
-	return RegOpenKeyEx(key, name.c_str(), 0, sam_desired, &m_h);
+	return RegOpenKeyExA(key, name.c_str(), 0, sam_desired, &m_h);
 };
 
 LONG Creg_key::open(const Creg_key& key, const string& name, REGSAM sam_desired)
@@ -59,7 +59,7 @@ LONG Creg_key::close()
 LONG Creg_key::query_value(const string& name, string& value)
 {
 	DWORD cb_d = 0;
-	LONG result = RegQueryValueEx(m_h, name.c_str(), NULL, NULL, NULL, &cb_d);
+	LONG result = RegQueryValueExA(m_h, name.c_str(), NULL, NULL, NULL, &cb_d);
 	if (result != ERROR_SUCCESS)
 		return result;
 	if (!cb_d)
@@ -68,7 +68,7 @@ LONG Creg_key::query_value(const string& name, string& value)
 		return result;
 	}
 	vector<BYTE> d(cb_d);
-	result = RegQueryValueEx(m_h, name.c_str(), NULL, NULL, &d.front(), &cb_d);
+	result = RegQueryValueExA(m_h, name.c_str(), NULL, NULL, &d.front(), &cb_d);
 	if (result == ERROR_SUCCESS)
 	{
 		if (cb_d)
@@ -89,6 +89,6 @@ string Creg_key::query_value(const string& name)
 
 LONG Creg_key::set_value(const string& name, const string& value)
 {
-	return RegSetValueEx(m_h, name.c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), value.size());
+	return RegSetValueExA(m_h, name.c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), value.size());
 }
 
