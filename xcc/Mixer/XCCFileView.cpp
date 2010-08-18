@@ -1132,7 +1132,6 @@ void CXCCFileView::OnDraw(CDC* pDC)
 						draw_info(nwzl(5, i) + ' ' + f.get_string(i), "");
 					break;
 				}
-			case ft_art_ini_ts:
 			case ft_ini:
 			case ft_rules_ini_ts:
 			case ft_text:
