@@ -45,7 +45,7 @@ void Cfname::expand()
 Cfname GetModuleFileName(HMODULE hModule)
 {
 	char s[MAX_PATH];
-	if (GetModuleFileName(hModule, s, MAX_PATH))
+	if (GetModuleFileNameA(hModule, s, MAX_PATH))
 		return s;
 	else
 		return "";
@@ -54,13 +54,13 @@ Cfname GetModuleFileName(HMODULE hModule)
 string get_temp_path()
 {
 	char temp_dir[MAX_PATH];
-	return GetTempPath(MAX_PATH, temp_dir) ? temp_dir : ".\\";
+	return GetTempPathA(MAX_PATH, temp_dir) ? temp_dir : ".\\";
 }
 
 string get_temp_fname(string path)
 {
 	char temp_fname[MAX_PATH];
-	return GetTempFileName(path.c_str(), "XCC", 0, temp_fname) ? temp_fname : "";
+	return GetTempFileNameA(path.c_str(), "XCC", 0, temp_fname) ? temp_fname : "";
 }
 
 string get_temp_fname()
@@ -108,8 +108,8 @@ void Cfname::make_path()
 bool Cfname::exists() const
 {
 	HANDLE h;
-	WIN32_FIND_DATA d;
-	h = FindFirstFile(get_all().c_str(), &d);
+	WIN32_FIND_DATAA d;
+	h = FindFirstFileA(get_all().c_str(), &d);
 	if (h == INVALID_HANDLE_VALUE)
 		return false;
 	FindClose(h);
@@ -144,7 +144,7 @@ string operator+(const string& a, const Cfname& b)
 
 int create_dir(const string& dir)
 {
-	return !CreateDirectory(dir.c_str(), NULL);
+	return !CreateDirectoryA(dir.c_str(), NULL);
 }
 
 void create_deep_dir(string dir, const string& name)
@@ -161,17 +161,17 @@ void create_deep_dir(string dir, const string& name)
 
 int copy_file(string s, string d)
 {
-	return !CopyFile(s.c_str(), d.c_str(), false);
+	return !CopyFileA(s.c_str(), d.c_str(), false);
 }
 
 int delete_file(string fname)
 {
-	return !DeleteFile(fname.c_str());
+	return !DeleteFileA(fname.c_str());
 }
 
 int move_file(string s, string d)
 {
-	return !MoveFile(s.c_str(), d.c_str());
+	return !MoveFileA(s.c_str(), d.c_str());
 }
 
 bool fname_filter(const string& fname, const string& filter)

@@ -17,7 +17,7 @@ int Cfile32::open(const string& name, int access)
 int Cfile32::open(const string& name, int access, int creation, int share)
 {
     close();
-	m_h = CreateFile(name.c_str(), access, share, NULL, creation, FILE_ATTRIBUTE_NORMAL, NULL);
+	m_h = Cwin_handle(CreateFileA(name.c_str(), access, share, NULL, creation, FILE_ATTRIBUTE_NORMAL, NULL));
 	m_p = 0;
     return !is_open();
 }
@@ -182,7 +182,7 @@ int file32_write(const string& name, const void* s, int cb_s)
 Cmemory_map_source::Cmemory_map_source(const Cfile32& f)
 {
 	m_fh = f.h();
-	m_mh = CreateFileMapping(f.h(), NULL, PAGE_READONLY, 0, 0, NULL);
+	m_mh = Cwin_handle(CreateFileMapping(f.h(), NULL, PAGE_READONLY, 0, 0, NULL));
 	m_d = m_mh ? static_cast<byte*>(MapViewOfFile(m_mh, FILE_MAP_READ, 0, 0, 0)) : NULL;
 	mc_references = 1;
 }
