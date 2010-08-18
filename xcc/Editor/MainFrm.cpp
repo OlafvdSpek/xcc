@@ -1,7 +1,9 @@
 #include "stdafx.h"
-
 #include "MainFrm.h"
 
+#include "edit_infantry_dlg.h"
+#include "edit_structures_dlg.h"
+#include "edit_units_dlg.h"
 #include "xcc_log.h"
 
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
