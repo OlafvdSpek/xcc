@@ -79,7 +79,6 @@
     <Link>
       <OutputFile>.\Debug/XCC Editor.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/XCC Editor.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>

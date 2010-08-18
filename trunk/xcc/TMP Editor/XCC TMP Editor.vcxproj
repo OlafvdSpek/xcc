@@ -128,7 +128,6 @@
     <Link>
       <OutputFile>.\Debug/XCC TMP Editor.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/XCC TMP Editor.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>

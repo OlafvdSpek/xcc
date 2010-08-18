@@ -82,7 +82,6 @@
     <Link>
       <OutputFile>.\Debug/XCC Map Encoder.exe</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
-      <IgnoreSpecificDefaultLibraries>libcmt;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>.\Debug/XCC Map Encoder.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
