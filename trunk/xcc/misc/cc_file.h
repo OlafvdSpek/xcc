@@ -96,7 +96,6 @@ public:
     int open(unsigned int id, Cmix_file& mix_f);
     int open(const string& name, Cmix_file& mix_f);
     int open(const string& name);
-	int open(const char* name);
 	void load(const Cvirtual_binary& d, int size = -1);
 	void load(const Ccc_file& f);
 	t_file_type get_file_type(bool fast = true);

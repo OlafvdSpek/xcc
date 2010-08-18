@@ -194,11 +194,6 @@ int Ccc_file::open(const string& name)
     return 0;
 }
 
-int Ccc_file::open(const char* name)
-{
-	return open(static_cast<string>(name));
-}
-
 const Cwin_handle& Ccc_file::h()
 {
 	assert(is_open());
