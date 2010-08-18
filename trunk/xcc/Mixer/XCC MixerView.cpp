@@ -22,7 +22,6 @@
 #include "cps_file.h"
 #include "dds_file.h"
 #include "dlg_shp_viewer.h"
-#include "extract_object.h"
 #include "hva_file.h"
 #include "ima_adpcm_wav_decode.h"
 #include "ima_adpcm_wav_encode.h"
