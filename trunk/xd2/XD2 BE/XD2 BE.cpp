@@ -7,6 +7,7 @@
 
 bool g_error = false;
 Cxd2_files g_files;
+const Cxd2_animation* g_icons;
 const __int16* g_icon_map;
 SDL_Color g_palet[0x100];
 SDL_Surface* g_screen;
@@ -16,6 +17,7 @@ int view_y = 32 << 4;
 
 map<string, Chouse> g_houses;
 map<string, Cobject_type> m_object_types;
+list<Cobject> m_objects;
 map<string, Cplayer> m_players;
 
 void load_palet(const string& name, SDL_Color* colors)
@@ -59,12 +61,12 @@ void draw(const Cxd2_shape& s, int i, int x, int y)
 	draw(g_surface_cache.set(s, g_palet), i, x, y);
 }
 
-void draw_building(const Cxd2_animation& icons, int i, int _x, int _y, int cx, int cy)
+void draw_building(int i, int _x, int _y, int cx, int cy)
 {
 	for (int y = 0; y < cy; y++)
 	{
 		for (int x = 0; x < cx; x++)
-			draw(icons, g_icon_map[i++], _x + (x << 4),  _y + (y << 4));
+			draw(*g_icons, g_icon_map[i++], _x + (x << 4),  _y + (y << 4));
 	}
 }
 
@@ -120,19 +122,19 @@ void show_fps()
 		show_number(0, 116, i / t);
 }
 
-void show_map(const Cxd2_animation& icons, const byte* _map)
+void draw_map(const byte* _map)
 {
 	SDL_FillRect(g_screen, NULL, SDL_MapRGB(g_screen->format, 0, 0, 0));
-	int x0 = view_x - g_screen->w / 2;
-	int y0 = view_y - g_screen->h / 2;
+	int x0 = g_screen->w / 2 - view_x;
+	int y0 = g_screen->h / 2 - view_y;
 	for (int y = 0; y < 64; y++)
 	{
 		for (int x = 0; x < 64; x++)
-			draw(icons, _map[x | y << 6], (x << 4) - x0, (y << 4) - y0);
+			draw(*g_icons, _map[x | y << 6], (x << 4) + x0, (y << 4) + y0);
 	}
 }
 
-void draw_buildings(const Cxd2_animation& icons)
+void draw_buildings()
 {
 	if (1)
 	{
@@ -166,7 +168,7 @@ void draw_buildings(const Cxd2_animation& icons)
 		for (const t_building* r = buildings; r->cx; r++)
 		{
 			for (int i = 0; i < r->cf; i++)
-				draw_building(icons, g_icon_map[icon] + i * r->cx * r->cy, i * (r->cx + 1) << 4, y, r->cx, r->cy);
+				draw_building(g_icon_map[icon] + i * r->cx * r->cy, i * (r->cx + 1) << 4, y, r->cx, r->cy);
 			icon++;
 			y += (r->cy + 1) << 4;
 		}
@@ -192,46 +194,72 @@ void draw_buildings(const Cxd2_animation& icons)
 	}
 }
 
+void draw_objects()
+{
+	int x0 = g_screen->w / 2 - view_x;
+	int y0 = g_screen->h / 2 - view_y;
+	BOOST_FOREACH(auto& i, m_objects)
+	{
+		int x = i.l().x() * 16 / 256 + x0;
+		int y = i.l().y() * 16 / 256 + y0;
+		if (i.t().structure)
+		{
+			int f = 2;
+			int cx = i.t().cx;
+			int cy = i.t().cy;
+			x -= 8;
+			y -= 8;
+			// draw_building(g_icon_map[icon] + i * r->cx * r->cy, i * (r->cx + 1) << 4, y, r->cx, r->cy);
+			draw_building(g_icon_map[i.t().icon] + f * cx * cy, x, y, cx, cy);
+		}
+		else
+		{
+			int j = 0;
+			const Cxd2_image& image = g_files.shape(i.t().body + j);
+			x -= image.cx() / 2;
+			y -= image.cy() / 2;
+			show_image(image, x, y);
+			if (i.t().turret != -1)
+			{
+				const Cxd2_image& image = g_files.shape(i.t().turret + j);
+				show_image(image, x, y);
+			}
+		}
+	}
+}
+
 void draw_minimap(const Cvirtual_binary& minimap)
 {
 	static Csdl_surface surface = SDL_DisplayFormat(Csdl_surface(SDL_CreateRGBSurfaceFrom(const_cast<byte*>(minimap.data()), 64, 64, 32, 64 << 2, g_screen->format->Rmask, g_screen->format->Gmask, g_screen->format->Bmask, 0)));
 	SDL_BlitSurface(surface, NULL, g_screen, &Csdl_rect(g_screen->w - 64, g_screen->h - 64));
 }
 
-void show_sidebar()
+void draw_sidebar(int x, int y, bool structures)
 {
-	int x = g_screen->w;
-	int y = 0;
-	int cx = 0;
 	BOOST_FOREACH(auto& i, m_object_types)
 	{
-		if (!i.second.cameo || !i.second.structure)
+		if (!i.second.cameo || i.second.structure != structures)
 			continue;
 		const Cxd2_image& image = g_files.shape(i.second.cameo);
-		draw(g_files.shapes2(), i.second.cameo, x - image.cx(), y);
-		cx = max(cx, image.cx());
-		y += image.cy() + 4;
-	}
-	x -= cx + 4;
-	y = 0;
-	BOOST_FOREACH(auto& i, m_object_types)
-	{
-		if (!i.second.cameo || i.second.structure)
-			continue;
-		const Cxd2_image& image = g_files.shape(i.second.cameo);
-		draw(g_files.shapes2(), i.second.cameo, x - image.cx(), y);
-		cx = max(cx, image.cx());
+		draw(g_files.shapes2(), i.second.cameo, x, y);
 		y += image.cy() + 4;
 	}
 }
 
-int get_icon_minimap_color(const Cxd2_animation& icons, int i)
+void draw_sidebar()
+{
+	int x = g_screen->w;
+	draw_sidebar(x - 32, 0, true);
+	draw_sidebar(x - 68, 0, false);
+}
+
+int get_icon_minimap_color(int i)
 {
 	int red = 0;
 	int green = 0;
 	int blue = 0;
-	const int c = icons.cx() * icons.cy();
-	const byte* r = icons.d(i);
+	const int c = g_icons->cx() * g_icons->cy();
+	const byte* r = g_icons->d(i);
 	for (int j = 0; j < c; j++)
 	{
 		SDL_Color v = g_palet[*r++];
@@ -242,12 +270,12 @@ int get_icon_minimap_color(const Cxd2_animation& icons, int i)
 	return SDL_MapRGB(g_screen->format, red / c, green / c, blue / c);
 }
 
-Cvirtual_binary create_minimap(const Cxd2_animation& icons, const byte* s)
+Cvirtual_binary create_minimap(const byte* s)
 {
 	Cvirtual_binary d;
 	int* w = reinterpret_cast<int*>(d.write_start(0x4000));
 	for (int i = 0; i < 0x1000; i++)
-		*w++ = get_icon_minimap_color(icons, s[i]);
+		*w++ = get_icon_minimap_color(s[i]);
 	return d;
 }
 
@@ -303,7 +331,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		return 1;
 	const SDL_VideoInfo* vi = SDL_GetVideoInfo();
 	load_palet("ibm.pal", g_palet);
-	const Cxd2_animation& icons = g_files.animations()["icon.icn"];
+	g_icons = &g_files.animations()["icon.icn"];
 	Cvirtual_binary map;
 	{
 		const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map()["icon.map"].data());
@@ -313,14 +341,22 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		for (int i = 0; i < 0x1000; i++)
 			w[i] = s[w[i]];
 	}
-	Cvirtual_binary minimap = create_minimap(icons, map);
+	t_object_data od[] =
+	{
+		100, 0, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "mcv"),
+		100, 1, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "const yard"),
+	};
+	m_objects.push_back(Cobject(od[0]));
+	m_objects.push_back(Cobject(od[1]));
+	Cvirtual_binary minimap = create_minimap(map);
 	for (bool run = true; !g_error && run; )
 	{
-		show_map(icons, map);
-		draw_buildings(icons);
-		show_sidebar();
+		draw_map(map);
+		// draw_buildings();
+		draw_objects();
+		draw_sidebar();
 		draw_minimap(minimap);
-		show_fps();
+		// show_fps();
 		SDL_Flip(g_screen);
 		SDL_Event event;
 		while (SDL_PollEvent(&event))

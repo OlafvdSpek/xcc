@@ -37,9 +37,9 @@ public:
 	}
 
 	void dump(ostream&);
-	void load(const t_object_data&);
 	void tick();
 	Cobject();
+	Cobject(const t_object_data&);
 private:
 	Clocation m_destination;
 	int m_health;
