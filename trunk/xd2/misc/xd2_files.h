@@ -136,7 +136,6 @@ public:
 	int load(const Cxif_key_r& key);
 	Cxif_key save() const;
 	int load(const string& dir);
-	Cxd2_files();
 
 	const Cxd2_animation_map& animations() const
 	{
@@ -163,6 +162,11 @@ public:
 		return m_shape_map;
 	}
 
+	Cvirtual_binary exe() const
+	{
+		return m_exe;
+	}
+
 	boost::iterator_range<const t_building_type*> building_types() const
 	{
 		auto i = reinterpret_cast<const t_building_type*>(m_building_types.data());
@@ -185,6 +189,7 @@ private:
 	Cxd2_image_map m_image_map;
 	Cxd2_shape_map m_shape_map;
 
+	Cvirtual_binary m_exe;
 	Cvirtual_binary m_building_types;
 	Cvirtual_binary m_unit_types;
 };
