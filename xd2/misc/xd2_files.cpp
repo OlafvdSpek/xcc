@@ -35,9 +35,6 @@ int Cxd2_files::load(const Cxif_key_r& key)
 	m_data_map.load(key.get_key(vi_data));
 	m_image_map.load(key.get_key(vi_images));
 	m_shape_map.load(key.get_key(vi_shapes));
-
-	m_building_types = data_map()["dune2 building types.bin"];
-	m_unit_types = data_map()["dune2 unit types.bin"];
 	return 0;
 }
 
@@ -54,12 +51,6 @@ Cxif_key Cxd2_files::save() const
 
 int Cxd2_files::load(const string& dir)
 {
-	if (m_exe.load(dir + "dune2.exe"))
-		return 1;
-	m_building_types.write(m_exe + 194010, 19 * 96);
-	m_unit_types.write(m_exe + 195840, 27 * 90);
-	m_data_map.set("dune2 building types.bin", m_building_types);
-	m_data_map.set("dune2 unit types.bin", m_unit_types);
 	return load_audio_pak(dir + "atre.pak")
 		|| load_audio_pak(dir + "hark.pak")
 		|| load_audio_pak(dir + "introvoc.pak")
