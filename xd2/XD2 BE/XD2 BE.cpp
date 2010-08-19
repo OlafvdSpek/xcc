@@ -14,8 +14,9 @@ Cxd2_surface_cache g_surface_cache;
 int view_x = 32 << 4;
 int view_y = 32 << 4;
 
-map<string, Chouse> m_houses;
+map<string, Chouse> g_houses;
 map<string, Cobject_type> m_object_types;
+map<string, Cplayer> m_players;
 
 void load_palet(const string& name, SDL_Color* colors)
 {
@@ -286,7 +287,8 @@ void read_config(const string& dir, T& v)
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	xcc_dirs::load_from_registry();
-	read_config("dune/houses", m_houses);
+	read_config("dune/houses", g_houses);
+	read_config("dune/players", m_players);
 	read_config("dune/objects", m_object_types);
 	{
 		Cxif_key_r key;

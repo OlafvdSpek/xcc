@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 #include <windows.h>
+#include <xbt/find_ptr.h>
 #include "sdl_color.h"
 #include "sdl_rect.h"
 #include "sdl_surface.h"
