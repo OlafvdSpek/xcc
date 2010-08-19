@@ -15,7 +15,7 @@ public:
 
 	void load(t_house_data d);
 	Chouse();
-	virtual ~Chouse();
+	Chouse(const map<string, string>&);
 private:
 	string m_name;
 };

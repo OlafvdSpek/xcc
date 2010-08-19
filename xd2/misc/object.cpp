@@ -38,16 +38,16 @@ void Cobject::tick()
 		switch (d)
 		{
 		case 2:
-			m_l.y(min(m_destination.y(), m_l.y() + m_t->speed()));
+			m_l.y(min(m_destination.y(), m_l.y() + m_t->speed));
 			break;
 		case 4:
-			m_l.x(min(m_destination.x(), m_l.x() - m_t->speed()));
+			m_l.x(min(m_destination.x(), m_l.x() - m_t->speed));
 			break;
 		case 6:
-			m_l.x(min(m_destination.x(), m_l.x() + m_t->speed()));
+			m_l.x(min(m_destination.x(), m_l.x() + m_t->speed));
 			break;
 		case 8:
-			m_l.y(max(m_destination.y(), m_l.y() - m_t->speed()));
+			m_l.y(max(m_destination.y(), m_l.y() - m_t->speed));
 			break;
 		}
 		if (m_l.xh() != old_l.xh() || m_l.yh() != old_l.yh())
