@@ -14,9 +14,13 @@ int main()
 	if (files.load(dir))
 		return 1;
 	files.save().vdata().save(xcc_dirs::get_data_dir() + "xd2 files.xif");
-	BOOST_FOREACH(auto& i, files.building_types())
+	Cvirtual_binary exe(dir + "dune2.exe");
+	if (!exe.size())
+		return 1;
+	auto bt = reinterpret_cast<const t_building_type*>(exe + 194010);
+	BOOST_FOREACH(auto& i, boost::make_iterator_range(bt, bt + 19))
 	{
-		const char* e = reinterpret_cast<const char*>(files.exe().data());
+		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream(string("../xd2 be/dune/objects/") + (e + 229504 + i.name) + ".ini")
 			<< "cameo = " << i.cameo_shp_index << endl
 			<< "class = structure" << endl
@@ -31,9 +35,10 @@ int main()
 			;
 
 	}
-	BOOST_FOREACH(auto& i, files.unit_types())
+	auto ut = reinterpret_cast<const t_unit_type*>(exe + 195840);
+	BOOST_FOREACH(auto& i, boost::make_iterator_range(ut, ut + 27))
 	{
-		const char* e = reinterpret_cast<const char*>(files.exe().data());
+		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream(string("../xd2 be/dune/objects/") + (e + 229504 + i.name) + ".ini")
 			<< "body = " << i.body_shp_index << endl
 			<< "cameo = " << i.cameo_shp_index << endl
