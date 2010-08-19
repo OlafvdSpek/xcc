@@ -1,9 +1,15 @@
 #include "stdafx.h"
 #include "player.h"
 
-void Cplayer::load(const t_player_data& d)
+extern map<string, Chouse> g_houses;
+
+Cplayer::Cplayer()
 {
-	m_credits = d.credits;
-	m_house = d.house;
-	m_name = d.name;
+}
+
+Cplayer::Cplayer(const map<string, string>& d)
+{
+	house = find_ptr(g_houses, find_ref(d, "house", ""));
+	name = find_ref(d, "name", "");
+	credits = find_ref(d, "credits", 1000);
 }
