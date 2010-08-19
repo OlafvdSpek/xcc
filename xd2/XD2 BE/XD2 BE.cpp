@@ -341,13 +341,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		for (int i = 0; i < 0x1000; i++)
 			w[i] = s[w[i]];
 	}
-	t_object_data od[] =
-	{
-		100, 0, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "mcv"),
-		100, 1, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "const yard"),
-	};
-	m_objects.push_back(Cobject(od[0]));
-	m_objects.push_back(Cobject(od[1]));
+	m_objects.push_back(Cobject(0, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "mcv")));
+	m_objects.push_back(Cobject(1, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "const yard")));
 	Cvirtual_binary minimap = create_minimap(map);
 	for (bool run = true; !g_error && run; )
 	{
@@ -397,6 +392,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				break;
 			}
 		}
+		BOOST_FOREACH(auto& i, m_objects)
+			i.tick();
 	}
 	SDL_Quit();
 	return 0;

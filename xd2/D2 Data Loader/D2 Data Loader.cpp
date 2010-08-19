@@ -25,15 +25,15 @@ int main()
 			<< "cameo = " << i.cameo_shp_index << endl
 			<< "class = structure" << endl
 			<< "cost = " << i.cost << endl
+			<< "cx = " << (i.size == 0 || i.size == 2 ? 1 : i.size == 1 || i.size == 3 || i.size == 4 ? 2 : 3) << endl
+			<< "cy = " << (i.size == 0 || i.size == 1 ? 1 : i.size == 2 || i.size == 3 || i.size == 5 ? 2 : 3) << endl
 			<< "icon = " << i.icon_index << endl
 			<< "power = " << i.power_in << endl
 			<< "sight = " << i.sight << endl
-			<< "size = " << i.size << endl
 			<< "strength = " << i.strength << endl
 			<< "techlevel = " << i.techlevel << endl
 			<< "wsa = " << e + 229504 + i.wsa << endl
 			;
-
 	}
 	auto ut = reinterpret_cast<const t_unit_type*>(exe + 195840);
 	BOOST_FOREACH(auto& i, boost::make_iterator_range(ut, ut + 27))
@@ -49,7 +49,6 @@ int main()
 			<< "turret = " << i.turret_shp_index << endl
 			<< "wsa = " << e + 229504 + i.wsa << endl
 			;
-
 	}
 	return 0;
 }

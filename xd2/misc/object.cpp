@@ -3,24 +3,21 @@
 
 Cobject::Cobject()
 {
-	m_t = NULL;
 }
 
-Cobject::Cobject(const t_object_data& d)
+Cobject::Cobject(int x, int y, Cplayer* p, Cobject_type* t)
 {
-	m_destination = m_l = Clocation(d.x << 8 | 0x80, d.y << 8 | 0x80);
-	m_health = d.health;
-	m_p = d.p;
-	m_t = d.t;
+	m_destination = m_l = Clocation(x << 8 | 0x80, y << 8 | 0x80);
+	m_health = t->strength;
+	m_p = p;
+	m_t = t;
 	m_target = NULL;
 
-	m_destination = Clocation(d.x << 8 | 0x80, d.y + 2 << 8 | 0x80);
+	m_destination = Clocation(0x3f80, 0x3f80);
 }
 
 void Cobject::tick()
 {
-	if (!valid())
-		return;
 	if (m_destination.x() != m_l.x() || m_destination.y() != m_l.y())
 	{
 		int dx = m_destination.x() - m_l.x();
@@ -54,9 +51,4 @@ void Cobject::tick()
 		{
 		}
 	}
-}
-
-void Cobject::dump(ostream& os)
-{
-	os << hex << m_l.x() << ',' << m_l.y() << dec;
 }

@@ -4,15 +4,6 @@
 #include "object_type.h"
 #include "player.h"
 
-struct t_object_data
-{
-	int health;
-	int x;
-	int y;
-	Cplayer* p;
-	Cobject_type* t;
-};
-
 class Cobject
 {
 public:
@@ -31,15 +22,9 @@ public:
 		return *m_t;
 	}
 
-	bool valid() const
-	{
-		return m_p && m_t;
-	}
-
-	void dump(ostream&);
 	void tick();
 	Cobject();
-	Cobject(const t_object_data&);
+	Cobject(int x, int y, Cplayer*, Cobject_type*);
 private:
 	Clocation m_destination;
 	int m_health;
