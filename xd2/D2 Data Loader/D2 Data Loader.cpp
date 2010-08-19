@@ -21,7 +21,7 @@ int main()
 	BOOST_FOREACH(auto& i, boost::make_iterator_range(bt, bt + 19))
 	{
 		const char* e = reinterpret_cast<const char*>(exe.data());
-		ofstream(string("../xd2 be/dune/objects/") + (e + 229504 + i.name) + ".ini")
+		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
 			<< "cameo = " << i.cameo_shp_index << endl
 			<< "class = structure" << endl
 			<< "cost = " << i.cost << endl
@@ -39,7 +39,7 @@ int main()
 	BOOST_FOREACH(auto& i, boost::make_iterator_range(ut, ut + 27))
 	{
 		const char* e = reinterpret_cast<const char*>(exe.data());
-		ofstream(string("../xd2 be/dune/objects/") + (e + 229504 + i.name) + ".ini")
+		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
 			<< "body = " << i.body_shp_index << endl
 			<< "cameo = " << i.cameo_shp_index << endl
 			<< "cost = " << i.cost << endl

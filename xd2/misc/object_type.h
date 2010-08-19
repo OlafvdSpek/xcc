@@ -10,6 +10,9 @@ public:
 	int body;
 	int cameo;
 	int cost;
+	int cx;
+	int cy;
+	int icon;
 	int sight;
 	int speed;
 	int strength;
