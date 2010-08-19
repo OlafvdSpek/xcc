@@ -171,27 +171,24 @@ void draw_buildings(const Cxd2_animation& icons)
 			y += (r->cy + 1) << 4;
 		}
 	}
-	if (0)
+	int y = 0;
+	BOOST_FOREACH(auto& i, m_object_types)
 	{
-		int y = 0;
-		BOOST_FOREACH(auto& i, g_files.unit_types())
+		if (!i.second.body)
+			continue;
+		int x = 640;
+		for (int j = 0; j < 5; j++)
 		{
-			if (!i.body_shp_index)
-				continue;
-			int x = 0;
-			for (int j = 0; j < 5; j++)
+			const Cxd2_image& image = g_files.shape(i.second.body + j);
+			show_image(image, x, y);
+			if (i.second.turret != -1)
 			{
-				const Cxd2_image& image = g_files.shape(i.body_shp_index + j);
+				const Cxd2_image& image = g_files.shape(i.second.turret + j);
 				show_image(image, x, y);
-				if (i.turret_shp_index != -1)
-				{
-					const Cxd2_image& image = g_files.shape(i.turret_shp_index + j);
-					show_image(image, x, y);
-				}
-				x += image.cx() + 4;
 			}
-			y += g_files.shape(i.body_shp_index + 5).cy() + 4;
+			x += image.cx() + 4;
 		}
+		y += g_files.shape(i.second.body + 5).cy() + 4;
 	}
 }
 
@@ -203,27 +200,26 @@ void draw_minimap(const Cvirtual_binary& minimap)
 
 void show_sidebar()
 {
-	return;
 	int x = g_screen->w;
 	int y = 0;
 	int cx = 0;
-	BOOST_FOREACH(auto& i, g_files.building_types())
+	BOOST_FOREACH(auto& i, m_object_types)
 	{
-		if (!i.cameo_shp_index)
+		if (!i.second.cameo || !i.second.structure)
 			continue;
-		const Cxd2_image& image = g_files.shape(i.cameo_shp_index);
-		draw(g_files.shapes2(), i.cameo_shp_index, x - image.cx(), y);
+		const Cxd2_image& image = g_files.shape(i.second.cameo);
+		draw(g_files.shapes2(), i.second.cameo, x - image.cx(), y);
 		cx = max(cx, image.cx());
 		y += image.cy() + 4;
 	}
 	x -= cx + 4;
 	y = 0;
-	BOOST_FOREACH(auto& i, g_files.unit_types())
+	BOOST_FOREACH(auto& i, m_object_types)
 	{
-		if (!i.cameo_shp_index)
+		if (!i.second.cameo || i.second.structure)
 			continue;
-		const Cxd2_image& image = g_files.shape(i.cameo_shp_index);
-		draw(g_files.shapes2(), i.cameo_shp_index, x - image.cx(), y);
+		const Cxd2_image& image = g_files.shape(i.second.cameo);
+		draw(g_files.shapes2(), i.second.cameo, x - image.cx(), y);
 		cx = max(cx, image.cx());
 		y += image.cy() + 4;
 	}
@@ -301,7 +297,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #ifdef NDEBUG
 	g_screen = SDL_SetVideoMode(0, 0, 32, SDL_DOUBLEBUF | SDL_FULLSCREEN | SDL_HWSURFACE);
 #else
-	g_screen = SDL_SetVideoMode(800, 600, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
+	g_screen = SDL_SetVideoMode(1280, 1024, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 #endif
 	if (!g_screen) 
 		return 1;

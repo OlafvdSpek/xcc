@@ -3,6 +3,7 @@
 #include <boost/foreach.hpp>
 #include <boost/range.hpp>
 #include <cassert>
+#include <fstream>
 #include <iostream>
 #include <map>
 #include <string>

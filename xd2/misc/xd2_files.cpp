@@ -9,10 +9,6 @@
 #include "voc_file.h"
 #include "wsa_dune2_file.h"
 
-Cxd2_files::Cxd2_files()
-{
-}
-
 const Cxd2_shape& Cxd2_files::shapes2() const
 {
 	return shapes()["dune2 shapes.shp"];
@@ -58,11 +54,12 @@ Cxif_key Cxd2_files::save() const
 
 int Cxd2_files::load(const string& dir)
 {
-	Cvirtual_binary exe(dir + "dune2.exe");
-	if (!exe.size())
+	if (m_exe.load(dir + "dune2.exe"))
 		return 1;
-	m_data_map.set("dune2 building types.bin", Cvirtual_binary(exe + 193930, 19 * 96));
-	m_data_map.set("dune2 unit types.bin", Cvirtual_binary(exe + 195760, 27 * 90));
+	m_building_types.write(m_exe + 194010, 19 * 96);
+	m_unit_types.write(m_exe + 195840, 27 * 90);
+	m_data_map.set("dune2 building types.bin", m_building_types);
+	m_data_map.set("dune2 unit types.bin", m_unit_types);
 	return load_audio_pak(dir + "atre.pak")
 		|| load_audio_pak(dir + "hark.pak")
 		|| load_audio_pak(dir + "introvoc.pak")
