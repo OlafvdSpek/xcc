@@ -1,8 +1,6 @@
 #include "stdafx.h"
-#include <algorithm>
-#include "mix_file.h"
+#include "object.h"
 #include "seed_decoder.h"
-#include "string_conversion.h"
 #include "xcc_dirs.h"
 #include "xd2_files.h"
 #include "xd2_surface_cache.h"
@@ -15,6 +13,9 @@ SDL_Surface* g_screen;
 Cxd2_surface_cache g_surface_cache;
 int view_x = 32 << 4;
 int view_y = 32 << 4;
+
+map<string, Chouse> m_houses;
+map<string, Cobject_type> m_object_types;
 
 void load_palet(const string& name, SDL_Color* colors)
 {
@@ -201,6 +202,7 @@ void draw_minimap(const Cvirtual_binary& minimap)
 
 void show_sidebar()
 {
+	return;
 	int x = g_screen->w;
 	int y = 0;
 	int cx = 0;
@@ -252,9 +254,40 @@ Cvirtual_binary create_minimap(const Cxd2_animation& icons, const byte* s)
 	return d;
 }
 
+template<class T>
+void read_config(const string& dir, T& v)
+{
+	WIN32_FIND_DATA fd;
+	HANDLE h = FindFirstFile((dir + "/*.ini").c_str(), &fd);
+	if (h == INVALID_HANDLE_VALUE)
+		return;
+	do
+	{
+		ifstream f(dir + "/" + fd.cFileName);
+		map<string, string> d;
+		for (string s; getline(f, s); )
+		{
+			size_t i = s.find(';');
+			if (i != string::npos)
+				s.erase(i);
+			i = s.find('=');
+			if (i == string::npos)
+				continue;
+			d[trim_copy(s.substr(0, i))] = trim_copy(s.substr(i + 1));
+		}
+		string& code = d["code"] = fd.cFileName;
+		code.erase(code.rfind('.'));
+		v[code] = d;
+	}
+	while (FindNextFile(h, &fd));
+	FindClose(h);
+}
+
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
-{	
+{
 	xcc_dirs::load_from_registry();
+	read_config("dune/houses", m_houses);
+	read_config("dune/objects", m_object_types);
 	{
 		Cxif_key_r key;
 		if (key.import(Cvirtual_binary(xcc_dirs::get_data_dir() + "xd2 files.xif")) || g_files.load(key))
