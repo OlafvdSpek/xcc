@@ -83,6 +83,7 @@
       <DataExecutionPrevention>
       </DataExecutionPrevention>
       <TargetMachine>MachineX86</TargetMachine>
+      <AdditionalDependencies>ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <Bscmake>
       <SuppressStartupBanner>true</SuppressStartupBanner>
@@ -161,6 +162,11 @@
     <ClInclude Include="..\misc\xd2_files.h" />
     <ClInclude Include="..\misc\xd2_image.h" />
     <ClInclude Include="..\misc\xd2_shape.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\xcc\Library\XCC Library.vcxproj">
+      <Project>{5e445578-cb45-4d82-9a1c-fc7d3e8d866a}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
