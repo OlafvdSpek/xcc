@@ -167,6 +167,7 @@
 		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
+			$row['ipa'] &= 0xffffffff;
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
 			printf('<td><a href="?a=show_logins;ipa=%d">%s</a>', $row['ipa'], long2ip($row['ipa']));
@@ -178,10 +179,8 @@
 		printf('</table>');
 		$rows = db_query(sprintf("select l.*, p.name from xwi_logins1 l left join xwi_players p using (pid)%s order by mtime desc", $where));
 		printf('<table>');
-		// printf('<tr><th colspan=7>logins');
 		printf('<tr>');
 		printf('<th>count');
-		// printf('<th align=right>pid');
 		printf('<th align=right>sid');
 		printf('<th>name');
 		printf('<th>ipa');
@@ -190,6 +189,7 @@
 		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
+			$row['ipa'] &= 0xffffffff;
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['count']);
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
