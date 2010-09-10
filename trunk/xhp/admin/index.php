@@ -54,6 +54,7 @@
 			printf('<th>message');
 			do
 			{
+				$row['ipa'] &= 0xffffffff;
 				printf('<tr>');
 				printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
 				printf('<td><a href="?q=%s">%s</a>', urlencode($row['name']), htmlspecialchars($row['name']));
@@ -658,6 +659,7 @@
 		$results = db_query(sprintf("select * from xbl_ipas where wid = %d", $wid));
 		while ($row = mysql_fetch_array($results))
 		{
+			$row['ipa'] &= 0xffffffff;
 			echo('<tr>');
 			printf('<td><a href=".?q=%s">%s</a>', long2ip($row['ipa']), long2ip($row['ipa']));
 			printf('<td>%s', $row['creator']);
