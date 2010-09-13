@@ -16,3 +16,6 @@
 	db_query("update xwi_players set flags = flags | 2, mtime = unix_timestamp() where last_online_time < unix_timestamp() - 3 * 365 * 24 * 60 * 60 and ctime < unix_timestamp() - 31 * 24 * 60 * 60");
 	db_query("update xwi_players set cid = 0 where flags & 2");
 	db_query("update xwi_clans a inner join (select cid, count(*) c from xwi_players group by cid) b using (cid) set player_count = b.c");
+
+	db_query("update st_forum.invision_members set member_group_id = 11 where member_group_id = 3 and warn_level >= 3");
+	db_query("update st_forum.invision_members set member_group_id = 3 where member_group_id = 11 and warn_level < 3");
