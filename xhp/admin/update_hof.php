@@ -1,6 +1,6 @@
 <?php
-	require_once('b/config.php');
-	require_once('b/common.php');
+	require_once('config.php');
+	require_once('../../b/common.php');
 
 	function update_hof($date, $lid)
 	{
@@ -9,13 +9,13 @@
 			return;
 		$first = true;
 		$rank = 1;
-		echo("insert into xcl_hof (date, lid, rank, name, points, countries) values<br>");
+		echo("insert into xcl_hof (date, lid, rank, name) values<br>");
 		while ($row = mysql_fetch_assoc($rows))
 		{
 			if (!$first)
 				echo(",<br>");
 			$first = false;
-			printf("('%s', %d, %d, '%s', %d, %d)", $date, $lid, $rank++, addslashes($row['name']), $row['points'], $row['countries']);
+			printf("('%s', %d, %d, '%s')", $date, $lid, $rank++, addslashes($row['name']));
 		}
 		echo(";<br>");
 	}
@@ -30,8 +30,8 @@
 		$year--;
 	}
 	$date = sprintf('%04d%02d00', $year, $month);
-	printf("delete from xcl_hof where date = '%s';<br>", $date);
-	echo("update xcl_prev_players inner join bl using (name) set points = 0 where lid & 1 and points;<br>");
+	// printf("delete from xcl_hof where date = '%s';<br>", $date);
+	// echo("update xcl_prev_players inner join bl using (name) set points = 0 where lid & 1 and points;<br>");
 	update_hof($date, 1);
 	update_hof($date, 2);
 	update_hof($date, 3);
@@ -50,4 +50,3 @@
 		printf("('%s', %d, %d)", addslashes($row['name']), $row['points'], $rank++);
 	}
 	echo("<br>on duplicate key update points = greatest(points, values(points)), rank = least(rank, values(rank));<br>");
-?>
