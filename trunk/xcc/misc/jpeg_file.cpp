@@ -4,14 +4,6 @@
 #include <jpeglib.h>
 #include "fname.h"
 
-Cjpeg_file::Cjpeg_file()
-{
-}
-
-Cjpeg_file::~Cjpeg_file()
-{
-}
-
 class Csource_manager
 {
 public:
