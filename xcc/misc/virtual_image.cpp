@@ -73,11 +73,14 @@ int Cvirtual_image::load(const Cvirtual_binary& s)
 {
 	Cdds_file dds_f;
 	Cpcx_file pcx_f;
+	Cpng_file png_f;
 	Ctga_file tga_f;
 	if (dds_f.load(s), dds_f.is_valid())
 		*this = dds_f.vimage();
 	else if (pcx_f.load(s), pcx_f.is_valid())
 		*this = pcx_f.vimage();
+	else if (png_f.load(s), png_f.is_valid())
+		return png_f.decode(*this);
 	else if (tga_f.load(s), tga_f.is_valid())
 		return tga_f.decode(*this);
 	else
@@ -87,13 +90,26 @@ int Cvirtual_image::load(const Cvirtual_binary& s)
 		is->Release();
 		if (bmp.GetLastStatus() != Ok)
 			return 1;
-		load(NULL, bmp.GetWidth(), bmp.GetHeight(), 3, NULL);
-		BitmapData d;
-		d.Stride = bmp.GetWidth() * 3;
-		d.Scan0 = image_edit();
-		bmp.LockBits(NULL, ImageLockModeRead | ImageLockModeUserInputBuf, PixelFormat24bppRGB, &d);
-		bmp.UnlockBits(&d);
-		swap_rb();
+		PixelFormat pf = bmp.GetPixelFormat();
+		if (bmp.GetPixelFormat() & PixelFormatIndexed)
+		{
+			load(NULL, bmp.GetWidth(), bmp.GetHeight(), 1, NULL);
+			BitmapData d;
+			d.Stride = bmp.GetWidth();
+			d.Scan0 = image_edit();
+			bmp.LockBits(NULL, ImageLockModeRead | ImageLockModeUserInputBuf, PixelFormat8bppIndexed, &d);
+			bmp.UnlockBits(&d);
+		}
+		else
+		{
+			load(NULL, bmp.GetWidth(), bmp.GetHeight(), 3, NULL);
+			BitmapData d;
+			d.Stride = bmp.GetWidth() * 3;
+			d.Scan0 = image_edit();
+			bmp.LockBits(NULL, ImageLockModeRead | ImageLockModeUserInputBuf, PixelFormat24bppRGB, &d);
+			bmp.UnlockBits(&d);
+			swap_rb();
+		}
 	}
 	return 0;
 }
