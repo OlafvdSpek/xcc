@@ -163,6 +163,7 @@
     </ClCompile>
     <ClCompile Include="..\misc\ini_reader.cpp">
     </ClCompile>
+    <ClCompile Include="..\misc\jpeg_file.cpp" />
     <ClCompile Include="..\misc\map_ra_ini_reader.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\map_td_ini_reader.cpp">
