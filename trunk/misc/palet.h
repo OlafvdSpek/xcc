@@ -35,7 +35,6 @@ union t_palet32bgr_entry
 	unsigned __int32 v;
 };
 
-typedef t_palet_entry t_paletentry;
 typedef t_palet_entry t_palet[256];
 
 void apply_rp(byte* d, int cb_d, const byte* rp);

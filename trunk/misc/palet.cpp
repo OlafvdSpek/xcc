@@ -125,9 +125,9 @@ void convert_palet_24_to_18(const t_palet s, t_palet d)
 {
 	for (int i = 0; i < 256; i++)
 	{
-		d[i].r = s[i].r * 63 / 255;
-		d[i].g = s[i].g * 63 / 255;
-		d[i].b = s[i].b * 63 / 255;
+		d[i].r = s[i].r >> 2;
+		d[i].g = s[i].g >> 2;
+		d[i].b = s[i].b >> 2;
 	}
 }
 
