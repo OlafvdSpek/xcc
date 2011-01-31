@@ -14,6 +14,12 @@
 		{
 			page_edit_serial(0 + $search);
 		}
+		else if (strstr($search, '@') !== FALSE)
+		{
+			$row = db_query_first(sprintf("select member_id from st_forum.invision_members where email = '%s'", addslashes($search)));
+			if ($row)
+				page_user($row['member_id']);
+		}
 		else
 		{
 			$rows = db_query(sprintf("select pid from xwi_players where server_id = %d and name like '%s' limit 100", $config['server_id'], addslashes($search)));
@@ -504,6 +510,22 @@
 		table_login_failures(0, '', $sid);
 	}
 
+	function page_user($uid)
+	{
+		$row = db_query_first(sprintf("select member_id, member_group_id, name, members_display_name from st_forum.invision_members where member_id = %d", $uid));
+		printf('<table>');
+		printf('<tr><th>uid<td>%d', $row['member_id']);
+		printf('<tr><th>gid<td>%d', $row['member_group_id']);
+		printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
+		if ($row['members_display_name'] != $row['name'])
+			echo(' - ' . htmlspecialchars($row['name']));
+		$rows = db_query(sprintf("select distinct sid from xwi_serials where uid = %d", $uid));
+		while ($row = mysql_fetch_assoc($rows))
+			$sids[] = $row['sid'];
+		printf('</table>');
+		table_serials($sids);
+	}
+
 	function insert_admin_log($pid, $sid, $message)
 	{
 		global $remote_user;
@@ -745,6 +767,9 @@
 	case 'show_logins':
 		table_logins($ipa, 0, 0);
 		table_login_failures($ipa, '', 0);
+		break;
+	case 'user':
+		page_user($_REQUEST['uid']);
 		break;
 	case 'warning':
 		page_warning($_REQUEST['wid'], $pid);
