@@ -1195,13 +1195,17 @@ int CXCCMixerView::copy_as_pal(int i, Cfname fname) const
 
 int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 {
-	Cvirtual_image image = get_vimage(i);
-	if (!image.palet())
-		return 1;
 	Cpal_file f;
-	f.load(Cvirtual_binary(image.palet(), sizeof(t_palet)));
+	bool shift_left = false;
+	Cvirtual_image image = get_vimage(i);
+	if (image.palet())
+		f.load(Cvirtual_binary(image.palet(), sizeof(t_palet)));
+	else if (open_f_index(f, i))
+		return 1;
+	else
+		shift_left = true;
 	fname.set_ext(".pal");
-	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str()), false).fail();
+	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str()), shift_left).fail();
 }
 
 static int copy_as_image(Cvideo_decoder* v, string fname, t_file_type ft)
