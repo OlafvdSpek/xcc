@@ -1,4 +1,4 @@
-!define VERSION "0.0.0"
+!define VERSION "0.0.1"
 
 Name "Tiberian Sun ${VERSION}"
 Outfile "Tiberian_Sun-${VERSION}.exe"
