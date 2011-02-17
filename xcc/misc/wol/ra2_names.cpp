@@ -1,8 +1,7 @@
-#include "stdafx.h"
 #include "ra2_names.h"
 
 #include <boost/algorithm/string.hpp>
-#include "string_conversion.h"
+#include <xbt/bt_misc.h>
 
 using namespace boost;
 
