@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "irc_params.h"
 
 #include <boost/algorithm/string.hpp>

@@ -1,4 +1,3 @@
-#include <stdafx.h>
 #include "multi_line.h"
 
 #include <boost/algorithm/string.hpp>
