@@ -10,6 +10,10 @@
 	function page_search_results($search)
 	{
 		global $config;
+		if (substr($search, 0, 2) == 'u:')
+		{
+			page_user(substr($search, 2));
+		}
 		if (0 + $search)
 		{
 			page_edit_serial(0 + $search);
@@ -414,10 +418,9 @@
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		if ($row['member_id'])
 		{
-			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['fname']));
+			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
 			if ($row['members_display_name'] != $row['fname'])
-				echo(' - ' . htmlspecialchars($row['members_display_name']));
-			// printf('<tr><th>forum email<td>%s</a>', htmlspecialchars($row['email']));
+				echo(' - ' . htmlspecialchars($row['fname']));
 		}
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
@@ -489,9 +492,9 @@
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
 		if ($row['member_id'])
 		{
-			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['fname']));
+			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
 			if ($row['members_display_name'] != $row['fname'])
-				echo(' - ' . htmlspecialchars($row['members_display_name']));
+				echo(' - ' . htmlspecialchars($row['fname']));
 		}
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
