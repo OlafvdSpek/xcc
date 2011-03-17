@@ -2,6 +2,21 @@
 <link rel=stylesheet href="/xcc1.css">
 <title>XWI Admin</title>
 <?php
+	function format_forum_name0($uid, $display_name, $login_name, $email)
+	{
+		$d = sprintf('<a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $uid, htmlspecialchars($display_name));
+		if ($login_name != $display_name)
+			$d .= ' - ' . htmlspecialchars($login_name);
+		if (!empty($email))
+			$d .= ' - ' . htmlspecialchars($email);
+		return $d;
+	}
+
+	function format_forum_name($row)
+	{
+		return format_forum_name0($row['member_id'], $row['members_display_name'], $row['login_name'], $row['email']);
+	}
+
 	function page_search($search)
 	{
 		include(dirname(__FILE__) . '/templates/links.php');
@@ -404,7 +419,7 @@
 
 	function page_edit_player($pid)
 	{
-		$row = db_query_first(sprintf("select p.*, c.name cname, m.member_id, m.name fname, members_display_name, m.email from xwi_players p left join xwi_clans c using (cid) left join st_forum.invision_members m on p.uid = member_id where p.pid = %d", $pid));
+		$row = db_query_first(sprintf("select p.*, c.name cname, m.member_id, m.name login_name, members_display_name, m.email from xwi_players p left join xwi_clans c using (cid) left join st_forum.invision_members m on p.uid = member_id where p.pid = %d", $pid));
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
@@ -417,11 +432,7 @@
 		}
 		printf('<tr><th>flags<td>%s', flags2a($row['flags']));
 		if ($row['member_id'])
-		{
-			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
-			if ($row['members_display_name'] != $row['fname'])
-				echo(' - ' . htmlspecialchars($row['fname']));
-		}
+			printf('<tr><th>forum name<td>' . format_forum_name($row));
 		printf('<tr><th>last online<td>%s', gmdate('Y-m-d H:i:s', $row['last_online_time']));
 		printf('<tr><th>modified<td>%s', gmdate('Y-m-d H:i:s', $row['mtime']));
 		printf('<tr><th>created<td>%s', gmdate('Y-m-d H:i:s', $row['ctime']));
@@ -486,16 +497,12 @@
 
 	function page_edit_serial($sid)
 	{
-		$row = db_query_first(sprintf("select s.*, m.member_id, m.name fname, members_display_name from xwi_serials s left join st_forum.invision_members m on s.uid = member_id where sid = %d", $sid));
+		$row = db_query_first(sprintf("select s.*, m.member_id, m.name login_name, members_display_name from xwi_serials s left join st_forum.invision_members m on s.uid = member_id where sid = %d", $sid));
 		printf('<table>');
 		printf('<tr><th>sid<td>%d', $row['sid']);
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
 		if ($row['member_id'])
-		{
-			printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
-			if ($row['members_display_name'] != $row['fname'])
-				echo(' - ' . htmlspecialchars($row['fname']));
-		}
+			printf('<tr><th>forum name<td>' . format_forum_name($row));
 		printf('<tr><th>wtime<td>');
 		if ($row['wtime'])
 			printf('%s', gmdate('Y-m-d H:i:s', $row['wtime']));
@@ -515,13 +522,11 @@
 
 	function page_user($uid)
 	{
-		$row = db_query_first(sprintf("select member_id, member_group_id, name, members_display_name from st_forum.invision_members where member_id = %d", $uid));
+		$row = db_query_first(sprintf("select member_id, member_group_id, name login_name, members_display_name, email from st_forum.invision_members where member_id = %d", $uid));
 		printf('<table>');
 		printf('<tr><th>uid<td>%d', $row['member_id']);
 		printf('<tr><th>gid<td>%d', $row['member_group_id']);
-		printf('<tr><th>forum name<td><a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $row['member_id'], htmlspecialchars($row['members_display_name']));
-		if ($row['members_display_name'] != $row['name'])
-			echo(' - ' . htmlspecialchars($row['name']));
+		printf('<tr><th>forum name<td>' . format_forum_name($row));
 		$rows = db_query(sprintf("select distinct sid from xwi_serials where uid = %d", $uid));
 		while ($row = mysql_fetch_assoc($rows))
 			$sids[] = $row['sid'];
