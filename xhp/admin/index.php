@@ -29,15 +29,15 @@
 		{
 			page_user(substr($search, 2));
 		}
-		if (0 + $search)
-		{
-			page_edit_serial(0 + $search);
-		}
 		else if (strstr($search, '@') !== FALSE)
 		{
 			$row = db_query_first(sprintf("select member_id from st_forum.invision_members where email = '%s'", addslashes($search)));
 			if ($row)
 				page_user($row['member_id']);
+		}
+		else if (0 + $search)
+		{
+			page_edit_serial(0 + $search);
 		}
 		else
 		{
