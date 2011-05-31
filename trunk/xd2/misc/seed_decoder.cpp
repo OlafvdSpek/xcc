@@ -10,16 +10,16 @@ enum
 	SPICE,
 };
 
-static int seed;
+static int g_seed;
 
 static int random()
 {
-	unsigned char* s = reinterpret_cast<unsigned char*>(&seed);
+	unsigned char* s = reinterpret_cast<unsigned char*>(&g_seed);
 	char t[3];
 	t[0] = ~(s[0] >> 2 ^ s[0] ^ s[1] >> 7) << 7 | s[0] >> 1;
 	t[1] = s[1] << 1 | s[2] >> 7;
 	t[2] = s[2] << 1 | s[0] >> 1 & 1;
-	memcpy(&seed, t, 3);
+	memcpy(&g_seed, t, 3);
 	return s[0] ^ s[1];
 }
 
@@ -277,7 +277,7 @@ static void addNoise2(char* matrix)
 
 void Cseed_decoder::decode(int seed, byte* _map)
 {
-	::seed = seed;
+	g_seed = seed;
 	char matrix[16 * 17 + 1];
 	createMatrix(matrix);
 	addNoise1(matrix);
