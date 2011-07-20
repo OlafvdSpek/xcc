@@ -1,6 +1,5 @@
 #pragma once
 
-#include "virtual_binary.h"
 #include "xd2_file_map.h"
 
 class Cxd2_audio
