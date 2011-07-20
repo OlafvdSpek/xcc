@@ -1,7 +1,5 @@
 #pragma once
 
-#include "virtual_binary.h"
-
 class Cicon_form_decoder  
 {
 public:
