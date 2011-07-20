@@ -6,10 +6,10 @@
 class Cmix_file: public Ccc_file  
 {
 public:
-    int post_open();
+	int post_open();
 	string get_name(int id);
-    static int get_id(t_game game, string name);
-    int get_index(unsigned int id) const;
+	static int get_id(t_game game, string name);
+	int get_index(unsigned int id) const;
 	Ccc_file::get_size;
 	Ccc_file::vdata;
 	Cvirtual_binary get_vdata(int id);
@@ -18,7 +18,7 @@ public:
 	void close();
 	Cmix_file();
 
-    static void enable_ft_support()
+	static void enable_ft_support()
 	{
 		assert(!m_ft_support);
 		m_ft_support = true;
@@ -57,16 +57,16 @@ public:
 	}
 
 	int get_offset(unsigned int id) const
-    {
+	{
 		assert(get_index(id) != -1);
-        return m_index[get_index(id)].offset;
-    }
+		return m_index[get_index(id)].offset;
+	}
 
 	int get_size(unsigned int id) const
-    {
+	{
 		assert(get_index(id) != -1);
-        return m_index[get_index(id)].size;
-    }
+		return m_index[get_index(id)].size;
+	}
 
 	bool has_checksum() const
 	{
@@ -91,7 +91,7 @@ private:
 	bool m_mix_expansion;
 	bool m_is_encrypted;
 	bool m_has_checksum;
-    vector<t_mix_index_entry> m_index;
+	vector<t_mix_index_entry> m_index;
 	vector<t_file_type> m_index_ft;
 	t_id_index m_id_index;
 };
