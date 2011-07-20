@@ -1,13 +1,7 @@
 #include "stdafx.h"
 #include "xd2_files.h"
 
-#include "cps_file.h"
 #include "icon_form_decoder.h"
-#include "mix_file.h"
-#include "shp_decode.h"
-#include "shp_dune2_file.h"
-#include "voc_file.h"
-#include "wsa_dune2_file.h"
 
 const Cxd2_shape& Cxd2_files::shapes2() const
 {
@@ -48,6 +42,14 @@ Cxif_key Cxd2_files::save() const
 	key.set_key(vi_shapes) = m_shape_map.save();
 	return key;
 }
+
+#if 0
+#include "cps_file.h"
+#include "mix_file.h"
+#include "shp_decode.h"
+#include "shp_dune2_file.h"
+#include "voc_file.h"
+#include "wsa_dune2_file.h"
 
 int Cxd2_files::load(const string& dir)
 {
@@ -224,3 +226,4 @@ int Cxd2_files::process()
 	}
 	return 0;
 }
+#endif

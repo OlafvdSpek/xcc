@@ -200,8 +200,8 @@ void draw_objects()
 	int y0 = g_screen->h / 2 - view_y;
 	BOOST_FOREACH(auto& i, m_objects)
 	{
-		int x = i.l().x() * 16 / 256 + x0;
-		int y = i.l().y() * 16 / 256 + y0;
+		int x = i.l().x * 16 / 256 + x0;
+		int y = i.l().y * 16 / 256 + y0;
 		if (i.t().structure)
 		{
 			int f = 2;

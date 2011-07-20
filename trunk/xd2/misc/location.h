@@ -3,39 +3,26 @@
 class Clocation
 {
 public:
-	int x() const
+	Clocation()
 	{
-		return m_x;
 	}
 
-	int y() const
+	Clocation(int _x, int _y)
 	{
-		return m_y;
+		x = _x;
+		y = _y;
 	}
 
 	int xh() const
 	{
-		return x() >> 8;
+		return x >> 8;
 	}
 
 	int yh() const
 	{
-		return y() >> 8;
+		return y >> 8;
 	}
 
-	void x(int x)
-	{
-		m_x = x;
-	}
-
-	void y(int y)
-	{
-		m_y = y;
-	}
-
-	Clocation();
-	Clocation(int x, int y);
-private:
-	int m_x;
-	int m_y;
+	int x;
+	int y;
 };
