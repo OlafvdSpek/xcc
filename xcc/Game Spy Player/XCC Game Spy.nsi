@@ -1,4 +1,4 @@
-!define VERSION "1.0.9"
+!define VERSION "1.10"
 
 Name "XCC Game Spy ${VERSION}"
 Outfile "XCC_Game_Spy.exe"
