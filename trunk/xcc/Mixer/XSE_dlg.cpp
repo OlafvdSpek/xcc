@@ -404,67 +404,66 @@ int CXSE_dlg::get_free_id()
 void CXSE_dlg::add_file(const string& name)
 {
 	Cwav_file f;
-	if (!f.open(name))
+	if (f.open(name))
+		return;
+	if (f.is_valid() && !f.process())
 	{
-		if (f.is_valid() && !f.process())
+		const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
+		if ((format_chunk.tag == 1 || format_chunk.tag == 0x11)
+			&& (format_chunk.c_channels == 1 || format_chunk.c_channels == 2)
+			&& format_chunk.cbits_sample == (format_chunk.tag == 1 ? 16 : 4))
 		{
-			const t_riff_wave_format_chunk& format_chunk = f.get_format_chunk();
-			if ((format_chunk.tag == 1 || format_chunk.tag == 0x11)
-				&& (format_chunk.c_channels == 1 || format_chunk.c_channels == 2)
-				&& format_chunk.cbits_sample == (format_chunk.tag == 1 ? 16 : 4))
+			int cb_s = f.get_data_header().size;
+			byte* s = new byte[cb_s];
+			f.seek(f.get_data_ofs());
+			if (!f.read(s, cb_s))
 			{
-				int cb_s = f.get_data_header().size;
-				byte* s = new byte[cb_s];
-				f.seek(f.get_data_ofs());
-				if (!f.read(s, cb_s))
+				t_map_entry e;
+				e.offset = m_bag_f.size();
+				e.size = cb_s;
+				e.samplerate = format_chunk.samplerate;
+				e.flags = 4 | (format_chunk.c_channels == 2);
+				if (format_chunk.tag == 1)
 				{
-					t_map_entry e;
-					e.offset = m_bag_f.size();
-					e.size = cb_s;
-					e.samplerate = format_chunk.samplerate;
-					e.flags = 4 | (format_chunk.c_channels == 2);
-					if (format_chunk.tag == 1)
+					e.flags |= 2;
+					e.chunk_size = 0;
+				}
+				else
+				{
+					e.flags |= 8;
+					e.chunk_size = 512 * format_chunk.c_channels;
+				}
+				e.extra_value = static_cast<Cfname>(name).get_ftitle();
+				m_bag_f.seek(e.offset);
+				if (!m_bag_f.write(s, cb_s))
+				{
+					int i;
+					t_map::const_iterator j;
+					for (j = m_map.begin(); j != m_map.end(); j++)
 					{
-						e.flags |= 2;
-						e.chunk_size = 0;
+						if (e.extra_value == j->second.extra_value)
+						{
+							i = j->first;
+							break;
+						}
+					}
+					if (j != m_map.end())
+					{
+						LVFINDINFO lvf;
+						lvf.flags = LVFI_PARAM;
+						lvf.lParam = j->first;
+						m_list.DeleteItem(m_list.FindItem(&lvf, -1));
 					}
 					else
-					{
-						e.flags |= 8;
-						e.chunk_size = 512 * format_chunk.c_channels;
-					}
-					e.extra_value = static_cast<Cfname>(name).get_ftitle();
-					m_bag_f.seek(e.offset);
-					if (!m_bag_f.write(s, cb_s))
-					{
-						int i;
-						t_map::const_iterator j;
-						for (j = m_map.begin(); j != m_map.end(); j++)
-						{
-							if (e.extra_value == j->second.extra_value)
-							{
-								i = j->first;
-								break;
-							}
-						}
-						if (j != m_map.end())
-						{
-							LVFINDINFO lvf;
-							lvf.flags = LVFI_PARAM;
-							lvf.lParam = j->first;
-							m_list.DeleteItem(m_list.FindItem(&lvf, -1));
-						}
-						else
-							i = get_free_id();
-						m_map[i] = e;
-						m_list.EnsureVisible(insert(i), false);
-					}
+						i = get_free_id();
+					m_map[i] = e;
+					m_list.EnsureVisible(insert(i), false);
 				}
-				delete[] s;
 			}
+			delete[] s;
 		}
-		f.close();
 	}
+	f.close();
 }
 
 void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
