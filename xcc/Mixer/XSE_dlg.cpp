@@ -396,7 +396,7 @@ void CXSE_dlg::OnCompact()
 int CXSE_dlg::get_free_id()
 {
 	int id = 0;
-	while (m_map.find(id) != m_map.end())
+	while (m_map.count(id))
 		id++;
 	return id;
 }
@@ -431,9 +431,9 @@ void CXSE_dlg::add_file(const string& name)
 				else
 				{
 					e.flags |= 8;
-					e.chunk_size = 512 * format_chunk.c_channels;
+					e.chunk_size = format_chunk.block_align; // 512 * format_chunk.c_channels;
 				}
-				e.extra_value = static_cast<Cfname>(name).get_ftitle();
+				e.extra_value = Cfname(name).get_ftitle().substr(0, 15);
 				m_bag_f.seek(e.offset);
 				if (!m_bag_f.write(s, cb_s))
 				{
@@ -463,7 +463,6 @@ void CXSE_dlg::add_file(const string& name)
 			delete[] s;
 		}
 	}
-	f.close();
 }
 
 void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
