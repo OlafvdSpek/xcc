@@ -338,11 +338,7 @@ string Cmix_file::get_name(int id)
 int Cmix_file::get_id(t_game game, string name)
 {
 	boost::to_upper(name);
-	for (int i = 0; i < name.length(); i++)
-	{
-		if (name[i] == '/')
-			name[i] = '\\';
-	}
+	std::replace(name.begin(), name.end(), '/', '\\');
 	switch (game)
 	{
 	case game_ts:
@@ -385,8 +381,8 @@ int Cmix_file::get_id(t_game game, string name)
 
 int Cmix_file::get_index(unsigned int id) const
 {
-	t_id_index::const_iterator i = m_id_index.find(id);
-	return i == m_id_index.end() ? -1 : i->second;
+	auto i = find_ptr(m_id_index, id);
+	return i ? *i : -1;
 }
 
 Cvirtual_binary Cmix_file::get_vdata(int id)
