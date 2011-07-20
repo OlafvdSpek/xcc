@@ -556,34 +556,34 @@ void CXCCGameSpyPlayerView::read_map(string name)
 {
 	clear_terrain_map();
 	Cmix_file mix_f;
-	if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + "multi.mix"))
+	if (mix_f.open(xcc_dirs::get_dir(game_ra2) + "multi.mix"))
+		return;
+	mix_f.set_game(game_ra2);
+	Cvirtual_binary s = mix_f.get_vdata(name);
+	mix_f.close();
+	if (!s && s.load(xcc_dirs::get_dir(game_ra2) + name))
 	{
-		Cvirtual_binary s = mix_f.get_vdata(name);
-		mix_f.close();
-		if (!s && s.load(xcc_dirs::get_dir(game_ra2) + name))
+		name = static_cast<Cfname>(name).get_ftitle();
+		if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
 		{
-			name = static_cast<Cfname>(name).get_ftitle();
-			if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
-			{
-				s = mix_f.get_vdata(name + ".map");
-				mix_f.close();
-			}
+			s = mix_f.get_vdata(name + ".map");
+			mix_f.close();
 		}
-		if (!s)
-			return;
-		Cmap_ts_ini_reader ir;
-		ir.fast(true);
-		ir.process(s);
-		m_terrain_colormap.load(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
-		strstream ini;
-		Cmap_ts_encoder encoder(ini, true);
-		Cmap_ts_encoder::t_header header;
-		header.cx = ir.get_map_data().size_right;
-		header.cy = ir.get_map_data().size_bottom;
-		encoder.header(header);
-		encoder.process(s);
-		encoder.extract_map(*m_terrain_map);
 	}
+	if (!s)
+		return;
+	Cmap_ts_ini_reader ir;
+	ir.fast(true);
+	ir.process(s);
+	m_terrain_colormap.load(xcc_dirs::get_data_dir() + ir.get_map_data().theater + "_colormap.bin");
+	strstream ini;
+	Cmap_ts_encoder encoder(ini, true);
+	Cmap_ts_encoder::t_header header;
+	header.cx = ir.get_map_data().size_right;
+	header.cy = ir.get_map_data().size_bottom;
+	encoder.header(header);
+	encoder.process(s);
+	encoder.extract_map(*m_terrain_map);
 }
 
 const Cgame_state& CXCCGameSpyPlayerView::get_game_state(int game_state_i)
