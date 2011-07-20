@@ -24,7 +24,7 @@ void load_palet(const string& name, SDL_Color* colors)
 {
 	const Cvirtual_binary& palet = g_files.data_map()[name];
 	SDL_Color* w = colors;
-	for (const byte* r = palet; r < palet.data_end(); r += 3)
+	for (const byte* r = palet; r < palet.end(); r += 3)
 		*w++ = Csdl_color(r[0], r[1], r[2]);
 }
 
@@ -310,13 +310,13 @@ void read_config(const string& dir, T& v)
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	xcc_dirs::load_from_registry();
+	// xcc_dirs::load_from_registry();
 	read_config("dune/houses", g_houses);
 	read_config("dune/players", m_players);
 	read_config("dune/objects", m_object_types);
 	{
 		Cxif_key_r key;
-		if (key.import(Cvirtual_binary(xcc_dirs::get_data_dir() + "xd2 files.xif")) || g_files.load(key))
+		if (key.import(Cvirtual_binary().load1("c:/vc/xd2/xd2 files.xif")) || g_files.load(key))
 			return 1;
 	}
 	if (SDL_Init(SDL_INIT_VIDEO))
