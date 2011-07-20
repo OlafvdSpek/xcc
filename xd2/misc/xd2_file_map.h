@@ -1,6 +1,5 @@
 #pragma once
 
-#include "virtual_binary.h"
 #include "xif_key.h"
 #include "xif_key_r.h"
 
