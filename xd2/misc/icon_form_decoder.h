@@ -1,6 +1,6 @@
 #pragma once
 
-class Cicon_form_decoder  
+class Cicon_form_decoder
 {
 public:
 	int do_form_chunk(const byte* s);

@@ -4,7 +4,7 @@
 #include "xif_key_r.h"
 
 template<class T>
-class Cxd2_file_map  
+class Cxd2_file_map
 {
 public:
 	typedef map<string, T> t_map;
@@ -28,12 +28,12 @@ public:
 	{
 		m_map.erase(name);
 	}
-	
+
 	const T& operator[](const string& name) const
 	{
 		return m_map.find(name)->second;
 	}
-	
+
 	bool has(const string& name) const
 	{
 		return m_map.find(name) != m_map.end();
@@ -43,7 +43,7 @@ public:
 	{
 		return m_map;
 	}
-	
+
 	void set(const string& name, const T& d)
 	{
 		m_map[name] = d;
