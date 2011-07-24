@@ -327,7 +327,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 #else
 	g_screen = SDL_SetVideoMode(1280, 1024, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 #endif
-	if (!g_screen) 
+	if (!g_screen)
 		return 1;
 	const SDL_VideoInfo* vi = SDL_GetVideoInfo();
 	load_palet("ibm.pal", g_palet);
