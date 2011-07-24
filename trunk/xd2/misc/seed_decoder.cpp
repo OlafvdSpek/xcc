@@ -53,19 +53,19 @@ static void scanRegions(byte map[64][64])
 				id |= (left == MOUNTAINS) << 3 | (down == MOUNTAINS) << 2 | (right == MOUNTAINS) << 1 | up == MOUNTAINS;
 			switch (middle)
 			{
-            case SAND:
+			case SAND:
 				id = 0;
 				break;
-            case ROCK:
+			case ROCK:
 				id += 1;
 				break;
-            case DUNES:
+			case DUNES:
 				id += 0x11;
 				break;
-            case MOUNTAINS:
+			case MOUNTAINS:
 				id += 0x21;
 				break;
-            case SPICE:
+			case SPICE:
 				id += 0x31;
 				break;
 			}
@@ -80,27 +80,27 @@ static void scanRegions(byte map[64][64])
 
 static void createRegions(byte map[64][64])
 {
-   int rock = min(max(random() & 0xf, 8), 0xc);
-   int mountains = rock + 4;
-   int dunes = (random() & 3) - 1;
+	int rock = min(max(random() & 0xf, 8), 0xc);
+	int mountains = rock + 4;
+	int dunes = (random() & 3) - 1;
 
-   for (int y = 0; y < 64; y++)
-   {
-      for (int x = 0; x < 64; x++)
-      {
-         int num = map[y][x];
-         int reg;
-         if (num > mountains)
-			 reg = MOUNTAINS;
-         else if (num >= rock)
-			 reg = ROCK;
-         else if (num <= dunes)
-			 reg = DUNES;
-		 else
-			 reg = SAND;
-         map[y][x] = reg;
-      }
-   }
+	for (int y = 0; y < 64; y++)
+	{
+		for (int x = 0; x < 64; x++)
+		{
+			int num = map[y][x];
+			int reg;
+			if (num > mountains)
+				reg = MOUNTAINS;
+			else if (num >= rock)
+				reg = ROCK;
+			else if (num <= dunes)
+				reg = DUNES;
+			else
+				reg = SAND;
+			map[y][x] = reg;
+		}
+	}
 }
 
 /*
@@ -113,32 +113,32 @@ static void createRegions(byte map[64][64])
 
 static void balanceMap(byte map[64][64])
 {
-   byte prevln[64], currln[64];
-   for (int i = 0; i < 64; i++)
-      currln[i] = 0;
-   for (int y = 0; y < 64; y++)
-   {
-      for (int i = 0; i < 64; i++)
-      {
-         prevln[i] = currln[i];
-         currln[i] = map[y][i];
-      }
-      for (int x = 0; x < 64; x++)
-      {
-         int lu = prevln[x-1],   u = prevln[x],   ru = prevln[x+1];
-         int l  = currln[x-1],   c = currln[x],   r  = currln[x+1];
-         int rd = map[y+1][x+1], d = map[y+1][x], ld = map[y+1][x-1];
-         if (!x)
-			 lu = l = ld = c; /* left edge */
-         else if (x == 63)
-			 ru = r = rd = c; /* right edge */
-         if (!y)
-			 lu = u = ru = c; /* top edge*/
-         else if (y == 63)
-			 ld = d = rd = c; /* bottom edge */
-         map[y][x] = (lu + u + ru + r + rd + d + ld + l + c) / 9;
-      }
-   }
+	byte prevln[64], currln[64];
+	for (int i = 0; i < 64; i++)
+		currln[i] = 0;
+	for (int y = 0; y < 64; y++)
+	{
+		for (int i = 0; i < 64; i++)
+		{
+			prevln[i] = currln[i];
+			currln[i] = map[y][i];
+		}
+		for (int x = 0; x < 64; x++)
+		{
+			int lu = prevln[x-1],   u = prevln[x],   ru = prevln[x+1];
+			int l  = currln[x-1],   c = currln[x],   r  = currln[x+1];
+			int rd = map[y+1][x+1], d = map[y+1][x], ld = map[y+1][x-1];
+			if (!x)
+				lu = l = ld = c; /* left edge */
+			else if (x == 63)
+				ru = r = rd = c; /* right edge */
+			if (!y)
+				lu = u = ru = c; /* top edge*/
+			else if (y == 63)
+				ld = d = rd = c; /* bottom edge */
+			map[y][x] = (lu + u + ru + r + rd + d + ld + l + c) / 9;
+		}
+	}
 }
 
 #define A 0,0
@@ -173,27 +173,27 @@ const int offsets2[] =
 
 static void spreadMatrix(byte map[64][64])
 {
-   int diag = 0;
-   for (int y = 0; y < 64; y += 4)
-   {
-      for (int x = 0; x < 64; x += 4)
-      {
-		 const int* offs = diag ? offsets2 : offsets2 + 84;
-         diag = 1 - diag;
-         for (int i = 0; i < 21; i++)
-         {
-            int bx = x + *offs;
-			int by = y + offs[1];
-            int ex = x + offs[2];
-			int ey = y + offs[3];
-            int medx = bx + ex >> 1;
-			int medy = by + ey >> 1;
-            if (medx + 64 * medy < 64 * 64)
-               map[medy][medx] = map[by][bx & 0x3f] + map[ey][ex & 0x3f] + 1 >> 1;
-            offs += 4;
-         }
-      }
-   }
+	int diag = 0;
+	for (int y = 0; y < 64; y += 4)
+	{
+		for (int x = 0; x < 64; x += 4)
+		{
+			const int* offs = diag ? offsets2 : offsets2 + 84;
+			diag = 1 - diag;
+			for (int i = 0; i < 21; i++)
+			{
+				int bx = x + *offs;
+				int by = y + offs[1];
+				int ex = x + offs[2];
+				int ey = y + offs[3];
+				int medx = bx + ex >> 1;
+				int medy = by + ey >> 1;
+				if (medx + 64 * medy < 64 * 64)
+					map[medy][medx] = map[by][bx & 0x3f] + map[ey][ex & 0x3f] + 1 >> 1;
+				offs += 4;
+			}
+		}
+	}
 }
 
 /*
@@ -254,15 +254,15 @@ const int offsets[] =
 
 static void addNoise1(char* matrix)
 {
-   for (int count = random() & 0xf; count >= 0 ; count--)
-   {
-      int ncell = random() & 0xff;
-      for (int i = 0; i < 21; i++)
-      {
-         int cell = min(max(ncell + offsets[i], 0), 16 * 17);
-         matrix[cell] = matrix[cell] + random() & 0xf;
-      }
-   }
+	for (int count = random() & 0xf; count >= 0 ; count--)
+	{
+		int ncell = random() & 0xff;
+		for (int i = 0; i < 21; i++)
+		{
+			int cell = min(max(ncell + offsets[i], 0), 16 * 17);
+			matrix[cell] = matrix[cell] + random() & 0xf;
+		}
+	}
 }
 
 static void addNoise2(char* matrix)
