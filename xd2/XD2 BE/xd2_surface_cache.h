@@ -13,7 +13,7 @@ class Cxd2_animation_surface: public Cxd2_surface_base
 {
 public:
 	Cxd2_animation_surface();
-	Cxd2_animation_surface(const Cxd2_animation& animation, SDL_Color* p);	
+	Cxd2_animation_surface(const Cxd2_animation& animation, SDL_Color* p);
 
 	SDL_Rect r(int i) const
 	{
@@ -39,7 +39,7 @@ private:
 	vector<Csdl_rect> m_vector;
 };
 
-class Cxd2_surface_cache  
+class Cxd2_surface_cache
 {
 public:
 	const Cxd2_animation_surface& set(const Cxd2_animation& animation, SDL_Color* p);
