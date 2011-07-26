@@ -4,6 +4,7 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/foreach.hpp>
 #include <boost/range.hpp>
+#include <boost/smart_ptr.hpp>
 #include <cassert>
 #include <ctime>
 #include <fstream>
