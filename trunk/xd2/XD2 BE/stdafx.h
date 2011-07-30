@@ -17,7 +17,6 @@
 #include "sdl_color.h"
 #include "sdl_rect.h"
 #include "sdl_surface.h"
-#include <vartypes.h>
 
 using namespace std;
 using boost::trim_copy;
@@ -25,13 +24,13 @@ using boost::trim_copy;
 template <class T, class U>
 const typename T::mapped_type& find_ref(const T& c, U v, typename const T::mapped_type& z)
 {
-	typename T::const_iterator i = c.find(v);
-	return i == c.end() ? z : i->second;
+	auto i = find_ptr(c, v);
+	return i ? *i : z;
 }
 
 template <class T, class U>
 int find_ref(const T& c, U v, int z)
 {
-	typename T::const_iterator i = c.find(v);
-	return i == c.end() ? z : atoi(i->second.c_str());
+	auto i = find_ptr(c, v);
+	return i ? atoi(i->c_str()) : z;
 }
