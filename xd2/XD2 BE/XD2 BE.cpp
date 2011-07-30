@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "object.h"
 #include "seed_decoder.h"
-#include "xcc_dirs.h"
 #include "xd2_files.h"
 #include "xd2_surface_cache.h"
 
@@ -310,7 +309,6 @@ void read_config(const string& dir, T& v)
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	// xcc_dirs::load_from_registry();
 	read_config("dune/houses", g_houses);
 	read_config("dune/players", m_players);
 	read_config("dune/objects", m_object_types);
