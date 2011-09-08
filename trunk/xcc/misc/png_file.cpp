@@ -11,7 +11,7 @@
 
 void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 {
-	longjmp(png_ptr->jmpbuf, 1);
+	longjmp(png_jmpbuf(png_ptr), 1);
 }
 
 int Cpng_file::decode(Cvirtual_image& d) const
@@ -42,7 +42,7 @@ int Cpng_file::decode(Cvirtual_image& d) const
 						error = 1;
 					else
 					{
-						if (setjmp(png_ptr->jmpbuf)) 
+						if (setjmp(png_jmpbuf(png_ptr))) 
 							error = 1;
 						else
 						{
