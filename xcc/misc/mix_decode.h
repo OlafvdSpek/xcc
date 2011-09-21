@@ -1,3 +1,3 @@
 #pragma once
 
-void get_blowfish_key(const byte* s, memory_range d);
+void get_blowfish_key(const byte* s, mutable_data_ref d);
