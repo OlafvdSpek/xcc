@@ -121,7 +121,7 @@ void Cxse::close()
 int Cxse::extract(string fname, Cvirtual_file& f)
 {
 	int error = 0;
-	const t_map_entry& e = m_map.find(fname)->second;
+	const t_map_entry& e = *find_ptr(m_map, fname);
 	int c_channels = e.flags & 1 ? 2 : 1;
 	m_bag_f.seek(e.offset);
 	if (e.flags & 2)

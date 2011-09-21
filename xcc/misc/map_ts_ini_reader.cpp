@@ -135,7 +135,7 @@ int Cmap_ts_ini_reader::max_players() const
 	int count = 0;
 	for (int i = 0; i < 8; i++)
 	{
-		if (get_waypoints_data().find(i) != get_waypoints_data().end())
+		if (get_waypoints_data().count(i))
 			count++;
 	}
 	return count;

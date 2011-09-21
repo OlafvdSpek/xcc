@@ -41,17 +41,17 @@ public:
 
 	wstring get_value(const string& name) const
 	{
-		return m_map.find(name)->second.value;
+		return find_ptr(m_map, name)->value;
 	}
 
 	string get_extra_value(const string& name) const
 	{
-		return m_map.find(name)->second.extra_value;
+		return find_ptr(m_map, name)->extra_value;
 	}
 
 	bool has_name(const string& name) const
 	{
-		return m_map.find(name) != m_map.end();
+		return m_map.count(name);
 	}
 private:
 	int get_write_size() const;
