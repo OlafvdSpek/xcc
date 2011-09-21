@@ -476,8 +476,7 @@ static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary 
 		__int64 v1 = r->r << 16 | r->g << 8 | r->b;
 		r++;
 		__int64 v = v0 << 24 | v1;
-		t_map::const_iterator i = default_map.find(v);
-		if (i == default_map.end())
+		if (default_map.find(v) == default_map.end())
 			map[v] = -1;
 	}
 	*w++ = map.size();
@@ -496,11 +495,8 @@ static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary 
 		__int64 v1 = r->r << 16 | r->g << 8 | r->b;
 		r++;
 		__int64 v = v0 << 24 | v1;
-		t_map::const_iterator i = default_map.find(v);
-		if (i == default_map.end())
-			*w++ = map.find(v)->second;
-		else
-			*w++ = i->second;
+		auto i = find_ptr(default_map, v);
+		*w++ = i ? *i : *find_ptr(map, v);
 	}
 	d.size(reinterpret_cast<byte*>(w) - d.data());
 	return d;

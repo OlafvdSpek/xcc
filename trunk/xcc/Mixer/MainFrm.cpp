@@ -266,26 +266,23 @@ void CMainFrame::clean_pal_map_list()
 		used_set.insert(i.parent);
 	BOOST_FOREACH(auto& i, m_pal_map_list)
 	{
-		if (used_set.find(i.first) == used_set.end())
+		if (!used_set.count(i.first))
 			continue;
 		int p = i.second.parent;
 		while (p != -1)
 		{
 			used_set.insert(p);
-			p = m_pal_map_list.find(p)->second.parent;
+			p = find_ptr(m_pal_map_list, p)->parent;
 		}
 	}
-	{
-		typedef t_pal_map_list t_map;
-		t_map& map = m_pal_map_list;
-		for (t_map::iterator i = map.begin(); i != map.end(); )
-		{
-			if (used_set.find(i->first) == used_set.end())
-				i = map.erase(i);
-			else
-				i++;
-		}
-	}
+  t_pal_map_list& map = m_pal_map_list;
+  for (auto i = map.begin(); i != map.end(); )
+  {
+    if (!used_set.count(i->first))
+      i = map.erase(i);
+    else
+      i++;
+  }
 }
 
 void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, int pal_parent)

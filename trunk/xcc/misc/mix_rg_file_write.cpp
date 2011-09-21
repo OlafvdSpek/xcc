@@ -16,32 +16,27 @@ void Cmix_rg_file_write::clear()
 
 Cvirtual_binary Cmix_rg_file_write::write()
 {
-	typedef map<unsigned int, string> t_id_index;
-
-	t_id_index id_index;
-	{
-		for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-			id_index[Cmix_file::get_id(game_rg, i->first)] = i->first;
-	}
+	map<unsigned int, string> id_index;
+  BOOST_FOREACH(auto& i, m_index)
+    id_index[Cmix_file::get_id(game_rg, i.first)] = i.first;
 	int cb_d = sizeof(t_mix_rg_header) + 8 + (sizeof(t_mix_rg_index_entry) + 2) * m_index.size();
-	t_id_index::const_iterator i;
-	for (i = id_index.begin(); i != id_index.end(); i++)
-		cb_d += m_index.find(i->second)->first.length() + m_index.find(i->second)->second.size();
+	BOOST_FOREACH(auto& i, id_index)
+		cb_d += m_index.find(i.second)->first.length() + m_index.find(i.second)->second.size();
 	Cvirtual_binary d;
 	byte* w = d.write_start(cb_d);
 	t_mix_rg_header& header = *reinterpret_cast<t_mix_rg_header*>(w);
 	header.id = mix_rg_id;
 	header.zero = 0;
 	w += sizeof(t_mix_rg_header);
-	for (i = id_index.begin(); i != id_index.end(); i++)
-		w += m_index.find(i->second)->second.read(w);
+	BOOST_FOREACH(auto& i, id_index)
+		w += find_ptr(m_index, i.second)->read(w);
 	header.index_offset = w - d.data();
 	*reinterpret_cast<__int32*>(w) = m_index.size();
 	w += 4;
 	int offset = sizeof(t_mix_rg_header);
-	for (i = id_index.begin(); i != id_index.end(); i++)
+	BOOST_FOREACH(auto& i, id_index)
 	{
-		t_index::const_iterator j = m_index.find(i->second);
+		t_index::const_iterator j = m_index.find(i.second);
 		t_mix_rg_index_entry& e = *reinterpret_cast<t_mix_rg_index_entry*>(w);
 		e.id = Cmix_file::get_id(game_rg, j->first);
 		e.offset = offset;
@@ -51,9 +46,9 @@ Cvirtual_binary Cmix_rg_file_write::write()
 	header.tailer_offset = w - d.data();
 	*reinterpret_cast<__int32*>(w) = m_index.size();
 	w += 4;
-	for (i = id_index.begin(); i != id_index.end(); i++)
+	BOOST_FOREACH(auto& i, id_index)
 	{
-		t_index::const_iterator j = m_index.find(i->second);
+		t_index::const_iterator j = m_index.find(i.second);
 		*w++ = j->first.length() + 1;
 		strcpy(reinterpret_cast<char*>(w), j->first.c_str());
 		w += j->first.length() + 1;

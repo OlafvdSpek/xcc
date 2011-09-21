@@ -21,23 +21,15 @@ void read(const int*& r, t_file_list& fl)
 
 int mix_sfl::load()
 {
-	int error = 0;
-	Ccc_file f(true);
-	if (f.open(get_fname()))
-		error = 1;
-	else 
-	{
-		if (f.get_size() < 8)
-			error = 1;
-		else
-		{
-			const int* r = reinterpret_cast<const int*>(f.get_data());
-			read(r, ts_fl);
-			read(r, ra2_fl);
-		}
-		f.close();
-	}
-	return error;
+  Ccc_file f(true);
+  if (f.open(get_fname()))
+    return 1;
+  if (f.get_size() < 8)
+    return 1;
+  const int* r = reinterpret_cast<const int*>(f.get_data());
+  read(r, ts_fl);
+  read(r, ra2_fl);
+  return 0;
 }
 
 void write(int*& w, const t_file_list& fl)
@@ -102,9 +94,9 @@ bool mix_sfl::contains(t_game game, int id)
 	switch (game)
 	{
 	case game_ts:
-		return ts_fl.find(id) != ts_fl.end();
+		return ts_fl.count(id);
 	case game_ra2:
-		return ra2_fl.find(id) != ra2_fl.end();
+		return ra2_fl.count(id);
 	default:
 		return false;
 	}
