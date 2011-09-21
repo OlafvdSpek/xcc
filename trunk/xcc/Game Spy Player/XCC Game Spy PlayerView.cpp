@@ -231,11 +231,11 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 			BOOST_FOREACH(Cgame_state::t_objects::const_reference i, game_state.objects)
 			{
 				const Cobject& object = i.second;
-				if (!object.x || !object.y || !object.target || game_state.objects.find(object.target) == game_state.objects.end())
+				if (!object.x || !object.y || !object.target || !game_state.objects.count(object.target))
 					continue;
-				Cobject target = game_state.objects.find(object.target)->second;
+				const Cobject& target = *find_ptr(game_state.objects, object.target);
 				CPen pen;
-				pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
+				pen.CreatePen(PS_SOLID, 1, player_color(find_ptr(game_state.players, object.owner)->id, 0xff));
 				CPen* old_pen = m_mem_dc.SelectObject(&pen);
 				int x, y;
 				transform(object.x, object.y, x, y);
@@ -269,7 +269,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				Cobject_type object_type;
 				object_type.strength = 0;
 				{
-					Cobject_types::t_object_types::const_iterator i = m_object_types.object_types.find(object.building_type == -1 ? object.vehicle_type : object.building_type);
+					auto i = m_object_types.object_types.find(object.building_type == -1 ? object.vehicle_type : object.building_type);
 					if (i == m_object_types.object_types.end())
 						i = m_object_types.object_types.find(object.infantry_type);
 					if (i != m_object_types.object_types.end())
@@ -286,7 +286,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					continue;
 				{
 					CPen pen;
-					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0x7f));
+					pen.CreatePen(PS_SOLID, 1, player_color(find_ptr(game_state.players, object.owner)->id, 0x7f));
 					CPen* old_pen = m_mem_dc.SelectObject(&pen);
 					m_mem_dc.MoveTo(x + 26, y + 4);
 					m_mem_dc.LineTo(x + 6, y + 4);
@@ -295,7 +295,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				if (object_type.strength)
 				{
 					CPen pen;
-					pen.CreatePen(PS_SOLID, 1, player_color(game_state.players.find(object.owner)->second.id, 0xff));
+					pen.CreatePen(PS_SOLID, 1, player_color(find_ptr(game_state.players, object.owner)->id, 0xff));
 					CPen* old_pen = m_mem_dc.SelectObject(&pen);
 					m_mem_dc.LineTo(x + 6 + 20 * object.health / object_type.strength, y + 4);
 					m_mem_dc.SelectObject(old_pen);
@@ -306,7 +306,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				// m_mem_dc.SelectObject(old_brush);
 			}
 		}
-		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.gid) + " " + get_map_name(game_state.scenario)).c_str());
+		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.frame) + " " + n(game_state.gid) + " " + n(game_state.time) + " " + get_map_name(game_state.scenario)).c_str());
 		int y = 16;
 		COLORREF old_color = m_mem_dc.GetTextColor();
 		BOOST_FOREACH(Cgame_state::t_players::const_reference i, game_state.players)
@@ -383,7 +383,7 @@ void CXCCGameSpyPlayerView::read_log()
 		Cgame_state game_state;
 		clear_history_map(game_state.history_map);
 		Cxif_key_r::t_key_map::const_iterator i = key.keys().begin();
-		m_object_types.import(i++->second);
+		m_object_types.load(i++->second);
 		for (; i != key.keys().end(); i++)
 		{
 			game_state.import_diff(i->second);
