@@ -191,10 +191,10 @@ void CXSE_dlg::read_idx_file(const Caudio_idx_file& f)
 int CXSE_dlg::insert(int id)
 {
 	t_map_entry& e = m_map[id];
-	if (auto i = find_ptr(m_reverse_csf_map, e.extra_value + 'e'))
+	if (auto i = find_ptr2(m_reverse_csf_map, e.extra_value + 'e'))
 	{
-		e.name = (*i)->first;
-		e.value = m_csf_f.get_converted_value((*i)->first);
+		e.name = i->first;
+		e.value = m_csf_f.get_converted_value(i->first);
 	}
 	else
 	{
@@ -473,8 +473,8 @@ void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 		break;
 	case 1:
 			;
-			if (auto i = find_ptr(m_reverse_csf_map, e.extra_value + 'e'))
-				buffer = m_csf_f.get_converted_value((*i)->first);
+			if (auto i = find_ptr2(m_reverse_csf_map, e.extra_value + 'e'))
+				buffer = m_csf_f.get_converted_value(i->first);
 			else
 				buffer.erase();
 			break;

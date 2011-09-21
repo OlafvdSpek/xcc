@@ -41,12 +41,12 @@ public:
 
 	wstring get_value(const string& name) const
 	{
-		return find_ptr(m_map, name)->value;
+		return find_ref(m_map, name).value;
 	}
 
 	string get_extra_value(const string& name) const
 	{
-		return find_ptr(m_map, name)->extra_value;
+		return find_ref(m_map, name).extra_value;
 	}
 
 	bool has_name(const string& name) const

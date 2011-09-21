@@ -29,7 +29,7 @@ Cvirtual_binary Cmix_rg_file_write::write()
 	header.zero = 0;
 	w += sizeof(t_mix_rg_header);
 	BOOST_FOREACH(auto& i, id_index)
-		w += find_ptr(m_index, i.second)->read(w);
+		w += find_ref(m_index, i.second).read(w);
 	header.index_offset = w - d.data();
 	*reinterpret_cast<__int32*>(w) = m_index.size();
 	w += 4;

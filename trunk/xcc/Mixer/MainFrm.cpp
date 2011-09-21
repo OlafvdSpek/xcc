@@ -272,7 +272,7 @@ void CMainFrame::clean_pal_map_list()
 		while (p != -1)
 		{
 			used_set.insert(p);
-			p = find_ptr(m_pal_map_list, p)->parent;
+			p = find_ref(m_pal_map_list, p).parent;
 		}
 	}
   t_pal_map_list& map = m_pal_map_list;
