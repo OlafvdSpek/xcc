@@ -77,28 +77,16 @@ void Cneat_ini_reader::sub_section(string name, const Cneat_key_list& v)
 Cneat_key_list sub_section(const Cneat_key_list& a, const Cneat_key_list& b)
 {
 	Cneat_key_list r;
-	const Cneat_key_list::t_key_list& akl = a.get_key_list();
-	const Cneat_key_list::t_key_map& akm = a.get_key_map();
-	const Cneat_key_list::t_key_list& bkl = b.get_key_list();
-	const Cneat_key_list::t_key_map& bkm = b.get_key_map();
-	Cneat_key_list::t_key_list::const_iterator i;
-	for (i = akl.begin(); i != akl.end(); i++)
+	BOOST_FOREACH(auto& i, a.get_key_list())
 	{
-		string key_name = (*i)->first;
-		string key_value = (*i)->second;
-		Cneat_key_list::t_key_map::const_iterator j = bkm.find(key_name);
-		if (j == bkm.end() || key_value != j->second)
-		{
-			r.add_key(key_name, key_value);
-		}
+		auto j = find_ptr(b.get_key_map(), i->first);
+		if (!j || *j != i->second)
+			r.add_key(i->first, i->second);
 	}
-	for (i = bkl.begin(); i != bkl.end(); i++)
+	BOOST_FOREACH(auto& i, b.get_key_list())
 	{
-		string key_name = (*i)->first;
-		if (akm.find(key_name) == akm.end())
-		{
-			r.add_key(key_name, "");
-		}
+		if (!a.get_key_map().count(i->first))
+			r.add_key(i->first, "");
 	}
 	return r;
 }

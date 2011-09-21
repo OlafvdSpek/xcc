@@ -11,13 +11,13 @@ Cxcc_apps::Cxcc_apps()
 
 bool Cxcc_apps::is_available(t_app app) const
 {
-	t_map::const_iterator i = m_map.find(app);
-	return i != m_map.end() && Cfname(i->second).exists();
+	auto i = find_ptr(m_map, app);
+	return i  && Cfname(*i).exists();
 }
 
 string Cxcc_apps::get_exe(t_app app) const
 {
-	return m_map.find(app)->second;
+	return find_ref(m_map, app);
 }
 
 void Cxcc_apps::set_exe(t_app app, string exe)

@@ -17,15 +17,12 @@ public:
 
 	string get_name(int index) const
 	{
-		t_index::const_iterator i = m_index.begin();
-		while (index--)
-			i++;
-		return i->first;
+		return boost::next(m_index.begin(), index)->first;
 	}
 
 	int get_offset(const string& name) const
     {
-        return m_index.find(name)->second.offset;
+        return find_ref(m_index, name).offset;
     }
 
     int get_size() const
@@ -35,7 +32,7 @@ public:
 
 	int get_size(const string& name) const
     {
-        return m_index.find(name)->second.size;
+        return find_ref(m_index, name).size;
     }
 private:
 	struct t_index_entry

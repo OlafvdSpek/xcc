@@ -23,7 +23,7 @@ const Cneat_key_list& Cneat_key_list::operator=(const Cneat_key_list& v)
 
 void Cneat_key_list::add_key(const string& name, const string& value)
 {
-	t_key_map::iterator i = m_key_map.find(name);
+	auto i = m_key_map.find(name);
 	if (i == m_key_map.end())
 	{
 		m_key_map[name] = value;

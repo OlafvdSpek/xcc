@@ -64,7 +64,7 @@ int Ctheme_ts_ini_reader::process_section_start(const string& line)
 	m_section = static_cast<t_section_id>(find_id(line, section_code, sei_unknown));
 	if (m_section != sei_unknown)
 		return 0;
-	if (m_theme_list.find(line) == m_theme_list.end())
+	if (!m_theme_list.count(line))
 		return 1;
 	m_current_theme = line;
 	return 0;
