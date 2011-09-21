@@ -841,7 +841,7 @@ int encode3(const byte* s, byte* d, int cx, int cy)
 	return w - d;
 }
 
-Cvirtual_binary encode64(const_memory_range s)
+Cvirtual_binary encode64(data_ref s)
 {
 	Cvirtual_binary d;
 	const byte* r = s;
@@ -876,7 +876,7 @@ Cvirtual_binary encode64(const_memory_range s)
     return d;
 }
 
-Cvirtual_binary decode64(const_memory_range s)
+Cvirtual_binary decode64(data_ref s)
 {
 	Cvirtual_binary d;
 	const byte* r = s;

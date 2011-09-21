@@ -69,7 +69,7 @@ Cvirtual_binary::Cvirtual_binary(const void* d, size_t cb_d, Csmart_ref_base* so
 	m_source = new Cvirtual_binary_source(d, cb_d, source);
 }
 
-Cvirtual_binary::Cvirtual_binary(const_memory_range d)
+Cvirtual_binary::Cvirtual_binary(data_ref d)
 {
 	m_source = new Cvirtual_binary_source(d.begin, d.size());
 }

@@ -4,7 +4,7 @@
 #include <smart_ref.h>
 #include <string>
 #include <vartypes.h>
-#include <xbt/const_memory_range.h>
+#include <xbt/data_ref.h>
 
 using namespace std;
 
@@ -63,7 +63,7 @@ public:
 	const Cvirtual_binary& operator=(const Cvirtual_binary& v);
 	Cvirtual_binary();
 	Cvirtual_binary(const Cvirtual_binary&);
-	Cvirtual_binary(const_memory_range);
+	Cvirtual_binary(data_ref);
 	Cvirtual_binary(const void*, size_t);
 	Cvirtual_binary(const void*, size_t, Csmart_ref_base* source);
 	explicit Cvirtual_binary(const string& fname, bool use_mm = true);
@@ -108,14 +108,14 @@ public:
 		return data();
 	}
 
-	operator const_memory_range() const
+	operator data_ref() const
 	{
-		return const_memory_range(data(), size());
+		return data_ref(data(), size());
 	}
 
-	operator memory_range()
+	operator mutable_data_ref()
 	{
-		return memory_range(data_edit(), size());
+		return mutable_data_ref(data_edit(), size());
 	}
 private:
 	Cvirtual_binary_source* m_source;
