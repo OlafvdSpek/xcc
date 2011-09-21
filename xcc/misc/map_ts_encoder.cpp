@@ -496,7 +496,7 @@ static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary 
 		r++;
 		__int64 v = v0 << 24 | v1;
 		auto i = find_ptr(default_map, v);
-		*w++ = i ? *i : *find_ptr(map, v);
+		*w++ = i ? *i : find_ref(map, v);
 	}
 	d.size(reinterpret_cast<byte*>(w) - d.data());
 	return d;
