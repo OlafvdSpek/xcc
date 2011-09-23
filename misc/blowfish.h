@@ -8,7 +8,7 @@ public:
 	typedef uint32_t t_bf_p[18];
 	typedef uint32_t t_bf_s[4][256];
 
-	void set_key(const_memory_range);
+	void set_key(data_ref);
 	void encipher(const void* s, void* d, int size) const;
 	void decipher(const void* s, void* d, int size) const;
 private:

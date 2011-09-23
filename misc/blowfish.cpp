@@ -272,7 +272,7 @@ const Cblowfish::t_bf_s g_s =
 	0xb74e6132, 0xce77e25b, 0x578fdfe3, 0x3ac372e6,
 };
 
-void Cblowfish::set_key(const_memory_range key)
+void Cblowfish::set_key(data_ref key)
 {
 	memcpy(m_p, g_p, sizeof(t_bf_p));
 	memcpy(m_s, g_s, sizeof(t_bf_s));
