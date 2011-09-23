@@ -128,8 +128,6 @@ protected:
 	afx_msg void OnUpdatePopupDelete(CCmdUI* pCmdUI);
 	afx_msg void OnPopupOpen();
 	afx_msg void OnUpdatePopupOpen(CCmdUI* pCmdUI);
-	afx_msg void OnPopupOpenForEdit();
-	afx_msg void OnUpdatePopupOpenForEdit(CCmdUI* pCmdUI);
 	afx_msg void OnPopupOpenWithFinalsun();
 	afx_msg void OnUpdatePopupOpenWithFinalsun(CCmdUI* pCmdUI);
 	afx_msg void OnPopupCopyAsVXL();

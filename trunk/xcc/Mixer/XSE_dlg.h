@@ -51,7 +51,6 @@ protected:
 	afx_msg void OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnExtractToButton();
 	afx_msg void OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult);
-	afx_msg void OnDestroy();
 	afx_msg void OnPlay();
 	afx_msg void OnDropFiles(HDROP hDropInfo);
 	afx_msg void OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult);
