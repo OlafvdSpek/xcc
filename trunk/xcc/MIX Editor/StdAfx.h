@@ -10,6 +10,7 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
+#include <array>
 #include <cassert>
 #include <climits>
 #include <cstdint>
@@ -17,6 +18,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
