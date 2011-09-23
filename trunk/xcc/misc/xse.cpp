@@ -58,9 +58,7 @@ int Cxse::open()
 								}
 							}
 						}
-						audio.close();
 					}
-					language.close();
 				}
 			}
 			if (error)

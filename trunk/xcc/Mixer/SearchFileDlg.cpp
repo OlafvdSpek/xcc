@@ -76,10 +76,7 @@ void CSearchFileDlg::find(Cmix_file& f, string file_name, string mix_name, int m
 			continue;
 		Cmix_file g;
 		if (!g.open(i.second.id, f))
-		{
 			find(g, file_name, mix_name + " - " + (i.second.name.empty() ? nh(8, i.second.id) : i.second.name), i.first);
-			g.close();
-		}
 	}
 }
 
@@ -99,7 +96,6 @@ void CSearchFileDlg::OnFind()
 			{
 				const t_mix_map_list_entry& e = m_main_frame->mix_map_list().find(i.second.parent)->second;
 				find(f, get_filename(), e.name + " - " + i.second.name, i.first);
-				f.close();
 			}
 		}
 		m_list.SetItemCount(m_map.size());
