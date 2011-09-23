@@ -38,7 +38,7 @@ bool Cmix_file::is_valid()
 	if (m_is_encrypted)
 	{
 		Cblowfish bf;
-		boost::array<byte, cb_mix_key> key;
+		std::array<byte, cb_mix_key> key;
 		get_blowfish_key(data + 4, key);
 		bf.set_key(key);
 		byte e[8];
@@ -165,7 +165,7 @@ int Cmix_file::post_open()
 			{
 				byte key_source[cb_mix_key_source];
 				read(key_source, cb_mix_key_source);
-				boost::array<byte, cb_mix_key> key;
+				std::array<byte, cb_mix_key> key;
 				get_blowfish_key(key_source, key);
 				bf.set_key(key);
 				byte e[8];

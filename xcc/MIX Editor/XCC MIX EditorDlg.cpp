@@ -489,7 +489,7 @@ int CXCCMIXEditorDlg::save_mix()
 		if (m_encrypted)
 		{
 			Cblowfish bf;
-			boost::array<byte, cb_mix_key> key;
+			std::array<byte, cb_mix_key> key;
 			get_blowfish_key(m_key, key);
 			bf.set_key(key);
 			bf.encipher(header, header, body_start - (4 + cb_mix_key_source));
