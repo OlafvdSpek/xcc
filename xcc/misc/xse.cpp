@@ -44,7 +44,6 @@ int Cxse::open()
 						if (!error)
 						{
 							error = m_bag_f.write(f.get_data(), f.get_size());
-							f.close();
 							if (!error)
 							{
 								Caudio_idx_file g;
@@ -52,7 +51,6 @@ int Cxse::open()
 								if (!error)
 								{
 									read_idx_file(g);
-									g.close();
 									if (!error)
 										error = write_idx_file();
 								}

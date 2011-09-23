@@ -95,8 +95,6 @@ BEGIN_MESSAGE_MAP(CXCCMixerView, CListView)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_DELETE, OnUpdatePopupDelete)
 	ON_COMMAND(ID_POPUP_OPEN, OnPopupOpen)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_OPEN, OnUpdatePopupOpen)
-	ON_COMMAND(ID_POPUP_OPEN_FOR_EDIT, OnPopupOpenForEdit)
-	ON_UPDATE_COMMAND_UI(ID_POPUP_OPEN_FOR_EDIT, OnUpdatePopupOpenForEdit)
 	ON_COMMAND(ID_POPUP_OPEN_WITH_FINALSUN, OnPopupOpenWithFinalsun)
 	ON_UPDATE_COMMAND_UI(ID_POPUP_OPEN_WITH_FINALSUN, OnUpdatePopupOpenWithFinalsun)
 	ON_COMMAND(ID_POPUP_COPY_AS_VXL, OnPopupCopyAsVXL)
@@ -2277,15 +2275,6 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 	pCmdUI->Enable(false);
 }
 
-void CXCCMixerView::OnPopupOpenForEdit()
-{
-}
-
-void CXCCMixerView::OnUpdatePopupOpenForEdit(CCmdUI* pCmdUI)
-{
-	pCmdUI->Enable(false);
-}
-
 void CXCCMixerView::OnPopupOpenWithFinalsun()
 {
 	Ccc_file f(false);
@@ -2293,7 +2282,6 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 		return;
 	const string fname = xcc_dirs::get_dir(game_ts) + m_index.find(get_current_id())->second.name;
 	f.extract(fname);
-	f.close();
 	ShellExecute(m_hWnd, "open", GetApp()->get_fs_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
 }
 
@@ -2311,7 +2299,6 @@ void CXCCMixerView::OnPopupOpenWithFinalalert()
 		return;
 	const string fname = xcc_dirs::get_dir(game_ra2) + m_index.find(get_current_id())->second.name;
 	f.extract(fname);
-	f.close();
 	ShellExecute(m_hWnd, "open", GetApp()->get_fa_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
 }
 
@@ -2680,7 +2667,6 @@ void CXCCMixerView::open_item(int id)
 			{
 				m_xap.ds(GetMainFrame()->get_ds());
 				m_xap.load(f.vdata());
-				f.close();
 				m_xap.play();
 			}
 		}

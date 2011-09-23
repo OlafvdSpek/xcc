@@ -158,14 +158,6 @@ BOOL CXSE_dlg::OnInitDialog()
 	return false;
 }
 
-void CXSE_dlg::OnDestroy() 
-{
-	ETSLayoutDialog::OnDestroy();	
-	m_idx_f.close();
-	m_csf_f.close();
-	m_bag_f.close();
-}
-
 void CXSE_dlg::OnOK()
 {
 	write_idx_file();
