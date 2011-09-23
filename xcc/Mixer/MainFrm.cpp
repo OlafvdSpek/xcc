@@ -291,8 +291,6 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 	set_msg("Reading " + mix_name);
 	if (mix_name.find(" - ") == string::npos)
 		m_mix_list.push_back(mix_name);
-	Cmix_file g;
-	Cpal_file h;
 	for (int i = 0; i < f.get_c_files(); i++)
 	{
 		const int id = f.get_id(i);
@@ -302,19 +300,19 @@ void CMainFrame::do_mix(Cmix_file& f, const string& mix_name, int mix_parent, in
 		switch (f.get_type(id))
 		{
 		case ft_mix:
-			if (!g.open(id, f))
-			{
-				do_mix(g, mix_name + " - " + name, mix_list_create_map(name, "", id, mix_parent), pal_list_create_map(name, pal_parent));
-				g.close();
+      {
+      	Cmix_file g;
+        if (!g.open(id, f))
+          do_mix(g, mix_name + " - " + name, mix_list_create_map(name, "", id, mix_parent), pal_list_create_map(name, pal_parent));
 			}
 			break;
 		case ft_pal:
 			{
 				t_pal_list_entry e;
 				e.name = static_cast<Cfname>(mix_name).get_fname() + " - " + name;
+        Cpal_file h;
 				h.open(id, f);
 				memcpy(e.palet, h.get_data(), sizeof(t_palet));
-				h.close();
 				e.parent = pal_parent;
 				m_pal_list.push_back(e);
 				break;
@@ -343,10 +341,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 				xcc_log::write_line("finds: " + fname, 1);
 				Cmix_file f;
 				if (!f.open(dir + fname))
-				{
 					do_mix(f, dir + fname, mix_list_create_map(fname, dir + fname, 0, mix_parent), pal_list_create_map(fname, pal_parent));
-					f.close();
-				}
 				xcc_log::indent(-1);
 			}
 			while (FindNextFile(findhandle, &fd));
@@ -474,41 +469,12 @@ void CMainFrame::initialize_lists()
 
 	Cmix_file f1, f2;
 	Cpal_file pal_f;
-	if (!f1.open("temperat.mix"))
-	{
-		if (!pal_f.open("temperat.pal", f1))
-		{
-			memcpy(m_td_palet, pal_f.get_palet(), sizeof(t_palet));
-			pal_f.close();
-		}
-		f1.close();
-	}
-	if (!f1.open("redalert.mix"))
-	{
-		if (!f2.open("local.mix", f1))
-		{
-			if (!pal_f.open("temperat.pal", f2))
-			{
-				memcpy(m_ra_palet, pal_f.get_palet(), sizeof(t_palet));
-				pal_f.close();
-			}
-			f2.close();
-		}
-		f1.close();
-	}
-	if (!f1.open("tibsun.mix"))
-	{
-		if (!f2.open("cache.mix", f1))
-		{
-			if (!pal_f.open("unittem.pal", f2))
-			{
-				memcpy(m_ts_palet, pal_f.get_palet(), sizeof(t_palet));
-				pal_f.close();
-			}
-			f2.close();
-		}
-		f1.close();
-	}
+	if (!f1.open("temperat.mix") && !pal_f.open("temperat.pal", f1))
+    memcpy(m_td_palet, pal_f.get_palet(), sizeof(t_palet));
+  if (!f1.open("redalert.mix") && !f2.open("local.mix", f1) && !pal_f.open("temperat.pal", f2))
+    memcpy(m_ra_palet, pal_f.get_palet(), sizeof(t_palet));
+	if (!f1.open("tibsun.mix") && !f2.open("cache.mix", f1) && !pal_f.open("unittem.pal", f2))
+    memcpy(m_ts_palet, pal_f.get_palet(), sizeof(t_palet));
 	if (m_palet_i >= m_pal_list.size())
 		m_palet_i = -1;
 	clean_pal_map_list();

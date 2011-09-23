@@ -364,7 +364,6 @@ void CXCCMixerView::close_location(int reload)
 {
 	if (m_mix_f)
 	{
-		m_mix_f->close();
 		delete m_mix_f;
 		m_mix_f = m_location.top();
 		m_location.pop();

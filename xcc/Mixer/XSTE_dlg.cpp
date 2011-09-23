@@ -81,10 +81,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 				Cmix_file language;
 				error = language.open(xcc_dirs::get_language_mix(m_game));
 				if (!error)
-				{
 					error = m_f.open(xcc_dirs::get_csf_fname(m_game), language);
-					language.close();
-				}
 			}
 			break;
 		case game_gr:
@@ -97,7 +94,6 @@ BOOL CXSTE_dlg::OnInitDialog()
 					error = m_f.open(xcc_dirs::get_csf_fname(m_game), f);
 					if (!error)
 						create_deep_dir(xcc_dirs::get_dir(m_game), m_game == game_gr ? "data/english/" : "data/englishzh/");
-					f.close();
 				}		
 			}
 			break;
