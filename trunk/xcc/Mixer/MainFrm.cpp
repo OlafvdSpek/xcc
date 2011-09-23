@@ -981,10 +981,7 @@ void CMainFrame::launch_xtw(t_game game)
 		}
 		while (FindNextFile(findhandle, &fd));
 		if (xste_open)
-		{
 			xste.write();
-			xste.close();
-		}
 		FindClose(findhandle);
 	}
 	ofstream g((dir + theme_ini_fname).c_str());

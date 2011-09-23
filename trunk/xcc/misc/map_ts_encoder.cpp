@@ -552,7 +552,6 @@ void Cmap_ts_encoder::write_pkt(ostream& os, const Cxif_key& k, string title)
 		xste.csf_f().set_value("XMM:" + title, Ccsf_file::convert2wstring(description), "");
 		if (!xste.write())
 			description = "XMM:" + title;
-		xste.close();			
 	}
 	os << "[MultiMaps]" << endl
 		<< "1=" << title << endl
