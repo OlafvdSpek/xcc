@@ -113,6 +113,4 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 	}
 	os << "</table>";
 	// os << page;
-	if (xste_available)
-		xste.close();
 }

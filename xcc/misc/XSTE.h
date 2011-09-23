@@ -7,9 +7,8 @@ class CXSTE
 {
 public:
 	Ccsf_file& csf_f();
-	int open(t_game game);
+	int open(t_game);
 	int write();
-	void close();
 private:
 	Ccsf_file m_csf_f;
 	Cfile32 m_f;

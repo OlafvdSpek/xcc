@@ -23,11 +23,7 @@ int CXSTE::open(t_game game)
 				Ccsf_file f;
 				error = f.open(xcc_dirs::get_csf_fname(game), language);
 				if (!error)
-				{
 					error = m_f.write(f.get_data(), f.get_size());
-					f.close();
-				}
-				language.close();
 			}
 		}
 		if (!error)
@@ -46,10 +42,4 @@ int CXSTE::write()
 	if (!error)
 		error = m_f.set_eof();
 	return error;
-}
-
-void CXSTE::close()
-{
-	m_csf_f.close();
-	m_f.close();
 }
