@@ -844,7 +844,7 @@ int encode3(const byte* s, byte* d, int cx, int cy)
 Cvirtual_binary encode64(data_ref s)
 {
 	Cvirtual_binary d;
-	const byte* r = s;
+	const byte* r = s.data();
 	int cb_s = s.size();
     byte* w = d.write_start(s.size() << 1);
     while (cb_s) 
@@ -879,7 +879,7 @@ Cvirtual_binary encode64(data_ref s)
 Cvirtual_binary decode64(data_ref s)
 {
 	Cvirtual_binary d;
-	const byte* r = s;
+	const byte* r = s.data();
     byte* w = d.write_start(s.size() << 1);
     while (*r)
 	{
