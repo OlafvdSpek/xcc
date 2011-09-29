@@ -425,5 +425,5 @@ void get_blowfish_key(const byte* s, mutable_data_ref d)
 	}
 	byte key[256];
 	process_predata(s, len_predata(), key);
-	memcpy(d, key, 56);
+	memcpy(d.data(), key, 56);
 }
