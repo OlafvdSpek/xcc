@@ -79,6 +79,16 @@ public:
 		return m_source ? m_source->data_end() : NULL;
 	}
 
+  const byte* begin() const
+  {
+    return data();
+  }
+
+  const byte* end() const
+  {
+    return data_end();
+  }
+
 	byte* data_edit()
 	{
 		assert(m_source);
@@ -106,11 +116,6 @@ public:
 	operator const byte*() const
 	{
 		return data();
-	}
-
-	operator data_ref() const
-	{
-		return data_ref(data(), size());
 	}
 
 	operator mutable_data_ref()
