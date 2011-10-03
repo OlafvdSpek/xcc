@@ -15,11 +15,10 @@ static string get_fname()
 
 static int get_ft_crc()
 {
-	Ccrc crc;
-	crc.init();
+  boost::crc_32_type crc;
 	for (int i = 0; i < ft_count; i++)
-		crc.do_block(ft_name[i], strlen(ft_name[i]));
-	return crc.get_crc();
+		crc.process_bytes(ft_name[i], strlen(ft_name[i]));
+	return crc();
 }
 
 int mix_cache::load()
