@@ -137,8 +137,6 @@
     </ClCompile>
     <ClCompile Include="..\misc\cps_file.cpp">
     </ClCompile>
-    <ClCompile Include="..\..\misc\crc.cpp">
-    </ClCompile>
     <ClCompile Include="..\misc\csf_file.cpp">
     </ClCompile>
     <ClCompile Include="..\..\misc\ddpf_conversion.cpp">
