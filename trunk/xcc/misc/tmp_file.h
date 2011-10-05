@@ -28,11 +28,11 @@ public:
 
 	const byte* get_image(int i) const
 	{
-		return get_data() + header().image_offset + 576 * get_index1()[i];
+		return data() + header().image_offset + 576 * get_index1()[i];
 	}
 
 	const byte* get_index1() const
 	{
-		return get_data() + header().index1;
+		return data() + header().index1;
 	}
 };

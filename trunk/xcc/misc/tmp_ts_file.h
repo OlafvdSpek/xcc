@@ -69,7 +69,7 @@ public:
 
 	const t_tmp_image_header* get_image_header(int i) const
 	{
-		return reinterpret_cast<const t_tmp_image_header*>(get_data() + get_index()[i]);
+		return reinterpret_cast<const t_tmp_image_header*>(data() + get_index()[i]);
 	}
 
 	int get_x(int i) const
@@ -166,24 +166,24 @@ public:
 	const byte* get_z_image(int i) const
 	{
 		int a = get_index()[i] + get_image_header(i)->z_ofs;
-		int b = get_image(i) + get_cb_diamond() - get_data();
+		int b = get_image(i) + get_cb_diamond() - data();
 		assert(a == b);
-		return get_data() + get_index()[i] + get_image_header(i)->z_ofs;
+		return data() + get_index()[i] + get_image_header(i)->z_ofs;
 	}
 	
 	const byte* get_extra_data(int i) const
 	{
-		return get_data() + get_index()[i] + get_image_header(i)->extra_ofs;
+		return data() + get_index()[i] + get_image_header(i)->extra_ofs;
 	}
 
 	const byte* get_extra_z_data(int i) const
 	{
-		return get_data() + get_index()[i] + get_image_header(i)->extra_z_ofs;
+		return data() + get_index()[i] + get_image_header(i)->extra_z_ofs;
 	}
 
 	const int* get_index() const
 	{
-		return reinterpret_cast<const int*>(get_data() + sizeof(t_tmp_ts_header));
+		return reinterpret_cast<const int*>(data() + sizeof(t_tmp_ts_header));
 	}
 };
 

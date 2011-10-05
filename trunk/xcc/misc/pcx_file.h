@@ -35,11 +35,11 @@ public:
 	
 	const byte* get_image() const
 	{
-		return get_data() + sizeof(t_pcx_header);
+		return data() + sizeof(t_pcx_header);
 	}
 
     const t_palet* get_palet() const
     {
-        return reinterpret_cast<const t_palet*>(get_data() + get_size() - sizeof(t_palet));
+        return reinterpret_cast<const t_palet*>(data() + size() - sizeof(t_palet));
     }
 };

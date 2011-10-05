@@ -26,7 +26,7 @@ int mix_sfl::load()
     return 1;
   if (f.get_size() < 8)
     return 1;
-  const int* r = reinterpret_cast<const int*>(f.get_data());
+  const int* r = reinterpret_cast<const int*>(f.data());
   read(r, ts_fl);
   read(r, ra2_fl);
   return 0;

@@ -27,7 +27,7 @@ public:
 
 	const byte* image() const
 	{
-		return get_data() + sizeof(t_tga_header) + header().id_size;
+		return data() + sizeof(t_tga_header) + header().id_size;
 	}
 };
 

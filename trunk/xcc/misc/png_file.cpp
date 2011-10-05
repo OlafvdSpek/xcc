@@ -17,7 +17,7 @@ void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 int Cpng_file::decode(Cvirtual_image& d) const
 {
 	string name = get_temp_fname();
-	int error = file32_write(name, get_data(), get_size());
+	int error = file32_write(name, data(), size());
 	if (!error)
 	{
 		png_structp png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, user_error_fn, NULL);

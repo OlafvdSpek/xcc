@@ -58,6 +58,6 @@ public:
 
 	const byte* get_image(int i) const
 	{
-		return data() + reinterpret_cast<const unsigned short*>(get_data() + sizeof(t_fnt_header))[i];
+		return data() + reinterpret_cast<const unsigned short*>(data() + sizeof(t_fnt_header))[i];
 	}
 };

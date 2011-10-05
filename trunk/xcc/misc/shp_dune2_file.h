@@ -18,7 +18,7 @@ public:
 
 	const t_shp_dune2_image_header* get_image_header(int i) const
 	{
-		return reinterpret_cast<const t_shp_dune2_image_header*>(get_data() + get_ofs(i));
+		return reinterpret_cast<const t_shp_dune2_image_header*>(data() + get_ofs(i));
 	}
 
 	int get_cx(int i) const
@@ -43,12 +43,12 @@ public:
 
 	const __int16* get_index16() const
 	{
-		return reinterpret_cast<const __int16*>(get_data() + sizeof(t_shp_dune2_header));
+		return reinterpret_cast<const __int16*>(data() + sizeof(t_shp_dune2_header));
 	}
 
 	const __int32* get_index32() const
 	{
-		return reinterpret_cast<const __int32*>(get_data() + sizeof(t_shp_dune2_header));
+		return reinterpret_cast<const __int32*>(data() + sizeof(t_shp_dune2_header));
 	}
 
 	const byte* get_image(int i) const
