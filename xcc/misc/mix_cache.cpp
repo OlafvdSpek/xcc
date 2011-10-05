@@ -21,6 +21,11 @@ static int get_ft_crc()
 	return crc();
 }
 
+static int write_int(Cfile32& f, int32_t v)
+{
+  return f.write(data_ref(&v, sizeof(v)));
+}
+
 int mix_cache::load()
 {
 	Ccc_file f(true);
@@ -49,13 +54,13 @@ int mix_cache::save()
 	Cfile32 f;
 	if (f.open(get_fname(), GENERIC_WRITE))
 		return 1;
-	f.write(get_ft_crc());
-	f.write(cache.size());
+	write_int(f, get_ft_crc());
+	write_int(f, cache.size());
 	BOOST_FOREACH (auto& i, cache)
 	{
-		f.write(i.first);
-		f.write(i.second.size());
-		f.write(i.second.data(), i.second.size());
+		write_int(f, i.first);
+		write_int(f, i.second.size());
+		f.write(i.second);
 	}	
 	return 0;
 }
