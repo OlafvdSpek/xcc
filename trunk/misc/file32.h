@@ -2,7 +2,6 @@
 
 #include <string>
 #include <vartypes.h>
-#include <smart_ref.h>
 #include <virtual_binary.h>
 #ifdef _MSC_VER
 #include "win_handle.h"
