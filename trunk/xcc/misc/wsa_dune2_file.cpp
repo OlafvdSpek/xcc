@@ -108,7 +108,7 @@ int Cwsa_dune2_file::get_delta() const
 
 const byte* Cwsa_dune2_file::get_frame(int i) const
 {
-	return get_data() + get_offset(i);
+	return data() + get_offset(i);
 }
 
 int Cwsa_dune2_file::get_cb_ofs() const
@@ -123,12 +123,12 @@ int Cwsa_dune2_file::get_offset(int i) const
 
 const __int16* Cwsa_dune2_file::get_index16() const
 {
-	return reinterpret_cast<const __int16*>(get_data() + sizeof(t_wsa_dune2_header));
+	return reinterpret_cast<const __int16*>(data() + sizeof(t_wsa_dune2_header));
 }
 
 const __int32* Cwsa_dune2_file::get_index32() const
 {
-	return reinterpret_cast<const __int32*>(get_data() + sizeof(t_wsa_dune2_header) + 2);
+	return reinterpret_cast<const __int32*>(data() + sizeof(t_wsa_dune2_header) + 2);
 }
 
 bool Cwsa_dune2_file::has_loop() const

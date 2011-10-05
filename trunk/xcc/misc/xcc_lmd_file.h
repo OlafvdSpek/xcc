@@ -22,6 +22,6 @@ public:
 
 	const char* get_fnames() const
 	{
-		return reinterpret_cast<const char*>(get_data() + sizeof(t_xcc_header) + sizeof(t_xcc_lmd_header));
+		return reinterpret_cast<const char*>(data() + sizeof(t_xcc_header) + sizeof(t_xcc_lmd_header));
 	}
 };

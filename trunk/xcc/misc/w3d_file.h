@@ -10,8 +10,8 @@ public:
 	{
 		if (get_size() < sizeof(t_w3d_header))
 			return false;
-		const byte* r = get_data();
-		const byte* r_end = get_data() + vdata().size();
+		const byte* r = data();
+		const byte* r_end = data() + vdata().size();
 		while (r < r_end)
 		{
 			if (r_end - r < sizeof(t_w3d_header))
