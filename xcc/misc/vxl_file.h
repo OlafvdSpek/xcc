@@ -36,17 +36,17 @@ public:
 
 	const byte* get_section_body() const
 	{
-		return get_data() + sizeof(t_vxl_header) + sizeof(t_vxl_section_header) * get_c_section_tailers();
+		return data() + sizeof(t_vxl_header) + sizeof(t_vxl_section_header) * get_c_section_tailers();
 	}
 
 	const t_vxl_section_header* get_section_header(int i) const
 	{
-		return reinterpret_cast<const t_vxl_section_header*>(get_data() + sizeof(t_vxl_header) + sizeof(t_vxl_section_header) * i);
+		return reinterpret_cast<const t_vxl_section_header*>(data() + sizeof(t_vxl_header) + sizeof(t_vxl_section_header) * i);
 	}
 
 	const t_vxl_section_tailer* get_section_tailer(int i) const
 	{
-		return reinterpret_cast<const t_vxl_section_tailer*>(get_data() + get_size() + sizeof(t_vxl_section_tailer) * (i - get_c_section_tailers()));
+		return reinterpret_cast<const t_vxl_section_tailer*>(data() + get_size() + sizeof(t_vxl_section_tailer) * (i - get_c_section_tailers()));
 	}
 
 	const byte* get_span_data(int i, int j) const

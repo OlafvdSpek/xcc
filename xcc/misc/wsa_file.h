@@ -61,12 +61,12 @@ public:
 
 	const byte* get_frame(int i) const
 	{
-		return get_data() + get_offset(i);
+		return data() + get_offset(i);
 	}
 
     const int* get_index() const
     {
-        return reinterpret_cast<const int*>(get_data() + sizeof(t_wsa_header));
+        return reinterpret_cast<const int*>(data() + sizeof(t_wsa_header));
     }
 
     int get_offset(int i) const
@@ -77,7 +77,7 @@ public:
     const t_palet_entry* palet() const
     {
         return get_index()[cf() + has_loop()] != get_size() 
-			? reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_wsa_header) + get_cb_index()) 
+			? reinterpret_cast<const t_palet_entry*>(data() + sizeof(t_wsa_header) + get_cb_index()) 
 			: NULL;
     }
 
