@@ -24,20 +24,20 @@ int Cxif_key_r::import(Cvirtual_binary s)
 	unsigned long cb_d = h.size_uncompressed;
 	if (cb_d)
 	{
-		if (Z_OK != uncompress(d.write_start(cb_d), &cb_d, s + sizeof(t_xif_header_fast), h.size_compressed)
-			&& (memcmp(s + sizeof(t_xif_header_fast), "BZh", 3)
-			|| BZ_OK != BZ2_bzBuffToBuffDecompress(reinterpret_cast<char*>(d.write_start(cb_d)), reinterpret_cast<unsigned int*>(&cb_d), const_cast<char*>(reinterpret_cast<const char*>(s + sizeof(t_xif_header_fast))), h.size_compressed, 0, 0)))
+		if (Z_OK != uncompress(d.write_start(cb_d), &cb_d, s.data() + sizeof(t_xif_header_fast), h.size_compressed)
+			&& (memcmp(s.data() + sizeof(t_xif_header_fast), "BZh", 3)
+			|| BZ_OK != BZ2_bzBuffToBuffDecompress(reinterpret_cast<char*>(d.write_start(cb_d)), reinterpret_cast<unsigned int*>(&cb_d), const_cast<char*>(reinterpret_cast<const char*>(s.data() + sizeof(t_xif_header_fast))), h.size_compressed, 0, 0)))
 			return 1;
 		/*
 		if (uncompress(d.write_start(cb_d), &cb_d, s + sizeof(t_xif_header_fast), h.size_compressed) != Z_OK)
 			return 1;
 		*/
-		load(d);
+		load(d.data());
 		// m_external_data = d + h.size_compressed;
 	}
 	else
 	{
-		load(s + sizeof(t_xif_header_fast));
+		load(s.data() + sizeof(t_xif_header_fast));
 		// m_external_data = s + sizeof(t_xif_header_fast) + h.size_uncompressed
 	}
 
