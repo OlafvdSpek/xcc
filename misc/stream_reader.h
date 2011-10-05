@@ -7,7 +7,7 @@ class Cstream_reader
 public:
 	const byte* d() const
 	{
-		return m_d;
+		return m_d.data();
 	}
 
 	const byte* d_end() const
@@ -56,7 +56,7 @@ public:
 
 	void seek(int o)
 	{
-		m_r = m_d + o;
+		m_r = d() + o;
 	}
 
 	void skip(int o)
@@ -68,9 +68,10 @@ public:
 	{
 	}
 
-	Cstream_reader(const Cvirtual_binary& d)
+	Cstream_reader(const Cvirtual_binary& v)
 	{
-		m_r = m_d = d;
+		m_d = v;
+    m_r = d();
 	}
 private:
 	Cvirtual_binary m_d;
