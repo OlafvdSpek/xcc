@@ -74,7 +74,7 @@ int Cvxl_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet 
 		}
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		int error = image_file_write(t, ft, s, palet, cx, cy);
+		int error = image_file_write(t, ft, s.data(), palet, cx, cy);
 		if (error)
 			return error;
 	}
@@ -335,7 +335,7 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s)
 	delete[] span_data_ofs;
 	delete[] span_end_list_ofs;
 	delete[] span_start_list_ofs;
-	d.size(w - d);
+	d.size(w - d.data());
 	return d;
 }
 

@@ -38,7 +38,7 @@ int Cbig_file::post_open()
 		return error;
 	int size = header.c_files();
 	m_old_index.reserve(size);
-	const byte* r = index;
+	const byte* r = index.data();
 	while (size--)
 	{
 		t_big_index_entry e = *reinterpret_cast<const t_big_index_entry*>(r);

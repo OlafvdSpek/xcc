@@ -45,7 +45,7 @@ int Cshp_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_
 			decode2(get_image(i), image.write_start(cx * cy), get_image_header(i)->size_out, get_reference_palet(i));
 		Cfname t = name;
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		if (int error = image_file_write(t, ft, image, palet, cx, cy))
+		if (int error = image_file_write(t, ft, image.data(), palet, cx, cy))
 			return error;
 	}
 	return 0;

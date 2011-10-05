@@ -40,7 +40,7 @@ public:
 		{
 			while (!m_f.is_video_chunk())
 				m_f.skip_chunk();
-			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk(), m_frame.write_start(cb_image()), m_palet);
+			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk().data(), m_frame.write_start(cb_image()), m_palet);
 		}
 		else
 		{
@@ -48,7 +48,7 @@ public:
 				m_vqa_d.decode_vqfl_chunk(m_f.read_chunk());
 			while (!m_f.is_video_chunk())
 				m_f.skip_chunk();
-			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk(), m_frame.write_start(cb_image()), NULL);
+			m_vqa_d.decode_vqfr_chunk(m_f.read_chunk().data(), m_frame.write_start(cb_image()), NULL);
 		}
 		if (d)
 			m_frame.read(d);
@@ -138,7 +138,7 @@ static int process_audio_chunk_for_avi(Cvqa_file& f, Cvqa_decode& vqa_d, int& au
 	else
 	{
 		aud_out = new short[2 * size];
-		vqa_d.decode_snd2_chunk(f.read_chunk(), size, aud_out);
+		vqa_d.decode_snd2_chunk(f.read_chunk().data(), size, aud_out);
 	}
 	if (AVIStreamWrite(a, audio_i, 2 * size, aud_out, 4 * size, 0, NULL, NULL))
 		error = 1;
@@ -242,7 +242,7 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 									}
 									if (error)
 										break;
-									vqa_d.decode_vqfr_chunk(read_chunk(), frame, palet);
+									vqa_d.decode_vqfr_chunk(read_chunk().data(), frame, palet);
 									flip_frame(frame, frame_flipped, cx, cy, 1);
 									for (int j = 0; j < 256; j++)
 									{
@@ -296,7 +296,7 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 											else
 												skip_chunk();
 										}
-										vqa_d.decode_vqfr_chunk(read_chunk(), frame, NULL);
+										vqa_d.decode_vqfr_chunk(read_chunk().data(), frame, NULL);
 										flip_frame(frame, frame_flipped, cx, cy, 3);
 										// xcc_log::write_line("Writing frame " + n(i));
 										if (AVIStreamWrite(vc, i, 1, frame_flipped, 3 * cx * cy, 0, NULL, NULL))
@@ -344,7 +344,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 		{
 			while (!is_video_chunk())
 				skip_chunk();
-			vqa_d.decode_vqfr_chunk(read_chunk(), frame, palet);
+			vqa_d.decode_vqfr_chunk(read_chunk().data(), frame, palet);
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
 			error = image_file_write(t, ft, frame, palet, cx, cy);
@@ -368,7 +368,7 @@ int Cvqa_file::extract_as_pcx(const Cfname& name, t_file_type ft)
 				vqa_d.decode_vqfl_chunk(read_chunk());
 			while (!is_video_chunk())
 				skip_chunk();
-			vqa_d.decode_vqfr_chunk(read_chunk(), frame, NULL);
+			vqa_d.decode_vqfr_chunk(read_chunk().data(), frame, NULL);
 			Cfname t = name;
 			t.set_title(name.get_ftitle() + " " + nwzl(4, i));
 			error = image_file_write(t, ft, frame, NULL, cx, cy);
@@ -413,7 +413,7 @@ int Cvqa_file::extract_as_wav(const string& name)
 				{
 					e.c_samples = size << 1;
 					e.audio = new short[2 * size];
-					vqa_d.decode_snd2_chunk(read_chunk(), size, e.audio);
+					vqa_d.decode_snd2_chunk(read_chunk().data(), size, e.audio);
 				}
 				cs_remaining += e.c_samples;
 				list.push_back(e);				

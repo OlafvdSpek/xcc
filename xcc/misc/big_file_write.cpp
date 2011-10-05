@@ -35,7 +35,7 @@ Cvirtual_binary Cbig_file_write::write()
 	for (i = m_index.begin(); i != m_index.end(); i++)
 	{
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
-		e.offset = reverse(w2 - d);
+		e.offset = reverse(w2 - d.data());
 		e.size = reverse(i->second.size());
 		w += sizeof(t_big_index_entry);
 		memcpy(w, i->first.c_str(), i->first.length() + 1);

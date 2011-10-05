@@ -1164,7 +1164,7 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 		<< "Size=0,0," << image.cx() << ',' << image.cy() << endl
 		<< endl
 		<< "[PreviewPack]" << endl;
-	const byte* r = e;
+	const byte* r = e.data();
 	int line_i = 1;
 	while (r < e.data_end())
 	{
@@ -1216,7 +1216,7 @@ static int copy_as_image(Cvideo_decoder* v, string fname, t_file_type ft)
 	{
 		v->decode(frame.write_start(v->cb_image()));
 		t.set_title(Cfname(fname).get_ftitle() + " " + nwzl(4, i));
-		if (int error = image_file_write(t, ft, frame, palet, v->cx(), v->cy()))
+		if (int error = image_file_write(t, ft, frame.data(), palet, v->cx(), v->cy()))
 			return error;
 	}
 	delete v;
@@ -1394,11 +1394,11 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 		if (image.cx() != cx || image.cy() != cy)
 			return em_bad_size;
 		image.cb_pixel(1, s_palet);
-		if (!s)
+		if (!s.data())
 			c_images = i + 1;
 		memcpy(s.write_start(cx * cy * c_images) + cx * cy * i, image.image(), cx * cy);
 	}
-	if (!s)
+	if (!s.data())
 		return 1;
 	if (GetMainFrame()->use_palet_for_conversion())
 	{
@@ -1411,7 +1411,7 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	}
 	trim(base_name);
 	fname.set_title(base_name);
-	return shp_file_write(s, cx, cy, c_images).save(fname);
+	return shp_file_write(s.data(), cx, cy, c_images).save(fname);
 }
 
 int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
@@ -1486,7 +1486,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 			if (image.cx() != cx || image.cy() != cy)
 				return em_bad_size;
 			image.cb_pixel(1, s_palet);
-			if (!s)
+			if (!s.data())
 			{
 				c_images = i + 1;
 				if (convert_shadow)
@@ -1496,7 +1496,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		}
 		break;
 	}
-	if (!s)
+	if (!s.data())
 		return 1;
 	if (convert_shadow)
 	{
@@ -1540,7 +1540,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	}
 	trim(base_name);
 	fname.set_title(base_name);
-	return shp_ts_file_write(s, cx, cy, c_images, GetMainFrame()->enable_compression()).save(fname);
+	return shp_ts_file_write(s.data(), cx, cy, c_images, GetMainFrame()->enable_compression()).save(fname);
 }
 
 int CXCCMixerView::copy_as_text(int i, Cfname fname) const
@@ -1629,11 +1629,11 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 					return em_bad_size;
 				if (image.cb_pixel() != 1)
 					return em_bad_depth;
-				if (!s)
+				if (!s.data())
 					c_images = i + 1;
 				memcpy(s.write_start(cx * cy * c_images) + cx * cy * i, image.image(), cx * cy);
 			}
-			Cvirtual_binary d = vxl_file_write(s, NULL, cx, cy, c_images);
+			Cvirtual_binary d = vxl_file_write(s.data(), NULL, cx, cy, c_images);
 			trim(base_name);
 			fname.set_title(base_name);
 			return d.size() ? d.save(fname) : 1;
@@ -1730,7 +1730,7 @@ int CXCCMixerView::copy_as_wav_pcm(int i, Cfname fname) const
 			byte* w = d.write_start(cb_d);
 			w += wav_file_write_header(w, c_samples, format_chunk.samplerate, 2, c_channels);
 			Cima_adpcm_wav_decode decode;
-			decode.load(s, cb_s, c_channels, 512 * c_channels);
+			decode.load(s.data(), cb_s, c_channels, 512 * c_channels);
 			memcpy(w, decode.data(), cb_audio);
 			return d.save(fname);
 		}
@@ -2405,10 +2405,10 @@ int CXCCMixerView::resize(int id)
 				}
 				delete[] image;
 				if (global_cx == global_cx_d && global_cy == global_cy_d)
-					memcpy(d8.data_edit() + global_cx_d * global_cy_d * i, image8, global_cx * global_cy);
+					memcpy(d8.data_edit() + global_cx_d * global_cy_d * i, image8.data(), global_cx * global_cy);
 				else
 				{
-					upsample_image(image8, image32, global_cx, global_cy, palet);
+					upsample_image(image8.data(), image32, global_cx, global_cy, palet);
 					if (global_cx < global_cx_d)
 						resize_image_up(image32, d32, global_cx, global_cy, global_cx_d, global_cy_d);
 					else
@@ -2431,7 +2431,7 @@ int CXCCMixerView::resize(int id)
 			delete[] image32;
 			delete[] d32;
 			f.close();
-			return shp_ts_file_write(d8, global_cx_d, global_cy_d, c_images).save(fname);
+			return shp_ts_file_write(d8.data(), global_cx_d, global_cy_d, c_images).save(fname);
 		}
 	}
 	return 1;

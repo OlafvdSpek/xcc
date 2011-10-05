@@ -267,7 +267,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 			int cb_write = min(size, 1 << 20);
 			if (int error = read(data.write_start(cb_write), cb_write))
 				return error;
-			if (int error = f.write(data, cb_write))
+			if (int error = f.write(data.data(), cb_write))
 				return error;
 			size -= cb_write;
 		}
@@ -288,7 +288,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 	{
 		Cvirtual_binary data;
 		int size;
-		if (m_data)
+		if (m_data.data())
 		{
 			data = m_data;
 			size = m_size;

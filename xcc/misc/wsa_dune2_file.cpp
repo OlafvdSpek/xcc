@@ -39,7 +39,7 @@ public:
 		{
 			Cvirtual_binary s;
 			decode80(m_f.get_frame(m_frame_i), s.write_start(64 << 10));
-			decode40(s, m_frame.data_edit());
+			decode40(s.data(), m_frame.data_edit());
 		}
 		if (d)
 			m_frame.read(d);
@@ -158,7 +158,7 @@ void Cwsa_dune2_file::decode(void* d) const
 		if (get_offset(i))
 		{
 			decode80(get_frame(i), s.write_start(64 << 10));
-			decode40(s, w);
+			decode40(s.data(), w);
 		}
 		w += cb_image();
 	}
@@ -184,10 +184,10 @@ int Cwsa_dune2_file::extract_as_pcx(const Cfname& name, t_file_type ft, const t_
 		if (get_offset(i))
 		{
 			decode80(get_frame(i), s.write_start(64 << 10));
-			decode40(s, frame.data_edit());
+			decode40(s.data(), frame.data_edit());
 		}
 		t.set_title(name.get_ftitle() + " " + nwzl(4, i));
-		if (int error = image_file_write(t, ft, frame, palet, cx(), cy()))
+		if (int error = image_file_write(t, ft, frame.data(), palet, cx(), cy()))
 			return error;
 	}
 	return 0;

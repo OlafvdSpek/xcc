@@ -41,6 +41,11 @@ public:
 		assert(mc_references == 1 && !m_source && v <= m_size);
 		m_size = v;
 	}
+
+  bool unique() const
+  {
+    return mc_references == 1;
+  }
 private:
 	byte* m_data;
 	size_t m_size;
@@ -110,11 +115,6 @@ public:
 		assert(m_source);
 		m_source = m_source->pre_edit();
 		m_source->size(v);
-	}
-
-	operator const byte*() const
-	{
-		return data();
 	}
 
 	operator mutable_data_ref()

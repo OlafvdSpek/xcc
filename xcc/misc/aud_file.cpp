@@ -82,7 +82,7 @@ Cvirtual_binary Caud_file::decode()
 int Caud_file::extract_as_wav(const string& name)
 {
 	Cvirtual_binary d = decode();
-	if (!d)
+	if (!d.data())
 		return 1;
 	Cfile32 f;
 	int error = f.open(name, GENERIC_WRITE);
@@ -106,5 +106,5 @@ int Caud_file::extract_as_wav(const string& name)
 	header.data_chunk_header.id = wav_data_id;
 	header.data_chunk_header.size = cb_sample * cs_remaining;
 	error = f.write(&header, sizeof(t_wav_header));
-	return error ? error : f.write(d, d.size());
+	return error ? error : f.write(d.data(), d.size());
 }

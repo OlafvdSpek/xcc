@@ -92,6 +92,6 @@ Cvirtual_binary hva_file_write(const byte* s, int cb_s)
 		f.read_line();
 	}
 	w += 4 * 12 * c_frames * c_sections;
-	d.size(w - d);
+	d.size(w - d.data());
 	return d;
 }
