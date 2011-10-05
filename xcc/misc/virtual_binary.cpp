@@ -3,13 +3,13 @@
 
 #include "file32.h"
 
-Cvirtual_binary_source::Cvirtual_binary_source(const void* d, size_t cb_d, Csmart_ref_base* source)
+Cvirtual_binary_source::Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<void>& source)
 {
 	if (source)
 	{
 		m_data = const_cast<byte*>(reinterpret_cast<const byte*>(d));
 		m_size = cb_d;
-		m_source = source->attach();
+		m_source = source;
 	}
 	else
 	{
@@ -17,7 +17,6 @@ Cvirtual_binary_source::Cvirtual_binary_source(const void* d, size_t cb_d, Csmar
 		m_size = cb_d;
 		if (d)
 			memcpy(m_data, d, cb_d);
-		m_source = NULL;
 	}
 	mc_references = 1;
 }
@@ -33,9 +32,7 @@ void Cvirtual_binary_source::detach()
 {
 	if (!this || --mc_references)
 		return;
-	if (m_source)
-		m_source->detach();
-	else
+	if (!m_source)
 		delete[] m_data;
 	delete this;
 }
@@ -64,7 +61,7 @@ Cvirtual_binary::Cvirtual_binary(const void* d, size_t cb_d)
 	m_source = new Cvirtual_binary_source(d, cb_d);
 }
 
-Cvirtual_binary::Cvirtual_binary(const void* d, size_t cb_d, Csmart_ref_base* source)
+Cvirtual_binary::Cvirtual_binary(const void* d, size_t cb_d, const std::shared_ptr<void>& source)
 {
 	m_source = new Cvirtual_binary_source(d, cb_d, source);
 }
@@ -145,5 +142,5 @@ void Cvirtual_binary::write(const void* d, size_t cb_d)
 Cvirtual_binary Cvirtual_binary::sub_bin(size_t offset, size_t size) const
 {
 	assert(offset >= 0 && offset + size <= Cvirtual_binary::size());
-	return data() ? Cvirtual_binary(data() + offset, size, Csmart_ref<Cvirtual_binary>::create(*this)) : *this;
+	return data() ? Cvirtual_binary(data() + offset, size, std::make_shared<Cvirtual_binary>(*this)) : *this;
 }
