@@ -101,10 +101,11 @@ int Cvirtual_binary::load(const string& fname, bool use_mm)
 {
 	if (use_mm)
 		*this = file32_read(fname);
-	else if (Cvirtual_binary d = file32_read(fname))
-		*this = Cvirtual_binary(d.data(), d.size());
 	else
-		clear();
+  {
+    Cvirtual_binary d = file32_read(fname);
+    *this = Cvirtual_binary(d.data(), d.size());
+  }
 	return !data();
 }
 

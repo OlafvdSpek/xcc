@@ -365,10 +365,10 @@ void Cmap_ts_encoder::process_section_end()
 		{
 			if (m_section_name == "IsoMapPack5")
 			{
-				int count = decode5(d, m_d.data_edit(), d.size(), 5) / sizeof(t_iso_map_pack_entry);
+				int count = decode5(d.data(), m_d.data_edit(), d.size(), 5) / sizeof(t_iso_map_pack_entry);
 				t_iso_map_pack_entry4* f = new t_iso_map_pack_entry4[count];
 				t_iso_map_pack_entry* g = new t_iso_map_pack_entry[count];
-				map_encode4(m_d, f, count);
+				map_encode4(m_d.data(), f, count);
 				// log_iso_map_pack(m_d, count, header);
 				/*
 				map_decode4(f, g, count, header);
@@ -387,7 +387,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayPack")
 			{
-				m_overlay_pack.size(decode5(d, m_overlay_pack.write_start(256 << 10), d.size(), 80));
+				m_overlay_pack.size(decode5(d.data(), m_overlay_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				decode5(d, m_d, cb_d, 80);
 				// log_overlay_pack(m_d, m_header);
@@ -396,7 +396,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayDataPack")
 			{
-				m_overlay_data_pack.size(decode5(d, m_overlay_data_pack.write_start(256 << 10), d.size(), 80));
+				m_overlay_data_pack.size(decode5(d.data(), m_overlay_data_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				Cvirtual_binary t;
 				t.size(overlay_encode4(m_d, t.write_start(256 << 10)));
@@ -408,7 +408,7 @@ void Cmap_ts_encoder::process_section_end()
 			else if (m_section_name == "PreviewPack")
 			{
 				if (strcmp(reinterpret_cast<const char*>(m_d.data()), "BIACcgAEwBtAMnRABAAaQCSANMAVQASAAnIABMAbQDJ0QAQAGkAkgDTAFUAEgAJyAATAG0yAsAIAXQ5PDQ5PDQ6JQATAEE6PDQ4PDI4JgBTAFEAkgAJyAATAG0AydEAEABpAJIA0wBVA"))
-					m_preview_pack.write(m_d, decode5(d, m_d.data_edit(), d.size(), 5));
+					m_preview_pack.write(m_d.data(), decode5(d.data(), m_d.data_edit(), d.size(), 5));
 				else
 					m_preview_pack.clear();
 			}
@@ -416,10 +416,10 @@ void Cmap_ts_encoder::process_section_end()
 		else
 		{
 			byte* e = m_d.data_edit();
-			int cb_e = decode5(d, e, d.size(), 5);
+			int cb_e = decode5(d.data(), e, d.size(), 5);
 			d.size(encode5(e, d.data_edit(), cb_e, 5));
 			// cb_e = encode64(d, e, cb_d);
-			write_pack(m_f, d, d.size());
+			write_pack(m_f, d.data(), d.size());
 		}
 	}
 	else

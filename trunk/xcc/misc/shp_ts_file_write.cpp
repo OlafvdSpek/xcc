@@ -32,7 +32,7 @@ Cvirtual_binary shp_ts_file_write(const byte* s, int global_cx, int global_cy, i
 	byte* u = new byte[(global_cx + 1) * global_cy * 2];
 	for (int i = 0; i < c_images; i++)
 	{
-		w1 += d - w1 & 7;
+		w1 += d.data() - w1 & 7;
 		int x = 0;
 		int y = 0;
 		int cx = 0;
@@ -86,7 +86,7 @@ Cvirtual_binary shp_ts_file_write(const byte* s, int global_cx, int global_cy, i
 		image_header.compression = 0;
 		image_header.unknown = c_images & 1 || i < c_images / 2 ? 0x70000 : 0;
 		image_header.zero = 0;
-		image_header.offset = w1 - d;
+    image_header.offset = w1 - d.data();
 		w += sizeof(t_shp_ts_image_header);
 		if (cy)
 		{
@@ -110,6 +110,6 @@ Cvirtual_binary shp_ts_file_write(const byte* s, int global_cx, int global_cy, i
 	}
 	delete[] u;
 	delete[] t;
-	d.size(w1 - d);
+	d.size(w1 - d.data());
 	return d;
 }

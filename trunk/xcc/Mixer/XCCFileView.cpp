@@ -497,8 +497,8 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					m_y += m_y_inc;
 					Cvirtual_binary s = decode64(ppd);
 					Cvirtual_binary image;
-					decode5(s, image.write_start(pd.cx * pd.cy * 3), s.size(), 5);
-					draw_image24(image, pd.cx, pd.cy, pDC, 0, m_y);
+					decode5(s.data(), image.write_start(pd.cx * pd.cy * 3), s.size(), 5);
+					draw_image24(image.data(), pd.cx, pd.cy, pDC, 0, m_y);
 				}
 				break;
 			}
@@ -581,10 +581,10 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				if (c_planes == 1)
 				{
 					load_color_table(*f.get_palet(), false);
-					draw_image8(image, cx, cy, pDC, 0, m_y);
+					draw_image8(image.data(), cx, cy, pDC, 0, m_y);
 				}
 				else
-					draw_image24(image, cx, cy, pDC, 0, m_y);
+					draw_image24(image.data(), cx, cy, pDC, 0, m_y);
 				m_y += cy + m_y_inc;
 				break;
 			}
@@ -663,7 +663,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 						{
 							Cvirtual_binary image;
 							decode3(f.get_image(i), image.write_start(cx * cy), cx, cy);
-							draw_image8(image, cx, cy, pDC, 0, m_y);
+							draw_image8(image.data(), cx, cy, pDC, 0, m_y);
 						}
 						else
 							draw_image8(f.get_image(i), cx, cy, pDC, 0, m_y);

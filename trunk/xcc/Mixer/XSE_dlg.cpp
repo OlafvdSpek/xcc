@@ -424,7 +424,7 @@ void CXSE_dlg::add_file(const string& name)
 	}
 	e.extra_value = Cfname(name).get_ftitle().substr(0, 15);
 	m_bag_f.seek(e.offset);
-	if (m_bag_f.write(s, s.size()))
+	if (m_bag_f.write(s.data(), s.size()))
 		return;
 	int i;
 	t_map::const_iterator j;

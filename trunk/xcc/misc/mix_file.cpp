@@ -250,13 +250,13 @@ int Cmix_file::post_open()
 				}
 			}
 		}
-		if (!vdata() || vdata().size() == get_size())
+		if (vdata().size() == get_size())
 		{
 			int crc = compute_crc(&m_index[0], get_c_files() * sizeof(t_mix_index_entry));
 			Cvirtual_binary s = mix_cache::get_data(crc);
 			m_index_ft.resize(get_c_files());
 			if (s.size() == get_c_files() * sizeof(t_file_type))
-				memcpy(&m_index_ft[0], s, get_c_files() * sizeof(t_file_type));
+				memcpy(&m_index_ft[0], s.data(), get_c_files() * sizeof(t_file_type));
 			else
 			{
 				typedef multimap<int, int> t_block_map;

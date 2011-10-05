@@ -53,7 +53,7 @@ Cvirtual_binary cps_file_write(const byte* s, const t_palet_entry* palet)
 		w += sizeof(t_palet);
 	}
 	w += encode80(s, w, 320 * 200);
-	header.size = w - d - 2;
-	d.size(w - d);
+	header.size = w - d.data() - 2;
+	d.size(w - d.data());
 	return d;
 }

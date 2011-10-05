@@ -215,7 +215,7 @@ void Cvqa_decode::decode_vqfl_chunk(const byte* s, int cb_s)
 
 void Cvqa_decode::decode_vqfl_chunk(const Cvirtual_binary& s)
 {
-	decode_vqfl_chunk(s, s.size());
+	decode_vqfl_chunk(s.data(), s.size());
 }
 
 void Cvqa_decode::decode_vqfr_chunk(const byte* in_raw, byte* out, t_palet palet)

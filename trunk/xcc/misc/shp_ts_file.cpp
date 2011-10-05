@@ -41,7 +41,7 @@ public:
 		if (m_f.is_compressed(m_frame_i))
 		{
 			decode3(m_f.get_image(m_frame_i), s.write_start(cx * cy), cx, cy);
-			r = s;
+			r = s.data();
 		}
 		else
 			r = m_f.get_image(m_frame_i);
@@ -257,7 +257,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			if (is_compressed(i))
 			{
 				decode3(get_image(i), image.write_start(global_cx * global_cy), cx, cy);
-				r = image;
+				r = image.data();
 			}
 			else
 				r = get_image(i);
@@ -294,7 +294,7 @@ Cvirtual_image Cshp_ts_file::extract_as_pcx_single(const t_palet _palet, bool co
 			if (is_compressed(i))
 			{
 				decode3(get_image(i), image.write_start(global_cx * global_cy), cx, cy);
-				r = image;
+				r = image.data();
 			}
 			else
 				r = get_image(i);
@@ -565,7 +565,7 @@ int shp_encode4(const Cshp_ts_file& f, byte* d)
 		{
 			Cvirtual_binary image;
 			decode3(f.get_image(i), image.write_start(cx * cy), cx, cy);
-			w += encode4(image, w, cx, cy);
+			w += encode4(image.data(), w, cx, cy);
 		}
 		else
 			w += encode4(f.get_image(i), w, cx, cy);

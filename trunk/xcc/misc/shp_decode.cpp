@@ -872,7 +872,7 @@ Cvirtual_binary encode64(data_ref s)
 		--cb_s;
 		*w++ = encode64_table[c3 & 0x3f];
     }	
-	d.size(w - d);
+	d.size(w - d.data());
     return d;
 }
 
@@ -903,7 +903,7 @@ Cvirtual_binary decode64(data_ref s)
 			break;
 		*w++ = ((decode64_table[c3] << 6) & 0xc0) | decode64_table[c4];
     }	
-	d.size(w - d);
+	d.size(w - d.data());
 	return d;
 }
 

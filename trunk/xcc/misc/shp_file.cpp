@@ -33,7 +33,7 @@ public:
 	{
 		if (m_frame_i >= cf())
 			return 1;
-		memcpy(d0, m_video + cb_image() * m_frame_i, cb_image());
+		memcpy(d0, m_video.data() + cb_image() * m_frame_i, cb_image());
 		m_frame_i++;
 		return 0;
 	}
@@ -115,15 +115,15 @@ Cvirtual_binary shp_file_write(const byte* s, int cx, int cy, int c_images)
 	w += 8 * (c_images + 2);
 	for (int i = 0; i < c_images; i++)
 	{
-		*index++ = 0x80000000 | w - d;
+		*index++ = 0x80000000 | w - d.data();
 		*index++ = 0;
 		w += encode80(r, w, cx * cy);
 		r += cx * cy;
 	}
-	*index++ = w - d;
+	*index++ = w - d.data();
 	*index++ = 0;
 	*index++ = 0;
 	*index++ = 0;
-	d.size(w - d);
+	d.size(w - d.data());
 	return d;
 }
