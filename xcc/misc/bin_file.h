@@ -9,7 +9,7 @@ public:
 	{
 		if (get_size() != 8192)
 			return false;
-		const byte* p = get_data();
+		const byte* p = data();
 		for (int i = 0; i < 64 * 64; i++)
 		{
 			int v = *p++;

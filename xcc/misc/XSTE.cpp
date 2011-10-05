@@ -23,7 +23,7 @@ int CXSTE::open(t_game game)
 				Ccsf_file f;
 				error = f.open(xcc_dirs::get_csf_fname(game), language);
 				if (!error)
-					error = m_f.write(f.get_data(), f.get_size());
+					error = m_f.write(f);
 			}
 		}
 		if (!error)
@@ -38,7 +38,7 @@ int CXSTE::write()
 {
 	m_f.seek(0);
 	Cvirtual_binary d = m_csf_f.write();
-	int error = m_f.write(d.data(), d.size());
+	int error = m_f.write(d);
 	if (!error)
 		error = m_f.set_eof();
 	return error;

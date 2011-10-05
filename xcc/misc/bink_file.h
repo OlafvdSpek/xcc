@@ -10,6 +10,6 @@ public:
 		int size = get_size();
 		if (4 > size)
 			return false;
-		return *reinterpret_cast<const __int32*>(get_data()) == *reinterpret_cast<const __int32*>("BIKi");
+		return *reinterpret_cast<const __int32*>(data()) == *reinterpret_cast<const __int32*>("BIKi");
 	}
 };

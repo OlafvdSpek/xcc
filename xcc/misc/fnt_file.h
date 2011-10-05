@@ -43,21 +43,21 @@ public:
 
 	int get_y(int i) const
 	{
-		return reinterpret_cast<const unsigned short*>(get_data() + header().cy_ofs)[i] & 0xff;
+		return reinterpret_cast<const unsigned short*>(data() + header().cy_ofs)[i] & 0xff;
 	}
 
 	int get_cx(int i) const
 	{
-		return (get_data() + header().cx_ofs)[i];
+		return (data() + header().cx_ofs)[i];
 	}
 
 	int get_cy(int i) const
 	{
-		return reinterpret_cast<const unsigned short*>(get_data() + header().cy_ofs)[i] >> 8;
+		return reinterpret_cast<const unsigned short*>(data() + header().cy_ofs)[i] >> 8;
 	}
 
 	const byte* get_image(int i) const
 	{
-		return get_data() + reinterpret_cast<const unsigned short*>(get_data() + sizeof(t_fnt_header))[i];
+		return data() + reinterpret_cast<const unsigned short*>(get_data() + sizeof(t_fnt_header))[i];
 	}
 };

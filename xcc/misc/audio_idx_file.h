@@ -23,7 +23,7 @@ public:
 
 	const t_audio_idx_entry& sound_entry(int i) const
 	{
-		return reinterpret_cast<const t_audio_idx_entry*>(get_data() + sizeof(t_audio_idx_header))[i];
+		return reinterpret_cast<const t_audio_idx_entry*>(data() + sizeof(t_audio_idx_header))[i];
 	}
 };
 

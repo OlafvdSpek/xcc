@@ -48,8 +48,7 @@ int Cvirtual_file::save(const string& fname) const
 	if (!error)
 	{
 		for (t_data::const_iterator i = m_data.begin(); !error && i != m_data.end(); i++)
-			error = f.write(i->data(), i->size());
-		f.close();
+			error = f.write(*i);
 	}
 	return error;
 }

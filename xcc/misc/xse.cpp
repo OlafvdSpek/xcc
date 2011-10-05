@@ -43,7 +43,7 @@ int Cxse::open()
 						error = f.open("audio.bag", audio);
 						if (!error)
 						{
-							error = m_bag_f.write(f.get_data(), f.get_size());
+							error = m_bag_f.write(f);
 							if (!error)
 							{
 								Caudio_idx_file g;

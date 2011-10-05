@@ -32,7 +32,7 @@ int Cbig_file::post_open()
 	if (int error = read(&header, sizeof(t_big_header)))
 		return error;
 	Cvirtual_binary index;
-	if (get_data() && vdata().size() < header.cb_header())
+	if (data() && vdata().size() < header.cb_header())
 		return 0;
 	if (int error = read(index.write_start(header.cb_header() - sizeof(t_big_header)), header.cb_header() - sizeof(t_big_header)))
 		return error;
