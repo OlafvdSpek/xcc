@@ -28,12 +28,12 @@ public:
 
 	const byte* get_image() const
 	{
-		return get_data() + sizeof(t_cps_header) + header().palet_size;
+		return data() + sizeof(t_cps_header) + header().palet_size;
 	}
 
 	const t_palet_entry* palet() const
 	{
-		return header().palet_size ? reinterpret_cast<const t_palet_entry*>(get_data() + sizeof(t_cps_header)) : NULL;
+		return header().palet_size ? reinterpret_cast<const t_palet_entry*>(data() + sizeof(t_cps_header)) : NULL;
 	}
 };
 

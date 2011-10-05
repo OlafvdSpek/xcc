@@ -49,7 +49,7 @@ int Cbig_edit::insert(const string& name, Cvirtual_binary d)
 {
 	int offset = new_block(d.size());
 	m_f.seek(offset);
-	int error = m_f.write(d.data(), d.size());
+	int error = m_f.write(d);
 	if (!error)
 	{
 		t_big_index_entry& e = m_index[name];
@@ -117,7 +117,7 @@ int Cbig_edit::write_index()
 	m_f.set_eof();
 	header.size = m_f.size();
 	m_f.seek(0);
-	return m_f.write(d.data(), d.size());
+	return m_f.write(d);
 }
 
 int Cbig_edit::compact()

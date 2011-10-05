@@ -23,9 +23,9 @@ bool Caud_file::is_valid()
 const t_aud_chunk_header* Caud_file::get_chunk_header(int i)
 {
 	assert(is_open());
-	if (!get_data())
+	if (!data())
 		read();
-	const byte* r = get_data() + sizeof(t_aud_header);
+	const byte* r = data() + sizeof(t_aud_header);
 	while (i--)
 	{
 		if (r + sizeof(t_aud_chunk_header) > data_end())
@@ -106,5 +106,5 @@ int Caud_file::extract_as_wav(const string& name)
 	header.data_chunk_header.id = wav_data_id;
 	header.data_chunk_header.size = cb_sample * cs_remaining;
 	error = f.write(&header, sizeof(t_wav_header));
-	return error ? error : f.write(d.data(), d.size());
+	return error ? error : f.write(d);
 }

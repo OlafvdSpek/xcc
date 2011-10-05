@@ -135,7 +135,7 @@ BOOL CXSE_dlg::OnInitDialog()
 				error = f.open("audio.bag", audio);
 				if (!error)
 				{
-					error = m_bag_f.write(f.get_data(), f.get_size());
+					error = m_bag_f.write(f);
 					if (!error)
 					{
 						Caudio_idx_file g;
@@ -424,7 +424,7 @@ void CXSE_dlg::add_file(const string& name)
 	}
 	e.extra_value = Cfname(name).get_ftitle().substr(0, 15);
 	m_bag_f.seek(e.offset);
-	if (m_bag_f.write(s.data(), s.size()))
+	if (m_bag_f.write(s))
 		return;
 	int i;
 	t_map::const_iterator j;

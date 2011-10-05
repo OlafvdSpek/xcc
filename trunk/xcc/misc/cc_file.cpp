@@ -147,7 +147,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 		m_size = mix_f.get_size(id);
 		m_p = 0;
 		m_is_open = true;
-		if (m_read_on_open || mix_f.get_data())
+		if (m_read_on_open || mix_f.data())
 			m_data = mix_f.get_vdata(id);
 		test_fail(post_open())
 			return 0;
@@ -255,7 +255,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 	int Ccc_file::extract(const string& name)
 	{
 		assert(is_open());
-		if (get_data())
+		if (data())
 			return vdata().save(name);
 		seek(0);
 		Cfile32 f;

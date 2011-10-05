@@ -101,7 +101,27 @@ public:
     virtual void close();
 	Ccc_file(bool read_on_open);
 
-	const byte* get_data() const
+	const byte* begin() const
+  {
+    return m_data.begin();
+  }
+
+	const byte* end() const
+  {
+    return m_data.end();
+  }
+
+	const byte* data() const
+  {
+    return m_data.data();
+  }
+
+  long long size() const
+  {
+    return m_size;
+  }
+
+  const byte* get_data() const
     {
         return m_data.data();
     }

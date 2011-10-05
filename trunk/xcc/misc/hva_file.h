@@ -21,12 +21,12 @@ public:
 
 	const char* get_section_id(int i) const
 	{
-		return reinterpret_cast<const char*>(get_data() + sizeof(t_hva_header) + 16 * i);
+		return reinterpret_cast<const char*>(data() + sizeof(t_hva_header) + 16 * i);
 	}
 
 	const float* get_transform_matrix(int i, int j) const
 	{
-		return reinterpret_cast<const float*>(get_data() + sizeof(t_hva_header) + 16 * get_c_sections() + (get_c_frames() * i + j) * sizeof(t_hva_transform_matrix));
+		return reinterpret_cast<const float*>(data() + sizeof(t_hva_header) + 16 * get_c_sections() + (get_c_frames() * i + j) * sizeof(t_hva_transform_matrix));
 	}
 };
 

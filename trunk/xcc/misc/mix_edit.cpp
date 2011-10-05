@@ -63,7 +63,7 @@ int Cmix_edit::insert(const string& name, Cvirtual_binary d)
 	mix_database::add_name(m_game, name, "-");
 	int offset = new_block(d.size());
 	m_f.seek(offset);
-	int error = m_f.write(d.data(), d.size());
+	int error = m_f.write(d);
 	if (!error)
 		m_index[id(name)] = t_mix_index_entry(id(name), offset, d.size());
 	return error;
@@ -131,7 +131,7 @@ int Cmix_edit::write_index()
 	m_f.set_eof();
 	header.size = m_f.size() - d.size();
 	m_f.seek(0);
-	return m_f.write(d.data(), d.size());
+	return m_f.write(d);
 }
 
 int Cmix_edit::compact()

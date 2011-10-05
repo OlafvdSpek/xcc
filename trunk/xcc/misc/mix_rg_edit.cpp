@@ -61,7 +61,7 @@ int Cmix_rg_edit::insert(const string& name, Cvirtual_binary d)
 {
 	int offset = new_block(d.size());
 	m_f.seek(offset);
-	int error = m_f.write(d.data(), d.size());
+	int error = m_f.write(d);
 	if (!error)
 	{
 		t_mix_rg_index_entry e;
@@ -118,7 +118,7 @@ int Cmix_rg_edit::write_index()
 	m_index_size = m_tailer_size = 0;
 	int offset = new_block(INT_MAX); 
 	m_f.seek(offset);
-	int error = m_f.write(d.data(), d.size());
+	int error = m_f.write(d);
 	if (!error)
 	{
 		m_f.set_eof();

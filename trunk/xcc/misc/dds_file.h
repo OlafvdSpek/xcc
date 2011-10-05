@@ -12,12 +12,12 @@ public:
 
 	bool is_valid() const
 	{
-		return get_size() >= 4 && *reinterpret_cast<const __int32*>(get_data()) == ' SDD';
+		return get_size() >= 4 && *reinterpret_cast<const __int32*>(data()) == ' SDD';
 	}
 
 	const DDSURFACEDESC2& ddsd() const
 	{
-		return *reinterpret_cast<const DDSURFACEDESC2*>(get_data() + 4);
+		return *reinterpret_cast<const DDSURFACEDESC2*>(data() + 4);
 	}
 
 	int cx() const
