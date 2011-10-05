@@ -66,7 +66,7 @@ public:
 
 	const t_shp_ts_image_header* get_image_header(int i) const
 	{
-		return reinterpret_cast<const t_shp_ts_image_header*>(get_data() + sizeof(t_shp_ts_header) + sizeof(t_shp_ts_image_header) * i);
+		return reinterpret_cast<const t_shp_ts_image_header*>(data() + sizeof(t_shp_ts_header) + sizeof(t_shp_ts_image_header) * i);
 	}
 
 	int get_offset(int i) const
@@ -76,7 +76,7 @@ public:
 
 	const byte* get_image(int i) const
 	{
-		return get_data() + get_offset(i);
+		return data() + get_offset(i);
 	}
 
 	static int get_max_size(int cx, int cy, int c_images)

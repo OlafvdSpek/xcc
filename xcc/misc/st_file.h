@@ -15,7 +15,7 @@ public:
 
 	const unsigned __int16* get_index() const
 	{
-		return reinterpret_cast<const unsigned __int16*>(get_data());
+		return reinterpret_cast<const unsigned __int16*>(data());
 	}
 
 	int get_offset(int i) const
@@ -25,6 +25,6 @@ public:
 
 	const char* get_string(int i) const
 	{
-		return reinterpret_cast<const char*>(get_data() + get_offset(i));
+		return reinterpret_cast<const char*>(data() + get_offset(i));
 	}
 };

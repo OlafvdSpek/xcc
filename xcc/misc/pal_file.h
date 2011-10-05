@@ -16,6 +16,6 @@ public:
 
     const t_palet_entry* get_palet() const
     {
-        return reinterpret_cast<const t_palet_entry*>(get_data());
+        return reinterpret_cast<const t_palet_entry*>(data());
     }
 };

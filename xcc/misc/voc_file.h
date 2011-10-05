@@ -20,7 +20,7 @@ public:
 
 	const t_voc_sound_data_header* get_sound_data_header() const
 	{
-		return reinterpret_cast<const t_voc_sound_data_header*>(get_data() + header().offset + 4);
+		return reinterpret_cast<const t_voc_sound_data_header*>(data() + header().offset + 4);
 	}
 
 	const byte* get_sound_data() const
@@ -30,7 +30,7 @@ public:
 
 	int get_c_samples() const
 	{
-		const byte* r = get_data() + header().offset + 1;
+		const byte* r = data() + header().offset + 1;
 		return (r[0] | r[1] << 8 | r[2] << 16) - sizeof(t_voc_sound_data_header);
 	}
 

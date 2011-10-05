@@ -12,15 +12,15 @@ bool Cst_file::is_valid() const
 	if (o1 < 2 || o1 > size)
 		return false;
 	int ol = o1;
-	const void* r_end = get_data() + o1;
+	const void* r_end = data() + o1;
 	while (r < r_end)
 	{
 		int o = *r++;
-		if (o < ol || o > size || get_data()[o - 1])
+		if (o < ol || o > size || data()[o - 1])
 			return false;
 		ol = o;
 	}
-	return ol + 1 == size && !get_data()[ol];
+	return ol + 1 == size && !data()[ol];
 }
 
 ostream& Cst_file::extract_as_text(ostream& os) const

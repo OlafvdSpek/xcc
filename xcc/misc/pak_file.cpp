@@ -14,18 +14,18 @@ bool Cpak_file::is_valid()
 	int size = get_size();
 	if (5 > size)
 		return false;
-	const byte* r = get_data();
+	const byte* r = data();
 	int o1 = *reinterpret_cast<const __int32*>(r);
 	if (o1 < 5 || o1 > size)
 		return false;
 	int ol = o1;
-	const void* r_end = get_data() + o1;
+	const void* r_end = data() + o1;
 	while (r < r_end)
 	{
 		int o = *reinterpret_cast<const __int32*>(r);
 		r += 4;
 		if (!o)
-			return r - get_data() == o1;
+			return r - data() == o1;
 		r += strlen(reinterpret_cast<const char*>(r)) + 1;
 		if (o < ol || o > size)
 			return false;
@@ -38,7 +38,7 @@ int Cpak_file::post_open()
 {
 	if (!is_valid())
 		return 1;
-	const byte* r = get_data();
+	const byte* r = data();
 	int next_offset;
 	do
 	{

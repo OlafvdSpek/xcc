@@ -31,7 +31,7 @@ int mix_cache::load()
 	Ccc_file f(true);
 	if (f.open(get_fname()) || f.get_size() < 8)
 		return 1;
-	const byte* s = f.get_data();
+	const byte* s = f.data();
 	if (*reinterpret_cast<const int*>(s) != get_ft_crc())
 		return 0;
 	s += 4;

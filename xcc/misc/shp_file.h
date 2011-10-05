@@ -43,12 +43,12 @@ public:
 
 	const byte* get_image(int i) const
 	{
-		return get_data() + get_offset(i);
+		return data() + get_offset(i);
 	}
 
 	const int* get_index() const
     {
-        return reinterpret_cast<const int*>(get_data() + sizeof(t_shp_header));
+        return reinterpret_cast<const int*>(data() + sizeof(t_shp_header));
     }
 
     int get_offset(int i) const
