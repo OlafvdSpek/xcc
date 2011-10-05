@@ -69,45 +69,5 @@ private:
     int m_p;
 };
 
-class Cmemory_map_source
-{
-public:
-	Cmemory_map_source(const Cfile32&);
-	Cmemory_map_source* attach();
-	void detach();
-
-	const byte* d() const
-	{
-		return m_d;
-	}
-private:
-	Cwin_handle m_fh;
-	Cwin_handle m_mh;
-	const byte* m_d;
-	int mc_references;
-};
-
-class Cmemory_map
-{
-public:
-	void clear();
-	const Cmemory_map& operator=(const Cmemory_map&);
-	Cmemory_map(const Cfile32&);
-	Cmemory_map(const Cmemory_map&);
-	~Cmemory_map();
-
-	const byte* d() const
-	{
-		return m_source ? m_source->d() : NULL;
-	}
-
-	Cmemory_map()
-	{
-		m_source = NULL;
-	}
-private:
-	Cmemory_map_source* m_source;
-};
-
 Cvirtual_binary file32_read(const string& name);
 int file32_write(const string& name, const void* s, int cb_s);

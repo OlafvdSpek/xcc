@@ -161,8 +161,9 @@ Cvirtual_binary Cfile32::get_mm()
 {
 	if (!size())
 		return Cvirtual_binary();
-	Cmemory_map mm(*this);
-  return mm.d() ? Cvirtual_binary(mm.d(), size(), std::make_shared<Cmemory_map>(mm)) : Cvirtual_binary();
+  Cwin_handle mh(CreateFileMapping(h(), NULL, PAGE_READONLY, 0, 0, NULL));
+  const void* d = mh ? MapViewOfFile(mh, FILE_MAP_READ, 0, 0, 0) : NULL;
+  return d ? Cvirtual_binary(d, size(), std::make_shared<Cwin_handle>(mh)) : Cvirtual_binary();
 }
 
 Cvirtual_binary file32_read(const string& name)
@@ -177,58 +178,4 @@ int file32_write(const string& name, const void* s, int cb_s)
 	if (int error = f.open_write(name))
 		return error;
 	return f.write(s, cb_s);
-}
-
-Cmemory_map_source::Cmemory_map_source(const Cfile32& f)
-{
-	m_fh = f.h();
-	m_mh = Cwin_handle(CreateFileMapping(f.h(), NULL, PAGE_READONLY, 0, 0, NULL));
-	m_d = m_mh ? static_cast<byte*>(MapViewOfFile(m_mh, FILE_MAP_READ, 0, 0, 0)) : NULL;
-	mc_references = 1;
-}
-
-Cmemory_map_source* Cmemory_map_source::attach()
-{
-	if (this)
-		mc_references++;
-	return this;
-}
-
-void Cmemory_map_source::detach()
-{
-	if (!this || --mc_references)
-		return;
-	UnmapViewOfFile(m_d);
-	delete this;
-}
-
-Cmemory_map::Cmemory_map(const Cmemory_map& v)
-{
-	m_source = v.m_source->attach();
-}
-
-Cmemory_map::Cmemory_map(const Cfile32& f)
-{
-	m_source = new Cmemory_map_source(f);
-}
-
-Cmemory_map::~Cmemory_map()
-{
-	m_source->detach();
-}
-
-const Cmemory_map& Cmemory_map::operator=(const Cmemory_map& v)
-{
-	if (this != &v)
-	{
-		m_source->detach();
-		m_source = v.m_source->attach();
-	}
-	return *this;
-}
-
-void Cmemory_map::clear()
-{
-	m_source->detach();
-	m_source = NULL;
 }
