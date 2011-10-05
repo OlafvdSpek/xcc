@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cassert>
-#include <smart_ref.h>
 #include <string>
 #include <vartypes.h>
 #include <xbt/data_ref.h>
@@ -11,7 +10,7 @@ using namespace std;
 class Cvirtual_binary_source
 {
 public:
-	Cvirtual_binary_source(const void* d, size_t cb_d, Csmart_ref_base* source = NULL);
+	Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<void>& source = NULL);
 	Cvirtual_binary_source* attach();
 	void detach();
 	Cvirtual_binary_source* pre_edit();
@@ -46,7 +45,7 @@ private:
 	byte* m_data;
 	size_t m_size;
 	int mc_references;
-	Csmart_ref_base* m_source;
+	std::shared_ptr<void> m_source;
 };
 
 class Cvirtual_binary
@@ -65,7 +64,7 @@ public:
 	Cvirtual_binary(const Cvirtual_binary&);
 	Cvirtual_binary(data_ref);
 	Cvirtual_binary(const void*, size_t);
-	Cvirtual_binary(const void*, size_t, Csmart_ref_base* source);
+	Cvirtual_binary(const void*, size_t, const std::shared_ptr<void>& source);
 	explicit Cvirtual_binary(const string& fname, bool use_mm = true);
 	~Cvirtual_binary();
 
