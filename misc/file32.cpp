@@ -131,9 +131,9 @@ int Cfile32::write(const void* data, int size)
 #endif
 }
 
-int Cfile32::write(int v)
+int Cfile32::write(data_ref v)
 {
-	return write(&v, sizeof(int));
+	return write(v.data(), v.size());
 };
 
 int Cfile32::set_eof()

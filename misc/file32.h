@@ -27,7 +27,7 @@ public:
 	FILETIME get_last_write_time() const;
     int read(void* data, int size);
     int write(const void* data, int size);
-	int write(int v);
+	int write(data_ref);
 	int set_eof();
     void close();
 
