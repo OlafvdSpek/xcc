@@ -162,7 +162,7 @@ Cvirtual_binary Cfile32::get_mm()
 	if (!size())
 		return Cvirtual_binary();
 	Cmemory_map mm(*this);
-	return mm.d() ? Cvirtual_binary(mm.d(), size(), Csmart_ref<Cmemory_map>::create(mm)) : Cvirtual_binary();
+  return mm.d() ? Cvirtual_binary(mm.d(), size(), std::make_shared<Cmemory_map>(mm)) : Cvirtual_binary();
 }
 
 Cvirtual_binary file32_read(const string& name)
