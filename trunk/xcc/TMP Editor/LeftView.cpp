@@ -402,7 +402,7 @@ int CLeftView::compare(int id_a, int id_b)
 	case 1:
 		return compare_int(a.header.y, b.header.y);
 	case 2:
-		return compare_int(static_cast<bool>(a.extra_data), static_cast<bool>(b.extra_data));
+		return compare_int(static_cast<bool>(a.extra_data.data()), static_cast<bool>(b.extra_data.data()));
 	case 3:
 		return compare_int(a.header.height, b.header.height);
 	case 4:
