@@ -147,7 +147,7 @@ bool Cvqa_play::run()
 			else
 			{
 				aud_out = new short[2 * size];
-				vqa_d.decode_snd2_chunk(f->read_chunk(), size, aud_out);
+				vqa_d.decode_snd2_chunk(f->read_chunk().data(), size, aud_out);
 			}			
 			void* p1;
 			void* p2;
@@ -173,7 +173,7 @@ bool Cvqa_play::run()
 		else			
 			f->skip_chunk();
 	}
-	vqa_d.decode_vqfr_chunk(f->read_chunk(), vqa_out, palet);
+	vqa_d.decode_vqfr_chunk(f->read_chunk().data(), vqa_out, palet);
 	DDSURFACEDESC ddsdesc;
 	ddsdesc.dwSize = sizeof(DDSURFACEDESC);
 	if (DD_OK != ts->Lock(0, &ddsdesc, DDLOCK_SURFACEMEMORYPTR | DDLOCK_WAIT, 0))

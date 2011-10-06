@@ -67,7 +67,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 					t_map_entry& e = i->second;
 					if (e.header.x == half_cx * (x - y) && e.header.y == half_cy * (x + y))
 					{
-						*index++ = w - d;
+						*index++ = w - d.data();
 						int cb_diamond = m_header.cx * m_header.cy >> 1;
 						int cb_extra_data = e.header.cx_extra * e.header.cy_extra;
 						e.header.z_ofs = cb_diamond + sizeof(t_tmp_image_header);
@@ -81,9 +81,9 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 						w += sizeof(t_tmp_image_header);
 						assert(e.data.size() == cb_diamond);
 						w += e.data.read(w);
-						if (e.z_data)
+						if (e.z_data.data())
 							w += e.z_data.read(w);
-						if (e.extra_data)
+						if (e.extra_data.data())
 						{
 							w += e.extra_data.read(w);
 							if (e.extra_z_data.data())
@@ -96,7 +96,7 @@ void CXCCTMPEditorDoc::Serialize(CArchive& ar)
 					*index++ = 0;
 			}
 		}
-		ar.Write(d, w - d);
+		ar.Write(d.data(), w - d.data());
 	}
 	else
 	{
