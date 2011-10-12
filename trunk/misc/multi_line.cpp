@@ -8,12 +8,7 @@ Cmulti_line::Cmulti_line()
 {
 }
 
-Cmulti_line::Cmulti_line(const char* is)
-{
-	s = is;
-}
-
-Cmulti_line::Cmulti_line(const string &is)
+Cmulti_line::Cmulti_line(const string& is)
 {
 	s = is;
 }
