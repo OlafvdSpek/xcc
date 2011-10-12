@@ -6,8 +6,7 @@ class Cmulti_line
 {
 public:
 	Cmulti_line();
-	Cmulti_line(const char* is);
-	Cmulti_line(const std::string &is);
+	Cmulti_line(const std::string&);
 	int get_next_int(const char separator = ',');
 	int get_next_int(const std::string& separator);
 	std::string get_next_line(const char separator = ',', bool remove_ws = true);
