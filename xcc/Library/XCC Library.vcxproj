@@ -125,8 +125,6 @@
     </ClCompile>
     <ClCompile Include="..\misc\big_file_write.cpp">
     </ClCompile>
-    <ClCompile Include="..\misc\bink_file.cpp">
-    </ClCompile>
     <ClCompile Include="..\..\misc\blowfish.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\bmp_file.cpp">

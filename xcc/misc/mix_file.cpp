@@ -346,13 +346,11 @@ int Cmix_file::get_id(t_game game, string name)
 	case game_ra2_yr:
 		{
 			const int l = name.length();
-			int a = l >> 2;
+			int a = l & ~3;
 			if (l & 3)
 			{
-				name += static_cast<char>(l - (a << 2));
-				int i = 3 - (l & 3);
-				while (i--)
-					name += name[a << 2];
+				name += static_cast<char>(l - a);
+				name.append(3 - (l & 3), name[a]);
 			}
 			return compute_crc(name.c_str(), name.length());
 		}
