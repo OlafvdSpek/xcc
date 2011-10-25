@@ -16,22 +16,22 @@ class Cfile32
 public:
 	Cvirtual_binary get_mm();
 	int open(const Cwin_handle& h);
-    int open(const string& name, int access);
-    int open(const string& name, int access, int creation, int share);
+	int open(const string& name, int access);
+	int open(const string& name, int access, int creation, int share);
 	int open_read(const string& name);
 	int open_edit(const string& name);
 	int open_write(const string& name);
-    long long size() const;
+	long long size() const;
 	FILETIME get_creation_time() const;
 	FILETIME get_last_access_time() const;
 	FILETIME get_last_write_time() const;
-    int read(void* data, int size);
-    int write(const void* data, int size);
+	int read(void* data, int size);
+	int write(const void* data, int size);
 	int write(data_ref);
 	int set_eof();
-    void close();
+	void close();
 
-    bool eof() const
+	bool eof() const
 	{
 		return m_p >= size();
 	}
@@ -42,31 +42,31 @@ public:
 	}
 
 	bool is_open() const
-    {
-        return h();
-    }
+	{
+		return h();
+	}
 
-    int get_p() const
-    {
-        return m_p;
-    }
+	int get_p() const
+	{
+		return m_p;
+	}
 
-    void seek(int p)
-    {
-        m_p = p;
-    }
+	void seek(int p)
+	{
+		m_p = p;
+	}
 
-    void skip(int p)
-    {
-        m_p += p;
-    }
+	void skip(int p)
+	{
+		m_p += p;
+	}
 private:
 #ifdef _MSC_VER
-    Cwin_handle m_h;
+	Cwin_handle m_h;
 #else
 	fstream m_f;
 #endif
-    int m_p;
+	int m_p;
 };
 
 Cvirtual_binary file32_read(const string& name);
