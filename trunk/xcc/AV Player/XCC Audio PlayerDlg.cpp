@@ -426,7 +426,7 @@ int CXCCAudioPlayerDlg::play_vqa(int id)
 
 int CXCCAudioPlayerDlg::play_vqa(Cvqa_file& f)
 {
-	if (!(audio_output && video_output))
+	if (!audio_output || !video_output)
 		return 1;
 	Cvqa_play vqa_play(dd.get_p(), ds.get_p());
 	if (int result = vqa_play.create(f))
@@ -525,11 +525,8 @@ bool CXCCAudioPlayerDlg::valid_index()
 
 void CXCCAudioPlayerDlg::OnOpenMovies()
 {
-	if (OpenMix("movies.mix"))
-	{
-		if (OpenMix("movies01.mix"))
-			OpenMix("movies02.mix");
-	}
+	if (OpenMix("movies.mix") || OpenMix("movies01.mix"))
+		OpenMix("movies02.mix");
 }
 
 void CXCCAudioPlayerDlg::OnOpenScores()
@@ -556,9 +553,9 @@ void CXCCAudioPlayerDlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 bool CXCCAudioPlayerDlg::has_scores()
 {
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+	BOOST_FOREACH(auto& i, m_index)
 	{
-		if (is_score(i->first))
+		if (is_score(i.first))
 			return true;
 	}
 	return false;
@@ -571,35 +568,29 @@ bool CXCCAudioPlayerDlg::is_score(int id)
 	case ft_aud:
 	case ft_wav:
 		return mixf.get_size(id) > 128 << 10;
-	default:
-		return false;
 	}
-
+	return false;
 }
 
 void CXCCAudioPlayerDlg::shuffle_aud()
 {
 	if (!has_scores())
 		return;
-	int i;
-	t_index::const_iterator j;
-	do
+	while (1)
 	{
-		i = rand() % m_c_files;
-		j = m_index.begin();
-		while (i--)
-			j++;
-	}
-	while (!is_score(j->first))
-		;
-	int id = j->first;
-	switch (m_index[id].type)
-	{
-	case ft_aud:
-		play_aud(id);
-		break;
-	case ft_wav:
-		play_wav(id);
+		t_index::const_iterator j = boost::next(m_index.begin(), rand() % m_index.size());
+		if (!is_score(j->first))
+			continue;
+		int id = j->first;
+		switch (m_index[id].type)
+		{
+		case ft_aud:
+			play_aud(id);
+			break;
+		case ft_wav:
+			play_wav(id);
+			break;
+		}
 		break;
 	}
 }
