@@ -561,7 +561,7 @@ void CXCCGameSpyPlayerView::read_map(string name)
 	mix_f.set_game(game_ra2);
 	Cvirtual_binary s = mix_f.get_vdata(name);
 	mix_f.close();
-	if (!s && s.load(xcc_dirs::get_dir(game_ra2) + name))
+	if (!s.size() && s.load(xcc_dirs::get_dir(game_ra2) + name))
 	{
 		name = static_cast<Cfname>(name).get_ftitle();
 		if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
@@ -570,7 +570,7 @@ void CXCCGameSpyPlayerView::read_map(string name)
 			mix_f.close();
 		}
 	}
-	if (!s)
+	if (!s.size())
 		return;
 	Cmap_ts_ini_reader ir;
 	ir.fast(true);
