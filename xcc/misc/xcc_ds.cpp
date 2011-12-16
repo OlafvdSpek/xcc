@@ -3,22 +3,18 @@
 
 Cxcc_ds::Cxcc_ds()
 {
-	pds = 0;
-}
-
-Cxcc_ds::~Cxcc_ds()
-{
+	pds = NULL;
 }
 
 long Cxcc_ds::create(HWND ihWnd)
 {
 	m_hWnd = ihWnd;
-	if (DS_OK != DirectSoundCreate(0, &pds, 0)) 
+	if (DirectSoundCreate(0, &pds, 0)) 
 	{
 		handle_error("Create failed");
 		return 1;
 	}
-	if (DS_OK != pds->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL))
+	if (pds->SetCooperativeLevel(m_hWnd, DSSCL_NORMAL))
 	{
 		handle_error("SetCooperativeLevel failed");
 		return 1;

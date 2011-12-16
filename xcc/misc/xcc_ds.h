@@ -14,7 +14,6 @@ public:
 	long create(HWND ihWnd);
 	void handle_error(const string &s) const;
 	Cxcc_ds();
-	virtual ~Cxcc_ds();
 
 	const LPDIRECTSOUND get_p() const
 	{

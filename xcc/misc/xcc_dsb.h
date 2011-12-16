@@ -17,7 +17,6 @@ public:
 	int stop();
 	int play(int flags);
 	Cxcc_dsb();
-	virtual ~Cxcc_dsb();
 	int create(Cxcc_ds &ds, int size, int c_channels, int samplerate, int cbits_sample, int flags);
 	void handle_error(const string &s) const;
 	const LPDIRECTSOUNDBUFFER get_p() const;
