@@ -13,7 +13,6 @@ public:
 	long create(HWND ihWnd);
 	void handle_error(const string &s);
 	Cxcc_dd();
-	virtual ~Cxcc_dd();
 
 	const LPDIRECTDRAW get_p() const
 	{
