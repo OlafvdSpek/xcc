@@ -578,10 +578,9 @@ void CXCCAudioPlayerDlg::shuffle_aud()
 		return;
 	while (1)
 	{
-		t_index::const_iterator j = boost::next(m_index.begin(), rand() % m_index.size());
-		if (!is_score(j->first))
+		int id = boost::next(m_index.begin(), rand() % m_index.size())->first;
+		if (!is_score(id))
 			continue;
-		int id = j->first;
 		switch (m_index[id].type)
 		{
 		case ft_aud:

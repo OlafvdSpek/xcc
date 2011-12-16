@@ -97,9 +97,7 @@ private:
 		string description;
 	};
 
-	typedef map<int, t_index_entry> t_index;
-
-	t_index m_index;
+	map<int, t_index_entry> m_index;
 	int m_sort_column;
 	bool m_sort_reverse;
 };
