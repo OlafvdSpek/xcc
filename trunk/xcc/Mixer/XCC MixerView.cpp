@@ -2223,7 +2223,8 @@ void CXCCMixerView::OnPopupDelete()
 	{
 		BOOST_FOREACH(auto& i, m_index_selected)
 		{
-			DeleteFile((m_dir + m_index.find(get_id(i))->second.name).c_str());
+			if (!DeleteFile((m_dir + m_index.find(get_id(i))->second.name).c_str()))
+				error = 1;
 		}
 	}
 	set_msg(error ? "Delete failed" : "Delete done");

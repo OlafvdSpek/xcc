@@ -15,10 +15,6 @@ struct t_index_entry
 	long long size;
 };
 
-typedef map<int, t_index_entry> t_index;
-typedef vector<int> t_index_selected;
-typedef stack<Cmix_file*> t_location;
-
 class CXCCMixerView : public CListView
 {
 protected: // create from serialization only
@@ -197,9 +193,9 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	string m_dir;
-	t_index m_index;
-	t_index_selected m_index_selected;
-	t_location m_location;
+	map<int, t_index_entry> m_index;
+	vector<int> m_index_selected;
+	stack<Cmix_file*> m_location;
 	Cmix_file* m_mix_f;
 	string m_mix_fname;
 	CXCCFileView* m_file_view_pane;

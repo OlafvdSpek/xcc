@@ -104,8 +104,8 @@ BOOL CXSTE_dlg::OnInitDialog()
 	if (!error)
 	{
 		create_cat_map();
-		for (t_cat_map::const_iterator i = m_cat_map.begin(); i != m_cat_map.end(); i++)
-			m_cat_list.SetItemData(m_cat_list.InsertItem(m_cat_list.GetItemCount(), i->second.c_str()), i->first);
+		BOOST_FOREACH(auto& i, m_cat_map)
+			m_cat_list.SetItemData(m_cat_list.InsertItem(m_cat_list.GetItemCount(), i.second.c_str()), i.first);
 		m_f.close();
 	}	
 	m_cat_list.auto_size();
@@ -132,8 +132,8 @@ static string get_cat(const string& name)
 
 int CXSTE_dlg::get_cat_id(const string& name) const
 {
-	t_reverse_cat_map::const_iterator i = m_reverse_cat_map.find(get_cat(name));
-	return (i == m_reverse_cat_map.end() ? m_reverse_cat_map.find("Other") : i)->second;
+	auto i = find_ptr(m_reverse_cat_map, get_cat(name));
+	return i ? *i : find_ref(m_reverse_cat_map, "Other");
 }
 
 void CXSTE_dlg::create_cat_map()
@@ -211,7 +211,7 @@ void CXSTE_dlg::OnEdit()
 	int index = get_current_index();
 	CXSTE_edit_dlg dlg;
 	string name = m_map.find(m_list.GetItemData(index))->second.i->first;
-	Ccsf_file::t_map::const_iterator i = m_f.get_map().find(name);
+	auto i = m_f.get_map().find(name);
 	dlg.set(i->first, Ccsf_file::convert2string(i->second.value), i->second.extra_value);
 	if (dlg.DoModal() == IDOK)
 	{
@@ -345,17 +345,16 @@ void CXSTE_dlg::OnItemchangedCatList(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		m_list.DeleteAllItems();
 		int cat_id = m_cat_list.GetItemData(pNMListView->iItem);
-		for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+		BOOST_FOREACH(auto& i, m_map)
 		{
-			if (i->second.cat_id == cat_id)
-			{
-				LVFINDINFO lvf;
-				lvf.flags = LVFI_PARAM;
-				lvf.lParam = i->first;
-				int index = m_list.FindItem(&lvf, -1);
-				if (index == -1)
-					insert(i->first);
-			}
+			if (i.second.cat_id != cat_id)
+				continue;
+			LVFINDINFO lvf;
+			lvf.flags = LVFI_PARAM;
+			lvf.lParam = i.first;
+			int index = m_list.FindItem(&lvf, -1);
+			if (index == -1)
+				insert(i.first);
 		}
 		m_sort_column = -1;
 		m_list.auto_size();
