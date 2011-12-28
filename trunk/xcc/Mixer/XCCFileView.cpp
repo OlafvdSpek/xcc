@@ -52,8 +52,6 @@ CXCCFileView::CXCCFileView()
 
 CXCCFileView::~CXCCFileView()
 {
-	if (m_is_open)
-		close_f();
 }
 
 BEGIN_MESSAGE_MAP(CXCCFileView, CScrollView)
@@ -1201,8 +1199,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 
 void CXCCFileView::open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet)
 {
-	if (m_is_open)
-		close_f();
+	close_f();
 	Ccc_file f(false);
 	if (!f.open(id, mix_f))
 	{
@@ -1216,8 +1213,7 @@ void CXCCFileView::open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet)
 
 void CXCCFileView::open_f(const string& name)
 {
-	if (m_is_open)
-		close_f();
+	close_f();
 	Ccc_file f(false);
 	if (!f.open(name))
 	{
