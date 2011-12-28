@@ -1251,11 +1251,6 @@ void CXCCFileView::close_f()
 	m_text_cache.clear();
 }
 
-BOOL CXCCFileView::OnIdle(LONG lCount)
-{
-	return false;
-}
-
 void CXCCFileView::auto_select()
 {
 	if (!m_can_pick)

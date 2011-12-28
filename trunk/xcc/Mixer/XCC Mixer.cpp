@@ -38,10 +38,6 @@ BOOL CXCCMixerApp::InitInstance()
 	mix_cache::load();
 	find_fs_exe();
 	find_fa_exe();
-	string xcc_path = GetModuleFileName().get_path();
-	m_xcc_av_player_exe = xcc_path + "XCC AV Player.exe";
-	m_xcc_editor_exe = xcc_path + "XCC Editor.exe";
-	m_xcc_mix_editor_exe = xcc_path + "XCC Mix Editor.exe";
 
 	CSingleDocTemplate* pDocTemplate;
 	pDocTemplate = new CSingleDocTemplate(
@@ -104,21 +100,6 @@ string CXCCMixerApp::get_fa_exe() const
 	return m_fa_exe;
 }
 
-string CXCCMixerApp::get_xcc_av_player_exe() const
-{
-	return m_xcc_av_player_exe;
-}
-
-string CXCCMixerApp::get_xcc_editor_exe() const
-{
-	return m_xcc_editor_exe;
-}
-
-string CXCCMixerApp::get_xcc_mix_editor_exe() const
-{
-	return m_xcc_mix_editor_exe;
-}
-
 bool CXCCMixerApp::is_fs_available() const
 {
 	return Cfname(m_fs_exe).exists();
@@ -127,21 +108,6 @@ bool CXCCMixerApp::is_fs_available() const
 bool CXCCMixerApp::is_fa_available() const
 {
 	return Cfname(m_fa_exe).exists();
-}
-
-bool CXCCMixerApp::is_xcc_av_player_available() const
-{
-	return Cfname(m_xcc_av_player_exe).exists();
-}
-
-bool CXCCMixerApp::is_xcc_editor_available() const
-{
-	return Cfname(m_xcc_editor_exe).exists();
-}
-
-bool CXCCMixerApp::is_xcc_mix_editor_available() const
-{
-	return Cfname(m_xcc_mix_editor_exe).exists();
 }
 
 BOOL CXCCMixerApp::OnIdle(LONG lCount) 
