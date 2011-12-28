@@ -21,7 +21,6 @@ protected:
 public:
 	bool can_auto_select();
 	void auto_select();
-	BOOL OnIdle(LONG lCount);
 	void close_f();
 	const t_palet_entry* get_default_palet();
 	void load_color_table(const t_palet palet, bool convert_palet);
