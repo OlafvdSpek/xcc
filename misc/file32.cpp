@@ -162,8 +162,8 @@ Cvirtual_binary Cfile32::get_mm()
 	if (!size())
 		return Cvirtual_binary();
   Cwin_handle mh(CreateFileMapping(h(), NULL, PAGE_READONLY, 0, 0, NULL));
-  const void* d = mh ? MapViewOfFile(mh, FILE_MAP_READ, 0, 0, 0) : NULL;
-  return d ? Cvirtual_binary(d, size(), std::make_shared<Cwin_handle>(mh)) : Cvirtual_binary();
+  void* d = mh ? MapViewOfFile(mh, FILE_MAP_READ, 0, 0, 0) : NULL;
+  return d ? Cvirtual_binary(d, size(), std::shared_ptr<void>(d, UnmapViewOfFile)) : Cvirtual_binary();
 }
 
 Cvirtual_binary file32_read(const string& name)
