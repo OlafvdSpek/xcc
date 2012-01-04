@@ -10,7 +10,7 @@ using namespace std;
 class Cvirtual_binary_source
 {
 public:
-	Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<void>& source = NULL);
+	Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<const void>& source = NULL);
 	Cvirtual_binary_source* attach();
 	void detach();
 	Cvirtual_binary_source* pre_edit();
@@ -50,7 +50,7 @@ private:
 	byte* m_data;
 	size_t m_size;
 	int mc_references;
-	std::shared_ptr<void> m_source;
+	std::shared_ptr<const void> m_source;
 };
 
 class Cvirtual_binary

@@ -3,7 +3,7 @@
 
 #include "file32.h"
 
-Cvirtual_binary_source::Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<void>& source)
+Cvirtual_binary_source::Cvirtual_binary_source(const void* d, size_t cb_d, const std::shared_ptr<const void>& source)
 {
 	if (source)
 	{
