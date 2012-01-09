@@ -423,6 +423,7 @@
 		printf('<table>');
 		printf('<tr><th>pid<td>%d', $row['pid']);
 		printf('<tr><th>sid<td><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
+		printf('<tr><th>uid<td><a href="?q=u:%d">%d</a>', $row['uid'], $row['uid']);
 		printf('<tr><th>server<td>%d', $row['server_id']);
 		printf('<tr><th>name<td>%s', htmlspecialchars($row['name']));
 		printf('<tr><th>clan<td>');
@@ -497,7 +498,7 @@
 
 	function page_edit_serial($sid)
 	{
-		$row = db_query_first(sprintf("select s.*, m.member_id, m.name login_name, members_display_name from xwi_serials s left join st_forum.invision_members m on s.uid = member_id where sid = %d", $sid));
+		$row = db_query_first(sprintf("select s.*, m.member_id, m.name login_name, members_display_name, m.email from xwi_serials s left join st_forum.invision_members m on s.uid = member_id where sid = %d", $sid));
 		printf('<table>');
 		printf('<tr><th>sid<td>%d', $row['sid']);
 		printf('<tr><th>gsku<td>%s', gsku2a($row['gsku']));
