@@ -3,7 +3,7 @@
 Name "WOLAPI ${VERSION}"
 Outfile "WOLAPI-${VERSION}.exe"
 InstallDir "$PROGRAMFILES\Red Alert 2"
-InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallDir"
+InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallPath"
 XPStyle on
 Page directory
 Page instfiles
@@ -16,6 +16,5 @@ Section "Install"
 	File "wolapi.dll"
 	File "wolapi.war"
 	Exec 'regsvr32 /s "$INSTDIR\wolapi"'
-	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallDir" "$INSTDIR"
 	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
 SectionEnd
