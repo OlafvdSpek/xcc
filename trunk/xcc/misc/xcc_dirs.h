@@ -31,18 +31,4 @@ public:
 	static const string& get_td_secondary_dir();
 	static const string& get_cd_dir();
 	static const string& get_data_dir();
-
-	static bool use_external_files()
-	{
-		return m_use_external_files;
-	}
-
-	static void use_external_files(bool v)
-	{
-		m_use_external_files = v;
-	}
-private:
-	static void read_dir(const string& key, const string& value, t_game game);
-
-	static bool m_use_external_files;
 };

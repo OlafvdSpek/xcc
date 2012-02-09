@@ -7,7 +7,6 @@
 #include "xcc_registry.h"
 
 bool g_enable_log = false;
-bool xcc_dirs::m_use_external_files = true;
 static string dune2_dir;
 static string td_primary_dir;
 static string td_secondary_dir;
@@ -292,14 +291,14 @@ void xcc_dirs::reset_data_dir()
 	set_data_dir(GetModuleFileName().get_path());
 }
 
-void xcc_dirs::read_dir(const string& key, const string& value, t_game game)
+static void read_dir(const string& key, const string& value, t_game game)
 {
 	Creg_key h;
 	string s;
-	if (get_dir(game).empty() 
+	if (xcc_dirs::get_dir(game).empty() 
 		&& ERROR_SUCCESS == h.open(HKEY_LOCAL_MACHINE, key, KEY_QUERY_VALUE) 
 		&& ERROR_SUCCESS == h.query_value(value, s))
-		set_dir(game, static_cast<Cfname>(s).get_path());
+		xcc_dirs::set_dir(game, static_cast<Cfname>(s).get_path());
 }
 
 void xcc_dirs::load_from_registry()
