@@ -29,7 +29,6 @@ BOOL CXCCEditorApp::InitInstance()
 	AfxEnableControlContainer();
 	SetRegistryKey("XCC");
 	LoadStdProfileSettings(8);
-	xcc_dirs::use_external_files(false);
 	xcc_dirs::load_from_registry();
 	xcc_log::attach_file("XCC Editor log.txt");
 	if (Cxcc_mixs::open())
