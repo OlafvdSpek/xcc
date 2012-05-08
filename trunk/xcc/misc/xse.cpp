@@ -88,10 +88,10 @@ int Cxse::write_idx_file()
 	byte* d = new byte[cb_d];
 	byte* w = d;
 	w += audio_idx_file_write_header(w, m_map.size());
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
-		const t_map_entry& e = i->second;
-		w += audio_idx_file_write_entry(w, i->first, e.offset, e.size, e.samplerate, e.flags, e.chunk_size);
+		const t_map_entry& e = i.second;
+		w += audio_idx_file_write_entry(w, i.first, e.offset, e.size, e.samplerate, e.flags, e.chunk_size);
 	}
 	assert(w - d == cb_d);
 	m_idx_f.seek(0);
@@ -205,8 +205,8 @@ int Cxse::insert(string fname, Cwav_file& f)
 int Cxse::get_bag_size() const
 {
 	int r = 0;
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
-		r += i->second.size;
+	BOOST_FOREACH(auto& i, m_map)
+		r += i.second.size;
 	return r;
 }
 
@@ -216,9 +216,9 @@ int Cxse::compact()
 	int cb_d = get_bag_size();
 	byte* d = new byte[cb_d];
 	byte* w = d;
-	for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
-		t_map_entry& e = i->second;
+		t_map_entry& e = i.second;
 		m_bag_f.seek(e.offset);
 		if (error = m_bag_f.read(w, e.size))
 			break;

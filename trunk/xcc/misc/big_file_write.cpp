@@ -17,11 +17,10 @@ Cvirtual_binary Cbig_file_write::write()
 {
 	int cb_header = sizeof(t_big_header);
 	int cb_d = sizeof(t_big_header);
-	t_index::const_iterator i;
-	for (i = m_index.begin(); i != m_index.end(); i++)
+	BOOST_FOREACH(auto& i, m_index)
 	{
-		cb_header += sizeof(t_big_index_entry) + i->first.length() + 1;
-		cb_d += sizeof(t_big_index_entry) + i->first.length() + 1 + i->second.size();
+		cb_header += sizeof(t_big_index_entry) + i.first.length() + 1;
+		cb_d += sizeof(t_big_index_entry) + i.first.length() + 1 + i.second.size();
 	}
 	Cvirtual_binary d;
 	byte* w = d.write_start(cb_d);
@@ -32,15 +31,15 @@ Cvirtual_binary Cbig_file_write::write()
 	header.mcb_header = reverse(cb_header);
 	byte* w2 = w + cb_header;
 	w += sizeof(t_big_header);
-	for (i = m_index.begin(); i != m_index.end(); i++)
+	BOOST_FOREACH(auto& i, m_index)
 	{
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
 		e.offset = reverse(w2 - d.data());
-		e.size = reverse(i->second.size());
+		e.size = reverse(i.second.size());
 		w += sizeof(t_big_index_entry);
-		memcpy(w, i->first.c_str(), i->first.length() + 1);
-		w += i->first.length() + 1;
-		w2 += i->second.read(w2);
+		memcpy(w, i.first.c_str(), i.first.length() + 1);
+		w += i.first.length() + 1;
+		w2 += i.second.read(w2);
 	}
 	assert(w2 == d.data_end());
 	return d;

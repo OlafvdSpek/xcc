@@ -109,11 +109,11 @@ void Ccsf_file::set_value(const string& name, const wstring& value, const string
 int Ccsf_file::get_write_size() const
 {
 	int r = sizeof(t_csf_header);
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
-		r += 20 + i->first.length() + (i->second.value.length() << 1);
-		if (!i->second.extra_value.empty())
-			r += 4 + i->second.extra_value.length();
+		r += 20 + i.first.length() + (i.second.value.length() << 1);
+		if (!i.second.extra_value.empty())
+			r += 4 + i.second.extra_value.length();
 	}
 	return r;
 }
@@ -129,15 +129,15 @@ void Ccsf_file::write(byte* d) const
 	header.count2 = get_c_strings();
 	header.zero = 0;
 	header.flags2 = 0;
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+	BOOST_FOREACH(auto& i, m_map)
 	{
 		write_int(w, csf_label_id);
 		write_int(w, 1);
-		write_string(w, i->first);
-		write_int(w, i->second.extra_value.empty() ? csf_string_id : csf_string_w_id);
-		write_wstring(w, i->second.value);
-		if (!i->second.extra_value.empty())
-			write_string(w, i->second.extra_value);
+		write_string(w, i.first);
+		write_int(w, i.second.extra_value.empty() ? csf_string_id : csf_string_w_id);
+		write_wstring(w, i.second.value);
+		if (!i.second.extra_value.empty())
+			write_string(w, i.second.extra_value);
 	}
 	assert(w - d == get_write_size());
 }
