@@ -109,7 +109,7 @@ END
 
 STRINGTABLE
 BEGIN
-    IDR_MAINFRAME           "XCC Game Spy Player 1.10"
+    IDR_MAINFRAME           "XCC Game Spy Player 1.11"
 END
 
 STRINGTABLE
