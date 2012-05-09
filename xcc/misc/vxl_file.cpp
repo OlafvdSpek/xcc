@@ -274,14 +274,14 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s)
 				byte* span_start = w;
 				const Cxif_key& xi = yi.open_key_read(x);
 				int z = 0;
-				for (t_xif_key_map::const_iterator i = xi.m_keys.begin(); i != xi.m_keys.end(); i++)
+				BOOST_FOREACH(auto& i, xi.m_keys)
 				{
-					int z_inc = i->first - z;
-					z = i->first + 1;
+					int z_inc = i.first - z;
+					z = i.first + 1;
 					*w++ = z_inc;
 					*w++ = 1;
-					*w++ = i->second.get_value_int(vi_color);
-					*w++ = i->second.get_value_int(vi_surface_normal);
+					*w++ = i.second.get_value_int(vi_color);
+					*w++ = i.second.get_value_int(vi_surface_normal);
 					*w++ = 1;
 				}
 				if (span_start == w)
@@ -431,9 +431,8 @@ Cvirtual_binary vxl_file_write(Cvirtual_tfile s)
 	Cvirtual_binary normals(NULL, cx * cy * cz);
 	colors.memset(0);
 	normals.memset(0);
-	for (t_list::const_iterator i = list.begin(); i != list.end(); i++)
+	BOOST_FOREACH(auto& e, list)
 	{
-		const t_voxel& e = *i;
 		int o = e.x + cx * (e.y + cy * e.z);
 		colors.data_edit()[o] = e.color;
 		normals.data_edit()[o] = e.normal;

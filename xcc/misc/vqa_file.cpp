@@ -447,10 +447,10 @@ int Cvqa_file::extract_as_wav(const string& name)
 		error = f.write(&header, sizeof(t_wav_header));
 		if (!error)
 		{
-			for (t_list::iterator i = list.begin(); i != list.end(); i++)
+			BOOST_FOREACH(auto& i, list)
 			{
-				f.write(i->audio, 2 * i->c_samples);
-				delete[] i->audio;
+				f.write(i.audio, 2 * i.c_samples);
+				delete[] i.audio;
 			}
 		}
 		f.close();

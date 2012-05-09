@@ -64,8 +64,8 @@ int mix_database::load()
 	if (0)
 	{
 		ofstream log_f("c:\\log.txt");
-		for (t_id_list::const_iterator i = ts_list.begin(); i != ts_list.end(); i++)
-			log_f << i->second.name << '\t' << i->second.description << endl;
+		BOOST_FOREACH(auto& i, ts_list)
+			log_f << i.second.name << '\t' << i.second.description << endl;
 	}
 	return 0;
 	char name[12] = "scg00ea.bin";

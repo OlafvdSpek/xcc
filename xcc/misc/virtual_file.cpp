@@ -36,8 +36,8 @@ const byte* Cvirtual_file::data() const
 int Cvirtual_file::size() const
 {
 	int r = 0;
-	for (t_data::const_iterator i = m_data.begin(); i != m_data.end(); i++)
-		 r += i->size();
+	BOOST_FOREACH(auto& i, m_data)
+		 r += i.size();
 	return r;
 }
 
@@ -47,8 +47,8 @@ int Cvirtual_file::save(const string& fname) const
 	int error = f.open_write(fname);
 	if (!error)
 	{
-		for (t_data::const_iterator i = m_data.begin(); !error && i != m_data.end(); i++)
-			error = f.write(*i);
+		BOOST_FOREACH(auto& i, m_data)
+			error = f.write(i);
 	}
 	return error;
 }
@@ -75,8 +75,8 @@ Cvirtual_binary Cvirtual_file::read() const
 int Cvirtual_file::read(void* d) const
 {
 	byte* w = reinterpret_cast<byte*>(d);
-	for (t_data::const_iterator i = m_data.begin(); i != m_data.end(); i++)
-		w += i->read(w);
+	BOOST_FOREACH(auto& i, m_data)
+		w += i.read(w);
 	return w - reinterpret_cast<byte*>(d);
 }
 

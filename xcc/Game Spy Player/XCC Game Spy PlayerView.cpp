@@ -106,7 +106,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		m_center_map = false;
 		m_map_limits.left = m_map_limits.top = INT_MAX;
 		m_map_limits.right = m_map_limits.bottom = INT_MIN;
-		BOOST_FOREACH(Cgame_state::t_objects::const_reference i, m_game_state.objects)
+		BOOST_FOREACH(auto& i, m_game_state.objects)
 		{
 			const Cobject& object = i.second;
 			if (!object.x || !object.y)
@@ -228,7 +228,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					}
 				}
 			}
-			BOOST_FOREACH(Cgame_state::t_objects::const_reference i, game_state.objects)
+			BOOST_FOREACH(auto& i, game_state.objects)
 			{
 				const Cobject& object = i.second;
 				if (!object.x || !object.y || !object.target || !game_state.objects.count(object.target))
@@ -244,7 +244,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				m_mem_dc.LineTo(x, y);
 				m_mem_dc.SelectObject(old_pen);
 			}
-			BOOST_FOREACH(Cgame_state::t_objects::const_reference i, game_state.objects)
+			BOOST_FOREACH(auto& i, game_state.objects)
 			{
 				const Cobject& object = i.second;
 				if (!object.x || !object.y)
@@ -309,7 +309,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		m_mem_dc.TextOut(0, 0, (n(m_shot_time) + " / " + n(m_replay_time) + " " + n(game_state.frame) + " " + n(game_state.gid) + " " + n(game_state.time) + " " + get_map_name(game_state.scenario)).c_str());
 		int y = 16;
 		COLORREF old_color = m_mem_dc.GetTextColor();
-		BOOST_FOREACH(Cgame_state::t_players::const_reference i, game_state.players)
+		BOOST_FOREACH(auto& i, game_state.players)
 		{
 			const Cplayer& player = i.second;
 			if (player.color == 5)
@@ -326,11 +326,11 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		m_mem_dc.SetTextColor(old_color);
 		if (m_view_object_summary)
 		{
-			BOOST_FOREACH(t_objects_counts::const_reference i, objects_counts)
+			BOOST_FOREACH(auto& i, objects_counts)
 			{
 				int x = -32;
 				y += 16;
-				BOOST_FOREACH(Cgame_state::t_players::const_reference j, game_state.players)
+				BOOST_FOREACH(auto& j, game_state.players)
 				{
 					if (!j.second.human)
 						continue;
@@ -363,9 +363,9 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 template<class T>
 static void clear_history_map(T& v)
 {
-	BOOST_FOREACH(T::reference i, v)
+	BOOST_FOREACH(auto& i, v)
 	{
-		BOOST_FOREACH(T::value_type::reference j, i)
+		BOOST_FOREACH(auto& j, i)
 			j = -1;
 	}
 }
@@ -389,7 +389,7 @@ void CXCCGameSpyPlayerView::read_log()
 			game_state.import_diff(i->second);
 			if (!(i->first - 1 & 0xff))
 				m_game_state_cache.push_back(game_state);
-			BOOST_FOREACH(Cgame_state::t_objects::const_reference i, game_state.objects)
+			BOOST_FOREACH(auto& i, game_state.objects)
 			{
 				const Cobject& object = i.second;
 				if (!object.x || !object.y)
