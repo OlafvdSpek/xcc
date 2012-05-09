@@ -72,8 +72,8 @@ void Cbig_edit::clear()
 int Cbig_edit::cb_header() const
 {
 	int v = sizeof(t_big_header);
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-		v += sizeof(t_big_index_entry) + i->first.length() + 1;
+	BOOST_FOREACH(auto& i, m_index)
+		v += sizeof(t_big_index_entry) + i.first.length() + 1;
 	return v;
 }
 
@@ -88,29 +88,29 @@ int Cbig_edit::write_index()
 	w += sizeof(t_big_header);
 	{
 		t_block_map block_map = Cbig_edit::block_map();
-		for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
+		BOOST_FOREACH(auto& i, block_map)
 		{
-			if (i->second->offset < d.size())
+			if (i.second->offset < d.size())
 			{
-				int offset = new_block(i->second->size);
-				int error = copy_block(m_f, i->second->offset, m_f, offset, i->second->size);
+				int offset = new_block(i.second->size);
+				int error = copy_block(m_f, i.second->offset, m_f, offset, i.second->size);
 				if (error)
 					return error;
-				i->second->offset = offset;
+				i.second->offset = offset;
 			}
 		}
 	}
 	int total_size = d.size();
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+	BOOST_FOREACH(auto& i, m_index)
 	{
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
-		e = i->second;
+		e = i.second;
 		e.offset = reverse(e.offset);
 		e.size = reverse(e.size);
 		w += sizeof(t_big_index_entry);
-		memcpy(w, i->first.c_str(), i->first.length() + 1);
-		w += i->first.length() + 1;
-		total_size = max(total_size, i->second.offset + i->second.size);
+		memcpy(w, i.first.c_str(), i.first.length() + 1);
+		w += i.first.length() + 1;
+		total_size = max(total_size, i.second.offset + i.second.size);
 	}	
 	assert(w == d.data_end());
 	m_f.seek(total_size);
@@ -125,17 +125,17 @@ int Cbig_edit::compact()
 	t_block_map block_map = Cbig_edit::block_map();
 	int error = 0;
 	int offset = cb_header();
-	for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
+	BOOST_FOREACH(auto& i, block_map)
 	{
-		if (i->second->offset != offset)
+		if (i.second->offset != offset)
 		{
-			assert(i->second->offset > offset);
-			error = copy_block(m_f, i->second->offset, m_f, offset, i->second->size);
+			assert(i.second->offset > offset);
+			error = copy_block(m_f, i.second->offset, m_f, offset, i.second->size);
 			if (error)
 				break;
-			i->second->offset = offset;
+			i.second->offset = offset;
 		}
-		offset += i->second->size;
+		offset += i.second->size;
 	}
 	error = error ? write_index(), error : write_index();
 	return error;
@@ -144,8 +144,8 @@ int Cbig_edit::compact()
 Cbig_edit::t_block_map Cbig_edit::block_map()
 {
 	t_block_map block_map;
-	for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
-		block_map[i->second.offset] = &i->second;
+	BOOST_FOREACH(auto& i, m_index)
+		block_map[i.second.offset] = &i.second;
 	return block_map;
 }
 
@@ -153,11 +153,11 @@ int Cbig_edit::new_block(int size)
 {
 	t_block_map block_map = Cbig_edit::block_map();
 	int r = cb_header() + 0x1ff & ~0x1ff;
-	for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
+	BOOST_FOREACH(auto& i, block_map)
 	{
-		if (r + size <= i->first)
+		if (r + size <= i.first)
 			return r;
-		r = i->second->offset + i->second->size;
+		r = i.second->offset + i.second->size;
 	}
 	return r;
 }
