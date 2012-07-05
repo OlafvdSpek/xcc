@@ -108,7 +108,7 @@ void Cdlg_login::add_game(const string& reg_key, ::t_game game, int gsku)
 	m_games.push_back(e);			
 }
 
-static int send_recv(const string& host, int port, const_memory_range s0, string& d)
+static int send_recv(const string& host, int port, str_ref s0, string& d)
 {
 	Csocket s;
 	s.open(SOCK_STREAM, true);
@@ -128,9 +128,8 @@ static int send_recv(const string& host, int port, const_memory_range s0, string
 		d += "unable to send: " + Csocket::error2a(WSAGetLastError());
 		return 1;
 	}
-	const int cb_d = 4 << 10;
-	char d0[cb_d];
-	memory_range d1(d0, cb_d);
+	array<char, 4 << 10> d0;
+	mutable_str_ref d1 = d0;
 	while (int e = s.recv(d1))
 	{
 		if (e == SOCKET_ERROR)
@@ -138,9 +137,9 @@ static int send_recv(const string& host, int port, const_memory_range s0, string
 			d += "unable to receive: " + Csocket::error2a(WSAGetLastError());
 			return 1;
 		}
-		d1 += e;
+		d1.advance_begin(e);
 	}
-	d.append(d0, cb_d - d1.size());
+	d.append(d0.data(), d0.size() - d1.size());
 	return 0;
 }
 
@@ -172,7 +171,7 @@ void Cdlg_login::OnOK()
 		msg << "whereto 0 0 " << (game.gsku << 8) << endl
 			<< "quit" << endl;
 		string d;
-		if (send_recv("servserv.westwood.com", 4005, const_memory_range(msg.str(), msg.pcount()), d))
+		if (send_recv("servserv.westwood.com", 4005, str_ref(msg.str(), msg.pcount()), d))
 		{
 			m_edit += d.c_str();
 			UpdateData(false);
@@ -200,7 +199,7 @@ void Cdlg_login::OnOK()
 			<< "privmsg c /names" << endl;
 		msg << "quit" << endl;
 		string d;
-		send_recv(host, port, const_memory_range(msg.str(), msg.pcount()), d);
+		send_recv(host, port, str_ref(msg.str(), msg.pcount()), d);
 		m_edit += d.c_str();
 	}
 	UpdateData(false);
