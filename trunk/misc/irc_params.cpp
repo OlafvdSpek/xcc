@@ -1,7 +1,6 @@
 #include "irc_params.h"
 
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <string_conversion.h>
 
 using namespace boost;
@@ -19,7 +18,7 @@ string Circ_params::read() const
 	if (!m_prefix.empty())
 		r = ':' + m_prefix + ' ';
 	bool done = false;
-	BOOST_FOREACH(auto& i, m_params)
+	for (auto& i : m_params)
 	{
 		if (&i != &m_params.front())
 			r += ' ';
