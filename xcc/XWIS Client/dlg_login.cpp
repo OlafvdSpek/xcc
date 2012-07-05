@@ -129,17 +129,15 @@ static int send_recv(const string& host, int port, str_ref s0, string& d)
 		return 1;
 	}
 	array<char, 4 << 10> d0;
-	mutable_str_ref d1 = d0;
-	while (int e = s.recv(d1))
+	while (int e = s.recv(d0))
 	{
 		if (e == SOCKET_ERROR)
 		{
 			d += "unable to receive: " + Csocket::error2a(WSAGetLastError());
 			return 1;
 		}
-		d1.advance_begin(e);
+		d.append(d0.data(), e);
 	}
-	d.append(d0.data(), d0.size() - d1.size());
 	return 0;
 }
 
