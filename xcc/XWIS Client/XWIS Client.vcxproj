@@ -69,6 +69,7 @@
       <WarningLevel>Level2</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -112,6 +113,7 @@
       <ProgramDataBaseFileName>.\Release/</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
+      <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -134,13 +136,13 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\misc\irc_params.cpp" />
     <ClCompile Include="..\misc\cc_structures.cpp" />
     <ClCompile Include="dlg_login.cpp" />
     <ClCompile Include="dlg_serials.cpp" />
     <ClCompile Include="..\..\misc\ETSLayout.cpp" />
     <ClCompile Include="..\..\misc\file32.cpp" />
     <ClCompile Include="..\..\misc\fname.cpp" />
-    <ClCompile Include="..\..\misc\irc_params.cpp" />
     <ClCompile Include="..\..\misc\multi_line.cpp" />
     <ClCompile Include="..\..\misc\reg_key.cpp" />
     <ClCompile Include="..\..\xbt\misc\socket.cpp" />
