@@ -70,7 +70,7 @@ void CSearchFileDlg::find(Cmix_file& f, string file_name, string mix_name, int m
 		else if (fname_filter(name, file_name))
 			add(mix_name + " - " + name, mix_id, id);
 	}
-	BOOST_FOREACH(auto& i, m_main_frame->mix_map_list())
+	for (auto& i : m_main_frame->mix_map_list())
 	{
 		if (i.second.parent != mix_id)
 			continue;
@@ -87,7 +87,7 @@ void CSearchFileDlg::OnFind()
 		CWaitCursor wait;
 		m_list.DeleteAllItems();
 		m_map.clear();
-		BOOST_FOREACH(auto& i, m_main_frame->mix_map_list())
+		for (auto& i : m_main_frame->mix_map_list())
 		{
 			if (i.second.fname.empty())
 				continue;
@@ -99,7 +99,7 @@ void CSearchFileDlg::OnFind()
 			}
 		}
 		m_list.SetItemCount(m_map.size());
-		BOOST_FOREACH(auto& i, m_map)
+		for (auto& i : m_map)
 			m_list.InsertItemData(i.first);
 	}
 }

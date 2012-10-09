@@ -452,7 +452,7 @@ void CXCCMixerView::update_list()
 	}
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 		lc.SetItemData(lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK), i.first);
 	sort_list(0, false);
 	sort_list(1, false);
@@ -891,7 +891,7 @@ bool CXCCMixerView::can_copy_as(t_file_type ft)
 {
 	if (!can_copy() || m_index_selected.empty())
 		return false;
-	BOOST_FOREACH(auto& i, m_index_selected)
+	for (auto& i : m_index_selected)
 	{
 		if (!can_convert(m_index.find(get_id(i))->second.ft, ft))
 			return false;
@@ -924,7 +924,7 @@ void CXCCMixerView::copy_as(t_file_type ft)
 {
 	CWaitCursor wait;
 	int error;
-	BOOST_FOREACH(auto& i, m_index_selected)
+	for (auto& i : m_index_selected)
 	{
 		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(i))->second.name;
 		if (m_index.find(get_id(i))->second.name.find('\\') != string::npos)
@@ -1379,7 +1379,7 @@ int CXCCMixerView::copy_as_shp(int _i, Cfname fname) const
 	int i;
 	for (i = 0; i < 1000; i++)
 		index[i] = -1;
-	BOOST_FOREACH(auto& j, m_index)
+	for (auto& j : m_index)
 	{
 		int z = get_index_from_name(base_name, j.second.name);
 		if (z != -1 && z < 1000)
@@ -1471,7 +1471,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 		int i;
 		for (i = 0; i < 10000; i++)
 			index[i] = -1;
-		BOOST_FOREACH(auto& j, m_index)
+		for (auto& j : m_index)
 		{
 			int z = get_index_from_name(base_name, j.second.name);
 			if (z != -1 && z < 10000)
@@ -1612,7 +1612,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 			int i;
 			for (i = 0; i < 256; i++)
 				index[i] = -1;
-			BOOST_FOREACH(auto& j, m_index)
+			for (auto& j : m_index)
 			{
 				int z = get_index_from_name(base_name, j.second.name);
 				if (z != -1 && z < 256)
@@ -2186,7 +2186,7 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				BOOST_FOREACH(auto& i, m_index_selected)
+				for (auto& i : m_index_selected)
 					f.erase(m_index.find(get_id(i))->second.name);
 				error = f.write_index();
 				f.close();
@@ -2199,7 +2199,7 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				BOOST_FOREACH(auto& i, m_index_selected)
+				for (auto& i : m_index_selected)
 					f.erase(m_index.find(get_id(i))->second.name);
 				error = f.write_index();
 				f.close();
@@ -2211,7 +2211,7 @@ void CXCCMixerView::OnPopupDelete()
 			error = f.open(m_mix_fname);
 			if (!error)
 			{
-				BOOST_FOREACH(auto& i, m_index_selected)
+				for (auto& i : m_index_selected)
 					f.erase(get_id(i));
 				error = f.write_index();
 				f.close();
@@ -2221,7 +2221,7 @@ void CXCCMixerView::OnPopupDelete()
 	}
 	else
 	{
-		BOOST_FOREACH(auto& i, m_index_selected)
+		for (auto& i : m_index_selected)
 		{
 			if (!DeleteFile((m_dir + m_index.find(get_id(i))->second.name).c_str()))
 				error = 1;
@@ -2603,7 +2603,7 @@ BOOL CXCCMixerView::OnIdle(LONG lCount)
 {
 	if (m_reading)
 	{
-		BOOST_FOREACH(auto& i, m_index)
+		for (auto& i : m_index)
 		{
 			t_index_entry& e = i.second;
 			if (e.ft != -1)
