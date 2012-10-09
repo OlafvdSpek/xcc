@@ -51,7 +51,7 @@ BOOL Cedit_teamtypes_dlg::OnInitDialog()
 	m_list.add_column("Objects", 2);	
 	m_list.add_column("Actions", 3);	
 
-	BOOST_FOREACH(auto& i, m_teamtype_data)
+	for (auto& i : m_teamtype_data)
 		add_teamtype(i.first);
 
 	m_list.autosize_columns();
@@ -133,7 +133,7 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 	const t_teamtype_data_entry& d = m_level.teamtype_data[name];
 	m_list.set_item(d.side != -1 ? side_code[d.side] : "none", i, 1);
 	string s;
-	BOOST_FOREACH(auto& j, d.objects)
+	for (auto& j : d.objects)
 	{
 		if (!s.empty())
 			s += ", ";
@@ -141,7 +141,7 @@ void Cedit_teamtypes_dlg::update_teamtype(const string& name)
 	}
 	m_list.set_item(s, i, 2);
 	s.erase();
-	BOOST_FOREACH(auto& j, d.actions)
+	for (auto& j : d.actions)
 	{
 		if (!s.empty())
 			s += ", ";

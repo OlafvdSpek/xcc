@@ -77,7 +77,7 @@ BOOL Copen_from_mix_dlg::OnInitDialog()
 	}
 	{
 		int list_i = 0;
-		BOOST_FOREACH(auto& i, index)
+		for (auto& i : index)
 		{
 			const string& name = i.first;
 			m_list.add_item(nh(8, Cmix_file::get_id(game_td, name)), list_i);

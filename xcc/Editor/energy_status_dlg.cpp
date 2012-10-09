@@ -11,7 +11,7 @@ Cenergy_status_dlg::Cenergy_status_dlg(const Cxcc_level& level)
 	//}}AFX_DATA_INIT
 	for (int i = 0; i < c_side_id; i++)
 		m_power_in[i] = m_power_out[i] = 0;
-	BOOST_FOREACH(auto& i, m_level.structure_data)
+	for (auto& i : m_level.structure_data)
 	{
 		m_power_in[i.side] += i.t->power_out;
 		m_power_out[i.side] += i.t->power_in;

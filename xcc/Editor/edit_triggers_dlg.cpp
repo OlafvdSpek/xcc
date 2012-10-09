@@ -55,7 +55,7 @@ BOOL Cedit_triggers_dlg::OnInitDialog()
 	m_list.add_column("Teamtype", 5);	
 	m_list.add_column("Loop", 6);	
 
-	BOOST_FOREACH(auto& i, m_trigger_data)
+	for (auto& i : m_trigger_data)
 		add_trigger(i.first);
 
 	m_list.autosize_columns();
