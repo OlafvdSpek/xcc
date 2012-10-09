@@ -58,18 +58,16 @@ BOOL CSelectPaletDlg::OnInitDialog()
 void CSelectPaletDlg::insert_tree_entry(int parent_id, HTREEITEM parent_item)
 {
 	CTreeCtrl& tc = m_tree;
-	typedef t_pal_map_list t_map;
 	typedef multimap<string, int> t_sort_map;
-	const t_map& map = m_pal_map_list;
 	t_sort_map sort_map;
-	for (auto& i : map)
+	for (auto& i : m_pal_map_list)
 	{
 		if (i.second.parent == parent_id)
 			sort_map.insert(t_sort_map::value_type(i.second.name, i.first));
 	}
 	for (auto& j : sort_map)
 	{
-		t_map::const_reference i = *map.find(j.second);
+		auto& i = *m_pal_map_list.find(j.second);
 		HTREEITEM h = tc.InsertItem(i.second.name.c_str(), parent_item);
 		tc.SetItemData(h, i.first);
 		insert_tree_entry(i.first, h);

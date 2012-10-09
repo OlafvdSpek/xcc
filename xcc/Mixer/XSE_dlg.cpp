@@ -225,7 +225,7 @@ void CXSE_dlg::OnPlay()
 		return;
 
 	int id = m_list.GetItemData(index);
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	int c_channels = e.flags & 1 ? 2 : 1;
 	if (e.flags & 2)
 	{
@@ -274,7 +274,7 @@ void CXSE_dlg::OnExtract()
 		{
 			int error = 0;
 			int id = m_list.GetItemData(index);
-			const t_map_entry& e = m_map.find(id)->second;
+			const t_map_entry& e = find_ref(m_map, id);
 			int c_channels = e.flags & 1 ? 2 : 1;
 			if (e.flags & 2)
 			{
@@ -453,7 +453,7 @@ void CXSE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	string& buffer = m_list.get_buffer();
 	switch (pDispInfo->item.iSubItem)
 	{
@@ -545,8 +545,8 @@ int CXSE_dlg::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_map_entry& a = m_map.find(id_a)->second;
-	const t_map_entry& b = m_map.find(id_b)->second;
+	const t_map_entry& a = find_ref(m_map, id_a);
+	const t_map_entry& b = find_ref(m_map, id_b);
 	switch (m_sort_column)
 	{
 	case 0:

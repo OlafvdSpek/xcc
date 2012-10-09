@@ -142,7 +142,7 @@ void CXSTE_dlg::create_cat_map()
 	for (Ccsf_file::t_map::const_iterator i = m_f.get_map().begin(); i != m_f.get_map().end(); i++)
 	{
 		string cat = get_cat(i->first);
-		if (m_reverse_cat_map.find(cat) == m_reverse_cat_map.end())
+		if (!m_reverse_cat_map.count(cat))
 		{
 			m_cat_map[cat_id] = cat;
 			m_reverse_cat_map[cat] = cat_id++;
@@ -150,10 +150,10 @@ void CXSTE_dlg::create_cat_map()
 		static int id = 0;
 		t_map_entry& e = m_map[id++];
 		e.i = i;
-		e.cat_id = m_reverse_cat_map.find(cat)->second;
+		e.cat_id = find_ref(m_reverse_cat_map, cat);
 	}
 	string cat = "Other";
-	if (m_reverse_cat_map.find(cat) == m_reverse_cat_map.end())
+	if (!m_reverse_cat_map.count(cat))
 	{
 		m_cat_map[cat_id] = cat;
 		m_reverse_cat_map[cat] = cat_id++;
@@ -173,7 +173,7 @@ int CXSTE_dlg::get_current_index()
 void CXSTE_dlg::check_selection()
 {
 	int index = get_current_index();
-	m_insert.EnableWindow(m_f.get_map().find("") == m_f.get_map().end());
+	m_insert.EnableWindow(!m_f.get_map().count(""));
 	m_edit.EnableWindow(index != -1);
 	m_delete.EnableWindow(index != -1);
 }
@@ -210,7 +210,7 @@ void CXSTE_dlg::OnEdit()
 {
 	int index = get_current_index();
 	CXSTE_edit_dlg dlg;
-	string name = m_map.find(m_list.GetItemData(index))->second.i->first;
+	string name = find_ref(m_map, m_list.GetItemData(index)).i->first;
 	auto i = m_f.get_map().find(name);
 	dlg.set(i->first, Ccsf_file::convert2string(i->second.value), i->second.extra_value);
 	if (dlg.DoModal() == IDOK)
@@ -227,7 +227,7 @@ void CXSTE_dlg::OnDelete()
 	while ((index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED)) != -1)
 	{
 		int id = m_list.GetItemData(index);
-		m_f.erase_value(m_map.find(id)->second.i->first);
+		m_f.erase_value(find_ref(m_map, id).i->first);
 		m_map.erase(m_list.GetItemData(index));
 		m_list.DeleteItem(index);
 	}
@@ -243,11 +243,11 @@ void CXSTE_dlg::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 	const char* t = pDispInfo->item.pszText;
 	if (t)
 	{
-		if (m_f.get_map().find(t) != m_f.get_map().end())
+		if (m_f.get_map().count(t))
 			return;
 		t_map_entry& f = m_map[pDispInfo->item.lParam];
 		string old_name = f.i->first;
-		Ccsf_file::t_map_entry e = m_f.get_map().find(old_name)->second;
+		Ccsf_file::t_map_entry e = find_ref(m_f.get_map(), old_name);
 		m_f.erase_value(old_name);
 		m_f.set_value(t, e.value, e.extra_value);
 		f.i = m_f.get_map().find(t);
@@ -256,7 +256,7 @@ void CXSTE_dlg::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 			check_selection();
 		*pResult = true;
 	}
-	else if (m_map.find(pDispInfo->item.lParam)->second.i->first.empty())
+	else if (find_ref(m_map, pDispInfo->item.lParam).i->first.empty())
 	{
 		m_f.erase_value("");
 		m_map.erase(pDispInfo->item.lParam);
@@ -269,7 +269,7 @@ void CXSTE_dlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = m_list.GetItemData(pDispInfo->item.iItem);
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	string& buffer = m_list.get_buffer();
 	switch (pDispInfo->item.iSubItem)
 	{
@@ -310,8 +310,8 @@ int CXSTE_dlg::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_map_entry& a = m_map.find(id_a)->second;
-	const t_map_entry& b = m_map.find(id_b)->second;
+	const t_map_entry& a = find_ref(m_map, id_a);
+	const t_map_entry& b = find_ref(m_map, id_b);
 	switch (m_sort_column)
 	{
 	case 0:
@@ -377,7 +377,7 @@ void CXSTE_dlg::OnSearch()
 	{
 		LVFINDINFO lfi;
 		lfi.flags = LVFI_PARAM;
-		lfi.lParam = m_reverse_cat_map.find(get_cat(dlg.m_selected))->second;
+		lfi.lParam = find_ref(m_reverse_cat_map, get_cat(dlg.m_selected));
 		int i = m_cat_list.FindItem(&lfi, -1);
 		m_cat_list.SetItemState(i, LVIS_FOCUSED | LVIS_SELECTED, LVIS_FOCUSED | LVIS_SELECTED);
 		m_cat_list.EnsureVisible(i, false);
