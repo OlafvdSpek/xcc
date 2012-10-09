@@ -706,13 +706,13 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				draw_info("Count themes:", n(tl.size()));
 				m_y += m_y_inc;
 				int column_size[] = {0, 6, 3, 0};
-				BOOST_FOREACH(auto& i, tl)
+				for (auto& i : tl)
 				{
 					const Ctheme_data& td = i.second;
 					column_size[0] = max(column_size[0], td.name().length());
 					column_size[3] = max(column_size[3], td.side().length());
 				}
-				BOOST_FOREACH(auto& i, tl)
+				for (auto& i : tl)
 				{
 					const Ctheme_data& td = i.second;
 					float length = td.length();
@@ -1093,7 +1093,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					const Cpkt_ts_ini_reader::t_map_list& ml = ir.get_map_list();
 					draw_info("Count maps:", n(ml.size()));
 					m_y += m_y_inc;
-					BOOST_FOREACH(auto& i, ml)
+					for (auto& i : ml)
 						draw_info(i.first, i.second.m_description + ", " + i.second.m_gamemode);
 					break;
 				}
@@ -1113,7 +1113,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					column_size[3] = max(column_size[3], td.side().length());
 					}
 					*/
-					BOOST_FOREACH(auto& i, sl)
+					for (auto& i : sl)
 					{
 						draw_info(i.first, "");
 					}
@@ -1189,7 +1189,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 			SetScrollSizes(MM_TEXT, CSize(m_x, m_y));
 			m_text_cache_valid = true;
 		}
-		BOOST_FOREACH(auto& i, m_text_cache)
+		for (auto& i : m_text_cache)
 		{
 			if (CRect().IntersectRect(m_clip_rect, i.text_extent))
 				pDC->TextOut(i.text_extent.TopLeft().x, i.text_extent.TopLeft().y, i.t.c_str());

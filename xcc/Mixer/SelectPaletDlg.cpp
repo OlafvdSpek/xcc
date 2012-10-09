@@ -62,12 +62,12 @@ void CSelectPaletDlg::insert_tree_entry(int parent_id, HTREEITEM parent_item)
 	typedef multimap<string, int> t_sort_map;
 	const t_map& map = m_pal_map_list;
 	t_sort_map sort_map;
-	BOOST_FOREACH(auto& i, map)
+	for (auto& i : map)
 	{
 		if (i.second.parent == parent_id)
 			sort_map.insert(t_sort_map::value_type(i.second.name, i.first));
 	}
-	BOOST_FOREACH(auto& j, sort_map)
+	for (auto& j : sort_map)
 	{
 		t_map::const_reference i = *map.find(j.second);
 		HTREEITEM h = tc.InsertItem(i.second.name.c_str(), parent_item);
@@ -82,7 +82,7 @@ void CSelectPaletDlg::update_list(int parent_id, int current_palet)
 {
 	CListCtrl& lc = m_list;
 	lc.DeleteAllItems();
-	BOOST_FOREACH(auto& i, m_pal_list)
+	for (auto& i : m_pal_list)
 	{
 		if (i.parent != parent_id)
 			continue;

@@ -95,7 +95,7 @@ BOOL CXSE_dlg::OnInitDialog()
 	}
 	if (!error)
 	{
-		BOOST_FOREACH(auto& j, m_csf_f.get_map())
+		for (auto& j : m_csf_f.get_map())
 		{
 			if (j.second.extra_value.empty())
 				continue;
@@ -338,7 +338,7 @@ void CXSE_dlg::write_idx_file()
 	byte* d = new byte[cb_d];
 	byte* w = d;
 	w += audio_idx_file_write_header(w, m_map.size());
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		const t_map_entry& e = i.second;
 		w += audio_idx_file_write_entry(w, e.extra_value, e.offset, e.size, e.samplerate, e.flags, e.chunk_size);
@@ -353,7 +353,7 @@ void CXSE_dlg::write_idx_file()
 int CXSE_dlg::get_bag_size() const
 {
 	int r = 0;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 		r += i.second.size;
 	return r;
 }
@@ -364,7 +364,7 @@ void CXSE_dlg::OnCompact()
 	int cb_d = get_bag_size();
 	byte* d = new byte[cb_d];
 	byte* w = d;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		t_map_entry& e = i.second;
 		m_bag_f.seek(e.offset);

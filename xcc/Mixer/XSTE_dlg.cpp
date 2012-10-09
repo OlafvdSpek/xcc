@@ -104,7 +104,7 @@ BOOL CXSTE_dlg::OnInitDialog()
 	if (!error)
 	{
 		create_cat_map();
-		BOOST_FOREACH(auto& i, m_cat_map)
+		for (auto& i : m_cat_map)
 			m_cat_list.SetItemData(m_cat_list.InsertItem(m_cat_list.GetItemCount(), i.second.c_str()), i.first);
 		m_f.close();
 	}	
@@ -345,7 +345,7 @@ void CXSTE_dlg::OnItemchangedCatList(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		m_list.DeleteAllItems();
 		int cat_id = m_cat_list.GetItemData(pNMListView->iItem);
-		BOOST_FOREACH(auto& i, m_map)
+		for (auto& i : m_map)
 		{
 			if (i.second.cat_id != cat_id)
 				continue;

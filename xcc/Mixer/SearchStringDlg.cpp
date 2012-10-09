@@ -51,7 +51,7 @@ void CSearchStringDlg::OnSearch()
 	{
 		CWaitCursor wait;
 		m_list.DeleteAllItems();
-		BOOST_FOREACH(auto& i, m_csf->get_map())
+		for (auto& i : m_csf->get_map())
 		{
 			if (fname_filter(i.first, static_cast<string>(m_name))
 				|| fname_filter(Ccsf_file::convert2string(i.second.value), static_cast<string>(m_name)))

@@ -262,9 +262,9 @@ int CMainFrame::pal_list_create_map(string name, int parent)
 void CMainFrame::clean_pal_map_list()
 {
 	set<int> used_set;
-	BOOST_FOREACH(auto& i, m_pal_list)
+	for (auto& i : m_pal_list)
 		used_set.insert(i.parent);
-	BOOST_FOREACH(auto& i, m_pal_map_list)
+	for (auto& i : m_pal_map_list)
 	{
 		if (!used_set.count(i.first))
 			continue;
@@ -385,7 +385,7 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 				sort_list[static_cast<Cfname>(m_mix_list[j]).get_fname()] = j;
 			if (sort_list.empty())
 				continue;
-			BOOST_FOREACH(auto& l, sort_list)
+			for (auto& l : sort_list)
 				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX000 + l.second, escape_menu_name(l.first).c_str());
 			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
@@ -463,7 +463,7 @@ void CMainFrame::initialize_lists()
 			sort_list[pal_list[j].name] = j;
 			j++;
 		}
-		BOOST_FOREACH(auto& l, sort_list)
+		for (auto& l : sort_list)
 			m_pal_list.push_back(pal_list[l.second]);
 	}
 
@@ -875,10 +875,10 @@ void CMainFrame::OnLaunchXTW_TS()
 	g << "[Themes]" << endl;
 	// "1=INTRO" << endl;
 	int j = 51;
-	BOOST_FOREACH(auto& i, theme_list)
+	for (auto& i : theme_list)
 		g << n(j++) << '=' << to_upper_copy(i.first) << endl;
 	g << endl;
-	BOOST_FOREACH(auto& i, theme_list)
+	for (auto& i : theme_list)
 	{
 		const Ctheme_data& e = i.second;
 		g << '[' << to_upper_copy(i.first) << ']' << endl
@@ -953,10 +953,10 @@ void CMainFrame::launch_xtw(t_game game)
 	ofstream g((dir + theme_ini_fname).c_str());
 	g << "[Themes]" << endl;
 	int j = 51;
-	BOOST_FOREACH(auto& i, theme_list)
+	for (auto& i : theme_list)
 		g << n(j++) << '=' << to_upper_copy(i.first) << endl;
 	g << endl;
-	BOOST_FOREACH(auto& i, theme_list)
+	for (auto& i : theme_list)
 	{
 		const Ctheme_data& e = i.second;
 		g << '[' << to_upper_copy(i.first) << ']' << endl;

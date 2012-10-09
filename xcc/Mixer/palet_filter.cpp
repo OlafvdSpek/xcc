@@ -99,7 +99,7 @@ void Cpalet_filter::select(t_file_type ft, int cx, int cy, string fname)
 {
 	m_vector.clear();
 	int best_q = INT_MIN;
-	BOOST_FOREACH(auto& i, m_list)
+	for (auto& i : m_list)
 	{
 		int q = i.q(ft, cx, cy, fname);
 		if (q < best_q)
