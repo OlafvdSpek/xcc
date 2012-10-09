@@ -284,7 +284,7 @@ void CXCCEditorView::update_mem_surface()
 		m_MemDC.BitBlt(0, 0, dib_cx, dib_cy, 0, 0, 0, BLACKNESS);
 	if (m_view_overlay_layer)
 	{
-		BOOST_FOREACH(auto& i, level().overlay_data)
+		for (auto& i : level().overlay_data)
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i.first);
@@ -295,7 +295,7 @@ void CXCCEditorView::update_mem_surface()
 	}
 	if (m_view_terrain_layer)
 	{
-		BOOST_FOREACH(auto& i, level().terrain_data)
+		for (auto& i : level().terrain_data)
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i.first);
@@ -306,7 +306,7 @@ void CXCCEditorView::update_mem_surface()
 	}
 	if (m_view_structure_layer)
 	{
-		BOOST_FOREACH(auto& i, level().structure_data)
+		for (auto& i : level().structure_data)
 		{
 			int x = (i.cell.x >> 8) * 24;
 			int y = (i.cell.y >> 8) * 24;
@@ -315,7 +315,7 @@ void CXCCEditorView::update_mem_surface()
 	}
 	if (m_view_infantry_layer)
 	{
-		BOOST_FOREACH(auto& i, level().infantry_data)
+		for (auto& i : level().infantry_data)
 		{
 			int x = (24 * i.cell.x >> 8) - 27;
 			int y = (24 * i.cell.y >> 8) - 15;
@@ -324,7 +324,7 @@ void CXCCEditorView::update_mem_surface()
 	}
 	if (m_view_unit_layer)
 	{
-		BOOST_FOREACH(auto& i, level().unit_data)
+		for (auto& i : level().unit_data)
 		{
 			const xcc_units::t_unit_data_entry& ud = *i.t;
 			int x = (i.cell.x >> 8) * 24 + ud.base_ox;
@@ -334,7 +334,7 @@ void CXCCEditorView::update_mem_surface()
 	}
 	if (m_view_celltrigger_layer)
 	{
-		BOOST_FOREACH(auto& i, level().celltrigger_data)
+		for (auto& i : level().celltrigger_data)
 		{
 			Cxcc_cell cell;
 			cell.set_cc(i.first);
@@ -1850,7 +1850,7 @@ void CXCCEditorView::sel_fill_with_wall(dword t)
 void CXCCEditorView::OnToolsUpgradeTiberium() 
 {
 	t_overlay_data& data = level().overlay_data;
-	BOOST_FOREACH(auto& i, data)
+	for (auto& i : data)
 	{
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		if (is_tiberium(v))

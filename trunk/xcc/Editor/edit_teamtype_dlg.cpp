@@ -107,9 +107,9 @@ BOOL Cedit_teamtype_dlg::OnInitDialog()
 		m_check_autocreate = static_cast<bool>(m_teamtype_data.flags & td_flags_autocreate);
 		m_check_replace = static_cast<bool>(m_teamtype_data.flags & td_flags_replace);
 		m_check_force_creation = static_cast<bool>(m_teamtype_data.flags & td_flags_force_creation);
-		BOOST_FOREACH(auto& i, d.objects)
+		for (auto& i : d.objects)
 			add_object(i);
-		BOOST_FOREACH(auto& i, d.actions)
+		for (auto& i : d.actions)
 			add_action(i);
 		UpdateData(false);
 	}
