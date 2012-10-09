@@ -473,7 +473,7 @@ void CXCCMixerView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	m_buffer[++m_buffer_w &= 3].erase();
-	const t_index_entry& e = m_index.find(pDispInfo->item.lParam)->second;
+	const t_index_entry& e = find_ref(m_index, pDispInfo->item.lParam);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -505,8 +505,8 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_index_entry& a = m_index.find(id_a)->second;
-	const t_index_entry& b = m_index.find(id_b)->second;
+	const t_index_entry& a = find_ref(m_index, id_a);
+	const t_index_entry& b = find_ref(m_index, id_b);
 	if (a.ft != b.ft)
 	{
 		if (a.ft == ft_drive)
@@ -643,7 +643,7 @@ void CXCCMixerView::OnFileFound(UINT ID)
 
 int CXCCMixerView::open_f_id(Ccc_file& f, int id) const
 {
-	return m_mix_f ? f.open(id, *m_mix_f) : f.open(m_dir + m_index.find(id)->second.name);
+	return m_mix_f ? f.open(id, *m_mix_f) : f.open(m_dir + find_ref(m_index, id).name);
 }
 
 int CXCCMixerView::open_f_index(Ccc_file& f, int i) const
@@ -653,7 +653,7 @@ int CXCCMixerView::open_f_index(Ccc_file& f, int i) const
 
 Cvirtual_binary CXCCMixerView::get_vdata_id(int id) const
 {
-	return m_mix_f ? m_mix_f->get_vdata(id) : Cvirtual_binary(m_dir + m_index.find(id)->second.name);
+	return m_mix_f ? m_mix_f->get_vdata(id) : Cvirtual_binary(m_dir + find_ref(m_index, id).name);
 }
 
 Cvirtual_binary CXCCMixerView::get_vdata(int i) const
@@ -664,7 +664,7 @@ Cvirtual_binary CXCCMixerView::get_vdata(int i) const
 Cvirtual_image CXCCMixerView::get_vimage_id(int id) const
 {
 	Cvirtual_image d;
-	switch (m_index.find(id)->second.ft)
+	switch (find_ref(m_index, id).ft)
 	{
 	case ft_cps:
 		{
@@ -745,7 +745,7 @@ void CXCCMixerView::OnPopupExtract()
 	int id = get_current_id();
 	CFileDialog dlg(false, NULL, NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT | OFN_PATHMUSTEXIST, "All files (*.*)|*.*|", this);
 	char s[MAX_PATH];
-	strcpy(s, m_index.find(id)->second.name.c_str());
+	strcpy(s, find_ref(m_index, id).name.c_str());
 	dlg.m_ofn.lpstrFile = s;
 	if (IDOK != dlg.DoModal())
 		return;
@@ -878,7 +878,7 @@ bool CXCCMixerView::can_delete()
 	while (i != -1)
 	{
 		int id = GetListCtrl().GetItemData(i);
-		const t_index_entry& index = m_index.find(id)->second;
+		const t_index_entry& index = find_ref(m_index, id);
 		if (index.ft == ft_dir || index.ft == ft_drive || index.name.empty())
 			return false;
 		m_index_selected.push_back(i);
@@ -893,7 +893,7 @@ bool CXCCMixerView::can_copy_as(t_file_type ft)
 		return false;
 	for (auto& i : m_index_selected)
 	{
-		if (!can_convert(m_index.find(get_id(i))->second.ft, ft))
+		if (!can_convert(find_ref(m_index, get_id(i)).ft, ft))
 			return false;
 	}
 	return true;
@@ -926,9 +926,9 @@ void CXCCMixerView::copy_as(t_file_type ft)
 	int error;
 	for (auto& i : m_index_selected)
 	{
-		const Cfname fname = m_other_pane->get_dir() + m_index.find(get_id(i))->second.name;
-		if (m_index.find(get_id(i))->second.name.find('\\') != string::npos)
-			create_deep_dir(m_other_pane->get_dir(), Cfname(m_index.find(get_id(i))->second.name).get_path());
+		const Cfname fname = m_other_pane->get_dir() + find_ref(m_index, get_id(i)).name;
+		if (find_ref(m_index, get_id(i)).name.find('\\') != string::npos)
+			create_deep_dir(m_other_pane->get_dir(), Cfname(find_ref(m_index, get_id(i)).name).get_path());
 		switch (ft)
 		{
 		case -1:
@@ -1242,7 +1242,7 @@ int CXCCMixerView::copy_as_pcx(int i, Cfname fname, t_file_type ft) const
 	default:
 		fname.set_ext(".png");
 	}
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_cps:
 	case ft_dds:
@@ -1426,7 +1426,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 	Cvirtual_binary s;
 	t_palet s_palet;
 	string base_name = fname.get_ftitle();
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_shp:
 		{
@@ -1546,7 +1546,7 @@ int CXCCMixerView::copy_as_shp_ts(int i, Cfname fname) const
 int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 {
 	fname.set_ext(".txt");
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_st:
 		{
@@ -1581,7 +1581,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 {
 	int error = 0;
 	fname.set_ext(".vxl");
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_text:
 		{
@@ -1645,7 +1645,7 @@ int CXCCMixerView::copy_as_vxl(int i, Cfname fname) const
 int CXCCMixerView::copy_as_wav_ima_adpcm(int i, Cfname fname) const
 {
 	fname.set_ext(".wav");
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_wav:
 		{
@@ -1684,7 +1684,7 @@ int CXCCMixerView::copy_as_wav_ima_adpcm(int i, Cfname fname) const
 int CXCCMixerView::copy_as_wav_pcm(int i, Cfname fname) const
 {
 	fname.set_ext(".wav");
-	switch (m_index.find(get_id(i))->second.ft)
+	switch (find_ref(m_index, get_id(i)).ft)
 	{
 	case ft_aud:
 		{
@@ -2187,7 +2187,7 @@ void CXCCMixerView::OnPopupDelete()
 			if (!error)
 			{
 				for (auto& i : m_index_selected)
-					f.erase(m_index.find(get_id(i))->second.name);
+					f.erase(find_ref(m_index, get_id(i)).name);
 				error = f.write_index();
 				f.close();
 			}
@@ -2200,7 +2200,7 @@ void CXCCMixerView::OnPopupDelete()
 			if (!error)
 			{
 				for (auto& i : m_index_selected)
-					f.erase(m_index.find(get_id(i))->second.name);
+					f.erase(find_ref(m_index, get_id(i)).name);
 				error = f.write_index();
 				f.close();
 			}
@@ -2223,7 +2223,7 @@ void CXCCMixerView::OnPopupDelete()
 	{
 		for (auto& i : m_index_selected)
 		{
-			if (!DeleteFile((m_dir + m_index.find(get_id(i))->second.name).c_str()))
+			if (!DeleteFile((m_dir + find_ref(m_index, get_id(i)).name).c_str()))
 				error = 1;
 		}
 	}
@@ -2252,7 +2252,7 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 	int id = get_current_id();
 	if (id != -1)
 	{
-		switch (m_index.find(id)->second.ft)
+		switch (find_ref(m_index, id).ft)
 		{
 		case ft_aud:
 		case ft_ogg:
@@ -2281,7 +2281,7 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 	Ccc_file f(false);
 	if (open_f_index(f, get_current_index()))
 		return;
-	const string fname = xcc_dirs::get_dir(game_ts) + m_index.find(get_current_id())->second.name;
+	const string fname = xcc_dirs::get_dir(game_ts) + find_ref(m_index, get_current_id()).name;
 	f.extract(fname);
 	ShellExecute(m_hWnd, "open", GetApp()->get_fs_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
 }
@@ -2289,7 +2289,7 @@ void CXCCMixerView::OnPopupOpenWithFinalsun()
 void CXCCMixerView::OnUpdatePopupOpenWithFinalsun(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1 &&
-		(m_index.find(get_current_id())->second.ft == ft_map_ts || m_index.find(get_current_id())->second.ft == ft_text) &&
+		(find_ref(m_index, get_current_id()).ft == ft_map_ts || find_ref(m_index, get_current_id()).ft == ft_text) &&
 		GetApp()->is_fs_available());
 }
 
@@ -2298,7 +2298,7 @@ void CXCCMixerView::OnPopupOpenWithFinalalert()
 	Ccc_file f(false);
 	if (open_f_index(f, get_current_index()))
 		return;
-	const string fname = xcc_dirs::get_dir(game_ra2) + m_index.find(get_current_id())->second.name;
+	const string fname = xcc_dirs::get_dir(game_ra2) + find_ref(m_index, get_current_id()).name;
 	f.extract(fname);
 	ShellExecute(m_hWnd, "open", GetApp()->get_fa_exe().c_str(), fname.c_str(), NULL, SW_SHOW);
 }
@@ -2306,7 +2306,7 @@ void CXCCMixerView::OnPopupOpenWithFinalalert()
 void CXCCMixerView::OnUpdatePopupOpenWithFinalalert(CCmdUI* pCmdUI)
 {
 	pCmdUI->Enable(get_current_id() != -1 &&
-		(m_index.find(get_current_id())->second.ft == ft_map_ra2 || m_index.find(get_current_id())->second.ft == ft_text) &&
+		(find_ref(m_index, get_current_id()).ft == ft_map_ra2 || find_ref(m_index, get_current_id()).ft == ft_text) &&
 		GetApp()->is_fa_available());
 }
 
@@ -2332,8 +2332,8 @@ void CXCCMixerView::OnUpdatePopupRefresh(CCmdUI* pCmdUI)
 
 int CXCCMixerView::resize(int id)
 {
-	Cfname fname = get_dir() + m_index.find(id)->second.name;
-	switch (m_index.find(id)->second.ft)
+	Cfname fname = get_dir() + find_ref(m_index, id).name;
+	switch (find_ref(m_index, id).ft)
 	{
 	case ft_jpeg:
 	case ft_pcx:
@@ -2354,7 +2354,7 @@ int CXCCMixerView::resize(int id)
 			else
 				resize_image_down(reinterpret_cast<const t_palet32entry*>(s.image()), reinterpret_cast<t_palet32entry*>(d.image_edit()), s.cx(), s.cy(), d.cx(), d.cy());
 			d.cb_pixel(cb_pixel, s_palet.palet());
-			return d.save(fname, m_index.find(id)->second.ft);
+			return d.save(fname, find_ref(m_index, id).ft);
 		}
 	case ft_shp_ts:
 		{
@@ -2441,7 +2441,7 @@ int CXCCMixerView::resize(int id)
 void CXCCMixerView::OnPopupResize()
 {
 	int id = get_current_id();
-	Cfname fname = get_dir() + m_index.find(id)->second.name;
+	Cfname fname = get_dir() + find_ref(m_index, id).name;
 	int error = resize(id);
 	set_msg("Resize " + fname.get_ftitle() + (error ? " failed, error " + n(error) : " succeeded"));
 	update_list();
@@ -2452,7 +2452,7 @@ void CXCCMixerView::OnUpdatePopupResize(CCmdUI* pCmdUI)
 	int id = get_current_id();
 	if (can_accept() && id != -1)
 	{
-		switch (m_index.find(id)->second.ft)
+		switch (find_ref(m_index, id).ft)
 		{
 		case ft_jpeg:
 		case ft_pcx:
@@ -2474,14 +2474,14 @@ void CXCCMixerView::OnPopupClipboardCopy()
 void CXCCMixerView::OnUpdatePopupClipboardCopy(CCmdUI* pCmdUI)
 {
 	int id = get_current_id();
-	pCmdUI->Enable(id != -1 && can_convert(m_index.find(id)->second.ft, ft_clipboard));
+	pCmdUI->Enable(id != -1 && can_convert(find_ref(m_index, id).ft, ft_clipboard));
 }
 
 int CXCCMixerView::get_paste_fname(string& fname, t_file_type ft, const char* extension, const char* filter)
 {
 	int id = get_current_id();
-	bool replace = id != -1 && m_index.find(id)->second.ft == ft;
-	CFileDialog dlg(false, extension, replace ? (m_dir + m_index.find(id)->second.name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
+	bool replace = id != -1 && find_ref(m_index, id).ft == ft;
+	CFileDialog dlg(false, extension, replace ? (m_dir + find_ref(m_index, id).name).c_str() : NULL, OFN_HIDEREADONLY | OFN_PATHMUSTEXIST, filter, this);
 	if (!replace)
 		dlg.m_ofn.lpstrInitialDir = m_dir.c_str();
 	if (IDOK != dlg.DoModal())
@@ -2653,7 +2653,7 @@ string CXCCMixerView::report() const
 
 void CXCCMixerView::open_item(int id)
 {
-	const t_index_entry& index = m_index.find(id)->second;
+	const t_index_entry& index = find_ref(m_index, id);
 	switch (index.ft)
 	{
 	case ft_aud:
@@ -2769,7 +2769,7 @@ void CXCCMixerView::OnEditSelectAll()
 	CListCtrl& lc = GetListCtrl();
 	for (int index = 0; index < lc.GetItemCount(); index++)
 	{
-		switch (m_index.find(lc.GetItemData(index))->second.ft)
+		switch (find_ref(m_index, lc.GetItemData(index)).ft)
 		{
 		case ft_dir:
 		case ft_drive:

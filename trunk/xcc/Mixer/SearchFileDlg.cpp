@@ -122,7 +122,7 @@ void CSearchFileDlg::OnDblclkList(NMHDR* pNMHDR, LRESULT* pResult)
 
 void CSearchFileDlg::open_mix(int id)
 {
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	m_main_frame->left_mix_pane()->open_location_mix(m_main_frame->mix_map_list().find(e.parent), e.id);
 	EndDialog(IDCANCEL);
 }
@@ -137,7 +137,7 @@ void CSearchFileDlg::OnGetdispinfoList(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	string& buffer = m_list.get_buffer();
 	buffer = e.name;
 	pDispInfo->item.pszText = const_cast<char*>(buffer.c_str());
