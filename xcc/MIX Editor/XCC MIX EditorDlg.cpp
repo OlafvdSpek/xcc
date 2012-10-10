@@ -270,15 +270,15 @@ void CXCCMIXEditorDlg::add_file(const string& name)
 
 void CXCCMIXEditorDlg::add_entry(int id)
 {
-	t_index::const_iterator i = m_index.find(id);
+	auto& i = find_ref(m_index, id);
 	int j = m_list.GetItemCount();
-	m_list.InsertItem(j, static_cast<Cfname>(i->second.fname).get_fname().c_str());
+	m_list.InsertItem(j, static_cast<Cfname>(i.fname).get_fname().c_str());
 	m_list.SetItemData(j, id);
-	m_list.SetItemText(j, 1, ft_name[i->second.ft]);
+	m_list.SetItemText(j, 1, ft_name[i.ft]);
 	m_list.SetItemText(j, 2, mix_database::get_description(m_game, id).c_str());
 	m_list.SetItemText(j, 3, nh(8, id).c_str());
-	m_list.SetItemText(j, 4, n(i->second.offset).c_str());
-	m_list.SetItemText(j, 5, n(i->second.size).c_str());
+	m_list.SetItemText(j, 4, n(i.offset).c_str());
+	m_list.SetItemText(j, 5, n(i.size).c_str());
 }
 
 int CXCCMIXEditorDlg::read_mix(const string& name)
@@ -365,8 +365,8 @@ int CXCCMIXEditorDlg::get_header_size() const
 int CXCCMIXEditorDlg::get_max_offset() const
 {
 	int r = get_header_size();
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-		r = max(r, i->second.offset + i->second.size);
+	for (auto& i : m_index)
+		r = max(r, i.second.offset + i.second.size);
 	return r;
 }
 
@@ -382,10 +382,10 @@ int CXCCMIXEditorDlg::save_mix()
 		if (m_game == game_td)
 			m_encrypted = false;
 		Cxcc_lmd_file_write g;
-		for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+		for (auto& i : m_index)
 		{
-			if (!i->second.fname.empty())
-				g.add_fname(static_cast<Cfname>(i->second.fname).get_fname());
+			if (!i.second.fname.empty())
+				g.add_fname(static_cast<Cfname>(i.second.fname).get_fname());
 		}
 		Cvirtual_binary lmd_data = g.write(m_game);
 		const int lmd_id = Cmix_file::get_id(m_game, "local mix database.dat");
@@ -401,46 +401,46 @@ int CXCCMIXEditorDlg::save_mix()
 		{
 			int id;
 			int min_offset = INT_MAX;
-			for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+			for (auto& i : m_index)
 			{
-				if (!i->second.offset)
+				if (!i.second.offset)
 					continue;
-				if (i->second.offset < min_offset)
+				if (i.second.offset < min_offset)
 				{
-					id = i->first;
-					min_offset = i->second.offset;
+					id = i.first;
+					min_offset = i.second.offset;
 				}
-				if (i->second.offset + i->second.size > max_offset)
-					max_offset = i->second.offset + i->second.size;
+				if (i.second.offset + i.second.size > max_offset)
+					max_offset = i.second.offset + i.second.size;
 			}
 			if (body_start > min_offset)
 			{
-				t_index::iterator j = m_index.find(id);
-				error = copy_block(f, min_offset, f, max_offset, j->second.size);
+				auto& j = find_ref(m_index, id);
+				error = copy_block(f, min_offset, f, max_offset, j.size);
 				if (!error)
-					j->second.offset = max_offset;
+					j.offset = max_offset;
 			}
 			else
 				break;
 		}
 		if (!error)
 		{
-			for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
+			for (auto& i : m_index)
 			{
-				if (i->second.offset)
+				if (i.second.offset)
 					continue;
-				if (i->first == lmd_id)
+				if (i.first == lmd_id)
 				{
 					max_offset = (max_offset - body_start + 0xf & ~0xf) + body_start;
 					f.seek(max_offset);
 					f.write(lmd_data.data(), lmd_data.size());
-					i->second.offset = max_offset;
+					i.second.offset = max_offset;
 					max_offset += lmd_data.size();
 				}
 				else
 				{
 					Cfile32 g;
-					if (g.open(i->second.fname, GENERIC_READ))
+					if (g.open(i.second.fname, GENERIC_READ))
 					{
 						error = 1;
 						break;
@@ -448,7 +448,7 @@ int CXCCMIXEditorDlg::save_mix()
 					error = copy_block(g, 0, f, max_offset, g.size());
 					if (!error)
 					{
-						i->second.offset = max_offset;
+						i.second.offset = max_offset;
 						max_offset += g.size();
 					}
 					g.close();
@@ -479,11 +479,11 @@ int CXCCMIXEditorDlg::save_mix()
 		header->c_files = m_index.size();
 		header->size = max_offset - body_start;
 		t_mix_index_entry* index = reinterpret_cast<t_mix_index_entry*>(reinterpret_cast<byte*>(header) + sizeof(t_mix_header));
-		for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+		for (auto& i : m_index)
 		{
-			index->id = i->first;
-			index->offset = i->second.offset - body_start;
-			index->size = i->second.size;
+			index->id = i.first;
+			index->offset = i.second.offset - body_start;
+			index->size = i.second.size;
 			index++;
 		}
 		if (m_encrypted)
@@ -521,35 +521,34 @@ int CXCCMIXEditorDlg::compact_mix()
 			{
 				changed = false;
 				const int max_offset = get_max_offset();
-				typedef map<int, int> t_ofs_list;
-				t_ofs_list ofs_list;
-				for (t_index::iterator j = m_index.begin(); j != m_index.end(); j++)
-					ofs_list[j->second.offset] = j->first;
+				map<int, int> ofs_list;
+				for (auto& j : m_index)
+					ofs_list[j.second.offset] = j.first;
 				const int body_start = get_header_size();
 				int min_offset = body_start;
-				for (t_ofs_list::const_iterator i = ofs_list.begin(); i != ofs_list.end(); i++)
+				for (auto& i : ofs_list)
 				{
-					t_index::iterator j = m_index.find(i->second);
+					auto& j = find_ref(m_index, i.second);
 					if (m_game == game_ts)
 						min_offset = (min_offset - body_start + 0xf & ~0xf) + body_start;
-					if (j->second.offset > min_offset)
+					if (j.offset > min_offset)
 					{
-						error = copy_block(f, j->second.offset, f, min_offset, j->second.size);
+						error = copy_block(f, j.offset, f, min_offset, j.size);
 						if (error)
 							break;
-						j->second.offset = min_offset;
+						j.offset = min_offset;
 						changed = true;
 					}
-					else if (j->second.offset < min_offset)
+					else if (j.offset < min_offset)
 					{
-						error = copy_block(f, j->second.offset, f, max_offset, j->second.size);
+						error = copy_block(f, j.offset, f, max_offset, j.size);
 						if (error)
 							break;
-						j->second.offset = max_offset;
+						j.offset = max_offset;
 						changed = true;
 						continue;
 					}
-					min_offset += j->second.size;
+					min_offset += j.size;
 				}
 			}
 			while (changed && !error);
@@ -571,8 +570,8 @@ void CXCCMIXEditorDlg::update_list()
 {
 	m_list.SetRedraw(false);
 	m_list.DeleteAllItems();
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-		add_entry(i->first);
+	for (auto& i : m_index)
+		add_entry(i.first);
 	m_list.auto_size();
 	sort_list(0, false);
 	m_list.SetRedraw(true);
@@ -609,50 +608,34 @@ void CXCCMIXEditorDlg::OnColumnclickList(NMHDR* pNMHDR, LRESULT* pResult)
 
 int compare_int(unsigned int a, unsigned int b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int compare_string(string a, string b)
 {
-	if (a < b)
-		return -1;
-	else if (a == b)
-		return 0;
-	else
-		return 1;
+	return a < b ? -1 : a != b;
 }
 
 int CXCCMIXEditorDlg::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_index_entry& a = m_index.find(id_a)->second;
-	const t_index_entry& b = m_index.find(id_b)->second;
+	const t_index_entry& a = find_ref(m_index, id_a);
+	const t_index_entry& b = find_ref(m_index, id_b);
 	switch (m_sort_column)
 	{
 	case 0:
 		return compare_string(a.fname, b.fname);
-		break;
 	case 1:
 		return compare_int(a.ft, b.ft);
-		break;
 	case 3:
 		return compare_int(id_a, id_b);
-		break;
 	case 4:
 		return compare_int(a.offset, b.offset);
-		break;
 	case 5:
 		return compare_int(a.size, b.size);
-		break;
-	default:
-		return 0;
 	}
+	return 0;
 }
 
 static int CALLBACK Compare(LPARAM lParam1, LPARAM lParam2, LPARAM lParamSort)

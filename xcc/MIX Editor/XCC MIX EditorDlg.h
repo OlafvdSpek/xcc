@@ -79,15 +79,13 @@ private:
 		string fname;
 	};
 
-	typedef map<int, t_index_entry> t_index;
-
 	bool	m_changed;
 	bool	m_checksum;
 	int		m_current_id;
 	bool	m_encrypted;
 	string	m_fname;
 	t_game	m_game;
-	t_index	m_index;	
+	map<int, t_index_entry>	m_index;	
 	byte	m_key[cb_mix_key_source];
 	bool	m_key_loaded;
 	bool	m_open;
