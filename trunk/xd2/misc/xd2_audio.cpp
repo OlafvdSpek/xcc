@@ -5,7 +5,7 @@ Cxd2_audio::Cxd2_audio()
 {
 }
 
-Cxd2_audio::Cxd2_audio(const Cvirtual_binary& d, int samplerate)
+Cxd2_audio::Cxd2_audio(const shared_data& d, int samplerate)
 {
 	m_d = d;
 	m_samplerate = samplerate;

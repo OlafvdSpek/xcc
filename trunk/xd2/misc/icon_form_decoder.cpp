@@ -17,13 +17,13 @@ struct t_form_chunk_header
 	}
 };
 
-Cicon_form_decoder::Cicon_form_decoder(const Cvirtual_binary& s):
+Cicon_form_decoder::Cicon_form_decoder(const shared_data& s):
 	m_s(s)
 {
 	m_sset = NULL;
 	m_rpal = NULL;
 	m_rtbl = NULL;
-	do_form_chunk(s);
+	do_form_chunk(s.data());
 	assert(m_sset);
 	assert(m_rpal);
 	assert(m_rtbl);

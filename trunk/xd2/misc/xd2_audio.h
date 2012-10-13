@@ -7,12 +7,12 @@ class Cxd2_audio
 public:
 	Cxif_key save() const;
 	Cxd2_audio();
-	Cxd2_audio(const Cvirtual_binary& d, int samplerate);
+	Cxd2_audio(const shared_data& d, int samplerate);
 	Cxd2_audio(const Cxif_key_r& key);
 
 	const byte* d() const
 	{
-		return m_d;
+		return m_d.data();
 	}
 
 	int samplerate() const
@@ -20,7 +20,7 @@ public:
 		return m_samplerate;
 	}
 private:
-	Cvirtual_binary m_d;
+	shared_data m_d;
 	int m_samplerate;
 };
 
