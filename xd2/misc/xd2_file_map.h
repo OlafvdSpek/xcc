@@ -1,5 +1,6 @@
 #pragma once
 
+#include <xbt/find_ptr.h>
 #include <xbt/xif_key.h>
 #include <xbt/xif_key_r.h>
 
@@ -31,12 +32,12 @@ public:
 
 	const T& operator[](const string& name) const
 	{
-		return m_map.find(name)->second;
+		return find_ref(m_map, name);
 	}
 
 	bool has(const string& name) const
 	{
-		return m_map.find(name) != m_map.end();
+		return m_map.count(name);
 	}
 
 	const t_map& map() const
