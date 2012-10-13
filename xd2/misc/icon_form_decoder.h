@@ -6,14 +6,14 @@ public:
 	int do_form_chunk(const byte* s);
 	int do_form_sub_chunk(const byte* s);
 	void icon(int i, byte* w) const;
-	Cicon_form_decoder(const Cvirtual_binary& s);
+	Cicon_form_decoder(const shared_data& s);
 
 	int c_icons() const
 	{
 		return mc_icons;
 	}
 private:
-	const Cvirtual_binary m_s;
+	const shared_data m_s;
 	const byte* m_sset;
 	const byte* m_rpal;
 	const byte* m_rtbl;

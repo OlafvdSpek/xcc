@@ -5,7 +5,7 @@ Cxd2_animation::Cxd2_animation()
 {
 }
 
-Cxd2_animation::Cxd2_animation(const Cvirtual_binary& d, int cf, int cx, int cy)
+Cxd2_animation::Cxd2_animation(const shared_data& d, int cf, int cx, int cy)
 {
 	m_d = d;
 	m_cf = cf;

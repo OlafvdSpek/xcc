@@ -21,9 +21,9 @@ map<string, Cplayer> m_players;
 
 void load_palet(const string& name, SDL_Color* colors)
 {
-	const Cvirtual_binary& palet = g_files.data_map()[name];
+	const shared_data& palet = g_files.data_map()[name];
 	SDL_Color* w = colors;
-	for (const byte* r = palet; r < palet.end(); r += 3)
+	for (const byte* r = palet.data(); r < palet.end(); r += 3)
 		*w++ = Csdl_color(r[0], r[1], r[2]);
 }
 
@@ -173,7 +173,7 @@ void draw_buildings()
 		}
 	}
 	int y = 0;
-	BOOST_FOREACH(auto& i, m_object_types)
+	for (auto& i : m_object_types)
 	{
 		if (!i.second.body)
 			continue;
@@ -197,7 +197,7 @@ void draw_objects()
 {
 	int x0 = g_screen->w / 2 - view_x;
 	int y0 = g_screen->h / 2 - view_y;
-	BOOST_FOREACH(auto& i, m_objects)
+	for (auto& i : m_objects)
 	{
 		int x = i.l().x * 16 / 256 + x0;
 		int y = i.l().y * 16 / 256 + y0;
@@ -227,7 +227,7 @@ void draw_objects()
 	}
 }
 
-void draw_minimap(const Cvirtual_binary& minimap)
+void draw_minimap(const shared_data& minimap)
 {
 	static Csdl_surface surface = SDL_DisplayFormat(Csdl_surface(SDL_CreateRGBSurfaceFrom(const_cast<byte*>(minimap.data()), 64, 64, 32, 64 << 2, g_screen->format->Rmask, g_screen->format->Gmask, g_screen->format->Bmask, 0)));
 	SDL_BlitSurface(surface, NULL, g_screen, &Csdl_rect(g_screen->w - 64, g_screen->h - 64));
@@ -235,7 +235,7 @@ void draw_minimap(const Cvirtual_binary& minimap)
 
 void draw_sidebar(int x, int y, bool structures)
 {
-	BOOST_FOREACH(auto& i, m_object_types)
+	for (auto& i : m_object_types)
 	{
 		if (!i.second.cameo || i.second.structure != structures)
 			continue;
@@ -269,10 +269,10 @@ int get_icon_minimap_color(int i)
 	return SDL_MapRGB(g_screen->format, red / c, green / c, blue / c);
 }
 
-Cvirtual_binary create_minimap(const byte* s)
+shared_data create_minimap(const byte* s)
 {
-	Cvirtual_binary d;
-	int* w = reinterpret_cast<int*>(d.write_start(0x4000));
+	shared_data d(0x4000);
+	int* w = reinterpret_cast<int*>(d.data());
 	for (int i = 0; i < 0x1000; i++)
 		*w++ = get_icon_minimap_color(s[i]);
 	return d;
@@ -314,7 +314,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	read_config("dune/objects", m_object_types);
 	{
 		Cxif_key_r key;
-		if (key.import(Cvirtual_binary().load1("c:/vc/xd2/xd2 files.xif")) || g_files.load(key))
+		if (key.import(file_get("c:/vc/xd2/xd2 files.xif")) || g_files.load(key))
 			return 1;
 	}
 	if (SDL_Init(SDL_INIT_VIDEO))
@@ -330,21 +330,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	const SDL_VideoInfo* vi = SDL_GetVideoInfo();
 	load_palet("ibm.pal", g_palet);
 	g_icons = &g_files.animations()["icon.icn"];
-	Cvirtual_binary map;
+	shared_data map(0x1000);
 	{
 		const __int16* s = g_icon_map = reinterpret_cast<const __int16*>(g_files.data_map()["icon.map"].data());
 		s += s[9];
-		Cseed_decoder::decode(392, map.write_start(0x1000));
-		byte* w = map.data_edit();
+		Cseed_decoder::decode(392, map.data());
+		byte* w = map.data();
 		for (int i = 0; i < 0x1000; i++)
 			w[i] = s[w[i]];
 	}
 	m_objects.push_back(Cobject(0, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "mcv")));
 	m_objects.push_back(Cobject(1, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "const yard")));
-	Cvirtual_binary minimap = create_minimap(map);
+	shared_data minimap = create_minimap(map.data());
 	for (bool run = true; !g_error && run; )
 	{
-		draw_map(map);
+		draw_map(map.data());
 		// draw_buildings();
 		draw_objects();
 		draw_sidebar();
@@ -390,7 +390,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				break;
 			}
 		}
-		BOOST_FOREACH(auto& i, m_objects)
+		for (auto& i : m_objects)
 			i.tick();
 	}
 	SDL_Quit();
