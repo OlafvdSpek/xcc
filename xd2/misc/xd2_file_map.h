@@ -1,7 +1,7 @@
 #pragma once
 
-#include "xbt/xif_key.h"
-#include "xbt/xif_key_r.h"
+#include <xbt/xif_key.h>
+#include <xbt/xif_key_r.h>
 
 template<class T>
 class Cxd2_file_map

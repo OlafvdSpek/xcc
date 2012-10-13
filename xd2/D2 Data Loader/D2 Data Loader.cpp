@@ -13,12 +13,12 @@ int main()
 	Cxd2_files files;
 	if (files.load(dir))
 		return 1;
-	files.save().vdata().save(xcc_dirs::get_data_dir() + "xd2 files.xif");
-	Cvirtual_binary exe(dir + "dune2.exe");
+	file_put(xcc_dirs::get_data_dir() + "xd2 files.xif", files.save().vdata());
+	shared_data exe = file_get(dir + "dune2.exe");
 	if (!exe.size())
 		return 1;
-	auto bt = reinterpret_cast<const t_building_type*>(exe + 194010);
-	BOOST_FOREACH(auto& i, boost::make_iterator_range(bt, bt + 19))
+	auto bt = reinterpret_cast<const t_building_type*>(&exe[194010]);
+	for (auto& i : boost::make_iterator_range(bt, bt + 19))
 	{
 		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
@@ -35,8 +35,8 @@ int main()
 			<< "wsa = " << e + 229504 + i.wsa << endl
 			;
 	}
-	auto ut = reinterpret_cast<const t_unit_type*>(exe + 195840);
-	BOOST_FOREACH(auto& i, boost::make_iterator_range(ut, ut + 27))
+	auto ut = reinterpret_cast<const t_unit_type*>(&exe[195840]);
+	for (auto& i : boost::make_iterator_range(ut, ut + 27))
 	{
 		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
