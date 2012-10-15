@@ -133,7 +133,7 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	string& buffer = m_replays.get_buffer();
 	int id = pDispInfo->item.lParam;
-	const t_map_entry& e = m_map.find(id)->second;
+	const t_map_entry& e = find_ref(m_map, id);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -165,7 +165,7 @@ void Cdlg_open::OnGetdispinfoPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 {
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	string& buffer = m_players.get_buffer();
-	const t_player_map_entry& e = m_player_map.find(pDispInfo->item.lParam)->second;
+	const t_player_map_entry& e = find_ref(m_player_map, pDispInfo->item.lParam);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -184,7 +184,7 @@ void Cdlg_open::OnItemchangedReplays(NMHDR* pNMHDR, LRESULT* pResult)
 	NM_LISTVIEW* pNMListView = (NM_LISTVIEW*)pNMHDR;
 	if (pNMListView->uNewState & LVIS_FOCUSED)
 	{
-		const t_map_entry& e = m_map.find(pNMListView->lParam)->second;
+		const t_map_entry& e = find_ref(m_map, pNMListView->lParam);
 		m_fname = e.dir + e.name;
 		m_ok.EnableWindow(true);
 	}
@@ -199,7 +199,7 @@ void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 	if (pNMListView->uNewState & LVIS_FOCUSED)
 	{
 		m_replays.DeleteAllItems();
-		const t_player_map_entry& e = m_player_map.find(pNMListView->lParam)->second;
+		const t_player_map_entry& e = find_ref(m_player_map, pNMListView->lParam);
 		for (auto& i : e.replays)
 			m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), i);
 	}
@@ -288,8 +288,8 @@ int Cdlg_open::replay_compare(int id_a, int id_b)
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_map_entry& a = m_map.find(id_a)->second;
-	const t_map_entry& b = m_map.find(id_b)->second;
+	const t_map_entry& a = find_ref(m_map, id_a);
+	const t_map_entry& b = find_ref(m_map, id_b);
 	switch (m_sort_column)
 	{
 	case 0:
@@ -306,8 +306,8 @@ int Cdlg_open::replay_compare(int id_a, int id_b)
 
 int Cdlg_open::player_compare(int id_a, int id_b)
 {
-	const t_player_map_entry& a = m_player_map.find(id_a)->second;
-	const t_player_map_entry& b = m_player_map.find(id_b)->second;
+	const t_player_map_entry& a = find_ref(m_player_map, id_a);
+	const t_player_map_entry& b = find_ref(m_player_map, id_b);
 	switch (m_players_sort_column)
 	{
 	case 0:
@@ -349,14 +349,14 @@ void Cdlg_open::insert_players(const t_player_set& players, int replay)
 
 void Cdlg_open::insert_player(const string& player, int replay)
 {
-	if (m_reverse_player_map.find(player) == m_reverse_player_map.end())
+	if (auto p = find_ptr(m_reverse_player_map, player))
+		m_player_map[*p].replays.insert(replay);
+	else
 	{
 		int i = m_reverse_player_map[player] = m_player_map.size();
 		m_player_map[i].player = player;
 		m_player_map[i].replays.insert(replay);
 	}
-	else
-		m_player_map[m_reverse_player_map.find(player)->second].replays.insert(replay);
 }
 
 void Cdlg_open::insert_players_columns()
