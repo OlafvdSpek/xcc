@@ -5,12 +5,12 @@ Cobject::Cobject()
 {
 }
 
-Cobject::Cobject(int x, int y, Cplayer* p, Cobject_type* t)
+Cobject::Cobject(int x, int y, Cplayer& p, Cobject_type& t)
 {
 	m_destination = m_l = Clocation(x << 8 | 0x80, y << 8 | 0x80);
-	m_health = t->strength;
-	m_p = p;
-	m_t = t;
+	m_health = t.strength;
+	m_p = &p;
+	m_t = &t;
 	m_target = NULL;
 
 	m_destination = Clocation(0x3f80, 0x3f80);
