@@ -1007,28 +1007,28 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	}
 
 	os << '[' << section_code[si_celltriggers] << "]\r\n";
-	BOOST_FOREACH(auto& i, celltrigger_data)
+	for (auto& i : celltrigger_data)
 		os << i.first << '=' << i.second << "\r\n";
 	os << "\r\n";
 
 	os << '[' << section_code[si_teamtypes] << "]\r\n";
-	BOOST_FOREACH(auto& i, teamtype_data)
+	for (auto& i : teamtype_data)
 	{
 		const t_teamtype_data_entry& d = i.second;
 		os << i.first << '=' << side_code[d.side] << ',' << static_cast<bool>(d.flags & td_flags_link) << ",0," <<
 			static_cast<bool>(d.flags & td_flags_force_move) << ',' << static_cast<bool>(d.flags & td_flags_autocreate) << ",0," <<
 			d.u1 << ',' << d.c_teams << ",0,0," << d.objects.size() << ',';
-		BOOST_FOREACH(auto& i, d.objects)
+		for (auto& i : d.objects)
 			os << i.first << ':' << i.second << ',';
 		os << d.actions.size() << ',';
-		BOOST_FOREACH(auto& i, d.actions)
+		for (auto& i : d.actions)
 			os << action_code[i.first] << ':' << i.second << ',';
 		os << static_cast<bool>(d.flags & td_flags_replace) << ',' << static_cast<bool>(d.flags & td_flags_force_creation) << "\r\n";
 	}
 	os << "\r\n";
 
 	os << '[' << section_code[si_triggers] << "]\r\n";
-	BOOST_FOREACH(auto& i, trigger_data)
+	for (auto& i : trigger_data)
 	{
 		const t_trigger_data_entry& d = i.second;
 		os << i.first << '=' << cause_code[d.cause] << ',' << event_code[d.event] << ',' 
@@ -1047,7 +1047,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	os << '[' << section_code[si_base] << "]\r\n";
 	int index = 0;
-	BOOST_FOREACH(auto& i, structure_data)
+	for (auto& i : structure_data)
 	{
 		if (i.flags & sd_flags_replace)
 			os << nwzl(3, index++) << '=' << i.t->short_name << ',' << ((i.cell.get_cc() & 0xfc0) << 18 | (i.cell.get_cc() & 0x3f) << 8) << "\r\n";
@@ -1057,13 +1057,13 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	os << '[' << section_code[si_infantry] << "]\r\n";
 	index = 0;
-	BOOST_FOREACH(auto& i, infantry_data)
+	for (auto& i : infantry_data)
 		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.cell.subcell() << ',' << action_code[i.action] << ',' << i.angle << ',' << i.trigger << "\r\n";
 	os << "\r\n";
 
 	os << '[' << section_code[si_structures] << "]\r\n";
 	index = 0;
-	BOOST_FOREACH(auto& i, structure_data)
+	for (auto& i : structure_data)
 	{
 		if (i.flags & sd_flags_start)
 			os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name << ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << i.trigger << "\r\n";
@@ -1072,7 +1072,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 
 	os << '[' << section_code[si_units] << "]\r\n";
 	index = 0;
-	BOOST_FOREACH(auto& i, unit_data)
+	for (auto& i : unit_data)
 		os << index++ << '=' << side_code[i.side] << ',' << i.t->short_name	<< ',' << i.health << ',' << i.cell.get_cc() << ',' << i.angle << ',' << action_code[i.action] << ',' << i.trigger << "\r\n";
 	os << "\r\n";
 
@@ -1099,7 +1099,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	}
 
 	os << '[' << section_code[si_overlay] << "]\r\n";
-	BOOST_FOREACH(auto& i, overlay_data)
+	for (auto& i : overlay_data)
 	{
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		if (is_tiberium(v))
@@ -1111,7 +1111,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 	os << "\r\n";
 
 	os << '[' << section_code[si_terrain] << "]\r\n";
-	BOOST_FOREACH(auto& i, terrain_data)
+	for (auto& i : terrain_data)
 	{
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);
@@ -1156,7 +1156,7 @@ void Cxcc_level::process()
 			break;
 		}
 	}
-	BOOST_FOREACH(auto& i, overlay_data)
+	for (auto& i : overlay_data)
 	{
 		t_overlay_id v = static_cast<t_overlay_id>(i.second >> 8);
 		int cell = i.first;
@@ -1190,7 +1190,7 @@ void Cxcc_level::process()
 			overlay_data[cell] = v << 8 | w;
 		}
 	}
-	BOOST_FOREACH(auto& i, base_data)
+	for (auto& i : base_data)
 	{
 		t_structure_data::iterator j;
 		for (j = structure_data.begin(); j < structure_data.end(); j++)

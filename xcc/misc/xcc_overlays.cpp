@@ -126,7 +126,7 @@ int Cxcc_overlays::load_data()
 		t_overlay_data_entry& od = overlay_data[i];
 		od.ox = od.oy = 0;
 		const Cxif_key& ok = overlay_key.get_key(i);
-		BOOST_FOREACH(auto& i, ok.m_values)
+		for (auto& i : ok.m_values)
 		{
 			switch (i.first)
 			{
@@ -144,7 +144,7 @@ int Cxcc_overlays::load_data()
 	{
 		t_terrain_data_entry& td = terrain_data[i];
 		const Cxif_key& tk = terrain_key.get_key(i);
-		BOOST_FOREACH(auto& i, tk.m_values)
+		for (auto& i : tk.m_values)
 		{
 			switch (i.first)
 			{

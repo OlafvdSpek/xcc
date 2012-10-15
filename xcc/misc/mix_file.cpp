@@ -264,7 +264,7 @@ int Cmix_file::post_open()
 				t_block_map block_map;
 				for (int i = 0; i < get_c_files(); i++)
 					block_map.insert(t_block_map::value_type(get_offset(get_id(i)), i));
-				BOOST_FOREACH(auto& i, block_map)
+				for (auto& i : block_map)
 				{
 					Ccc_file f(false);
 					f.open(get_id(i.second), *this);
