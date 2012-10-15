@@ -12,7 +12,6 @@
 #include <afxsock.h>		// MFC socket extensions
 #include <array>
 #include <boost/algorithm/string.hpp>
-#include <boost/foreach.hpp>
 #include <cassert>
 #include <fstream>
 #include <iostream>
