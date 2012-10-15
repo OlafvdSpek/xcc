@@ -342,7 +342,7 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 					m_mem_dc.TextOut(x, y, b);
 					m_mem_dc.SetTextColor(old_color);
 				}
-				m_mem_dc.TextOut(x + 32, y, m_object_types.object_types.find(i.first)->second.name.c_str());
+				m_mem_dc.TextOut(x + 32, y, find_ref(m_object_types.object_types, i.first).name.c_str());
 			}
 		}
 		m_mem_dc_valid = true;
