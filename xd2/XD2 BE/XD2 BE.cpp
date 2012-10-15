@@ -339,8 +339,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		for (int i = 0; i < 0x1000; i++)
 			w[i] = s[w[i]];
 	}
-	m_objects.push_back(Cobject(0, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "mcv")));
-	m_objects.push_back(Cobject(1, 0, find_ptr(m_players, "goodguy"), find_ptr(m_object_types, "const yard")));
+	m_objects.push_back(Cobject(0, 0, find_ref(m_players, "goodguy"), find_ref(m_object_types, "mcv")));
+	m_objects.push_back(Cobject(1, 0, find_ref(m_players, "goodguy"), find_ref(m_object_types, "const yard")));
 	shared_data minimap = create_minimap(map.data());
 	for (bool run = true; !g_error && run; )
 	{
