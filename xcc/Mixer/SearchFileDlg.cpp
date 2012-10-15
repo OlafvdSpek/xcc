@@ -94,7 +94,7 @@ void CSearchFileDlg::OnFind()
 			Cmix_file f;
 			if (!f.open(i.second.fname))
 			{
-				const t_mix_map_list_entry& e = m_main_frame->mix_map_list().find(i.second.parent)->second;
+				const t_mix_map_list_entry& e = find_ref(m_main_frame->mix_map_list(), i.second.parent);
 				find(f, get_filename(), e.name + " - " + i.second.name, i.first);
 			}
 		}
