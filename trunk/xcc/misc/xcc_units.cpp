@@ -63,14 +63,14 @@ int xcc_units::load_data()
 int xcc_units::save_data()
 {
 	map<string, t_unit_data_entry*> list;	
-	BOOST_FOREACH(auto& ud, unit_data)
+	for (auto& ud : unit_data)
 	{
 		if (ud.flags & ud_flags_in_use)
 			list[ud.short_name] = &ud;
 	}
 	Cxif_key units_key;
 	int unit_i = 0;
-	BOOST_FOREACH(auto& i, list)
+	for (auto& i : list)
 	{
 		t_unit_data_entry& ud = *i.second;
 		Cxif_key& uk = units_key.set_key(unit_i);
@@ -94,7 +94,7 @@ int xcc_units::load_images()
 	static bool loaded = false;
 	if (loaded)
 		return 0;
-	BOOST_FOREACH(auto& ud, unit_data)
+	for (auto& ud : unit_data)
 	{
 		if (~ud.flags & ud_flags_in_use)
 			continue;
@@ -109,7 +109,7 @@ int xcc_units::load_images()
 
 xcc_units::t_unit_data_entry* xcc_units::get_id(const string& s)
 {
-	BOOST_FOREACH(auto& ud, unit_data)
+	for (auto& ud : unit_data)
 	{
 		if (ud.flags & ud_flags_in_use && iequals(ud.short_name, s))
 			return &ud;

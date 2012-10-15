@@ -49,26 +49,26 @@ void xcc_cell_manager::add_all(const Cxcc_level& level)
 	clear();
 	{
 		int index = 0;
-		BOOST_FOREACH(auto& i, level.infantry_data)
+		for (auto& i : level.infantry_data)
 			add(i.cell, oi_infantry << 24 | index++);
 	}
 	{
 		int index = 0;
-		BOOST_FOREACH(auto& i, level.structure_data)
+		for (auto& i : level.structure_data)
 			add(i.cell, oi_structure << 24 | index++);
 	}
 	{
 		int index = 0;
-		BOOST_FOREACH(auto& i, level.unit_data)
+		for (auto& i : level.unit_data)
 			add(i.cell, oi_unit << 24 | index++);
 	}
-	BOOST_FOREACH(auto& i, level.terrain_data)
+	for (auto& i : level.terrain_data)
 	{
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);
 		add(cell, oi_terrain << 24 | (cell.y & 0xff00) | (cell.x >> 8));
 	}
-	BOOST_FOREACH(auto& i, level.overlay_data)
+	for (auto& i : level.overlay_data)
 	{
 		Cxcc_cell cell;
 		cell.set_xcc(i.first);

@@ -64,7 +64,7 @@ int mix_database::load()
 	if (0)
 	{
 		ofstream log_f("c:\\log.txt");
-		BOOST_FOREACH(auto& i, ts_list)
+		for (auto& i : ts_list)
 			log_f << i.second.name << '\t' << i.second.description << endl;
 	}
 	return 0;

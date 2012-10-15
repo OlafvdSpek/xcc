@@ -109,7 +109,7 @@ void Ccsf_file::set_value(const string& name, const wstring& value, const string
 int Ccsf_file::get_write_size() const
 {
 	int r = sizeof(t_csf_header);
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		r += 20 + i.first.length() + (i.second.value.length() << 1);
 		if (!i.second.extra_value.empty())
@@ -129,7 +129,7 @@ void Ccsf_file::write(byte* d) const
 	header.count2 = get_c_strings();
 	header.zero = 0;
 	header.flags2 = 0;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		write_int(w, csf_label_id);
 		write_int(w, 1);

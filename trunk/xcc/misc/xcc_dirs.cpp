@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "xcc_dirs.h"
 
 #include <windows.h>
