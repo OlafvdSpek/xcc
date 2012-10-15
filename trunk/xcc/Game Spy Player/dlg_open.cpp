@@ -103,7 +103,7 @@ BOOL Cdlg_open::OnInitDialog()
 						Cgame_state game_state;
 						game_state.import_diff(boost::next(key.keys().begin())->second);
 						e.scenario = game_state.scenario;
-						BOOST_FOREACH(auto& p, game_state.players)
+						for (auto& p : game_state.players)
 						{
 							const Cplayer& player = p.second;
 							if (player.color != 5)
@@ -118,7 +118,7 @@ BOOL Cdlg_open::OnInitDialog()
 		while (FindNextFile(fh, &fd));
 		FindClose(fh);
 	}
-	BOOST_FOREACH(auto& i, m_reverse_player_map)
+	for (auto& i : m_reverse_player_map)
 		m_players.SetItemData(m_players.InsertItem(m_players.GetItemCount(), LPSTR_TEXTCALLBACK), i.second);
 	m_players.auto_size();
 	m_replays.auto_size();
@@ -145,7 +145,7 @@ void Cdlg_open::OnGetdispinfoReplays(NMHDR* pNMHDR, LRESULT* pResult)
 	case 2:
 		{
 			buffer.erase();
-			BOOST_FOREACH(auto& i, e.players)
+			for (auto& i : e.players)
 			{
 				if (!buffer.empty())
 					buffer += ", ";
@@ -200,7 +200,7 @@ void Cdlg_open::OnItemchangedPlayers(NMHDR* pNMHDR, LRESULT* pResult)
 	{
 		m_replays.DeleteAllItems();
 		const t_player_map_entry& e = m_player_map.find(pNMListView->lParam)->second;
-		BOOST_FOREACH(auto& i, e.replays)
+		for (auto& i : e.replays)
 			m_replays.SetItemData(m_replays.InsertItem(m_replays.GetItemCount(), LPSTR_TEXTCALLBACK), i);
 	}
 	*pResult = 0;
@@ -230,7 +230,7 @@ void Cdlg_open::import_cache(const Cxif_key& key)
 {
 	string dir;
 	get_replays_dir(dir);
-	BOOST_FOREACH(auto& i, key.m_keys)
+	for (auto& i : key.m_keys)
 	{
 		t_map_entry& e = m_map[m_map.empty() ? 0 : m_map.rbegin()->first + 1];
 		const Cxif_key& k = i.second;
@@ -240,7 +240,7 @@ void Cdlg_open::import_cache(const Cxif_key& key)
 		e.scenario = k.get_value_string(vi_scenario);
 		{
 			const Cxif_key& l = k.open_key_read(ki_players);
-			BOOST_FOREACH(auto& i, l.m_keys)
+			for (auto& i : l.m_keys)
 				e.players.insert(i.second.get_value_string(vi_name));
 		}
 	}
@@ -249,7 +249,7 @@ void Cdlg_open::import_cache(const Cxif_key& key)
 Cxif_key Cdlg_open::export_cache()
 {
 	Cxif_key key;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		const t_map_entry& e = i.second;
 		Cxif_key& k = key.open_key_write();
@@ -258,7 +258,7 @@ Cxif_key Cdlg_open::export_cache()
 		k.set_value_string(vi_scenario, e.scenario);
 		{
 			Cxif_key& l = k.open_key_write(ki_players);
-			BOOST_FOREACH(auto& i, e.players)
+			for (auto& i : e.players)
 				l.open_key_write().set_value_string(vi_name, i);
 		}
 	}
@@ -343,7 +343,7 @@ void Cdlg_open::sort_players(int i)
 
 void Cdlg_open::insert_players(const t_player_set& players, int replay)
 {
-	BOOST_FOREACH(auto& i, players)
+	for (auto& i : players)
 		insert_player(i, replay);
 }
 
