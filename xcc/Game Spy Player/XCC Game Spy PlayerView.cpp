@@ -202,13 +202,11 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 		}
 		else
 			FillRect(m_mem_dc, &rect, static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH)));
-		typedef map<int, int> t_object_counts;
-		typedef map<int, t_object_counts> t_objects_counts;
 		
 		int cx = rect.Width();
 		int cy = rect.Height();
 		const Cgame_state& game_state = live ? m_game_state : get_game_state(m_shot_time);
-		t_objects_counts objects_counts;
+		map<int, map<int, int>> objects_counts;
 		{
 			if (m_show_history)
 			{
@@ -552,23 +550,25 @@ void CXCCGameSpyPlayerView::clear_terrain_map()
 	}
 }
 
+Cvirtual_binary read_file(const string& mix, const string& name)
+{
+	Cmix_file f;
+	if (f.open(xcc_dirs::get_dir(game_ra2) + mix))
+		return Cvirtual_binary();
+	f.set_game(game_ra2);
+	return f.get_vdata(name);
+}
+
 void CXCCGameSpyPlayerView::read_map(string name)
 {
 	clear_terrain_map();
-	Cmix_file mix_f;
-	if (mix_f.open(xcc_dirs::get_dir(game_ra2) + "multi.mix"))
-		return;
-	mix_f.set_game(game_ra2);
-	Cvirtual_binary s = mix_f.get_vdata(name);
-	mix_f.close();
+	Cvirtual_binary s = read_file("multi.mix", name);
 	if (!s.size() && s.load(xcc_dirs::get_dir(game_ra2) + name))
 	{
-		name = static_cast<Cfname>(name).get_ftitle();
-		if (!mix_f.open(xcc_dirs::get_dir(game_ra2) + name + ".mmx"))
-		{
-			s = mix_f.get_vdata(name + ".map");
-			mix_f.close();
-		}
+		name = Cfname(name).get_ftitle();
+		s = read_file("xwis.mmx", name + ".map");
+		if (!s.size())
+			s = read_file(name + ".mmx", name + ".map");
 	}
 	if (!s.size())
 		return;
