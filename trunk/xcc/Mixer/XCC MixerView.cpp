@@ -2645,7 +2645,7 @@ string CXCCMixerView::report() const
 	CListCtrl& lc = GetListCtrl();
 	for (int i = 0; i < lc.GetItemCount(); i++)
 	{
-		const t_index_entry& e = m_index.find(lc.GetItemData(i))->second;
+		const t_index_entry& e = find_ref(m_index, lc.GetItemData(i));
 		page += "<tr><td>" + e.name + "<td>" + ft_name[e.ft] + "<td align=right>" + (e.size == -1 ? "&nbsp;" : n(e.size)) + "<td>" + (e.description.empty() ? "&nbsp;" : e.description);
 	}
 	return "<table border=1 width=100%>" + page + "</table>";
