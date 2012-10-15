@@ -553,7 +553,7 @@ void CXCCAudioPlayerDlg::OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult)
 
 bool CXCCAudioPlayerDlg::has_scores()
 {
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 	{
 		if (is_score(i.first))
 			return true;
