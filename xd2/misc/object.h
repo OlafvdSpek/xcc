@@ -24,7 +24,7 @@ public:
 
 	void tick();
 	Cobject();
-	Cobject(int x, int y, Cplayer*, Cobject_type*);
+	Cobject(int x, int y, Cplayer&, Cobject_type&);
 private:
 	Clocation m_destination;
 	int m_health;
