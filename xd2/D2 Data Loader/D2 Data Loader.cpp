@@ -17,10 +17,10 @@ int main()
 	shared_data exe = file_get(dir + "dune2.exe");
 	if (!exe.size())
 		return 1;
+	const char* e = reinterpret_cast<const char*>(exe.data());
 	auto bt = reinterpret_cast<const t_building_type*>(&exe[194010]);
 	for (auto& i : boost::make_iterator_range(bt, bt + 19))
 	{
-		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
 			<< "cameo = " << i.cameo_shp_index << endl
 			<< "class = structure" << endl
@@ -38,7 +38,6 @@ int main()
 	auto ut = reinterpret_cast<const t_unit_type*>(&exe[195840]);
 	for (auto& i : boost::make_iterator_range(ut, ut + 27))
 	{
-		const char* e = reinterpret_cast<const char*>(exe.data());
 		ofstream("../xd2 be/dune/objects/" + to_lower_copy(string(e + 229504 + i.name)) + ".ini")
 			<< "body = " << i.body_shp_index << endl
 			<< "cameo = " << i.cameo_shp_index << endl
