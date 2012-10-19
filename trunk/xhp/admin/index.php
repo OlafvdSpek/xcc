@@ -4,7 +4,7 @@
 <?php
 	function format_forum_name0($uid, $display_name, $login_name, $email)
 	{
-		$d = sprintf('<a href="http://strike-team.net/forums/?showuser=%d">%s</a>', $uid, htmlspecialchars($display_name));
+		$d = sprintf('<a href="http://xwis.net/forums/?showuser=%d">%s</a>', $uid, htmlspecialchars($display_name));
 		if ($login_name != $display_name)
 			$d .= ' - ' . htmlspecialchars($login_name);
 		if (!empty($email))
@@ -157,13 +157,18 @@
 		printf('<tr>');
 		printf('<th>count');
 		printf('<th>sid');
+		printf('<th>forum name');
+		printf('<th>gsku');
 		printf('<th>last');
 		printf('<th>first');
 		while ($row = mysql_fetch_assoc($rows))
 		{
+			$member = db_query_first(sprintf("select uid, gsku, members_display_name from xwi_serials left join st_forum.invision_members on uid = member_id where sid = %d", $row['sid']));
 			printf('<tr>');
 			printf('<td align=right>%dx', $row['c']);
 			printf('<td align=right><a href="?a=edit_serial;sid=%d">%d</a>', $row['sid'], $row['sid']);
+			printf('<td><a href="?q=u:%d">%s</a>', $member['uid'], htmlspecialchars($member['members_display_name']));
+			printf('<td>%s', gsku2a($member['gsku']));
 			printf('<td>%s', gmdate('Y-m-d', $row['mtime']));
 			printf('<td>%s', gmdate('Y-m-d', $row['ctime']));
 		}
