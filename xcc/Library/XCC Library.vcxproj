@@ -217,8 +217,6 @@
     <ClCompile Include="..\misc\pkt_ts_ini_reader.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\png_file.cpp" />
-    <ClCompile Include="..\misc\wol\ra2_names.cpp">
-    </ClCompile>
     <ClCompile Include="..\..\misc\reg_key.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\riff_file.cpp">
