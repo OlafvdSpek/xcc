@@ -33,7 +33,7 @@ void Cdlg_edit_string::set(const string& key, const string& value)
 
 string Cdlg_edit_string::get()
 {
-	return m_value;
+	return string(m_value);
 }
 
 BOOL Cdlg_edit_string::OnInitDialog() 
