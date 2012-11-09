@@ -56,7 +56,7 @@ int mix_cache::save()
 		return 1;
 	write_int(f, get_ft_crc());
 	write_int(f, cache.size());
-	BOOST_FOREACH (auto& i, cache)
+	for (auto& i : cache)
 	{
 		write_int(f, i.first);
 		write_int(f, i.second.size());
@@ -67,8 +67,7 @@ int mix_cache::save()
 
 Cvirtual_binary mix_cache::get_data(int crc)
 {
-	auto i = find_ptr(cache, crc);
-	return i ? *i : Cvirtual_binary();
+	return find_ptr2(cache, crc);
 }
 
 void mix_cache::set_data(int crc, const Cvirtual_binary& v)

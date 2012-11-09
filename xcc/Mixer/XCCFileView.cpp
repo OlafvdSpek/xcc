@@ -206,10 +206,10 @@ void CXCCFileView::draw_info(string n, string d)
 			e.text_extent = CRect(CPoint(128, m_y), m_dc->GetTextExtent(n.c_str()));
 			e.t = d;
 			m_text_cache.push_back(e);
-			m_x = max(m_x, 128 + e.text_extent.right);
+			m_x = max<int>(m_x, 128 + e.text_extent.right);
 		}
 		else
-			m_x = max(m_x, e.text_extent.right);
+			m_x = max<int>(m_x, e.text_extent.right);
 	}
 	m_y += m_y_inc;
 }
@@ -705,12 +705,12 @@ void CXCCFileView::OnDraw(CDC* pDC)
 				const Ctheme_ts_ini_reader::t_theme_list& tl = ir.get_theme_list();
 				draw_info("Count themes:", n(tl.size()));
 				m_y += m_y_inc;
-				int column_size[] = {0, 6, 3, 0};
+				size_t column_size[] = {0, 6, 3, 0};
 				for (auto& i : tl)
 				{
 					const Ctheme_data& td = i.second;
-					column_size[0] = max(column_size[0], td.name().length());
-					column_size[3] = max(column_size[3], td.side().length());
+					column_size[0] = max(column_size[0], td.name().size());
+					column_size[3] = max(column_size[3], td.side().size());
 				}
 				for (auto& i : tl)
 				{
@@ -1158,32 +1158,30 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					break;
 				}
 			default:
-				if (show_binary)
+				if (!show_binary)
+					break;
+				m_y += m_y_inc;
+				if (m_data.size() > 32  << 10)
+					m_data.size(32 << 10);
+				for (int r = 0; r < m_data.size(); )
 				{
-					m_y += m_y_inc;
-					if (m_data.size() > 32 * 1024)
-						m_data.size(32 * 1024);
-					for (int r = 0; r < m_data.size(); )
+					string line = nwzl(5, r) + ' ';
+					int line_data[16];
+					for (int c = 0; c < 16; c++)
 					{
-						string line = nwzl(5, r) + ' ';
-						int line_data[16];
-						int c;
-						for (c = 0; c < 16; c++)
-						{
-							line_data[c] = r < m_data.size() ? m_data.data()[r] : -1;
-							r++;
-						}
-						for (c = 0; c < 16; c++)
-						{
-							if (!(c & 7))
-								line += "- ";
-							line += line_data[c] == -1 ? "   " : nh(2, line_data[c]) + ' ';
-						}
-						line += "- ";
-						for (c = 0; c < 16; c++)
-							line += line_data[c] < 0x20 ? ' ' : line_data[c];
-						draw_info(line, "");
+						line_data[c] = r < m_data.size() ? m_data.data()[r] : -1;
+						r++;
 					}
+					for (int c = 0; c < 16; c++)
+					{
+						if (!(c & 7))
+							line += "- ";
+						line += line_data[c] == -1 ? "   " : nh(2, line_data[c]) + ' ';
+					}
+					line += "- ";
+					for (int c = 0; c < 16; c++)
+						line += line_data[c] < 0x20 ? ' ' : line_data[c];
+					draw_info(line, "");
 				}
 			}
 			SetScrollSizes(MM_TEXT, CSize(m_x, m_y));

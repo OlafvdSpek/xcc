@@ -53,7 +53,7 @@ int Cini_reader::process(const Cvirtual_binary s)
 
 int Cini_reader::process_line(string line)
 {
-	int i = 0;
+	size_t i = 0;
 	int first_non_ws;
 	int last_non_ws;
 	while (i < line.length())

@@ -10,7 +10,7 @@ public:
 		if (!get_size())
 			return false;
 		const byte* data = get_data();
-		int cb_data = min(get_size(), 16 << 10);
+		int cb_data = min<int>(get_size(), 16 << 10);
 		for (int i = 0; i < cb_data; i++)
 		{
 			byte c = data[i];

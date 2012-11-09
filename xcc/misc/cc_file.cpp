@@ -206,7 +206,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 		if (m_read_on_open)
 			m_f.close();
 		test_fail(post_open())
-			return 0;
+		return 0;
 	}
 
 	void Ccc_file::load(const Cvirtual_binary& d, int size)
@@ -295,7 +295,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 		}
 		else
 		{
-			size = min(m_size, 64 << 10);
+			size = min<int>(m_size, 64 << 10);
 			seek(0);
 			if (read(data.write_start(size), size))
 				return ft_unknown;

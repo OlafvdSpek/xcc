@@ -89,16 +89,16 @@ class Ccc_file
 public:
 	const Cwin_handle& h();
 	int open(const Cwin_handle& h);
-    int open(unsigned int id, Cmix_file& mix_f);
-    int open(const string& name, Cmix_file& mix_f);
-    int open(const string& name);
+	int open(unsigned int id, Cmix_file& mix_f);
+	int open(const string& name, Cmix_file& mix_f);
+	int open(const string& name);
 	void load(const Cvirtual_binary& d, int size = -1);
 	void load(const Ccc_file& f);
 	t_file_type get_file_type(bool fast = true);
 	int read();
-    int read(void* data, int size);
+	int read(void* data, int size);
 	int extract(const string& name);
-    virtual void close();
+	virtual void close();
 	Ccc_file(bool read_on_open);
 
 	const byte* begin() const
@@ -121,57 +121,57 @@ public:
     return m_size;
   }
 
-  const byte* get_data() const
-    {
-        return m_data.data();
-    }
+	const byte* get_data() const
+	{
+		return m_data.data();
+	}
 
 	const byte* data_end() const
-    {
-        return m_data.data_end();
-    }
+	{
+		return m_data.data_end();
+	}
 
-    Cvirtual_binary vdata() const
-    {
-        return m_data;
-    }
+	Cvirtual_binary vdata() const
+	{
+		return m_data;
+	}
 
 	int get_p() const
-    {
-        return m_p;
-    }
+	{
+		return m_p;
+	}
 
-    long long get_size() const
+	long long get_size() const
 	{
 		return m_size;
 	}
 
-    bool is_open() const
-    {
-        return m_is_open;
-    }
+	bool is_open() const
+	{
+		return m_is_open;
+	}
 
-    void seek(int p)
-    {
-        m_p = p;
-    }
+	void seek(int p)
+	{
+		m_p = p;
+	}
 
-    void skip(int p)
-    {
-        m_p += p;
-    }
+	void skip(int p)
+	{
+		m_p += p;
+	}
 
-    virtual int post_open()
-    {
-        return 0;
-    }
+	virtual int post_open()
+	{
+		return 0;
+	}
 protected:
-    int m_offset;
+	int m_offset;
 private:
-    Cvirtual_binary m_data;
-    Cfile32 m_f;
-    bool m_is_open;
-    int m_p;
-    const bool m_read_on_open;
-    long long m_size;
+	Cvirtual_binary m_data;
+	Cfile32 m_f;
+	bool m_is_open;
+	int m_p;
+	const bool m_read_on_open;
+	long long m_size;
 };

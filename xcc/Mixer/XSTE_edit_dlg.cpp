@@ -30,7 +30,7 @@ void CXSTE_edit_dlg::set(const string& name, const string& value, const string& 
 {
 	m_name = name.c_str();
 	m_value.Empty();
-	for (int i = 0; i < value.length(); i++)
+	for (size_t i = 0; i < value.length(); i++)
 	{
 		if (value[i] == '\n')
 			m_value += '\r';
