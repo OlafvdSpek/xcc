@@ -4,7 +4,7 @@
 #include "cc_file.h"
 #include "cc_structures.h"
 
-class Cbig_file: public Ccc_file  
+class Cbig_file : public Ccc_file  
 {
 public:
 	typedef map<string, t_big_index_entry> t_index;
@@ -21,19 +21,16 @@ public:
 	}
 
 	int get_offset(const string& name) const
-    {
-        return m_index.find(name)->second.offset;
-    }
-
-    int get_size() const
 	{
-		return Ccc_file::get_size();
+		return m_index.find(name)->second.offset;
 	}
 
+	using Ccc_file::get_size;
+
 	int get_size(const string& name) const
-    {
-        return m_index.find(name)->second.size;
-    }
+	{
+		return find_ref(m_index, name).size;
+	}
 
 	const t_index& index() const
 	{

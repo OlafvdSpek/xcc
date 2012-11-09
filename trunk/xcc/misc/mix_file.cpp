@@ -113,7 +113,7 @@ int Cmix_file::post_open()
 			f.load(vdata());
 		else
 		{
-			int size = min(get_size(), 64 << 10);
+			int size = min<int>(get_size(), 64 << 10);
 			Cvirtual_binary data;
 			test_fail(read(data.write_start(size), size));
 			f.load(data, get_size());

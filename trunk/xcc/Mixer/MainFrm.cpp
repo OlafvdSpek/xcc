@@ -357,7 +357,7 @@ typedef map<string, int> t_sort_list;
 
 string escape_menu_name(string v)
 {
-	for (int i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 	{
 		if (v[i] == '&')
 			v.insert(++i, "&");

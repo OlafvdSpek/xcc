@@ -10,7 +10,7 @@ size_t null_read(void* ptr, size_t size, size_t nmemb, void* datasource)
 	if (!size || !nmemb)
 		return 0;
 	Cogg_file& f = *reinterpret_cast<Cogg_file*>(datasource);
-	nmemb = min((f.get_size() - f.get_p()) / size, nmemb);
+	nmemb = min<size_t>((f.get_size() - f.get_p()) / size, nmemb);
 	assert(nmemb >= 0);
 	int error = f.read(ptr, nmemb * size);
 	assert(!error);
