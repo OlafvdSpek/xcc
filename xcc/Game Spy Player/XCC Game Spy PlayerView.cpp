@@ -113,10 +113,10 @@ void CXCCGameSpyPlayerView::OnDraw(CDC* pDC)
 				continue;
 			int x, y;
 			transform(object.x, object.y, x, y);
-			m_map_limits.left = min(m_map_limits.left, x);
-			m_map_limits.right = max(m_map_limits.right, x);
-			m_map_limits.top = min(m_map_limits.top, y);
-			m_map_limits.bottom = max(m_map_limits.bottom, y);
+			m_map_limits.left = min<int>(m_map_limits.left, x);
+			m_map_limits.right = max<int>(m_map_limits.right, x);
+			m_map_limits.top = min<int>(m_map_limits.top, y);
+			m_map_limits.bottom = max<int>(m_map_limits.bottom, y);
 		}
 		m_map_limits.left -= 8 << 8;
 		m_map_limits.top -= 8 << 8;
@@ -394,10 +394,10 @@ void CXCCGameSpyPlayerView::read_log()
 					continue;
 				int x, y;
 				transform(object.x, object.y, x, y);
-				m_map_limits.left = min(m_map_limits.left, x);
-				m_map_limits.right = max(m_map_limits.right, x);
-				m_map_limits.top = min(m_map_limits.top, y);
-				m_map_limits.bottom = max(m_map_limits.bottom, y);
+				m_map_limits.left = min<int>(m_map_limits.left, x);
+				m_map_limits.right = max<int>(m_map_limits.right, x);
+				m_map_limits.top = min<int>(m_map_limits.top, y);
+				m_map_limits.bottom = max<int>(m_map_limits.bottom, y);
 			}
 		}
 		m_map_limits.left -= 8 << 8;
