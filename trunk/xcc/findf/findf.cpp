@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include <string>
+#include <vector>
 #include "fname.h"
 #include "file32.h"
 #include "id_log.h"
