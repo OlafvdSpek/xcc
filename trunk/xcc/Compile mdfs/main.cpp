@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <vector>
 #include <windows.h>
 #include "crc.h"
 #include "fname.h"
