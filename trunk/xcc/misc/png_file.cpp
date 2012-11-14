@@ -16,6 +16,37 @@ void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 
 int Cpng_file::decode(Cvirtual_image& d) const
 {
+	png_image img;
+	memset(&img, 0, sizeof(img));
+	img.version = PNG_IMAGE_VERSION;
+	if (!png_image_begin_read_from_memory(&img, data(), size()))
+		return 1;
+	int cx = img.width;
+	int cy = img.height;
+	if (img.format == PNG_FORMAT_RGB_COLORMAP)
+	{
+		Cvirtual_binary t;
+		t_palet palet;
+		if (!png_image_finish_read(&img, NULL, t.write_start(cx * cy), cx, palet))
+			return 1;
+		d.load(t, cx, cy, 1, palet);
+		return 0;
+	}
+	else if (img.format == PNG_FORMAT_RGB)
+	{
+		Cvirtual_binary t;
+		if (!png_image_finish_read(&img, NULL, t.write_start(3 * cx * cy), 3 * cx, NULL))
+			return 1;
+		d.load(t, cx, cy, 3, NULL);
+		return 0;
+	}
+	else
+	{
+		png_image_free(&img);
+		return 1;
+	}
+
+	// old
 	string name = get_temp_fname();
 	int error = file32_write(name, data(), size());
 	if (!error)
@@ -28,12 +59,12 @@ int Cpng_file::decode(Cvirtual_image& d) const
 		else
 		{
 			info_ptr = png_create_info_struct(png_ptr);
-			if (!info_ptr) 
+			if (!info_ptr)
 				error = 1;
 			else
 			{
 				end_ptr = png_create_info_struct(png_ptr);
-				if (!end_ptr) 
+				if (!end_ptr)
 					error = 1;
 				else
 				{
@@ -42,7 +73,7 @@ int Cpng_file::decode(Cvirtual_image& d) const
 						error = 1;
 					else
 					{
-						if (setjmp(png_jmpbuf(png_ptr))) 
+						if (setjmp(png_jmpbuf(png_ptr)))
 							error = 1;
 						else
 						{
@@ -91,7 +122,7 @@ int Cpng_file::decode(Cvirtual_image& d) const
 				}
 			}
 		}
-		png_destroy_read_struct(&png_ptr, &info_ptr, &end_ptr);					
+		png_destroy_read_struct(&png_ptr, &info_ptr, &end_ptr);
 		delete_file(name);
 	}
 	return error;
@@ -111,6 +142,24 @@ int png_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* pal
 
 int png_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)
 {
+	png_image img;
+	memset(&img, 0, sizeof(img));
+	img.version = PNG_IMAGE_VERSION;
+	img.width = cx;
+	img.height = cy;
+	if (palet)
+	{
+		img.format = PNG_FORMAT_RGB_COLORMAP;
+		img.colormap_entries = 256;
+		return !png_image_write_to_file(&img, name.c_str(), false, image, cx, palet);
+	}
+	else
+	{
+		img.format = PNG_FORMAT_RGB;
+		return !png_image_write_to_file(&img, name.c_str(), false, image, 3 * cx, NULL);
+	}
+
+	// old
 	if (!cx || !cy)
 		return 1;
 
@@ -118,32 +167,32 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 	png_structp png_ptr = png_create_write_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
 	if (!png_ptr)
 		return 1;
-	
+
 	png_infop info_ptr = png_create_info_struct(png_ptr);
-	if (!info_ptr) 
+	if (!info_ptr)
 	{
 		png_destroy_write_struct(&png_ptr, NULL);
 		return 1;
 	}
-	
+
 	FILE* f = fopen(name.c_str(), "wb");
 	if (!f)
 		return 1;
-	
+
 	jmp_buf jmpbuf;
-	if (setjmp(jmpbuf)) 
+	if (setjmp(jmpbuf))
 	{
 		fclose(f);
 		png_destroy_write_struct(&png_ptr, &info_ptr);
 		return 1;
 	}
-	
+
 	png_init_io(png_ptr, f);
 	png_set_IHDR(png_ptr, info_ptr, cx, cy, 8, palet ? PNG_COLOR_TYPE_PALETTE : PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 	if (palet)
 		png_set_PLTE(png_ptr, info_ptr, const_cast<png_color*>(reinterpret_cast<const png_color*>(palet)), 256);
 	png_write_info(png_ptr, info_ptr);
-	
+
 	const byte* r = image;
 	for (int y = 0; y < cy; y++)
 	{
@@ -151,7 +200,7 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 		r += cx * c_planes;
 	}
 	png_write_end(png_ptr, NULL);
-	png_destroy_write_struct(&png_ptr, &info_ptr);		
+	png_destroy_write_struct(&png_ptr, &info_ptr);
 	fclose(f);
 	return 0;
 }
