@@ -143,10 +143,10 @@
 //
 // Version: 1.2 [2000/08/05]
 
+#include "stdafx.h"
 #define OEMRESOURCE
 #include	<windows.h>
 
-#include "stdafx.h"
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
@@ -2834,8 +2834,8 @@ void ETSLayoutPropertySheet::OnGetMinMaxInfo(MINMAXINFO FAR* lpMMI)
 				+ rcItem.Height();
 
 		// never smaller than inital size!
-		lpMMI->ptMinTrackSize.x = max(lpMMI->ptMinTrackSize.x, m_rcStart.Width() );
-		lpMMI->ptMinTrackSize.y = max(lpMMI->ptMinTrackSize.y, m_rcStart.Height() );
+		lpMMI->ptMinTrackSize.x = max<LONG>(lpMMI->ptMinTrackSize.x, m_rcStart.Width() );
+		lpMMI->ptMinTrackSize.y = max<LONG>(lpMMI->ptMinTrackSize.y, m_rcStart.Height() );
 
 		// Rest like ETSLayoutMgr
 
