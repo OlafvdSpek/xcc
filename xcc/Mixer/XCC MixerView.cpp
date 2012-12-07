@@ -525,7 +525,7 @@ int CXCCMixerView::compare(int id_a, int id_b) const
 	case 1:
 		return ::compare(a.ft, b.ft);
 	case 2:
-		return ::compare(a.size, b.size);
+		return ::compare(b.size, a.size);
 	case 3:
 		return ::compare(a.description, b.description);
 	}
