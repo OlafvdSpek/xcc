@@ -10,7 +10,6 @@ Section "Install"
 	SetShellVarContext all
 	SetOutPath "$INSTDIR"
 
-	File "conquermd.dat"
 	File "expandmd01.mix"
 	File "langmd.mix"
 	File "mapsmd03.mix"
@@ -20,7 +19,6 @@ Section "Install"
 	File "ra2md.mix"
 	File "xyr.dll"
 	File "yuri's revenge.exe"
-	CreateShortCut "$SMPROGRAMS\Yuri's Revenge.lnk" "$INSTDIR\Yuri.exe"
-	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallDir" "$INSTDIR"
-	WriteRegStr HKLM "Software\Westwood\Yuri's Revenge" "InstallPath" "$INSTDIR\Yuri.exe"
+	CreateShortCut "$SMPROGRAMS\Yuri's Revenge.lnk" "$INSTDIR\Yuri's Revenge.exe"
+	WriteRegStr HKLM "Software\Westwood\Yuri's Revenge" "InstallPath" "$INSTDIR\Yuri's Revenge.exe"
 SectionEnd
