@@ -1,7 +1,6 @@
 Name "Red Alert 2"
 Outfile "Red-Alert-2-Multiplayer.exe"
 InstallDir "$PROGRAMFILES\Red Alert 2"
-InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallDir"
 XPStyle on
 Page directory
 Page instfiles
@@ -28,7 +27,6 @@ Section "Install"
 	File "xwis.dll"
 	Exec 'regsvr32 /s "$INSTDIR\wolapi"'
 	CreateShortCut "$SMPROGRAMS\Red Alert 2.lnk" "$INSTDIR\Red Alert 2.exe"
-	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallDir" "$INSTDIR"
 	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Red Alert 2.exe"
 	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
 SectionEnd
