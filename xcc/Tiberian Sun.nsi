@@ -1,9 +1,6 @@
-!define VERSION "0.0.1"
-
-Name "Tiberian Sun ${VERSION}"
-Outfile "Tiberian_Sun-${VERSION}.exe"
+Name "Tiberian Sun"
+Outfile "Tiberian-Sun-Multiplayer.exe"
 InstallDir "$PROGRAMFILES\Tiberian Sun"
-InstallDirRegKey HKLM "Software\Westwood\Tiberian Sun" "InstallDir"
 XPStyle on
 Page directory
 Page instfiles
@@ -13,18 +10,19 @@ Section "Install"
 	SetOutPath "$INSTDIR"
 
 	File "blowfish.dll"
-	File "game.exe"
 	File "language.dll"
 	File "multi.mix"
+	File "patch.mix"
 	File "sidecd01.mix"
 	File "sidecd02.mix"
+	File "tiberian sun.exe"
 	File "tibsun.mix"
+	File "xts.dll"
 	File "nl.cfg"
 	File "wolapi.dll"
 	File "wolapi.war"
 	Exec 'regsvr32 /s "$INSTDIR\wolapi"'
-	CreateShortCut "$SMPROGRAMS\Tiberian Sun.lnk" "$INSTDIR\Game.exe"
-	WriteRegStr HKLM "Software\Westwood\Tiberian Sun" "InstallDir" "$INSTDIR"
-	WriteRegStr HKLM "Software\Westwood\Tiberian Sun" "InstallPath" "$INSTDIR\Game.exe"
+	CreateShortCut "$SMPROGRAMS\Tiberian Sun.lnk" "$INSTDIR\Tiberian Sun.exe"
+	WriteRegStr HKLM "Software\Westwood\Tiberian Sun" "InstallPath" "$INSTDIR\Tiberian Sun.exe"
 	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
 SectionEnd
