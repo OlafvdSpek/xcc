@@ -131,7 +131,7 @@ int CXCCRA2MapUpdaterApp::download_update(string link, string fname)
 			Cvirtual_binary t;
 			while (!error)
 			{
-				int cb_p = min(f->GetLength(), 1 << 10);
+				int cb_p = min<int>(f->GetLength(), 1 << 10);
 				if (!cb_p)
 					break;
 				f->Read(t.write_start(cb_p), cb_p);
