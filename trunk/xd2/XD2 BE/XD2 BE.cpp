@@ -386,12 +386,10 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				break;
 			case SDL_QUIT:
 				return 0;
-				break;
 			}
 		}
 		for (auto& i : m_objects)
 			i.tick();
 	}
-	SDL_Quit();
 	return 0;
 }
