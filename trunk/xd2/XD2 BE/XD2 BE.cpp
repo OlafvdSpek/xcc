@@ -4,7 +4,6 @@
 #include "xd2_files.h"
 #include "xd2_surface_cache.h"
 
-bool g_error = false;
 Cxd2_files g_files;
 const Cxd2_animation* g_icons;
 const __int16* g_icon_map;
@@ -47,7 +46,7 @@ void draw_image32(const byte* d, int x, int y, int cx, int cy)
 void draw(const Cxd2_surface_base& s, int i, int x, int y)
 {
 	if (SDL_BlitSurface(s, &s.r(i), g_screen, &Csdl_rect(x, y)))
-		g_error = true;
+		throw runtime_error("SDL_BlitSurface()");
 }
 
 void draw(const Cxd2_animation& a, int i, int x, int y)
@@ -342,7 +341,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	m_objects.push_back(Cobject(0, 0, find_ref(m_players, "goodguy"), find_ref(m_object_types, "mcv")));
 	m_objects.push_back(Cobject(1, 0, find_ref(m_players, "goodguy"), find_ref(m_object_types, "const yard")));
 	shared_data minimap = create_minimap(map.data());
-	for (bool run = true; !g_error && run; )
+	while (1)
 	{
 		draw_map(map.data());
 		// draw_buildings();
@@ -358,7 +357,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			{
 			case SDL_KEYDOWN:
 				if (event.key.keysym.sym == SDLK_ESCAPE)
-					run = false;
+					return 0;
 				break;
 			case SDL_MOUSEBUTTONDOWN:
 				switch (event.button.button)
@@ -386,7 +385,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				g_screen = SDL_SetVideoMode(event.resize.w, event.resize.h, 32, SDL_DOUBLEBUF | SDL_HWSURFACE | SDL_RESIZABLE);
 				break;
 			case SDL_QUIT:
-				run = false;
+				return 0;
 				break;
 			}
 		}
