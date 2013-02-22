@@ -201,7 +201,7 @@ void draw_objects()
 	{
 		int x = i.l().x * 16 / 256 + x0;
 		int y = i.l().y * 16 / 256 + y0;
-		if (i.t().structure)
+		if (i.t().clas == oc_structure)
 		{
 			int f = 2;
 			int cx = i.t().cx;
@@ -237,7 +237,7 @@ void draw_sidebar(int x, int y, bool structures)
 {
 	for (auto& i : m_object_types)
 	{
-		if (!i.second.cameo || i.second.structure != structures)
+		if (!i.second.cameo || i.second.clas != oc_structure)
 			continue;
 		const Cxd2_image& image = g_files.shape(i.second.cameo);
 		draw(g_files.shapes2(), i.second.cameo, x, y);
