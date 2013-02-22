@@ -3,13 +3,13 @@
 class Chouse
 {
 public:
-	string name() const
+	const string& name() const
 	{
-		return m_name;
+		return name_;
 	};
 
 	Chouse();
 	Chouse(const map<string, string>&);
 private:
-	string m_name;
+	string name_;
 };

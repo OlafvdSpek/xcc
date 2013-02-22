@@ -1,11 +1,22 @@
 #pragma once
 
+enum object_clas_e
+{
+	oc_null,
+	oc_structure,
+	oc_infantry,
+	oc_light,
+	oc_heavy,
+	oc_hitech,
+};
+
 class Cobject_type
 {
 public:
 	Cobject_type();
 	Cobject_type(const map<string, string>&);
 
+	string code;
 	string name;
 	int body;
 	int cameo;
@@ -17,5 +28,7 @@ public:
 	int speed;
 	int strength;
 	int turret;
-	bool structure;
+	object_clas_e clas;
 };
+
+object_clas_e to_object_clas(const string&);

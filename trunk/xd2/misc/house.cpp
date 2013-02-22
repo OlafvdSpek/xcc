@@ -7,5 +7,5 @@ Chouse::Chouse()
 
 Chouse::Chouse(const map<string, string>& d)
 {
-	m_name = find_ref(d, "name", "");
+	name_ = find_ref(d, "name", "");
 }
