@@ -202,7 +202,7 @@ string xcc_dirs::get_main_mix(t_game game)
 static void set_path(string s, string& path)
 {
 	boost::to_lower(s);
-	if (!s.empty() && s[s.length() - 1] != '\\')
+	if (!s.empty() && s.back() != '\\')
 		s += '\\';	
 	path = s;
 }
@@ -297,7 +297,7 @@ static void read_dir(const string& key, const string& value, t_game game)
 	if (xcc_dirs::get_dir(game).empty() 
 		&& ERROR_SUCCESS == h.open(HKEY_LOCAL_MACHINE, key, KEY_QUERY_VALUE) 
 		&& ERROR_SUCCESS == h.query_value(value, s))
-		xcc_dirs::set_dir(game, static_cast<Cfname>(s).get_path());
+		xcc_dirs::set_dir(game, Cfname(s).get_path());
 }
 
 void xcc_dirs::load_from_registry()
@@ -325,6 +325,7 @@ void xcc_dirs::load_from_registry()
 		reset_cd_dir();
 	if (data_dir.empty())
 		reset_data_dir();
+	read_dir("Software\\Westwood\\Dune 2", "InstallPath", game_dune2);
 	read_dir("Software\\Westwood\\Command & Conquer Windows 95 Edition", "InstallPath", game_td);
 	read_dir("Software\\Westwood\\Red Alert Windows 95 Edition", "InstallPath", game_ra);
 	read_dir("Software\\Westwood\\Dune 2000", "InstallPath", game_dune2000);
@@ -333,10 +334,12 @@ void xcc_dirs::load_from_registry()
 	read_dir("Software\\Westwood\\Nox", "InstallPath", game_nox);
 	read_dir("Software\\Westwood\\Renegade", "InstallPath", game_rg);
 	read_dir("Software\\Westwood\\Emperor", "InstallPath", game_ebfd);
+	/*
 	read_dir("Software\\Electronic Arts\\EA Games\\Generals", "InstallPath", game_gr);
 	read_dir("Software\\Electronic Arts\\EA Games\\Command and Conquer Generals Zero Hour", "InstallPath", game_gr_zh);
 	read_dir("Software\\Electronic Arts\\EA Games\\The Battle for Middle-earth", "InstallPath", game_bfme);
 	read_dir("Software\\Electronic Arts\\Electronic Arts\\Command and Conquer 3", "InstallPath", game_tw);
+	*/
 }
 
 void xcc_dirs::save_to_registry()
