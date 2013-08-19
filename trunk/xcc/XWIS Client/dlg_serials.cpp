@@ -49,7 +49,7 @@ void Cdlg_serials::add_game(const string& reg_key, t_game game, CString& edit)
 	s.load(xcc_dirs::get_dir(game) + "woldata.key");
 	for (size_t i = 0, j = 0; i < s.size(); i++, j++)
 	{
-		if (j == serial.length())
+		if (j == serial.size())
 			j = 0;
 		serial[j] = (serial[j] - s.data()[i] + 262) % 10 + '0';
 	}
@@ -65,7 +65,7 @@ static void save_serial(const string& reg_key, t_game game, const CString& edit)
 	s.load(xcc_dirs::get_dir(game) + "woldata.key");
 	for (size_t i = 0, j = 0; i < s.size(); i++, j++)
 	{
-		if (j == serial.length())
+		if (j == serial.size())
 			j = 0;
 		serial[j] = (serial[j] + s.data()[i] + 2) % 10 + '0';
 	}
