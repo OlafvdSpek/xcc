@@ -14,10 +14,9 @@
 
 bool Cmix_file::m_ft_support = false;
 
-Cmix_file::Cmix_file():
-    Ccc_file(false)
+Cmix_file::Cmix_file() :
+	Ccc_file(false)
 {
-	m_mix_expansion = false;
 }
 
 bool Cmix_file::is_valid()

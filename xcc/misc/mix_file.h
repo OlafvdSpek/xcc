@@ -88,7 +88,7 @@ private:
 	static bool m_ft_support;
 
 	t_game m_game;
-	bool m_mix_expansion;
+	bool m_mix_expansion = false;
 	bool m_is_encrypted;
 	bool m_has_checksum;
 	vector<t_mix_index_entry> m_index;
