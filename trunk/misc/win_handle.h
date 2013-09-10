@@ -8,11 +8,9 @@ template<class T>
 class Cwin_handle_base
 {
 public:
-	Cwin_handle_base()
-	{
-	}
+	Cwin_handle_base() = default;
 
-	explicit Cwin_handle_base(T h): m_source(h == INVALID_HANDLE_VALUE ? NULL : h, CloseHandle)
+	explicit Cwin_handle_base(T h) : m_source(h == INVALID_HANDLE_VALUE ? NULL : h, CloseHandle)
 	{
 	}
 
