@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "xd2_animation.h"
 
-Cxd2_animation::Cxd2_animation()
-{
-}
-
 Cxd2_animation::Cxd2_animation(const shared_data& d, int cf, int cx, int cy)
 {
 	m_d = d;

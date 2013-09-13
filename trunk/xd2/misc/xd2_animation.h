@@ -6,7 +6,7 @@ class Cxd2_animation
 {
 public:
 	Cxif_key save() const;
-	Cxd2_animation();
+	Cxd2_animation() = default;
 	Cxd2_animation(const shared_data& d, int cf, int cx, int cy);
 	Cxd2_animation(const Cxif_key_r& key);
 

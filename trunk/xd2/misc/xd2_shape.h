@@ -7,7 +7,7 @@ class Cxd2_shape
 {
 public:
 	Cxif_key save() const;
-	Cxd2_shape();
+	Cxd2_shape() = default;
 	Cxd2_shape(const Cxif_key_r& key);
 
 	const Cxd2_image& operator[](int i) const

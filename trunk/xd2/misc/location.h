@@ -3,9 +3,7 @@
 class Clocation
 {
 public:
-	Clocation()
-	{
-	}
+	Clocation() = default;
 
 	Clocation(int _x, int _y)
 	{
@@ -23,11 +21,11 @@ public:
 		return y >> 8;
 	}
 
-  void assign(int _x, int _y)
-  {
-    x = _x;
-    y = _y;
-  }
+	void assign(int _x, int _y)
+	{
+		x = _x;
+		y = _y;
+	}
 
 	int x;
 	int y;

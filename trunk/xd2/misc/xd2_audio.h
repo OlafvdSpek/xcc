@@ -6,7 +6,7 @@ class Cxd2_audio
 {
 public:
 	Cxif_key save() const;
-	Cxd2_audio();
+	Cxd2_audio() = default;
 	Cxd2_audio(const shared_data& d, int samplerate);
 	Cxd2_audio(const Cxif_key_r& key);
 

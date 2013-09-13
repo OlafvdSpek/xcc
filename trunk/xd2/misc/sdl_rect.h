@@ -3,9 +3,7 @@
 class Csdl_rect: public SDL_Rect
 {
 public:
-	Csdl_rect()
-	{
-	}
+	Csdl_rect() = default;
 
 	Csdl_rect(int _x, int _y)
 	{
