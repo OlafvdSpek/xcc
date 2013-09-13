@@ -6,7 +6,7 @@ class Cxd2_image
 {
 public:
 	Cxif_key save() const;
-	Cxd2_image();
+	Cxd2_image() = default;
 	Cxd2_image(const shared_data& d, int cx, int cy);
 	Cxd2_image(const Cxif_key_r& key);
 
@@ -26,8 +26,8 @@ public:
 	}
 private:
 	shared_data m_d;
-	int m_cx;
-	int m_cy;
+	int m_cx = 0;
+	int m_cy = 0;
 };
 
 typedef Cxd2_file_map<Cxd2_image> Cxd2_image_map;

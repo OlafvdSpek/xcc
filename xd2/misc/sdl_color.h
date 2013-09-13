@@ -3,9 +3,7 @@
 class Csdl_color: public SDL_Color
 {
 public:
-	Csdl_color()
-	{
-	}
+	Csdl_color() = default;
 
 	Csdl_color(int _r, int _g, int _b)
 	{

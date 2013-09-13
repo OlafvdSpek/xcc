@@ -8,7 +8,7 @@ public:
 		return name_;
 	};
 
-	Chouse();
+	Chouse() = default;
 	Chouse(const map<string, string>&);
 private:
 	string name_;

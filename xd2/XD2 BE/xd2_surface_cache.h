@@ -12,7 +12,7 @@ public:
 class Cxd2_animation_surface: public Cxd2_surface_base
 {
 public:
-	Cxd2_animation_surface();
+	Cxd2_animation_surface() = default;
 	Cxd2_animation_surface(const Cxd2_animation& animation, SDL_Color* p);
 
 	SDL_Rect r(int i) const
