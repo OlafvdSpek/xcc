@@ -28,7 +28,7 @@ private:
 class Cxd2_shape_surface: public Cxd2_surface_base
 {
 public:
-	Cxd2_shape_surface();
+	Cxd2_shape_surface() = default;
 	Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p);
 
 	virtual SDL_Rect r(int i) const
@@ -44,7 +44,7 @@ class Cxd2_surface_cache
 public:
 	const Cxd2_animation_surface& set(const Cxd2_animation& animation, SDL_Color* p);
 	const Cxd2_shape_surface& set(const Cxd2_shape& shape, SDL_Color* p);
-	Cxd2_surface_cache();
+	Cxd2_surface_cache() = default;
 
 	const Cxd2_surface_base& get(const void* v) const
 	{
