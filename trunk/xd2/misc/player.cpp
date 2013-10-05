@@ -3,10 +3,6 @@
 
 extern map<string, Chouse> g_houses;
 
-Cplayer::Cplayer()
-{
-}
-
 Cplayer::Cplayer(const map<string, string>& d)
 {
 	house = &find_ref(g_houses, find_ref(d, "house", ""));

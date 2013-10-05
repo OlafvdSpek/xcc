@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "object_type.h"
 
-Cobject_type::Cobject_type()
-{
-}
-
 Cobject_type::Cobject_type(const map<string, string>& d)
 {
 	body = find_ref(d, "body", 0);

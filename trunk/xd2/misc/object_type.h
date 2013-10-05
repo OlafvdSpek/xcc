@@ -13,7 +13,7 @@ enum object_clas_e
 class Cobject_type
 {
 public:
-	Cobject_type();
+	Cobject_type() = default;
 	Cobject_type(const map<string, string>&);
 
 	string code;

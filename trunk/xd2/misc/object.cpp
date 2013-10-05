@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "object.h"
 
-Cobject::Cobject()
-{
-}
-
 Cobject::Cobject(int x, int y, Cplayer& p, Cobject_type& t)
 {
 	m_destination = m_l = Clocation(x << 8 | 0x80, y << 8 | 0x80);
