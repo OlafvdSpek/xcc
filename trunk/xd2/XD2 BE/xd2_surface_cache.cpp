@@ -30,10 +30,6 @@ Cxd2_animation_surface::Cxd2_animation_surface(const Cxd2_animation& animation, 
 	m_cy = animation.cy();
 }
 
-Cxd2_shape_surface::Cxd2_shape_surface()
-{
-}
-
 Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 {
 	typedef multimap<int, int, greater<int> > t_map;
@@ -93,11 +89,6 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 	}
 	SDL_UnlockSurface(surface1);
 	m_source = SDL_DisplayFormat(surface1);
-}
-
-
-Cxd2_surface_cache::Cxd2_surface_cache()
-{
 }
 
 const Cxd2_animation_surface& Cxd2_surface_cache::set(const Cxd2_animation& animation, SDL_Color* p)
