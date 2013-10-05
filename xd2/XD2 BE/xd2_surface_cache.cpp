@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "xd2_surface_cache.h"
 
-Cxd2_animation_surface::Cxd2_animation_surface()
-{
-	m_ca = m_cx = m_cy = 0;
-}
-
 Cxd2_animation_surface::Cxd2_animation_surface(const Cxd2_animation& animation, SDL_Color* p)
 {
 	int max_cy = 2048 / animation.cy() * animation.cy();
