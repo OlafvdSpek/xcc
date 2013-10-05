@@ -20,9 +20,9 @@ public:
 		return Csdl_rect(i % m_ca * m_cx, i / m_ca * m_cy, m_cx, m_cy);
 	}
 private:
-	int m_ca;
-	int m_cx;
-	int m_cy;
+	int m_ca = 0;
+	int m_cx = 0;
+	int m_cy = 0;
 };
 
 class Cxd2_shape_surface: public Cxd2_surface_base
