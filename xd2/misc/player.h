@@ -5,7 +5,7 @@
 class Cplayer
 {
 public:
-	Cplayer();
+	Cplayer() = default;
 	Cplayer(const map<string, string>&);
 
 	Chouse* house;
