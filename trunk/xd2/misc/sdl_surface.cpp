@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "sdl_surface.h"
 
 Csdl_surface::Csdl_surface(const Csdl_surface& v)

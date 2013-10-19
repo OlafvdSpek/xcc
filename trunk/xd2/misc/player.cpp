@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "player.h"
 
 extern map<string, Chouse> g_houses;

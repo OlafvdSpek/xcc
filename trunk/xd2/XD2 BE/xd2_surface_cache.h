@@ -46,14 +46,9 @@ public:
 	const Cxd2_shape_surface& set(const Cxd2_shape& shape, SDL_Color* p);
 	Cxd2_surface_cache() = default;
 
-	const Cxd2_surface_base& get(const void* v) const
+	const Cxd2_surface_base* get(const void* v) const
 	{
-		return *find_ptr2(m_map, v);
-	}
-
-	bool has(const void* v) const
-	{
-		return m_map.count(v);
+		return find_ptr2(m_map, v);
 	}
 private:
 	map<const void*, Cxd2_surface_base*> m_map;

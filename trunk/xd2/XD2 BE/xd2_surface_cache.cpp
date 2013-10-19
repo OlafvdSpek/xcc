@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "xd2_surface_cache.h"
 
 Cxd2_animation_surface::Cxd2_animation_surface(const Cxd2_animation& animation, SDL_Color* p)
@@ -89,28 +88,20 @@ Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 
 const Cxd2_animation_surface& Cxd2_surface_cache::set(const Cxd2_animation& animation, SDL_Color* p)
 {
-	if (has(&animation))
-		return reinterpret_cast<const Cxd2_animation_surface&>(get(&animation));
-	auto surface = make_unique<Cxd2_animation_surface>(animation, p);
-	if (*surface)
-	{
-		m_map[&animation] = surface.get();
-		return *surface.release();
-	}
-	static Cxd2_animation_surface z;
-	return z;
+	if (auto i = get(&animation))
+		return reinterpret_cast<const Cxd2_animation_surface&>(*i);
+	auto surface = new Cxd2_animation_surface(animation, p);
+	assert(*surface);
+	m_map[&animation] = surface;
+	return *surface;
 }
 
 const Cxd2_shape_surface& Cxd2_surface_cache::set(const Cxd2_shape& shape, SDL_Color* p)
 {
-	if (has(&shape))
-		return reinterpret_cast<const Cxd2_shape_surface&>(get(&shape));
-	auto surface = make_unique<Cxd2_shape_surface>(shape, p);
-	if (*surface)
-	{
-		m_map[&shape] = surface.get();
-		return *surface.release();
-	}
-	static Cxd2_shape_surface z;
-	return z;
+	if (auto i = get(&shape))
+		return reinterpret_cast<const Cxd2_shape_surface&>(*i);
+	auto surface = new Cxd2_shape_surface(shape, p);
+	assert(*surface);
+	m_map[&shape] = surface;
+	return *surface;
 }

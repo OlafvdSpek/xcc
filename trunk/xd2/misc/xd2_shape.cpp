@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "xd2_shape.h"
 
 Cxd2_shape::Cxd2_shape(const Cxif_key_r& key)

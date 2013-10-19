@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "house.h"
 
 Chouse::Chouse(const map<string, string>& d)

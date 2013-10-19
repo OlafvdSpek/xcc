@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "object.h"
 
 Cobject::Cobject(int x, int y, Cplayer& p, Cobject_type& t)
