@@ -1,6 +1,6 @@
 #pragma once
 
-class Csdl_rect: public SDL_Rect
+class Csdl_rect : public SDL_Rect
 {
 public:
 	Csdl_rect() = default;

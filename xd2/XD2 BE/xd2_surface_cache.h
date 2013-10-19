@@ -48,7 +48,7 @@ public:
 
 	const Cxd2_surface_base& get(const void* v) const
 	{
-		return *m_map.find(v)->second;
+		return *find_ptr2(m_map, v);
 	}
 
 	bool has(const void* v) const

@@ -1,6 +1,6 @@
 #pragma once
 
-class Csdl_color: public SDL_Color
+class Csdl_color : public SDL_Color
 {
 public:
 	Csdl_color() = default;
