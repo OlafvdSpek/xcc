@@ -8,11 +8,8 @@ class Cmap
 public:
 	Ccell& cell(Clocation location);
 	void object(Cobject* object);
-
-	Cmap();
-	virtual ~Cmap();
 private:
-	int m_cx;
-	int m_cy;
-	Ccell* m_map;
+	int cx_;
+	int cy_;
+	Ccell* map_ = NULL;
 };

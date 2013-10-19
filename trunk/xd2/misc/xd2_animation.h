@@ -12,28 +12,28 @@ public:
 
 	const byte* d(int i) const
 	{
-		return m_d.data() + cx() * cy() * i;
+		return d_.data() + cx() * cy() * i;
 	}
 
 	int cf() const
 	{
-		return m_cf;
+		return cf_;
 	}
 
 	int cx() const
 	{
-		return m_cx;
+		return cx_;
 	}
 
 	int cy() const
 	{
-		return m_cy;
+		return cy_;
 	}
 private:
-	shared_data m_d;
-	int m_cf;
-	int m_cx;
-	int m_cy;
+	shared_data d_;
+	int cf_;
+	int cx_;
+	int cy_;
 };
 
 typedef Cxd2_file_map<Cxd2_animation> Cxd2_animation_map;

@@ -12,25 +12,25 @@ public:
 
 	const Cxd2_image& operator[](int i) const
 	{
-		return m_map[i];
+		return map_[i];
 	}
 
 	void resize(int size)
 	{
-		m_map.resize(size);
+		map_.resize(size);
 	}
 
 	void set(int i, const Cxd2_image& d)
 	{
-		m_map[i] = d;
+		map_[i] = d;
 	}
 
 	int size() const
 	{
-		return m_map.size();
+		return map_.size();
 	}
 private:
-	vector<Cxd2_image> m_map;
+	vector<Cxd2_image> map_;
 };
 
 typedef Cxd2_file_map<Cxd2_shape> Cxd2_shape_map;

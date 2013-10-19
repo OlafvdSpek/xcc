@@ -3,9 +3,9 @@
 
 Cxd2_image::Cxd2_image(const shared_data& d, int cx, int cy)
 {
-	m_d = d;
-	m_cx = cx;
-	m_cy = cy;
+	d_ = d;
+	cx_ = cx;
+	cy_ = cy;
 }
 
 enum
@@ -17,16 +17,16 @@ enum
 
 Cxd2_image::Cxd2_image(const Cxif_key_r& key)
 {
-	m_d = key.get_value(vi_d).get_vdata();
-	m_cx = key.get_value_int(vi_cx);
-	m_cy = key.get_value_int(vi_cy);
+	d_ = key.get_value(vi_d).get_vdata();
+	cx_ = key.get_value_int(vi_cx);
+	cy_ = key.get_value_int(vi_cy);
 }
 
 Cxif_key Cxd2_image::save() const
 {
 	Cxif_key key;
-	key.set_value_binary(vi_d, m_d);
-	key.set_value_int(vi_cx, m_cx);
-	key.set_value_int(vi_cy, m_cy);
+	key.set_value_binary(vi_d, d_);
+	key.set_value_int(vi_cx, cx_);
+	key.set_value_int(vi_cy, cy_);
 	return key;
 }
