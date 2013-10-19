@@ -4,8 +4,8 @@ class Csdl_surface
 {
 public:
 	void clear();
-	const Csdl_surface& operator=(const Csdl_surface& v);
-	Csdl_surface(const Csdl_surface& v);
+	const Csdl_surface& operator=(const Csdl_surface&);
+	Csdl_surface(const Csdl_surface&);
 
 	operator SDL_Surface*() const
 	{

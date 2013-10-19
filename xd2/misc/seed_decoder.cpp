@@ -275,7 +275,7 @@ static void addNoise2(char* matrix)
 	}
 }
 
-void Cseed_decoder::decode(int seed, byte* _map)
+void decode_seed(int seed, byte* _map)
 {
 	g_seed = seed;
 	char matrix[16 * 17 + 1];

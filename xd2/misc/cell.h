@@ -14,9 +14,6 @@ public:
 	{
 		m_object = object;
 	}
-
-	Ccell();
-	virtual ~Ccell();
 private:
-	Cobject* m_object;
+	Cobject* m_object = NULL;
 };

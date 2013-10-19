@@ -12,22 +12,22 @@ public:
 
 	const byte* d() const
 	{
-		return m_d.data();
+		return d_.data();
 	}
 
 	int cx() const
 	{
-		return m_cx;
+		return cx_;
 	}
 
 	int cy() const
 	{
-		return m_cy;
+		return cy_;
 	}
 private:
-	shared_data m_d;
-	int m_cx = 0;
-	int m_cy = 0;
+	shared_data d_;
+	int cx_ = 0;
+	int cy_ = 0;
 };
 
 typedef Cxd2_file_map<Cxd2_image> Cxd2_image_map;
