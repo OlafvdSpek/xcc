@@ -32,17 +32,13 @@ Cxd2_animation_surface::Cxd2_animation_surface(const Cxd2_animation& animation, 
 
 Cxd2_shape_surface::Cxd2_shape_surface(const Cxd2_shape& shape, SDL_Color* p)
 {
-	typedef multimap<int, int, greater<int> > t_map;
-
-	t_map map;
+	multimap<int, int, greater<int>> map;
 	int x = 0;
 	int y = 2048;
 	int cx = 0;
 	int cy = 0;
-	{
-		for (int i = 0; i < shape.size(); i++)
-			map.insert(t_map::value_type(shape[i].cx(), i));
-	}
+	for (int i = 0; i < shape.size(); i++)
+		map.emplace(shape[i].cx(), i);
 	for (auto& i : map)
 	{
 		const Cxd2_image& image = shape[i.second];
