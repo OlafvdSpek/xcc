@@ -53,7 +53,7 @@ public:
 
 	bool has(const void* v) const
 	{
-		return m_map.find(v) != m_map.end();
+		return m_map.count(v);
 	}
 private:
 	map<const void*, Cxd2_surface_base*> m_map;

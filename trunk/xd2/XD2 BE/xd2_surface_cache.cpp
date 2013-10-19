@@ -95,7 +95,7 @@ const Cxd2_animation_surface& Cxd2_surface_cache::set(const Cxd2_animation& anim
 {
 	if (has(&animation))
 		return *reinterpret_cast<const Cxd2_animation_surface*>(&get(&animation));
-	auto_ptr<Cxd2_animation_surface> surface(new Cxd2_animation_surface(animation, p));
+	auto surface = make_unique<Cxd2_animation_surface>(animation, p);
 	if (*surface)
 	{
 		m_map[&animation] = surface.get();
@@ -109,7 +109,7 @@ const Cxd2_shape_surface& Cxd2_surface_cache::set(const Cxd2_shape& shape, SDL_C
 {
 	if (has(&shape))
 		return *reinterpret_cast<const Cxd2_shape_surface*>(&get(&shape));
-	auto_ptr<Cxd2_shape_surface> surface(new Cxd2_shape_surface(shape, p));
+	auto surface = make_unique<Cxd2_shape_surface>(shape, p);
 	if (*surface)
 	{
 		m_map[&shape] = surface.get();
