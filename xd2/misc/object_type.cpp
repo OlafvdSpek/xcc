@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "object_type.h"
 
 Cobject_type::Cobject_type(const map<string, string>& d)

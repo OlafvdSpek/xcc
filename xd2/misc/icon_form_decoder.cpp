@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "icon_form_decoder.h"
 
 struct t_form_chunk_header

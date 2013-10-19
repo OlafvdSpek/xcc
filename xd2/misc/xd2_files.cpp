@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "xd2_files.h"
 
 #include "icon_form_decoder.h"
