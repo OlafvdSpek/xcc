@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <boost/algorithm/string.hpp>
 #include <boost/range.hpp>
+#include <boost/utility.hpp>
 #include <cassert>
 #include <ctime>
 #include <fstream>
@@ -23,5 +24,5 @@ template <class T, class U>
 int find_ref(const T& c, U v, int z)
 {
 	auto i = find_ptr(c, v);
-	return i ? atoi(i->c_str()) : z;
+	return i ? to_int(*i) : z;
 }
