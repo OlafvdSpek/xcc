@@ -17,10 +17,10 @@ void Cmix_rg_file_write::clear()
 Cvirtual_binary Cmix_rg_file_write::write()
 {
 	map<unsigned int, string> id_index;
-  BOOST_FOREACH(auto& i, m_index)
+  for (auto& i : m_index)
     id_index[Cmix_file::get_id(game_rg, i.first)] = i.first;
 	int cb_d = sizeof(t_mix_rg_header) + 8 + (sizeof(t_mix_rg_index_entry) + 2) * m_index.size();
-	BOOST_FOREACH(auto& i, id_index)
+	for (auto& i : id_index)
 		cb_d += m_index.find(i.second)->first.length() + m_index.find(i.second)->second.size();
 	Cvirtual_binary d;
 	byte* w = d.write_start(cb_d);
@@ -28,13 +28,13 @@ Cvirtual_binary Cmix_rg_file_write::write()
 	header.id = mix_rg_id;
 	header.zero = 0;
 	w += sizeof(t_mix_rg_header);
-	BOOST_FOREACH(auto& i, id_index)
+	for (auto& i : id_index)
 		w += find_ref(m_index, i.second).read(w);
 	header.index_offset = w - d.data();
 	*reinterpret_cast<__int32*>(w) = m_index.size();
 	w += 4;
 	int offset = sizeof(t_mix_rg_header);
-	BOOST_FOREACH(auto& i, id_index)
+	for (auto& i : id_index)
 	{
 		t_index::const_iterator j = m_index.find(i.second);
 		t_mix_rg_index_entry& e = *reinterpret_cast<t_mix_rg_index_entry*>(w);
@@ -46,7 +46,7 @@ Cvirtual_binary Cmix_rg_file_write::write()
 	header.tailer_offset = w - d.data();
 	*reinterpret_cast<__int32*>(w) = m_index.size();
 	w += 4;
-	BOOST_FOREACH(auto& i, id_index)
+	for (auto& i : id_index)
 	{
 		t_index::const_iterator j = m_index.find(i.second);
 		*w++ = j->first.length() + 1;

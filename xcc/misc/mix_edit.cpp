@@ -88,7 +88,7 @@ int Cmix_edit::write_index()
 {
 	{
 		Cxcc_lmd_file_write lmd_fw;
-		BOOST_FOREACH(auto& i, m_index)
+		for (auto& i : m_index)
 		{
 			string name = mix_database::get_name(m_game, i.second.id);
 			if (!name.empty())
@@ -105,7 +105,7 @@ int Cmix_edit::write_index()
 	w += sizeof(t_mix_header);
 	{
 		t_block_map block_map = Cmix_edit::block_map();
-		BOOST_FOREACH(auto& i, block_map)
+		for (auto& i : block_map)
 		{
 			if (i.second->offset < d.size())
 			{
@@ -119,7 +119,7 @@ int Cmix_edit::write_index()
 	}
 	int total_size = d.size();
 	t_mix_index_entry* index = reinterpret_cast<t_mix_index_entry*>(w);
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 	{
 		index->id = i.first;
 		index->offset = i.second.offset - d.size();
@@ -139,7 +139,7 @@ int Cmix_edit::compact()
 	t_block_map block_map = Cmix_edit::block_map();
 	int error = 0;
 	int offset = cb_header(m_index.size());
-	BOOST_FOREACH(auto& i, block_map)
+	for (auto& i : block_map)
 	{
 		if (i.second->offset != offset)
 		{
@@ -158,7 +158,7 @@ int Cmix_edit::compact()
 Cmix_edit::t_block_map Cmix_edit::block_map()
 {
 	t_block_map block_map;
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 		block_map[i.second.offset] = &i.second;
 	return block_map;
 }
@@ -167,7 +167,7 @@ int Cmix_edit::new_block(int size)
 {
 	t_block_map block_map = Cmix_edit::block_map();
 	int r = cb_header(m_index.size() + 4);
-	BOOST_FOREACH(auto& i, block_map)
+	for (auto& i : block_map)
 	{
 		if (r + size <= i.first)
 			return r;

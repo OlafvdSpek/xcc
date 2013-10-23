@@ -274,7 +274,7 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s)
 				byte* span_start = w;
 				const Cxif_key& xi = yi.open_key_read(x);
 				int z = 0;
-				BOOST_FOREACH(auto& i, xi.m_keys)
+				for (auto& i : xi.m_keys)
 				{
 					int z_inc = i.first - z;
 					z = i.first + 1;
@@ -431,7 +431,7 @@ Cvirtual_binary vxl_file_write(Cvirtual_tfile s)
 	Cvirtual_binary normals(NULL, cx * cy * cz);
 	colors.memset(0);
 	normals.memset(0);
-	BOOST_FOREACH(auto& e, list)
+	for (auto& e : list)
 	{
 		int o = e.x + cx * (e.y + cy * e.z);
 		colors.data_edit()[o] = e.color;
