@@ -88,7 +88,7 @@ int Cxse::write_idx_file()
 	byte* d = new byte[cb_d];
 	byte* w = d;
 	w += audio_idx_file_write_header(w, m_map.size());
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		const t_map_entry& e = i.second;
 		w += audio_idx_file_write_entry(w, i.first, e.offset, e.size, e.samplerate, e.flags, e.chunk_size);
@@ -205,7 +205,7 @@ int Cxse::insert(string fname, Cwav_file& f)
 int Cxse::get_bag_size() const
 {
 	int r = 0;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 		r += i.second.size;
 	return r;
 }
@@ -216,7 +216,7 @@ int Cxse::compact()
 	int cb_d = get_bag_size();
 	byte* d = new byte[cb_d];
 	byte* w = d;
-	BOOST_FOREACH(auto& i, m_map)
+	for (auto& i : m_map)
 	{
 		t_map_entry& e = i.second;
 		m_bag_f.seek(e.offset);

@@ -77,13 +77,13 @@ void Cneat_ini_reader::sub_section(string name, const Cneat_key_list& v)
 Cneat_key_list sub_section(const Cneat_key_list& a, const Cneat_key_list& b)
 {
 	Cneat_key_list r;
-	BOOST_FOREACH(auto& i, a.get_key_list())
+	for (auto& i : a.get_key_list())
 	{
 		auto j = find_ptr(b.get_key_map(), i->first);
 		if (!j || *j != i->second)
 			r.add_key(i->first, i->second);
 	}
-	BOOST_FOREACH(auto& i, b.get_key_list())
+	for (auto& i : b.get_key_list())
 	{
 		if (!a.get_key_map().count(i->first))
 			r.add_key(i->first, "");

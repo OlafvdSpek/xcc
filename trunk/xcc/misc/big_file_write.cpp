@@ -17,7 +17,7 @@ Cvirtual_binary Cbig_file_write::write()
 {
 	int cb_header = sizeof(t_big_header);
 	int cb_d = sizeof(t_big_header);
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 	{
 		cb_header += sizeof(t_big_index_entry) + i.first.length() + 1;
 		cb_d += sizeof(t_big_index_entry) + i.first.length() + 1 + i.second.size();
@@ -31,7 +31,7 @@ Cvirtual_binary Cbig_file_write::write()
 	header.mcb_header = reverse(cb_header);
 	byte* w2 = w + cb_header;
 	w += sizeof(t_big_header);
-	BOOST_FOREACH(auto& i, m_index)
+	for (auto& i : m_index)
 	{
 		t_big_index_entry& e = *reinterpret_cast<t_big_index_entry*>(w);
 		e.offset = reverse(w2 - d.data());
