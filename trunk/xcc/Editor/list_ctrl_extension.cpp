@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "list_ctrl_extension.h"
 
-Clist_ctrl_extension::Clist_ctrl_extension()
-{
-}
-
 BEGIN_MESSAGE_MAP(Clist_ctrl_extension, CListCtrl)
 	//{{AFX_MSG_MAP(Clist_ctrl_extension)
 	//}}AFX_MSG_MAP
