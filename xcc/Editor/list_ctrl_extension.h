@@ -7,8 +7,6 @@ using namespace std;
 class Clist_ctrl_extension : public CListCtrl
 {
 public:
-	Clist_ctrl_extension();
-
 	//{{AFX_VIRTUAL(Clist_ctrl_extension)
 protected:
 	virtual void PreSubclassWindow();
