@@ -74,7 +74,7 @@ int Cxif_key_r::load(const byte* s)
 
 const Cxif_key_r* Cxif_key_r::find_key(int id) const
 {
-	BOOST_FOREACH(auto& i, keys())
+	for (auto& i : keys())
 	{
 		if (i.first == id)
 			return &i.second;
@@ -84,7 +84,7 @@ const Cxif_key_r* Cxif_key_r::find_key(int id) const
 
 const Cxif_value* Cxif_key_r::find_value(int id) const
 {
-	BOOST_FOREACH(auto& i, values())
+	for (auto& i : values())
 	{
 		if (i.first == id)
 			return &i.second;

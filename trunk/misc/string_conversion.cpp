@@ -50,38 +50,34 @@ string btoa(bool v)
 
 string n(unsigned int v)
 {
-	char b[11];
-	return _i64toa(v, b, 10);
+	return to_string(v);
 }
 
 string n(int v)
 {
-	char b[12];
-	return itoa(v, b, 10);
+	return to_string(v);
 }
 
 string n(long long v)
 {
-	char b[21];
-	return _i64toa(v, b, 10);
+	return to_string(v);
 }
 
 string n(unsigned long long v)
 {
-	char b[21];
-	return _i64toa(v, b, 10);
+	return to_string(v);
 }
 
 string swsl(int l, string s)
 {
-	while (s.length() < l)
+	while (s.size() < l)
 		s = ' '+ s;
 	return s;
 }
 
 string swsr(int l, string s)
 {
-	while (s.length() < l)
+	while (s.size() < l)
 		s = s + ' ';
 	return s;
 }
@@ -90,7 +86,7 @@ string nwzl(int l, unsigned int v)
 {
 
 	string s = n(v);
-	while (s.length() < l)
+	while (s.size() < l)
 		s = '0' + s;
 	return s;
 }
@@ -122,7 +118,7 @@ string nwp(int l, unsigned int v)
 	string s = n(v);
 	while (1)
 	{		
-		int l = s.length();
+		int l = s.size();
 		if (l > 3)
 		{
 			r = '.' + s.substr(l - 3, 3) + r;
@@ -140,7 +136,7 @@ string nwp(int l, unsigned int v)
 
 void split_key(const string& key, string& name, string& value)
 {
-	int i = key.find('=');
+	size_t i = key.find('=');
 	if (i == string::npos)
 	{
 		name = key;
@@ -156,14 +152,14 @@ void split_key(const string& key, string& name, string& value)
 string tabs2spaces(const string& v)
 {
 	string r;
-	for (size_t i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 	{
 		char c = v[i];
 		if (c == '\t')
 		{
 			do
 				r += ' ';
-			while (r.length() & 3);
+			while (r.size() & 3);
 		}
 		else
 			r += c;
@@ -185,7 +181,7 @@ string time2a(time_t v)
 string js_encode(const string& v)
 {
 	string r;
-	for (size_t i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 	{
 		switch (v[i])
 		{
@@ -207,7 +203,7 @@ string trim_field(const string& v)
 {
 	string r;
 	bool copy_white = false;
-	for (size_t i = 0; i < v.length(); i++)
+	for (size_t i = 0; i < v.size(); i++)
 	{
 		if (isspace(v[i]))
 			copy_white = true;
@@ -229,11 +225,11 @@ string trim_text(const string& v)
 {
 	string r;
 	bool copy_white = false;
-	for (size_t i = 0; i < v.length(); )
+	for (size_t i = 0; i < v.size(); )
 	{
 		int p = v.find('\n', i);
 		if (p == string::npos)
-			p = v.length();
+			p = v.size();
 		string line = trim_field(v.substr(i, p - i));
 		if (line.empty())
 			copy_white = true;
