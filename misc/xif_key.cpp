@@ -78,18 +78,18 @@ void Cxif_key::load_new(const byte*& data)
 
 void Cxif_key::load_external(const byte*& data)
 {
-	BOOST_FOREACH(auto& i, m_keys)
+	for (auto& i : m_keys)
 		i.second.load_external(data);
-	BOOST_FOREACH(auto& i, m_values)
+	for (auto& i : m_values)
 		i.second.load_external(data);
 }
 
 int Cxif_key::get_size() const
 {
 	int size = 8;
-	BOOST_FOREACH(auto& i, m_keys)
+	for (auto& i : m_keys)
 		size += 4 + i.second.get_size();
-	BOOST_FOREACH(auto& i, m_values)
+	for (auto& i : m_values)
 	{
 		size += 9;
 		switch (i.second.get_type())
@@ -108,9 +108,9 @@ int Cxif_key::get_size() const
 int Cxif_key::get_external_size() const
 {
 	int size = 0;
-	BOOST_FOREACH(auto& i, m_keys)
+	for (auto& i : m_keys)
 		size += i.second.get_external_size();
-	BOOST_FOREACH(auto& i, m_values)
+	for (auto& i : m_values)
 	{
 		if (i.second.external_data())
 			size += i.second.get_size();
@@ -124,7 +124,7 @@ void Cxif_key::save(byte*& data) const
 		// keys
 		write<__int32>(data, m_keys.size());
 		int id = 0;
-		BOOST_FOREACH(auto& i, m_keys)
+		for (auto& i : m_keys)
 		{
 			*reinterpret_cast<int*>(data) = i.first - id;
 			id = i.first;
@@ -137,7 +137,7 @@ void Cxif_key::save(byte*& data) const
 		// values
 		write<__int32>(data, m_values.size());
 		int id = 0;
-		BOOST_FOREACH(auto& i, m_values)
+		for (auto& i : m_values)
 		{
 			*reinterpret_cast<int*>(data) = i.first - id;
 			id = i.first;
@@ -149,9 +149,9 @@ void Cxif_key::save(byte*& data) const
 
 void Cxif_key::external_save(byte*& data) const
 {
-	BOOST_FOREACH(auto& i, m_keys)
+	for (auto& i : m_keys)
 		i.second.external_save(data);
-	BOOST_FOREACH(auto& i, m_values)
+	for (auto& i : m_values)
 		i.second.external_save(data);
 }
 
@@ -185,7 +185,7 @@ void Cxif_key::dump(ostream& os, bool show_ratio, int depth, Cvirtual_binary* t)
 		os << ':' << endl;
 		depth++;
 	}
-	BOOST_FOREACH(auto& i, m_keys)
+	for (auto& i : m_keys)
 	{
 		dump_spaces(os, depth << 1);
 		os << 'K' << nh(8, i.first);
@@ -195,7 +195,7 @@ void Cxif_key::dump(ostream& os, bool show_ratio, int depth, Cvirtual_binary* t)
 		os << ':' << endl;
 		i.second.dump(os, show_ratio, depth + 1, t);
 	}
-	BOOST_FOREACH(auto& i, m_values)
+	for (auto& i : m_values)
 	{
 		dump_spaces(os, depth << 1);
 		os << 'V' << nh(8, i.first);
