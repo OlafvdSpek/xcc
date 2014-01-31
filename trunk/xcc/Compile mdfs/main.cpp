@@ -28,7 +28,7 @@ typedef map<int, t_idinfo> t_idlist;
 bool is_valid_line(const string& line, char seperator, int c_seperators)
 {
 	const char* s = line.c_str();
-	long tabcount = 0;
+	int tabcount = 0;
 	char c;
 	while (c = *(s++))
 	{
@@ -73,7 +73,7 @@ void add_file(t_game game, const string& fname, t_idlist& id_list)
 		cerr << "Error opening file" << endl;
 		return;
 	}
-	long lineindex = 0;
+	int lineindex = 0;
 	string line;
 	t_idinfo idinfo;
 	while (getline(inf, line))
@@ -99,7 +99,7 @@ void add_rm(const string& fname, t_idlist& id_list)
 		cerr << "Error opening file " << fname << endl;
 		return;
 	}
-	long lineindex = 0;
+	int lineindex = 0;
 	string line;
 	t_idinfo idinfo;
 	while (getline(inf, line))
