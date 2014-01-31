@@ -5,6 +5,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <xbt/find_ptr.h>
 #include "fname.h"
 #include "file32.h"
 #include "id_log.h"
@@ -18,10 +19,8 @@
 using namespace boost;
 using namespace std;
 
-typedef map<int, string> t_file_list;
-
 const string filename_chars = "-.0123456789_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-t_file_list flist;
+map<int, string> flist;
 const t_game game = game_ra2;
 
 void init_filename_chars()
@@ -153,8 +152,8 @@ void check_name(const string& name, ostream& log_f, bool check_chars = true)
 
 string find_file(const string& name)
 {
-	t_file_list::const_iterator i = flist.find(Cmix_file::get_id(game, name));
-	return i == flist.end() ? "" : i->second;
+	string* i = find_ptr(flist, Cmix_file::get_id(game, name));
+	return i ? *i : "";
 }
 
 void check_binary_file(const string& name, ostream& log_f)
@@ -222,11 +221,11 @@ int main()
 	check_dir("f:/");
 	int known = 0;
 	int total = flist.size();
-	for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
-		known += !mix_database::get_name(game, i->first).empty();
+	for (auto& i : flist)
+		known += !mix_database::get_name(game, i.first).empty();
 	ofstream log_f("c:/log.txt");
-	for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
-		check_name(mix_database::get_name(game, i->first), log_f);
+	for (auto& i : flist)
+		check_name(mix_database::get_name(game, i.first), log_f);
 	if (0)
 	{
 		init_filename_chars();
@@ -256,9 +255,9 @@ int main()
 	}
 	if (0)
 	{
-		for (t_file_list::const_iterator i = flist.begin(); i != flist.end(); i++)
+		for (auto& i : flist)
 		{
-			Cfname name = mix_database::get_name(game, i->first);
+			Cfname name = mix_database::get_name(game, i.first);
 			name.set_ext(".hva");
 			int id = Cmix_file::get_id(game, name);
 			if (flist.find(id) != flist.end() && mix_database::get_name(game, id).empty())
