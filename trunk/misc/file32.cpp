@@ -16,10 +16,9 @@ int Cfile32::open(const string& name, int access)
 
 int Cfile32::open(const string& name, int access, int creation, int share)
 {
-    close();
 	m_h = Cwin_handle(CreateFileA(name.c_str(), access, share, NULL, creation, FILE_ATTRIBUTE_NORMAL, NULL));
 	m_p = 0;
-    return !is_open();
+	return !is_open();
 }
 
 FILETIME Cfile32::get_creation_time() const
@@ -33,16 +32,16 @@ FILETIME Cfile32::get_creation_time() const
 
 FILETIME Cfile32::get_last_access_time() const
 {
-    assert(is_open());
+	assert(is_open());
 	FILETIME time;
-	int r = GetFileTime(h(), NULL, &time,  NULL);
+	int r = GetFileTime(h(), NULL, &time, NULL);
 	assert(r);
 	return time;
 }
 
 FILETIME Cfile32::get_last_write_time() const
 {
-    assert(is_open());
+	assert(is_open());
 	FILETIME time;
 	int r = GetFileTime(h(), NULL, NULL, &time);
 	assert(r);
@@ -83,7 +82,7 @@ int Cfile32::open_write(const string& name)
 
 long long Cfile32::size() const
 {
-    assert(is_open());
+	assert(is_open());
 #ifdef _MSC_VER
 	LARGE_INTEGER v;
 	return GetFileSizeEx(h(), &v) ? v.QuadPart : -1;
@@ -99,15 +98,15 @@ long long Cfile32::size() const
 
 int Cfile32::read(void* data, int size)
 {
-    assert(is_open());
+	assert(is_open());
 #ifdef _MSC_VER
-    if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
-        return 1;
-    DWORD cb_read;
+	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
+		return 1;
+	DWORD cb_read;
 	if (!ReadFile(h(), data, size, &cb_read, 0) || cb_read != size)
 		return 1;
-    m_p += size;
-    return 0;
+	m_p += size;
+	return 0;
 #else
 	m_f.read(reinterpret_cast<char*>(data), size);
 	return m_f.fail();
@@ -116,15 +115,15 @@ int Cfile32::read(void* data, int size)
 
 int Cfile32::write(const void* data, int size)
 {
-    assert(is_open());
+	assert(is_open());
 #ifdef _MSC_VER
-    if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
-        return 1;
-    DWORD cb_write;
+	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
+		return 1;
+	DWORD cb_write;
 	if (!WriteFile(h(), data, size, &cb_write, 0) || cb_write != size)
 		return 1;
-    m_p += size;
-    return 0;
+	m_p += size;
+	return 0;
 #else
 	m_f.write(reinterpret_cast<const char*>(data), size);
 	return m_f.fail();
@@ -138,10 +137,10 @@ int Cfile32::write(data_ref v)
 
 int Cfile32::set_eof()
 {
-    assert(is_open());
+	assert(is_open());
 #ifdef _MSC_VER
-    if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
-        return 1;
+	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
+		return 1;
 	return !SetEndOfFile(h());
 #else
 	return write(NULL, 0);

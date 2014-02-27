@@ -61,11 +61,7 @@ public:
 		m_p += p;
 	}
 private:
-#ifdef _MSC_VER
 	Cwin_handle m_h;
-#else
-	fstream m_f;
-#endif
 	int m_p;
 };
 
