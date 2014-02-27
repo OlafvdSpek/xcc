@@ -25,19 +25,17 @@ struct t_idinfo
 
 typedef map<int, t_idinfo> t_idlist;
 
-bool is_valid_line(const string& line, char seperator, int c_seperators)
+bool is_valid_line(const string& s, char seperator, int c_seperators)
 {
-	const char* s = line.c_str();
-	int tabcount = 0;
-	char c;
-	while (c = *(s++))
+	int count = 0;
+	for (auto c : s)
 	{
+		if(c < 0x20)
+			return false;		
 		if (c == seperator)
-			tabcount++;
-		else if (c < 0x20)
-			return false;
+			count++;
 	}
-	return tabcount == c_seperators;	
+	return count == c_seperators;	
 }
 
 void parse_line_mm(string& line, t_idinfo& idinfo)
@@ -134,12 +132,11 @@ void write_list(t_idlist& id_list, Cfile32& f1, ofstream& f2, t_game game)
 	const char* v_name[] = {"TD", "RA", "TS", "D2", "D2K", "RA2"};
 	int size = id_list.size();
 	f1.write(&size, 4);
-	for (t_idlist::iterator i = id_list.begin(); i != id_list.end(); i++)
+	for (auto& i : id_list)
 	{
-		idinfo = i->second;
-		f1.write(idinfo.name.c_str(), idinfo.name.length() + 1); 
-		f1.write(idinfo.description.c_str(), idinfo.description.length() + 1); 
-		f2 << nh(8, Cmix_file::get_id(game, idinfo.name)) << '\t' << v_name[game] << '\t' << idinfo.name << '\t' << idinfo.description << endl;
+		f1.write(i.second.name.c_str(), i.second.name.size() + 1);
+		f1.write(i.second.description.c_str(), i.second.description.size() + 1);
+		f2 << nh(8, Cmix_file::get_id(game, i.second.name)) << '\t' << v_name[game] << '\t' << i.second.name << '\t' << i.second.description << endl;
 	}
 }
 
@@ -187,21 +184,19 @@ int main()
 		{
 			do
 			{
-				if (~finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-				{
-					string filename = finddata.cFileName;
-					if (filename.find(filenameend, 0) != filename.npos)
-					{
-						if (filename.substr(0, 3) == "ra2")
-							add_file(game_ra2, indir + filename, ra2_list);
-						else if (filename.substr(0, 2) == "ra")
-							add_file(game_ra, indir + filename, ra_list);
-						else if (filename.substr(0, 2) == "ts")
-							add_file(game_ts, indir + filename, ts_list);
-						else
-							add_file(game_td, indir + filename, td_list);
-					}
-				}
+				if (finddata.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+					continue;
+				string filename = finddata.cFileName;
+				if (filename.find(filenameend, 0) == filename.npos)
+					continue;
+				if (filename.substr(0, 3) == "ra2")
+					add_file(game_ra2, indir + filename, ra2_list);
+				else if (filename.substr(0, 2) == "ra")
+					add_file(game_ra, indir + filename, ra_list);
+				else if (filename.substr(0, 2) == "ts")
+					add_file(game_ts, indir + filename, ts_list);
+				else
+					add_file(game_td, indir + filename, td_list);
 			}
 			while (FindNextFile(findhandle, &finddata));
 			FindClose(findhandle);
