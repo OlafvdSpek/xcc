@@ -162,8 +162,6 @@ void write_database(const string& ifname, t_idlist& td_list, t_idlist& ra_list, 
 	write_list(ra_list, f1, f2, game_ra);
 	write_list(ts_list, f1, f2, game_ts);
 	write_list(ra2_list, f1, f2, game_ra2);
-	f2.close();
-	f1.close();
 }
 
 int main()
@@ -189,11 +187,11 @@ int main()
 				string filename = finddata.cFileName;
 				if (filename.find(filenameend, 0) == filename.npos)
 					continue;
-				if (filename.substr(0, 3) == "ra2")
+				if (boost::starts_with(filename, "ra2"))
 					add_file(game_ra2, indir + filename, ra2_list);
-				else if (filename.substr(0, 2) == "ra")
+				else if (boost::starts_with(filename, "ra"))
 					add_file(game_ra, indir + filename, ra_list);
-				else if (filename.substr(0, 2) == "ts")
+				else if (boost::starts_with(filename, "ts"))
 					add_file(game_ts, indir + filename, ts_list);
 				else
 					add_file(game_td, indir + filename, td_list);

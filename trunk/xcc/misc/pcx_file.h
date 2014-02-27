@@ -6,7 +6,7 @@
 #include "pcx_decode.h"
 #include "virtual_image.h"
 
-class Cpcx_file: public Cimage_file<t_pcx_header>  
+class Cpcx_file : public Cimage_file<t_pcx_header>
 {
 public:
 	void decode(void*) const;
@@ -32,14 +32,14 @@ public:
 	{
 		pcx_decode(get_image(), d, header());
 	}
-	
+
 	const byte* get_image() const
 	{
 		return data() + sizeof(t_pcx_header);
 	}
 
-    const t_palet* get_palet() const
-    {
-        return reinterpret_cast<const t_palet*>(data() + size() - sizeof(t_palet));
-    }
+	const t_palet* get_palet() const
+	{
+		return reinterpret_cast<const t_palet*>(data() + size() - sizeof(t_palet));
+	}
 };
