@@ -1,4 +1,3 @@
-local mix database.dat	mix database
 120MM.SHP	120mm Cannon shot
 12GREEN.FNT	12 green
 12GRNGRD.FNT	12 green grid
@@ -259,6 +258,10 @@ CLOCK.SHP	Time Dial
 CLOCK1.AUD	???
 CLOUDS.CPS	PICT: ???
 CMON1.AUD	Commando Cmon
+CMPTALK2.AUD
+CMPTALK3.AUD
+CMPTALK4.AUD
+CMPTALK5.AUD
 CMPTLK1.AUD	???
 CMPTLK2.AUD	???
 CMPTLK3.AUD	???
@@ -295,6 +298,8 @@ CR5.WIN	Crater 5
 CR6.DES	Crater 6
 CR6.TEM	Crater 6
 CR6.WIN	Crater 6
+CRATE4.AUD
+CRATE4.JUV
 CREDITS.AUD	End Credits
 CREDITS.TXT	Game Credits
 CREDS.SHP	Score Screen Coins
@@ -564,6 +569,7 @@ FALLS2.DES	Waterfall North-South
 FALLS2.TEM	Waterfall North-South
 FALLS2.WIN	Waterfall North-South
 FBALL1.SHP	Large Explosion
+FINISH1.AUD
 FIRE1.SHP	Large Fire
 FIRE2.SHP	Medium Fire
 FIRE3.SHP	Small Fire
@@ -647,6 +653,7 @@ GDI8B.VQA	Protect Mobieus
 GDI8B.VQP	Protect Mobieus
 GDI9.VQA	Destroy Bunkers
 GDI9.VQP	Destroy Bunkers
+GDI_SLCT.AUD	G. D. I. selected
 GDICAPT1.AUD	GDI Building Captured
 GDIDEAD1.AUD	GDI Unit Destroyed
 GDIEND1.VQA	GDI End No Ion Cannon
@@ -661,7 +668,6 @@ GDIGEN.INF	INF: List For GDI GENERAL.MIX
 GDILOSE.VQA	GDI Logo Being Turned Into Nod Logo
 GDILOSE.VQP	GDI Logo Being Turned Into Nod Logo
 GDIMOV.INF	INF: List For GDI MOVIES.MIX
-GDI_SLCT.AUD	G. D. I. selected
 GENERIC.VQA	Kane Ordering Nod To Look For Dinos
 GENERIC.VQP	Kane Ordering Nod To Look For Dinos
 GIRLOKAY.AUD	Girl Ok
@@ -722,10 +728,14 @@ HEARTH_A.WSA	ANIM: Zoom on Africa
 HEARTH_E.WSA	ANIM: Zoom on Europe
 HEAVYG.AUD	Demolition
 HELI.SHP	Apache Helicopter
+HELIDOWN.AUD
+HELIDOWN.JUV
 HELIICNH.DES	ICON: Apache Helicopter
 HELIICNH.TEM	ICON: Apache Helicopter
 HELIICNH.WIN	ICON: Apache Helicopter
 HELIICON.SHP	ICON: Apache Helicopter
+HELIUP1.AUD
+HELIUP1.JUV
 HELLVALY.VQA	Valley Filled With Tiberium
 HELLVALY.VQP	Valley Filled With Tiberium
 HFNT-D.FNT	???
@@ -772,6 +782,7 @@ HVYDOOR1.AUD	Heavy Door
 HVYDOOR1.JUV	Heavy Door
 HVYGUN10.AUD	Heavy Gun
 HVYGUN10.JUV	Heavy Gun
+I_AM.AUD	I Am
 INCOME1.AUD	Incoming Missile
 IND.AUD	Industrial
 IND2.AUD	Canyon Chase
@@ -793,7 +804,6 @@ IONREDY1.AUD	Ion Cannon Ready
 IONSFX.SHP	Ion Cannon Discharge
 IONTEST.VQA	Ion Cannon Test
 IONTEST.VQP	Ion Cannon Test
-I_AM.AUD	I Am
 J1.AUD	Untamed Land
 JDI_V2.AUD	Take Em' Out
 JEEP.SHP	Hummvee
@@ -819,6 +829,7 @@ LEFT1.WSA	ANIM: Left Mouth Moving
 LEFT16.AUD	Left
 LEFTY1.AUD	Commando That Was Left Handed
 LINEFIRE.AUD	In The Line Of Fire
+local mix database.dat	mix database
 LOCAL.INF	INF: List For LOCAL.MIX
 LOGO.VQA	Westwood Logo
 LOGO.VQP	Westwood Logo
@@ -947,6 +958,7 @@ NOD8.VQA	Capture GDI Base
 NOD8.VQP	Capture GDI Base
 NOD9.VQA	Reinforce Base
 NOD9.VQP	Reinforce Base
+NOD_SLCT.AUD	Brotherhood of Nod selected
 NODCAPT1.AUD	Nod Building Captured
 NODDEAD1.AUD	Nod Unit Destroyed
 NODEND1.VQA	Destroying The Effiel Tower
@@ -967,7 +979,6 @@ NODLOSE.VQP	Nod Logo Turning Into GDI Logo
 NODMOV.INF	INF: List For NOD MOVIES.MIX
 NODSWEEP.VQA	Nod Forces Assaulting Village
 NODSWEEP.VQP	Nod Forces Assaulting Village
-NOD_SLCT.AUD	Brotherhood of Nod selected
 NOMERCY.AUD	No Mercy
 NOPOWER1.AUD	No Power
 NOPRBLM1.AUD	No Problem
@@ -1314,6 +1325,7 @@ S37.WIN	Cliff Junction NW-SE
 S38.DES	Cliff Junction SW-NE
 S38.TEM	Cliff Junction SW-NE
 S38.WIN	Cliff Junction SW-NE
+S_AFRICA.WSA	ANIM: Zoom on South Africa
 SABOTAGE.VQA	Sabotage
 SABOTAGE.VQP	Sabotage
 SAM.SHP	Sam Site
@@ -1675,8 +1687,8 @@ SILOICNH.WIN	ICON: Silo
 SILOICON.SHP	ICON: Silo
 SILOMAKE.SHP	MAKE: Silo
 SILOS1.AUD	Silos Needed
-SMOKEY.SHP	Smoke Cloud
 SMOKE_M.SHP	Smoke
+SMOKEY.SHP	Smoke Cloud
 SMOKLAND.SHP	Flare
 SNODPAL1.PAL	PAL: ???
 SOUNDS.INF	INF: List For SOUNDS.MIX
@@ -1713,7 +1725,6 @@ STRUGGLE.AUD	Static Sounds
 SUNDIAL.VQA	Sundial Being Blown Up
 SUNDIAL.VQP	Sundial Being Blown Up
 SYLOOK.VQP	???
-S_AFRICA.WSA	ANIM: Zoom on South Africa
 T01.TEM	Tree #1
 T01.WIN	Tree #1
 T02.TEM	Tree #2
@@ -1849,6 +1860,8 @@ TONEY4.AUD	Tone
 TONEY7.AUD	Tone
 TOSS1.AUD	???
 TOSS1.JUV	???
+TR_EXIT.CPS	PICT: Large Bar
+TR_EXIT.WSA	ANIM: Installation Complete
 TRAILER.VQA	Red Alert Preview
 TRAILER.VQP	Red Alert Preview
 TRAN.SHP	Chinook
@@ -1884,8 +1897,6 @@ TROUBLE.AUD	Looks Like Trouble
 TROUBLE.VAR	Looks Like Trouble SFX
 TRTKIL_D.VQA	Turret Being Blown Up In The Desert
 TRTKIL_D.VQP	Turret Being Blown Up In The Desert
-TR_EXIT.CPS	PICT: Large Bar
-TR_EXIT.WSA	ANIM: Installation Complete
 TSHADE.MRF	???
 TSHADOW.MRF	???
 TTRANS.MRF	???
