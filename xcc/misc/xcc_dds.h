@@ -4,22 +4,21 @@
 
 class Cxcc_dds  
 {
-private:
-	Cxcc_dd* pdd;
-	LPDIRECTDRAWSURFACE pdds;
 public:
-	long create(Cxcc_dd &dd, long cx, long cy);
-	void handle_error(const string &s) const;
+	int create(Cxcc_dd&, int cx, int cy);
+	void handle_error(const string&) const;
 	Cxcc_dds();
-	virtual ~Cxcc_dds();
 
 	const LPDIRECTDRAWSURFACE get_p() const
 	{
-		return pdds;
+		return dds_;
 	}
 
 	bool is_available() const
 	{
-		return pdds;
+		return dds_;
 	}
+private:
+	Cxcc_dd* dd_;
+	LPDIRECTDRAWSURFACE dds_ = NULL;
 };

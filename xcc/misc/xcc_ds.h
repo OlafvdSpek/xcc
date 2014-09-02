@@ -7,21 +7,20 @@
 
 class Cxcc_ds
 {
-private:
-	LPDIRECTSOUND pds;
-	HWND m_hWnd;
 public:
-	long create(HWND ihWnd);
-	void handle_error(const string &s) const;
-	Cxcc_ds();
+	int create(HWND ihWnd);
+	void handle_error(const string&) const;
 
 	const LPDIRECTSOUND get_p() const
 	{
-		return pds;
+		return ds_;
 	}
 
 	bool is_available() const
 	{
-		return pds;
+		return ds_;
 	}
+private:
+	LPDIRECTSOUND ds_ = NULL;
+	HWND m_hWnd;
 };

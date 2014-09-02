@@ -1,25 +1,16 @@
 #include "stdafx.h"
 #include "xcc_dds.h"
 
-Cxcc_dds::Cxcc_dds()
+int Cxcc_dds::create(Cxcc_dd&dd, int cx, int cy)
 {
-	pdds = 0;
-}
-
-Cxcc_dds::~Cxcc_dds()
-{
-}
-
-long Cxcc_dds::create(Cxcc_dd &dd, long cx, long cy)
-{
-	pdd = &dd;
+	dd_ = &dd;
 	DDSURFACEDESC ddsdesc;
 	ddsdesc.dwSize = sizeof(DDSURFACEDESC);
 	ddsdesc.dwFlags = DDSD_CAPS;// | DDSD_HEIGHT | DDSD_WIDTH; 
 	ddsdesc.dwWidth = cx;
 	ddsdesc.dwHeight = cy;
 	ddsdesc.ddsCaps.dwCaps = DDSCAPS_PRIMARYSURFACE;
-	if (DD_OK != pdd->get_p()->CreateSurface(&ddsdesc, &pdds, 0))
+	if (DD_OK != dd_->get_p()->CreateSurface(&ddsdesc, &dds_, 0))
 	{
 		handle_error("CreateSurface failed");
 		return 1;
@@ -27,7 +18,7 @@ long Cxcc_dds::create(Cxcc_dd &dd, long cx, long cy)
 	return 0;		
 }
 
-void Cxcc_dds::handle_error(const string &s) const
+void Cxcc_dds::handle_error(const string& s) const
 {
-	pdd->handle_error(s);
+	dd_->handle_error(s);
 }
