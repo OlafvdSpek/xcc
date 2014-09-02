@@ -84,5 +84,4 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 	LPDIRECTSOUND m_ds;
-	Cxap m_xap;
 };

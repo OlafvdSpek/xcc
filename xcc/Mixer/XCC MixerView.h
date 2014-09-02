@@ -209,5 +209,4 @@ private:
 	int m_sort_column;
 	bool m_sort_reverse;
 	bool m_reading;
-	Cxap m_xap;
 };

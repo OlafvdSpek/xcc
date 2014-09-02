@@ -2258,7 +2258,7 @@ void CXCCMixerView::OnUpdatePopupOpen(CCmdUI* pCmdUI)
 		case ft_ogg:
 		case ft_voc:
 		case ft_wav:
-			pCmdUI->Enable(!m_xap.busy() && GetMainFrame()->get_ds());
+			pCmdUI->Enable(!!GetMainFrame()->get_ds());
 			return;
 		case ft_big:
 		case ft_dir:
@@ -2660,16 +2660,12 @@ void CXCCMixerView::open_item(int id)
 	case ft_ogg:
 	case ft_voc:
 	case ft_wav:
-		if (!m_xap.busy() && GetMainFrame()->get_ds())
+		if (GetMainFrame()->get_ds())
 		{
 			CWaitCursor wait;
 			Ccc_file f(true);
 			if (!open_f_id(f, id))
-			{
-				m_xap.ds(GetMainFrame()->get_ds());
-				m_xap.load(f.vdata());
-				m_xap.play();
-			}
+				xap_play(GetMainFrame()->get_ds(), f.vdata());
 		}
 		break;
 	case ft_dir:
