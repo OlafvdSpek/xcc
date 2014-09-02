@@ -23,7 +23,6 @@ CXSE_dlg::CXSE_dlg(t_game game, CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	m_ds = GetMainFrame()->get_ds();
 	m_game = game;
-	m_xap.ds(m_ds);
 }
 
 void CXSE_dlg::DoDataExchange(CDataExchange* pDX)
@@ -237,8 +236,8 @@ void CXSE_dlg::OnPlay()
 		int c_samples = e.size / c_channels >> 1;
 		w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 		m_bag_f.seek(e.offset);
-		if (!m_bag_f.read(w, e.size) && !m_xap.load(d))
-			m_xap.play();
+		if (!m_bag_f.read(w, e.size))
+			xap_play(m_ds, d);
 	}
 	else 
 	{
@@ -255,8 +254,7 @@ void CXSE_dlg::OnPlay()
 			byte* w = d.write_start(cb_d);
 			w += wav_file_write_header(w, c_samples, e.samplerate, 2, c_channels);
 			memcpy(w, decode.data(), c_channels * c_samples << 1);
-			if (!m_xap.load(d))
-				m_xap.play();			
+			xap_play(m_ds, d);
 		}
 	}
 }
