@@ -19,11 +19,11 @@ private:
 	int m_current_object;
 
 	CDC m_mem_dc;
-	t_object_id m_loaded_selection_type;
+	t_object_id m_loaded_selection_type = static_cast<t_object_id>(-1);
 	dword m_loaded_selection_subtype;
-	bool m_mem_surface_created;
+	bool m_mem_surface_created = false;
 	CSize m_mem_surface_size;
-	bool m_mem_surface_valid;
+	bool m_mem_surface_valid = false;
 	CRect m_object_pos[256];
 	HBITMAP mh_dib;
 	t_palet32bgr_entry* mp_dib;

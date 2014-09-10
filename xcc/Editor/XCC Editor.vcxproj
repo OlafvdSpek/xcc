@@ -219,7 +219,6 @@
     <ClInclude Include="edit_unit_properties_dlg.h" />
     <ClInclude Include="edit_waypoints_dlg.h" />
     <ClInclude Include="energy_status_dlg.h" />
-    <ClInclude Include="infantry_properties_dlg.h" />
     <ClInclude Include="list_ctrl_extension.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="object_selection.h" />

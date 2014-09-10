@@ -11,9 +11,7 @@ IMPLEMENT_DYNCREATE(Cobject_selection, CScrollView)
 
 Cobject_selection::Cobject_selection()
 {
-	m_mem_surface_created = m_mem_surface_valid = false;
 	m_mem_surface_size = CSize(8 * 24, 12 * 1024);
-	m_loaded_selection_type = static_cast<t_object_id>(-1);
 	SetScrollSizes(MM_TEXT, m_mem_surface_size);
 }
 
@@ -274,19 +272,18 @@ void Cobject_selection::load_infantry()
 	for (int i = 0; i < 256; i++)
 	{
 		const xcc_infantry::t_infantry_data_entry& id = xcc_infantry::infantry_data[i];
-		if (id.flags & id_flags_in_use)
-		{
-			m_object_pos[i].top = y;
-			m_object_pos[i].left = 0;
-			m_object_pos[i].right = id.cx;
-			if (id.cx > total.cx)
-				total.cx = id.cx;
-			draw_image(id.images, mp_dib, 0, 0, 0, y);
-			y += id.cy;
-			m_object_pos[i].bottom = y;
-			total.cy = y;
-			y += 24;
-		}
+		if (~id.flags & id_flags_in_use)
+			continue;
+		m_object_pos[i].top = y;
+		m_object_pos[i].left = 0;
+		m_object_pos[i].right = id.cx;
+		if (id.cx > total.cx)
+			total.cx = id.cx;
+		draw_image(id.images, mp_dib, 0, 0, 0, y);
+		y += id.cy;
+		m_object_pos[i].bottom = y;
+		total.cy = y;
+		y += 24;
 	}
 	SetScrollSizes(MM_TEXT, total);
 }
@@ -456,25 +453,24 @@ void Cobject_selection::load_units()
 	for (int i = 0; i < 256; i++)
 	{
 		const xcc_units::t_unit_data_entry& ud = xcc_units::unit_data[i];
-		if (ud.flags & ud_flags_in_use)
+		if (~ud.flags & ud_flags_in_use)
+			continue;
+		m_object_pos[i].top = y;
+		m_object_pos[i].left = 0;
+		m_object_pos[i].right = ud.cx;
+		if (ud.cx > total.cx)
+			total.cx = ud.cx;
+		draw_image(ud.images, mp_dib, 0, 0, 0, y);
+		if (ud.flags & ud_flags_top)
 		{
-			m_object_pos[i].top = y;
-			m_object_pos[i].left = 0;
-			m_object_pos[i].right = ud.cx;
-			if (ud.cx > total.cx)
-				total.cx = ud.cx;
-			draw_image(ud.images, mp_dib, 0, 0, 0, y);
-			if (ud.flags & ud_flags_top)
-			{
-				int cx, cy;
-				auto image_data = ud.images->get(32, cx, cy);
-				draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
-			}
-			y += ud.cy;
-			m_object_pos[i].bottom = y;
-			total.cy = y;
-			y += 24;
+			int cx, cy;
+			auto image_data = ud.images->get(32, cx, cy);
+			draw_image(image_data, mp_dib, 0, 0, 0, y, cx, cy);
 		}
+		y += ud.cy;
+		m_object_pos[i].bottom = y;
+		total.cy = y;
+		y += 24;
 	}
 	SetScrollSizes(MM_TEXT, total);
 }
@@ -508,19 +504,14 @@ void Cobject_selection::OnContextMenu(CWnd*, CPoint point)
 		context_pos -= m_object_pos[i].TopLeft();
 		m_context_subpos = context_pos.x / 24 + (m_object_pos[i].Width() + 23) / 24 * (context_pos.y / 24);
 	}
-
 	CMenu menu;
 	VERIFY(menu.LoadMenu(CG_IDR_POPUP_CTEMPLATE_SELECTION));
-	
 	CMenu* pPopup = menu.GetSubMenu(0);
-	ASSERT(pPopup != NULL);
+	ASSERT(pPopup);
 	CWnd* pWndPopupOwner = this;
-	
 	while (pWndPopupOwner->GetStyle() & WS_CHILD)
 		pWndPopupOwner = pWndPopupOwner->GetParent();
-	
-	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y,
-		pWndPopupOwner);
+	pPopup->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, point.x, point.y, pWndPopupOwner);
 }
 
 void Cobject_selection::OnPopupInfantry() 
@@ -670,7 +661,6 @@ LRESULT Cobject_selection::WindowProc(UINT message, WPARAM wParam, LPARAM lParam
 		main_frame()->m_object_name.erase();
 		break;
 	}
-
 	return CScrollView::WindowProc(message, wParam, lParam);
 }
 
