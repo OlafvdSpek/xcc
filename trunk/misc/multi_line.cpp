@@ -4,10 +4,6 @@
 
 using namespace boost;
 
-Cmulti_line::Cmulti_line()
-{
-}
-
 Cmulti_line::Cmulti_line(const string& is)
 {
 	s = is;
@@ -60,4 +56,3 @@ int Cmulti_line::get_next_int(const string& separator)
 {
 	return atoi(get_next_line(separator, true).c_str());
 }
-
