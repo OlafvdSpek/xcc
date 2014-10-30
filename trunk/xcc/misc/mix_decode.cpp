@@ -25,9 +25,7 @@ const static char char2num[] =
 };
 
 typedef unsigned short word;
-typedef uint32_t bignum4[4];
 typedef uint32_t bignum[64];
-typedef uint32_t bignum130[130];
 
 static struct 
 {
@@ -37,15 +35,18 @@ static struct
 } pubkey;
 
 static bignum glob1;
-static uint32_t glob1_bitlen, glob1_len_x2;
-static bignum130 glob2;
-static bignum4 glob1_hi, glob1_hi_inv;
+static uint32_t glob1_bitlen;
+static uint32_t glob1_len_x2;
+static uint32_t glob2[130];
+static uint32_t glob1_hi[4];
+static uint32_t glob1_hi_inv[4];
 static uint32_t glob1_hi_bitlen;
-static uint32_t glob1_hi_inv_lo, glob1_hi_inv_hi;
+static uint32_t glob1_hi_inv_lo;
+static uint32_t glob1_hi_inv_hi;
 
 static void init_bignum(bignum n, uint32_t val, uint32_t len)
 {
-	memset((void *)n, 0, len * 4);
+	memset(n, 0, len * 4);
 	n[0] = val;
 }
 
@@ -154,33 +155,33 @@ static void mov_bignum(bignum dest, bignum src, uint32_t len)
 static void shr_bignum(bignum n, uint32_t bits, long int len)
 {
 	uint32_t i;
-
-	uint32_t i2 = bits / 32;
-	if (i2 > 0)
+	if (uint32_t i2 = bits / 32)
 	{
-		for (i = 0; i < len - i2; i++) n[i] = n[i + i2];
-		for (; i < len; i++) n[i] = 0;
-		bits = bits % 32;
+		for (i = 0; i < len - i2; i++) 
+			n[i] = n[i + i2];
+		for (; i < len; i++) 
+			n[i] = 0;
+		bits %= 32;
 	}
-	if (bits == 0)
+	if (!bits)
 		return;
 	for (i = 0; i < len - 1; i++)
 		n[i] = (n[i] >> bits) | (n[i + 1] << (32 - bits));
-	n[i] = n[i] >> bits;
+	n[i] >>= bits;
 }
 
 static void shl_bignum(bignum n, uint32_t bits, uint32_t len)
 {
 	uint32_t i;
-
-	uint32_t i2 = bits / 32;
-	if (i2 > 0)
+	if (uint32_t i2 = bits / 32)
 	{
-		for (i = len - 1; i > i2; i--) n[i] = n[i - i2];
-		for (; i > 0; i--) n[i] = 0;
-		bits = bits % 32;
+		for (i = len - 1; i > i2; i--) 
+			n[i] = n[i - i2];
+		for (; i > 0; i--) 
+			n[i] = 0;
+		bits %= 32;
 	}
-	if (bits == 0)
+	if (!bits)
 		return;
 	for (i = len - 1; i > 0; i--)
 		n[i] = (n[i] << bits) | (n[i - 1] >> (32 - bits));
@@ -198,10 +199,7 @@ static uint32_t sub_bignum(bignum dest, bignum src1, bignum src2, uint32_t carry
 		src1 = (uint32_t *)(((word *)src1) + 1);
 		src2 = (uint32_t *)(((word *)src2) + 1);
 		dest = (uint32_t *)(((word *)dest) + 1);
-		if ((i1 - i2 - carry) & 0x10000)
-			carry = 1;
-		else
-			carry = 0;
+		carry = ((i1 - i2 - carry) & 0x10000) ? 1 : 0;
 	}
 	return carry;
 }
@@ -322,27 +320,26 @@ static void dec_bignum(bignum n, uint32_t len)
 
 static void calc_a_bignum(bignum n1, bignum n2, bignum n3, uint32_t len)
 {
-	uint32_t g2_len_x2, len_diff;
-	word *esi, *edi;
-	word tmp;
-	
 	mul_bignum(glob2, n2, n3, len);
-	glob2[len*2] = 0;
-	g2_len_x2 = len_bignum(glob2, len*2+1)*2;
-	if (g2_len_x2 >= glob1_len_x2) {
-		inc_bignum(glob2, len*2+1);
-		neg_bignum(glob2, len*2+1);
-		len_diff = g2_len_x2 + 1 - glob1_len_x2;
-		esi = ((word *)glob2) + (1 + g2_len_x2 - glob1_len_x2);
-		edi = ((word *)glob2) + (g2_len_x2 + 1);
+	glob2[len * 2] = 0;
+	uint32_t g2_len_x2 = len_bignum(glob2, len * 2 + 1) * 2;
+	if (g2_len_x2 >= glob1_len_x2) 
+	{
+		inc_bignum(glob2, len * 2 + 1);
+		neg_bignum(glob2, len * 2 + 1);
+		uint32_t len_diff = g2_len_x2 + 1 - glob1_len_x2;
+		word* esi = ((word *)glob2) + (1 + g2_len_x2 - glob1_len_x2);
+		word* edi = ((word *)glob2) + (g2_len_x2 + 1);
 		for (; len_diff != 0; len_diff--) {
 			edi--;
-			tmp = get_mulword((uint32_t *)edi);
+			word tmp = get_mulword((uint32_t *)edi);
 			esi--;
 			if (tmp > 0) {
 				mul_bignum_word((uint32_t *)esi, glob1, tmp, 2*len);
-				if ((*edi & 0x8000) == 0) {
-					if (sub_bignum((uint32_t *)esi, (uint32_t *)esi, glob1, 0, len)) (*edi)--;
+				if ((*edi & 0x8000) == 0) 
+				{
+					if (sub_bignum((uint32_t *)esi, (uint32_t *)esi, glob1, 0, len)) 
+						(*edi)--;
 				}
 			}
 		}
@@ -355,14 +352,12 @@ static void calc_a_bignum(bignum n1, bignum n2, bignum n3, uint32_t len)
 static void calc_a_key(bignum n1, bignum n2, bignum n3, bignum n4, uint32_t len)
 {
 	bignum n_tmp;
-	uint32_t n3_bitlen, bit_mask;
-	
 	init_bignum(n1, 1, len);
 	uint32_t n4_len = len_bignum(n4, len);
 	init_two_dw(n4, n4_len);
-	n3_bitlen = bitlen_bignum(n3, n4_len);
+	uint32_t n3_bitlen = bitlen_bignum(n3, n4_len);
 	uint32_t n3_len = (n3_bitlen + 31) / 32;
-	bit_mask = (((uint32_t)1) << ((n3_bitlen - 1) % 32)) >> 1;
+	uint32_t bit_mask = (((uint32_t)1) << ((n3_bitlen - 1) % 32)) >> 1;
 	n3 += n3_len - 1;
 	n3_bitlen--;
 	mov_bignum(n1, n2, n4_len);
