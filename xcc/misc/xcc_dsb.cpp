@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "xcc_dsb.h"
 
-Cxcc_dsb::Cxcc_dsb()
-{
-	pdsb = NULL;
-}
-
 int Cxcc_dsb::create(Cxcc_ds &ds, int size, int c_channels, int samplerate, int cbits_sample, int flags)
 {
 	pds = &ds;
