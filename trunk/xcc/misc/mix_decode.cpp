@@ -330,12 +330,14 @@ static void calc_a_bignum(bignum n1, bignum n2, bignum n3, uint32_t len)
 		uint32_t len_diff = g2_len_x2 + 1 - glob1_len_x2;
 		word* esi = ((word *)glob2) + (1 + g2_len_x2 - glob1_len_x2);
 		word* edi = ((word *)glob2) + (g2_len_x2 + 1);
-		for (; len_diff != 0; len_diff--) {
+		for (; len_diff != 0; len_diff--) 
+		{
 			edi--;
 			word tmp = get_mulword((uint32_t *)edi);
 			esi--;
-			if (tmp > 0) {
-				mul_bignum_word((uint32_t *)esi, glob1, tmp, 2*len);
+			if (tmp > 0) 
+			{
+				mul_bignum_word((uint32_t *)esi, glob1, tmp, 2 * len);
 				if ((*edi & 0x8000) == 0) 
 				{
 					if (sub_bignum((uint32_t *)esi, (uint32_t *)esi, glob1, 0, len)) 
