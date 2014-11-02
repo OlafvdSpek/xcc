@@ -3,10 +3,10 @@
 #include <boost/noncopyable.hpp>
 #include <windows.h>
 
-class Creg_key: private boost::noncopyable
+class Creg_key : boost::noncopyable
 {
 public:
-	Creg_key();
+	Creg_key() = default;
 	Creg_key(HKEY, const string& name, REGSAM sam_desired);
 	Creg_key(const Creg_key&, const string& name, REGSAM sam_desired);
 	~Creg_key();
@@ -18,5 +18,5 @@ public:
 	string query_value(const string& name);
 	LONG set_value(const string& name, const string& value);
 private:
-	HKEY m_h;
+	HKEY m_h = NULL;
 };

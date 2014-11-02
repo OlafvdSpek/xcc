@@ -5,11 +5,6 @@
 
 using namespace std;
 
-Creg_key::Creg_key()
-{
-	m_h = NULL;
-}
-
 Creg_key::Creg_key(HKEY key, const string& name, REGSAM sam_desired)
 {
 	m_h = NULL;
@@ -34,7 +29,6 @@ LONG Creg_key::create(HKEY key, const string& name)
 	close();
 	return RegCreateKeyExA(key, name.c_str(), 0, NULL, 0, KEY_ALL_ACCESS, NULL, &m_h, NULL);
 }
-
 
 LONG Creg_key::open(HKEY key, const string& name, REGSAM sam_desired)
 {
@@ -91,4 +85,3 @@ LONG Creg_key::set_value(const string& name, const string& value)
 {
 	return RegSetValueExA(m_h, name.c_str(), 0, REG_SZ, reinterpret_cast<const BYTE*>(value.c_str()), value.size());
 }
-
