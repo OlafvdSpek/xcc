@@ -153,7 +153,6 @@
     </ClCompile>
     <ClCompile Include="..\..\misc\string_conversion.cpp" />
     <ClCompile Include="..\misc\virtual_binary.cpp" />
-    <ClCompile Include="..\..\misc\win_handle.cpp" />
     <ClCompile Include="XWIS Client.cpp" />
     <ClCompile Include="XWIS ClientDlg.cpp" />
     <ClCompile Include="..\misc\xcc_dirs.cpp" />
