@@ -144,6 +144,7 @@
 // Version: 1.2 [2000/08/05]
 
 #include "stdafx.h"
+#include <algorithm>
 #define OEMRESOURCE
 #include	<windows.h>
 
