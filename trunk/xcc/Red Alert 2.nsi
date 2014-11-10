@@ -29,4 +29,5 @@ Section "Install"
 	CreateShortCut "$SMPROGRAMS\Red Alert 2.lnk" "$INSTDIR\Red Alert 2.exe"
 	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Red Alert 2.exe"
 	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
+	Exec "$INSTDIR\Red Alert 2.exe"
 SectionEnd
