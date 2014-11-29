@@ -1,7 +1,7 @@
 Name "Yuri's Revenge"
 Outfile "Yuri's-Revenge-Multiplayer.exe"
 InstallDir "$PROGRAMFILES\Red Alert 2"
-InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallDir"
+InstallDirRegKey HKLM "Software\Westwood\Red Alert 2" "InstallPath"
 XPStyle on
 Page directory
 Page instfiles
