@@ -18,9 +18,7 @@ public:
 	void p(int i, const std::string&);
 	void p(int i, int v);
 
-	Circ_params()
-	{
-	}
+	Circ_params() = default;
 
 	int count() const
 	{
