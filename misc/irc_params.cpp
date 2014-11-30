@@ -2,6 +2,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <string_conversion.h>
+#include <xbt/data_ref.h>
 
 using namespace boost;
 using namespace std;
@@ -79,8 +80,8 @@ string Circ_params::prefix_nick() const
 
 string Circ_params::prefix_user() const
 {
-	int i = m_prefix.find('!');
-	int j = m_prefix.find('@');
+	size_t i = m_prefix.find('!');
+	size_t j = m_prefix.find('@');
 	if (j == string::npos)
 		return "";
 	if (i == string::npos)
@@ -92,7 +93,7 @@ string Circ_params::prefix_user() const
 
 string Circ_params::prefix_host() const
 {
-	int i = m_prefix.find('@');
+	size_t i = m_prefix.find('@');
 	return i == string::npos ? m_prefix : m_prefix.substr(i + 1);
 }
 
@@ -104,7 +105,7 @@ const string& Circ_params::operator[](size_t i) const
 
 int Circ_params::p_int(int i) const
 {
-	return atoi((*this)[i].c_str());
+	return to_int((*this)[i]);
 }
 
 void Circ_params::p(int i, const string& v)
