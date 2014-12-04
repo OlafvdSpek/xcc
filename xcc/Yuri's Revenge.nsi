@@ -21,4 +21,5 @@ Section "Install"
 	File "yuri's revenge.exe"
 	CreateShortCut "$SMPROGRAMS\Yuri's Revenge.lnk" "$INSTDIR\Yuri's Revenge.exe"
 	WriteRegStr HKLM "Software\Westwood\Yuri's Revenge" "InstallPath" "$INSTDIR\Yuri's Revenge.exe"
+	Exec "$INSTDIR\Yuri's Revenge.exe"
 SectionEnd
