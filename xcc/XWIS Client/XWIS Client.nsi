@@ -1,7 +1,5 @@
-!define VERSION "0.0.3"
-
-Name "XWIS Client ${VERSION}"
-Outfile "XWIS_Client-${VERSION}.exe"
+Name "XWIS Client"
+Outfile "XWIS-Client.exe"
 InstallDir "$PROGRAMFILES\XCC"
 XPStyle on
 Page directory
