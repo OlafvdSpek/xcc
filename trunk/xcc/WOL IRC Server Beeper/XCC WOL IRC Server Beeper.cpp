@@ -16,7 +16,7 @@ void recv(Csocket& s)
 {
 	const int cb_b = 2 << 10;
 	char b[cb_b];
-	int r = s.recv(memory_range(b, cb_b));
+	int r = s.recv(mutable_data_ref(b, cb_b));
 	if (r == SOCKET_ERROR || !r)
 		return;
 	Beep(500, 100);
@@ -63,7 +63,7 @@ int main(int argc, char* argv[])
 		if (time(NULL) - stime > 60)
 		{
 			char d;
-			s.send(const_memory_range(&d, 1));
+			s.send(data_ref(&d, 1));
 			stime = time(NULL);
 		}
 		FD_ZERO(&fd_read_set);
