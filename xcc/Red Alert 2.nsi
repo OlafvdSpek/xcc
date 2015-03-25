@@ -1,6 +1,6 @@
 Name "Red Alert 2"
 Outfile "Red-Alert-2-Multiplayer.exe"
-InstallDir "$PROGRAMFILES\Red Alert 2"
+InstallDir "$DOCUMENTS\Red Alert 2"
 XPStyle on
 Page directory
 Page instfiles
@@ -26,14 +26,20 @@ Section "Install"
 	File "theme.mix"
 	File "wolapi.dll"
 	File "wolapi.war"
+	File "xwis.cache"
 	File "xwis.dll"
 	Exec 'regsvr32 /s "$INSTDIR\wolapi"'
-	CreateShortCut "$SMPROGRAMS\Red Alert 2.lnk" "$INSTDIR\Red Alert 2.exe"
-	CreateShortCut "$SMPROGRAMS\Red Alert 2 in a Window.lnk" "$INSTDIR\Red Alert 2.exe" "-win"
-	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Red Alert 2.exe"
+	CreateShortCut "$SMPROGRAMS\Red Alert 2.lnk" "$INSTDIR\Game.exe"
+	CreateShortCut "$SMPROGRAMS\Red Alert 2 in a Window.lnk" "$INSTDIR\Game.exe" "-win"
+	WriteRegStr HKLM "Software\Westwood\Red Alert 2" "InstallPath" "$INSTDIR\Game.exe"
 	WriteRegStr HKLM "Software\Westwood\WOLAPI" "InstallPath" "$INSTDIR\wolapi.dll"
-	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Red Alert 2.exe" "RUNASADMIN"
+	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Game.exe" "HIGHDPIAWARE RUNASADMIN WIN7RTM"
+	WriteRegStr HKCU "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Red Alert 2.exe" "HIGHDPIAWARE RUNASADMIN WIN7RTM"
 	SetRegView 64
-	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Red Alert 2.exe" "RUNASADMIN"
-	Exec "$INSTDIR\Red Alert 2.exe"
+	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Game.exe" "HIGHDPIAWARE RUNASADMIN WIN7RTM"
+	WriteRegStr HKLM "Software\Microsoft\Windows NT\CurrentVersion\AppCompatFlags\Layers" "$INSTDIR\Red Alert 2.exe" "HIGHDPIAWARE RUNASADMIN WIN7RTM"
+	Exec "$INSTDIR\Game.exe"
+	Quit
+
+	; 16BITCOLOR
 SectionEnd
