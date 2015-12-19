@@ -516,25 +516,23 @@ void CMainFrame::OnUpdateViewPalet(CCmdUI* pCmdUI)
 
 void CMainFrame::OnViewPaletPrev() 
 {
-	if (m_pal_i[game_ra2])
-	{
-		if (m_palet_i > -1)
-			m_palet_i--;
-		m_file_info_pane->Invalidate();
-		set_msg((m_palet_i == -1 ? "default" : m_pal_list[m_palet_i].name) + " selected");
-	}
+	if (!m_pal_i[game_ra2])
+		return;
+	if (m_palet_i > -1)
+		m_palet_i--;
+	m_file_info_pane->Invalidate();
+	set_msg((m_palet_i == -1 ? "default" : m_pal_list[m_palet_i].name) + " selected");
 }
 
 void CMainFrame::OnViewPaletNext() 
 {
-	if (m_pal_i[game_ra2])
-	{
-		m_palet_i++;
-		if (m_palet_i == m_pal_i[game_ra2])
-			m_palet_i = 0;
-		m_file_info_pane->Invalidate();
-		set_msg(m_pal_list[m_palet_i].name + " selected");
-	}
+	if (!m_pal_i[game_ra2])
+		return;
+	m_palet_i++;
+	if (m_palet_i == m_pal_i[game_ra2])
+		m_palet_i = 0;
+	m_file_info_pane->Invalidate();
+	set_msg(m_pal_list[m_palet_i].name + " selected");
 }
 
 bool CMainFrame::auto_select(t_game game, string palet)
@@ -688,11 +686,10 @@ void CMainFrame::open_ds()
 
 void CMainFrame::close_ds()
 {
-	if (m_ds)
-	{
-		m_ds->Release();
-		m_ds = NULL;
-	}
+	if (!m_ds)
+		return;
+	m_ds->Release();
+	m_ds = NULL;
 }
 
 static CXCCMixerApp* GetApp()
