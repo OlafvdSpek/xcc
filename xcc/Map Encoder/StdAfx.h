@@ -15,6 +15,7 @@
 #include <map>
 #include <set>
 #include <string>
+#include <vector>
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
