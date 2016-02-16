@@ -12,10 +12,12 @@ bool Caud_file::is_valid()
 		return false;
 	switch (m_header.compression)
 	{
+		// Check flags with 0xFE mask to ensure only checking for compression type bit.
+		// Bit 1 signifies stereo audio
 	case 1:
-		return m_header.flags == 0;
+		return (m_header.flags & 0xFE) == 0;
 	case 0x63:
-		return m_header.flags == 2;
+		return (m_header.flags & 0xFE) == 2;
 	}
 	return false;
 }
