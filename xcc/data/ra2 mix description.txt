@@ -24990,6 +24990,7 @@ xmp15mw.map
 xmp16mw.map	
 xtowermw.map	
 xvalleymw.map	
+xmp22s8mw.map	
 xmp25mw.map	
 xmp17mw.map	
 monumentvalleymw.map	
@@ -25582,3 +25583,7 @@ s01_p03e.bik
 s03_p02e.bik	
 s03_p03e.bik	
 s04_p03e.bik	
+renegade.bik	
+waitcylo.pal	
+waitcylo.shp	
+wdtfs.pal	
