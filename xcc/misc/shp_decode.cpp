@@ -187,45 +187,126 @@ static void flush_copy(byte*& w, const byte* r, const byte*& copy_from)
 	}
 }
 
+#define XOR_SMALL		127
+#define XOR_MED			255
+#define XOR_LARGE		16383
+#define XOR_MAX			32767
+
 int encode40(const byte* last_s, const byte* x, byte* d, int cb_s)
 {
-	// full compression
-	byte* s = new byte[cb_s];
-	{
-		byte* a = s;
-		int size = cb_s;
-		while (size--)
-			*a++ = *last_s++ ^ *x++;
+	byte *putp = static_cast<byte*>(d);	//our delta
+	byte const *getsp = static_cast<byte const*>(x);	//This is the image we go to
+	byte const *getbp = static_cast<byte const*>(last_s);	//This is image we come from
+	byte const *getsendp = getsp + cb_s;
+
+	//only check getsp. Both source and base should be same size and both pointers
+	//should be incremented at the same time.
+	while (getsp < getsendp) {
+		unsigned int fillcount = 0;
+		unsigned int xorcount = 0;
+		unsigned int skipcount = 0;
+		byte lastxor = *getsp ^ *getbp;
+		byte const *testsp = getsp;
+		byte const *testbp = getbp;
+
+		//Only evaluate other options if we don't have a matched pair
+		while (*testsp != *testbp && testsp < getsendp) {
+			if ((*testsp ^ *testbp) == lastxor) {
+				++fillcount;
+				++xorcount;
+			} else {
+				if (fillcount > 3) {
+					break;
+				} else {
+					lastxor = *testsp ^ *testbp;
+					fillcount = 1;
+					++xorcount;
+				}
+			}
+			++testsp;
+			++testbp;
+		}
+
+		fillcount = fillcount > 3 ? fillcount : 0;
+
+		//Okay, lets see if we have any xor bytes we need to handle
+		xorcount -= fillcount;
+		while (xorcount) {
+			uint16_t count = 0;
+			//cmd 0???????
+			if (xorcount < XOR_MED) {
+				count = xorcount <= XOR_SMALL ? xorcount : XOR_SMALL;
+				*putp++ = count;
+			//cmd 10000000 10?????? ??????
+			} else {
+				count = xorcount <= XOR_LARGE ? xorcount : XOR_LARGE;
+				*putp++ = 0x80;
+				*putp++ = count;
+				*putp++ = (count >> 8) | 0x80;
+			}
+
+			while (count) {
+				*putp++ = *getsp++ ^ *getbp++;
+				--count;
+				--xorcount;
+			}
+		}
+
+		//lets handle the bytes that are best done as xorfill
+		while (fillcount) {
+			uint16_t count = 0;
+			//cmd 00000000 ????????
+			if (fillcount <= XOR_MED) {
+				count = fillcount;
+				*putp++ = 0;
+				*putp++ = count;
+			//cmd 10000000 11?????? ??????
+			} else {
+				count = fillcount <= XOR_LARGE ? fillcount : XOR_LARGE;
+				*putp++ = 0x80;
+				*putp++ = count;
+				*putp++ = (count >> 8) | 0xC0;
+			}
+			
+			*putp++ = *getsp ^ *getbp;
+			fillcount -= count;
+			getsp += count;
+			getbp += count;
+		}
+
+		//Handle regions that match exactly
+		while (*testsp == *testbp && testsp < getsendp) {
+			++skipcount;
+			++testsp;
+			++testbp;
+		}
+
+		while (skipcount) {
+			uint16_t count = 0;
+			if (skipcount < XOR_MED) {
+				count = skipcount <= XOR_SMALL ? skipcount : XOR_SMALL;
+				*putp++ = count | 0x80;
+				//cmd 10000000 0??????? ????????
+			} else {
+				count = skipcount <= XOR_MAX ? skipcount : XOR_MAX;
+				*putp++ = 0x80;
+				*putp++ = count;
+				*putp++ = count >> 8;
+			}
+
+			skipcount -= count;
+			getsp += count;
+			getbp += count;
+		}
+
 	}
-	const byte* s_end = s + cb_s;
-	const byte* r = s;
-	byte* w = d;
-	const byte* copy_from = NULL;
-	while (r < s_end)
-	{
-		int v = *r;
-		int t = get_run_length(r, s_end);
-		if (!v)
-		{
-			flush_copy(w, r, copy_from);			
-			write40_skip(w, t);
-		}
-		else if (t > 2)
-		{
-			flush_copy(w, r, copy_from);			
-			write40_fill(w, t, v);
-		}
-		else
-		{
-			if (!copy_from)
-				copy_from = r;
-		}
-		r += t;
-	}
-	flush_copy(w, r, copy_from);
-	write40_c2(w, 0);
-	delete[] s;
-	return w - d;
+
+	//final skip command of 0;
+	*putp++ = 0x80;
+	*putp++ = 0;
+	*putp++ = 0;
+
+	return putp - static_cast<byte*>(d);
 }
 
 int encode40_y(const byte* last_r, const byte* r, byte* d, int cb_s)
@@ -451,46 +532,141 @@ static void flush_c1(byte*& w, const byte* r, const byte*& copy_from)
 
 int encode80(const byte* s, byte* d, int cb_s)
 {
-	// full compression
-	const byte* s_end = s + cb_s;
-	const byte* r = s;
-	byte* w = d;
-	const byte* copy_from = NULL;
-	while (r < s_end)
-	{
-		byte* p;
-		int cb_p;
-		int t = get_run_length(r, s_end);
-		get_same(s, r, s_end, p, cb_p);
-		if (t < cb_p && cb_p > 2)
-		{
-			flush_c1(w, r, copy_from);
-			if (cb_p - 3 < 8 && r - p < 0x1000)
-				write80_c0(w, cb_p, r - p);
-			else if (cb_p - 3 < 0x3e)
-				write80_c2(w, cb_p, p - s);
-			else 
-				write80_c4(w, cb_p, p - s);				
-			r += cb_p;
+	if (!cb_s) {
+		return 0;
+	}
+
+	bool relative = false;
+
+	const byte *getp = static_cast<const byte *>(s);
+	byte *putp = static_cast<byte *>(d);
+	const byte *getstart = getp;
+	const byte *getend = getp + cb_s;
+	byte *putstart = putp;
+
+	//Write a starting cmd1 and set bool to have cmd1 in progress
+	byte *cmd_onep = putp;
+	*putp++ = 0x81;
+	*putp++ = *getp++;
+	bool cmd_one = true;
+
+	//Compress data
+	while (getp < getend) {
+		//Is RLE encode (4bytes) worth evaluating?
+		if (getend - getp > 64 && *getp == *(getp + 64)) {
+			//RLE run length is encoded as a short so max is UINT16_MAX
+			const byte *rlemax = (getend - getp) < UINT16_MAX ? getend : getp + UINT16_MAX;
+			const byte *rlep;
+
+			for (rlep = getp + 1; *rlep == *getp && rlep < rlemax; ++rlep);
+
+			uint16_t run_length = rlep - getp;
+
+			//If run length is long enough, write the command and start loop again
+			if (run_length >= 0x41) {
+				//write 4byte command 0b11111110
+				cmd_one = false;
+				*putp++ = 0xFE;
+				*putp++ = run_length;
+				*putp++ = run_length >> 8;
+				*putp++ = *getp;
+				getp = rlep;
+				continue;
+			}
 		}
-		else
-		{
-			if (t < 3)
-			{
-				if (!copy_from)
-					copy_from = r;
+
+		//current block size for an offset copy
+		int block_size = 0;
+		const byte *offstart;
+
+		//Set where we start looking for matching runs.
+		if (relative) {
+			offstart = (getp - getstart) < UINT16_MAX ? getstart : getp - UINT16_MAX;
+		}
+		else {
+			offstart = getstart;
+		}
+
+		//Look for matching runs
+		const byte *offchk = offstart;
+		const byte *offsetp = getp;
+		while (offchk < getp) {
+			//Move offchk to next matching position
+			while (offchk < getp && *offchk != *getp) {
+				++offchk;
 			}
-			else
-			{
-				flush_c1(w, r, copy_from);
-				write80_c3(w, t, *r);
+
+			//If the checking pointer has reached current pos, break
+			if (offchk >= getp) {
+				break;
 			}
-			r += t;
+
+			//find out how long the run of matches goes for
+			int i;
+			for (i = 1; &getp[i] < getend; ++i) {
+				if (offchk[i] != getp[i]) {
+					break;
+				}
+			}
+
+			if (i >= block_size) {
+				block_size = i;
+				offsetp = offchk;
+			}
+
+			++offchk;
+		}
+
+		//decide what encoding to use for current run
+		if (block_size <= 2) {
+			//short copy 0b10??????
+			//check we have an existing 1 byte command and if its value is still
+			//small enough to handle additional bytes
+			//start a new command if current one doesn't have space or we don't
+			//have one to continue
+			if (cmd_one && *cmd_onep < 0xBF) {
+				//increment command value
+				++*cmd_onep;
+				*putp++ = *getp++;
+			}
+			else {
+				cmd_onep = putp;
+				*putp++ = 0x81;
+				*putp++ = *getp++;
+				cmd_one = true;
+			}
+		}
+		else {
+			uint16_t offset;
+			uint16_t rel_offset = getp - offsetp;
+			if (block_size > 0xA || (rel_offset > 0xFFF)) {
+				//write 5 byte command 0b11111111
+				if (block_size > 0x40) {
+					*putp++ = 0xFF;
+					*putp++ = block_size;
+					*putp++ = block_size >> 8;
+				//write 3 byte command 0b11??????
+				}
+				else {
+					*putp++ = (block_size - 3) | 0xC0;
+				}
+
+				offset = relative ? rel_offset : offsetp - getstart;
+			//write 2 byte command? 0b0???????
+			}
+			else {
+				offset = rel_offset << 8 | (16 * (block_size - 3) + (rel_offset >> 8));
+			}
+			*putp++ = offset;
+			*putp++ = offset >> 8;
+			getp += block_size;
+			cmd_one = false;
 		}
 	}
-	flush_c1(w, r, copy_from);
-	write80_c1(w, 0, NULL);
-	return w - d;
+
+	//write final 0x80, this is why its also known as format80 compression
+	*putp++ = 0x80;
+	return putp - putstart;
 }
 
 int encode80_y(const byte* s, byte* d, int cb_s)
