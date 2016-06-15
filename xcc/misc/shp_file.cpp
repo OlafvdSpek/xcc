@@ -74,7 +74,7 @@ bool Cshp_file::is_valid() const
 	int size = get_size();
 	if (sizeof(t_shp_header) > size || h.c_images < 1 || h.c_images > 1000 || sizeof(t_shp_header) + 8 * (h.c_images + 2) > size)
 		return false;
-	return !(get_offset(cf()) != size || get_offset(cf() + 1));
+	return !(get_offset(cf()) != size || get_offset(cf() + 1)) || get_offset(cf() + 1) == size;
 }
 
 void Cshp_file::decode(void* d) const

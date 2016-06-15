@@ -13,7 +13,7 @@ bool Cshp_dune2_file::is_valid() const
 		return false;
 	for (int i = 0; i < get_c_images(); i++)
 	{
-		if (get_ofs(i) < 0 || get_ofs(i) + sizeof(t_shp_dune2_image_header) > min(size, 32 << 10))
+		if (get_ofs(i) < 0 || get_ofs(i) + sizeof(t_shp_dune2_image_header) > min(size, 0xFFFF))
 			return false;
 		const t_shp_dune2_image_header& image_header = *get_image_header(i);
 		if (image_header.compression & ~3 ||

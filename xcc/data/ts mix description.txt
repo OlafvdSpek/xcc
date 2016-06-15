@@ -5226,3 +5226,15 @@ flamthro.shp	-
 alphatst.shp	-
 truck2.vxl	-
 truck2.hva	-
+btib01.tem	
+btib02.tem	
+btib03.tem	
+btib01.sno	
+btib02.sno	
+btib03.sno	
+wdtfs.pal	
+nodlogo.pal	
+gdilogo.pal	
+nodlogo.shp	
+gdilogo.shp	
+WDTFC.VQA	
