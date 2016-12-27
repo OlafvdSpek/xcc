@@ -126,7 +126,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\misc\ETSLayout.cpp">
+    <ClCompile Include="..\misc\ETSLayout.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\ListCtrlEx.cpp">
     </ClCompile>

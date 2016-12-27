@@ -139,21 +139,21 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\misc\irc_params.cpp" />
+    <ClCompile Include="..\misc\irc_params.cpp" />
     <ClCompile Include="..\misc\cc_structures.cpp" />
     <ClCompile Include="dlg_login.cpp" />
     <ClCompile Include="dlg_serials.cpp" />
-    <ClCompile Include="..\..\misc\ETSLayout.cpp" />
-    <ClCompile Include="..\..\misc\file32.cpp" />
-    <ClCompile Include="..\..\misc\fname.cpp" />
-    <ClCompile Include="..\..\misc\multi_line.cpp" />
-    <ClCompile Include="..\..\misc\reg_key.cpp" />
+    <ClCompile Include="..\misc\ETSLayout.cpp" />
+    <ClCompile Include="..\misc\file32.cpp" />
+    <ClCompile Include="..\misc\fname.cpp" />
+    <ClCompile Include="..\misc\multi_line.cpp" />
+    <ClCompile Include="..\misc\reg_key.cpp" />
     <ClCompile Include="..\..\xbt\misc\socket.cpp" />
     <ClCompile Include="StdAfx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="..\..\misc\string_conversion.cpp" />
+    <ClCompile Include="..\misc\string_conversion.cpp" />
     <ClCompile Include="..\misc\virtual_binary.cpp" />
     <ClCompile Include="XWIS Client.cpp" />
     <ClCompile Include="XWIS ClientDlg.cpp" />
