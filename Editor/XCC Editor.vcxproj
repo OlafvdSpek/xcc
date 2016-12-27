@@ -158,7 +158,7 @@
     </ClCompile>
     <ClCompile Include="energy_status_dlg.cpp">
     </ClCompile>
-    <ClCompile Include="..\..\misc\ETSLayout.cpp">
+    <ClCompile Include="..\misc\ETSLayout.cpp">
     </ClCompile>
     <ClCompile Include="list_ctrl_extension.cpp">
     </ClCompile>

@@ -114,7 +114,7 @@
     </ClCompile>
     <ClCompile Include="dlg_shp_viewer.cpp">
     </ClCompile>
-    <ClCompile Include="..\..\misc\ETSLayout.cpp">
+    <ClCompile Include="..\misc\ETSLayout.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\itc_ini_reader.cpp">
     </ClCompile>
