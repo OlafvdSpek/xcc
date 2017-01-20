@@ -8,9 +8,7 @@
 
 using namespace std;
 
-#pragma comment(lib, "libjpeg.lib")
-
-class Cjpeg_file: public Ccc_file_sh<t_jpeg_header>
+class Cjpeg_file : public Ccc_file_sh<t_jpeg_header>
 {
 public:
 	int decode(Cvirtual_image& d) const;

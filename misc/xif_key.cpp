@@ -1,12 +1,9 @@
 #include "stdafx.h"
 #include "xif_key.h"
 
-#include <bzip/bzlib.h>
+#include <bzlib.h>
 #include <string_conversion.h>
 #include <zlib.h>
-
-#pragma comment(lib, "libbz2.lib")
-#pragma comment(lib, "zlib.lib")
 
 template <class T>
 static T read(const byte*& r)

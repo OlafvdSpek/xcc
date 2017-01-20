@@ -4,11 +4,7 @@
 #include "cc_structures.h"
 #include "virtual_audio.h"
 
-#pragma comment(lib, "libogg_static.lib")
-#pragma comment(lib, "libvorbis_static.lib")
-#pragma comment(lib, "libvorbisfile_static.lib")
-
-class Cogg_file: public Ccc_file_sh<t_ogg_header>
+class Cogg_file : public Ccc_file_sh<t_ogg_header>
 {
 public:
 	bool is_valid() const

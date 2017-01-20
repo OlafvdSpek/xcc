@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "xif_key_r.h"
 
-#include <bzip/bzlib.h>
+#include <bzlib.h>
 #include <zlib.h>
 #include "xif_key.h"
 
