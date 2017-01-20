@@ -13,11 +13,8 @@ Cneat_key_list::Cneat_key_list(const Cneat_key_list& v)
 const Cneat_key_list& Cneat_key_list::operator=(const Cneat_key_list& v)
 {
 	erase();
-	for (t_key_list::const_iterator li = v.m_key_list.begin(); li != v.m_key_list.end(); li++)
-	{
-		t_key_map::const_iterator mi = *li;
-		add_key(mi->first, mi->second);
-	}
+	for (auto& i : v.m_key_list)
+		add_key(i->first, i->second);
 	return *this;
 }
 
@@ -42,10 +39,7 @@ void Cneat_key_list::erase()
 
 int Cneat_key_list::write(ostream& os) const
 {
-	for (t_key_list::const_iterator li = m_key_list.begin(); li != m_key_list.end(); li++)
-	{
-		t_key_map::const_iterator mi = *li;
-		os << mi->first << "=" << mi->second << endl;
-	}
+	for (auto& i : m_key_list)
+		os << i->first << "=" << i->second << endl;
 	return 0;
 }

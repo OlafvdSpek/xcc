@@ -55,18 +55,18 @@ int Cxcc_templates::load_data()
 		if (fname.substr(0, 2) == "sh")
 			td.flags |= td_flags_shore;
 		*/
-		for (t_xif_value_map::const_iterator i = tk.m_values.begin(); i != tk.m_values.end(); i++)
+		for (auto& i : tk.m_values)
 		{
-			switch (i->first)
+			switch (i.first)
 			{
 			case vi_td_buildable:
-				td.buildable = *reinterpret_cast<const __int64*>(i->second.get_data());
+				td.buildable = *reinterpret_cast<const __int64*>(i.second.get_data());
 				break;
 			case vi_td_moveable:
-				td.moveable = *reinterpret_cast<const __int64*>(i->second.get_data());
+				td.moveable = *reinterpret_cast<const __int64*>(i.second.get_data());
 				break;
 			case vi_td_flags:
-				td.flags = i->second.get_int();
+				td.flags = i.second.get_int();
 				break;
 			}
 		}

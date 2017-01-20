@@ -397,9 +397,9 @@ t_rect CXCCTMPEditorDoc::get_rect(bool view_true_height) const
 	{
 		rect.x = rect.y = INT_MAX;
 		rect.r = rect.b = INT_MIN;
-		for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+		for (auto& i : m_map)
 		{
-			const t_tmp_image_header& header = i->second.header;
+			const t_tmp_image_header& header = i.second.header;
 			t_rect t;
 			t.x = header.x;
 			t.y = header.y;
@@ -445,9 +445,9 @@ void CXCCTMPEditorDoc::draw(byte* d, int outline, bool view_true_height) const
 	int global_cx = global.r - global.x;
 	int global_cy = global.b - global.y;
 	memset(d, 0, global_cx * global_cy);
-	for (t_map::const_iterator i = m_map.begin(); i != m_map.end(); i++)
+	for (auto& i : m_map)
 	{
-		const t_map_entry& e = i->second;
+		const t_map_entry& e = i.second;
 		const t_tmp_image_header& header = e.header;
 		const byte* r = e.data.data();
 		byte* w_line = get_p(d, header.x - global.x, header.y - global.y - header.height * half_cy, global_cx, global_cy);
@@ -459,7 +459,7 @@ void CXCCTMPEditorDoc::draw(byte* d, int outline, bool view_true_height) const
 			cx += 4;
 			x -= 2;
 			memcpy(w_line + x, r, cx);
-			if (outline == i->first)
+			if (outline == i.first)
 			{
 				memset(w_line + x, 0xff, 2);
 				memset(w_line + x + cx - 2, 0xff, 2);
@@ -472,7 +472,7 @@ void CXCCTMPEditorDoc::draw(byte* d, int outline, bool view_true_height) const
 			cx -= 4;
 			x += 2;
 			memcpy(w_line + x, r, cx);
-			if (outline == i->first && cx)
+			if (outline == i.first && cx)
 			{
 				memset(w_line + x, 0xff, 2);
 				memset(w_line + x + cx - 2, 0xff, 2);
@@ -508,9 +508,9 @@ void CXCCTMPEditorDoc::draw_reverse(const byte* d)
 	t_rect global = get_rect();
 	int global_cx = global.r - global.x;
 	int global_cy = global.b - global.y;
-	for (t_map::iterator i = m_map.begin(); i != m_map.end(); i++)
+	for (auto& i : m_map)
 	{
-		t_map_entry& e = i->second;
+		t_map_entry& e = i.second;
 		t_tmp_image_header& header = e.header;
 		byte* r = e.data.data_edit();
 		const byte* w_line = get_p(d, header.x - global.x, header.y - global.y - header.height * half_cy, global_cx, global_cy);

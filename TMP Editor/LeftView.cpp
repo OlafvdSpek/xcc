@@ -131,15 +131,15 @@ void CLeftView::sync()
 	SetRedraw(false);
 	CListCtrl& lc = GetListCtrl();
 	const t_map& map = GetDocument()->map();
-	for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+	for (auto& i : map)
 	{
 		LVFINDINFO lvf;
 		lvf.flags = LVFI_PARAM;
-		lvf.lParam = i->first;
+		lvf.lParam = i.first;
 		if (lc.FindItem(&lvf, -1) != -1)
 			continue;
 		int index = lc.InsertItem(lc.GetItemCount(), LPSTR_TEXTCALLBACK);
-		lc.SetItemData(index, i->first);
+		lc.SetItemData(index, i.first);
 	}
 	for (int j = 0; j < lc.GetItemCount(); j++)
 	{

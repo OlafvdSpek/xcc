@@ -1618,7 +1618,7 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 					}
 					break;
 				case ID_POPUP_CLEAR_UNIT_LAYER:
-					for (t_unit_data::iterator i = level().unit_data.begin(); i != level().unit_data.end(); )
+					for (auto i = level().unit_data.begin(); i != level().unit_data.end(); )
 					{
 						if (i->cell.center() == cell)
 							i = level().unit_data.erase(i);
@@ -1641,7 +1641,7 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 		}
 		break;
 	case ID_POPUP_CLEAR_TERRAIN_LAYER:
-		for (t_terrain_data::iterator i = level().terrain_data.begin(); i != level().terrain_data.end(); )
+		for (auto i = level().terrain_data.begin(); i != level().terrain_data.end(); )
 		{
 			Cxcc_cell cell;
 			cell.set_xcc(i->first);
@@ -1674,7 +1674,7 @@ void CXCCEditorView::OnPopupClearLayer(UINT nID)
 		}
 		break;
 	case ID_POPUP_CLEAR_STRUCTURE_LAYER:
-		for (t_structure_data::iterator i = level().structure_data.begin(); i != level().structure_data.end(); )
+		for (auto i = level().structure_data.begin(); i != level().structure_data.end(); )
 		{
 			const Cxcc_cell cell = i->cell;
 			const CPoint ul(cell.x >> 8, cell.y >> 8);

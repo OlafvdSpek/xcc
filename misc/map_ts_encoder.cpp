@@ -480,11 +480,11 @@ static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary 
 			map[v] = -1;
 	}
 	*w++ = map.size();
-	for (t_map::iterator i = map.begin(); i != map.end(); i++)
+	for (auto& i : map)
 	{
-		memcpy(w, &i->first, 6);
+		memcpy(w, &i.first, 6);
 		w += 3;
-		i->second = j++;
+		i.second = j++;
 	}
 	count = s.size() / 6;
 	r = reinterpret_cast<const t_palet_entry*>(s.data());

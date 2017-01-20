@@ -31,10 +31,10 @@ int xcc_structures::load_data()
 	if (structures_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + structures_xif_fname)))
 		return 1;
 	int structure_i = 0;
-	for (t_xif_key_map::iterator i = structures_key.m_keys.begin(); i != structures_key.m_keys.end(); i++)
+	for (auto& i : structures_key.m_keys)
 	{
 		t_structure_data_entry& sd = structure_data[structure_i];
-		Cxif_key& sk = i->second;
+		Cxif_key& sk = i.second;
 		sd.long_name = sk.get_value_string(vi_sd_long_name);
 		sd.short_name = sk.get_value_string(vi_sd_short_name);
 		sd.cx = sk.get_value_int(vi_sd_cx);
@@ -44,18 +44,18 @@ int xcc_structures::load_data()
 		sd.ground = 0;
 		sd.power_in = 0;
 		sd.power_out = 0;
-		for (t_xif_value_map::const_iterator i = sk.m_values.begin(); i != sk.m_values.end(); i++)
+		for (auto& i : sk.m_values)
 		{
-			switch (i->first)
+			switch (i.first)
 			{
 			case vi_sd_ground:
-				sd.ground = i->second.get_int();
+				sd.ground = i.second.get_int();
 				break;
 			case vi_sd_power_in:
-				sd.power_in = i->second.get_int();
+				sd.power_in = i.second.get_int();
 				break;
 			case vi_sd_power_out:
-				sd.power_out = i->second.get_int();
+				sd.power_out = i.second.get_int();
 				break;
 			}
 		}

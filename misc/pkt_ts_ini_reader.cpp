@@ -85,7 +85,7 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 	bool xste_available = !xste.open(game_ra2_yr);
 	os << "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\"><link rel=stylesheet href=\"http://xccu.sourceforge.net/xcc.css\"><title>PKT dump</title><table border=1>"
 		<< "<tr><th>Name<th>Description<th>Gamemode<th>Preview";
-	for (t_map_list::const_iterator i = m_map_list.begin(); i != m_map_list.end(); i++)
+	for (auto& i : m_map_list)
 	{
 		/*
 		bool skip = true;
@@ -101,14 +101,14 @@ void Cpkt_ts_ini_reader::write_report(ostream& os) const
 		if (skip) 
 			continue;
 		*/
-		string description = i->second.m_description;
+		string description = i.second.m_description;
 		if (xste_available)
 		{
 			Ccsf_file& csf_f = xste.csf_f();
 			if (csf_f.has_name(to_lower_copy(description)))
 				description = csf_f.get_converted_value(to_lower_copy(description));
 		}
-		os << "<tr><td><a href=" << i->first << ".html>" << i->first << "</a><td>" << description << "<td>" << i->second.m_gamemode << "<td><img src=" << i->first << "_pv.png>";
+		os << "<tr><td><a href=" << i.first << ".html>" << i.first << "</a><td>" << description << "<td>" << i.second.m_gamemode << "<td><img src=" << i.first << "_pv.png>";
 		// page += "\"" + i->first + "\", " + "\"" + description + "\",\n";
 	}
 	os << "</table>";

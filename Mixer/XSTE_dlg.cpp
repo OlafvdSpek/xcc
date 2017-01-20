@@ -139,9 +139,9 @@ int CXSTE_dlg::get_cat_id(const string& name) const
 void CXSTE_dlg::create_cat_map()
 {
 	static int cat_id = 0;
-	for (Ccsf_file::t_map::const_iterator i = m_f.get_map().begin(); i != m_f.get_map().end(); i++)
+	for (auto& i : m_f.get_map())
 	{
-		string cat = get_cat(i->first);
+		string cat = get_cat(i.first);
 		if (!m_reverse_cat_map.count(cat))
 		{
 			m_cat_map[cat_id] = cat;
@@ -149,7 +149,7 @@ void CXSTE_dlg::create_cat_map()
 		}
 		static int id = 0;
 		t_map_entry& e = m_map[id++];
-		e.i = i;
+		e.i = &i;
 		e.cat_id = find_ref(m_reverse_cat_map, cat);
 	}
 	string cat = "Other";
@@ -193,7 +193,7 @@ int CXSTE_dlg::get_free_id()
 void CXSTE_dlg::set_map_entry(int id, const string& name)
 {
 	t_map_entry& e = m_map[id];
-	e.i = m_f.get_map().find(name);
+	e.i = &*m_f.get_map().find(name);
 	e.cat_id = get_cat_id(name);
 }
 
@@ -250,7 +250,7 @@ void CXSTE_dlg::OnEndlabeleditList(NMHDR* pNMHDR, LRESULT* pResult)
 		Ccsf_file::t_map_entry e = find_ref(m_f.get_map(), old_name);
 		m_f.erase_value(old_name);
 		m_f.set_value(t, e.value, e.extra_value);
-		f.i = m_f.get_map().find(t);
+		f.i = &*m_f.get_map().find(t);
 		f.cat_id = get_cat_id(t);
 		if (old_name.empty())
 			check_selection();

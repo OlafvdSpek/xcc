@@ -29,8 +29,8 @@ int Cmix_file_write::write_start()
 {
 	add_file("local mix database.dat", m_lmd_fw.write(m_game));
 	int r = 4 + sizeof(t_mix_header) + m_index.size() * sizeof(t_mix_index_entry);
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-		r += i->second.size();
+	for (auto& i : m_index)
+		r += i.second.size();
 	return r;
 }
 
@@ -45,13 +45,13 @@ int Cmix_file_write::write(byte* d) const
 	t_mix_index_entry* index = reinterpret_cast<t_mix_index_entry*>(w);
 	w += m_index.size() * sizeof(t_mix_index_entry);
 	byte* body_start = w;
-	for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
+	for (auto& i : m_index)
 	{
-		index->id = i->first;
+		index->id = i.first;
 		index->offset = w - body_start;
-		index->size = i->second.size();
+		index->size = i.second.size();
 		index++;
-		w += i->second.read(w);
+		w += i.second.read(w);
 	}
 	header.size = w - body_start;
 	return w - d;

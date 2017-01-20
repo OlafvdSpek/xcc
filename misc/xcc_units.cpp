@@ -31,10 +31,10 @@ int xcc_units::load_data()
 	if (units_key.load_key(Cvirtual_binary(xcc_dirs::get_data_dir() + units_xif_fname)))
 		return 1;
 	int unit_i = 0;
-	for (t_xif_key_map::iterator i = units_key.m_keys.begin(); i != units_key.m_keys.end(); i++)
+	for (auto& i : units_key.m_keys)
 	{
 		t_unit_data_entry& ud = unit_data[unit_i];
-		Cxif_key& uk = i->second;
+		Cxif_key& uk = i.second;
 		ud.long_name = uk.get_value_string(vi_ud_long_name);
 		ud.short_name = uk.get_value_string(vi_ud_short_name);
 		ud.cx = uk.get_value_int(vi_ud_cx);
@@ -43,15 +43,15 @@ int xcc_units::load_data()
 		ud.base_oy = 0;
 		ud.flags = uk.get_value_int(vi_ud_flags);
 		ud.c_rotations = uk.get_value_int(vi_ud_c_rotations);
-		for (t_xif_value_map::const_iterator i = uk.m_values.begin(); i != uk.m_values.end(); i++)
+		for (auto& i : uk.m_values)
 		{
-			switch (i->first)
+			switch (i.first)
 			{
 			case vi_ud_base_ox:
-				ud.base_ox = i->second.get_int();
+				ud.base_ox = i.second.get_int();
 				break;
 			case vi_ud_base_oy:
-				ud.base_oy = i->second.get_int();
+				ud.base_oy = i.second.get_int();
 				break;
 			}
 		}

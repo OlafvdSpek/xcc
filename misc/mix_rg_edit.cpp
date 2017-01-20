@@ -42,8 +42,8 @@ int Cmix_rg_edit::open(const string& name)
 				m_index = f.index();
 				m_index_size = 4 + sizeof(t_mix_rg_index_entry) * m_index.size();
 				m_tailer_size = 4 + 2 * m_index.size();
-				for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-					m_tailer_size += i->first.length();
+				for (auto& i : m_index)
+					m_tailer_size += i.first.length();
 			}				
 		}
 		if (error)
@@ -88,10 +88,8 @@ int Cmix_rg_edit::write_index()
 	typedef map<unsigned int, string> t_id_index;
 
 	t_id_index id_index;
-	{
-		for (t_index::const_iterator i = m_index.begin(); i != m_index.end(); i++)
-			id_index[i->second.id] = i->first;
-	}
+	for (auto& i : m_index)
+		id_index[i.second.id] = i.first;
 	int cb_index = 4 + sizeof(t_mix_rg_index_entry) * m_index.size();
 	int cb_tailer = 4 + 2 * m_index.size();
 	t_id_index::const_iterator i;
@@ -137,17 +135,17 @@ int Cmix_rg_edit::compact()
 	t_block_map block_map = Cmix_rg_edit::block_map();
 	int error = 0;
 	int offset = sizeof(t_mix_rg_header);
-	for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
+	for (auto& i : block_map)
 	{
-		if (1 && i->second->offset != offset)
+		if (1 && i.second->offset != offset)
 		{
-			assert(i->second->offset > offset);
-			error = copy_block(m_f, i->second->offset, m_f, offset, i->second->size);
+			assert(i.second->offset > offset);
+			error = copy_block(m_f, i.second->offset, m_f, offset, i.second->size);
 			if (error)
 				break;
-			i->second->offset = offset;
+			i.second->offset = offset;
 		}
-		offset += i->second->size;
+		offset += i.second->size;
 	}
 	error = error ? write_index(), error : write_index();
 	return error;
@@ -156,8 +154,8 @@ int Cmix_rg_edit::compact()
 Cmix_rg_edit::t_block_map Cmix_rg_edit::block_map()
 {
 	t_block_map block_map;
-	for (t_index::iterator i = m_index.begin(); i != m_index.end(); i++)
-		block_map[i->second.offset] = &i->second;
+	for (auto& i : m_index)
+		block_map[i.second.offset] = &i.second;
 	return block_map;
 }
 
@@ -178,11 +176,11 @@ int Cmix_rg_edit::new_block(int size)
 		block_map[m_header.tailer_offset] = &tailer_block;
 	}
 	int r = sizeof(t_mix_rg_header);
-	for (t_block_map::const_iterator i = block_map.begin(); i != block_map.end(); i++)
+	for (auto& i : block_map)
 	{
-		if (size != INT_MAX && r + size <= i->first)
+		if (size != INT_MAX && r + size <= i.first)
 			return r;
-		r = i->second->offset + i->second->size;
+		r = i.second->offset + i.second->size;
 	}
 	return r;
 }

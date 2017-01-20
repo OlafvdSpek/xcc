@@ -51,7 +51,7 @@ protected:
 private:
 	struct t_map_entry
 	{
-		Ccsf_file::t_map::const_iterator i;
+		const Ccsf_file::t_map::value_type* i;
 		int cat_id;
 	};
 

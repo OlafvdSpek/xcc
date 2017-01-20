@@ -41,13 +41,12 @@ int Cneat_ini_reader::process_key(const string& name, const string& value)
 
 int Cneat_ini_reader::write(ostream& os) const
 {
-	for (t_section_list::const_iterator li = m_section_list.begin(); li != m_section_list.end(); li++)
+	for (auto& i : m_section_list)
 	{
-		t_section_map::const_iterator mi = *li;
-		if (mi->second.get_key_map().size())
+		if (i->second.get_key_map().size())
 		{
-			os << "[" + mi->first + "]" << endl;
-			mi->second.write(os);
+			os << "[" + i->first + "]" << endl;
+			i->second.write(os);
 			os << endl;
 		}
 	}
@@ -68,10 +67,8 @@ void Cneat_ini_reader::sub_section(string name, const Cneat_key_list& v)
 	process_section_start(name);
 	m_section_map[name] = a; // .erase();
 	return;
-	for (Cneat_key_list::t_key_map::const_iterator j = akm.begin(); j != akm.end(); j++)
-	{
-		process_key(j->first, j->second);
-	}
+	for (auto& j : akm)
+		process_key(j.first, j.second);
 }
 
 Cneat_key_list sub_section(const Cneat_key_list& a, const Cneat_key_list& b)

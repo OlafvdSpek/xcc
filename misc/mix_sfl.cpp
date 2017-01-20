@@ -35,8 +35,8 @@ int mix_sfl::load()
 void write(int*& w, const t_file_list& fl)
 {
 	*w++ = fl.size();
-	for (t_file_list::const_iterator j = fl.begin(); j != fl.end(); j++)
-		*w++ = *j;
+	for (auto& j : fl)
+		*w++ = j;
 }
 
 int mix_sfl::save()

@@ -116,27 +116,27 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 	t_map map = pDoc->map();
 	int selection_color = 0xffffff;
 	CBrush brush(selection_color);
-	for (t_map::const_iterator i = map.begin(); i != map.end(); i++)
+	for (auto& i : map)
 	{
-		const t_tmp_image_header& header = i->second.header;
-		if (i->second.extra_data.data())
+		const t_tmp_image_header& header = i.second.header;
+		if (i.second.extra_data.data())
 		{
 			load_color_table(pDoc->palet());
-			draw_image8(i->second.extra_data.data(), header.cx_extra, header.cy_extra, pDC, 0, y);
-			if (m_selected == i->first)
+			draw_image8(i.second.extra_data.data(), header.cx_extra, header.cy_extra, pDC, 0, y);
+			if (m_selected == i.first)
 				pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y - header.height * (cy / 2)), CSize(header.cx_extra, header.cy_extra)), &brush);
 				// pDC->FrameRect(CRect(CPoint(header.x_extra - global.x, header.y_extra - global.y), CSize(header.cx_extra, header.cy_extra)), &brush);
-			if (i->second.extra_z_data.data())
+			if (i.second.extra_z_data.data())
 			{
 				load_grey_table(32);
-				draw_image8(i->second.extra_z_data.data(), header.cx_extra, header.cy_extra, pDC, cx + y_inc, y);
+				draw_image8(i.second.extra_z_data.data(), header.cx_extra, header.cy_extra, pDC, cx + y_inc, y);
 			}
 			y += header.cy_extra + y_inc;
 		}
-		decode_tile(i->second.data.data(), d, cx);
+		decode_tile(i.second.data.data(), d, cx);
 		load_color_table(pDoc->palet());
 		draw_image8(d, cx, cy, pDC, 0, y);
-		if (m_selected == i->first)
+		if (m_selected == i.first)
 		{
 			// pDC->FrameRect(CRect(CPoint(header.x - global.x, header.y - global.y), CSize(cx, cy)), &brush);
 			/*
@@ -153,9 +153,9 @@ void CXCCTMPEditorView::OnDraw(CDC* pDC)
 			pDC->SelectObject(old_pen);
 			*/
 		}
-		if (i->second.z_data.data())
+		if (i.second.z_data.data())
 		{
-			decode_tile(i->second.z_data.data(), d, cx);
+			decode_tile(i.second.z_data.data(), d, cx);
 			load_grey_table(32);
 			draw_image8(d, cx, cy, pDC, cx + y_inc, y);
 			x = max(x, 2 * cx + y_inc);
