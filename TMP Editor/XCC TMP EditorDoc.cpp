@@ -330,7 +330,7 @@ void CXCCTMPEditorDoc::set_complete(const Cvirtual_image& image)
 
 Cvirtual_image CXCCTMPEditorDoc::get_image(int id)
 {
-	const t_map_entry& e = map().find(id)->second;
+	const t_map_entry& e = map().at(id);
 	int cx = header().cx;
 	int cy = header().cy;
 	byte* d = new byte[cx * cy];
@@ -343,7 +343,7 @@ Cvirtual_image CXCCTMPEditorDoc::get_image(int id)
 
 Cvirtual_image CXCCTMPEditorDoc::get_extra_image(int id)
 {
-	const t_map_entry& e = map().find(id)->second;
+	const t_map_entry& e = map().at(id);
 	Cvirtual_image image;
 	image.load(e.extra_data.data(), e.header.cx_extra, e.header.cy_extra, 1, palet());
 	return image;
@@ -355,7 +355,7 @@ void CXCCTMPEditorDoc::set_image(int id, const Cvirtual_image& image)
 	int cy = header().cy;
 	if (image.cx() != cx || image.cy() != cy)
 		return;
-	t_map_entry& e = map_edit().find(id)->second;
+	t_map_entry& e = map_edit().at(id);
 	encode_tile(image.image(), e.data.data_edit(), cx);
 	if (e.header.has_z_data && !e.z_data.data())
 		encode_tile(image.image(), e.z_data.data_edit(), cx);
@@ -365,7 +365,7 @@ void CXCCTMPEditorDoc::set_image(int id, const Cvirtual_image& image)
 
 void CXCCTMPEditorDoc::set_extra_image(int id, const Cvirtual_image& image)
 {
-	t_map_entry& e = map_edit().find(id)->second;
+	t_map_entry& e = map_edit().at(id);
 	e.extra_data.write(image.image(), image.cb_image());
 	if (e.header.has_z_data && (!e.extra_z_data.data() || e.header.cx_extra != image.cx() || e.header.cy_extra != image.cy()))
 		e.extra_z_data.write(image.image(), image.cb_image());
@@ -379,7 +379,7 @@ void CXCCTMPEditorDoc::set_extra_image(int id, const Cvirtual_image& image)
 
 void CXCCTMPEditorDoc::set_image_header(int id, const t_tmp_image_header& header)
 {
-	map_edit().find(id)->second.header = header;
+	map_edit().at(id).header = header;
 	SetModifiedFlag();
 	UpdateAllViews(NULL);
 }

@@ -88,7 +88,7 @@ void CLeftView::OnGetdispinfo(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	CListCtrl& lc = GetListCtrl();
 	m_buffer[++m_buffer_w &= 3].erase();
-	const CXCCTMPEditorDoc::t_map_entry& e = GetDocument()->map().find(pDispInfo->item.lParam)->second;
+	const CXCCTMPEditorDoc::t_map_entry& e = GetDocument()->map().at(pDispInfo->item.lParam);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -199,7 +199,7 @@ void CLeftView::OnPopupCopyExtraImage()
 void CLeftView::OnUpdatePopupCopyExtraImage(CCmdUI* pCmdUI) 
 {
 	int id = get_current_id();
-	pCmdUI->Enable(id != -1 && GetDocument()->map().find(id)->second.extra_data.data());
+	pCmdUI->Enable(id != -1 && GetDocument()->map().at(id).extra_data.data());
 }
 
 void CLeftView::OnEditPaste() 
@@ -318,7 +318,7 @@ void CLeftView::OnPopupDeleteExtraimage()
 void CLeftView::OnUpdatePopupDeleteExtraimage(CCmdUI* pCmdUI) 
 {
 	int id = get_current_id();
-	pCmdUI->Enable(id != -1 && GetDocument()->map().find(id)->second.extra_data.data());
+	pCmdUI->Enable(id != -1 && GetDocument()->map().at(id).extra_data.data());
 }
 
 void CLeftView::OnPopupInsert() 
@@ -393,8 +393,8 @@ int CLeftView::compare(int id_a, int id_b)
 
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_map_entry& a = map.find(id_a)->second;
-	const t_map_entry& b = map.find(id_b)->second;
+	const t_map_entry& a = map.at(id_a);
+	const t_map_entry& b = map.at(id_b);
 	switch (m_sort_column)
 	{
 	case 0:
@@ -430,7 +430,7 @@ void CLeftView::sort_list(int i, bool reverse)
 void CLeftView::OnPopupProperties() 
 {
 	int id = get_current_id();
-	t_tmp_image_header header = GetDocument()->map().find(id)->second.header;
+	t_tmp_image_header header = GetDocument()->map().at(id).header;
 	Cproperties_dlg dlg;
 	dlg.set(header);
 	if (IDOK == dlg.DoModal())

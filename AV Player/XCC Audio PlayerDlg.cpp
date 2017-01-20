@@ -620,7 +620,7 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
 	string& buffer = m_list.get_buffer();
-	const t_index_entry&  e = m_index.find(id)->second;
+	const t_index_entry&  e = m_index.at(id);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:
@@ -657,8 +657,8 @@ int CXCCAudioPlayerDlg::compare(int id_a, int id_b) const
 {
 	if (m_sort_reverse)
 		swap(id_a, id_b);
-	const t_index_entry& a = m_index.find(id_a)->second;
-	const t_index_entry& b = m_index.find(id_b)->second;
+	const t_index_entry& a = m_index.at(id_a);
+	const t_index_entry& b = m_index.at(id_b);
 	switch (m_sort_column)
 	{
 	case 0:

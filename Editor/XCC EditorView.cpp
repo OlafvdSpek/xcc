@@ -529,11 +529,11 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 		{
 		case oi_overlay:
 			if (level().overlay_data.find(m_current_object) != level().overlay_data.end())
-				object_name = overlay_code[level().overlay_data.find(m_current_object)->second >> 8];
+				object_name = overlay_code[level().overlay_data.at(m_current_object) >> 8];
 			break;
 		case oi_terrain:			
 			if (level().terrain_data.find(m_current_object) != level().terrain_data.end())
-				object_name = terrain_code[level().terrain_data.find(m_current_object)->second >> 8];
+				object_name = terrain_code[level().terrain_data.at(m_current_object) >> 8];
 			break;
 		case oi_infantry:
 			object_name = level().infantry_data[m_current_object].t->long_name;
