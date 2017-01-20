@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "..\Library\XCC Library.vcxproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Library", "Library\XCC Library.vcxproj", "{5E445578-CB45-4D82-9A1C-FC7D3E8D866A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mixer", "..\Mixer\XCC Mixer.vcxproj", "{E032D975-C331-487B-95A6-518A0A3ED2DA}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Mixer", "Mixer\XCC Mixer.vcxproj", "{E032D975-C331-487B-95A6-518A0A3ED2DA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC MIX Editor", "..\MIX Editor\XCC MIX Editor.vcxproj", "{B5821BD4-7222-4337-B723-EF4E8BC013A6}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC MIX Editor", "MIX Editor\XCC MIX Editor.vcxproj", "{B5821BD4-7222-4337-B723-EF4E8BC013A6}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC AV Player", "..\AV Player\XCC Audio Player.vcxproj", "{1E6FD097-5BBD-4889-93CA-365589631C94}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC AV Player", "AV Player\XCC Audio Player.vcxproj", "{1E6FD097-5BBD-4889-93CA-365589631C94}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC TMP Editor", "..\TMP Editor\XCC TMP Editor.vcxproj", "{216D46AA-5715-4DD4-8029-1877FDE61F19}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC TMP Editor", "TMP Editor\XCC TMP Editor.vcxproj", "{216D46AA-5715-4DD4-8029-1877FDE61F19}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Editor", "..\Editor\XCC Editor.vcxproj", "{6A32AFB3-5A48-430A-B0BC-5FA39C61414A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XCC Editor", "Editor\XCC Editor.vcxproj", "{6A32AFB3-5A48-430A-B0BC-5FA39C61414A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
