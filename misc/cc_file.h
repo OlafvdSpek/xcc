@@ -170,7 +170,7 @@ protected:
 private:
 	Cvirtual_binary m_data;
 	Cfile32 m_f;
-	bool m_is_open;
+	bool m_is_open = false;
 	int m_p;
 	const bool m_read_on_open;
 	long long m_size;
