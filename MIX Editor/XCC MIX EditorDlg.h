@@ -81,14 +81,14 @@ private:
 
 	bool	m_changed;
 	bool	m_checksum;
-	int		m_current_id;
+	int		m_current_id = 0;
 	bool	m_encrypted;
 	string	m_fname;
 	t_game	m_game;
 	map<int, t_index_entry>	m_index;	
 	byte	m_key[cb_mix_key_source];
-	bool	m_key_loaded;
-	bool	m_open;
+	bool	m_key_loaded = false;
+	bool	m_open = false;
 	int		m_sort_column;
 	bool	m_sort_reverse;
 };

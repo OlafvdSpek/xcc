@@ -16,12 +16,9 @@ CXCCMIXEditorDlg::CXCCMIXEditorDlg(CWnd* pParent /*=NULL*/):
 	ETSLayoutDialog(CXCCMIXEditorDlg::IDD, pParent, "XCCMIXEditorDlg")
 {
 	//{{AFX_DATA_INIT(CXCCMIXEditorDlg)
-	m_edit_status = _T("Author: Olaf van der Spek <OlafvdSpek@GMail.Com>");
+	m_edit_status = _T("Author: Olaf van der Spek <olaf@vdspek.org>");
 	//}}AFX_DATA_INIT
-	m_current_id = 0;
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_open = false;
-	m_key_loaded = false;
 }
 
 void CXCCMIXEditorDlg::DoDataExchange(CDataExchange* pDX)
@@ -208,7 +205,7 @@ void CXCCMIXEditorDlg::OnButtonOptions()
 
 void CXCCMIXEditorDlg::OnButtonXccHomePage()
 {
-	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, "open", "http://xhp.xwis.net", NULL, NULL, SW_SHOW);
 }
 
 void CXCCMIXEditorDlg::update_buttons()
@@ -250,7 +247,7 @@ void CXCCMIXEditorDlg::add_file(const string& name)
 {
 	if (!m_open)
 		return;
-	const string fname = static_cast<Cfname>(name).get_fname();
+	const string fname = Cfname(name).get_fname();
 	int id = Cmix_file::get_id(m_game, fname);
 	if (m_index.find(id) != m_index.end())
 		m_index.erase(id);
@@ -647,7 +644,7 @@ void CXCCMIXEditorDlg::sort_list(int i, bool reverse)
 {
 	m_sort_column = i;
 	m_sort_reverse = reverse;
-	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
+	m_list.SortItems(Compare, reinterpret_cast<DWORD_PTR>(this));
 }
 
 const char* all_filter = "All files (*.*)|*.*|";

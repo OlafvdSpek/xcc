@@ -424,7 +424,7 @@ void CLeftView::sort_list(int i, bool reverse)
 	CListCtrl& lc = GetListCtrl();
 	m_sort_column = i;
 	m_sort_reverse = reverse;
-	lc.SortItems(Compare, reinterpret_cast<dword>(this));
+	lc.SortItems(Compare, reinterpret_cast<DWORD_PTR>(this));
 }
 
 void CLeftView::OnPopupProperties() 

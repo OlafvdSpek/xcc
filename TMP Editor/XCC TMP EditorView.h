@@ -47,7 +47,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 private:
 	CRect m_clip_rect;
-	dword m_color_table[256];
-	int m_selected;
-	bool m_view_true_height;
+	DWORD m_color_table[256];
+	int m_selected = -1;
+	bool m_view_true_height = false;
 };

@@ -161,6 +161,7 @@ Ccc_file::Ccc_file(bool read_on_open):
 
 	int Ccc_file::open(const string& name)
 	{
+		close();
 		assert(!is_open());
 #ifdef NO_MIX_SUPPORT
 		test_fail(m_f.open_read(name));

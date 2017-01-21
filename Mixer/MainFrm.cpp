@@ -372,7 +372,7 @@ void CMainFrame::OnUpdateFileFoundUpdate(CCmdUI* pCmdUI)
 				continue;
 			for (auto& l : sort_list)
 				sub_menu.AppendMenu(MF_STRING, ID_FILE_FOUND_MIX000 + l.second, escape_menu_name(l.first).c_str());
-			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
+			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<DWORD>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
 	}
@@ -397,7 +397,7 @@ void CMainFrame::OnUpdateViewPaletUpdate(CCmdUI* pCmdUI)
 			sub_menu.CreatePopupMenu();
 			for (; j < m_pal_i[i]; j++)
 				sub_menu.AppendMenu(MF_STRING, ID_VIEW_PALET_PAL000 + j, m_pal_list[j].name.c_str());
-			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<dword>(sub_menu.GetSafeHmenu()), game_name[i]);
+			menu->InsertMenu(k++, MF_BYPOSITION | MF_POPUP, reinterpret_cast<DWORD>(sub_menu.GetSafeHmenu()), game_name[i]);
 			sub_menu.Detach();
 		}
 	}

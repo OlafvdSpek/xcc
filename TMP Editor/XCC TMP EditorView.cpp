@@ -12,8 +12,6 @@ END_MESSAGE_MAP()
 
 CXCCTMPEditorView::CXCCTMPEditorView()
 {
-	m_selected = -1;
-	m_view_true_height = false;
 }
 
 CXCCTMPEditorView::~CXCCTMPEditorView()
@@ -61,7 +59,7 @@ void CXCCTMPEditorView::draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC,
 	CDC mem_dc;
 	mem_dc.CreateCompatibleDC(pDC);
 	HBITMAP h_dib;
-	dword* p_dib;
+	DWORD* p_dib;
 	{
 		BITMAPINFO bmi;
 		ZeroMemory(&bmi, sizeof(BITMAPINFO));

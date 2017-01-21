@@ -576,7 +576,7 @@ void CXSE_dlg::sort_list(int i, bool reverse)
 {
 	m_sort_column = i;
 	m_sort_reverse = reverse;
-	m_list.SortItems(Compare, reinterpret_cast<dword>(this));
+	m_list.SortItems(Compare, reinterpret_cast<DWORD_PTR>(this));
 }
 
 void CXSE_dlg::OnDropFiles(HDROP hDropInfo) 

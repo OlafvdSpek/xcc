@@ -20,7 +20,7 @@ private:
 
 	CDC m_mem_dc;
 	t_object_id m_loaded_selection_type = static_cast<t_object_id>(-1);
-	dword m_loaded_selection_subtype;
+	DWORD m_loaded_selection_subtype;
 	bool m_mem_surface_created = false;
 	CSize m_mem_surface_size;
 	bool m_mem_surface_valid = false;

@@ -232,15 +232,15 @@ void CXCCEditorView::OnInitialUpdate()
 	}
 }
 
-void CXCCEditorView::draw_image(const byte* s, const byte* rp, dword* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy, dword dpitch)
+void CXCCEditorView::draw_image(const byte* s, const byte* rp, DWORD* d, DWORD sx, DWORD sy, DWORD dx, DWORD dy, DWORD cx, DWORD cy, DWORD dpitch)
 {
-	const dword shadow_mask = 0x007f7f7f;
+	const DWORD shadow_mask = 0x007f7f7f;
 	d += dx + dy * dpitch;
 	for (int yp = 0; yp < cy; yp++)
 	{
 		for (int xp = 0; xp < cx; xp++)
 		{
-			dword v = *s++;
+			DWORD v = *s++;
 			if (v)
 			{
 				if (v == 4)
@@ -264,7 +264,7 @@ void CXCCEditorView::update_mem_surface()
 	const t_bin_data& bin_data = level().bin_data;
 	const t_map_data& map_data = level().map_data;
 	
-	dword* dib = reinterpret_cast<dword*>(mp_dib);
+	DWORD* dib = reinterpret_cast<DWORD*>(mp_dib);
 	const int dib_cx = 24 * 64;
 	const int dib_cy = 24 * 64;
 	CRect a(CPoint(map_data.x, map_data.y), CSize(map_data.cx, map_data.cy));
@@ -600,7 +600,7 @@ void CXCCEditorView::OnMouseMove(UINT nFlags, CPoint point)
 	CDC mem_dc;
 	HBITMAP h_last_dib;
 	HBITMAP h_dib;
-	dword* p_dib;
+	DWORD* p_dib;
 
 	{
 		mem_dc.CreateCompatibleDC(pDC);
@@ -716,14 +716,14 @@ void CXCCEditorView::OnContextMenu(CWnd*, CPoint point)
 
 void CXCCEditorView::OnSwitchMoveable() 
 {
-	const dword v = level().bin_data[m_context_pos.get_cc()];
+	const DWORD v = level().bin_data[m_context_pos.get_cc()];
 	templates.moveable(v, !templates.moveable(v));
 	Invalidate(true);
 }
 
 void CXCCEditorView::OnUpdateSwitchMoveable(CCmdUI* pCmdUI) 
 {
-	const dword v = level().bin_data[m_context_pos.get_cc()];
+	const DWORD v = level().bin_data[m_context_pos.get_cc()];
 	pCmdUI->Enable(m_view_moveable_filter && !m_view_terrain_layer);
 	pCmdUI->SetCheck(!templates.moveable(v));
 }
@@ -847,7 +847,7 @@ void CXCCEditorView::OnFileSaveAsImage()
 	}	
 }
 
-void CXCCEditorView::draw_template(dword v, dword* d, dword dx, dword dy, dword dpitch, bool red, bool blue)
+void CXCCEditorView::draw_template(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch, bool red, bool blue)
 {
 	d += dx + dy * dpitch;
 	const byte* s = templates.get_image(v);
@@ -869,14 +869,14 @@ void CXCCEditorView::draw_template(dword v, dword* d, dword dx, dword dy, dword 
 	}
 }
 
-void CXCCEditorView::draw_overlay(dword v, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_overlay(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch)
 {
 	int ox, oy, cx, cy;
 	const byte* s = overlays.get_overlay_image(v, ox, oy, cx, cy);
 	draw_image(s, 0, d, 0, 0, dx + ox, dy + oy, cx, cy, dpitch);
 }
 
-void CXCCEditorView::draw_terrain(dword v, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_terrain(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch)
 {
 	int ox, oy, cx, cy;
 	const byte* s = overlays.get_terrain_image(v, ox, oy, cx, cy);
@@ -888,7 +888,7 @@ int convert_angle(int angle, int c_rotations)
 	return (256 - angle & 0xff) * c_rotations >> 8;
 }
 
-void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry& sd, int angle, const byte* rp,dword* d, dword dx, dword dy, dword dpitch, bool bib)
+void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry& sd, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch, bool bib)
 {
 	int cx, cy;
 	if (bib && sd.flags & sd_flags_bib)
@@ -910,14 +910,14 @@ void CXCCEditorView::draw_structure(const xcc_structures::t_structure_data_entry
 	}
 }
 
-void CXCCEditorView::draw_infantry(const xcc_infantry::t_infantry_data_entry& id, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_infantry(const xcc_infantry::t_infantry_data_entry& id, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch)
 {
 	int cx, cy;
 	const byte* s = id.images->get((256 - angle & 0xff) * 8 >> 8, cx, cy);
 	draw_image(s, rp, d, 0, 0, dx, dy, cx, cy, dpitch);
 }
 
-void CXCCEditorView::draw_unit(const xcc_units::t_unit_data_entry& ud, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch)
+void CXCCEditorView::draw_unit(const xcc_units::t_unit_data_entry& ud, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch)
 {
 	int cx, cy;
 	const byte* s = ud.images->get((256 - angle & 0xff) * ud.c_rotations >> 8, cx, cy);
@@ -1322,7 +1322,7 @@ void CXCCEditorView::OnEditMulti6()
 
 void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 {
-	dword min_distance = -1;
+	DWORD min_distance = -1;
 	if (m_MemDCValid && in_level(cell))
 	for (int b = -1; b < 2; b++)
 	{
@@ -1336,12 +1336,12 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 			{
 				for (int i = 0; i < 16; i++)
 				{
-					dword v = ci->entry[i];
+					DWORD v = ci->entry[i];
 					if (!v)
 						continue;
 					const t_object_id type = static_cast<t_object_id>(v >> 24);
 					const int index = v & 0xffffff;
-					dword distance = -1;
+					DWORD distance = -1;
 					switch (type)
 					{
 					case oi_overlay:
@@ -1357,7 +1357,7 @@ void CXCCEditorView::update_current_object(const Cxcc_cell& cell)
 						{
 							Cxcc_cell obj_cell;
 							obj_cell.set_xcc(index);
-							const dword v = level().terrain_data[obj_cell.get_xcc()];
+							const DWORD v = level().terrain_data[obj_cell.get_xcc()];
 							int cx, cy, t;
 							Cxcc_overlays::get_terrain_image(v, t, t, cx, cy);
 							bool done = false;
@@ -1807,7 +1807,7 @@ void CXCCEditorView::OnPopupFillWithConcreteWall()
 	sel_fill_with_wall(o_brik);
 }
 
-void CXCCEditorView::sel_fill_with_wall(dword t) 
+void CXCCEditorView::sel_fill_with_wall(DWORD t) 
 {
 	t_overlay_data& data = level().overlay_data;
 	const CRect sel = get_selection();

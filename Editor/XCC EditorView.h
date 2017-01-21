@@ -63,7 +63,7 @@ protected: // create from serialization only
 	bool m_MemDCValid;
 	array<t_palet32bgr_entry, 256> m_color_table;
 	HBITMAP mh_dib;
-	dword* mp_dib;
+	DWORD* mp_dib;
 
 // Attributes
 public:
@@ -86,11 +86,11 @@ public:
 
 // Implementation
 public:
-	void sel_fill_with_wall(dword t);
-	void get_selection(Cxcc_cell& a, Cxcc_cell& b) const;
+	void sel_fill_with_wall(DWORD t);
+	void get_selection(Cxcc_cell&, Cxcc_cell&) const;
 	CRect get_selection() const;
-	Cxcc_cell get_cell_from_point(const CPoint& point);
-	CPoint CXCCEditorView::get_point_from_cell(const Cxcc_cell& cell);
+	Cxcc_cell get_cell_from_point(const CPoint&point);
+	CPoint CXCCEditorView::get_point_from_cell(const Cxcc_cell&);
 	static const byte* get_rp(t_object_id type, t_side_id side);
 	void update_current_object(const Cxcc_cell& cell);
 	void on_mouse_entered();
@@ -99,13 +99,13 @@ public:
 	void erase_temp_object();
 	Cxcc_level& level() const;
 	t_side_id main_opponent() const;
-	void draw_image(const byte* s, const byte* rp, dword* d, dword sx, dword sy, dword dx, dword dy, dword cx, dword cy, dword dpitch);
-	void draw_template(dword v, dword* d, dword dx, dword dy, dword dpitch, bool red, bool blue);
-	void draw_overlay(dword v, dword* d, dword dx, dword dy, dword dpitch);
-	void draw_terrain(dword v, dword* d, dword dx, dword dy, dword dpitch);
-	void draw_structure(const xcc_structures::t_structure_data_entry&, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch, bool bib);
-	void draw_infantry(const xcc_infantry::t_infantry_data_entry&, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch);
-	void draw_unit(const xcc_units::t_unit_data_entry&, int angle, const byte* rp, dword* d, dword dx, dword dy, dword dpitch);
+	void draw_image(const byte* s, const byte* rp, DWORD* d, DWORD sx, DWORD sy, DWORD dx, DWORD dy, DWORD cx, DWORD cy, DWORD dpitch);
+	void draw_template(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch, bool red, bool blue);
+	void draw_overlay(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch);
+	void draw_terrain(DWORD v, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch);
+	void draw_structure(const xcc_structures::t_structure_data_entry&, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch, bool bib);
+	void draw_infantry(const xcc_infantry::t_infantry_data_entry&, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch);
+	void draw_unit(const xcc_units::t_unit_data_entry&, int angle, const byte* rp, DWORD* d, DWORD dx, DWORD dy, DWORD dpitch);
 	void Invalidate(bool mem_surface);
 	void update_mem_surface();
 	virtual ~CXCCEditorView();

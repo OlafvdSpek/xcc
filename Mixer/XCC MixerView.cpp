@@ -541,7 +541,7 @@ void CXCCMixerView::sort_list(int i, bool reverse)
 {
 	m_sort_column = i;
 	m_sort_reverse = reverse;
-	GetListCtrl().SortItems(Compare, reinterpret_cast<dword>(this));
+	GetListCtrl().SortItems(Compare, reinterpret_cast<DWORD_PTR>(this));
 }
 
 void CXCCMixerView::OnColumnclick(NMHDR* pNMHDR, LRESULT* pResult)

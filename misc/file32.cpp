@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "file32.h"
 
-#ifdef _MSC_VER
 int Cfile32::open(const Cwin_handle& h)
 {
 	m_h = h;
@@ -47,59 +46,32 @@ FILETIME Cfile32::get_last_write_time() const
 	assert(r);
 	return time;
 }
-#endif
 
 int Cfile32::open_read(const string& name)
 {
-#ifdef _MSC_VER
 	return open(name, GENERIC_READ, OPEN_EXISTING, FILE_SHARE_READ);
-#else
-	assert(!m_f.is_open());
-	m_f.open(name.c_str(), ios::binary | ios::in);
-	return m_f.fail();
-#endif
 }
 
 int Cfile32::open_edit(const string& name)
 {
-#ifdef _MSC_VER
 	return open(name, GENERIC_READ | GENERIC_WRITE, OPEN_ALWAYS, 0);
-#else
-	m_f.open(name.c_str(), ios::binary | ios::in | ios::out);
-	return m_f.fail();
-#endif
 }
 
 int Cfile32::open_write(const string& name)
 {
-#ifdef _MSC_VER
 	return open(name, GENERIC_WRITE, CREATE_ALWAYS, 0);
-#else
-	m_f.open(name.c_str(), ios::binary | ios::out | ios::trunc);
-	return m_f.fail();
-#endif
 }
 
 long long Cfile32::size() const
 {
 	assert(is_open());
-#ifdef _MSC_VER
 	LARGE_INTEGER v;
 	return GetFileSizeEx(h(), &v) ? v.QuadPart : -1;
-#else
-	fstream f = m_f;
-	int pos = f.tellp();
-	f.seekp(0, ios::end);
-	int size = f.tellp();
-	f.seekp(pos);
-	return size;
-#endif
 }
 
 int Cfile32::read(void* data, int size)
 {
 	assert(is_open());
-#ifdef _MSC_VER
 	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
 		return 1;
 	DWORD cb_read;
@@ -107,16 +79,11 @@ int Cfile32::read(void* data, int size)
 		return 1;
 	m_p += size;
 	return 0;
-#else
-	m_f.read(reinterpret_cast<char*>(data), size);
-	return m_f.fail();
-#endif
 }
 
 int Cfile32::write(const void* data, int size)
 {
 	assert(is_open());
-#ifdef _MSC_VER
 	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
 		return 1;
 	DWORD cb_write;
@@ -124,10 +91,6 @@ int Cfile32::write(const void* data, int size)
 		return 1;
 	m_p += size;
 	return 0;
-#else
-	m_f.write(reinterpret_cast<const char*>(data), size);
-	return m_f.fail();
-#endif
 }
 
 int Cfile32::write(data_ref v)
@@ -138,22 +101,14 @@ int Cfile32::write(data_ref v)
 int Cfile32::set_eof()
 {
 	assert(is_open());
-#ifdef _MSC_VER
 	if (SetFilePointer(h(), m_p, 0, FILE_BEGIN) == -1)
 		return 1;
 	return !SetEndOfFile(h());
-#else
-	return write(NULL, 0);
-#endif
 }
 
 void Cfile32::close()
 {
-#ifdef _MSC_VER
 	m_h.clear();
-#else
-	m_f.close();
-#endif
 }
 
 Cvirtual_binary Cfile32::get_mm()

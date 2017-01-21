@@ -99,10 +99,10 @@ static int xap_play2(LPDIRECTSOUND ds, Cvirtual_binary s)
 	dsbdesc.lpwfxFormat = (LPWAVEFORMATEX)&wfdesc;
 
 	LPDIRECTSOUNDBUFFER dsb;
-	void* p1;
-	dword s1;
 	if (ds->CreateSoundBuffer(&dsbdesc, &dsb, NULL))
 		return 0x101;
+	void* p1;
+	DWORD s1;
 	int error = 0;
 	if (dsb->Lock(0, 0, &p1, &s1, NULL, NULL, DSBLOCK_ENTIREBUFFER))
 		error = 0x102;
@@ -162,7 +162,7 @@ static int xap_play2(LPDIRECTSOUND ds, Cvirtual_binary s)
 			error = 0x104;
 		else
 		{
-			dword status;
+			DWORD status;
 			while (dsr = dsb->GetStatus(&status), DS_OK == dsr && status & DSBSTATUS_PLAYING)
 				Sleep(100);
 		}

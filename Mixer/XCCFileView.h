@@ -27,7 +27,7 @@ public:
 	void draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
 	void draw_image24(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
 	void draw_info(string n, string d);
-	void set_game(t_game game);
+	void set_game(t_game);
 	void open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet);
 	void open_f(const string& name);
 	void post_open(Ccc_file& f);
@@ -47,7 +47,7 @@ protected:
 private:
 	bool			m_can_pick;
 	CRect			m_clip_rect;
-	dword			m_color_table[256];
+	DWORD			m_color_table[256];
 	int				m_cx;
 	int				m_cy;
 	int				m_cx_dib;
@@ -56,7 +56,7 @@ private:
 	string			m_fname;
 	t_game			m_game;
 	HBITMAP			mh_dib;
-	dword*			mp_dib;
+	DWORD*			mp_dib;
 	CFont			m_font;
 	t_file_type		m_ft;
 	int				m_id;
