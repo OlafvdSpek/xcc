@@ -66,9 +66,6 @@
       <ProgramDataBaseFileName>.\Debug\</ProgramDataBaseFileName>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
     </ClCompile>
-    <Midl>
-      <TypeLibraryName>.\Debug\XCC INI CLT.tlb</TypeLibraryName>
-    </Midl>
     <ResourceCompile>
       <Culture>0x0413</Culture>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -98,9 +95,6 @@
       <ObjectFileName>.\Release\</ObjectFileName>
       <ProgramDataBaseFileName>.\Release\</ProgramDataBaseFileName>
     </ClCompile>
-    <Midl>
-      <TypeLibraryName>.\Release\XCC INI CLT.tlb</TypeLibraryName>
-    </Midl>
     <ResourceCompile>
       <Culture>0x0413</Culture>
       <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
