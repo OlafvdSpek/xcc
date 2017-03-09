@@ -1219,7 +1219,7 @@ void Cxcc_level::process()
 
 void Cxcc_level::clear()
 {
-	bin_data.assign(0);
+	bin_data.fill(0);
 	basic_data = t_basic_data();
 	map_data = t_map_data();
 	briefing_data.erase();
@@ -1240,7 +1240,7 @@ void Cxcc_level::clear()
 	celltrigger_data.clear();
 	teamtype_data.clear();
 	trigger_data.clear();
-	waypoint_data.assign(-1);
+	waypoint_data.fill(-1);
 
 	process();
 }

@@ -5,7 +5,7 @@
 #include "string_conversion.h"
 #include "xcc_level.h"
 
-class Cedit_triggers_dlg: public ETSLayoutDialog
+class Cedit_triggers_dlg : public ETSLayoutDialog
 {
 public:
 	void update_controls();

@@ -6,7 +6,7 @@
 #include "xcc_cell.h"
 #include "xcc_level.h"
 
-class Cedit_waypoints_dlg: public ETSLayoutDialog
+class Cedit_waypoints_dlg : public ETSLayoutDialog
 {
 public:
 	long get_selected_i() const;

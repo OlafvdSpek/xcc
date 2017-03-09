@@ -17,7 +17,7 @@ struct t_index_info
 
 typedef map<string, t_index_info> t_index;
 
-class Copen_from_mix_dlg: public ETSLayoutDialog
+class Copen_from_mix_dlg : public ETSLayoutDialog
 {
 public:
 	void get_selected_f(Cvirtual_binary& bin_d, Cvirtual_binary& ini_d, string& name);

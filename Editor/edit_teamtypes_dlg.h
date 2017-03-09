@@ -7,7 +7,7 @@
 #include "xcc_structures.h"
 #include "xcc_units.h"
 
-class Cedit_teamtypes_dlg: public ETSLayoutDialog
+class Cedit_teamtypes_dlg : public ETSLayoutDialog
 {
 public:
 	void update_controls();
