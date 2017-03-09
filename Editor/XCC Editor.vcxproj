@@ -66,10 +66,6 @@
       <ProgramDatabaseFile>.\Debug/XCC Editor.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Debug/XCC Editor.bsc</OutputFile>
-    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -92,10 +88,6 @@
       <ProgramDatabaseFile>.\Release/XCC Editor.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
     </Link>
-    <Bscmake>
-      <SuppressStartupBanner>true</SuppressStartupBanner>
-      <OutputFile>.\Release/XCC Editor.bsc</OutputFile>
-    </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="edit_basic_dlg.cpp">
