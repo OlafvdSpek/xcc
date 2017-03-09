@@ -3,15 +3,15 @@
 #include "cc_file.h"
 #include "cc_structures.h"
 
-class Cmix_file: public Ccc_file  
+class Cmix_file : public Ccc_file  
 {
 public:
 	int post_open();
 	string get_name(int id);
 	static int get_id(t_game game, string name);
 	int get_index(unsigned int id) const;
-	Ccc_file::get_size;
-	Ccc_file::vdata;
+	using Ccc_file::get_size;
+	using Ccc_file::vdata;
 	Cvirtual_binary get_vdata(int id);
 	Cvirtual_binary get_vdata(const string& name);
 	bool is_valid();

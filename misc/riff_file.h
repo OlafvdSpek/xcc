@@ -3,7 +3,7 @@
 #include "cc_file.h"
 #include "riff_structures.h"
 
-class Criff_file: public Ccc_file
+class Criff_file : public Ccc_file
 {
 public:
 	virtual int process();

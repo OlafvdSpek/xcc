@@ -6,7 +6,7 @@
 #include "virtual_tfile.h"
 #include "xif_key.h"
 
-class Cvxl_file: public Ccc_file_sh<t_vxl_header>
+class Cvxl_file : public Ccc_file_sh<t_vxl_header>
 {
 public:
 	int extract_as_pcx(const Cfname& name, t_file_type ft, const t_palet _palet) const;

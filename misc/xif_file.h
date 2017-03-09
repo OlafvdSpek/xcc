@@ -4,7 +4,7 @@
 #include "cc_structures.h"
 #include "xif_key.h"
 
-class Cxif_file: public Ccc_file_sh<t_xif_header_old>
+class Cxif_file : public Ccc_file_sh<t_xif_header_old>
 {
 public:
 	bool is_valid() const

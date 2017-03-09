@@ -5,7 +5,7 @@
 #include "shp_decode.h"
 #include "string_conversion.h"
 
-class Cwsa_dune2_decoder: public Cvideo_decoder
+class Cwsa_dune2_decoder : public Cvideo_decoder
 {
 public:
 	int cb_pixel() const

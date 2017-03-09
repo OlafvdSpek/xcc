@@ -4,7 +4,7 @@
 #include "csf_file.h"
 #include "resource.h"
 
-class CXSTE_dlg: public ETSLayoutDialog
+class CXSTE_dlg : public ETSLayoutDialog
 {
 public:
 	void open(const string& name);

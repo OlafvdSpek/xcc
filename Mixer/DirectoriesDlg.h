@@ -2,7 +2,7 @@
 
 #include "resource.h"
 
-class CDirectoriesDlg: public ETSLayoutDialog
+class CDirectoriesDlg : public ETSLayoutDialog
 {
 // Construction
 public:

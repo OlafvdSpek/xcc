@@ -341,14 +341,14 @@ class Cxcc_level_warning
 {
 };
 
-class Cxcc_level_warning_ignored: public Cxcc_level_warning
+class Cxcc_level_warning_ignored : public Cxcc_level_warning
 {
 };
 
-class Cxcc_level_warning_illegal_char: public Cxcc_level_warning
+class Cxcc_level_warning_illegal_char : public Cxcc_level_warning
 {
 };
 
-class Cxcc_level_warning_out_of_range: public Cxcc_level_warning
+class Cxcc_level_warning_out_of_range : public Cxcc_level_warning
 {
 };

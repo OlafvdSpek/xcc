@@ -3,7 +3,7 @@
 #include "cc_file_sh.h"
 #include "cc_structures.h"
 
-class Cw3d_file: public Ccc_file_sh<t_w3d_header>
+class Cw3d_file : public Ccc_file_sh<t_w3d_header>
 {
 public:
 	bool is_valid() const

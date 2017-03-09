@@ -3,7 +3,7 @@
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 
-class Cfnt_file: public Ccc_file_sh<t_fnt_header>
+class Cfnt_file : public Ccc_file_sh<t_fnt_header>
 {
 public:
 	bool is_valid() const

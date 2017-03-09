@@ -3,7 +3,7 @@
 #include "riff_file.h"
 #include "virtual_file.h"
 
-class Cwav_file: public Criff_file  
+class Cwav_file : public Criff_file  
 {
 public:
 	// virtual int process();

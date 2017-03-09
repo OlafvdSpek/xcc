@@ -10,7 +10,7 @@ enum t_xcc_ft
 
 const char* xcc_ft_name[];
 
-class Cxcc_file: public Ccc_file_sh<t_xcc_header>
+class Cxcc_file : public Ccc_file_sh<t_xcc_header>
 {
 public:
 	bool is_valid() const

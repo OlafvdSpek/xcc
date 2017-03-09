@@ -5,7 +5,7 @@
 #include "palet.h"
 #include "virtual_file.h"
 
-class Cpcx_file_write: public Cfile32  
+class Cpcx_file_write : public Cfile32  
 {
 public:
 	void set_size(int cx, int cy, int c_planes);

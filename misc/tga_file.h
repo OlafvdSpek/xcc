@@ -4,7 +4,7 @@
 #include "cc_structures.h"
 #include "virtual_image.h"
 
-class Ctga_file: public Ccc_file_sh<t_tga_header>
+class Ctga_file : public Ccc_file_sh<t_tga_header>
 {
 public:
 	int decode(Cvirtual_image& d) const;

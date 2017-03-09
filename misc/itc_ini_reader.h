@@ -11,7 +11,7 @@ public:
 	int m_count;
 };
 
-class Citc_ini_reader: public Cini_reader    
+class Citc_ini_reader : public Cini_reader    
 {
 public:
 	enum t_section_id {sei_unknown};

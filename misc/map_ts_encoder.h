@@ -12,7 +12,7 @@ struct t_iso_map_pack_entry4
 	unsigned __int8 z;
 };
 
-class Cmap_ts_encoder: public Cini_reader
+class Cmap_ts_encoder : public Cini_reader
 {
 public:
 	struct t_header

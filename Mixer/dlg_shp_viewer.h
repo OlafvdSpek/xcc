@@ -4,7 +4,7 @@
 #include "video_decoder.h"
 #include "virtual_image.h"
 
-class Cdlg_shp_viewer: public ETSLayoutDialog
+class Cdlg_shp_viewer : public ETSLayoutDialog
 {
 public:
 	void show_frame();

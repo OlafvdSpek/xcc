@@ -6,7 +6,7 @@
 #include "ini_reader.h"
 #include "neat_key_list.h"
 
-class Cneat_ini_reader: public Cini_reader
+class Cneat_ini_reader : public Cini_reader
 {
 public:
 	typedef map<string, Cneat_key_list> t_section_map;

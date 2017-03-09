@@ -2,7 +2,7 @@
 
 #include "xcc_file_sh.h"
 
-class Cxcc_lmd_file: public Cxcc_file_sh<t_xcc_lmd_header>
+class Cxcc_lmd_file : public Cxcc_file_sh<t_xcc_lmd_header>
 {
 public:
 	bool is_valid() const

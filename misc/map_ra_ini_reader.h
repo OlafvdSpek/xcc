@@ -2,7 +2,7 @@
 
 #include "ini_reader.h"
 
-class Cmap_ra_ini_reader: public Cini_reader
+class Cmap_ra_ini_reader : public Cini_reader
 {
 public:
 	enum t_section_id {sei_basic, sei_map, sei_unknown};

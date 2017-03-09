@@ -7,7 +7,7 @@
 
 #pragma comment(lib, "vfw32.lib")
 
-class Cvqa_file: public Ccc_file  
+class Cvqa_file : public Ccc_file  
 {
 public:
 	Cvideo_decoder* decoder();

@@ -4,7 +4,7 @@
 #include "cc_structures.h"
 #include <virtual_binary.h>
 
-class Caud_file: public Ccc_file
+class Caud_file : public Ccc_file
 {
 public:
 	const t_aud_chunk_header* get_chunk_header(int i);

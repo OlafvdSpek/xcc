@@ -4,7 +4,7 @@
 #include "ini_reader.h"
 #include "map_ts_encoder.h"
 
-class Cmap_ts_ini_reader: public Cini_reader  
+class Cmap_ts_ini_reader : public Cini_reader  
 {
 public:
 	enum t_section_id {sei_basic, sei_map, sei_preview, sei_preview_pack, sei_waypoints, sei_unknown};

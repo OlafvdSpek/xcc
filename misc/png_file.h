@@ -4,7 +4,7 @@
 #include "cc_structures.h"
 #include "virtual_image.h"
 
-class Cpng_file: public Ccc_file_sh<t_png_header>
+class Cpng_file : public Ccc_file_sh<t_png_header>
 {
 public:
 	int decode(Cvirtual_image& d) const;

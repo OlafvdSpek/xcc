@@ -3,7 +3,7 @@
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 
-class Ctmp_file: public Ccc_file_sh<t_tmp_header>  
+class Ctmp_file : public Ccc_file_sh<t_tmp_header>  
 {
 public:
 	bool is_valid() const

@@ -6,7 +6,7 @@
 #include "string_conversion.h"
 #include "xcc_log.h"
 
-class Cshp_ts_decoder: public Cvideo_decoder
+class Cshp_ts_decoder : public Cvideo_decoder
 {
 public:
 	int cb_pixel() const

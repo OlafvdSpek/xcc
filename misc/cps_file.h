@@ -4,7 +4,7 @@
 #include "image_file.h"
 #include "palet.h"
 
-class Ccps_file: public Cimage_file<t_cps_header>
+class Ccps_file : public Cimage_file<t_cps_header>
 {
 public:
 	void decode(void*) const;

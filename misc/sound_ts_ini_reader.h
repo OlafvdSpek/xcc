@@ -26,7 +26,7 @@ private:
 	float m_volume;
 };
 
-class Csound_ts_ini_reader: public Cini_reader
+class Csound_ts_ini_reader : public Cini_reader
 {
 public:
 	enum t_section_id {sei_sounds, sei_unknown};

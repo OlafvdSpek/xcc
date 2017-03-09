@@ -3,7 +3,7 @@
 #include <cc_file_sh.h>
 #include <cc_structures.h>
 
-class Chva_file: public Ccc_file_sh<t_hva_header>
+class Chva_file : public Ccc_file_sh<t_hva_header>
 {
 public:
 	int extract_as_csv(const string& name) const;

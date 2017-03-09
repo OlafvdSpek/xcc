@@ -2,7 +2,7 @@
 
 #include "cc_file_small.h"
 
-class Cst_file: public Ccc_file_small
+class Cst_file : public Ccc_file_small
 {
 public:
 	ostream& extract_as_text(ostream&) const;

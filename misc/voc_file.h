@@ -3,7 +3,7 @@
 #include "cc_file_sh.h"
 #include "cc_structures.h"
 
-class Cvoc_file: public Ccc_file_sh<t_voc_header>  
+class Cvoc_file : public Ccc_file_sh<t_voc_header>  
 {
 public:
 	int extract_as_wav(const string& name);

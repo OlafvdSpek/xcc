@@ -8,7 +8,7 @@
 
 const int shp_o_mask = 0x0fffffff;
 
-class Cshp_file: public Cvideo_file<t_shp_header>  
+class Cshp_file : public Cvideo_file<t_shp_header>  
 {
 public:
 	void decode(void* d) const;

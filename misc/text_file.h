@@ -2,7 +2,7 @@
 
 #include "cc_file_small.h"
 
-class Ctext_file: public Ccc_file_small
+class Ctext_file : public Ccc_file_small
 {
 public:
 	bool is_valid() const

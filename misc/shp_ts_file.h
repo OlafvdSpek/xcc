@@ -6,7 +6,7 @@
 #include "video_file.h"
 #include "virtual_image.h"
 
-class Cshp_ts_file: public Cvideo_file<t_shp_ts_header>  
+class Cshp_ts_file : public Cvideo_file<t_shp_ts_header>  
 {
 public:
 	Cvideo_decoder* decoder(const t_palet_entry*);

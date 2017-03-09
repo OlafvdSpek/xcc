@@ -4,7 +4,7 @@
 #include "file32.h"
 #include "virtual_file.h"
 
-class Caud_file_write: public Cfile32
+class Caud_file_write : public Cfile32
 {
 public:
 	void set_c_samples(int c_samples);

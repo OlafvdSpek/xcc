@@ -3,7 +3,7 @@
 #include <map>
 #include "ini_reader.h"
 
-class Crules_ts_ini_reader: public Cini_reader
+class Crules_ts_ini_reader : public Cini_reader
 {
 public:
 	typedef map<string, string> t_key_list;

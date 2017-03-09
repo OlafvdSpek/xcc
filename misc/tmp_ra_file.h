@@ -6,7 +6,7 @@
 #include "image_file.h"
 #include "palet.h"
 
-class Ctmp_ra_file: public Cimage_file<t_tmp_ra_header>
+class Ctmp_ra_file : public Cimage_file<t_tmp_ra_header>
 {
 public:
 	void decode(void*) const;

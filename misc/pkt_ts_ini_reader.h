@@ -14,7 +14,7 @@ public:
 	string m_gamemode;
 };
 
-class Cpkt_ts_ini_reader: public Cini_reader  
+class Cpkt_ts_ini_reader : public Cini_reader  
 {
 public:
 	enum t_section_id {sei_multi_maps, sei_unknown};

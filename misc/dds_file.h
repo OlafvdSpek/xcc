@@ -4,7 +4,7 @@
 #include "cc_file_small.h"
 #include "virtual_image.h"
 
-class Cdds_file: public Ccc_file_small
+class Cdds_file : public Ccc_file_small
 {
 public:
 	Cvirtual_binary decode() const;

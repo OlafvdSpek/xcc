@@ -7,7 +7,7 @@
 #include "virtual_image.h"
 
 template <class T>
-class Cimage_file: public Cvideo_file<T>
+class Cimage_file : public Cvideo_file<T>
 {
 public:
 	virtual void decode(void*) const = 0;

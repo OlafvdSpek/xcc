@@ -5,11 +5,6 @@
 #include "minmax.h"
 #include "riff_structures.h"
 
-Cima_adpcm_wav_encode::Cima_adpcm_wav_encode()
-{
-	m_data = NULL;
-}
-
 Cima_adpcm_wav_encode::~Cima_adpcm_wav_encode()
 {
 	delete[] m_data;

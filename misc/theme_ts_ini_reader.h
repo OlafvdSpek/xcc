@@ -61,7 +61,7 @@ private:
 	bool m_repeat;
 };
 
-class Ctheme_ts_ini_reader: public Cini_reader  
+class Ctheme_ts_ini_reader : public Cini_reader  
 {
 public:
 	enum t_section_id {sei_themes, sei_unknown};

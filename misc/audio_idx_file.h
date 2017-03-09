@@ -3,7 +3,7 @@
 #include "cc_file_sh.h"
 #include "cc_structures.h"
 
-class Caudio_idx_file: public Ccc_file_sh<t_audio_idx_header>
+class Caudio_idx_file : public Ccc_file_sh<t_audio_idx_header>
 {
 public:
 	bool is_valid() const

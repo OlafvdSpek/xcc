@@ -2,7 +2,7 @@
 
 #include "ini_reader.h"
 
-class Cnull_ini_reader: public Cini_reader  
+class Cnull_ini_reader : public Cini_reader  
 {
 public:
 	Cnull_ini_reader()

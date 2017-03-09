@@ -3,7 +3,7 @@
 #include <map>
 #include "cc_file_small.h"
 
-class Cpak_file: public Ccc_file_small
+class Cpak_file : public Ccc_file_small
 {
 public:
 	void close();

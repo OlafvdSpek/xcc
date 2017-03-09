@@ -6,7 +6,7 @@
 #include "video_file.h"
 #include "virtual_image.h"
 
-class Cwsa_file: public Cvideo_file<t_wsa_header>
+class Cwsa_file : public Cvideo_file<t_wsa_header>
 {
 public:
 	void decode(void* d) const;

@@ -6,7 +6,7 @@
 #include "image_file.h"
 #include "palet.h"
 
-class Ctmp_ts_file: public Cimage_file<t_tmp_ts_header>
+class Ctmp_ts_file : public Cimage_file<t_tmp_ts_header>
 {
 public:
 	void decode(void*) const;

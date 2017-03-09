@@ -6,7 +6,7 @@
 #include "shp_images.h"
 #include "string_conversion.h"
 
-class Cshp_decoder: public Cvideo_decoder
+class Cshp_decoder : public Cvideo_decoder
 {
 public:
 	int cb_pixel() const

@@ -10,7 +10,7 @@ enum t_mpeg_channel_mode {mpcm_stereo, mpcm_joint_stereo, mpcm_dual_channel, mpc
 const char* mpv_name[];
 const char* mpcm_name[];
 
-class Cmp3_file: public Ccc_file  
+class Cmp3_file : public Ccc_file  
 {
 public:
 	Cmp3_file():

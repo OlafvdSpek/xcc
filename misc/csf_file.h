@@ -3,7 +3,7 @@
 #include "cc_file_sh.h"
 #include "cc_structures.h"
 
-class Ccsf_file: public Ccc_file_sh<t_csf_header>
+class Ccsf_file : public Ccc_file_sh<t_csf_header>
 {
 public:
 	struct t_map_entry

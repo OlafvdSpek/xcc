@@ -7,7 +7,7 @@
 #include "video_file.h"
 #include "virtual_image.h"
 
-class Cwsa_dune2_file: public Cvideo_file<t_wsa_dune2_header>  
+class Cwsa_dune2_file : public Cvideo_file<t_wsa_dune2_header>  
 {
 public:
 	void decode(void* d) const;

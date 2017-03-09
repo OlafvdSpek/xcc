@@ -9,7 +9,7 @@
 #include "wav_structures.h"
 #include "xcc_log.h"
 
-class Cvqa_decoder: public Cvideo_decoder
+class Cvqa_decoder : public Cvideo_decoder
 {
 public:
 	int cb_pixel() const

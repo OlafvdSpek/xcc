@@ -3,7 +3,7 @@
 // #include "cc_file.h"
 #include "cc_structures.h"
 
-class Cvqp_file: public Ccc_file_sh<t_vqp_header>    
+class Cvqp_file : public Ccc_file_sh<t_vqp_header>    
 {
 public:
 	bool is_valid() const
