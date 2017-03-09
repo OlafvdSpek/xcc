@@ -13,5 +13,6 @@
 #include <memory>
 #include <map>
 #include <string>
+#include <xbt/find_ptr.h>
 
 using namespace std;
