@@ -51,7 +51,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\Release/XCC Mixer.pch</PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <ResourceCompile>
@@ -71,7 +70,6 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\Debug/XCC Mixer.pch</PrecompiledHeaderOutputFile>
-      <WarningLevel>Level2</WarningLevel>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
     <ResourceCompile>

@@ -51,7 +51,6 @@
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\Debug/XCC Editor.pch</PrecompiledHeaderOutputFile>
-      <WarningLevel>Level1</WarningLevel>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
@@ -75,7 +74,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>.\Release/XCC Editor.pch</PrecompiledHeaderOutputFile>
-      <WarningLevel>Level3</WarningLevel>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <LanguageStandard>stdcpplatest</LanguageStandard>
     </ClCompile>
