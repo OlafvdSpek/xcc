@@ -1,5 +1,7 @@
 #include "xcc_dirs.h"
 
+#include <boost/algorithm/string.hpp>
+#include <cassert>
 #include <windows.h>
 #include "reg_key.h"
 #include "string_conversion.h"

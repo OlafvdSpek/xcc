@@ -1,3 +1,4 @@
+#include <boost/algorithm/string.hpp>
 #include <shlobj.h>
 #include <windows.h>
 #include "aud_decode.h"
@@ -127,7 +128,7 @@ int open(int _samplerate, int _c_channels, int _cbits_sample, int bufferlenms, i
 	p = name.find('.');
 	if (p != string::npos && atoi(name.substr(0, p).c_str()))
 		name.erase(0, p + 1);
-	trim(name);
+	boost::trim(name);
 	for (int i = 0; i < name.length(); i++)
 	{
 		switch (name[i])

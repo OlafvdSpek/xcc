@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vartypes.h>
+
 #pragma pack(push, 1)
 
 struct t_palet_entry

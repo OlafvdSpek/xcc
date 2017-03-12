@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cassert>
+#include <memory>
 #include <string>
 #include <vartypes.h>
 #include <xbt/data_ref.h>

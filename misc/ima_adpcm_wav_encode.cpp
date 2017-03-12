@@ -1,14 +1,12 @@
 #include "stdafx.h"
 #include "ima_adpcm_wav_encode.h"
 
+#include <algorithm>
+#include <cassert>
 #include "aud_decode.h"
-#include "minmax.h"
 #include "riff_structures.h"
 
-Cima_adpcm_wav_encode::~Cima_adpcm_wav_encode()
-{
-	delete[] m_data;
-}
+using std::min;
 
 void Cima_adpcm_wav_encode::load(const short* s, int cb_s, int c_channels)
 {
@@ -36,7 +34,7 @@ void Cima_adpcm_wav_encode::load(const short* s, int cb_s, int c_channels)
 			chunk_header.index = left_d.index();
 			chunk_header.reserved = 0;
 			cs_remaining--;
-			int cs_chunk = min(cs_remaining, chunk_size - sizeof(t_ima_adpcm_chunk_header) << 1);
+			int cs_chunk = min<int>(cs_remaining, chunk_size - sizeof(t_ima_adpcm_chunk_header) << 1);
 			left_d.init(chunk_header.index, chunk_header.sample);
 			left_d.encode_chunk(r, w, cs_chunk);
 			r += cs_chunk;
@@ -57,7 +55,7 @@ void Cima_adpcm_wav_encode::load(const short* s, int cb_s, int c_channels)
 			right_chunk_header.index = right_d.index();
 			right_chunk_header.reserved = 0;
 			cs_remaining--;
-			int cs_chunk = min(cs_remaining, chunk_size - sizeof(t_ima_adpcm_chunk_header) << 1);
+			int cs_chunk = min<int>(cs_remaining, chunk_size - sizeof(t_ima_adpcm_chunk_header) << 1);
 			aud_decode left_d, right_d;
 			left_d.init(left_chunk_header.index, left_chunk_header.sample);
 			right_d.init(right_chunk_header.index, right_chunk_header.sample);

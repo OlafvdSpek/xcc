@@ -1,10 +1,16 @@
 #pragma once
 
+#include <vartypes.h>
+
 class Cima_adpcm_wav_encode  
 {
 public:
 	void load(const short* s, int cb_s, int c_channels);
-	~Cima_adpcm_wav_encode();
+
+	~Cima_adpcm_wav_encode()
+	{
+		delete[] m_data;
+	}
 
 	int cb_data() const
 	{
@@ -21,7 +27,7 @@ public:
 		return m_data;
 	}
 private:
-	byte* m_data = NULL;
+	byte* m_data {};
 	int mcb_data;
 	int mc_samples;
 };

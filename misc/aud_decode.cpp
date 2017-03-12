@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "aud_decode.h"
 
+#include <cstring>
+
 const static int aud_ima_index_adjust_table[8] = {-1, -1, -1, -1, 2, 4, 6, 8};
 
 const static int aud_ima_step_table[89] = 

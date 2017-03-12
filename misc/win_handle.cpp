@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "win_handle.h"
 
-int create_process(const string& exe_name, const string& _cmd_line, bool wait)
+int create_process(const std::string& exe_name, const std::string& _cmd_line, bool wait)
 {
 	char cmd_line[256];
 	strcpy(cmd_line, ("\"" + exe_name + "\" " + _cmd_line).c_str());

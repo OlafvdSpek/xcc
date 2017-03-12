@@ -1,5 +1,7 @@
 #pragma once
 
+#include <vartypes.h>
+
 class aud_decode  
 {
 public:

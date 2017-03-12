@@ -92,14 +92,15 @@
   <ItemGroup>
     <ClCompile Include="..\misc\aud_decode.cpp" />
     <ClCompile Include="..\misc\aud_file_write.cpp" />
+    <ClCompile Include="..\misc\reg_key.cpp" />
     <ClCompile Include="config.cpp" />
-    <ClCompile Include="..\..\misc\file32.cpp" />
-    <ClCompile Include="..\..\misc\fname.cpp" />
+    <ClCompile Include="..\misc\file32.cpp" />
+    <ClCompile Include="..\misc\fname.cpp" />
     <ClCompile Include="out_aud.cpp" />
-    <ClCompile Include="..\..\misc\string_conversion.cpp" />
+    <ClCompile Include="..\misc\string_conversion.cpp" />
     <ClCompile Include="..\misc\virtual_binary.cpp" />
     <ClCompile Include="..\misc\virtual_file.cpp" />
-    <ClCompile Include="..\..\misc\win_handle.cpp" />
+    <ClCompile Include="..\misc\win_handle.cpp" />
     <ClCompile Include="..\misc\xcc_dirs.cpp" />
     <ClCompile Include="..\misc\xcc_registry.cpp" />
   </ItemGroup>

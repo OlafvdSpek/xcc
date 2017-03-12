@@ -29,7 +29,7 @@ void config_read()
 	config_init();
 	char b[MAX_PATH] = "";
 	GetPrivateProfileString("out_dir", b, MAX_PATH);
-	out_dir = strlen(b) ? b : xcc_dirs::get_ts_dir();
+	out_dir = strlen(b) ? b : xcc_dirs::get_dir(game_ts);
 }
 
 void config_write()
