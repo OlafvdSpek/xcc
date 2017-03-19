@@ -309,7 +309,7 @@ int Cvqa_file::extract_as_avi(const string& name, HWND hwnd)
 									delete[] frame;
 								}
 							}
-							delete vf;
+							delete[] vf;
 						}
 					}
 					AVISaveOptionsFree(1, &vco);
