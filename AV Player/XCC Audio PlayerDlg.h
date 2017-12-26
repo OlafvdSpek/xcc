@@ -78,7 +78,7 @@ protected:
 	afx_msg void OnOpenScores();
 	afx_msg void OnItemchangedList1(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnShuffle();
-	afx_msg void OnExctractRaw();
+	afx_msg void OnExtractRaw();
 	afx_msg void OnTimer(UINT nIDEvent);
 	afx_msg void OnOpenaud();
 	afx_msg void OnOpenvqa();

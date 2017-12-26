@@ -61,7 +61,7 @@ BEGIN_MESSAGE_MAP(CXCCMIXEditorDlg, ETSLayoutDialog)
 END_MESSAGE_MAP()
 
 int c_colums = 7;
-char* column_label[] = {"Name", "Type", "Description", "ID", "Offset", "Size", ""};
+const char* column_label[] = {"Name", "Type", "Description", "ID", "Offset", "Size", ""};
 int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT};
 
 BOOL CXCCMIXEditorDlg::OnInitDialog()

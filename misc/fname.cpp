@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "fname.h"
 
-Cfname::Cfname()
-{
-}
-
 Cfname::Cfname(const string &s)
 {
 	*this = s;
@@ -46,9 +42,9 @@ Cfname GetModuleFileName(HMODULE hModule)
 {
 	char s[MAX_PATH];
 	if (GetModuleFileNameA(hModule, s, MAX_PATH))
-		return s;
+		return Cfname(s);
 	else
-		return "";
+		return {};
 }
 
 string get_temp_path()

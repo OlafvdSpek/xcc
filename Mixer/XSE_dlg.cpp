@@ -55,7 +55,7 @@ BEGIN_MESSAGE_MAP(CXSE_dlg, ETSLayoutDialog)
 END_MESSAGE_MAP()
 
 static int c_colums = 10;
-static char* column_label[] = {"Name", "Value", "Extra value", "Length", "Offset", "Size", "Samplerate", "Flags", "Chunk size", ""};
+static const char* column_label[] = {"Name", "Value", "Extra value", "Length", "Offset", "Size", "Samplerate", "Flags", "Chunk size", ""};
 static int column_alignment[] = {LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_LEFT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_LEFT};
 
 BOOL CXSE_dlg::OnInitDialog()
@@ -265,7 +265,7 @@ void CXSE_dlg::OnExtract()
 	{
 		CWaitCursor wait;
 		set_extract_to_dir(static_cast<string>(m_extract_to_edit));
-		string path = m_extract_to_edit;
+		string path(m_extract_to_edit);
 		AfxGetApp()->WriteProfileString("XSE_dlg", "extract_to_dir", m_extract_to_edit);
 		int index = m_list.GetNextItem(-1, LVNI_ALL | LVNI_SELECTED);
 		while (index != -1)

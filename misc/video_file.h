@@ -5,7 +5,7 @@
 #include "video_decoder.h"
 
 template <class T>
-class Cvideo_file: public Ccc_file_sh<T>
+class Cvideo_file : public Ccc_file_sh<T>
 {
 public:
 	virtual int cb_pixel() const = 0;

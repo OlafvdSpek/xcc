@@ -70,7 +70,7 @@ static int c_colums = 6;
 
 void CLeftView::OnInitialUpdate()
 {
-	char* column_label[] = {"X", "Y", "Extra data", "Height", "Terrain type", "Ramp type"};
+	const char* column_label[] = {"X", "Y", "Extra data", "Height", "Terrain type", "Ramp type"};
 	int column_alignment[] = {LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT, LVCFMT_RIGHT};
 
 	CListCtrl& lc = GetListCtrl();

@@ -90,7 +90,7 @@ public:
 	void get_selection(Cxcc_cell&, Cxcc_cell&) const;
 	CRect get_selection() const;
 	Cxcc_cell get_cell_from_point(const CPoint&point);
-	CPoint CXCCEditorView::get_point_from_cell(const Cxcc_cell&);
+	CPoint get_point_from_cell(const Cxcc_cell&);
 	static const byte* get_rp(t_object_id type, t_side_id side);
 	void update_current_object(const Cxcc_cell& cell);
 	void on_mouse_entered();

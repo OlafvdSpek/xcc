@@ -45,7 +45,7 @@ public:
 		m_game = game;
 	}
 
-	t_file_type Cmix_file::get_type(int id)
+	t_file_type get_type(int id)
 	{
 		assert(get_index(id) != -1);
 		return m_index_ft[get_index(id)];

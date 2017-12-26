@@ -48,7 +48,7 @@ BEGIN_MESSAGE_MAP(CXCCAudioPlayerDlg, ETSLayoutDialog)
 	ON_BN_CLICKED(IDC_OpenScores, OnOpenScores)
 	ON_NOTIFY(LVN_ITEMCHANGED, IDC_LIST1, OnItemchangedList1)
 	ON_BN_CLICKED(IDSHUFFLE, OnShuffle)
-	ON_BN_CLICKED(IDEXTRACT_RAW, OnExctractRaw)
+	ON_BN_CLICKED(IDEXTRACT_RAW, OnExtractRaw)
 	ON_WM_TIMER()
 	ON_BN_CLICKED(IDOPENAUD, OnOpenaud)
 	ON_BN_CLICKED(IDOPENVQA, OnOpenvqa)
@@ -184,7 +184,7 @@ void CXCCAudioPlayerDlg::OnExtract()
 	dlg.m_ofn.lpstrFile = s;
 	if (IDOK != dlg.DoModal())
 		return;
-	string fname = dlg.GetPathName();
+	string fname(dlg.GetPathName());
 	m_statusbar = ("Extracting to " + fname).c_str();
 	UpdateData(false);
 
@@ -194,7 +194,7 @@ void CXCCAudioPlayerDlg::OnExtract()
 	UpdateData(false);
 }
 
-void CXCCAudioPlayerDlg::OnExctractRaw()
+void CXCCAudioPlayerDlg::OnExtractRaw()
 {
 	if (!valid_index())
 		return;
@@ -205,7 +205,7 @@ void CXCCAudioPlayerDlg::OnExctractRaw()
 	dlg.m_ofn.lpstrFile = s;
 	if (IDOK != dlg.DoModal())
 		return;
-	string fname = dlg.GetPathName();
+	string fname(dlg.GetPathName());
 	m_statusbar = ("Extracting to " + fname).c_str();
 	UpdateData(false);
 

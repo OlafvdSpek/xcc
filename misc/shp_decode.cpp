@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "shp_decode.h"
 
-#include <minilzo/minilzo.h>
+#include <lzo/lzo1x.h>
 #include <virtual_binary.h>
 #include "cc_structures.h"
 

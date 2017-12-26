@@ -12,26 +12,26 @@ private:
 	string title;
 	string ext;
 public:
-	const Cfname& operator=(const string &s);
+	const Cfname& operator=(const string&);
 	bool exists() const;
 	void make_path();
-	void use_default_ext(const string &s);
-	void use_default_path(const string &s);
-	void set_ext(const string &s);
-	void set_path(const string &s);
-	void Cfname::set_title(const string &s);
+	void use_default_ext(const string&);
+	void use_default_path(const string&);
+	void set_ext(const string&);
+	void set_path(const string&);
+	void set_title(const string&);
 	void expand();
 	string get_all() const;
 	string get_path() const;
 	string get_fname() const;
 	string get_ftitle() const;
 	string get_fext() const;
-	Cfname();
-	Cfname(const string &s);
+	Cfname() = default;
+	Cfname(const string&);
 
 	operator string() const
 	{
-		return get_all().c_str();
+		return get_all();
 	}
 };
 

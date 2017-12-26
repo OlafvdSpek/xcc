@@ -1118,7 +1118,7 @@ Cvirtual_binary Cxcc_level::save_ini() const
 		os << cell.get_cc() << '=' << terrain_code[i.second >> 8] << ",none" << "\r\n";
 	}
 	os << "\r\n";
-	return os.str();
+	return data_ref(os.str());
 }
 
 void Cxcc_level::convert_bin(unsigned short* data) const

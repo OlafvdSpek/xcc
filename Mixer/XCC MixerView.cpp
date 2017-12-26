@@ -208,14 +208,14 @@ void CXCCMixerView::OnInitialUpdate()
 	char dir[MAX_PATH];
 	if (GetCurrentDirectory(MAX_PATH, dir))
 	{
-		Cfname fn = dir;
+		Cfname fn(dir);
 		fn.make_path();
 		m_dir = fn.get_all();
 	}
 	else
 		m_dir = "c:\\";
 	{
-		string dir = AfxGetApp()->GetProfileString(m_reg_key, "path", m_dir.c_str());
+		string dir(AfxGetApp()->GetProfileString(m_reg_key, "path", m_dir.c_str()));
 		string fname = dir + "write_check.temp";
 		if (!file32_write(fname, NULL, 0))
 		{
@@ -241,7 +241,7 @@ void CXCCMixerView::OnFileNew()
 	dlg.m_ofn.nFilterIndex = 3;
 	if (IDOK == dlg.DoModal())
 	{
-		string name = dlg.GetPathName();
+		string name(dlg.GetPathName());
 		int error = 0;
 		switch (dlg.m_ofn.nFilterIndex)
 		{
@@ -1129,14 +1129,16 @@ int CXCCMixerView::copy_as_html(int i, Cfname fname) const
 			header.cy = ir.get_map_data().size_bottom;
 			encoder.header(header);
 			encoder.process(f.get_data(), f.get_size());
-			ir.write_report(ofstream(fname.get_all().c_str()), fname, encoder);
+			ofstream os(fname);
+			ir.write_report(os, fname, encoder);
 		}
 		break;
 	case ft_pkt_ts:
 		{
 			Cpkt_ts_ini_reader ir;
 			ir.process(f.get_data(), f.get_size());
-			ir.write_report(ofstream(fname.get_all().c_str()));
+			ofstream os(fname);
+			ir.write_report(os);
 		}
 		break;
 	}
@@ -1159,7 +1161,7 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 	Cvirtual_binary d;
 	d.size(encode5(image.image(), d.write_start(image.cx() * image.cy() * 6), image.cb_image(), 5));
 	Cvirtual_binary e = encode64(d);
-	ofstream g(fname.get_all().c_str());
+	ofstream g(fname);
 	g << "[Preview]" << endl
 		<< "Size=0,0," << image.cx() << ',' << image.cy() << endl
 		<< endl
@@ -1202,7 +1204,8 @@ int CXCCMixerView::copy_as_pal_jasc(int i, Cfname fname) const
 	else
 		shift_left = true;
 	fname.set_ext(".pal");
-	return f.extract_as_pal_jasc(ofstream(fname.get_all().c_str()), shift_left).fail();
+	ofstream os(fname);
+	return f.extract_as_pal_jasc(os, shift_left).fail();
 }
 
 static int copy_as_image(Cvideo_decoder* v, string fname, t_file_type ft)
@@ -1551,26 +1554,29 @@ int CXCCMixerView::copy_as_text(int i, Cfname fname) const
 	case ft_st:
 		{
 			Cst_file f;
-			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_text(ofstream(static_cast<string>(fname).c_str())).fail();
+			if (int error = open_f_index(f, i))
+				return error;
+			ofstream os(fname);
+			return f.extract_as_text(os).fail();
 		}
 	case ft_vxl:
 		{
 			Cvxl_file f;
-			int error = open_f_index(f, i);
-			return error ? error : f.extract_as_text(ofstream(static_cast<string>(fname).c_str())).fail();
-		}
+			if (int error = open_f_index(f, i))
+				return error;
+			ofstream os(fname);
+			return f.extract_as_text(os).fail();
+	}
 	case ft_xif:
 		{
 			Cxif_file f;
-			int error = open_f_index(f, i);
-			if (error)
+			if (int error = open_f_index(f, i))
 				return error;
 			Cxif_key key;
-			error = f.decode(key);
-			if (error)
+			if (int error = f.decode(key))
 				return error;
-			key.dump(ofstream(static_cast<string>(fname).c_str()), true);
+			ofstream os(fname);
+			key.dump(os, true);
 			return 0;
 		}
 	}

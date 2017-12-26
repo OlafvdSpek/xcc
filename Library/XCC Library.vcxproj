@@ -138,7 +138,6 @@
     </ClCompile>
     <ClCompile Include="..\misc\map_ts_ini_reader.cpp">
     </ClCompile>
-    <ClCompile Include="..\..\include\minilzo\minilzo.cpp" />
     <ClCompile Include="..\misc\mix_cache.cpp">
     </ClCompile>
     <ClCompile Include="..\misc\mix_decode.cpp">
