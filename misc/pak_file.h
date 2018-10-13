@@ -40,6 +40,7 @@ private:
 		int offset;
 		int size;
 	};
-	typedef map<string, t_index_entry> t_index;
+
+	using t_index = map<string, t_index_entry>;
 	t_index m_index;
 };

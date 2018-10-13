@@ -6,23 +6,23 @@
 class Crules_ts_ini_reader : public Cini_reader
 {
 public:
-	typedef map<string, string> t_key_list;
-	typedef map<string, t_key_list> t_object_type_list;
-	typedef t_object_type_list t_aircraft_type_list;
-	typedef t_object_type_list t_building_type_list;
-	typedef t_object_type_list t_infantry_type_list;
-	typedef t_object_type_list t_overlay_type_list;
-	typedef t_object_type_list t_smudge_type_list;
-	typedef t_object_type_list t_terrain_type_list;
-	typedef t_object_type_list t_vehicle_type_list;
-	typedef map<int, string> t_animation_list;
-	typedef t_object_type_list t_voxel_animation_list;
-	typedef t_object_type_list t_particle_type_list;
-	typedef t_object_type_list t_particle_system_type_list;
-	typedef t_object_type_list t_projectile_type_list;
-	typedef t_object_type_list t_rules_list;
-	typedef t_object_type_list t_warhead_type_list;
-	typedef t_object_type_list t_weapon_type_list;
+	using t_key_list = map<string, string>;
+	using t_object_type_list = map<string, t_key_list>;
+	using t_aircraft_type_list = t_object_type_list;
+	using t_building_type_list = t_object_type_list;
+	using t_infantry_type_list = t_object_type_list;
+	using t_overlay_type_list = t_object_type_list;
+	using t_smudge_type_list = t_object_type_list;
+	using t_terrain_type_list = t_object_type_list;
+	using t_vehicle_type_list = t_object_type_list;
+	using t_animation_list = map<int, string>;
+	using t_voxel_animation_list = t_object_type_list;
+	using t_particle_type_list = t_object_type_list;
+	using t_particle_system_type_list = t_object_type_list;
+	using t_projectile_type_list = t_object_type_list;
+	using t_rules_list = t_object_type_list;
+	using t_warhead_type_list = t_object_type_list;
+	using t_weapon_type_list = t_object_type_list;
 	
 	Crules_ts_ini_reader();
 	int process_section_start(const string& line);

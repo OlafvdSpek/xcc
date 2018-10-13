@@ -13,7 +13,7 @@ public:
 	Cvirtual_binary write();
 	Cmix_file_write(t_game game);
 private:
-	typedef map<int, Cvirtual_binary> t_index;
+	using t_index = map<int, Cvirtual_binary>;
 
 	int write_start();
 	int write(byte* d) const;

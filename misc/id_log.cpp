@@ -13,7 +13,7 @@ struct t_idinfo
 	string description;
 };
 
-typedef map<int, t_idinfo, less<int> > t_id_list;
+using t_id_list = map<int, t_idinfo>;
 
 t_id_list td_list, ra_list, ts_list, dune2_list, ra2_list;
 

@@ -24,8 +24,8 @@ const static char char2num[] =
 	-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1
 };
 
-typedef unsigned short word;
-typedef uint32_t bignum[64];
+using word = unsigned short;
+using bignum = uint32_t[64];
 
 static struct 
 {

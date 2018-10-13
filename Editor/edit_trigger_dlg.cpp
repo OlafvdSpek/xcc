@@ -111,7 +111,7 @@ void Cedit_trigger_dlg::OnOK()
 	}
 	d.side = static_cast<t_side_id>(m_combo_side.GetItemData(i));
 
-	d.teamtype = string(m_edit_teamtype.IsEmpty() ? "none" : m_edit_teamtype);
+	d.teamtype = m_edit_teamtype.IsEmpty() ? "none" : string(m_edit_teamtype);
 
 	i = m_combo_loop;
 	if (i == CB_ERR)

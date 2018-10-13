@@ -16,12 +16,12 @@ public:
 		return 1;
 	}
 
-	int cx() const
+	int cx() const override
 	{
 		return 320;
 	}
 
-	int cy() const
+	int cy() const override
 	{
 		return 200;
 	}

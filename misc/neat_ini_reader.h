@@ -9,8 +9,8 @@
 class Cneat_ini_reader : public Cini_reader
 {
 public:
-	typedef map<string, Cneat_key_list> t_section_map;
-	typedef list<t_section_map::iterator> t_section_list;
+	using t_section_map = map<string, Cneat_key_list>;
+	using t_section_list = list<t_section_map::iterator>;
 
 	Cneat_ini_reader();
 	void erase();

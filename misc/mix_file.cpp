@@ -258,7 +258,7 @@ int Cmix_file::post_open()
 				memcpy(&m_index_ft[0], s.data(), get_c_files() * sizeof(t_file_type));
 			else
 			{
-				typedef multimap<int, int> t_block_map;
+				using t_block_map = multimap<int, int>;
 
 				t_block_map block_map;
 				for (int i = 0; i < get_c_files(); i++)

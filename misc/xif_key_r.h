@@ -6,8 +6,8 @@
 class Cxif_key_r
 {
 public:
-	typedef vector<pair<int, Cxif_key_r> > t_key_map;
-	typedef vector<pair<int, Cxif_value> > t_value_map;
+	using t_key_map = vector<pair<int, Cxif_key_r>>;
+	using t_value_map = vector<pair<int, Cxif_value>>;
 
 	const Cxif_key_r& get_key(int id) const
 	{

@@ -44,8 +44,8 @@ private:
 		string m_palet;
 	};
 
-	typedef list<Clist_entry> t_list;
-	typedef vector<t_list::const_pointer> t_vector;
+	using t_list = list<Clist_entry>;
+	using t_vector = vector<t_list::const_pointer>;
 
 	t_list m_list;
 	t_vector::const_iterator m_vector_i;

@@ -83,7 +83,7 @@ public:
 		return &m_index[0];
 	}
 private:
-	typedef map<int, int> t_id_index;
+	using t_id_index = map<int, int>;
 
 	static bool m_ft_support;
 

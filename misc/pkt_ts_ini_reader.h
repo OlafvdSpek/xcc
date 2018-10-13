@@ -19,7 +19,7 @@ class Cpkt_ts_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_multi_maps, sei_unknown};
 	enum t_map_id {mai_description, mai_cd, mai_minplayers, mai_maxplayers, mai_gamemode, mai_unknown};
-	typedef map<string, Cmap_data> t_map_list;
+	using t_map_list = map<string, Cmap_data>;
 
 	Cpkt_ts_ini_reader();
 	void erase();

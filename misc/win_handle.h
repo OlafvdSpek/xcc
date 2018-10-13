@@ -27,6 +27,6 @@ private:
 	std::shared_ptr<void> m_source;
 };
 
-typedef Cwin_handle_base<HANDLE> Cwin_handle;
+using Cwin_handle = Cwin_handle_base<HANDLE>;
 
 int create_process(const std::string& exe_name, const std::string& _cmd_line = "", bool wait = false);

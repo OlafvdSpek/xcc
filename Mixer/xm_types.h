@@ -8,4 +8,4 @@ struct t_mix_map_list_entry
 	int parent;
 };
 
-typedef map<int, t_mix_map_list_entry> t_mix_map_list;
+using t_mix_map_list = map<int, t_mix_map_list_entry>;

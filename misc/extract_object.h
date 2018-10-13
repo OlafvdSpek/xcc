@@ -49,12 +49,12 @@ public:
 		return m_rir;
 	}
 private:
-	typedef map<string, t_object_type> t_art_list;
-	typedef map<string, t_object_type> t_object_list;
-	typedef map<string, string> t_key_list;
-	typedef map<string, t_key_list> t_object_type_list;
-	typedef list<Cmix_file> t_mix_list;
-	typedef list<string> t_path_list;
+	using t_art_list = map<string, t_object_type>;
+	using t_object_list = map<string, t_object_type>;
+	using t_key_list = map<string, string>;
+	using t_object_type_list = map<string, t_key_list>;
+	using t_mix_list = list<Cmix_file>;
+	using t_path_list = list<string>;
 	
 	const t_object_type_list& get_object_type_list(t_object_type ot) const;
 	void add_one(string name, t_object_type ot);

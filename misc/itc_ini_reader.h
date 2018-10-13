@@ -16,7 +16,7 @@ class Citc_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_unknown};
 	enum t_tileset_id {tsi_fname, tsi_count, tsi_unknown};
-	typedef map<int, Ctileset_data> t_list;
+	using t_list = map<int, Ctileset_data>;
 
 	Citc_ini_reader();
 	void erase();

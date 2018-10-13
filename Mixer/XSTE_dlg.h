@@ -55,9 +55,9 @@ private:
 		int cat_id;
 	};
 
-	typedef map<int, string> t_cat_map;
-	typedef map<int, t_map_entry> t_map;
-	typedef map<string, int> t_reverse_cat_map;
+	using t_cat_map = map<int, string>;
+	using t_map = map<int, t_map_entry>;
+	using t_reverse_cat_map = map<string, int>;
 
 	t_game m_game;
 	string m_fname;

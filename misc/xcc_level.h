@@ -266,8 +266,8 @@ enum
 
 struct t_teamtype_data_entry
 {
-	typedef vector<pair<string, int>> t_objects;
-	typedef vector<pair<int, int>> t_actions;
+	using t_objects = vector<pair<string, int>>;
+	using t_actions = vector<pair<int, int>>;
 
 	t_side_id side;
 	int flags;
@@ -287,18 +287,18 @@ struct t_trigger_data_entry
 	int loop;
 };
 
-typedef string t_briefing_data;
-typedef map<int, xcc_structures::t_structure_data_entry*> t_base_data;
-typedef vector<t_infantry_data_entry> t_infantry_data;
-typedef vector<t_structure_data_entry> t_structure_data;
-typedef vector<t_unit_data_entry> t_unit_data;
-typedef map<int, int> t_overlay_data;
-typedef map<int, int> t_terrain_data;
-typedef map<int, string> t_celltrigger_data;
-typedef map<string, t_teamtype_data_entry> t_teamtype_data;
-typedef map<string, t_trigger_data_entry> t_trigger_data;
-typedef array<int, 100> t_waypoint_data;
-typedef array<unsigned short, 4096> t_bin_data;
+using t_briefing_data = string;
+using t_base_data = map<int, xcc_structures::t_structure_data_entry*>;
+using t_infantry_data = vector<t_infantry_data_entry>;
+using t_structure_data = vector<t_structure_data_entry>;
+using t_unit_data = vector<t_unit_data_entry>;
+using t_overlay_data = map<int, int>;
+using t_terrain_data = map<int, int>;
+using t_celltrigger_data = map<int, string>;
+using t_teamtype_data = map<string, t_teamtype_data_entry>;
+using t_trigger_data = map<string, t_trigger_data_entry>;
+using t_waypoint_data = array<int, 100>;
+using t_bin_data = array<unsigned short, 4096>;
 
 int convert_overlay_edit(int v);
 bool is_tiberium(t_overlay_id v);

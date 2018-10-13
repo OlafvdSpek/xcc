@@ -402,7 +402,7 @@ struct t_voxel
 
 Cvirtual_binary vxl_file_write(Cvirtual_tfile s)
 {
-	typedef list<t_voxel> t_list;
+	using t_list = list<t_voxel>;
 
 	t_list list;
 

@@ -2,7 +2,7 @@
 
 namespace xcc_draw
 {
-	typedef byte t_reference_palet[256];
+	using t_reference_palet = byte[256];
 	extern const t_reference_palet badguy_rp;
 	extern const t_reference_palet multi1_rp;
 	extern const t_reference_palet multi2_rp;

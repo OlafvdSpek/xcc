@@ -5,8 +5,8 @@
 class Cblowfish
 {
 public:
-	typedef uint32_t t_bf_p[18];
-	typedef uint32_t t_bf_s[4][256];
+	using t_bf_p = uint32_t[18];
+	using t_bf_s = uint32_t[4][256];
 
 	void set_key(data_ref);
 	void encipher(const void* s, void* d, int size) const;

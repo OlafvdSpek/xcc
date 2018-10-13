@@ -11,7 +11,7 @@ struct t_text_cache_entry
 	string t;
 };
 
-typedef vector<t_text_cache_entry> t_text_cache;
+using t_text_cache = vector<t_text_cache_entry>;
 
 class CXCCFileView : public CScrollView
 {

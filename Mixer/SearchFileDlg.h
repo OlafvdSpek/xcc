@@ -55,7 +55,7 @@ private:
 		int parent;
 	};
 
-	typedef map<int, t_map_entry> t_map;
+	using t_map = map<int, t_map_entry>;
 
 	CMainFrame* m_main_frame;
 	t_map m_map;

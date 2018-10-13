@@ -31,7 +31,7 @@ class Csound_ts_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_sounds, sei_unknown};
 	enum t_sound_id {soi_priority, soi_volume, soi_unknown};
-	typedef map<string, Csound_data> t_sound_list;
+	using t_sound_list = map<string, Csound_data>;
 
 	Csound_ts_ini_reader();
 	void erase();

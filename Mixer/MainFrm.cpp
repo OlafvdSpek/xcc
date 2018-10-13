@@ -338,7 +338,7 @@ void CMainFrame::find_mixs(const string& dir, t_game game, string filter)
 	xcc_log::write_line("find_mixs ends", -1);
 }
 
-typedef map<string, int> t_sort_list;
+using t_sort_list = map<string, int>;
 
 string escape_menu_name(string v)
 {
@@ -812,7 +812,7 @@ void CMainFrame::OnDestroy()
 	CFrameWnd::OnDestroy();
 }
 
-typedef map<string, Ctheme_data> t_theme_list;
+using t_theme_list = map<string, Ctheme_data>;
 
 void CMainFrame::OnLaunchXTW_TS() 
 {

@@ -40,7 +40,7 @@ public:
 		int cy;
 	};
 
-	typedef map<int, int> t_waypoints_data;
+	using t_waypoints_data = map<int, int>;
 
 	Cmap_ts_ini_reader();
 	void erase();

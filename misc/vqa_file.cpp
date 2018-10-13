@@ -389,7 +389,7 @@ struct t_list_entry
 int Cvqa_file::extract_as_wav(const string& name)
 {
 	int error = 0;
-	typedef vector<t_list_entry> t_list;
+	using t_list = vector<t_list_entry>;
 	t_list list;
 	int cs_remaining = 0;	
 	Cvqa_decode vqa_d;

@@ -315,7 +315,7 @@ void CXCCMixerView::open_location_mix(const string& name)
 
 void CXCCMixerView::open_location_mix(t_mix_map_list::const_iterator i, int file_id)
 {
-	typedef stack<int> t_stack;
+	using t_stack = stack<int>;
 	t_stack stack;
 	close_all_locations();
 	const t_mix_map_list& mix_list = GetMainFrame()->mix_map_list();

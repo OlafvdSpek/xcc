@@ -240,7 +240,7 @@ int Cmap_ts_encoder::overlay_data_decode4(const byte* s, byte* d, const byte* ov
 
 static Cvirtual_binary preview_decode4(Cvirtual_binary s, const Cvirtual_binary palet)
 {
-	typedef vector<__int64> t_vector;
+	using t_vector = vector<__int64>;
 
 	t_vector default_vector;
 	{
@@ -428,7 +428,7 @@ void Cmap_ts_encoder::process_section_end()
 
 static void analyse_preview(Cvirtual_binary& s)
 {
-	typedef map<__int64, int> t_map;
+	using t_map = map<__int64, int>;
 
 	const t_palet_entry* r = reinterpret_cast<const t_palet_entry*>(s.data());
 	int count = s.size() / 6;
@@ -449,7 +449,7 @@ static void analyse_preview(Cvirtual_binary& s)
 
 static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary palet)
 {
-	typedef map<__int64, int> t_map;
+	using t_map = map<__int64, int>;
 
 	t_map default_map;
 	int j = 0;

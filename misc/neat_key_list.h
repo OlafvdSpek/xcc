@@ -5,10 +5,10 @@
 class Cneat_key_list  
 {
 public:
-	typedef map<string, string> t_key_map;
-	typedef list<t_key_map::iterator> t_key_list;
+	using t_key_map = map<string, string>;
+	using t_key_list = list<t_key_map::iterator>;
 
-	Cneat_key_list();
+	Cneat_key_list() = default;
 	Cneat_key_list(const Cneat_key_list& v);
 	const Cneat_key_list& operator=(const Cneat_key_list& v);
 	void add_key(const string& name, const string& value);

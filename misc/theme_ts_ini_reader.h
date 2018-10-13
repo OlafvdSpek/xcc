@@ -66,7 +66,7 @@ class Ctheme_ts_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_themes, sei_unknown};
 	enum t_theme_id {thi_name, thi_length, thi_normal, thi_scenario, thi_side, thi_sound, thi_repeat, thi_unknown};
-	typedef map<string, Ctheme_data> t_theme_list;
+	using t_theme_list = map<string, Ctheme_data>;
 
 	Ctheme_ts_ini_reader();
 	void erase();

@@ -15,8 +15,7 @@ public:
 	int open(const string& name);
 	int write_index();
 private:
-	typedef map<int, t_big_index_entry*> t_block_map;
-	typedef Cbig_file::t_index t_index;
+	using t_block_map = map<int, t_big_index_entry*>;
 
 	t_block_map block_map();
 	int cb_header() const;
@@ -24,5 +23,5 @@ private:
 
 	Cfile32 m_f;
 	t_big_header m_header;
-	t_index m_index;
+	Cbig_file::t_index m_index;
 };

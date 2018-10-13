@@ -58,7 +58,7 @@ BOOL CSelectPaletDlg::OnInitDialog()
 void CSelectPaletDlg::insert_tree_entry(int parent_id, HTREEITEM parent_item)
 {
 	CTreeCtrl& tc = m_tree;
-	typedef multimap<string, int> t_sort_map;
+	using t_sort_map = multimap<string, int>;
 	t_sort_map sort_map;
 	for (auto& i : m_pal_map_list)
 	{

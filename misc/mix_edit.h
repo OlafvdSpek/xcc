@@ -18,7 +18,7 @@ public:
 	int open(const string& name);
 	int write_index();
 private:
-	typedef map<int, t_mix_index_entry*> t_block_map;
+	using t_block_map = map<int, t_mix_index_entry*>;
 
 	t_block_map block_map();
 	int new_block(int size);

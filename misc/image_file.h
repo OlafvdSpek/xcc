@@ -15,11 +15,11 @@ public:
 	virtual Cvirtual_image vimage() const
 	{
 		Cvirtual_binary image;
-		decode(image.write_start(cb_image()));
-		return Cvirtual_image(image, cx(), cy(), cb_pixel(), palet());
+		decode(image.write_start(Cvideo_file<T>::cb_image()));
+		return Cvirtual_image(image, Cvideo_file<T>::cx(), Cvideo_file<T>::cy(), Cvideo_file<T>::cb_pixel(), Cvideo_file<T>::palet());
 	}
 	
-	int cf() const
+	int cf() const override
 	{
 		return 1;
 	}

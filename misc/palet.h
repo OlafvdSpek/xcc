@@ -37,7 +37,7 @@ union t_palet32bgr_entry
 	unsigned __int32 v;
 };
 
-typedef t_palet_entry t_palet[256];
+using t_palet = t_palet_entry[256];
 
 void apply_rp(byte* d, int cb_d, const byte* rp);
 void convert_image_8_to_24(const byte* s, byte* d, int cx, int cy, const t_palet palet);

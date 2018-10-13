@@ -151,7 +151,7 @@ struct t_hva_header
 	__int32 c_sections;
 };
 
-typedef float t_hva_transform_matrix[3][4];
+using t_hva_transform_matrix = float[3][4];
 
 struct t_jpeg_header
 {

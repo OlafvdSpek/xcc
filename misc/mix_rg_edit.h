@@ -15,8 +15,8 @@ public:
 	int open(const string& name);
 	int write_index();
 private:
-	typedef map<int, t_mix_rg_index_entry*> t_block_map;
-	typedef Cmix_rg_file::t_index t_index;
+	using t_block_map = map<int, t_mix_rg_index_entry*>;
+	using t_index = Cmix_rg_file::t_index;
 
 	t_block_map block_map();
 

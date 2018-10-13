@@ -1,10 +1,6 @@
 #include "stdafx.h"
 #include "neat_key_list.h"
 
-Cneat_key_list::Cneat_key_list()
-{
-}
-
 Cneat_key_list::Cneat_key_list(const Cneat_key_list& v)
 {
 	*this = v;

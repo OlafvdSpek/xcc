@@ -21,6 +21,6 @@ public:
 	Cvirtual_file();
 	Cvirtual_file(const Cvirtual_binary& d);
 private:
-	typedef list<Cvirtual_binary> t_data;
+	using t_data = list<Cvirtual_binary>;
 	t_data m_data;
 };

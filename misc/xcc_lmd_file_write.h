@@ -12,6 +12,6 @@ public:
 	void add_fname(const string& fname);
 	Cvirtual_binary write(t_game game) const;
 private:
-	typedef vector<string> t_index;
+	using t_index = vector<string>;
 	t_index m_index;
 };

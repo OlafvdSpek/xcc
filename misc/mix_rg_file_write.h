@@ -9,7 +9,7 @@ public:
 	void insert(string name, const Cvirtual_binary d);
 	Cvirtual_binary write();
 private:
-	typedef map<string, Cvirtual_binary> t_index;
+	using t_index = map<string, Cvirtual_binary>;
 
 	t_index m_index;
 };

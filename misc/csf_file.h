@@ -12,7 +12,7 @@ public:
 		string extra_value;
 	};
 
-	typedef map<string, t_map_entry> t_map;
+	using t_map = map<string, t_map_entry>;
 
     int post_open();
 	void erase_value(const string& name);

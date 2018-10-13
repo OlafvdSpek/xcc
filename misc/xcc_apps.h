@@ -28,7 +28,7 @@ public:
 	string get_exe(t_app app) const;
 	Cxcc_apps();
 private:
-	typedef map<t_app, string> t_map;
+	using t_map = map<t_app, string>;
 
 	void init();
 	void set_exe(t_app app, string exe);

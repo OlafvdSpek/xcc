@@ -3,7 +3,7 @@
 #include "mix_sfl.h"
 #include "xcc_dirs.h"
 
-typedef set<int> t_file_list;
+using t_file_list = set<int>;
 
 t_file_list ts_fl, ra2_fl;
 

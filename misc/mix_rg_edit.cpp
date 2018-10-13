@@ -85,7 +85,7 @@ void Cmix_rg_edit::clear()
 
 int Cmix_rg_edit::write_index()
 {
-	typedef map<unsigned int, string> t_id_index;
+	using t_id_index = map<unsigned int, string>;
 
 	t_id_index id_index;
 	for (auto& i : m_index)
