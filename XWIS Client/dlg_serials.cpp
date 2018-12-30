@@ -58,7 +58,7 @@ void Cdlg_serials::add_game(const string& reg_key, t_game game, CString& edit)
 
 static void save_serial(const string& reg_key, t_game game, const CString& edit)
 {
-	string serial = edit;
+	string serial(edit);
 	if (serial.size() != 22)
 		return;
 	Cvirtual_binary s;
