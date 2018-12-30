@@ -71,7 +71,6 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <FunctionLevelLinking>false</FunctionLevelLinking>
       <Optimization>Disabled</Optimization>
-      <MinimalRebuild>true</MinimalRebuild>
       <PreprocessorDefinitions>_DEBUG;WIN32;_WINDOWS;_USRDLL;OUT_IMA_ADPCM_WAV_EXPORTS;NO_MIX_SUPPORT;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <LanguageStandard>stdcpplatest</LanguageStandard>
