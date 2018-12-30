@@ -47,12 +47,12 @@ Circ_params::Circ_params(const string& v)
 		m_prefix = v.substr(1, j - 1);
 		i = j + 1;
 	}
-	int k = v.find(':', i);
+	size_t k = v.find(':', i);
 	if (k == string::npos)
 		k = v.length();
 	while (i < k)
 	{
-		int j = v.find(' ', i);
+		size_t j = v.find(' ', i);
 		if (j == string::npos)
 			j = v.length();
 		j = min(j, k);
