@@ -117,7 +117,7 @@ void CXCCMapEncoderDlg::OnConvert()
 
 void CXCCMapEncoderDlg::OnButtonXccHomePage() 
 {
-	ShellExecute(m_hWnd, "open", "http://xccu.sourceforge.net/", NULL, NULL, SW_SHOW);
+	ShellExecute(m_hWnd, "open", "https://xhp.xwis.net", NULL, NULL, SW_SHOW);
 }
 
 static string get_pkt(string fname, bool export, string title, string description, int max_players, string gamemode)
