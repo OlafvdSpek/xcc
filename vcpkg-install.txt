@@ -1,1 +1,1 @@
-vcpkg install boost-crc
+vcpkg install boost-crc libjpeg-turbo libvorbis lzo
