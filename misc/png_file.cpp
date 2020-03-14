@@ -6,8 +6,6 @@
 #include "fname.h"
 #include "png.h"
 
-#if 1 // def PNG_SUPPORT
-
 void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 {
 	longjmp(png_jmpbuf(png_ptr), 1);
@@ -203,19 +201,3 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 	fclose(f);
 	return 0;
 }
-#else
-int Cpng_file::decode(Cvirtual_image& d) const
-{
-	return 1;
-}
-
-int png_file_write(Cvirtual_file& f, const byte* image, const t_palet_entry* palet, int cx, int cy)
-{
-	return 1;
-}
-
-int png_file_write(const string& name, const byte* image, const t_palet_entry* palet, int cx, int cy)
-{
-	return 1;
-}
-#endif
