@@ -2,9 +2,9 @@
 #include "png_file.h"
 
 #include <cstdint>
+#include <png.h>
 #include <setjmp.h>
 #include "fname.h"
-#include "png.h"
 
 void user_error_fn(png_structp png_ptr, png_const_charp error_msg)
 {
@@ -187,7 +187,7 @@ int png_file_write(const string& name, const byte* image, const t_palet_entry* p
 	png_init_io(png_ptr, f);
 	png_set_IHDR(png_ptr, info_ptr, cx, cy, 8, palet ? PNG_COLOR_TYPE_PALETTE : PNG_COLOR_TYPE_RGB, PNG_INTERLACE_NONE, PNG_COMPRESSION_TYPE_DEFAULT, PNG_FILTER_TYPE_DEFAULT);
 	if (palet)
-		png_set_PLTE(png_ptr, info_ptr, const_cast<png_color*>(reinterpret_cast<const png_color*>(palet)), 256);
+		png_set_PLTE(png_ptr, info_ptr, reinterpret_cast<const png_color*>(palet), 256);
 	png_write_info(png_ptr, info_ptr);
 
 	const byte* r = image;
