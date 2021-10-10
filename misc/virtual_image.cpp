@@ -14,13 +14,6 @@
 
 using namespace Gdiplus;
 
-Cvirtual_image::Cvirtual_image()
-{
-	m_cx = 0;
-	m_cy = 0;
-	mcb_pixel = 0;
-}
-
 Cvirtual_image::Cvirtual_image(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet, bool inflate)
 {
 	load(image, cx, cy, cb_pixel, palet, inflate);

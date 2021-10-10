@@ -28,7 +28,7 @@ public:
 	Cvirtual_file save(t_file_type ft) const;
 	int save(const string& fname, t_file_type ft) const;
 	void swap_rb();
-	Cvirtual_image();
+	Cvirtual_image() = default;
 	Cvirtual_image(const Cvirtual_binary& image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);
 	Cvirtual_image(const void* image, int cx, int cy, int cb_pixel, const t_palet_entry* palet = NULL, bool inflate = false);
 
@@ -99,7 +99,7 @@ public:
 private:
 	Cvirtual_binary m_image;
 	Cvirtual_binary m_palet;
-	int m_cx;
-	int m_cy;
-	int mcb_pixel;
+	int m_cx = 0;
+	int m_cy = 0;
+	int mcb_pixel = 0;
 };
