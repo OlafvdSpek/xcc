@@ -316,9 +316,9 @@ void xcc_dirs::load_from_registry()
 			set_td_secondary_dir(s);
 		if (ERROR_SUCCESS == kh_base.query_value("ra_dir", s))
 			set_dir(game_ra, s);
-		if (ERROR_SUCCESS == kh_base.query_value("cddir", s))
+		if (ERROR_SUCCESS == kh_base.query_value("cd_dir", s))
 			set_cd_dir(s);
-		if (ERROR_SUCCESS == kh_base.query_value("datadir", s))
+		if (ERROR_SUCCESS == kh_base.query_value("data_dir", s))
 			set_data_dir(s);
 		if (ERROR_SUCCESS == kh_base.query_value("enable_log", s))
 			g_enable_log = true;
