@@ -12,14 +12,14 @@ private:
 	string title;
 	string ext;
 public:
-	const Cfname& operator=(const string&);
+	const Cfname& operator=(string_view);
 	bool exists() const;
 	void make_path();
-	void use_default_ext(const string&);
-	void use_default_path(const string&);
-	void set_ext(const string&);
-	void set_path(const string&);
-	void set_title(const string&);
+	void use_default_ext(string_view);
+	void use_default_path(string_view);
+	void set_ext(string_view);
+	void set_path(string_view);
+	void set_title(string_view);
 	void expand();
 	string get_all() const;
 	string get_path() const;

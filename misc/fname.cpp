@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "fname.h"
 
-Cfname::Cfname(const string &s)
+Cfname::Cfname(const string& s)
 {
-	*this = s;
+	*this = string_view(s);
 }
 
 string Cfname::get_fname() const
@@ -31,20 +31,21 @@ string Cfname::get_all() const
 	return path + title + ext;
 }
 
+/*
 void Cfname::expand()
 {
 	char t[MAX_PATH];
 	_fullpath(t, get_all().c_str(), MAX_PATH);
-	Cfname(static_cast<string>(t));
+	Cfname(<string>(t));
 }
+*/
 
 Cfname GetModuleFileName(HMODULE hModule)
 {
 	char s[MAX_PATH];
 	if (GetModuleFileNameA(hModule, s, MAX_PATH))
 		return Cfname(s);
-	else
-		return {};
+	return {};
 }
 
 string get_temp_path()
@@ -64,30 +65,30 @@ string get_temp_fname()
 	return get_temp_fname(get_temp_path());
 }
 
-void Cfname::set_title(const string &s)
+void Cfname::set_title(string_view s)
 {
 	title = s;
 }
 
-void Cfname::set_ext(const string &s)
+void Cfname::set_ext(string_view s)
 {
 	ext = s;
 }
 
-void Cfname::use_default_ext(const string &s)
+void Cfname::use_default_ext(string_view s)
 {
 	if (ext == "")
 		ext = s;
 }
 
-void Cfname::set_path(const string &s)
+void Cfname::set_path(string_view s)
 {
 	path = s;
 	if (!path.empty() && path[path.length() - 1] != '\\')
 		path += '\\';
 }
 
-void Cfname::use_default_path(const string &s)
+void Cfname::use_default_path(string_view s)
 {
 	if (path.empty())
 		set_path(s);
@@ -112,7 +113,7 @@ bool Cfname::exists() const
 	return true;
 }
 
-const Cfname& Cfname::operator=(const string &s)
+const Cfname& Cfname::operator=(string_view s)
 {
 	long p1 = s.rfind('\\');
 	long p2 = s.rfind('.');
