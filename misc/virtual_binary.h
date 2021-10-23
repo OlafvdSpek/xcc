@@ -4,7 +4,7 @@
 #include <memory>
 #include <string>
 #include <vartypes.h>
-#include <xbt/data_ref.h>
+#include <xcc/data_ref.h>
 
 using namespace std;
 

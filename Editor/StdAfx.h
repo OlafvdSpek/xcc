@@ -16,7 +16,7 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <xbt/find_ptr.h>
+#include <xcc/find_ptr.h>
 #include "ETSLayout.h"
 #include "mix_file.h"
 #include "xcc_dirs.h"

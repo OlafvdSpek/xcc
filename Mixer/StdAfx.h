@@ -22,7 +22,7 @@
 #include <string>
 #include <thread>
 #include <vector>
-#include <xbt/find_ptr.h>
+#include <xcc/find_ptr.h>
 #include "ETSLayout.h"
 
 using namespace ETSLayout;
