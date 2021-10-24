@@ -15,8 +15,8 @@ public:
 	virtual Cvirtual_image vimage() const
 	{
 		Cvirtual_binary image;
-		decode(image.write_start(Cvideo_file<T>::cb_image()));
-		return Cvirtual_image(image, Cvideo_file<T>::cx(), Cvideo_file<T>::cy(), Cvideo_file<T>::cb_pixel(), Cvideo_file<T>::palet());
+		decode(image.write_start(this->cb_image()));
+		return Cvirtual_image(image, this->cx(), this->cy(), this->cb_pixel(), this->palet());
 	}
 	
 	int cf() const override
@@ -25,6 +25,6 @@ public:
 	}
 };
 
-int image_file_write(Cvirtual_file& f, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
-Cvirtual_file image_file_write(t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
-int image_file_write(const string& name, t_file_type ft, const byte* image, const t_palet_entry* palet, int cx, int cy);
+int image_file_write(Cvirtual_file&, t_file_type, const byte* image, const t_palet_entry*, int cx, int cy);
+Cvirtual_file image_file_write(t_file_type, const byte* image, const t_palet_entry*, int cx, int cy);
+int image_file_write(const string& name, t_file_type, const byte* image, const t_palet_entry*, int cx, int cy);
