@@ -4,7 +4,6 @@
 #include <fstream>
 #include <mix_file.h>
 #include <string_conversion.h>
-#include <xbt/find_ptr.h>
 #include <xcc_dirs.h>
 
 struct t_idinfo

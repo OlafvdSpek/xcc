@@ -578,7 +578,7 @@ void CXCCAudioPlayerDlg::shuffle_aud()
 		return;
 	while (1)
 	{
-		int id = boost::next(m_index.begin(), rand() % m_index.size())->first;
+		int id = next(m_index.begin(), rand() % m_index.size())->first;
 		if (!is_score(id))
 			continue;
 		switch (m_index[id].type)
@@ -620,7 +620,7 @@ void CXCCAudioPlayerDlg::OnGetdispinfoList1(NMHDR* pNMHDR, LRESULT* pResult)
 	LV_DISPINFO* pDispInfo = (LV_DISPINFO*)pNMHDR;
 	int id = pDispInfo->item.lParam;
 	string& buffer = m_list.get_buffer();
-	const t_index_entry&  e = m_index.at(id);
+	const t_index_entry& e = m_index.at(id);
 	switch (pDispInfo->item.iSubItem)
 	{
 	case 0:

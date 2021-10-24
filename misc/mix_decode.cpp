@@ -407,7 +407,7 @@ static void process_predata(const byte* pre, uint32_t pre_len, byte *buf)
 	}
 }
 
-void get_blowfish_key(const byte* s, mutable_data_ref d)
+void get_blowfish_key(const byte* s, span<byte> d)
 {
 	static bool public_key_initialized = false;
 	if (!public_key_initialized)

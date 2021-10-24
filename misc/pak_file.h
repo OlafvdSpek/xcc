@@ -17,7 +17,7 @@ public:
 
 	string get_name(int index) const
 	{
-		return boost::next(m_index.begin(), index)->first;
+		return next(m_index.begin(), index)->first;
 	}
 
 	int get_offset(const string& name) const

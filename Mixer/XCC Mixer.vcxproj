@@ -95,8 +95,6 @@
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
     </ClCompile>
-    <ClCompile Include="..\misc\map_ts_encoder.cpp">
-    </ClCompile>
     <ClCompile Include="palet_filter.cpp">
     </ClCompile>
     <ClCompile Include="ResizeDlg.cpp">
