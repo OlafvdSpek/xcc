@@ -27,7 +27,7 @@ public:
 	void draw_image8(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
 	void draw_image24(const byte* s, int cx_s, int cy_s, CDC* pDC, int x_d, int y_d);
 	void draw_info(string n, string d);
-	void set_game(t_game);
+	// void set_game(t_game);
 	void open_f(int id, Cmix_file& mix_f, t_game game, t_palet palet);
 	void open_f(const string& name);
 	void post_open(Ccc_file& f);
@@ -60,7 +60,7 @@ private:
 	CFont			m_font;
 	t_file_type		m_ft;
 	int				m_id;
-	bool			m_is_open;
+	bool			m_is_open = false;
 	t_palet_entry*	m_palet;
 	Cpalet_filter m_palet_filter;
 	long long		m_size;

@@ -2,52 +2,51 @@
 #include "MainFrm.h"
 #include "XCCFileView.h"
 
+#include <aud_file.h>
+#include <big_file.h>
 #include <cmath>
+#include <cps_file.h>
+#include <dds_file.h>
+#include <fname.h>
+#include <fnt_file.h>
 #include <fstream>
-#include <sstream>
-#include "aud_file.h"
-#include "big_file.h"
-#include "cps_file.h"
-#include "dds_file.h"
-#include "fname.h"
-#include "fnt_file.h"
-#include "hva_file.h"
+#include <hva_file.h>
 #include <id_log.h>
-#include "map_td_ini_reader.h"
-#include "map_ra_ini_reader.h"
-#include "map_ts_ini_reader.h"
-#include "mp3_file.h"
-#include "pak_file.h"
-#include "pal_file.h"
-#include "pcx_decode.h"
-#include "pcx_file.h"
-#include "pkt_ts_ini_reader.h"
-#include "tga_file.h"
-#include "shp_decode.h"
-#include "shp_images.h"
-#include "shp_dune2_file.h"
-#include "shp_file.h"
-#include "shp_ts_file.h"
-#include "sound_ts_ini_reader.h"
-#include "st_file.h"
-#include "string_conversion.h"
-#include "theme_ts_ini_reader.h"
-#include "tmp_file.h"
-#include "tmp_ra_file.h"
-#include "tmp_ts_file.h"
-#include "virtual_tfile.h"
-#include "voc_file.h"
-#include "vqa_file.h"
-#include "vxl_file.h"
-#include "wav_file.h"
-#include "wsa_dune2_file.h"
-#include "wsa_file.h"
+#include <map_ra_ini_reader.h>
+#include <map_td_ini_reader.h>
+#include <map_ts_ini_reader.h>
+#include <mp3_file.h>
+#include <pak_file.h>
+#include <pal_file.h>
+#include <pcx_decode.h>
+#include <pcx_file.h>
+#include <pkt_ts_ini_reader.h>
+#include <shp_decode.h>
+#include <shp_dune2_file.h>
+#include <shp_file.h>
+#include <shp_images.h>
+#include <shp_ts_file.h>
+#include <sound_ts_ini_reader.h>
+#include <sstream>
+#include <st_file.h>
+#include <string_conversion.h>
+#include <tga_file.h>
+#include <theme_ts_ini_reader.h>
+#include <tmp_file.h>
+#include <tmp_ra_file.h>
+#include <tmp_ts_file.h>
+#include <virtual_tfile.h>
+#include <voc_file.h>
+#include <vqa_file.h>
+#include <vxl_file.h>
+#include <wav_file.h>
+#include <wsa_dune2_file.h>
+#include <wsa_file.h>
 
 IMPLEMENT_DYNCREATE(CXCCFileView, CScrollView)
 
 CXCCFileView::CXCCFileView()
 {
-	m_is_open = false;
 }
 
 CXCCFileView::~CXCCFileView()

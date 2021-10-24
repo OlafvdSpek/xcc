@@ -196,7 +196,7 @@ private:
 	map<int, t_index_entry> m_index;
 	vector<int> m_index_selected;
 	stack<Cmix_file*> m_location;
-	Cmix_file* m_mix_f;
+	Cmix_file* m_mix_f = nullptr;
 	string m_mix_fname;
 	CXCCFileView* m_file_view_pane;
 	CXCCMixerView* m_other_pane;
@@ -208,5 +208,5 @@ private:
 	int m_buffer_w;
 	int m_sort_column;
 	bool m_sort_reverse;
-	bool m_reading;
+	bool m_reading = false;
 };

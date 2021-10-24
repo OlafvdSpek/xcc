@@ -7,58 +7,58 @@
 #include "XCC MixerView.h"
 #include "resource.h"
 
+#include <aud_decode.h>
+#include <aud_file_write.h>
+#include <aud_file.h>
+#include <big_edit.h>
+#include <big_file_write.h>
 #include <boost/algorithm/string.hpp>
+#include <cps_file.h>
+#include <dds_file.h>
 #include <fstream>
-#include <sstream>
+#include <hva_file.h>
 #include <id_log.h>
+#include <ima_adpcm_wav_decode.h>
+#include <ima_adpcm_wav_encode.h>
+#include <image_tools.h>
+#include <jpeg_file.h>
+#include <map_ts_encoder.h>
+#include <map_ts_ini_reader.h>
+#include <mix_edit.h>
+#include <mix_file_write.h>
+#include <mix_rg_edit.h>
+#include <mix_rg_file_write.h>
 #include <pal_file.h>
+#include <pal_file.h>
+#include <pcx_decode.h>
+#include <pcx_file.h>
+#include <pkt_ts_ini_reader.h>
+#include <shp_decode.h>
+#include <shp_dune2_file.h>
+#include <shp_file.h>
+#include <shp_images.h>
+#include <shp_ts_file_write.h>
+#include <shp_ts_file.h>
+#include <sstream>
+#include <st_file.h>
 #include <string_conversion.h>
+#include <text_file.h>
+#include <tmp_file.h>
+#include <tmp_ra_file.h>
+#include <tmp_ts_file.h>
+#include <virtual_tfile.h>
+#include <voc_file.h>
+#include <vqa_file.h>
+#include <vxl_file.h>
+#include <wav_file.h>
+#include <wav_structures.h>
+#include <wsa_dune2_file.h>
+#include <wsa_file.h>
 #include <xcc_dirs.h>
-#include "aud_decode.h"
-#include "aud_file.h"
-#include "aud_file_write.h"
-#include "big_edit.h"
-#include "big_file_write.h"
-#include "cps_file.h"
-#include "dds_file.h"
+#include <xif_file.h>
 #include "dlg_shp_viewer.h"
-#include "hva_file.h"
-#include "ima_adpcm_wav_decode.h"
-#include "ima_adpcm_wav_encode.h"
-#include "image_tools.h"
-#include "jpeg_file.h"
-#include "map_ts_encoder.h"
-#include "map_ts_ini_reader.h"
-#include "mix_edit.h"
-#include "mix_file_write.h"
-#include "mix_rg_edit.h"
-#include "mix_rg_file_write.h"
-#include "pal_file.h"
-#include "pcx_decode.h"
-#include "pcx_file.h"
-#include "pkt_ts_ini_reader.h"
 #include "resizedlg.h"
-#include "shp_decode.h"
-#include "shp_dune2_file.h"
-#include "shp_file.h"
-#include "shp_images.h"
 #include "shp_properties_dlg.h"
-#include "shp_ts_file.h"
-#include "shp_ts_file_write.h"
-#include "st_file.h"
-#include "text_file.h"
-#include "tmp_file.h"
-#include "tmp_ra_file.h"
-#include "tmp_ts_file.h"
-#include "virtual_tfile.h"
-#include "voc_file.h"
-#include "vqa_file.h"
-#include "vxl_file.h"
-#include "wav_file.h"
-#include "wav_structures.h"
-#include "wsa_dune2_file.h"
-#include "wsa_file.h"
-#include "xif_file.h"
 
 using namespace boost;
 
@@ -189,8 +189,6 @@ static CMainFrame* GetMainFrame()
 
 CXCCMixerView::CXCCMixerView()
 {
-	m_mix_f = NULL;
-	m_reading = false;
 }
 
 CXCCMixerView::~CXCCMixerView()

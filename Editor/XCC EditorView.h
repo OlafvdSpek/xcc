@@ -16,8 +16,8 @@ protected: // create from serialization only
 	enum t_layer_id
 	{
 		l_template, l_overlay, l_smudge, l_terrain,
-			l_infantry, l_structure, l_unit,
-			l_celltrigger, l_waypoint
+		l_infantry, l_structure, l_unit,
+		l_celltrigger, l_waypoint
 	};
 
 	bool m_creating_sel;

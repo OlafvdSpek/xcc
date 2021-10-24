@@ -89,8 +89,6 @@
     </ClCompile>
     <ClCompile Include="..\misc\ETSLayout.cpp">
     </ClCompile>
-    <ClCompile Include="..\misc\itc_ini_reader.cpp">
-    </ClCompile>
     <ClCompile Include="..\misc\ListCtrlEx.cpp">
     </ClCompile>
     <ClCompile Include="MainFrm.cpp">
@@ -140,9 +138,6 @@
   <ItemGroup>
     <ClInclude Include="DirectoriesDlg.h" />
     <ClInclude Include="dlg_shp_viewer.h" />
-    <ClInclude Include="..\misc\ima_adpcm_wav_decode.h" />
-    <ClInclude Include="..\misc\ima_adpcm_wav_encode.h" />
-    <ClInclude Include="..\misc\itc_ini_reader.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="palet_filter.h" />
     <ClInclude Include="ResizeDlg.h" />
