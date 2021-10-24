@@ -1159,7 +1159,7 @@ int CXCCMixerView::copy_as_map_ts_preview(int i, Cfname fname) const
 	Cvirtual_image image = get_vimage(i);
 	image.cb_pixel(3);
 	Cvirtual_binary d;
-	d.size(encode5(image.image(), d.write_start(image.cx() * image.cy() * 6), image.cb_image(), 5));
+	d.set_size(encode5(image.image(), d.write_start(image.cx() * image.cy() * 6), image.cb_image(), 5));
 	Cvirtual_binary e = encode64(d);
 	ofstream g(fname);
 	g << "[Preview]" << endl

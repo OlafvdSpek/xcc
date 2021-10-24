@@ -335,7 +335,7 @@ Cvirtual_binary vxl_file_write(const Cxif_key& s)
 	delete[] span_data_ofs;
 	delete[] span_end_list_ofs;
 	delete[] span_start_list_ofs;
-	d.size(w - d.data());
+	d.set_size(w - d.data());
 	return d;
 }
 

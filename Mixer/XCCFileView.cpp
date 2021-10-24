@@ -4,7 +4,7 @@
 
 #include <cmath>
 #include <fstream>
-#include <strstream>
+#include <sstream>
 #include "aud_file.h"
 #include "big_file.h"
 #include "cps_file.h"
@@ -1147,7 +1147,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					Cxif_key key;
 					if (!key.load_key(m_data))
 					{
-						strstream s;
+						stringstream s;
 						key.dump(s, m_data.size() < 1 << 20);
 						string line;
 						while (getline(s, line))
@@ -1162,7 +1162,7 @@ void CXCCFileView::OnDraw(CDC* pDC)
 					break;
 				m_y += m_y_inc;
 				if (m_data.size() > 32  << 10)
-					m_data.size(32 << 10);
+					m_data.set_size(32 << 10);
 				for (int r = 0; r < m_data.size(); )
 				{
 					string line = nwzl(5, r) + ' ';

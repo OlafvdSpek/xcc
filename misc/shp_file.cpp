@@ -124,6 +124,6 @@ Cvirtual_binary shp_file_write(const byte* s, int cx, int cy, int c_images)
 	*index++ = 0;
 	*index++ = 0;
 	*index++ = 0;
-	d.size(w - d.data());
+	d.set_size(w - d.data());
 	return d;
 }

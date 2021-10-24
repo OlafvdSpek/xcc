@@ -54,7 +54,7 @@ void CXCCEditorDoc::Serialize(CArchive& ar)
 	else
 	{
 		ini_data.write_start(64 << 10);
-		ini_data.size(ar.Read(ini_data.data_edit(), ini_data.size()));
+		ini_data.set_size(ar.Read(ini_data.data_edit(), ini_data.size()));
 		bin_data.load(fname);
 		if (load(bin_data, ini_data))
 			AfxThrowArchiveException(CArchiveException::badIndex, ar.m_strFileName);

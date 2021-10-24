@@ -110,6 +110,6 @@ Cvirtual_binary shp_ts_file_write(const byte* s, int global_cx, int global_cy, i
 	}
 	delete[] u;
 	delete[] t;
-	d.size(w1 - d.data());
+	d.set_size(w1 - d.data());
 	return d;
 }

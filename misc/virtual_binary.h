@@ -111,7 +111,7 @@ public:
 		return m_source ? m_source->size() : 0;
 	}
 
-	void size(size_t v)
+	void set_size(size_t v)
 	{
 		assert(m_source);
 		m_source = m_source->pre_edit();

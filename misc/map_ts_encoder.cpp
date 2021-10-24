@@ -387,7 +387,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayPack")
 			{
-				m_overlay_pack.size(decode5(d.data(), m_overlay_pack.write_start(256 << 10), d.size(), 80));
+				m_overlay_pack.set_size(decode5(d.data(), m_overlay_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				decode5(d, m_d, cb_d, 80);
 				// log_overlay_pack(m_d, m_header);
@@ -396,7 +396,7 @@ void Cmap_ts_encoder::process_section_end()
 			}
 			else if (m_section_name == "OverlayDataPack")
 			{
-				m_overlay_data_pack.size(decode5(d.data(), m_overlay_data_pack.write_start(256 << 10), d.size(), 80));
+				m_overlay_data_pack.set_size(decode5(d.data(), m_overlay_data_pack.write_start(256 << 10), d.size(), 80));
 				/*
 				Cvirtual_binary t;
 				t.size(overlay_encode4(m_d, t.write_start(256 << 10)));
@@ -417,7 +417,7 @@ void Cmap_ts_encoder::process_section_end()
 		{
 			byte* e = m_d.data_edit();
 			int cb_e = decode5(d.data(), e, d.size(), 5);
-			d.size(encode5(e, d.data_edit(), cb_e, 5));
+			d.set_size(encode5(e, d.data_edit(), cb_e, 5));
 			// cb_e = encode64(d, e, cb_d);
 			write_pack(m_f, d.data(), d.size());
 		}
@@ -498,7 +498,7 @@ static Cvirtual_binary preview_encode4(Cvirtual_binary s, const Cvirtual_binary 
 		auto i = find_ptr(default_map, v);
 		*w++ = i ? *i : find_ref(map, v);
 	}
-	d.size(reinterpret_cast<byte*>(w) - d.data());
+	d.set_size(reinterpret_cast<byte*>(w) - d.data());
 	return d;
 }
 
@@ -506,11 +506,11 @@ void Cmap_ts_encoder::encode(const Cvirtual_binary palet)
 {
 	Cvirtual_binary t;
 
-	t.size(overlay_encode4(overlay_pack().data(), t.write_start(256 << 10)));
+	t.set_size(overlay_encode4(overlay_pack().data(), t.write_start(256 << 10)));
 	m_overlay_pack = t;
 
-	t.size(overlay_encode4(overlay_data_pack().data(), t.write_start(256 << 10)));
-	m_overlay_data_pack.size(overlay_data_encode4(t.data(), m_overlay_data_pack.write_start(256 << 10), t.size(), m_overlay_pack.data()));
+	t.set_size(overlay_encode4(overlay_data_pack().data(), t.write_start(256 << 10)));
+	m_overlay_data_pack.set_size(overlay_data_encode4(t.data(), m_overlay_data_pack.write_start(256 << 10), t.size(), m_overlay_pack.data()));
 
 	// create_heightmap().save_as_png("d:/temp/hm.png");
 	// create_preview().save_as_png("d:/temp/pv.png");
