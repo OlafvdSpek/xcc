@@ -9,7 +9,7 @@
 
 #include <boost/algorithm/string.hpp>
 #include <fstream>
-#include <strstream>
+#include <sstream>
 #include <id_log.h>
 #include <pal_file.h>
 #include <string_conversion.h>
@@ -1121,14 +1121,14 @@ int CXCCMixerView::copy_as_html(int i, Cfname fname) const
 		{
 			Cmap_ts_ini_reader ir;
 			ir.fast(true);
-			ir.process(f.get_data(), f.get_size());
-			strstream ini;
+			ir.process(f.vdata());
+			stringstream ini;
 			Cmap_ts_encoder encoder(ini, true);
 			Cmap_ts_encoder::t_header header;
 			header.cx = ir.get_map_data().size_right;
 			header.cy = ir.get_map_data().size_bottom;
 			encoder.header(header);
-			encoder.process(f.get_data(), f.get_size());
+			encoder.process(f.vdata());
 			ofstream os(fname);
 			ir.write_report(os, fname, encoder);
 		}
@@ -1136,7 +1136,7 @@ int CXCCMixerView::copy_as_html(int i, Cfname fname) const
 	case ft_pkt_ts:
 		{
 			Cpkt_ts_ini_reader ir;
-			ir.process(f.get_data(), f.get_size());
+			ir.process(f.vdata());
 			ofstream os(fname);
 			ir.write_report(os);
 		}

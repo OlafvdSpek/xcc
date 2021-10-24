@@ -823,7 +823,7 @@ void CMainFrame::OnLaunchXTW_TS()
 	if (tibsun.open("tibsun.mix")
 		|| local.open("local.mix", tibsun)
 		|| theme.open("theme.ini", local)
-		|| ir.process(theme.get_data(), theme.get_size()))
+		|| ir.process(theme.vdata()))
 		return;
 	t_theme_list theme_list = ir.get_theme_list();
 	string dir = xcc_dirs::get_dir(game_ts);
@@ -895,7 +895,7 @@ void CMainFrame::launch_xtw(t_game game)
 	if (ra2.open(xcc_dirs::get_main_mix(game))
 		|| local.open(xcc_dirs::get_local_mix(game), ra2)
 		|| theme.open(theme_ini_fname, local)
-		|| ir.process(theme.get_data(), theme.get_size()))
+		|| ir.process(theme.vdata()))
 		return;
 	t_theme_list theme_list = ir.get_theme_list();
 	string dir = xcc_dirs::get_dir(game_ra2);

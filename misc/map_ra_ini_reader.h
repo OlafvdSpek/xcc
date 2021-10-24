@@ -17,14 +17,13 @@ public:
 
 	struct t_map_data
 	{
-		int x;
-		int y;
-		int cx;
-		int cy;
+		int x = 0;
+		int y = 0;
+		int cx = 0;
+		int cy = 0;
 		string theater;
 	};
 
-	Cmap_ra_ini_reader();
 	void erase();
 	int process_section_start(const string& line);
 	bool process_section() const;
@@ -44,5 +43,5 @@ private:
 	t_basic_data m_basic_data;
 	t_map_data m_map_data;
 
-	t_section_id m_section;
+	t_section_id m_section = sei_unknown;
 };

@@ -117,11 +117,6 @@ public:
 		m_source = m_source->pre_edit();
 		m_source->size(v);
 	}
-
-	operator mutable_data_ref()
-	{
-		return mutable_data_ref(data_edit(), size());
-	}
 private:
 	Cvirtual_binary_source* m_source;
 };

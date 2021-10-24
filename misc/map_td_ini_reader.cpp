@@ -8,12 +8,6 @@ static const char* section_code[] = {"basic", "map", "unknown"};
 static const char* basic_code[] = {"name", "player", "unknown"};
 static const char* map_code[] = {"x", "y", "width", "height", "theater", "unknown"};
 
-Cmap_td_ini_reader::Cmap_td_ini_reader()
-{
-	m_section = sei_unknown;
-	erase();
-}
-
 void Cmap_td_ini_reader::erase()
 {
 	m_map_data.x = 0;
