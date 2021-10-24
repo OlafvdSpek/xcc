@@ -8,19 +8,6 @@
 static const char* section_code[] = {"multimaps", "unknown"};
 static const char* map_code[] = {"description", "cd", "minplayers", "maxplayers", "gamemode", "unknown"};
 
-Cmap_data::Cmap_data()
-{
-	m_cd = "0,1";
-	m_min_players = 0;
-	m_max_players = 0;
-	m_gamemode = "standard";
-}
-
-Cpkt_ts_ini_reader::Cpkt_ts_ini_reader()
-{
-	m_section = sei_unknown;
-}
-
 void Cpkt_ts_ini_reader::erase()
 {
 	m_map_list.clear();
