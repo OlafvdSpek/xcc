@@ -16,6 +16,7 @@
 #include <vector>
 #include <xcc/data_ref.h>
 #include <xcc/find_ptr.h>
+#include <xcc/string_view.h>
 
 using namespace std;
 using boost::iequals;

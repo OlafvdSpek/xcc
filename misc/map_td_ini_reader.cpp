@@ -46,16 +46,16 @@ int Cmap_td_ini_reader::process_key(const string& name, const string& value)
 		switch (find_id(name, map_code, mai_unknown))
 		{
 		case mai_x:
-			m_map_data.x = atoi(value.c_str());
+			m_map_data.x = to_int(value);
 			break;
 		case mai_y:
-			m_map_data.y = atoi(value.c_str());
+			m_map_data.y = to_int(value);
 			break;
 		case mai_cx:
-			m_map_data.cx = atoi(value.c_str());
+			m_map_data.cx = to_int(value);
 			break;
 		case mai_cy:
-			m_map_data.cy = atoi(value.c_str());
+			m_map_data.cy = to_int(value);
 			break;
 		case mai_theater:
 			m_map_data.theater = value;

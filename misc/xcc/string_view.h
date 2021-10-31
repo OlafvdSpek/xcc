@@ -1,7 +1,6 @@
 #pragma once
 
-#include <boost/convert.hpp>
-#include <boost/convert/strtol.hpp>
+#include <charconv>
 #include <string>
 #include <string_view>
 
@@ -16,14 +15,18 @@ inline std::enable_if_t<std::is_integral<T>::value, std::string&> operator<<(std
 	return a += std::to_string(b);
 }
 
-inline float to_float(std::string_view v)
+inline float to_float(std::string_view s)
 {
-	return boost::convert<float>(v, boost::cnv::strtol(), 0.0f);
+	float v;
+	auto res = std::from_chars(s.data(), s.data() + s.size(), v);
+	return res.ec == std::errc() && res.ptr == s.data() + s.size() ? v : 0;
 }
 
-inline long long to_int(std::string_view v)
+inline long long to_int(std::string_view s)
 {
-	return boost::convert<long long>(v, boost::cnv::strtol(), 0);
+	long long v;
+	auto res = std::from_chars(s.data(), s.data() + s.size(), v);
+	return res.ec == std::errc() && res.ptr == s.data() + s.size() ? v : 0;
 }
 
 template<size_t N>

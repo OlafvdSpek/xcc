@@ -1,1 +1,1 @@
-vcpkg install boost-convert boost-crc bzip2 libjpeg-turbo libpng libvorbis lzo
+vcpkg install boost-algorithm boost-crc bzip2 libjpeg-turbo libpng libvorbis lzo

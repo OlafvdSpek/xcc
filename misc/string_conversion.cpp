@@ -71,20 +71,19 @@ string n(unsigned long long v)
 string swsl(int l, string s)
 {
 	while (s.size() < l)
-		s = ' '+ s;
+		s = ' ' + s;
 	return s;
 }
 
 string swsr(int l, string s)
 {
 	while (s.size() < l)
-		s = s + ' ';
+		s += ' ';
 	return s;
 }
 
 string nwzl(int l, unsigned int v)
 {
-
 	string s = n(v);
 	while (s.size() < l)
 		s = '0' + s;
