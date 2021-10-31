@@ -39,7 +39,7 @@ int Cini_reader::process(const Cvirtual_binary s)
 	return error;
 }
 
-int Cini_reader::process_line(string line)
+int Cini_reader::process_line(string_view line)
 {
 	size_t i = 0;
 	int first_non_ws;
@@ -64,7 +64,7 @@ int Cini_reader::process_line(string line)
 				process_section_end();
 			m_section_open = true;
 			line = line.substr(first_non_ws, last_non_ws - first_non_ws);
-			return process_section_start(m_lower_case ? to_lower_copy(line) : line);
+			return process_section_start(m_lower_case ? to_lower_copy(string(line)) : line);
 		default:
 			if (!process_section())
 				return 0;
@@ -80,7 +80,7 @@ int Cini_reader::process_line(string line)
 					return 1;
 				case '=':
 					{
-						string name = line.substr(first_non_ws, last_non_ws - first_non_ws + 1);
+						string name = string(line.substr(first_non_ws, last_non_ws - first_non_ws + 1));
 						if (m_lower_case)
 							boost::to_lower(name);
 						i++;

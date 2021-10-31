@@ -33,7 +33,7 @@ public:
 	int process_section_start(string_view) override;
 	bool process_section() const override;
 	int process_key(string_view, string_view) override;
-	void process_section_end();
+	void process_section_end() override;
 	void encode(const Cvirtual_binary palet);
 	Cvirtual_image create_heightmap() const;
 	Cvirtual_image create_preview() const;

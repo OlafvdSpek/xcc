@@ -7,7 +7,7 @@ class Cini_reader
 public:
 	static int find_id(string_view, span<const char*>, int count);
 	int process(const Cvirtual_binary);
-	int process_line(string);
+	int process_line(string_view);
 	virtual int process_section_start(string_view) = 0;
 	virtual bool process_section() const = 0;
 	virtual int process_key(string_view, string_view) = 0;
