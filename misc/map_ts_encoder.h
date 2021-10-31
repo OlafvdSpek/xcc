@@ -30,9 +30,9 @@ public:
 	static void write_map(ostream& os, const Cxif_key& k, const Cvirtual_binary palet);
 	static bool write_mmx(const Cxif_key& k);
 	static void write_pkt(ostream& os, const Cxif_key& k, string title);
-	int process_section_start(const string& line);
-	bool process_section() const;
-	int process_key(const string& name, const string& value);
+	int process_section_start(string_view) override;
+	bool process_section() const override;
+	int process_key(string_view, string_view) override;
 	void process_section_end();
 	void encode(const Cvirtual_binary palet);
 	Cvirtual_image create_heightmap() const;

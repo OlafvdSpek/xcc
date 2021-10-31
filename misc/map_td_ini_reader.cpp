@@ -8,17 +8,9 @@ static const char* section_code[] = {"basic", "map", "unknown"};
 static const char* basic_code[] = {"name", "player", "unknown"};
 static const char* map_code[] = {"x", "y", "width", "height", "theater", "unknown"};
 
-void Cmap_td_ini_reader::erase()
+int Cmap_td_ini_reader::process_section_start(string_view line)
 {
-	m_map_data.x = 0;
-	m_map_data.y = 0;
-	m_map_data.cx = 0;
-	m_map_data.cy = 0;
-};
-
-int Cmap_td_ini_reader::process_section_start(const string& line)
-{
-	m_section = static_cast<t_section_id>(find_id(line, section_code, sei_unknown));
+	m_section = t_section_id(find_id(line, section_code, sei_unknown));
 	return 0;
 }
 
@@ -27,7 +19,7 @@ bool Cmap_td_ini_reader::process_section() const
 	return m_section != sei_unknown;
 }
 
-int Cmap_td_ini_reader::process_key(const string& name, const string& value)
+int Cmap_td_ini_reader::process_key(string_view name, string_view value)
 {
 	switch (m_section)
 	{

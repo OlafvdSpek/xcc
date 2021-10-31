@@ -5,20 +5,19 @@
 class Cini_reader  
 {
 public:
-	Cini_reader();
-	static int find_id(const string& s, const char* t[], int count);
-	int process(const Cvirtual_binary s);
-	int process_line(string line);
-	virtual int process_section_start(const string& name) = 0;
+	static int find_id(string_view, span<const char*>, int count);
+	int process(const Cvirtual_binary);
+	int process_line(string);
+	virtual int process_section_start(string_view) = 0;
 	virtual bool process_section() const = 0;
-	virtual int process_key(const string& name, const string& value) = 0;
+	virtual int process_key(string_view, string_view) = 0;
 	virtual void process_section_end();
-	void fast(bool v);
-	void lower_case(bool v);
-	void skip_errors(bool v);
+	void fast(bool);
+	void lower_case(bool);
+	void skip_errors(bool);
 protected:
-	bool m_fast;
-	bool m_lower_case;
+	bool m_fast = false;
+	bool m_lower_case = true;
 	bool m_section_open;
-	bool m_skip_errors;
+	bool m_skip_errors = false;
 };

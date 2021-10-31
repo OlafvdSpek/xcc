@@ -24,10 +24,9 @@ public:
 		string theater;
 	};
 
-	void erase();
-	int process_section_start(const string& line);
-	bool process_section() const;
-	int process_key(const string& name, const string& value);
+	int process_section_start(string_view) override;
+	bool process_section() const override;
+	int process_key(string_view, string_view) override;
 	bool is_valid() const;
 
 	const t_basic_data& get_basic_data() const

@@ -5,31 +5,26 @@
 class Cnull_ini_reader : public Cini_reader  
 {
 public:
-	Cnull_ini_reader()
-	{
-		mc_sections = 0;
-	}
-
-	int process_section_start(const string& line)
+	int process_section_start(string_view) override
 	{
 		mc_sections++;
 		return 0;
 	}
 
-	bool process_section() const
+	bool process_section() const override
 	{
 		return true;
 	}
 	
-	int process_key(const string& name, const string& value)
+	int process_key(string_view, string_view) override
 	{
 		return 0;
 	}
 
-	bool is_valid() const
+	bool is_valid() const 
 	{
 		return mc_sections;
 	}
 private:
-	int mc_sections;
+	int mc_sections = 0;
 };

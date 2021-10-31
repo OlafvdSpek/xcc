@@ -20,19 +20,9 @@ void Csound_data::volume(float v)
 static const char* section_code[] = {"soundlist", "unknown"};
 static const char* sound_code[] = {"priority", "volume", "unknown"};
 
-Csound_ts_ini_reader::Csound_ts_ini_reader()
+int Csound_ts_ini_reader::process_section_start(string_view line)
 {
-	m_section = sei_unknown;
-}
-
-void Csound_ts_ini_reader::erase()
-{
-	m_sound_list.clear();
-}
-
-int Csound_ts_ini_reader::process_section_start(const string& line)
-{
-	m_section = static_cast<t_section_id>(find_id(line, section_code, sei_unknown));
+	m_section = t_section_id(find_id(line, section_code, sei_unknown));
 	if (m_section != sei_unknown)
 		return 0;
 	if (!m_sound_list.count(line))
@@ -46,21 +36,21 @@ bool Csound_ts_ini_reader::process_section() const
 	return true;
 }
 
-int Csound_ts_ini_reader::process_key(const string& name, const string& value)
+int Csound_ts_ini_reader::process_key(string_view name, string_view value)
 {
 	switch (m_section)
 	{
 	case sei_sounds:
-		m_sound_list[to_lower_copy(value)];
+		m_sound_list[to_lower_copy(string(value))];
 		break;
 	case sei_unknown:
 		switch (find_id(name, sound_code, soi_unknown))
 		{
 		case soi_priority:
-			m_sound_list[m_current_sound].priority(atoi(value.c_str()));
+			m_sound_list[m_current_sound].priority(to_int(value));
 			break;
 		case soi_volume:
-			m_sound_list[m_current_sound].volume(atof(value.c_str()));
+			m_sound_list[m_current_sound].volume(to_float(value));
 			break;
 		default:
 			return 1;

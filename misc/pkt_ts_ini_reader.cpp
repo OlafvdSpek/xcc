@@ -13,9 +13,9 @@ void Cpkt_ts_ini_reader::erase()
 	m_map_list.clear();
 }
 
-int Cpkt_ts_ini_reader::process_section_start(const string& line)
+int Cpkt_ts_ini_reader::process_section_start(string_view line)
 {
-	m_section = static_cast<t_section_id>(find_id(line, section_code, sei_unknown));
+	m_section = t_section_id(find_id(line, section_code, sei_unknown));
 	if (m_section != sei_unknown)
 		return 0;
 	if (!m_map_list.count(line))
@@ -29,12 +29,12 @@ bool Cpkt_ts_ini_reader::process_section() const
 	return true;
 }
 
-int Cpkt_ts_ini_reader::process_key(const string& name, const string& value)
+int Cpkt_ts_ini_reader::process_key(string_view name, string_view value)
 {
 	switch (m_section)
 	{
 	case sei_multi_maps:
-		m_map_list[to_lower_copy(value)];
+		m_map_list[(to_lower_copy(string(value)))];
 		break;
 	case sei_unknown:
 		switch (find_id(name, map_code, mai_unknown))
@@ -46,10 +46,10 @@ int Cpkt_ts_ini_reader::process_key(const string& name, const string& value)
 			m_map_list[m_current_map].m_cd = value;
 			break;
 		case mai_minplayers:
-			m_map_list[m_current_map].m_min_players = atoi(value.c_str());
+			m_map_list[m_current_map].m_min_players = to_int(value);
 			break;
 		case mai_maxplayers:
-			m_map_list[m_current_map].m_max_players = atoi(value.c_str());
+			m_map_list[m_current_map].m_max_players = to_int(value);
 			break;
 		case mai_gamemode:
 			m_map_list[m_current_map].m_gamemode = value;

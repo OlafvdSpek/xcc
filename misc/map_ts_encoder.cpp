@@ -38,7 +38,7 @@ void Cmap_ts_encoder::header(t_header v)
 	m_header = v;
 }
 
-int Cmap_ts_encoder::process_section_start(const string& name)
+int Cmap_ts_encoder::process_section_start(string_view name)
 {
 	if (name == "IsoMapPack5")
 		m_w = m_d.write_start(4 << 20);
@@ -57,12 +57,14 @@ bool Cmap_ts_encoder::process_section() const
 	return true;
 }
 
-int Cmap_ts_encoder::process_key(const string& name, const string& value)
+int Cmap_ts_encoder::process_key(string_view name, string_view value)
 {
 	if (m_w)
 	{
-		strcpy(reinterpret_cast<char*>(m_w), value.c_str());
-		m_w += value.length();
+		// strcpy(reinterpret_cast<char*>(m_w), value.c_str());
+		memcpy(m_w, value.data(), value.size());
+		m_w += value.size();
+		*m_w = 0;
 	}
 	else
 		m_f << name << '=' << value << endl;

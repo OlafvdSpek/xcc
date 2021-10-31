@@ -13,7 +13,6 @@ static const char* preview_code[] = {"size", "unknown"};
 Cmap_ts_ini_reader::Cmap_ts_ini_reader()
 {
 	m_fast = false;
-	m_section = sei_unknown;
 	erase();
 }
 
@@ -33,9 +32,9 @@ void Cmap_ts_ini_reader::erase()
 	m_preview_data.cy = 0;
 };
 
-int Cmap_ts_ini_reader::process_section_start(const string& line)
+int Cmap_ts_ini_reader::process_section_start(string_view line)
 {
-	m_section = static_cast<t_section_id>(find_id(line, section_code, sei_unknown));
+	m_section = t_section_id(find_id(line, section_code, sei_unknown));
 	return 0;
 }
 
@@ -46,7 +45,7 @@ bool Cmap_ts_ini_reader::process_section() const
 	return m_section != sei_unknown;
 }
 
-int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
+int Cmap_ts_ini_reader::process_key(string_view name, string_view value)
 {
 	switch (m_section)
 	{
@@ -60,7 +59,7 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 			m_basic_data.player = value;
 			break;
 		case bai_multiplayeronly:
-			m_basic_data.multiplayeronly = atoi(value.c_str());
+			m_basic_data.multiplayeronly = to_int(value);
 			break;
 		}
 		break;
@@ -69,7 +68,7 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 		{
 		case mai_localsize:
 			{
-				Cmulti_line l = value;
+				Cmulti_line l = string(value);
 				m_map_data.localsize_left = l.get_next_int();
 				m_map_data.localsize_top = l.get_next_int();
 				m_map_data.localsize_right = l.get_next_int();
@@ -78,7 +77,7 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 			}
 		case mai_size:
 			{
-				Cmulti_line l = value;
+				Cmulti_line l = string(value);
 				m_map_data.size_left = l.get_next_int();
 				m_map_data.size_top = l.get_next_int();
 				m_map_data.size_right = l.get_next_int();
@@ -97,7 +96,7 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 		{
 		case pri_size:
 			{
-				Cmulti_line l = value;
+				Cmulti_line l = string(value);
 				m_preview_data.x = l.get_next_int();
 				m_preview_data.y = l.get_next_int();
 				m_preview_data.cx = l.get_next_int();
@@ -110,7 +109,7 @@ int Cmap_ts_ini_reader::process_key(const string& name, const string& value)
 		m_preview_pack_data += value;
 		break;
 	case sei_waypoints:
-		m_waypoints_data[atoi(name.c_str())] = atoi(value.c_str());
+		m_waypoints_data[to_int(name)] = to_int(value);
 	}
 	return 0;
 }

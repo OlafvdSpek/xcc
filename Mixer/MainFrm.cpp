@@ -812,7 +812,7 @@ void CMainFrame::OnDestroy()
 	CFrameWnd::OnDestroy();
 }
 
-using t_theme_list = map<string, Ctheme_data>;
+using t_theme_list = Ctheme_ts_ini_reader::t_theme_list;
 
 void CMainFrame::OnLaunchXTW_TS() 
 {

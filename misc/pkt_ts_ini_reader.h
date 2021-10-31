@@ -17,12 +17,12 @@ class Cpkt_ts_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_multi_maps, sei_unknown};
 	enum t_map_id {mai_description, mai_cd, mai_minplayers, mai_maxplayers, mai_gamemode, mai_unknown};
-	using t_map_list = map<string, Cmap_data>;
+	using t_map_list = map<string, Cmap_data, less<>>;
 
 	void erase();
-	int process_section_start(const string& line);
-	bool process_section() const;
-	int process_key(const string& name, const string& value);
+	int process_section_start(string_view) override;
+	bool process_section() const override;
+	int process_key(string_view, string_view) override;
 	bool is_valid() const;
 	void write_report(ostream&) const;
 

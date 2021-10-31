@@ -4,14 +4,7 @@
 #include "string_conversion.h"
 #include "virtual_tfile.h"
 
-Cini_reader::Cini_reader()
-{
-	m_fast = false;
-	m_lower_case = true;
-	m_skip_errors = false;
-}
-
-int Cini_reader::find_id(const string& s, const char* t[], int count)
+int Cini_reader::find_id(string_view s, span<const char*> t, int count)
 {
 	int i = 0;
 	while (i < count && t[i] != s)

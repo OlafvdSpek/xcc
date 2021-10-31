@@ -8,14 +8,13 @@ using namespace std;
 class Ctheme_data
 {
 public:
-	Ctheme_data();
-	void name(string v);
-	void length(float v);
-	void normal(bool v);
-	void scenario(int v);
-	void side(string v);
-	void sound(string v);
-	void repeat(bool v);
+	void name(string_view);
+	void length(float);
+	void normal(bool);
+	void scenario(int);
+	void side(string_view);
+	void sound(string_view);
+	void repeat(bool);
 
 	string name() const
 	{
@@ -54,11 +53,11 @@ public:
 private:
 	string m_name;
 	float m_length;
-	bool m_normal;
-	int m_scenario;
+	bool m_normal = true;
+	int m_scenario = 0;
 	string m_sound;
 	string m_side;
-	bool m_repeat;
+	bool m_repeat = false;
 };
 
 class Ctheme_ts_ini_reader : public Cini_reader  
@@ -66,13 +65,11 @@ class Ctheme_ts_ini_reader : public Cini_reader
 public:
 	enum t_section_id {sei_themes, sei_unknown};
 	enum t_theme_id {thi_name, thi_length, thi_normal, thi_scenario, thi_side, thi_sound, thi_repeat, thi_unknown};
-	using t_theme_list = map<string, Ctheme_data>;
+	using t_theme_list = map<string, Ctheme_data, less<>>;
 
-	Ctheme_ts_ini_reader();
-	void erase();
-	int process_section_start(const string& line);
-	bool process_section() const;
-	int process_key(const string& name, const string& value);
+	int process_section_start(string_view) override;
+	bool process_section() const override;
+	int process_key(string_view, string_view) override;
 	bool is_valid() const;
 
 	const t_theme_list& get_theme_list() const
@@ -81,6 +78,6 @@ public:
 	}
 private:
 	string m_current_theme;
-	t_section_id m_section;
+	t_section_id m_section = sei_unknown;
 	t_theme_list m_theme_list;
 };
