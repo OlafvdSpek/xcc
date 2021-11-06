@@ -11,6 +11,7 @@
 #include <memory>
 #include <map>
 #include <set>
+#include <span>
 #include <string>
 #include <vartypes.h>
 #include <vector>

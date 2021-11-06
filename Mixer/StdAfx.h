@@ -10,8 +10,6 @@
 #include <afxcmn.h>			// MFC support for Windows Common Controls
 #endif // _AFX_NO_AFXCMN_SUPPORT
 
-#pragma warning(disable: 4503 4554 4786 4800 4804)
-
 #include <array>
 #include <cassert>
 #include <climits>
@@ -19,6 +17,7 @@
 #include <memory>
 #include <map>
 #include <set>
+#include <span>
 #include <string>
 #include <thread>
 #include <vector>

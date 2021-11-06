@@ -17,6 +17,7 @@
 #include <memory>
 #include <map>
 #include <set>
+#include <span>
 #include <string>
 #include <vector>
 #include <xcc/find_ptr.h>
