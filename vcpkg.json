@@ -1,0 +1,13 @@
+{
+  "name": "xcc",
+  "version-string": "0",
+  "dependencies": [
+		"boost-algorithm",
+		"boost-crc",
+		"bzip2",
+		"libjpeg-turbo",
+		"libpng",
+		"libvorbis",
+		"lzo"
+  ]
+}
