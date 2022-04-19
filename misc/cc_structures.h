@@ -179,9 +179,7 @@ const int cb_mix_checksum = 20;
 
 struct t_mix_index_entry
 {
-	t_mix_index_entry()
-	{
-	}
+	t_mix_index_entry() = default;
 
 	t_mix_index_entry(unsigned int id_, int offset_, int size_)
 	{
